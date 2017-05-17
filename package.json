@@ -1,0 +1,29 @@
+{
+  "name": "facturapi-docs",
+  "version": "1.0.0",
+  "description": "Facturapi =========",
+  "main": "''",
+  "dependencies": {
+    "shipit": "^1.0.2",
+    "shipit-deploy": "^2.4.0"
+  },
+  "devDependencies": {
+    "semistandard": "^11.0.0",
+    "shipit": "^1.0.2",
+    "shipit-deploy": "^2.4.0",
+    "yargs": "^8.0.1"
+  },
+  "scripts": {
+    "build": "bundle exec middleman build --clean"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FacturAPI/facturapi-docs.git"
+  },
+  "author": "Javier Rosas (javorosas)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/FacturAPI/facturapi-docs/issues"
+  },
+  "homepage": "https://github.com/FacturAPI/facturapi-docs#readme"
+}

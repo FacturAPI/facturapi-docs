@@ -75,13 +75,13 @@ curl https://www.facturapi.io/v1/invoices \
 const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 facturapi.invoices.create({
   customer: '58e93bd8e86eb318b0197456',
-    items: {
-      quantity: 2,
-      product: '58e93bd8e86eb318b0197454'
-    },
-    payment_form: facturapi.PaymentForm.DINERO_ELECTRONICO,
-    folio_number: 914,
-    series: 'A'
+  items: [{
+    quantity: 2,
+    product: '58e93bd8e86eb318b0197454'
+  }],
+  payment_form: facturapi.PaymentForm.DINERO_ELECTRONICO,
+  folio_number: 914,
+  series: 'A'
 })
   .then(invoice => { /* ... */ })
   .catch(err => { /* handle the error */ })

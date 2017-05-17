@@ -4,11 +4,13 @@ var argv = require('yargs')
 })
 .argv;
 
+const workspace = '/tmp/facturapi-docs';
+
 module.exports = function (shipit) {
   require('shipit-deploy')(shipit);
   shipit.initConfig({
     default: {
-      workspace: '/tmp/facturapi-docs',
+      workspace,
       dirToCopy: 'build',
       deployTo: '~/facturapi-docs',
       repositoryUrl: 'https://github.com/FacturAPI/facturapi-docs.git',
@@ -22,4 +24,13 @@ module.exports = function (shipit) {
   });
 
   shipit.task('default', ['deploy']);
+
+  shipit.blTask('build', () => {
+    return shipit.local('npm run build', { cwd: workspace });
+  });
+
+  shipit.on('fetched', () => {
+    return shipit.start('build');
+  });
+
 };

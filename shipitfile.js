@@ -1,6 +1,6 @@
 var argv = require('yargs')
 .option('servers', {
-  type: 'string',
+  type: 'string'
 })
 .argv;
 

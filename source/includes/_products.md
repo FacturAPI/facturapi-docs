@@ -37,7 +37,7 @@ Argumento | Tipo | Descripción
 **taxes[].rate** | decimal | Tasa del impuesto.
 **taxes[].type** | string | Tipo de impuesto.
 **taxes[].withholding** | boolean | `true`: el impuesto es una retención. `false`: el impuesto es un traslado (impuesto normal).
-**unit_key** | string | Clave de unidad de medida, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra <a href="https://www.facturapi.io/dashboard/products/keys">herramienta de búsqueda de claves</a>.
+**unit_key** | string | Clave de unidad de medida, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra <a href="https://www.facturapi.io/dashboard/tools/keys">herramienta de búsqueda de claves</a>.
 **unit_name** | string | Nombre de la unidad de medida como aparecerá en la factura.
 **sku** | string | Identificador de uso interno designado por la empresa.
 

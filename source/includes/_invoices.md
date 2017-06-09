@@ -115,7 +115,7 @@ Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **customer**<br><small>requerido</small> | string | none | Identificador del cliente a facturar
 **items**<br><small>requerido</small> | array | none | Arreglo de hashes que representan los productos y las cantidades de éstos a incluir en la factura.
-**items[].product**<br><small>requerido</small> | string | none | Identificador del producto a facturar
+**items[].product**<br><small>requerido</small> | string ó hash | none | En el caso de tener productos fijos ya registrados (como en un marketplace) puedes enviar el Id del producto a facturar. O bien, si tu producto es cambiante (como en un SaaS) puedes enviar un hash con la información del producto (acepta los mismos elementos detallados en la sección Crear Producto), el cuál sólo se usará para generar la factura y no se guardará en tu catálogo de productos.
 **items[].quantity**<br><small>opcional</small> | integer | 1 | Cantidad de unidades del producto.
 **payment_form**<br><small>requerido</small> | string | none | Código de la forma de pago según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
 **folio_number**<br><small>opcional</small> | string | Autoincremental | Número de folio asignado por la empresa para control interno. Si se omite, se asignará el valor autoincremental de la organización. Si se envía un valor, este nuevo valor se usará para designar el siguiente número de folio de la organización.

@@ -36,7 +36,7 @@ curl https://www.facturapi.io/v1/
 
 > Asegurate de remplazar nuestra llave de ejemplo `sk_test_8bGBLe64A72yX87KPxML9yDa5rK9WEmx` con tu propia llave API.
 
-Facturapi usa llaves privadas para permitir el acceso a nuestra API. Puedes revisar tu llave privada en tu [panel de control de facturapi](http://facturapi.io/dashboard/settings/apikeys).
+Facturapi usa llaves privadas para permitir el acceso a nuestra API. Puedes obtener tu llave privada en la sección **Configuración 🡲 Api Keys**, en tu panel de control de [Facturapi](https://www.facturapi.io).
 Nuestra API espera que la llave este incluida en cada una de las peticiones.
 
 <aside class="notice">

@@ -1,5 +1,5 @@
 ---
-title: API Reference
+title: Facturapi - Documentación Oficial cURL Node.js Ruby .NET
 
 language_tabs:
   - shell: cURL
@@ -8,8 +8,8 @@ language_tabs:
   - javascript: Node.js
 
 toc_footers:
-  - <a href='http://facturapi.io/dashboard/settings/apikeys'>Obten tu llave privada</a>
-  - <a href='https://www.facturapi.io/register'>FacturAPI</a>
+  - <a href='https://www.facturapi.io'>Obten tu llave privada</a>
+  - <a href='https://www.facturapi.io'>Facturapi</a>
 
 includes:
   - customers

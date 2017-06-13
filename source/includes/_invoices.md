@@ -87,6 +87,25 @@ facturapi.invoices.create({
   .catch(err => { /* handle the error */ })
 ```
 
+```csharp
+var invoice = await Facturapi.Product.CreateAsync(new Dictionary<string, object>
+{
+  ["customer"] = "58e93bd8e86eb318b0197456",
+  ["items"] = new Dictionary<string, object>[]
+  {
+    new Dictionary<string, object>
+    {
+      ["quantity"] = 2,
+      ["product"] = "58e93bd8e86eb318b0197454"
+    }
+  }
+  ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO,
+  ["folio_number"] = 914,
+  ["series"] = "A"
+});
+
+```
+
 > <h3 class="toc-ignore">Respuesta JSON</h3>
 
 ```json
@@ -163,6 +182,11 @@ facturapi.invoices.list()
   .catch(err => { /* handle the error */ })
 ```
 
+```csharp
+var searchResult = await Facturapi.Invoice.ListAsync();
+// searchResult.Data is an Invoice array
+```
+
 > <h3 class="toc-ignore">Respuesta JSON</h3>
 
 ```json
@@ -219,6 +243,10 @@ const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP
 facturapi.invoices.retrieve('58e93bd8e86eb318b019743d')
   .then(invoice => { /* ... */ })
   .catch(err => { /* handle the error */ })
+```
+
+```csharp
+var invoice = await Facturapi.Invoice.RetrieveAsync("58e93bd8e86eb318b019743d");
 ```
 
 > <h3 class="toc-ignore">Respuesta JSON</h3>
@@ -291,6 +319,20 @@ facturapi.invoices.downloadXml('58e93bd8e86eb318b019743d')
   });
 ```
 
+```csharp
+// Descargar PDF y XML comprimidos en archivo ZIP
+var zipStream = await Facturapi.Invoice.DownloadZipAsync("58e93bd8e86eb318b019743d");
+// Descargar sólo el XML
+var xmlStream = await Facturapi.Invoice.DownloadXmlAsync("58e93bd8e86eb318b019743d");
+// Descargar sólo el PDF
+var pdfStream = await Facturapi.Invoice.DownloadPdfAsync("58e93bd8e86eb318b019743d");
+
+// Para guardar la descarga en un archivo
+var file = new System.IO.FileStrem("C:\\route\\to\\save\\invoice.zip", FileMode.Create);
+zipStream.CopyTo(file);
+file.Close();
+```
+
 Descarga tu Factura en PDF, XML o ambas comprimidas en ZIP
 
 ### Argumentos
@@ -316,6 +358,10 @@ facturapi.invoices.sendByEmail('58e93bd8e86eb318b019743d')
   .catch(err => { /* handle the error */ })
 ```
 
+```csharp
+await Facturapi.Invoice.SendByEmailAsync("58e93bd8e86eb318b019743d");
+```
+
 Envía un correo electrónico al email de tu cliente, con los archivos XML y PDF adjuntos al mensaje.
 
 ### Argumentos
@@ -339,6 +385,10 @@ const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP
 facturapi.invoices.cancel('58e93bd8e86eb318b019743d')
   .then(() => { /* invoice.status is now 'canceled' */ })
   .catch(err => { /* handle the error */ })
+```
+
+```csharp
+var invoice = await Facturapi.Invoice.CancelAsync("58e93bd8e86eb318b019743d");
 ```
 
 > <h3 class="toc-ignore">Respuesta JSON</h3>

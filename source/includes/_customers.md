@@ -68,6 +68,21 @@ facturapi.customers.create({
   .catch(err => { /* handle the error */ })
 ```
 
+```csharp
+var customer = await Facturapi.Customer.CreateAsync(new Dictionary<string, object>
+{
+  ["legal_name"] = "John Doe",
+  ["email"] = "jdoe@example.com",
+  ["tax_id"] = "ABCD101010XYZ",
+  ["address"] = new Dictionary<string, object>
+  {
+    ["zip"] = "44940",
+    ["street"] = "Sunset Blvd"
+  }
+});
+// Guarda el customer.Id para facturar a tu cliente
+```
+
 > <h3 class="toc-ignore">Respuesta JSON</h3>
 
 ```json
@@ -124,6 +139,11 @@ facturapi.customers.list()
   .catch(err => { /* handle the error */ });
 ```
 
+```csharp
+var searchResult = await Facturapi.Customer.ListAsync();
+// searchResult.Data is an array of Customer
+```
+
 > <h3 class="toc-ignore">Respuesta JSON</h3>
 
 ```json
@@ -177,6 +197,10 @@ facturapi.customers.retrieve('590ce6c56d04f840aa8438af')
   .catch(err => { /* handle the error */ })
 ```
 
+```csharp
+var customer = await Facturapi.Customer.RetrieveAsync("590ce6c56d04f840aa8438af");
+```
+
 > <h3 class="toc-ignore">Respuesta JSON</h3>
 
 ```json
@@ -215,6 +239,10 @@ const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP
 facturapi.customers.del('590ce6c56d04f840aa8438af')
   .then(customer => { /* ... */ })
   .catch(err => { /* handle the error */ })
+```
+
+```csharp
+var customer = await Facturapi.Customer.DeleteAsync("590ce6c56d04f840aa8438af");
 ```
 
 > <h3 class="toc-ignore">Respuesta JSON</h3>

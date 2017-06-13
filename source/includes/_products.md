@@ -68,6 +68,16 @@ facturapi.products.create({
   .catch(err => { /* handle the error */ })
 ```
 
+```csharp
+var product = await Facturapi.Product.CreateAsync(new Dictionary<string, object>
+{
+  ["description"] = "Licuadora",
+  ["product_key"] = 123456,
+  ["price"] = 345.60,
+  ["sku"] = "ABC1234"
+});
+```
+
 > <h3 class="toc-ignore">Respuesta JSON</h3>
 
 ```json
@@ -125,6 +135,11 @@ facturapi.products.list()
   .catch(err => { /* handle the error */ })
 ```
 
+```csharp
+var searchResult = await Facturapi.Product.ListAsync();
+// searchResult.Data is an array of Products
+```
+
 > <h3 class="toc-ignore">Respuesta JSON</h3>
 
 ```json
@@ -177,6 +192,10 @@ facturapi.products.retrieve('590e22c26d04f840aa8438b2')
   .catch(err => { /* handle the error */ })
 ```
 
+```csharp
+var product = await Facturapi.Product.RetrieveAsync("590e22c26d04f840aa8438b2");
+```
+
 > <h3 class="toc-ignore">Respuesta JSON</h3>
 
 ```json
@@ -220,6 +239,10 @@ const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP
 facturapi.products.del('590e22c26d04f840aa8438b2')
   .then(product => { /* ... */ })
   .catch(err => { /* handle the error */ })
+```
+
+```csharp
+var product = await Facturapi.Product.DeleteAsync("590e22c26d04f840aa8438b2");
 ```
 
 > <h3 class="toc-ignore">Respuesta JSON</h3>

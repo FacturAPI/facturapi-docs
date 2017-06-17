@@ -88,7 +88,7 @@ facturapi.invoices.create({
 ```
 
 ```csharp
-var invoice = await Facturapi.Product.CreateAsync(new Dictionary<string, object>
+var invoice = await Facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 {
   ["customer"] = "58e93bd8e86eb318b0197456",
   ["items"] = new Dictionary<string, object>[]

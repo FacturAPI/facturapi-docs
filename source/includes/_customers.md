@@ -112,6 +112,7 @@ Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **legal_name**<br><small>requerido</small> | string | none | Nombre Fiscal o Razón Social del cliente.
 **tax_id**<br><small>requerido</small> | string | none | RFC del cliente.
+**email**<br><small>requerido</small> | string | "" | Dirección de correo electrónico al cual enviar las facturas generadas.
 **address**<br><small>requerido</small> | hash | none | Domicilio fiscal.
 **address.street**<br><small>opcional</small> | string | "" | Calle
 **address.exterior**<br><small>opcional</small> | string | "" | Número exterior
@@ -122,7 +123,6 @@ Argumento | Tipo | Default | Descripción
 **address.municipality**<br><small>opcional</small> | string | Si se omite, se obtiene del código postal | Municipio o Delegación
 **address.state**<br><small>opcional</small> | string | Si se omite, se obtiene del código postal | Estado o Provincia
 **address.country**<br><small>opcional</small> | string | "México" | País
-**email**<br><small>opcional</small> | string | "" | Dirección de correo electrónico al cual enviar las facturas generadas.
 **phone**<br><small>opcional</small> | string | "" | Teléfono del cliente que aparecerá en la factura impresa (PDF).
 
 ## Lista de Clientes

@@ -18,14 +18,14 @@
   "folio_number": 914,
   "series": "A",
   "payment_form": "06",
-  "items": {
+  "items": [{
     "quantity": 2,
     "product": {
       "id": "58e93bd8e86eb318b0197454",
       "unit_name": "Piezas",
       "description": "Gafas de sol Ray-Ban"
     }
-  }
+  }]
 }
 ```
 
@@ -61,10 +61,10 @@ curl https://www.facturapi.io/v1/invoices \
   -H "Content-Type: application/json" \
   -d '{
     "customer": "58e93bd8e86eb318b0197456",
-    "items": {
+    "items": [{
       "quantity": 2,
       "product": "58e93bd8e86eb318b0197454"
-    },
+    }],
     "payment_form": "06",
     "folio_number": 914,
     "series": "A"

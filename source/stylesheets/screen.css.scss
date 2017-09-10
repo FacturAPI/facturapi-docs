@@ -69,7 +69,7 @@ html, body {
   width: $nav-width;
   background-color: $nav-bg;
   border-right: 1px solid $nav-border;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: bold;
 
   // language selector for mobile devices
@@ -441,7 +441,7 @@ html, body {
     @extend %header-font;
     font-size: 15px;
     margin-top: 2.5em;
-    margin-bottom: 0.8em;
+    margin-bottom: 0.4em;
   }
 
   h4, h5, h6 {
@@ -497,7 +497,7 @@ html, body {
   p, li, dt, dd {
     line-height: 1.6;
     margin-top: 0;
-    font-size: 15px;
+    font-size: 14px;
   }
 
   img {
@@ -581,7 +581,7 @@ html, body {
     background-color: $code-bg;
     color: #fff;
 
-    padding: 2em ($main-padding + 28);
+    padding: 0.5em ($main-padding + 8);
     margin: 0;
     width: $examples-width;
 

@@ -15,7 +15,6 @@ module.exports = function (shipit) {
       deployTo: '~/facturapi-docs',
       repositoryUrl: 'https://github.com/FacturAPI/facturapi-docs.git',
       keepReleases: 2,
-      key: '~/.ssh/id_rsa.pub',
       shallowClone: true
     },
     prod: {

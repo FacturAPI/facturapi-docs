@@ -53,6 +53,12 @@ Argumento | Tipo | Descripción
 
 ## Crear Factura
 
+> <h3 class="toc-ignore">Definición</h3>
+
+```text
+POST http://www.facturapi.io/v1/invoices
+```
+
 > <h3 class="toc-ignore">Ejemplo de Petición</h3>
 
 ```shell
@@ -167,6 +173,12 @@ Código | Descripción
 
 ## Lista de Facturas
 
+> <h3 class="toc-ignore">Definición</h3>
+
+```text
+GET http://www.facturapi.io/v1/invoices
+```
+
 > <h3 class="toc-ignore">Ejemplo de Petición</h3>
 
 ```shell
@@ -231,6 +243,12 @@ Argumento | Tipo | Default | Descripción
 
 ## Obtener una Factura
 
+> <h3 class="toc-ignore">Definición</h3>
+
+```text
+GET http://www.facturapi.io/v1/invoices/{INVOICE_ID}
+```
+
 > <h3 class="toc-ignore">Ejemplo de Petición</h3>
 
 ```shell
@@ -276,6 +294,14 @@ Argumento | Tipo | Descripción
 **id**<br><small>requerido</small> | string | Identificador de la factura.
 
 ## Descargar Factura
+
+> <h3 class="toc-ignore">Definición</h3>
+
+```text
+GET http://www.facturapi.io/v1/invoices/{INVOICE_ID}/zip
+GET http://www.facturapi.io/v1/invoices/{INVOICE_ID}/pdf
+GET http://www.facturapi.io/v1/invoices/{INVOICE_ID}/xml
+```
 
 > <h3 class="toc-ignore">Ejemplo de Petición</h3>
 
@@ -343,6 +369,12 @@ Argumento | Tipo | Descripción
 
 ## Enviar Factura por email
 
+> <h3 class="toc-ignore">Definición</h3>
+
+```text
+POST http://www.facturapi.io/v1/invoices/{INVOICE_ID}/email
+```
+
 > <h3 class="toc-ignore">Ejemplo de Petición</h3>
 
 ```shell
@@ -371,6 +403,12 @@ Argumento | Tipo | Descripción
 **id**<br><small>requerido</small> | string | Identificador de la factura.
 
 ## Cancelar Factura
+
+> <h3 class="toc-ignore">Definición</h3>
+
+```text
+DELETE http://www.facturapi.io/v1/invoices/{INVOICE_ID}
+```
 
 > <h3 class="toc-ignore">Ejemplo de Petición</h3>
 

@@ -46,6 +46,14 @@ Argumento | Tipo | Descripción
 
 ## Crear Cliente
 
+> <h3 class="toc-ignore">Definición</h3>
+
+```text
+POST http://www.facturapi.io/v1/customers
+```
+
+> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+
 ```shell
 curl http://www.facturapi.io/v1/customers \
   -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
@@ -134,6 +142,14 @@ Argumento | Tipo | Default | Descripción
 
 ## Actualizar Cliente
 
+> <h3 class="toc-ignore">Definición</h3>
+
+```text
+PUT http://www.facturapi.io/v1/customers/{CUSTOMER_ID}
+```
+
+> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+
 ```shell
 curl http://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
   -X PUT
@@ -214,6 +230,14 @@ Argumento | Tipo | Descripción
 
 ## Lista de Clientes
 
+> <h3 class="toc-ignore">Definición</h3>
+
+```text
+GET http://www.facturapi.io/v1/customers
+```
+
+> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+
 ```shell
 curl http://www.facturapi.io/v1/customers \
   -u "sk_test_vnpJkayXw4bxoMVQMO3r2B7QEP8LmOWM:" 
@@ -271,6 +295,14 @@ Argumento | Tipo | Default | Descripción
 **page**<br><small>opcional</small> | integer | 1 | Página de resultados a regresar, empezando desde la página 1.
 
 ## Obtener un Cliente
+
+> <h3 class="toc-ignore">Definición</h3>
+
+```text
+GET http://www.facturapi.io/v1/customers/{CUSTOMER_ID}
+```
+
+> <h3 class="toc-ignore">Ejemplo de Petición</h3>
 
 ```shell
 curl http://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \

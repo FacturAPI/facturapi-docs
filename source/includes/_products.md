@@ -43,7 +43,13 @@ Argumento | Tipo | Descripción
 
 ## Crear Producto
 
-Crea un nuevo Producto
+> <h3 class="toc-ignore">Definición</h3>
+
+```text
+POST http://www.facturapi.io/v1/products
+```
+
+> <h3 class="toc-ignore">Ejemplo de Petición</h3>
 
 ```shell
 curl http://www.facturapi.io/v1/products \
@@ -102,6 +108,8 @@ var product = await Facturapi.Product.CreateAsync(new Dictionary<string, object>
 }
 ```
 
+Crea un nuevo Producto
+
 ### Argumentos
 
 Argumento | Tipo | Default | Descripción
@@ -120,7 +128,13 @@ Argumento | Tipo | Default | Descripción
 
 ## Actualizar Producto
 
-Actualiza la información de un producto existente, asignando los valores de los parámetros enviados. Los parámetros que no se envíen en la petición no se modificarán.
+> <h3 class="toc-ignore">Definición</h3>
+
+```text
+PUT http://www.facturapi.io/v1/products/{PRODUCT_ID}
+```
+
+> <h3 class="toc-ignore">Ejemplo de Petición</h3>
 
 ```shell
 curl http://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
@@ -171,6 +185,8 @@ var product = await Facturapi.Product.UpdateAsync("590e22c26d04f840aa8438b2", ne
 }
 ```
 
+Actualiza la información de un producto existente, asignando los valores de los parámetros enviados. Los parámetros que no se envíen en la petición no se modificarán.
+
 ### Argumentos
 
 Argumento | Tipo | Default | Descripción
@@ -189,7 +205,13 @@ Argumento | Tipo | Default | Descripción
 
 ## Lista de Productos
 
-Obtiene la lista de productos registrados en tu organización
+> <h3 class="toc-ignore">Definición</h3>
+
+```text
+GET http://www.facturapi.io/v1/products
+```
+
+> <h3 class="toc-ignore">Ejemplo de Petición</h3>
 
 ```shell
 curl http://www.facturapi.io/v1/products \
@@ -238,6 +260,8 @@ var searchResult = await Facturapi.Product.ListAsync();
 }
 ```
 
+Obtiene la lista de productos registrados en tu organización
+
 ### Argumentos
 
 Argumento | Tipo | Default | Descripción
@@ -247,6 +271,14 @@ Argumento | Tipo | Default | Descripción
 **page**<br><small>opcional</small> | integer | 1 | Página de resultados a regresar, empezando desde la página 1.
 
 ## Obtener un Producto
+
+> <h3 class="toc-ignore">Definición</h3>
+
+```text
+GET http://www.facturapi.io/v1/products/{PRODUCT_ID}
+```
+
+> <h3 class="toc-ignore">Ejemplo de Petición</h3>
 
 ```shell
 curl http://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \

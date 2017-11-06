@@ -7,8 +7,8 @@ language_tabs:
   - csharp: .NET
 
 toc_footers:
-  - <a href='https://www.facturapi.io'>Obten tu llave privada</a>
-  - <a href='https://www.facturapi.io'>Facturapi</a>
+  - <a href='https://www.facturapi.io' target='_blank'>Obten tu llave privada</a>
+  - <a href='https://www.facturapi.io' target='_blank'>Facturapi</a>
 
 includes:
   - customers

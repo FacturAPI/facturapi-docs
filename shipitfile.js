@@ -31,5 +31,4 @@ module.exports = function (shipit) {
   shipit.on('fetched', () => {
     return shipit.start('build');
   });
-
 };

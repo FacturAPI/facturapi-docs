@@ -49,13 +49,13 @@ Argumento | Tipo | Descripción
 > <h3 class="toc-ignore">Definición</h3>
 
 ```text
-POST http://www.facturapi.io/v1/customers
+POST https://www.facturapi.io/v1/customers
 ```
 
 > <h3 class="toc-ignore">Ejemplo de Petición</h3>
 
 ```shell
-curl http://www.facturapi.io/v1/customers \
+curl https://www.facturapi.io/v1/customers \
   -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
   -H "Content-Type: application/json" \
   -d '{
@@ -145,13 +145,13 @@ Argumento | Tipo | Default | Descripción
 > <h3 class="toc-ignore">Definición</h3>
 
 ```text
-PUT http://www.facturapi.io/v1/customers/{CUSTOMER_ID}
+PUT https://www.facturapi.io/v1/customers/{CUSTOMER_ID}
 ```
 
 > <h3 class="toc-ignore">Ejemplo de Petición</h3>
 
 ```shell
-curl http://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
+curl https://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
   -X PUT
   -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
   -H "Content-Type: application/json" \
@@ -233,13 +233,13 @@ Argumento | Tipo | Descripción
 > <h3 class="toc-ignore">Definición</h3>
 
 ```text
-GET http://www.facturapi.io/v1/customers
+GET https://www.facturapi.io/v1/customers
 ```
 
 > <h3 class="toc-ignore">Ejemplo de Petición</h3>
 
 ```shell
-curl http://www.facturapi.io/v1/customers \
+curl https://www.facturapi.io/v1/customers \
   -u "sk_test_vnpJkayXw4bxoMVQMO3r2B7QEP8LmOWM:" 
 ```
 
@@ -299,13 +299,13 @@ Argumento | Tipo | Default | Descripción
 > <h3 class="toc-ignore">Definición</h3>
 
 ```text
-GET http://www.facturapi.io/v1/customers/{CUSTOMER_ID}
+GET https://www.facturapi.io/v1/customers/{CUSTOMER_ID}
 ```
 
 > <h3 class="toc-ignore">Ejemplo de Petición</h3>
 
 ```shell
-curl http://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
+curl https://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
   -u "sk_test_vnpJkayXw4bxoMVQMO3r2B7QEP8LmOWM:" 
 ```
 
@@ -348,7 +348,7 @@ Argumento | Tipo | Descripción
 ## Eliminar Cliente
 
 ```shell
-curl http://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
+curl https://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
   -X DELETE \
   -u "sk_test_vnpJkayXw4bxoMVQMO3r2B7QEP8LmOWM:" 
 ```

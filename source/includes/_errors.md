@@ -1,8 +1,8 @@
-# Errors
+# Errores
 
-## Error Handling
+## Manejo de errores
 
-## Error codes
+## Códigos de error
 
 Error Code | Meaning
 ---------- | -------

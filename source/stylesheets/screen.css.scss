@@ -199,7 +199,7 @@ html, body {
 
   // This is the currently selected ToC entry
   .tocify-focus {
-    // background-color: $nav-active-bg;
+    background-color: $nav-active-bg;
     font-weight: bold;
     color: $nav-active-text;
     &.tocify-hover {
@@ -208,7 +208,7 @@ html, body {
   }
 
   .tocify-hover {
-    color: $nav-active-bg;
+    color: $nav-hover-text;
   }
 
   // Subheaders are the submenus that slide open
@@ -224,7 +224,7 @@ html, body {
       font-weight: 500;
       .tocify-item>a {
         padding-left: $nav-padding + $nav-indent;
-        font-size: 12px;
+        font-size: 14px;
       }
   
       // for embossed look:
@@ -364,7 +364,7 @@ html, body {
       text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
 
       &:hover {
-        border: 1px solid $lang-select-active-bg;
+        border: 1px solid $nav-hover-text;
       }
     }
 
@@ -406,18 +406,32 @@ html, body {
     @extend %left-col;
   }
 
+  &>h1, &>h2, &>h3 {
+    color: $title-text;
+  }
+
   &>ul, &>ol {
     padding-left: $main-padding + 15px;
   }
 
   // the div is the tocify hidden div for placeholding stuff
-  &>h1, &>h2, &>div {
+  &>h1, &>h2, &>h3, &>div {
     clear:both;
   }
 
   h1 {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: bold;
+    border-top: 1px solid #ddd;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    color: $name-text;
+  }
+
+  h2 {
     @extend %header-font;
-    font-size: 30px;
+    font-size: 28px;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
     border-bottom: 1px solid $nav-border;
@@ -434,43 +448,40 @@ html, body {
     margin-top: 0;
   }
 
-  h2 {
+  h3 {
     @extend %header-font;
-    font-size: 20px;
+    color: #00b563;
+    font-size: 18px;
     margin-top: 4em;
     margin-bottom: 0;
-    border-top: 1px solid #ccc;
     padding-top: 1.2em;
     padding-bottom: 1.2em;
-    background-image: linear-gradient(to bottom, rgba(#fff, 0.4), rgba(#fff, 0));
-
     font-weight: bold;
   }
 
-  h3 {
+  h4 {
     font-size: 14px !important;
-    font-weight: 500;
+    font-weight: bold;
     line-height: 18px;
-
     text-transform: uppercase;
     color: #939da3;
   }
 
   // h2s right after h1s should bump right up
   // against the h1s.
-  h1 + h2, h1 + div + h2 {
+  h2 + h3, h2 + div + h3 {
     margin-top: $h1-margin-bottom * -1;
     border-top: none;
   }
 
-  h3, h4, h5, h6 {
+  h4, h5, h6 {
     @extend %header-font;
     font-size: 15px;
     margin-top: 2.5em;
     margin-bottom: 0.4em;
   }
 
-  h4, h5, h6 {
+  h5, h6 {
     font-size: 10px;
   }
 
@@ -491,7 +502,7 @@ html, body {
 
     th {
       padding: 5px 10px;
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid #ddd;
       vertical-align: bottom;
     }
 
@@ -500,7 +511,7 @@ html, body {
     }
 
     tr:last-child {
-      border-bottom: 1px solid #ccc;
+      // border-bottom: 1px solid #ccc;
     }
 
     tr:nth-child(odd)>td {
@@ -591,7 +602,7 @@ html, body {
   }
 
   a {
-    color: $nav-active-bg;
+    color: $lang-select-active-bg;
     font-weight: 400;
     text-decoration: none;
   }

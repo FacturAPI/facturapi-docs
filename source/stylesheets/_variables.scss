@@ -28,10 +28,10 @@ $examples-bg: #2d3134 !default;
 $code-bg: #272b2d !default;
 $code-annotation-bg: #222222 !default;
 $nav-subitem-bg: #fafcfc !default;
-$nav-active-bg: #0093d5 !default;
+$nav-active-bg: #e6f0f4 !default;
 $lang-select-border: #000 !default;
 $lang-select-bg: #222 !default;
-$lang-select-active-bg: $nav-active-bg !default; // feel free to change this to blue or something
+$lang-select-active-bg: #0093d5 !default; // feel free to change this to blue or something
 $lang-select-pressed-bg: #111 !default; // color of language tab bg when mouse is pressed
 $main-bg: #FFFFFF !default;
 $aside-notice-bg: #cef !default;
@@ -42,8 +42,10 @@ $search-notice-bg: #c97a7e !default;
 // TEXT COLORS
 ////////////////////
 $main-text: #333 !default; // main content text color
+$title-text: #5b6270 !default;
 $name-text: #1168a3 !default;
 $nav-text: #8e95a3 !default;
+$nav-hover-text: #0093d5 !default;
 $nav-active-text: #444954 !default;
 $lang-select-text: #fff !default; // color of unselected language tab text
 $lang-select-active-text: #fff !default; // color of selected language tab text

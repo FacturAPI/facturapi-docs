@@ -19,11 +19,13 @@ includes:
 search: false
 ---
 
-# Introducción
+# Guía de inicio
+
+## Introducción
 
 ¡Bienvenido a Facturapi! Puedes usar nuestra API para emitir facturas electrónicas (CFDI) válidas en México, de manera automatizada en el lenguaje de tu preferencia.
 
-# Autenticación
+## Autenticación
 
 > Para autenticarte deberás incluir tu llave privada en el uso de la librería
 

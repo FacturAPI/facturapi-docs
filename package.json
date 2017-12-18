@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "Facturapi =========",
   "main": "''",
+  "dependencies": {
+    "shipit": "^1.0.2",
+    "shipit-deploy": "^2.4.0"
+  },
   "devDependencies": {
     "semistandard": "^11.0.0",
+    "shipit": "^1.0.2",
     "shipit-deploy": "^2.4.0",
     "yargs": "^8.0.1"
   },

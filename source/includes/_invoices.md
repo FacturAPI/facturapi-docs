@@ -94,7 +94,7 @@ facturapi.invoices.create({
 ```
 
 ```csharp
-var invoice = await Facturapi.Invoice.CreateAsync(new Dictionary<string, object>
+var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 {
   ["customer"] = "58e93bd8e86eb318b0197456",
   ["items"] = new Dictionary<string, object>[]
@@ -195,7 +195,7 @@ facturapi.invoices.list()
 ```
 
 ```csharp
-var searchResult = await Facturapi.Invoice.ListAsync();
+var searchResult = await facturapi.Invoice.ListAsync();
 // searchResult.Data is an Invoice array
 ```
 
@@ -264,7 +264,7 @@ facturapi.invoices.retrieve('58e93bd8e86eb318b019743d')
 ```
 
 ```csharp
-var invoice = await Facturapi.Invoice.RetrieveAsync("58e93bd8e86eb318b019743d");
+var invoice = await facturapi.Invoice.RetrieveAsync("58e93bd8e86eb318b019743d");
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>
@@ -347,11 +347,11 @@ facturapi.invoices.downloadXml('58e93bd8e86eb318b019743d')
 
 ```csharp
 // Descargar PDF y XML comprimidos en archivo ZIP
-var zipStream = await Facturapi.Invoice.DownloadZipAsync("58e93bd8e86eb318b019743d");
+var zipStream = await facturapi.Invoice.DownloadZipAsync("58e93bd8e86eb318b019743d");
 // Descargar sólo el XML
-var xmlStream = await Facturapi.Invoice.DownloadXmlAsync("58e93bd8e86eb318b019743d");
+var xmlStream = await facturapi.Invoice.DownloadXmlAsync("58e93bd8e86eb318b019743d");
 // Descargar sólo el PDF
-var pdfStream = await Facturapi.Invoice.DownloadPdfAsync("58e93bd8e86eb318b019743d");
+var pdfStream = await facturapi.Invoice.DownloadPdfAsync("58e93bd8e86eb318b019743d");
 
 // Para guardar la descarga en un archivo
 var file = new System.IO.FileStrem("C:\\route\\to\\save\\invoice.zip", FileMode.Create);
@@ -391,7 +391,7 @@ facturapi.invoices.sendByEmail('58e93bd8e86eb318b019743d')
 ```
 
 ```csharp
-await Facturapi.Invoice.SendByEmailAsync("58e93bd8e86eb318b019743d");
+await facturapi.Invoice.SendByEmailAsync("58e93bd8e86eb318b019743d");
 ```
 
 Envía un correo electrónico al email de tu cliente, con los archivos XML y PDF adjuntos al mensaje.
@@ -426,7 +426,7 @@ facturapi.invoices.cancel('58e93bd8e86eb318b019743d')
 ```
 
 ```csharp
-var invoice = await Facturapi.Invoice.CancelAsync("58e93bd8e86eb318b019743d");
+var invoice = await facturapi.Invoice.CancelAsync("58e93bd8e86eb318b019743d");
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>

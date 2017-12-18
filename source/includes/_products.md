@@ -75,7 +75,7 @@ facturapi.products.create({
 ```
 
 ```csharp
-var product = await Facturapi.Product.CreateAsync(new Dictionary<string, object>
+var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
 {
   ["description"] = "Licuadora",
   ["product_key"] = 123456,
@@ -155,7 +155,7 @@ facturapi.products.update('590e22c26d04f840aa8438b2', {
 ```
 
 ```csharp
-var product = await Facturapi.Product.UpdateAsync("590e22c26d04f840aa8438b2", new Dictionary<string, object>
+var product = await facturapi.Product.UpdateAsync("590e22c26d04f840aa8438b2", new Dictionary<string, object>
 {
   ["price"] = 345.60
 });
@@ -226,7 +226,7 @@ facturapi.products.list()
 ```
 
 ```csharp
-var searchResult = await Facturapi.Product.ListAsync();
+var searchResult = await facturapi.Product.ListAsync();
 // searchResult.Data is an array of Products
 ```
 
@@ -293,7 +293,7 @@ facturapi.products.retrieve('590e22c26d04f840aa8438b2')
 ```
 
 ```csharp
-var product = await Facturapi.Product.RetrieveAsync("590e22c26d04f840aa8438b2");
+var product = await facturapi.Product.RetrieveAsync("590e22c26d04f840aa8438b2");
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>
@@ -342,7 +342,7 @@ facturapi.products.del('590e22c26d04f840aa8438b2')
 ```
 
 ```csharp
-var product = await Facturapi.Product.DeleteAsync("590e22c26d04f840aa8438b2");
+var product = await facturapi.Product.DeleteAsync("590e22c26d04f840aa8438b2");
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>

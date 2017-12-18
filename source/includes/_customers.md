@@ -86,7 +86,7 @@ facturapi.customers.create({
 ```
 
 ```csharp
-var customer = await Facturapi.Customer.CreateAsync(new Dictionary<string, object>
+var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, object>
 {
   ["legal_name"] = "John Doe",
   ["email"] = "email@example.com",
@@ -177,7 +177,7 @@ facturapi.customers.update('590ce6c56d04f840aa8438af', {
 ```
 
 ```csharp
-var customer = await Facturapi.Customer.UpdateAsync("590ce6c56d04f840aa8438af", new Dictionary<string, object>
+var customer = await facturapi.Customer.UpdateAsync("590ce6c56d04f840aa8438af", new Dictionary<string, object>
 {
   ["email"] = "jdoe@example.com",
   ["address"] = new Dictionary<string, object>
@@ -253,7 +253,7 @@ facturapi.customers.list()
 ```
 
 ```csharp
-var searchResult = await Facturapi.Customer.ListAsync();
+var searchResult = await facturapi.Customer.ListAsync();
 // searchResult.Data is an array of Customer
 ```
 
@@ -319,7 +319,7 @@ facturapi.customers.retrieve('590ce6c56d04f840aa8438af')
 ```
 
 ```csharp
-var customer = await Facturapi.Customer.RetrieveAsync("590ce6c56d04f840aa8438af");
+var customer = await facturapi.Customer.RetrieveAsync("590ce6c56d04f840aa8438af");
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>
@@ -363,7 +363,7 @@ facturapi.customers.del('590ce6c56d04f840aa8438af')
 ```
 
 ```csharp
-var customer = await Facturapi.Customer.DeleteAsync("590ce6c56d04f840aa8438af");
+var customer = await facturapi.Customer.DeleteAsync("590ce6c56d04f840aa8438af");
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>

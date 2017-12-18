@@ -21,7 +21,8 @@ Empieza por incluir el cliente de Facturapi en las dependencias de tu proyecto.
 ```shell
 # Cada petición deberá incluir tu llave privada en el
 # encabezado de autorización, seguida de dos puntos (:).
-# Los ejemplos en esta documentación ya incluyen 
+# Los ejemplos para cURL en esta documentación ya incluyen
+# este encabezado.
 ```
 
 ```javascript

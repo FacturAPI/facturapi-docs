@@ -427,6 +427,7 @@ html, body {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
     color: $name-text;
+    margin-top: 6em;
   }
 
   h2 {
@@ -436,7 +437,7 @@ html, body {
     padding-bottom: 0.5em;
     border-bottom: 1px solid $nav-border;
     margin-bottom: $h1-margin-bottom;
-    margin-top: 2em;
+    margin-top: 1em;
     margin-left: $main-padding * -1;
     padding-left: $main-padding * 2;
     //border-top: 1px solid #ddd;
@@ -452,7 +453,7 @@ html, body {
     @extend %header-font;
     color: #00b563;
     font-size: 18px;
-    margin-top: 4em;
+    margin-top: 2em;
     margin-bottom: 0;
     padding-top: 1.2em;
     padding-bottom: 1.2em;
@@ -545,7 +546,7 @@ html, body {
     background-color: rgba(0,0,0,0.05);
     padding: 3px;
     border-radius: 3px;
-    @extend %break-words;
+    // @extend %break-words;
     @extend %code-font;
   }
 

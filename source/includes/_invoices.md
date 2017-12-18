@@ -1,6 +1,6 @@
-# Facturas
+## Facturas
 
-## Objeto Factura
+### Objeto Factura
 
 ```json
 {
@@ -51,15 +51,15 @@ Argumento | Tipo | Descripción
 **items[].product.unit_name** | string | Unidad de medida del producto.
 **items[].product.description** | string | Descripción del producto.
 
-## Crear Factura
+### Crear Factura
 
-> <h3 class="toc-ignore">Definición</h3>
+> <h4 class="toc-ignore">Definición</h4>
 
 ```text
 POST https://www.facturapi.io/v1/invoices
 ```
 
-> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/invoices \
@@ -94,7 +94,7 @@ facturapi.invoices.create({
 ```
 
 ```csharp
-var invoice = await Facturapi.Invoice.CreateAsync(new Dictionary<string, object>
+var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 {
   ["customer"] = "58e93bd8e86eb318b0197456",
   ["items"] = new Dictionary<string, object>[]
@@ -112,7 +112,7 @@ var invoice = await Facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 
 ```
 
-> <h3 class="toc-ignore">Respuesta JSON</h3>
+> <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
 {
@@ -134,7 +134,7 @@ var invoice = await Facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 
 Crea una nueva Factura
 
-### Argumentos
+#### Argumentos
 
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
@@ -146,7 +146,7 @@ Argumento | Tipo | Default | Descripción
 **folio_number**<br><small>opcional</small> | string | Autoincremental | Número de folio asignado por la empresa para control interno. Si se omite, se asignará el valor autoincremental de la organización. Si se envía un valor, este nuevo valor se usará para designar el siguiente número de folio de la organización.
 **series**<br><small>opcional</small> | string | "" | Serie. De 1 a 25 caracteres designados por la empresa para control interno y sin validez fiscal.
 
-### Formas de pago
+#### Formas de pago
 
 Código | Descripción
 :-----:| -----------
@@ -171,15 +171,15 @@ Código | Descripción
 "29" | Tarjeta de servicios
 "99" | Por definir
 
-## Lista de Facturas
+### Lista de Facturas
 
-> <h3 class="toc-ignore">Definición</h3>
+> <h4 class="toc-ignore">Definición</h4>
 
 ```text
 GET https://www.facturapi.io/v1/invoices
 ```
 
-> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl "https://www.facturapi.io/v1/invoices?customer=58e93bd8e86eb318b0197456&date[gt]=2017-01-01T06:00:00.000Z" \
@@ -195,11 +195,11 @@ facturapi.invoices.list()
 ```
 
 ```csharp
-var searchResult = await Facturapi.Invoice.ListAsync();
+var searchResult = await facturapi.Invoice.ListAsync();
 // searchResult.Data is an Invoice array
 ```
 
-> <h3 class="toc-ignore">Respuesta JSON</h3>
+> <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
 {
@@ -227,7 +227,7 @@ var searchResult = await Facturapi.Invoice.ListAsync();
 
 Obtiene la lista de facturas emitidas.
 
-### Argumentos
+#### Argumentos
 
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
@@ -241,15 +241,15 @@ Argumento | Tipo | Default | Descripción
 **limit**<br><small>opcional</small> | integer | 50 | Número del 1 al 50 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
 **page**<br><small>opcional</small> | integer | 1 | Página de resultados a regresar, empezando desde la página 1.
 
-## Obtener una Factura
+### Obtener una Factura
 
-> <h3 class="toc-ignore">Definición</h3>
+> <h4 class="toc-ignore">Definición</h4>
 
 ```text
 GET https://www.facturapi.io/v1/invoices/{INVOICE_ID}
 ```
 
-> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d \
@@ -264,10 +264,10 @@ facturapi.invoices.retrieve('58e93bd8e86eb318b019743d')
 ```
 
 ```csharp
-var invoice = await Facturapi.Invoice.RetrieveAsync("58e93bd8e86eb318b019743d");
+var invoice = await facturapi.Invoice.RetrieveAsync("58e93bd8e86eb318b019743d");
 ```
 
-> <h3 class="toc-ignore">Respuesta JSON</h3>
+> <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
 {
@@ -287,15 +287,15 @@ var invoice = await Facturapi.Invoice.RetrieveAsync("58e93bd8e86eb318b019743d");
 }
 ```
 
-### Argumentos
+#### Argumentos
 
 Argumento | Tipo | Descripción
 ---------:|:----:| -----------
 **id**<br><small>requerido</small> | string | Identificador de la factura.
 
-## Descargar Factura
+### Descargar Factura
 
-> <h3 class="toc-ignore">Definición</h3>
+> <h4 class="toc-ignore">Definición</h4>
 
 ```text
 GET https://www.facturapi.io/v1/invoices/{INVOICE_ID}/zip
@@ -303,18 +303,18 @@ GET https://www.facturapi.io/v1/invoices/{INVOICE_ID}/pdf
 GET https://www.facturapi.io/v1/invoices/{INVOICE_ID}/xml
 ```
 
-> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
-# Descargar PDF y XML comprimidos en archivo ZIP
+## Descargar PDF y XML comprimidos en archivo ZIP
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/zip \
   -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:"
 
-# Descargar sólo el PDF
+## Descargar sólo el PDF
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/pdf \
   -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:"
 
-# Descargar sólo el XML
+## Descargar sólo el XML
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/xml \
   -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:"
 ```
@@ -347,11 +347,11 @@ facturapi.invoices.downloadXml('58e93bd8e86eb318b019743d')
 
 ```csharp
 // Descargar PDF y XML comprimidos en archivo ZIP
-var zipStream = await Facturapi.Invoice.DownloadZipAsync("58e93bd8e86eb318b019743d");
+var zipStream = await facturapi.Invoice.DownloadZipAsync("58e93bd8e86eb318b019743d");
 // Descargar sólo el XML
-var xmlStream = await Facturapi.Invoice.DownloadXmlAsync("58e93bd8e86eb318b019743d");
+var xmlStream = await facturapi.Invoice.DownloadXmlAsync("58e93bd8e86eb318b019743d");
 // Descargar sólo el PDF
-var pdfStream = await Facturapi.Invoice.DownloadPdfAsync("58e93bd8e86eb318b019743d");
+var pdfStream = await facturapi.Invoice.DownloadPdfAsync("58e93bd8e86eb318b019743d");
 
 // Para guardar la descarga en un archivo
 var file = new System.IO.FileStrem("C:\\route\\to\\save\\invoice.zip", FileMode.Create);
@@ -361,21 +361,21 @@ file.Close();
 
 Descarga tu Factura en PDF, XML o ambas comprimidas en ZIP
 
-### Argumentos
+#### Argumentos
 
 Argumento | Tipo | Descripción
 ---------:|:----:| -----------
 **id**<br><small>requerido</small> | string | Identificador de la factura.
 
-## Enviar Factura por email
+### Enviar Factura por email
 
-> <h3 class="toc-ignore">Definición</h3>
+> <h4 class="toc-ignore">Definición</h4>
 
 ```text
 POST https://www.facturapi.io/v1/invoices/{INVOICE_ID}/email
 ```
 
-> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
@@ -391,26 +391,26 @@ facturapi.invoices.sendByEmail('58e93bd8e86eb318b019743d')
 ```
 
 ```csharp
-await Facturapi.Invoice.SendByEmailAsync("58e93bd8e86eb318b019743d");
+await facturapi.Invoice.SendByEmailAsync("58e93bd8e86eb318b019743d");
 ```
 
 Envía un correo electrónico al email de tu cliente, con los archivos XML y PDF adjuntos al mensaje.
 
-### Argumentos
+#### Argumentos
 
 Argumento | Tipo | Descripción
 ---------:|:----:| -----------
 **id**<br><small>requerido</small> | string | Identificador de la factura.
 
-## Cancelar Factura
+### Cancelar Factura
 
-> <h3 class="toc-ignore">Definición</h3>
+> <h4 class="toc-ignore">Definición</h4>
 
 ```text
 DELETE https://www.facturapi.io/v1/invoices/{INVOICE_ID}
 ```
 
-> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d \
@@ -426,10 +426,10 @@ facturapi.invoices.cancel('58e93bd8e86eb318b019743d')
 ```
 
 ```csharp
-var invoice = await Facturapi.Invoice.CancelAsync("58e93bd8e86eb318b019743d");
+var invoice = await facturapi.Invoice.CancelAsync("58e93bd8e86eb318b019743d");
 ```
 
-> <h3 class="toc-ignore">Respuesta JSON</h3>
+> <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
 {
@@ -451,7 +451,7 @@ var invoice = await Facturapi.Invoice.CancelAsync("58e93bd8e86eb318b019743d");
 
 Realiza una solicitud de cancelación de factura ante el SAT. La factura ya no tendrá validez, el objeto cambiará su `status` a `"canceled"` y seguirá estando disponible para futuras consultas.
 
-### Argumentos
+#### Argumentos
 
 Argumento | Tipo | Descripción
 ---------:|:----:| -----------

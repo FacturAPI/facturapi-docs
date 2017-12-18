@@ -1,0 +1,5 @@
+{
+  "editor.formatOnSave": false,
+  "standard.autoFixOnSave": false,
+  "standard.semistandard": true
+}

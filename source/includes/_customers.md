@@ -1,6 +1,8 @@
-# Clientes
+# API (Referencia)
 
-## Objeto Cliente
+## Clientes
+
+### Objeto Cliente
 
 ```json
 {
@@ -44,15 +46,15 @@ Argumento | Tipo | Descripción
 **address.state** | string | Estado o Provincia
 **address.country** | string | País
 
-## Crear Cliente
+### Crear Cliente
 
-> <h3 class="toc-ignore">Definición</h3>
+> <h4 class="toc-ignore">Definición</h4>
 
 ```text
 POST https://www.facturapi.io/v1/customers
 ```
 
-> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/customers \
@@ -84,7 +86,7 @@ facturapi.customers.create({
 ```
 
 ```csharp
-var customer = await Facturapi.Customer.CreateAsync(new Dictionary<string, object>
+var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, object>
 {
   ["legal_name"] = "John Doe",
   ["email"] = "email@example.com",
@@ -98,7 +100,7 @@ var customer = await Facturapi.Customer.CreateAsync(new Dictionary<string, objec
 // Guarda el customer.Id para facturar a tu cliente
 ```
 
-> <h3 class="toc-ignore">Respuesta JSON</h3>
+> <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
 {
@@ -121,7 +123,7 @@ var customer = await Facturapi.Customer.CreateAsync(new Dictionary<string, objec
 
 Crea un nuevo Cliente
 
-### Argumentos
+#### Argumentos
 
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
@@ -140,15 +142,15 @@ Argumento | Tipo | Default | Descripción
 **address.state**<br><small>opcional</small> | string | Si se omite, se obtiene del código postal | Estado o Provincia
 **address.country**<br><small>opcional</small> | string | "México" | País
 
-## Actualizar Cliente
+### Actualizar Cliente
 
-> <h3 class="toc-ignore">Definición</h3>
+> <h4 class="toc-ignore">Definición</h4>
 
 ```text
 PUT https://www.facturapi.io/v1/customers/{CUSTOMER_ID}
 ```
 
-> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
@@ -175,7 +177,7 @@ facturapi.customers.update('590ce6c56d04f840aa8438af', {
 ```
 
 ```csharp
-var customer = await Facturapi.Customer.UpdateAsync("590ce6c56d04f840aa8438af", new Dictionary<string, object>
+var customer = await facturapi.Customer.UpdateAsync("590ce6c56d04f840aa8438af", new Dictionary<string, object>
 {
   ["email"] = "jdoe@example.com",
   ["address"] = new Dictionary<string, object>
@@ -185,7 +187,7 @@ var customer = await Facturapi.Customer.UpdateAsync("590ce6c56d04f840aa8438af", 
 });
 ```
 
-> <h3 class="toc-ignore">Respuesta JSON</h3>
+> <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
 {
@@ -208,7 +210,7 @@ var customer = await Facturapi.Customer.UpdateAsync("590ce6c56d04f840aa8438af", 
 
 Actualiza la información de un cliente existente, asignando los valores de los parámetros enviados. Los parámetros que no se envíen en la petición no se modificarán.
 
-### Argumentos
+#### Argumentos
 
 Argumento | Tipo | Descripción
 ---------:|:----:| -----------
@@ -228,15 +230,15 @@ Argumento | Tipo | Descripción
 **address.state**<br><small>opcional</small> | string | Estado o Provincia
 **address.country**<br><small>opcional</small> | string | País
 
-## Lista de Clientes
+### Lista de Clientes
 
-> <h3 class="toc-ignore">Definición</h3>
+> <h4 class="toc-ignore">Definición</h4>
 
 ```text
 GET https://www.facturapi.io/v1/customers
 ```
 
-> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/customers \
@@ -251,11 +253,11 @@ facturapi.customers.list()
 ```
 
 ```csharp
-var searchResult = await Facturapi.Customer.ListAsync();
+var searchResult = await facturapi.Customer.ListAsync();
 // searchResult.Data is an array of Customer
 ```
 
-> <h3 class="toc-ignore">Respuesta JSON</h3>
+> <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
 {
@@ -281,7 +283,7 @@ var searchResult = await Facturapi.Customer.ListAsync();
 
 Obtiene la lista de clientes registrados en tu organización
 
-### Argumentos
+#### Argumentos
 
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
@@ -294,15 +296,15 @@ Argumento | Tipo | Default | Descripción
 **limit**<br><small>opcional</small> | integer | 50 | Número del 1 al 50 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
 **page**<br><small>opcional</small> | integer | 1 | Página de resultados a regresar, empezando desde la página 1.
 
-## Obtener un Cliente
+### Obtener un Cliente
 
-> <h3 class="toc-ignore">Definición</h3>
+> <h4 class="toc-ignore">Definición</h4>
 
 ```text
 GET https://www.facturapi.io/v1/customers/{CUSTOMER_ID}
 ```
 
-> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
@@ -317,10 +319,10 @@ facturapi.customers.retrieve('590ce6c56d04f840aa8438af')
 ```
 
 ```csharp
-var customer = await Facturapi.Customer.RetrieveAsync("590ce6c56d04f840aa8438af");
+var customer = await facturapi.Customer.RetrieveAsync("590ce6c56d04f840aa8438af");
 ```
 
-> <h3 class="toc-ignore">Respuesta JSON</h3>
+> <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
 {
@@ -338,14 +340,14 @@ var customer = await Facturapi.Customer.RetrieveAsync("590ce6c56d04f840aa8438af"
 }
 ```
 
-### Argumentos
+#### Argumentos
 
 Argumento | Tipo | Descripción
 ---------:|:----:| -----------
 **id**<br><small>requerido</small> | string | Identificador del cliente
 
 
-## Eliminar Cliente
+### Eliminar Cliente
 
 ```shell
 curl https://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
@@ -361,10 +363,10 @@ facturapi.customers.del('590ce6c56d04f840aa8438af')
 ```
 
 ```csharp
-var customer = await Facturapi.Customer.DeleteAsync("590ce6c56d04f840aa8438af");
+var customer = await facturapi.Customer.DeleteAsync("590ce6c56d04f840aa8438af");
 ```
 
-> <h3 class="toc-ignore">Respuesta JSON</h3>
+> <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
 {
@@ -382,7 +384,7 @@ var customer = await Facturapi.Customer.DeleteAsync("590ce6c56d04f840aa8438af");
 }
 ```
 
-### Argumentos
+#### Argumentos
 
 Argumento | Tipo | Descripción
 ---------:|:----:| -----------

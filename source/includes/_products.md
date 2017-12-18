@@ -1,6 +1,6 @@
-# Productos
+## Productos
 
-## Objeto Producto
+### Objeto Producto
 
 ```json
 {
@@ -41,15 +41,15 @@ Argumento | Tipo | Descripción
 **unit_name** | string | Nombre de la unidad de medida como aparecerá en la factura.
 **sku** | string | Identificador de uso interno designado por la empresa.
 
-## Crear Producto
+### Crear Producto
 
-> <h3 class="toc-ignore">Definición</h3>
+> <h4 class="toc-ignore">Definición</h4>
 
 ```text
 POST https://www.facturapi.io/v1/products
 ```
 
-> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/products \
@@ -75,7 +75,7 @@ facturapi.products.create({
 ```
 
 ```csharp
-var product = await Facturapi.Product.CreateAsync(new Dictionary<string, object>
+var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
 {
   ["description"] = "Licuadora",
   ["product_key"] = 123456,
@@ -84,7 +84,7 @@ var product = await Facturapi.Product.CreateAsync(new Dictionary<string, object>
 });
 ```
 
-> <h3 class="toc-ignore">Respuesta JSON</h3>
+> <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
 {
@@ -110,7 +110,7 @@ var product = await Facturapi.Product.CreateAsync(new Dictionary<string, object>
 
 Crea un nuevo Producto
 
-### Argumentos
+#### Argumentos
 
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
@@ -126,15 +126,15 @@ Argumento | Tipo | Default | Descripción
 **unit_name**<br><small>opcional</small> | string | "Pieza" | Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.
 **sku**<br><small>opcional</small> | string | "" | Identificador de uso interno designado por la empresa. Puede tener cualquier valor.
 
-## Actualizar Producto
+### Actualizar Producto
 
-> <h3 class="toc-ignore">Definición</h3>
+> <h4 class="toc-ignore">Definición</h4>
 
 ```text
 PUT https://www.facturapi.io/v1/products/{PRODUCT_ID}
 ```
 
-> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
@@ -155,13 +155,13 @@ facturapi.products.update('590e22c26d04f840aa8438b2', {
 ```
 
 ```csharp
-var product = await Facturapi.Product.UpdateAsync("590e22c26d04f840aa8438b2", new Dictionary<string, object>
+var product = await facturapi.Product.UpdateAsync("590e22c26d04f840aa8438b2", new Dictionary<string, object>
 {
   ["price"] = 345.60
 });
 ```
 
-> <h3 class="toc-ignore">Respuesta JSON</h3>
+> <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
 {
@@ -187,7 +187,7 @@ var product = await Facturapi.Product.UpdateAsync("590e22c26d04f840aa8438b2", ne
 
 Actualiza la información de un producto existente, asignando los valores de los parámetros enviados. Los parámetros que no se envíen en la petición no se modificarán.
 
-### Argumentos
+#### Argumentos
 
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
@@ -203,15 +203,15 @@ Argumento | Tipo | Default | Descripción
 **unit_name**<br><small>opcional</small> | string | "Pieza" | Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.
 **sku**<br><small>opcional</small> | string | "" | Identificador de uso interno designado por la empresa. Puede tener cualquier valor.
 
-## Lista de Productos
+### Lista de Productos
 
-> <h3 class="toc-ignore">Definición</h3>
+> <h4 class="toc-ignore">Definición</h4>
 
 ```text
 GET https://www.facturapi.io/v1/products
 ```
 
-> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/products \
@@ -226,11 +226,11 @@ facturapi.products.list()
 ```
 
 ```csharp
-var searchResult = await Facturapi.Product.ListAsync();
+var searchResult = await facturapi.Product.ListAsync();
 // searchResult.Data is an array of Products
 ```
 
-> <h3 class="toc-ignore">Respuesta JSON</h3>
+> <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
 {
@@ -262,7 +262,7 @@ var searchResult = await Facturapi.Product.ListAsync();
 
 Obtiene la lista de productos registrados en tu organización
 
-### Argumentos
+#### Argumentos
 
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
@@ -270,15 +270,15 @@ Argumento | Tipo | Default | Descripción
 **limit**<br><small>opcional</small> | integer | 50 | Número del 1 al 50 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
 **page**<br><small>opcional</small> | integer | 1 | Página de resultados a regresar, empezando desde la página 1.
 
-## Obtener un Producto
+### Obtener un Producto
 
-> <h3 class="toc-ignore">Definición</h3>
+> <h4 class="toc-ignore">Definición</h4>
 
 ```text
 GET https://www.facturapi.io/v1/products/{PRODUCT_ID}
 ```
 
-> <h3 class="toc-ignore">Ejemplo de Petición</h3>
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
@@ -293,10 +293,10 @@ facturapi.products.retrieve('590e22c26d04f840aa8438b2')
 ```
 
 ```csharp
-var product = await Facturapi.Product.RetrieveAsync("590e22c26d04f840aa8438b2");
+var product = await facturapi.Product.RetrieveAsync("590e22c26d04f840aa8438b2");
 ```
 
-> <h3 class="toc-ignore">Respuesta JSON</h3>
+> <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
 {
@@ -320,13 +320,13 @@ var product = await Facturapi.Product.RetrieveAsync("590e22c26d04f840aa8438b2");
 }
 ```
 
-### Argumentos
+#### Argumentos
 
 Argumento | Tipo | Descripción
 ---------:|:----:| -----------
 **id**<br><small>requerido</small> | string | Identificador del producto
 
-## Eliminar Producto
+### Eliminar Producto
 
 ```shell
 curl https://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
@@ -342,10 +342,10 @@ facturapi.products.del('590e22c26d04f840aa8438b2')
 ```
 
 ```csharp
-var product = await Facturapi.Product.DeleteAsync("590e22c26d04f840aa8438b2");
+var product = await facturapi.Product.DeleteAsync("590e22c26d04f840aa8438b2");
 ```
 
-> <h3 class="toc-ignore">Respuesta JSON</h3>
+> <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
 {
@@ -369,7 +369,7 @@ var product = await Facturapi.Product.DeleteAsync("590e22c26d04f840aa8438b2");
 }
 ```
 
-### Argumentos
+#### Argumentos
 
 Argumento | Tipo | Descripción
 ---------:|:----:| -----------

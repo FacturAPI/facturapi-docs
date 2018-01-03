@@ -143,6 +143,8 @@ Argumento | Tipo | Default | Descripción
 **items[].product**<br><small>requerido</small> | string ó hash | none | En el caso de tener productos fijos ya registrados (como en un marketplace) puedes enviar el Id del producto a facturar. O bien, si tu producto es cambiante (como en un SaaS) puedes enviar un hash con la información del producto (acepta los mismos elementos detallados en la sección Crear Producto), el cuál sólo se usará para generar la factura y no se guardará en tu catálogo de productos.
 **items[].quantity**<br><small>opcional</small> | integer | 1 | Cantidad de unidades del producto.
 **payment_form**<br><small>requerido</small> | string | none | Código de la forma de pago según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
+**payment_method**<br><small>opcional</small> | string | "PUE" (Pago en una sola exhibición) | Código del método de pago según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
+**use**<br><small>opcional</small> | string | "G01" (Adquisición de mercancías) | Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
 **folio_number**<br><small>opcional</small> | string | Autoincremental | Número de folio asignado por la empresa para control interno. Si se omite, se asignará el valor autoincremental de la organización. Si se envía un valor, este nuevo valor se usará para designar el siguiente número de folio de la organización.
 **series**<br><small>opcional</small> | string | "" | Serie. De 1 a 25 caracteres designados por la empresa para control interno y sin validez fiscal.
 
@@ -169,7 +171,43 @@ Código | Descripción
 "27" | A satisfacción del acreedor
 "28" | Tarjeta de débito
 "29" | Tarjeta de servicios
+"30" | Aplicación de anticipos
+"31" | Intermediario pagos
 "99" | Por definir
+
+#### Métodos de pago
+
+Código | Descripción
+:-----:| -----------
+"PUE" | Pago en una sola exhibición
+"PPD" | Pago en parcialidades o diferido
+
+#### Uso CFDI
+
+Código | Descripción
+:-----:| -----------
+"G01" |	Adquisición de mercancias.
+"G02" |	Devoluciones, descuentos o bonificaciones.
+"G03" |	Gastos en general.
+"I01" |	Construcciones.
+"I02" |	Mobilario y equipo de oficina por inversiones.
+"I03" |	Equipo de transporte.
+"I04" |	Equipo de computo y accesorios.
+"I05" |	Dados, troqueles, moldes, matrices y herramental.
+"I06" |	Comunicaciones telefónicas.
+"I07" |	Comunicaciones satelitales.
+"I08" |	Otra maquinaria y equipo.
+"D01" |	Honorarios médicos, dentales y gastos hospitalarios.
+"D02" |	Gastos médicos por incapacidad o discapacidad.
+"D03" |	Gastos funerales.
+"D04" |	Donativos.
+"D05" |	Intereses reales efectivamente pagados por créditos hipotecarios (casa habitación).
+"D06" |	Aportaciones voluntarias al SAR.
+"D07" |	Primas por seguros de gastos médicos.
+"D08" |	Gastos de transportación escolar obligatoria.
+"D09" |	Depósitos en cuentas para el ahorro, primas que tengan como base planes de pensiones.
+"D10" |	Pagos por servicios educativos (colegiaturas).
+"P01" |	Por definir.
 
 ### Lista de Facturas
 

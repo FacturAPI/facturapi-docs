@@ -209,6 +209,110 @@ Código | Descripción
 "D10" |	Pagos por servicios educativos (colegiaturas).
 "P01" |	Por definir.
 
+### Crear Comprobante de Egreso
+
+> <h4 class="toc-ignore">Definición</h4>
+
+```text
+POST https://www.facturapi.io/v1/invoices
+```
+
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
+
+```shell
+curl https://www.facturapi.io/v1/invoices \
+  -u "sk_test_API_KEY:" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "type": "E",
+        "customer": "58e93bd8e86eb318b0197456",
+        "description": "Devolución de Impresora HP G3700",
+        "total": 499.50
+        "payment_form": "06",
+        "related": ["UUID_de_factura_relacionada"],
+        "relation": "03"
+      }'
+```
+
+```javascript
+const facturapi = require('facturapi')('sk_test_API_KEY');
+facturapi.invoices.create({
+  type: facturapi.InvoiceType.EGRESO,
+  customer: customer.id,
+  description: 'Devolución de Impresora HP G3700',
+  total: 499.50,
+  payment_form: acturapi.PaymentForm.DINERO_ELECTRONICO,
+  related: ['UUID_de_factura_relacionada'],
+  relation: facturapi.InvoiceRelation.DEVOLUCION
+})
+  .then(invoice => { /* ... */ })
+  .catch(err => { /* handle the error */ })
+```
+
+```csharp
+var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
+{
+  ["type"] = Facturapi.InvoiceType.EGRESO,
+  ["customer"] = customer.Id,
+  ["description"] = "Devolución de Impresora HP G3700",
+  ["total"] = 499.50,
+  ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO,
+  ["related"] = new string[] { "UUID_de_factura_relacionada" },
+  ["relation"] = Facturapi.InvoiceRelation.DEVOLUCION
+});
+
+```
+
+> <h4 class="toc-ignore">Respuesta JSON</h4>
+
+```json
+{
+  "id": "58e93bd8e86eb318b019743d",
+  "created_at": "2017-03-26T01:49:47.372Z",
+  "type": "E",
+  "livemode": false,
+  "status": "active",
+  "customer": "58e93bd8e86eb318b0197456",
+  "total": 499.50,
+  "uuid": "45BEC0CA-5F1E-491E-9417-698EA48C382A",
+  "items": [
+    {
+      "quantity": 1,
+      "description": "Devolución de Impresora HP G3700"
+    }
+  ],
+  "related": ["D26CDE56-F5BB-11E7-8C3F-9A214CF093AE"]
+}
+```
+
+Crea una nueva Factura de tipo **comprobante de egreso**, también conocida como **nota de crédito**.
+
+#### Argumentos
+
+Argumento | Tipo | Default | Descripción
+---------:|:----:|:-------:| -----------
+**type**<br><small>requerido</small> | string | none | Tipo de comprobante. Este valor define qué tipo de factura se va a emitir, por lo que debe tener el valor "E", o la constante InvoiceType.EGRESO.
+**customer**<br><small>requerido</small> | string | none | Identificador del cliente a facturar.
+**description**<br><small>requerido</small> | string | none | Resumen de la operación en una sola descripción. Deben mencionarse cada uno de los productos que contempla el descuento, devolución o bonificación aplicada y que contienen las facturas relacionadas. Si el egreso está basado en un pocentaje (como al aplicar un 30% de descuento), dicho porcentaje debe incluirse en la descripción junto al nombre del producto que corresponda.
+**total**<br><small>requerido</small> | decimal | none | Suma total de la cantidad devuelta, descontada o bonificada.
+**payment_form**<br><small>requerido</small> | string | none | Código de la forma de pago según el catálogo del SAT. Puedes ver los códigos en la tabla antes mostrada, o utilizar las constantes incluídas en nuestras librerías `PaymentForm`.
+**related**<br><small>requerido</small> | array of strings | none | Arreglo con uno o más folios fiscales (UUID) de las facturas relacionadas.
+**relation**<br><small>opcional</small> | string | "01" (Nota de crédito) | Código de relación entre facturas según el catálogo del SAT. Puedes ver los códigos en la tabla mostrada más abajo, o utilizar las constantes incluidas en nuestras librerías `InvoiceRelation`.
+
+#### Relación entre facturas
+
+Código | Descripción
+:-----:| -----------
+"01" | Nota de crédito de los documentos relacionados
+"02" | Nota de débito de los documentos relacionados
+"03" | Devolución de mercancía sobre facturas o traslados previos
+"04" | Sustitución de los CFDI previos
+"05" | Traslados de mercancias facturados previamente
+"06" | Factura generada por los traslados previos
+"07" | CFDI por aplicación de anticipo
+"08" | Factura generada por pagos en parcialidades
+"09" | Factura generada por pagos diferidos
+
 ### Lista de Facturas
 
 > <h4 class="toc-ignore">Definición</h4>

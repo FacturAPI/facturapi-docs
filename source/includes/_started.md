@@ -237,3 +237,62 @@ file.Close();
 ```
 
 Si lo necesitas, también puedes descargar los archivos de la factura en tu servidor.
+
+# Otros comprobantes
+
+Los ejemplos anteriores muestran cómo emitir el tipo de factura más común: el **comprobante de
+ingresos**, pero existen otros 6 tipos de comprobantes fiscales. Actualmente, FacturAPI soporta
+la emisión de 2 tipos: **comprobante de ingreso** y **comprobante de egreso**.
+
+### Comprobante de Egreso
+
+```shell
+curl https://www.facturapi.io/v1/invoices \
+  -u "sk_test_API_KEY:" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "type": "E",
+        "customer": "58e93bd8e86eb318b0197456",
+        "description": "Devolución de Impresora HP G3700",
+        "total": 499.50
+        "payment_form": "06",
+        "relation": "03",
+        "related": ["UUID_de_factura_relacionada"]
+      }'
+```
+
+```javascript
+const facturapi = require('facturapi')('sk_test_API_KEY');
+facturapi.invoices.create({
+  type: facturapi.InvoiceType.EGRESO,
+  customer: customer.id,
+  description: 'Devolución de Impresora HP G3700',
+  total: 499.50,
+  payment_form: acturapi.PaymentForm.DINERO_ELECTRONICO,
+  relation: facturapi.InvoiceRelation.DEVOLUCION,
+  related: ['UUID_de_factura_relacionada']
+})
+  .then(invoice => { /* ... */ })
+  .catch(err => { /* handle the error */ })
+```
+
+```csharp
+var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
+{
+  ["type"] = Facturapi.InvoiceType.EGRESO,
+  ["customer"] = customer.Id,
+  ["description"] = "Devolución de Impresora HP G3700",
+  ["total"] = 499.50,
+  ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO,
+  ["relation"] = Facturapi.InvoiceRelation.DEVOLUCION,
+  ["related"] = new string[] { "UUID_de_factura_relacionada" }
+});
+
+```
+
+También conocido como **nota de crédito**. Para emitir este tipo de factura, debes especificar
+el tipo de comprobante en la misma llamada de creación de factura, pero ahora pasando los campos
+requeridos para la creación de comprobante de egreso.
+
+Para conocer más a fondo las opciones disponibles al crear un comprobante de egreso, consulta la
+[referencia del método Crear comprobante de egreso](#crear-comprobante-de-egreso).

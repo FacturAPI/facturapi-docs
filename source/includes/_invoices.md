@@ -35,7 +35,7 @@ Argumento | Tipo | Descripción
 **created_at** | date | Fecha de creación en formato ISO8601 (UTC String).
 **livemode** | boolean | `true`: fue creado en modo producción, `false`: fue creado en modo pruebas
 **status** | string | Estado actual de la factura. Posibles valores: `"valid"` si la factura fue emitida correctamente; `"canceled"` si fue cancelada.
-**customer** | hash | Información básica del cliente al que se le realiza la factura.
+**customer** | objeto | Información básica del cliente al que se le realiza la factura.
 **customer.id** | string | Identificador del cliente.
 **customer.legal_name** | string | Nombre Fiscal o Razón Social del cliente.
 **customer.tax_id** | string | RFC del cliente.
@@ -46,7 +46,7 @@ Argumento | Tipo | Descripción
 **payment_form** | string | Código que representa la forma de pago, según el catálogo del SAT.
 **items** | array | Arreglo de conceptos facturados.
 **items[].quantity** | integer | Cantidad de unidades del concepto facturado.
-**items[].product** | hash | Información básica del producto del concepto facturado.
+**items[].product** | objeto | Información básica del producto del concepto facturado.
 **items[].product.id** | string | Identificador del producto.
 **items[].product.unit_name** | string | Unidad de medida del producto.
 **items[].product.description** | string | Descripción del producto.
@@ -63,7 +63,7 @@ POST https://www.facturapi.io/v1/invoices
 
 ```shell
 curl https://www.facturapi.io/v1/invoices \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -u "sk_test_API_KEY:" \
   -H "Content-Type: application/json" \
   -d '{
     "customer": "58e93bd8e86eb318b0197456",
@@ -78,7 +78,7 @@ curl https://www.facturapi.io/v1/invoices \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = require('facturapi')('sk_test_API_KEY');
 facturapi.invoices.create({
   customer: '58e93bd8e86eb318b0197456',
   items: [{
@@ -139,8 +139,8 @@ Crea una nueva Factura
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **customer**<br><small>requerido</small> | string | none | Identificador del cliente a facturar
-**items**<br><small>requerido</small> | array | none | Arreglo de hashes que representan los productos y las cantidades de éstos a incluir en la factura.
-**items[].product**<br><small>requerido</small> | string ó hash | none | En el caso de tener productos fijos ya registrados (como en un marketplace) puedes enviar el Id del producto a facturar. O bien, si tu producto es cambiante (como en un SaaS) puedes enviar un hash con la información del producto (acepta los mismos elementos detallados en la sección Crear Producto), el cuál sólo se usará para generar la factura y no se guardará en tu catálogo de productos.
+**items**<br><small>requerido</small> | array | none | Arreglo de objetoes que representan los productos y las cantidades de éstos a incluir en la factura.
+**items[].product**<br><small>requerido</small> | string u objeto | none | En el caso de tener productos fijos ya registrados (como en un marketplace) puedes enviar el Id del producto a facturar. O bien, si tu producto es cambiante (como en un SaaS) puedes enviar un objeto con la información del producto (acepta los mismos elementos detallados en la sección Crear Producto), el cuál sólo se usará para generar la factura y no se guardará en tu catálogo de productos.
 **items[].quantity**<br><small>opcional</small> | integer | 1 | Cantidad de unidades del producto.
 **payment_form**<br><small>requerido</small> | string | none | Código de la forma de pago según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
 **payment_method**<br><small>opcional</small> | string | "PUE" (Pago en una sola exhibición) | Código del método de pago según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
@@ -221,12 +221,12 @@ GET https://www.facturapi.io/v1/invoices
 
 ```shell
 curl "https://www.facturapi.io/v1/invoices?customer=58e93bd8e86eb318b0197456&date[gt]=2017-01-01T06:00:00.000Z" \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -u "sk_test_API_KEY:" \
   -Gg
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = require('facturapi')('sk_test_API_KEY');
 facturapi.invoices.list()
   .then(list => { /* list.data contains the result array */ })
   .catch(err => { /* handle the error */ })
@@ -271,7 +271,7 @@ Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **q**<br><small>opcional</small> | string | "" | Consulta. Texto a buscar en el nombre fiscal del cliente o su RFC.
 **customer**<br><small>opcional</small> | string | "" | Identificador del cliente. Útil para obtener las facturas emitidas a un sólo cliente.
-**date**<br><small>opcional</small> | hash | none | Diccionario con atributos que representan el rango de fechas solicitado.
+**date**<br><small>opcional</small> | objeto | none | Diccionario con atributos que representan el rango de fechas solicitado.
 **date.gt**<br><small>opcional</small> | string | none | Regresa clientes cuya fecha de creación es posterior a esta fecha.
 **date.gte**<br><small>opcional</small> | string | none | Regresa clientes cuya fecha de creación es posterior o igual a esta fecha.
 **date.lt**<br><small>opcional</small> | string | none | Regresa clientes cuya fecha de creación es anterior a esta fecha.
@@ -291,11 +291,11 @@ GET https://www.facturapi.io/v1/invoices/{INVOICE_ID}
 
 ```shell
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:"
+  -u "sk_test_API_KEY:"
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = require('facturapi')('sk_test_API_KEY');
 facturapi.invoices.retrieve('58e93bd8e86eb318b019743d')
   .then(invoice => { /* ... */ })
   .catch(err => { /* handle the error */ })
@@ -346,20 +346,20 @@ GET https://www.facturapi.io/v1/invoices/{INVOICE_ID}/xml
 ```shell
 ## Descargar PDF y XML comprimidos en archivo ZIP
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/zip \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:"
+  -u "sk_test_API_KEY:"
 
 ## Descargar sólo el PDF
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/pdf \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:"
+  -u "sk_test_API_KEY:"
 
 ## Descargar sólo el XML
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/xml \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:"
+  -u "sk_test_API_KEY:"
 ```
 
 ```javascript
 const fs = require('fs');
-const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = require('facturapi')('sk_test_API_KEY');
 
 // Descargar PDF y XML comprimidos en archivo ZIP
 facturapi.invoices.downloadZip('58e93bd8e86eb318b019743d')
@@ -417,12 +417,12 @@ POST https://www.facturapi.io/v1/invoices/{INVOICE_ID}/email
 
 ```shell
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:"
+  -u "sk_test_API_KEY:"
   -X POST
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = require('facturapi')('sk_test_API_KEY');
 facturapi.invoices.sendByEmail('58e93bd8e86eb318b019743d')
   .then(() => { /* invoice has been sent */ })
   .catch(err => { /* handle the error */ })
@@ -452,12 +452,12 @@ DELETE https://www.facturapi.io/v1/invoices/{INVOICE_ID}
 
 ```shell
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -u "sk_test_API_KEY:" \
   -X DELETE
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = require('facturapi')('sk_test_API_KEY');
 facturapi.invoices.cancel('58e93bd8e86eb318b019743d')
   .then(() => { /* invoice.status is now 'canceled' */ })
   .catch(err => { /* handle the error */ })

@@ -36,7 +36,7 @@ Argumento | Tipo | Descripción
 **tax_id** | string | RFC del cliente.
 **email** | string | Dirección de correo electrónico al cual enviar las facturas generadas.
 **phone** | string | Teléfono del cliente que aparecerá en la factura impresa (PDF).
-**address** | hash | Domicilio fiscal.
+**address** | objeto | Domicilio fiscal.
 **address.street** | string | Calle
 **address.exterior** | string | Número exterior
 **address.interior** | string | Número interior
@@ -131,7 +131,7 @@ Argumento | Tipo | Default | Descripción
 **tax_id**<br><small>requerido</small> | string | none | RFC del cliente.
 **email**<br><small>requerido</small> | string | "" | Dirección de correo electrónico al cual enviar las facturas generadas.
 **phone**<br><small>opcional</small> | string | "" | Teléfono del cliente que aparecerá en la factura impresa (PDF).
-**address**<br><small>requerido</small> | hash | none | Domicilio fiscal.
+**address**<br><small>requerido</small> | objeto | none | Domicilio fiscal.
 **address.street**<br><small>opcional</small> | string | "" | Calle
 **address.exterior**<br><small>opcional</small> | string | "" | Número exterior
 **address.interior**<br><small>opcional</small> | string | "" | Número interior
@@ -219,7 +219,7 @@ Argumento | Tipo | Descripción
 **tax_id**<br><small>opcional</small> | string | RFC del cliente.
 **email**<br><small>opcional</small> | string | Dirección de correo electrónico al cual enviar las facturas generadas.
 **phone**<br><small>opcional</small> | string | Teléfono del cliente que aparecerá en la factura impresa (PDF).
-**address**<br><small>opcional</small> | hash | Domicilio fiscal.
+**address**<br><small>opcional</small> | objeto | Domicilio fiscal.
 **address.street**<br><small>opcional</small> | string | Calle
 **address.exterior**<br><small>opcional</small> | string | Número exterior
 **address.interior**<br><small>opcional</small> | string | Número interior
@@ -288,7 +288,7 @@ Obtiene la lista de clientes registrados en tu organización
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **q**<br><small>opcional</small> | string | "" | Consulta. Texto a buscar en `legal_name` (nombre fiscal) o en `tax_id` (RFC).
-**date**<br><small>opcional</small> | hash | none | Diccionario con parámetros que representan el rango de fechas solicitado.
+**date**<br><small>opcional</small> | objeto | none | Diccionario con parámetros que representan el rango de fechas solicitado.
 **date.gt**<br><small>opcional</small> | string | none | Regresa clientes cuya fecha de creación es posterior a esta fecha.
 **date.gte**<br><small>opcional</small> | string | none | Regresa clientes cuya fecha de creación es posterior o igual a esta fecha.
 **date.lt**<br><small>opcional</small> | string | none | Regresa clientes cuya fecha de creación es anterior a esta fecha.

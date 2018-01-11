@@ -253,11 +253,13 @@ curl https://www.facturapi.io/v1/invoices \
   -d '{
         "type": "E",
         "customer": "58e93bd8e86eb318b0197456",
-        "description": "Devolución de Impresora HP G3700",
-        "total": 499.50
         "payment_form": "06",
         "relation": "03",
-        "related": ["UUID_de_factura_relacionada"]
+        "related": ["UUID_de_factura_relacionada"],
+        "product": {
+          "description": "Devolución de Impresora HP G3700",
+          "price": 499.50
+        }
       }'
 ```
 
@@ -266,11 +268,13 @@ const facturapi = require('facturapi')('sk_test_API_KEY');
 facturapi.invoices.create({
   type: facturapi.InvoiceType.EGRESO,
   customer: customer.id,
-  description: 'Devolución de Impresora HP G3700',
-  total: 499.50,
   payment_form: acturapi.PaymentForm.DINERO_ELECTRONICO,
   relation: facturapi.InvoiceRelation.DEVOLUCION,
-  related: ['UUID_de_factura_relacionada']
+  related: ['UUID_de_factura_relacionada'],
+  product: {
+    description: 'Devolución de Impresora HP G3700',
+    price: 499.50
+  }
 })
   .then(invoice => { /* ... */ })
   .catch(err => { /* handle the error */ })
@@ -281,13 +285,15 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 {
   ["type"] = Facturapi.InvoiceType.EGRESO,
   ["customer"] = customer.Id,
-  ["description"] = "Devolución de Impresora HP G3700",
-  ["total"] = 499.50,
   ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO,
   ["relation"] = Facturapi.InvoiceRelation.DEVOLUCION,
-  ["related"] = new string[] { "UUID_de_factura_relacionada" }
+  ["related"] = new string[] { "UUID_de_factura_relacionada" },
+  ["product"] = new Dictionary<string, object>
+  {
+    ["description"] = "Devolución de Impresora HP G3700",
+    ["price"] = 499.50
+  }
 });
-
 ```
 
 También conocido como **nota de crédito**. Para emitir este tipo de factura, debes especificar

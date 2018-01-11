@@ -306,6 +306,8 @@ Argumento | Tipo | Default | Descripción
 **product.description**<br><small>requerido</small> | string | none | Resumen de la operación en una sola descripción. Deben mencionarse cada uno de los productos que contempla el descuento, devolución o bonificación aplicada y que contienen las facturas relacionadas. Si el egreso está basado en un pocentaje (como al aplicar un 30% de descuento), dicho porcentaje debe incluirse en la descripción junto al nombre del producto que corresponda.
 **product.price**<br><small>requerido</small> | decimal | none | Suma total de la cantidad devuelta, descontada o bonificada.
 **product.[...]**<br><small>opcional</small> | various | various | Puedes usar las demás propiedades de [Crear Producto](#crear-producto), con la diferencia de que las no mencionadas en esta sección son opcionales y adquirirán el valor recomendado para el comprobante de Egreso.
+**folio_number**<br><small>opcional</small> | string | Autoincremental | Número de folio asignado por la empresa para control interno. Si se omite, se asignará el valor autoincremental de la organización. Si se envía un valor, este nuevo valor se usará para designar el siguiente número de folio de la organización.
+**series**<br><small>opcional</small> | string | "" | Serie. De 1 a 25 caracteres designados por la empresa para control interno y sin validez fiscal.
 
 #### Relación entre facturas
 

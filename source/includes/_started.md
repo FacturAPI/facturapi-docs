@@ -239,7 +239,7 @@ $invoice = array(
       "quantity" => 1, // Optional. Defaults to 1.
       "product"  => "YOUR_PRODUCT_ID" // You can also pass a product object instead
     ),
-    array( 
+    array(
       "quantity" => 2,
         "product"  => array( 
         "description" => "Guitarra",

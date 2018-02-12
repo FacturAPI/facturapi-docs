@@ -100,6 +100,23 @@ var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, objec
 // Guarda el customer.Id para facturar a tu cliente
 ```
 
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+
+$customer = array(
+    "email"      => "email@example.com",
+    "legal_name" => "John Doe",
+    "tax_id"     => "ABCD101010XYZ",
+    "address"    => array(
+        "zip"    => "44940",
+        "street" => "Sunset Blvd"
+    )
+);
+
+$new_customer = $facturapi->Customers->create( $customer );
+```
+
 > <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
@@ -187,6 +204,18 @@ var customer = await facturapi.Customer.UpdateAsync("590ce6c56d04f840aa8438af", 
 });
 ```
 
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+
+$customer = array(
+    "email"      => "jjonas@example.com",
+    "legal_name" => "John Jonas",
+);
+
+$updated_customer = $facturapi->Customers->update( "ID", $customer );
+```
+
 > <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
@@ -257,6 +286,13 @@ var searchResult = await facturapi.Customer.ListAsync();
 // searchResult.Data is an array of Customer
 ```
 
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+
+$customers = $facturapi->Customers->all()
+```
+
 > <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
@@ -322,6 +358,13 @@ facturapi.customers.retrieve('590ce6c56d04f840aa8438af')
 var customer = await facturapi.Customer.RetrieveAsync("590ce6c56d04f840aa8438af");
 ```
 
+```php
+<?php
+facturapi = new Facturapi( FACTURAPI_KEY );
+
+$customer = $facturapi->Customers->retrieve( "5a3ee743f508333611ad6b3c" );
+```
+
 > <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
@@ -346,7 +389,6 @@ Argumento | Tipo | Descripción
 ---------:|:----:| -----------
 **id**<br><small>requerido</small> | string | Identificador del cliente
 
-
 ### Eliminar Cliente
 
 ```shell
@@ -364,6 +406,13 @@ facturapi.customers.del('590ce6c56d04f840aa8438af')
 
 ```csharp
 var customer = await facturapi.Customer.DeleteAsync("590ce6c56d04f840aa8438af");
+```
+
+```php
+<?php
+facturapi = new Facturapi( FACTURAPI_KEY );
+
+$facturapi->Customers->delete( "5a3fefd9f508333611ad6b43" );
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>

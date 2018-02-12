@@ -14,6 +14,10 @@ $> npm install --save facturapi
 PM> Install-Package Facturapi
 ```
 
+```php
+$> composer require "facturapi/facturapi-php"
+```
+
 Empieza por incluir el cliente de Facturapi en las dependencias de tu proyecto.
 
 ### Autenticación
@@ -35,6 +39,12 @@ const facturapi = require('facturapi')('sk_test_API_KEY');
 // tu llave secreta
 var facturapi = new Facturapi.Wrapper("sk_test_API_KEY");
 ```
+
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+```
+
 Inicializa el cliente de Facturapi con la llave secreta de tu organización.
 
 <aside class="notice">
@@ -87,6 +97,30 @@ var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, objec
 // Guarda el customer.Id para facturar a tu cliente
 ```
 
+```php
+<?php
+$customer = array(
+  "email" => "walterwhite@gmail.com", //Optional but useful to send invoice by email
+  "legal_name" => "Walter White", // Razón social
+  "tax_id" => "WIWA761018", //RFC
+  "address" => array(
+    "zip"=> "06800",
+    "street" => "Av. de los Rosales",
+    "exterior" => "123",
+    "neighborhood" => "Tepito"
+    // city, municipality and state are filled automatically from the zip code
+    // but if you want to, you can override their values
+    // city: 'México',
+    // municipality: 'Cuauhtémoc',
+    // state: 'Ciudad de México'
+  )
+);
+
+// Remember to store the customer.id in your records.
+// You will need it to create an invoice for this customer.
+$new_customer = $facturapi->Customers->create($customer);
+```
+
 Incluye en los parámetros de la llamada los datos fiscales de tu cliente. Para conocer qué otros
 datos puedes incluir, consulta la [referencia del método Crear Cliente](#crear-cliente).
 
@@ -125,6 +159,23 @@ var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
   ["price"] = 345.60,
   ["sku"] = "ABC1234"
 });
+```
+
+```php
+<?php
+$product = array(
+  "product_key" => "4319150114", // Clave Producto/Servicio from SAT's catalog. Log in to FacturAPI and use our tool to look it up.
+  "description" => "Apple iPhone 8",
+  "price"       => 345.60 // price in MXN.
+  // By default, taxes are calculated from the price with IVA 16%
+  // But again, you can override that by explicitly providing a taxes array
+  // "taxes" => array(
+  //   array ( "type" => \Facturapi\TaxType::IVA, "rate" => 0.16 ),
+  //   array ( "type" => \Facturapi\TaxType::ISR, "rate" => 0.03666, "withholding" => true )
+  // )
+);
+
+$new_product = $facturapi->Products->create( $product );
 ```
 
 Puedes registrar tu inventario de productos en Facturapi para almacenar los datos relevantes como
@@ -179,6 +230,33 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 });
 ```
 
+```php
+<?php
+$invoice = array(
+  "customer"     => "YOUR_CUSTOMER_ID",
+  "items"        => array(
+    array(
+      "quantity" => 1, // Optional. Defaults to 1.
+      "product"  => "YOUR_PRODUCT_ID" // You can also pass a product object instead
+    ),
+    array( 
+      "quantity" => 2,
+        "product"  => array( 
+        "description" => "Guitarra",
+        "product_key" => "01234567",
+        "price"       => 420.69,
+        "sku"         => "ABC4567"
+      )
+    ) // Add as many products as you want to include in your invoice
+  ),
+  "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
+  "folio_number" => "581",
+  "series"       => "F"
+);
+
+$new_invoice = $facturapi->Invoices->create( $invoice );
+```
+
 Ahora utiliza los `id`s del cliente y el producto que creaste para generar la factura.
 
 Para conocer más a fondo las opciones disponibles al crear una factura, consulta la
@@ -201,6 +279,11 @@ facturapi.invoices.sendByEmail(invoice.id)
 
 ```csharp
 await facturapi.Invoice.SendByEmailAsync(invoice.Id);
+```
+
+```php
+<?php
+$facturapi->Invoices->send_by_email("INVOICE_ID");
 ```
 
 Utilizando el `id` de la factura que acabamos de crear, podemos realizar operaciones como enviar
@@ -234,6 +317,15 @@ var zipStream = await facturapi.Invoice.DownloadZipAsync(invoice.Id);
 var file = new System.IO.FileStrem("C:\\route\\to\\save\\invoice.zip", FileMode.Create);
 zipStream.CopyTo(file);
 file.Close();
+```
+
+```php
+<?php
+$facturapi->Invoices->download_zip("INVOICE_ID") // stream containing the PDF and XML as a ZIP file or
+
+$facturapi->Invoices->download_pdf("INVOICE_ID") // stream containing the PDF file or
+
+$facturapi->Invoices->download_xml("INVOICE_ID") // stream containing the XML file or
 ```
 
 Si lo necesitas, también puedes descargar los archivos de la factura en tu servidor.
@@ -294,6 +386,36 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
     ["price"] = 499.50
   }
 });
+```
+
+```php
+<?php
+$invoice = array(
+    "type"         => \Facturapi\InvoiceType::EGRESO,
+    "customer"     => "YOUR_CUSTOMER_ID",
+    "items"        => array(
+        array(
+            "quantity" => 1,
+            "product"  => "YOUR_PRODUCT_ID"
+        ),
+        array(
+            "quantity" => 2,
+            "product"  => array(
+                "description" => "Guitarra",
+                "product_key" => "01234567",
+                "price"       => 420.69,
+                "sku"         => "ABC4567"
+            )
+        )
+    ),
+    "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
+    "relation"     => \Facturapi\InvoiceRelation::DEVOLUCION,
+    "related"      => [ 'UUID_de_factura_relacionada' ],
+    "folio_number" => "581",
+    "series"       => "F"
+);
+
+$new_invoice = $facturapi->Invoices->create( $invoice );
 ```
 
 También conocido como **nota de crédito**. Para emitir este tipo de factura, debes especificar

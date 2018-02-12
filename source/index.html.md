@@ -5,6 +5,7 @@ language_tabs:
   - shell: cURL
   - javascript: Node.js
   - csharp: .NET
+  - php: PHP
 
 toc_footers:
   - <a href='https://www.facturapi.io' target='_blank'>Obten tu llave privada</a>

@@ -360,7 +360,7 @@ var customer = await facturapi.Customer.RetrieveAsync("590ce6c56d04f840aa8438af"
 
 ```php
 <?php
-facturapi = new Facturapi( FACTURAPI_KEY );
+$facturapi = new Facturapi( FACTURAPI_KEY );
 
 $customer = $facturapi->Customers->retrieve( "5a3ee743f508333611ad6b3c" );
 ```
@@ -410,7 +410,7 @@ var customer = await facturapi.Customer.DeleteAsync("590ce6c56d04f840aa8438af");
 
 ```php
 <?php
-facturapi = new Facturapi( FACTURAPI_KEY );
+$facturapi = new Facturapi( FACTURAPI_KEY );
 
 $facturapi->Customers->delete( "5a3fefd9f508333611ad6b43" );
 ```

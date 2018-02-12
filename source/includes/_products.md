@@ -84,6 +84,20 @@ var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
 });
 ```
 
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+
+$product = array(
+    "description" => "Hukulele",
+    "product_key" => "60131303",
+    "price"       => 345.60,
+    "sku"         => "ABC1234"
+);
+
+$new_product = $facturapi->Products->create( $product );
+```
+
 > <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
@@ -161,6 +175,17 @@ var product = await facturapi.Product.UpdateAsync("590e22c26d04f840aa8438b2", ne
 });
 ```
 
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+
+$product = array(
+    "description" => "Guitarra"
+);
+
+$updated_product = $facturapi->Products->update( "5a3f3e35f508333611ad6b3e", $product );
+```
+
 > <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
@@ -230,6 +255,13 @@ var searchResult = await facturapi.Product.ListAsync();
 // searchResult.Data is an array of Products
 ```
 
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+
+$products = $facturapi->Products->all();
+```
+
 > <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
@@ -296,6 +328,13 @@ facturapi.products.retrieve('590e22c26d04f840aa8438b2')
 var product = await facturapi.Product.RetrieveAsync("590e22c26d04f840aa8438b2");
 ```
 
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+
+$product = $facturapi->Products->retrieve( "5a3ee743f508333611ad6b3c" );
+```
+
 > <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
@@ -343,6 +382,13 @@ facturapi.products.del('590e22c26d04f840aa8438b2')
 
 ```csharp
 var product = await facturapi.Product.DeleteAsync("590e22c26d04f840aa8438b2");
+```
+
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+
+$facturapi->Products->delete( "5a3f3e35f508333611ad6b3e" );
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>

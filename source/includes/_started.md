@@ -100,13 +100,13 @@ var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, objec
 ```php
 <?php
 $customer = array(
-  "email" => "walterwhite@gmail.com", //Optional but useful to send invoice by email
+  "email"      => "walterwhite@gmail.com", //Optional but useful to send invoice by email
   "legal_name" => "Walter White", // Razón social
-  "tax_id" => "WIWA761018", //RFC
-  "address" => array(
-    "zip"=> "06800",
-    "street" => "Av. de los Rosales",
-    "exterior" => "123",
+  "tax_id"     => "WIWA761018", //RFC
+  "address"    => array(
+    "zip"          => "06800",
+    "street"       => "Av. de los Rosales",
+    "exterior"     => "123",
     "neighborhood" => "Tepito"
     // city, municipality and state are filled automatically from the zip code
     // but if you want to, you can override their values
@@ -233,15 +233,15 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 ```php
 <?php
 $invoice = array(
-  "customer"     => "YOUR_CUSTOMER_ID",
-  "items"        => array(
+  "customer" => "YOUR_CUSTOMER_ID",
+  "items"    => array(
     array(
       "quantity" => 1, // Optional. Defaults to 1.
       "product"  => "YOUR_PRODUCT_ID" // You can also pass a product object instead
     ),
     array(
       "quantity" => 2,
-        "product"  => array( 
+      "product"  => array(
         "description" => "Guitarra",
         "product_key" => "01234567",
         "price"       => 420.69,
@@ -391,28 +391,28 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 ```php
 <?php
 $invoice = array(
-    "type"         => \Facturapi\InvoiceType::EGRESO,
-    "customer"     => "YOUR_CUSTOMER_ID",
-    "items"        => array(
-        array(
-            "quantity" => 1,
-            "product"  => "YOUR_PRODUCT_ID"
-        ),
-        array(
-            "quantity" => 2,
-            "product"  => array(
-                "description" => "Guitarra",
-                "product_key" => "01234567",
-                "price"       => 420.69,
-                "sku"         => "ABC4567"
-            )
-        )
+  "type"     => \Facturapi\InvoiceType::EGRESO,
+  "customer" => "YOUR_CUSTOMER_ID",
+  "items"    => array(
+    array(
+      "quantity" => 1,
+      "product"  => "YOUR_PRODUCT_ID"
     ),
-    "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
-    "relation"     => \Facturapi\InvoiceRelation::DEVOLUCION,
-    "related"      => [ 'UUID_de_factura_relacionada' ],
-    "folio_number" => "581",
-    "series"       => "F"
+    array(
+      "quantity" => 2,
+      "product"  => array(
+      "description" => "Guitarra",
+      "product_key" => "01234567",
+      "price"       => 420.69,
+      "sku"         => "ABC4567"
+      )
+    )
+  ),
+  "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
+  "relation"     => \Facturapi\InvoiceRelation::DEVOLUCION,
+  "related"      => [ 'UUID_de_factura_relacionada' ],
+  "folio_number" => "581",
+  "series"       => "F"
 );
 
 $new_invoice = $facturapi->Invoices->create( $invoice );

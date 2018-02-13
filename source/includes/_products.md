@@ -89,10 +89,10 @@ var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
 $facturapi = new Facturapi( FACTURAPI_KEY );
 
 $product = array(
-    "description" => "Hukulele",
-    "product_key" => "60131303",
-    "price"       => 345.60,
-    "sku"         => "ABC1234"
+  "description" => "Hukulele",
+  "product_key" => "60131303",
+  "price"       => 345.60,
+  "sku"         => "ABC1234"
 );
 
 $new_product = $facturapi->Products->create( $product );
@@ -180,7 +180,7 @@ var product = await facturapi.Product.UpdateAsync("590e22c26d04f840aa8438b2", ne
 $facturapi = new Facturapi( FACTURAPI_KEY );
 
 $product = array(
-    "description" => "Guitarra"
+  "description" => "Guitarra"
 );
 
 $updated_product = $facturapi->Products->update( "5a3f3e35f508333611ad6b3e", $product );

@@ -303,28 +303,28 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 $facturapi = new Facturapi( FACTURAPI_KEY );
 
 $invoice = array(
-    "type"         => \Facturapi\InvoiceType::EGRESO,
-    "customer"     => "YOUR_CUSTOMER_ID",
-    "items"        => array(
-        array(
-            "quantity" => 1,
-            "product"  => "YOUR_PRODUCT_ID"
-        ),
-        array(
-            "quantity" => 2,
-            "product"  => array(
-                "description" => "Guitarra",
-                "product_key" => "01234567",
-                "price"       => 420.69,
-                "sku"         => "ABC4567"
-            )
-        )
+  "type"     => \Facturapi\InvoiceType::EGRESO,
+  "customer" => "YOUR_CUSTOMER_ID",
+  "items"    => array(
+    array(
+      "quantity" => 1,
+      "product"  => "YOUR_PRODUCT_ID"
     ),
-    "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
-    "relation"     => \Facturapi\InvoiceRelation::DEVOLUCION,
-    "related"      => [ 'UUID_de_factura_relacionada' ],
-    "folio_number" => "581",
-    "series"       => "F"
+    array(
+      "quantity" => 2,
+      "product"  => array(
+        "description" => "Guitarra",
+        "product_key" => "01234567",
+        "price"       => 420.69,
+        "sku"         => "ABC4567"
+      )
+    )
+  ),
+  "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
+  "relation"     => \Facturapi\InvoiceRelation::DEVOLUCION,
+  "related"      => [ 'UUID_de_factura_relacionada' ],
+  "folio_number" => "581",
+  "series"       => "F"
 );
 
 $new_invoice = $facturapi->Invoices->create( $invoice );

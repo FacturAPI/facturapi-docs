@@ -115,6 +115,35 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 
 ```
 
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+
+$invoice = array(
+  "customer"     => "YOUR_CUSTOMER_ID",
+  "items"        => array(
+    array(
+      "quantity" => 1, // Optional. Defaults to 1.
+      "product"  => "YOUR_PRODUCT_ID" // You can also pass a product object instead
+    ),
+    array(
+      "quantity" => 2,
+        "product"  => array(
+        "description" => "Guitarra",
+        "product_key" => "01234567",
+        "price"       => 420.69,
+        "sku"         => "ABC4567"
+      )
+    ) // Add as many products as you want to include in your invoice
+  ),
+  "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
+  "folio_number" => "581",
+  "series"       => "F"
+);
+
+$new_invoice = $facturapi->Invoices->create( $invoice );
+```
+
 > <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
@@ -275,6 +304,38 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 });
 ```
 
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+
+$invoice = array(
+  "type"     => \Facturapi\InvoiceType::EGRESO,
+  "customer" => "YOUR_CUSTOMER_ID",
+  "items"    => array(
+    array(
+      "quantity" => 1,
+      "product"  => "YOUR_PRODUCT_ID"
+    ),
+    array(
+      "quantity" => 2,
+      "product"  => array(
+        "description" => "Guitarra",
+        "product_key" => "01234567",
+        "price"       => 420.69,
+        "sku"         => "ABC4567"
+      )
+    )
+  ),
+  "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
+  "relation"     => \Facturapi\InvoiceRelation::DEVOLUCION,
+  "related"      => [ 'UUID_de_factura_relacionada' ],
+  "folio_number" => "581",
+  "series"       => "F"
+);
+
+$new_invoice = $facturapi->Invoices->create( $invoice );
+```
+
 > <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
@@ -359,6 +420,13 @@ var searchResult = await facturapi.Invoice.ListAsync();
 // searchResult.Data is an Invoice array
 ```
 
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+
+$invoices = $facturapi->Invoices->all();
+```
+
 > <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json
@@ -425,6 +493,13 @@ facturapi.invoices.retrieve('58e93bd8e86eb318b019743d')
 
 ```csharp
 var invoice = await facturapi.Invoice.RetrieveAsync("58e93bd8e86eb318b019743d");
+```
+
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+
+$invoice = $facturapi->Invoices->retrieve( "59914af9b1bece552fcaaafd" );
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>
@@ -519,6 +594,17 @@ zipStream.CopyTo(file);
 file.Close();
 ```
 
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+
+$zip = $facturapi->Invoices->download_zip("INVOICE_ID") // stream containing the PDF and XML as a ZIP file or
+
+$pdf = $facturapi->Invoices->download_pdf("INVOICE_ID") // stream containing the PDF file or
+
+$xml = $facturapi->Invoices->download_xml("INVOICE_ID") // stream containing the XML file or
+```
+
 Descarga tu Factura en PDF, XML o ambas comprimidas en ZIP
 
 #### Argumentos
@@ -554,6 +640,13 @@ facturapi.invoices.sendByEmail('58e93bd8e86eb318b019743d')
 await facturapi.Invoice.SendByEmailAsync("58e93bd8e86eb318b019743d");
 ```
 
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+
+$facturapi->Invoices->send_by_email("INVOICE_ID");
+```
+
 Envía un correo electrónico al email de tu cliente, con los archivos XML y PDF adjuntos al mensaje.
 
 #### Argumentos
@@ -587,6 +680,13 @@ facturapi.invoices.cancel('58e93bd8e86eb318b019743d')
 
 ```csharp
 var invoice = await facturapi.Invoice.CancelAsync("58e93bd8e86eb318b019743d");
+```
+
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+
+$facturapi->Invoices->cancel("INVOICE_ID");
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>

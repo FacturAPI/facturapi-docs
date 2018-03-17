@@ -66,7 +66,7 @@ curl https://www.facturapi.io/v1/products \
 ```javascript
 const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 facturapi.products.create({
-  description: 'Licuadora',
+  description: 'Ukulele',
   product_key: 123456,
   price: 345.60,
   sku: 'ABC1234'
@@ -77,7 +77,7 @@ facturapi.products.create({
 ```csharp
 var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
 {
-  ["description"] = "Licuadora",
+  ["description"] = "Ukulele",
   ["product_key"] = 123456,
   ["price"] = 345.60,
   ["sku"] = "ABC1234"
@@ -89,10 +89,10 @@ var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
 $facturapi = new Facturapi( FACTURAPI_KEY );
 
 $product = array(
-  "description" => "Hukulele",
+  "description" => "Ukulele",
   "product_key" => "60131303",
-  "price"       => 345.60,
-  "sku"         => "ABC1234"
+  "price" => 345.60,
+  "sku" => "ABC1234"
 );
 
 $new_product = $facturapi->Products->create( $product );

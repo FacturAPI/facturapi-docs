@@ -100,13 +100,13 @@ var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, objec
 ```php
 <?php
 $customer = array(
-  "email"      => "walterwhite@gmail.com", //Optional but useful to send invoice by email
+  "email" => "walterwhite@gmail.com", //Optional but useful to send invoice by email
   "legal_name" => "Walter White", // Razón social
-  "tax_id"     => "WIWA761018", //RFC
-  "address"    => array(
-    "zip"          => "06800",
-    "street"       => "Av. de los Rosales",
-    "exterior"     => "123",
+  "tax_id" => "WIWA761018", //RFC
+  "address" => array(
+    "zip" => "06800",
+    "street" => "Av. de los Rosales",
+    "exterior" => "123",
     "neighborhood" => "Tepito"
     // city, municipality and state are filled automatically from the zip code
     // but if you want to, you can override their values
@@ -166,7 +166,7 @@ var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
 $product = array(
   "product_key" => "4319150114", // Clave Producto/Servicio from SAT's catalog. Log in to FacturAPI and use our tool to look it up.
   "description" => "Apple iPhone 8",
-  "price"       => 345.60 // price in MXN.
+  "price" => 345.60 // price in MXN.
   // By default, taxes are calculated from the price with IVA 16%
   // But again, you can override that by explicitly providing a taxes array
   // "taxes" => array(
@@ -234,24 +234,24 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 <?php
 $invoice = array(
   "customer" => "YOUR_CUSTOMER_ID",
-  "items"    => array(
+  "items" => array(
     array(
       "quantity" => 1, // Optional. Defaults to 1.
-      "product"  => "YOUR_PRODUCT_ID" // You can also pass a product object instead
+      "product" => "YOUR_PRODUCT_ID" // You can also pass a product object instead
     ),
     array(
       "quantity" => 2,
-      "product"  => array(
+      "product" => array(
         "description" => "Guitarra",
         "product_key" => "01234567",
-        "price"       => 420.69,
-        "sku"         => "ABC4567"
+        "price" => 420.69,
+        "sku" => "ABC4567"
       )
     ) // Add as many products as you want to include in your invoice
   ),
   "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
   "folio_number" => "581",
-  "series"       => "F"
+  "series" => "F"
 );
 
 $new_invoice = $facturapi->Invoices->create( $invoice );
@@ -260,7 +260,7 @@ $new_invoice = $facturapi->Invoices->create( $invoice );
 Ahora utiliza los `id`s del cliente y el producto que creaste para generar la factura.
 
 Para conocer más a fondo las opciones disponibles al crear una factura, consulta la
-[referencia del método Crear Factura](#crear-factura).
+[referencia del método Crear Factura](#crear-factura-de-ingreso).
 
 ### Envíala por correo
 
@@ -332,95 +332,8 @@ Si lo necesitas, también puedes descargar los archivos de la factura en tu serv
 
 # Otros comprobantes
 
-Los ejemplos anteriores muestran cómo emitir el tipo de factura más común: el **comprobante de
-ingresos**, pero existen otros 6 tipos de comprobantes fiscales. Actualmente, FacturAPI soporta
-la emisión de 2 tipos: **comprobante de ingreso** y **comprobante de egreso**.
+Los ejemplos anteriores muestran cómo emitir el tipo de factura más común: el **comprobante de ingresos**. Actualmente, FacturAPI soporta la emisión de los 3 comprobantes más utilizados, de los 5 tipos que existen. Puedes ver en la sección de referencia cómo cear los diferentes tipos de comprobantes que soportamos:
 
-### Comprobante de Egreso
-
-```shell
-curl https://www.facturapi.io/v1/invoices \
-  -u "sk_test_API_KEY:" \
-  -H "Content-Type: application/json" \
-  -d '{
-        "type": "E",
-        "customer": "58e93bd8e86eb318b0197456",
-        "payment_form": "06",
-        "relation": "03",
-        "related": ["UUID_de_factura_relacionada"],
-        "product": {
-          "description": "Devolución de Impresora HP G3700",
-          "price": 499.50
-        }
-      }'
-```
-
-```javascript
-const facturapi = require('facturapi')('sk_test_API_KEY');
-facturapi.invoices.create({
-  type: facturapi.InvoiceType.EGRESO,
-  customer: customer.id,
-  payment_form: acturapi.PaymentForm.DINERO_ELECTRONICO,
-  relation: facturapi.InvoiceRelation.DEVOLUCION,
-  related: ['UUID_de_factura_relacionada'],
-  product: {
-    description: 'Devolución de Impresora HP G3700',
-    price: 499.50
-  }
-})
-  .then(invoice => { /* ... */ })
-  .catch(err => { /* handle the error */ })
-```
-
-```csharp
-var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
-{
-  ["type"] = Facturapi.InvoiceType.EGRESO,
-  ["customer"] = customer.Id,
-  ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO,
-  ["relation"] = Facturapi.InvoiceRelation.DEVOLUCION,
-  ["related"] = new string[] { "UUID_de_factura_relacionada" },
-  ["product"] = new Dictionary<string, object>
-  {
-    ["description"] = "Devolución de Impresora HP G3700",
-    ["price"] = 499.50
-  }
-});
-```
-
-```php
-<?php
-$invoice = array(
-  "type"     => \Facturapi\InvoiceType::EGRESO,
-  "customer" => "YOUR_CUSTOMER_ID",
-  "items"    => array(
-    array(
-      "quantity" => 1,
-      "product"  => "YOUR_PRODUCT_ID"
-    ),
-    array(
-      "quantity" => 2,
-      "product"  => array(
-      "description" => "Guitarra",
-      "product_key" => "01234567",
-      "price"       => 420.69,
-      "sku"         => "ABC4567"
-      )
-    )
-  ),
-  "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
-  "relation"     => \Facturapi\InvoiceRelation::DEVOLUCION,
-  "related"      => [ 'UUID_de_factura_relacionada' ],
-  "folio_number" => "581",
-  "series"       => "F"
-);
-
-$new_invoice = $facturapi->Invoices->create( $invoice );
-```
-
-También conocido como **nota de crédito**. Para emitir este tipo de factura, debes especificar
-el tipo de comprobante en la misma llamada de creación de factura, pero ahora pasando los campos
-requeridos para la creación de comprobante de egreso.
-
-Para conocer más a fondo las opciones disponibles al crear un comprobante de egreso, consulta la
-[referencia del método Crear comprobante de egreso](#crear-comprobante-de-egreso).
+- [Crear Factura de Ingreso](#crear-factura-de-ingreso)
+- [Crear Factura de Egreso](#crear-factura-de-egreso)
+- [Crear Factura de Recepción de Pagos](#crear-factura-de-recepci-n-de-pagos)

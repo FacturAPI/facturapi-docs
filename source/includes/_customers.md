@@ -105,11 +105,11 @@ var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, objec
 $facturapi = new Facturapi( FACTURAPI_KEY );
 
 $customer = array(
-  "email"      => "email@example.com",
+  "email" => "email@example.com",
   "legal_name" => "John Doe",
-  "tax_id"     => "ABCD101010XYZ",
-  "address"    => array(
-    "zip"    => "44940",
+  "tax_id" => "ABCD101010XYZ",
+  "address" => array(
+    "zip" => "44940",
     "street" => "Sunset Blvd"
   )
 );
@@ -209,7 +209,7 @@ var customer = await facturapi.Customer.UpdateAsync("590ce6c56d04f840aa8438af", 
 $facturapi = new Facturapi( FACTURAPI_KEY );
 
 $customer = array(
-  "email"      => "jjonas@example.com",
+  "email" => "jjonas@example.com",
   "legal_name" => "John Jonas",
 );
 

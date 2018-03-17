@@ -54,7 +54,7 @@ Argumento | Tipo | Descripción
 **currency** | string | Código de la moneda usada, acorde al estándar <a href="https://es.wikipedia.org/wiki/ISO_4217" target="_blank">ISO 4217</a>.
 **exchange** | decimal | Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos que equivalen a una unidad de la divisa señalada en el atributo `currency`.
 
-### Crear Factura
+### Crear Factura de Ingreso
 
 > <h4 class="toc-ignore">Definición</h4>
 
@@ -120,25 +120,25 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 $facturapi = new Facturapi( FACTURAPI_KEY );
 
 $invoice = array(
-  "customer"     => "YOUR_CUSTOMER_ID",
-  "items"        => array(
+  "customer" => "YOUR_CUSTOMER_ID",
+  "items" => array(
     array(
       "quantity" => 1, // Optional. Defaults to 1.
-      "product"  => "YOUR_PRODUCT_ID" // You can also pass a product object instead
+      "product" => "YOUR_PRODUCT_ID" // You can also pass a product object instead
     ),
     array(
       "quantity" => 2,
-        "product"  => array(
+        "product" => array(
         "description" => "Guitarra",
         "product_key" => "01234567",
-        "price"       => 420.69,
-        "sku"         => "ABC4567"
+        "price" => 420.69,
+        "sku" => "ABC4567"
       )
     ) // Add as many products as you want to include in your invoice
   ),
   "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
   "folio_number" => "581",
-  "series"       => "F"
+  "series" => "F"
 );
 
 $new_invoice = $facturapi->Invoices->create( $invoice );

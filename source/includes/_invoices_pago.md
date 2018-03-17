@@ -76,12 +76,12 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 $facturapi = new Facturapi( FACTURAPI_KEY );
 
 $invoice = array(
-  "type"     => \Facturapi\InvoiceType::PAGO,
+  "type" => \Facturapi\InvoiceType::PAGO,
   "customer" => "YOUR_CUSTOMER_ID",
-  "payments"    => array(
+  "payments" => array(
     array(
       "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
-      "related"  => array(
+      "related" => array(
         array(
           "uuid" => "UUID_de_factura_relacionada",
           "installment" => 1,

@@ -63,12 +63,12 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 $facturapi = new Facturapi( FACTURAPI_KEY );
 
 $invoice = array(
-  "type"     => \Facturapi\InvoiceType::EGRESO,
+  "type" => \Facturapi\InvoiceType::EGRESO,
   "customer" => "YOUR_CUSTOMER_ID",
   "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
-  "relation"     => \Facturapi\InvoiceRelation::DEVOLUCION,
-  "related"      => "UUID_de_factura_relacionada",
-  "product"    => array(
+  "relation" => \Facturapi\InvoiceRelation::DEVOLUCION,
+  "related" => "UUID_de_factura_relacionada",
+  "product" => array(
     "description" => "Devolución de Impresora HP G3700",
     "price" => 499.50
   )

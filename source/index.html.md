@@ -18,6 +18,9 @@ includes:
   - customers
   - products
   - invoices
+  - invoices_egreso
+  - invoices_pago
+  - invoices_list
   - errors
 
 search: false

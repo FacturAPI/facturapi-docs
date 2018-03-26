@@ -146,7 +146,7 @@ Argumento | Tipo | Default | Descripción
 **payments[].related[].uuid**<br><small>requerido</small> | string | none | Folio fiscal ó UUID del comprobante de ingreso relacionado.
 **payments[].related[].installment**<br><small>requerido</small> | integer | none | Número de parcialidad que representa este pago para la factura relacionada.
 **payments[].related[].last_balance**<br><small>requerido</small> | decimal | none | Cantidad que estaba pendiente por pagar antes de recibir este pago.
-**payments[].related[].amount**<br><small>requerido</small> | decimal | none | Cantidad recibida por pago del comprobante relacionado, usando el método de pago indicado este elemento del arreglo de pagos.
+**payments[].related[].amount**<br><small>requerido</small> | decimal | none | Cantidad del pago correspondiente al comprobante relacionado, usando el método de pago indicado en este elemento del arreglo de pagos.
 **payments[].related[].currency**<br><small>opcional</small> | string | "MXN" | Si la moneda utilizada en la factura relacionada no es moneda nacional (MXN), debe especificarse su valor acorde al estándar <a href="https://es.wikipedia.org/wiki/ISO_4217" target="_blank">ISO 4217</a>.
 **payments[].related[].exchange**<br><small>opcional</small> | decimal | 1.0 | Si la moneda utilizada en la factura relacionada no es moneda nacional (MXN), debe especificarse el tipo de cambio.
 **payments[].related[].folio_number**<br><small>opcional</small> | integer | no se incluye | Número de folio asignado por la empresa para control interno.

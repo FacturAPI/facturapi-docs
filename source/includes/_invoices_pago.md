@@ -151,3 +151,18 @@ Argumento | Tipo | Default | Descripción
 **payments[].related[].exchange**<br><small>opcional</small> | decimal | 1.0 | Si la moneda utilizada en la factura relacionada no es moneda nacional (MXN), debe especificarse el tipo de cambio.
 **payments[].related[].folio_number**<br><small>opcional</small> | integer | no se incluye | Número de folio asignado por la empresa para control interno.
 **payments[].related[].series**<br><small>opcional</small> | string | "" | Serie. De 1 a 25 caracteres designados por la empresa para control interno.
+
+#### Opciones avanzadas (opcionales)
+
+Argumento | Tipo | Descripción
+---------:|:----:| -----------
+**payments[].numOperacion**<br> | string | Número de cheque, de autorización, de referencia, clave de rastreo SPEI, línea de captura o algún número de referencia que permita identificar la operación correspondiente al pago efectuado.
+**payments[].rfcEmisorCtaOrd**<br> | string | RFC de la entidad emisora de la cuenta de origen, es decir, la operadora, banco, institución financiera, emisor de monedero electrónico, etc.
+**payments[].nomBancoOrdExt**<br> | string | Nombre del banco ordenante.
+**payments[].ctaOrdenante**<br> | string | Número de cuenta con la que se realizó el pago.
+**payments[].rfcEmisorCtaBen**<br> | string | RFC de la entidad de la cuenta operadora destino, es decir, la operadora, banco, institución financiera, emisor de monedero electrónico, etc.
+**payments[].ctaBeneficiario**<br> | string | Número de cuenta donde se recibió el pago.
+**payments[].tipoCadPago**<br> | string | Clave del tipo de cadena de pago que genera la entidad receptora del pago. Si existe este campo, es obligatorio registrar los campos certPago, cadPago y selloPago.
+**payments[].certPago**<br> | string | Certificado que corresponde al pago, como una cadena de texto en formato base 64.
+**payments[].cadPago**<br> | string | Cadena original del comprobante de pago generado por la entidad emisora de la cuenta beneficiaria.
+**payments[].selloPago**<br> | string | Sello digital que se asocie al pago expresado como una cadena de texto en formato base 64

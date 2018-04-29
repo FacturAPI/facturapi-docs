@@ -35,7 +35,7 @@ Argumento | Tipo | Descripción
 **created_at** | date | Fecha de creación en formato ISO8601 (UTC String).
 **livemode** | boolean | `true`: fue creado en modo producción, `false`: fue creado en modo pruebas
 **status** | string | Estado actual de la factura. Posibles valores: `"valid"` si la factura fue emitida correctamente; `"canceled"` si fue cancelada.
-**customer** | objeto | Información básica del cliente al que se le realiza la factura.
+**customer** | object | Información básica del cliente al que se le realiza la factura.
 **customer.id** | string | Identificador del cliente.
 **customer.legal_name** | string | Nombre Fiscal o Razón Social del cliente.
 **customer.tax_id** | string | RFC del cliente.
@@ -47,7 +47,7 @@ Argumento | Tipo | Descripción
 **items** | array | Arreglo de conceptos facturados.
 **items[].quantity** | integer | Cantidad de unidades del concepto facturado.
 **items[].discount** | decimal | Monto total de descuento aplicado a este concepto.
-**items[].product** | objeto | Información básica del producto del concepto facturado.
+**items[].product** | object | Información básica del producto del concepto facturado.
 **items[].product.id** | string | Identificador del producto.
 **items[].product.unit_name** | string | Unidad de medida del producto.
 **items[].product.description** | string | Descripción del producto.
@@ -172,7 +172,7 @@ Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **customer**<br><small>requerido</small> | string | none | Identificador del cliente a facturar
 **items**<br><small>requerido</small> | array | none | Arreglo de objetoes que representan los productos y las cantidades de éstos a incluir en la factura.
-**items[].product**<br><small>requerido</small> | string u objeto | none | En el caso de tener productos fijos ya registrados (como en un marketplace) puedes enviar el Id del producto a facturar. O bien, si tu producto es cambiante (como en un SaaS) puedes enviar un objeto con la información del producto (acepta los mismos elementos detallados en la sección Crear Producto), el cuál sólo se usará para generar la factura y no se guardará en tu catálogo de productos.
+**items[].product**<br><small>requerido</small> | string u object | none | En el caso de tener productos fijos ya registrados (como en un marketplace) puedes enviar el Id del producto a facturar. O bien, si tu producto es cambiante (como en un SaaS) puedes enviar un objeto con la información del producto (acepta los mismos elementos detallados en la sección Crear Producto), el cuál sólo se usará para generar la factura y no se guardará en tu catálogo de productos.
 **items[].quantity**<br><small>opcional</small> | integer | 1 | Cantidad de unidades del producto.
 **items[].discount**<br><small>opcional</small> | decimal | 0 | Monto del descuento total a aplicar a este concepto.
 **payment_form**<br><small>requerido</small> | string | none | Código de la forma de pago según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.

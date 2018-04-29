@@ -67,7 +67,7 @@ Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **q**<br><small>opcional</small> | string | "" | Consulta. Texto a buscar en el nombre fiscal del cliente o su RFC.
 **customer**<br><small>opcional</small> | string | "" | Identificador del cliente. Útil para obtener las facturas emitidas a un sólo cliente.
-**date**<br><small>opcional</small> | objeto | none | Diccionario con atributos que representan el rango de fechas solicitado.
+**date**<br><small>opcional</small> | object | none | Diccionario con atributos que representan el rango de fechas solicitado.
 **date.gt**<br><small>opcional</small> | string | none | Regresa clientes cuya fecha de creación es posterior a esta fecha.
 **date.gte**<br><small>opcional</small> | string | none | Regresa clientes cuya fecha de creación es posterior o igual a esta fecha.
 **date.lt**<br><small>opcional</small> | string | none | Regresa clientes cuya fecha de creación es anterior a esta fecha.

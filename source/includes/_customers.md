@@ -36,7 +36,7 @@ Argumento | Tipo | Descripción
 **tax_id** | string | RFC del cliente.
 **email** | string | Dirección de correo electrónico al cual enviar las facturas generadas.
 **phone** | string | Teléfono del cliente que aparecerá en la factura impresa (PDF).
-**address** | objeto | Domicilio fiscal.
+**address** | object | Domicilio fiscal.
 **address.street** | string | Calle
 **address.exterior** | string | Número exterior
 **address.interior** | string | Número interior
@@ -104,7 +104,7 @@ var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, objec
 <?php
 $facturapi = new Facturapi( FACTURAPI_KEY );
 
-$customer = array(
+$customer = $facturapi->Customers->create(array(
   "email" => "email@example.com",
   "legal_name" => "John Doe",
   "tax_id" => "ABCD101010XYZ",
@@ -112,9 +112,7 @@ $customer = array(
     "zip" => "44940",
     "street" => "Sunset Blvd"
   )
-);
-
-$new_customer = $facturapi->Customers->create( $customer );
+));
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>
@@ -148,7 +146,7 @@ Argumento | Tipo | Default | Descripción
 **tax_id**<br><small>requerido</small> | string | none | RFC del cliente.
 **email**<br><small>requerido</small> | string | "" | Dirección de correo electrónico al cual enviar las facturas generadas.
 **phone**<br><small>opcional</small> | string | "" | Teléfono del cliente que aparecerá en la factura impresa (PDF).
-**address**<br><small>requerido</small> | objeto | none | Domicilio fiscal.
+**address**<br><small>requerido</small> | object | none | Domicilio fiscal.
 **address.street**<br><small>opcional</small> | string | "" | Calle
 **address.exterior**<br><small>opcional</small> | string | "" | Número exterior
 **address.interior**<br><small>opcional</small> | string | "" | Número interior
@@ -208,12 +206,13 @@ var customer = await facturapi.Customer.UpdateAsync("590ce6c56d04f840aa8438af", 
 <?php
 $facturapi = new Facturapi( FACTURAPI_KEY );
 
-$customer = array(
-  "email" => "jjonas@example.com",
-  "legal_name" => "John Jonas",
-);
-
-$updated_customer = $facturapi->Customers->update( "ID", $customer );
+$customer = $facturapi->Customers->update("590ce6c56d04f840aa8438af", array(
+  "email" => "jdoe@example.com",
+  "legal_name" => "John Doe",
+  "address" => array(
+    "street" => "Santa Monica Ave."
+  )
+));
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>
@@ -248,7 +247,7 @@ Argumento | Tipo | Descripción
 **tax_id**<br><small>opcional</small> | string | RFC del cliente.
 **email**<br><small>opcional</small> | string | Dirección de correo electrónico al cual enviar las facturas generadas.
 **phone**<br><small>opcional</small> | string | Teléfono del cliente que aparecerá en la factura impresa (PDF).
-**address**<br><small>opcional</small> | objeto | Domicilio fiscal.
+**address**<br><small>opcional</small> | object | Domicilio fiscal.
 **address.street**<br><small>opcional</small> | string | Calle
 **address.exterior**<br><small>opcional</small> | string | Número exterior
 **address.interior**<br><small>opcional</small> | string | Número interior
@@ -324,7 +323,7 @@ Obtiene la lista de clientes registrados en tu organización
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **q**<br><small>opcional</small> | string | "" | Consulta. Texto a buscar en `legal_name` (nombre fiscal) o en `tax_id` (RFC).
-**date**<br><small>opcional</small> | objeto | none | Diccionario con parámetros que representan el rango de fechas solicitado.
+**date**<br><small>opcional</small> | object | none | Diccionario con parámetros que representan el rango de fechas solicitado.
 **date.gt**<br><small>opcional</small> | string | none | Regresa clientes cuya fecha de creación es posterior a esta fecha.
 **date.gte**<br><small>opcional</small> | string | none | Regresa clientes cuya fecha de creación es posterior o igual a esta fecha.
 **date.lt**<br><small>opcional</small> | string | none | Regresa clientes cuya fecha de creación es anterior a esta fecha.

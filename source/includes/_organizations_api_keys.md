@@ -1,0 +1,48 @@
+### Obtener Api Keys
+
+> <h4 class="toc-ignore">Definición</h4>
+
+```text
+POST https://www.facturapi.io/v1/organizations/{ORGANIZATION_ID}/apikeys
+```
+
+```shell
+curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/apikeys \
+  -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:"
+```
+
+```javascript
+const facturapi = require('facturapi')('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+facturapi.organizations.getApiKeys('5a2a307be93a2f00129ea035')
+  .then(apiKeys => { /* ... */ })
+  .catch(err => { /* handle the error */ })
+```
+
+```csharp
+var facturapi = new Facturapi.Wrapper("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var apiKeys = await facturapi.Organization.GetApiKeysAsync("5a2a307be93a2f00129ea035");
+```
+
+```php
+<?php
+$facturapi = new Facturapi("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+$organization = $facturapi->Organizations->getApiKeys("5a2a307be93a2f00129ea035");
+```
+
+
+> <h4 class="toc-ignore">Respuesta JSON</h4>
+
+```json
+{
+  "live_key": "sk_live_m7YOM1G5dqbAga41Z90gJL29WxB4zvX8",
+  "test_key": "sk_test_Pj7R6e9Gw3O8ByGJ05Ezjmd0ZAXno4QV"
+}
+```
+
+Obtiene el objeto Organización.
+
+#### Argumentos
+
+Argumento | Tipo | Default | Descripción
+---------:|:----:|:-------:| -----------
+**id**<br><small>requerido</small> | string | none | Identificador de la organización.

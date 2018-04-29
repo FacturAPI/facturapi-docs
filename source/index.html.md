@@ -21,6 +21,12 @@ includes:
   - invoices_egreso
   - invoices_pago
   - invoices_list
+  - organizations
+  - organizations_customization
+  - organizations_cert
+  - organizations_list
+  - organizations_retrieve
+  - organizations_api_keys
   - errors
 
 search: false

@@ -15,7 +15,8 @@ module.exports = function (shipit) {
       deployTo: '~/facturapi-docs',
       repositoryUrl: 'https://github.com/FacturAPI/facturapi-docs.git',
       keepReleases: 2,
-      shallowClone: true
+      shallowClone: true,
+      branch: 'master'
     },
     prod: {
       servers: argv.servers

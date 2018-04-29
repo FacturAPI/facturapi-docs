@@ -1,17 +1,16 @@
 ### Actualizar Personalización
 
 > <h4 class="toc-ignore">Definición</h4>
+> `PUT /v1/organizations/{ORGANIZATION_ID}/customization`
+> <br/>
+> <small><strong>`application/json`</strong></small>
 
-```text
-POST https://www.facturapi.io/v1/organizations/{ORGANIZATION_ID}/customization
-```
-
-> <h4 class="toc-ignore">Ejemplo de Petición</h4>
+<h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/customization \
-  -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
   -X PUT \
+  -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
   -H "Content-Type: application/json" \
   -d '{
         "color": "#BADA55",
@@ -129,15 +128,15 @@ Argumento | Tipo | Default | Descripción
 ### Subir Logotipo
 
 > <h4 class="toc-ignore">Definición</h4>
-
-```text
-POST https://www.facturapi.io/v1/organizations/{ORGANIZATION_ID}/logo
-```
+> `PUT /v1/organizations/{ORGANIZATION_ID}/logo`
+> <br/>
+> <small><strong>`multipart/form-data`</strong></small>
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/logo \
+  -X PUT \
   -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
   -H "Content-Type: mutipart/form-data" \
   -F 'file=@/path/to/your/logo.jpg'

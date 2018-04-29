@@ -87,10 +87,9 @@ Argumento | Tipo | Descripción
 ### Crear Organización
 
 > <h4 class="toc-ignore">Definición</h4>
-
-```text
-POST https://www.facturapi.io/v1/organizations
-```
+> `POST /v1/organizations`
+> <br/>
+> <small><strong>`application/json`</strong></small>
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
@@ -190,16 +189,15 @@ Argumento | Tipo | Default | Descripción
 ### Actualizar Datos Fiscales
 
 > <h4 class="toc-ignore">Definición</h4>
-
-```text
-POST https://www.facturapi.io/v1/organizations/{ORGANIZATION_ID}/legal
-```
+> `PUT /v1/organizations/{ORGANIZATION_ID}/legal`
+> <br/>
+> <small><strong>`application/json`</strong></small>
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/legal \
-  -X PUT
+  -X PUT \
   -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
   -H "Content-Type: application/json" \
   -d '{

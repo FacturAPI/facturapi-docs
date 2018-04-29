@@ -1,10 +1,7 @@
 ### Obtener una Organización
 
 > <h4 class="toc-ignore">Definición</h4>
-
-```text
-POST https://www.facturapi.io/v1/organizations/{ORGANIZATION_ID}
-```
+> `GET /v1/organizations/{ORGANIZATION_ID}`
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
 

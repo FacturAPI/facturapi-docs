@@ -1,10 +1,7 @@
 ### Eliminar Organización
 
 > <h4 class="toc-ignore">Definición</h4>
-
-```text
-DELETE https://www.facturapi.io/v1/organizations/{ORGANIZATION_ID}
-```
+> `DELETE /v1/organizations/{ORGANIZATION_ID}`
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
 

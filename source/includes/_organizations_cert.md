@@ -1,15 +1,15 @@
 ### Subir Certificado (CSD)
 
 > <h4 class="toc-ignore">Definición</h4>
-
-```text
-POST https://www.facturapi.io/v1/organizations/{ORGANIZATION_ID}/cert
-```
+> `PUT /v1/organizations/{ORGANIZATION_ID}/certificate`
+> <br/>
+> <small><strong>`multipart/form-data`</strong></small>
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/certificate \
+  -X PUT \
   -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
   -H "Content-Type: mutipart/form-data" \
   -F 'cer=@/path/to/your/CSD.cer' \

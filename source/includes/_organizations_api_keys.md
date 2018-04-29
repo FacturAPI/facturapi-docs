@@ -1,10 +1,9 @@
 ### Obtener Api Keys
 
 > <h4 class="toc-ignore">Definición</h4>
+> `GET /v1/organizations/{ORGANIZATION_ID}/apikeys`
 
-```text
-POST https://www.facturapi.io/v1/organizations/{ORGANIZATION_ID}/apikeys
-```
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
 curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/apikeys \

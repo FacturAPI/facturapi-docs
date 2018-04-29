@@ -1,10 +1,7 @@
 ### Lista de Organizaciones
 
 > <h4 class="toc-ignore">Definición</h4>
-
-```text
-GET https://www.facturapi.io/v1/organizations
-```
+> `GET /v1/organizations`
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
 

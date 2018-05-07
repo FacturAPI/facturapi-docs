@@ -1,4 +1,4 @@
-## Organizaciones (Beta)
+## Organizaciones
 
 ### Objeto Organización
 

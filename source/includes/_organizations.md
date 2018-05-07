@@ -1,4 +1,4 @@
-## Organizaciones (Preview)
+## Organizaciones (Beta)
 
 ### Objeto Organización
 
@@ -45,9 +45,7 @@
 ```
 
 <aside class="notice">
-  <strong>Importante</strong> Esta sección es un trabajo en progreso que muestra cómo será la API de organizaciones
-  con motivos informativos. <strong>Esta API no está disponible aún.</strong> Apreciamos muchísimo que nos mandes sugerencias y
-  comentarios a contacto@facturapi.io.
+  <strong>Importante.</strong> Esta sección representa la versión <i>beta</i> de la API de organizaciones. Esta API está ahora disponible y puede usarse en producción, pero actualmente sólo el wrapper de Node.js la soporta. Nos encontramos trabajando en actualizar las librerías para los demás lenguajes. Apreciamos muchísimo que nos mandes sugerencias y comentarios a <a href="mailto:contacto@facturapi.io">contacto@facturapi.io</a>. También recibimos <a target="_blank" href="https://github.com/facturapi">Pull Requests</a> ;)
 </aside>
 
 Argumento | Tipo | Descripción
@@ -221,12 +219,13 @@ curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/legal \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 facturapi.organizations.updateLegal('5a2a307be93a2f00129ea035', {
   name: 'Skynet',
   legal_name: 'Skynet S.A. de C.V.',
   tax_id: 'SKY850208W40',
-  tax_system: '621',
+  tax_system: Facturapi.TaxSystem.GENERAL_LEY_DE_PERSONAS_MORALES,
   website: 'www.sky.net',
   phone: '555-555-5555',
   address: {

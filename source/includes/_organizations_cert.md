@@ -22,7 +22,7 @@ const facturapi = require('facturapi')('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP
 const fs = require('fs');
 const cerFile = fs.createReadStream('/path/to/your/CSD.cer');
 const keyFile = fs.createReadStream('/path/to/your/CSD.key');
-facturapi.organizations.uploadcertificate(
+facturapi.organizations.uploadCertificate(
   '5a2a307be93a2f00129ea035',
   cerFile,
   keyFile,

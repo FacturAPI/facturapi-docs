@@ -105,7 +105,11 @@ $new_invoice = $facturapi->Invoices->create( $invoice );
   "type": "P",
   "livemode": false,
   "status": "active",
-  "customer": "58e93bd8e86eb318b0197456",
+  "customer": {
+    "id": "58e93bd8e86eb318b0197456",
+    "legal_name": "Bimbo de México S.A. de C.V.",
+    "tax_id": "MESB900314R87"
+  },
   "total": 0,
   "uuid": "45BEC0CA-5F1E-491E-9417-698EA48C382A",
   "use": "P01",
@@ -119,10 +123,11 @@ $new_invoice = $facturapi->Invoices->create( $invoice );
     }]
   }],
   "items": [{
-    "description": "Pago",
-    "customs_keys": [],
+    "quantity": 1,
     "discount": 0,
-    "quantity": 1
+    "product": {
+      "description": "Pago"
+    }
   }]
 }
 ```

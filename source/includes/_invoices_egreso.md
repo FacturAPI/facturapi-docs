@@ -86,13 +86,20 @@ $new_invoice = $facturapi->Invoices->create( $invoice );
   "type": "E",
   "livemode": false,
   "status": "active",
-  "customer": "58e93bd8e86eb318b0197456",
+  "customer": {
+    "id": "58e93bd8e86eb318b0197456",
+    "legal_name": "Bimbo de México S.A. de C.V.",
+    "tax_id": "MESB900314R87"
+  },
   "total": 499.50,
   "uuid": "45BEC0CA-5F1E-491E-9417-698EA48C382A",
   "items": [
     {
       "quantity": 1,
-      "description": "Devolución de Impresora HP G3700"
+      "discount": 0,
+      "product": {
+        "description": "Devolución de Impresora HP G3700"
+      }
     }
   ],
   "related": ["D26CDE56-F5BB-11E7-8C3F-9A214CF093AE"]

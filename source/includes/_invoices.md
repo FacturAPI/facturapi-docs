@@ -20,9 +20,9 @@
   "payment_form": "06",
   "items": [{
     "quantity": 2,
+    "discount": 0,
     "product": {
       "id": "58e93bd8e86eb318b0197454",
-      "unit_name": "Piezas",
       "description": "Gafas de sol Ray-Ban"
     }
   }]
@@ -152,13 +152,21 @@ $new_invoice = $facturapi->Invoices->create( $invoice );
   "created_at": "2017-03-26T01:49:47.372Z",
   "livemode": false,
   "status": "active",
-  "customer": "58e93bd8e86eb318b0197456",
+  "customer": {
+    "id": "58e93bd8e86eb318b0197456",
+    "legal_name": "Bimbo de México S.A. de C.V.",
+    "tax_id": "MESB900314R87"
+  },
   "total": 345.6,
   "uuid": "45BEC0CA-5F1E-491E-9417-698EA48C382A",
   "items": [
     {
       "quantity": 2,
-      "product": "58e93bd8e86eb318b0197454"
+      "discount": 0,
+      "product": {
+        "id": "58e93bd8e86eb318b0197454",
+        "description": "Guitarra"
+      }
     }
   ]
 }

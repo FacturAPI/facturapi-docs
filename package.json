@@ -1,8 +1,7 @@
 {
   "name": "facturapi-docs",
   "version": "1.0.0",
-  "description": "Facturapi =========",
-  "main": "''",
+  "description": "Facturapi Docs",
   "devDependencies": {
     "semistandard": "^12.0.1",
     "shipit-deploy": "^4.1.1",

@@ -137,7 +137,7 @@ Argumento | Tipo | Default | Descripción
 **taxes[].type**<br><small>opcional</small> | string | "IVA" | Tipo de impuesto. Puede tener los valores "IVA", "ISR" o "IEPS".
 **taxes[].withholding**<br><small>opcional</small> | boolean | false | `true`: el impuesto es una retención. `false`: el impuesto es un traslado (impuesto normal).
 **unit_key**<br><small>opcional</small> | string | "EA" | Clave de unidad de medida, del catálogo del SAT. El valor por default `"EA"` (each) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc). Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, te proporcionamos una manera conveniente de encontrar la clave utilizando nuestra <a href="https://www.facturapi.io/dashboard/tools/keys" target="_blank">herramienta de búsqueda de claves</a>.
-**unit_name**<br><small>opcional</small> | string | "Pieza" | Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.
+**unit_name**<br><small>opcional</small> | string | "Elemento" | Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.
 **sku**<br><small>opcional</small> | string | "" | Identificador de uso interno designado por la empresa. Puede tener cualquier valor.
 
 ### Actualizar Producto

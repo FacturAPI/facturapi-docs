@@ -36,8 +36,7 @@ Argumento | Tipo | Default | Descripción
 **exchange**<br><small>requerido</small> | decimal | none | Tipo de cambio de USD a MXN. Número de pesos mexicanos que equivalen a un dólar de Estados Unidos.
 **goods**<br><small>requerido</small> | array of objects | none | Información sobre las mercancías exportadas.
 **goods[].sku**<br><small>requerido</small> | string | none | Número de parte o clave interna del producto, asignada por la empresa.
-**goods[].tariff_code**<br><small>opcional</small> | string | none | Clave de la fracción arancelaria que corresponde a la descripción de la mercancía. Puedes consultarla en nuestro [Catálogo de Fracción Arancelaria](https://www.facturapi.io/dashboard/catalogs/tariff)
-**goods[].unit**<br><small>opcional</small> | string | none | Clave de unidad de medida del [Catálogo de Unidades de Aduana](https://www.facturapi.io/dashboard/catalogs/customs_unit)
+**goods[].tariff_code**<br><small>consicional</small> | string | none | Clave de la fracción arancelaria que corresponde a la descripción de la mercancía. Es obligatorio si la mercancía es un producto físico (no un servicio). En caso contrario, este atributo es obligatorio. Puedes consultarla en nuestro [Catálogo de Fracción Arancelaria](https://www.facturapi.io/dashboard/catalogs/tariff)
 **goods[].quantity**<br><small>opcional</small> | decimal | 1 | Cantidad de la mercancía expresada en la unidad de medida.
 **goods[].unit_price**<br><small>opcional</small> | decimal | none | Precio unitario en dólares americanos (USD).
 **goods[].details**<br><small>requerido</small> | array of objects | none | Descripciones específicas de la mercancía.

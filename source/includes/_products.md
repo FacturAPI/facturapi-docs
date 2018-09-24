@@ -64,14 +64,15 @@ curl https://www.facturapi.io/v1/products \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-facturapi.products.create({
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const product = await facturapi.products.create({
   description: 'Ukulele',
   product_key: 123456,
   price: 345.60,
   sku: 'ABC1234'
-}).then(product => { /* save the product.id */ })
-  .catch(err => { /* handle the error */ })
+})
+// save the product.id in your database
 ```
 
 ```csharp
@@ -161,11 +162,11 @@ curl https://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-facturapi.products.update('590e22c26d04f840aa8438b2', {
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const product = await facturapi.products.update('590e22c26d04f840aa8438b2', {
   price: 456.70
-}).then(product => { /* ... */ })
-  .catch(err => { /* handle the error */ })
+});
 ```
 
 ```csharp
@@ -244,10 +245,10 @@ curl https://www.facturapi.io/v1/products \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-facturapi.products.list()
-  .then(list => { /* list.data contains the result array */ })
-  .catch(err => { /* handle the error */ })
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const productSearch = await facturapi.products.list();
+// productSearch.data contains the result array
 ```
 
 ```csharp
@@ -318,10 +319,9 @@ curl https://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-facturapi.products.retrieve('590e22c26d04f840aa8438b2')
-  .then(product => { /* ... */ })
-  .catch(err => { /* handle the error */ })
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const product = await facturapi.products.retrieve('590e22c26d04f840aa8438b2');
 ```
 
 ```csharp
@@ -374,10 +374,9 @@ curl https://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-facturapi.products.del('590e22c26d04f840aa8438b2')
-  .then(product => { /* ... */ })
-  .catch(err => { /* handle the error */ })
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const removedProduct = await facturapi.products.del('590e22c26d04f840aa8438b2');
 ```
 
 ```csharp

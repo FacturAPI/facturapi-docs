@@ -28,8 +28,9 @@ curl https://www.facturapi.io/v1/invoices \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_API_KEY');
-facturapi.invoices.create({
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_test_API_KEY');
+const invoice = await facturapi.invoices.create({
   type: facturapi.InvoiceType.PAGO,
   customer: customer.id,
   payments: [{
@@ -41,9 +42,7 @@ facturapi.invoices.create({
       amount: 100
     }]
   }]
-})
-  .then(invoice => { /* ... */ })
-  .catch(err => { /* handle the error */ })
+});
 ```
 
 ```csharp

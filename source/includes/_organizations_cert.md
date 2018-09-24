@@ -18,18 +18,17 @@ curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/certific
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const fs = require('fs');
 const cerFile = fs.createReadStream('/path/to/your/CSD.cer');
 const keyFile = fs.createReadStream('/path/to/your/CSD.key');
-facturapi.organizations.uploadCertificate(
+const organization = await facturapi.organizations.uploadCertificate(
   '5a2a307be93a2f00129ea035',
   cerFile,
   keyFile,
   'CONTRASEÑA_DEL_CERTIFICADO'
-)
-  .then(organization => { /* ... */ })
-  .catch(err => { /* handle the error */ })
+);
 ```
 
 ```csharp

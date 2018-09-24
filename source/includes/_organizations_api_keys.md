@@ -11,10 +11,9 @@ curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/apikeys 
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-facturapi.organizations.getApiKeys('5a2a307be93a2f00129ea035')
-  .then(apiKeys => { /* ... */ })
-  .catch(err => { /* handle the error */ })
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const apiKeys = await facturapi.organizations.getApiKeys('5a2a307be93a2f00129ea035');
 ```
 
 ```csharp

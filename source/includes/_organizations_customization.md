@@ -22,15 +22,18 @@ curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/customiz
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-facturapi.organizations.updateCustomization('5a2a307be93a2f00129ea035', {
-  color: '#BADA55',
-  pdf_extra: {
-    codes: false,
-    product_key: true
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const organization = await facturapi.organizations.updateCustomization(
+  '5a2a307be93a2f00129ea035',
+  {
+    color: '#BADA55',
+    pdf_extra: {
+      codes: false,
+      product_key: true
+    }
   }
-}).then(organization => { /* ... */ })
-  .catch(err => { /* handle the error */ })
+);
 ```
 
 ```csharp
@@ -143,12 +146,14 @@ curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/logo \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const fs = require('fs');
 const file = fs.createReadStream('/path/to/your/logo.jpg');
-facturapi.organizations.uploadLogo('5a2a307be93a2f00129ea035', file)
-  .then(organization => { /* ... */ })
-  .catch(err => { /* handle the error */ })
+const organization = await facturapi.organizations.uploadLogo(
+  '5a2a307be93a2f00129ea035',
+  file
+);
 ```
 
 ```csharp

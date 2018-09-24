@@ -101,11 +101,12 @@ curl https://www.facturapi.io/v1/organizations \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-facturapi.organizations.create({
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const organization = await facturapi.organizations.create({
   name: 'Skynet'
-}).then(organization => { /* save the organization.id */ })
-  .catch(err => { /* handle the error */ })
+});
+// remember to save the organization.id in your databases
 ```
 
 ```csharp
@@ -221,25 +222,27 @@ curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/legal \
 ```javascript
 const Facturapi = require('facturapi');
 const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-facturapi.organizations.updateLegal('5a2a307be93a2f00129ea035', {
-  name: 'Skynet',
-  legal_name: 'Skynet S.A. de C.V.',
-  tax_id: 'SKY850208W40',
-  tax_system: Facturapi.TaxSystem.GENERAL_LEY_DE_PERSONAS_MORALES,
-  website: 'www.sky.net',
-  phone: '555-555-5555',
-  address: {
-    exterior: '1414',
-    interior: '12',
-    zip: '44940',
-    neighborhood: 'Villa Toscana',
-    city: 'Guadalajara',
-    municipality: 'Guadalajara',
-    state: 'Jalisco',
-    country: 'México'
+const organization = await facturapi.organizations.updateLegal(
+  '5a2a307be93a2f00129ea035',
+  {
+    name: 'Skynet',
+    legal_name: 'Skynet S.A. de C.V.',
+    tax_id: 'SKY850208W40',
+    tax_system: Facturapi.TaxSystem.GENERAL_LEY_DE_PERSONAS_MORALES,
+    website: 'www.sky.net',
+    phone: '555-555-5555',
+    address: {
+      exterior: '1414',
+      interior: '12',
+      zip: '44940',
+      neighborhood: 'Villa Toscana',
+      city: 'Guadalajara',
+      municipality: 'Guadalajara',
+      state: 'Jalisco',
+      country: 'México'
+    }
   }
-}).then(organization => { /* ... */ })
-  .catch(err => { /* handle the error */ })
+);
 ```
 
 ```csharp

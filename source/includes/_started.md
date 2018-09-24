@@ -30,8 +30,10 @@ Empieza por incluir el cliente de Facturapi en las dependencias de tu proyecto.
 ```
 
 ```javascript
+// Importa el constructor desde tu
+const Facturapi = require('facturapi')
 // Instancia el módulo de Facturapi usando tu llave secreta
-const facturapi = require('facturapi')('sk_test_API_KEY');
+const facturapi = new Facturapi('sk_test_API_KEY');
 ```
 
 ```csharp
@@ -70,7 +72,7 @@ curl https://www.facturapi.io/v1/customers \
 ```
 
 ```javascript
-facturapi.customers.create({
+const customer = await facturapi.customers.create({
   legal_name: 'John Doe', // Razón social
   email: 'email@example.com',
   tax_id: 'ABCD101010XYZ', // RFC
@@ -78,8 +80,8 @@ facturapi.customers.create({
     zip: '44940',
     street: 'Sunset Blvd'
   }
-}).then(customer => { /* save the customer.id */ })
-  .catch(err => { /* maneja cualquier posible error */ })
+});
+// save the customer.id in your database
 ```
 
 ```csharp
@@ -142,13 +144,13 @@ curl https://www.facturapi.io/v1/products \
 ```
 
 ```javascript
-facturapi.products.create({
+const product = await facturapi.products.create({
   description: 'Licuadora',
   product_key: 123456,
   price: 345.60,
   sku: 'ABC1234'
-}).then(product => { /* save the product.id */ })
-  .catch(err => { /* handle the error */ })
+});
+// save the product.id in your database
 ```
 
 ```csharp
@@ -201,17 +203,17 @@ curl https://www.facturapi.io/v1/invoices \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_API_KEY');
-facturapi.invoices.create({
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_test_API_KEY');
+const invoice = await facturapi.invoices.create({
   customer: customer.id,
   items: [{
     quantity: 2,
     product: product.id
   }],
-  payment_form: facturapi.PaymentForm.DINERO_ELECTRONICO
-})
-  .then(invoice => { /* ... */ })
-  .catch(err => { /* handle the error */ })
+  payment_form: Facturapi.PaymentForm.DINERO_ELECTRONICO
+});
+// remember to handle possible error throwing
 ```
 
 ```csharp
@@ -269,10 +271,10 @@ curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_API_KEY');
-facturapi.invoices.sendByEmail(invoice.id)
-  .then(() => { /* invoice has been sent */ })
-  .catch(err => { /* handle the error */ })
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_test_API_KEY');
+await facturapi.invoices.sendByEmail(invoice.id)
+// invoice has been sent
 ```
 
 ```csharp
@@ -299,12 +301,12 @@ curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/zip \
 const fs = require('fs');
 
 // Descarga PDF y XML comprimidos en archivo ZIP
-facturapi.invoices.downloadZip(invoice.id)
-  .then(zipStream => {
-    // Guarda la descarga en un archivo
-    const file = fs.createWriteStream('./factura.zip');
-    zipStream.pipe(file);
-  });
+const zipStream = await facturapi.invoices.downloadZip(invoice.id);
+// Guarda la descarga en un archivo
+const file = fs.createWriteStream('./factura.zip');
+zipStream.pipe(file);
+// O envíalo como respuesta a tu cliente (en ExpressJS)
+zipStream.pipe(res);
 ```
 
 ```csharp
@@ -335,3 +337,7 @@ Los ejemplos anteriores muestran cómo emitir el tipo de factura más común: el
 - [Crear Factura de Ingreso](#crear-factura-de-ingreso)
 - [Crear Factura de Egreso](#crear-factura-de-egreso)
 - [Crear Factura de Recepción de Pagos](#crear-factura-de-recepci-n-de-pagos)
+
+## Complementos
+
+- [Complemento de Comercio Exterior](#complemento-de-comercio-exterior)

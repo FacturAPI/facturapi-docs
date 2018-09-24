@@ -11,15 +11,18 @@ curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035 \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-facturapi.organizations.retrieve('5a2a307be93a2f00129ea035')
-  .then(organization => { /* ... */ })
-  .catch(err => { /* handle the error */ })
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const organization = await facturapi.organizations.retrieve(
+  '5a2a307be93a2f00129ea035'
+);
 ```
 
 ```csharp
 var facturapi = new Facturapi.Wrapper("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
-var organization = await facturapi.Organization.RetrieveAsync("5a2a307be93a2f00129ea035");
+var organization = await facturapi.Organization.RetrieveAsync(
+  "5a2a307be93a2f00129ea035"
+);
 // Guarda el organization.Id para asociarlo con tu propia base de datos
 ```
 

@@ -68,13 +68,14 @@ curl https://www.facturapi.io/v1/customers \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-facturapi.customers.create({
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const customer = await facturapi.customers.create({
   legal_name: 'John Doe',
   email: 'email@example.com',
   tax_id: 'ABCD101010XYZ'
-}).then(customer => { /* save the customer.id */ })
-  .catch(err => { /* handle the error */ })
+});
+// save the customer.id in your database
 ```
 
 ```csharp
@@ -159,25 +160,31 @@ curl https://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-facturapi.customers.update('590ce6c56d04f840aa8438af', {
-  email: 'jdoe@example.com',
-  address: {
-    street: 'Santa Monica Ave.'
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const customer = await facturapi.customers.update(
+  '590ce6c56d04f840aa8438af',
+  {
+    email: 'jdoe@example.com',
+    address: {
+      street: 'Santa Monica Ave.'
+    }
   }
-}).then(customer => { /* ... */ })
-  .catch(err => { /* handle the error */ })
+);
 ```
 
 ```csharp
-var customer = await facturapi.Customer.UpdateAsync("590ce6c56d04f840aa8438af", new Dictionary<string, object>
-{
-  ["email"] = "jdoe@example.com",
-  ["address"] = new Dictionary<string, object>
+var customer = await facturapi.Customer.UpdateAsync(
+  "590ce6c56d04f840aa8438af",
+  new Dictionary<string, object>
   {
-    ["street"] = "Santa Monica Ave."
+    ["email"] = "jdoe@example.com",
+    ["address"] = new Dictionary<string, object>
+    {
+      ["street"] = "Santa Monica Ave."
+    }
   }
-});
+);
 ```
 
 ```php
@@ -252,10 +259,10 @@ curl https://www.facturapi.io/v1/customers \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-facturapi.customers.list()
-  .then(list => { /* list.data contains the result array */ })
-  .catch(err => { /* handle the error */ });
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const customerSearch = await facturapi.customers.list();
+// customerSearch.data contains the result array
 ```
 
 ```csharp
@@ -325,10 +332,9 @@ curl https://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-facturapi.customers.retrieve('590ce6c56d04f840aa8438af')
-  .then(customer => { /* ... */ })
-  .catch(err => { /* handle the error */ })
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const customer = await facturapi.customers.retrieve('590ce6c56d04f840aa8438af');
 ```
 
 ```csharp
@@ -375,10 +381,10 @@ curl https://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-facturapi.customers.del('590ce6c56d04f840aa8438af')
-  .then(customer => { /* ... */ })
-  .catch(err => { /* handle the error */ })
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const removedCustomer = await facturapi.customers.del('590ce6c56d04f840aa8438af');
+// remember to handle possible error throwing
 ```
 
 ```csharp

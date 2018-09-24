@@ -11,15 +11,14 @@ curl https://www.facturapi.io/v1/organizations \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-facturapi.organizations.list()
-  .then(list => { /* list.data contains the result array */ })
-  .catch(err => { /* handle the error */ });
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const organizationResults = await facturapi.organizations.list();
 ```
 
 ```csharp
 var searchResult = await facturapi.Organization.ListAsync();
-// searchResult.Data is an array of organization
+// searchResult.Data is an array of Organization
 ```
 
 ```php

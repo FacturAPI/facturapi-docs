@@ -26,8 +26,9 @@ curl https://www.facturapi.io/v1/invoices \
 ```
 
 ```javascript
-const facturapi = require('facturapi')('sk_test_API_KEY');
-facturapi.invoices.create({
+const Facturapi = require('facturapi');
+const facturapi = new Facturap('sk_test_API_KEY');
+const invoice = await facturapi.invoices.create({
   type: facturapi.InvoiceType.EGRESO,
   customer: customer.id,
   payment_form: acturapi.PaymentForm.DINERO_ELECTRONICO,
@@ -37,9 +38,7 @@ facturapi.invoices.create({
     description: 'Devolución de Impresora HP G3700',
     price: 499.50
   }
-})
-  .then(invoice => { /* ... */ })
-  .catch(err => { /* handle the error */ })
+});
 ```
 
 ```csharp

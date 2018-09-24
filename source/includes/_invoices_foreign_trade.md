@@ -82,7 +82,7 @@ const invoice = await facturapi.invoices.create({
       }
     ]
   }
-})
+});
 ```
 
 ```csharp

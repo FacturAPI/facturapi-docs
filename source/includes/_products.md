@@ -71,7 +71,7 @@ const product = await facturapi.products.create({
   product_key: 123456,
   price: 345.60,
   sku: 'ABC1234'
-})
+});
 // save the product.id in your database
 ```
 

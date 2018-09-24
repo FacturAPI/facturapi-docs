@@ -63,11 +63,7 @@ curl https://www.facturapi.io/v1/customers \
   -d '{
       "legal_name": "John Doe",
       "email": "email@example.com",
-      "tax_id": "ABCD111111ABC",
-      "address": {
-        "zip": "44940",
-        "street": "Sunset Blvd"
-      }
+      "tax_id": "ABCD111111ABC"
     }'
 ```
 
@@ -76,11 +72,7 @@ const facturapi = require('facturapi')('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP
 facturapi.customers.create({
   legal_name: 'John Doe',
   email: 'email@example.com',
-  tax_id: 'ABCD101010XYZ',
-  address: {
-    zip: '44940',
-    street: 'Sunset Blvd'
-  }
+  tax_id: 'ABCD101010XYZ'
 }).then(customer => { /* save the customer.id */ })
   .catch(err => { /* handle the error */ })
 ```
@@ -90,12 +82,7 @@ var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, objec
 {
   ["legal_name"] = "John Doe",
   ["email"] = "email@example.com",
-  ["tax_id"] = "ABCD101010XYZ",
-  ["address"] = new Dictionary<string, object>
-  {
-    ["zip"] = "44940",
-    ["street"] = "Sunset Blvd"
-  }
+  ["tax_id"] = "ABCD101010XYZ"
 });
 // Guarda el customer.Id para facturar a tu cliente
 ```
@@ -107,11 +94,7 @@ $facturapi = new Facturapi( FACTURAPI_KEY );
 $customer = $facturapi->Customers->create(array(
   "email" => "email@example.com",
   "legal_name" => "John Doe",
-  "tax_id" => "ABCD101010XYZ",
-  "address" => array(
-    "zip" => "44940",
-    "street" => "Sunset Blvd"
-  )
+  "tax_id" => "ABCD101010XYZ"
 ));
 ```
 
@@ -126,11 +109,6 @@ $customer = $facturapi->Customers->create(array(
   "email": "email@example.com",
   "tax_id": "ABCD111111ABC",
   "address": {
-    "zip": "44940",
-    "street": "Sunset Blvd",
-    "city": "Guadalajara",
-    "municipality": "Guadalajara",
-    "state": "Jalisco",
     "country": "México"
   }
 }
@@ -146,12 +124,12 @@ Argumento | Tipo | Default | Descripción
 **tax_id**<br><small>requerido</small> | string | none | RFC del cliente.
 **email**<br><small>requerido</small> | string | "" | Dirección de correo electrónico al cual enviar las facturas generadas.
 **phone**<br><small>opcional</small> | string | "" | Teléfono del cliente que aparecerá en la factura impresa (PDF).
-**address**<br><small>requerido</small> | object | none | Domicilio fiscal.
+**address**<br><small>opcional</small> | object | none | Domicilio fiscal.
 **address.street**<br><small>opcional</small> | string | "" | Calle
 **address.exterior**<br><small>opcional</small> | string | "" | Número exterior
 **address.interior**<br><small>opcional</small> | string | "" | Número interior
 **address.neighborhood**<br><small>opcional</small> | string | "" | Colonia
-**address.zip**<br><small>requerido</small> | string | none | Código postal
+**address.zip**<br><small>opcional</small> | string | none | Código postal
 **address.city**<br><small>opcional</small> | string | Si se omite, se obtiene del código postal | Ciudad.
 **address.municipality**<br><small>opcional</small> | string | Si se omite, se obtiene del código postal | Municipio o Delegación
 **address.state**<br><small>opcional</small> | string | Si se omite, se obtiene del código postal | Estado o Provincia

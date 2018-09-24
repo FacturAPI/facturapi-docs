@@ -10,21 +10,170 @@ POST https://www.facturapi.io/v1/invoices
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
+```shell
+curl https://www.facturapi.io/v1/invoices \
+  -u "sk_test_API_KEY:" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "customer": "58e93bd8e86eb318b0197456",
+        "payment_form": "06",
+        "items": [{
+          "product": {
+            "description": "MacBook Pro 15 inch",
+            "product_key": "43211508",
+            "price": 50000,
+            "unit_key": "EA",
+            "sku": "7890"
+          }
+        }],
+        "foreign_trade": {
+          "exchange": 18.00,
+          "incoterm": "DAP",
+          "goods": [
+            {
+              "sku": "7890",
+              "tariff_code": "64069001",
+              "unit_price_usd": 2777.78
+            }
+          ],
+          "addressees": [
+            {
+              "address": {
+                "street": "Elm St.",
+                "zip": "83214"
+              }
+            }
+          ]
+        }
+      }'
+```
+
 ```javascript
 const Facturapi = require('facturapi')
 const facturapi = new Facturapi('sk_test_API_KEY');
 const invoice = await facturapi.invoices.create({
   customer: '58e93bd8e86eb318b0197456',
-  items: [{
-    quantity: 2,
-    product: '58e93bd8e86eb318b0197454'
-  }],
   payment_form: Facturapi.PaymentForm.DINERO_ELECTRONICO,
+  items: [{
+    product: {
+      description: 'MacBook Pro 15 inch',
+      product_key: '43211508',
+      price: 50000,
+      unit_key: 'EA',
+      sku: '7890'
+    }
+  }],
   foreign_trade: {
-    transfer_motive: ''
+    exchange: 18.00,
+    incoterm: 'DAP',
+    goods: [
+      {
+        sku: '7890',
+        tariff_code: '64069001',
+        unit_price_usd: 2777.78
+      }
+    ],
+    addressees: [
+      {
+        address: {
+          street: 'Elm St.',
+          zip: '83214'
+        }
+      }
+    ]
   }
 })
 ```
+
+```csharp
+var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
+{
+  ["customer"] = customer.Id,
+  ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO,
+  ["items"] = new Dictionary<string, object>[]
+  {
+    new Dictionary<string, object>
+    {  
+      ["product"] = new Dictionary<string, object>
+      {
+        ["description"] = "MacBook Pro 15 inch",
+        ["product_key"] = "43211508",
+        ["price"] = 50000.00,
+        ["unit_key"] = "EA",
+        ["sku"] = "7890"
+      }
+    }
+  }
+  ["foreign_trade"] = new Dictionary<string, object>
+  {
+    ["exchange"] = 18.00,
+    ["incoterm"] = "DAP",
+    ["goods"] = new Dictionary<string, object>
+    {
+      new Dictionary<string, object>
+      {
+        ["sku"] = "7890",
+        ["tariff_code"] = "64069001",
+        ["unit_price_usd"] = 2777.78
+      }
+    },
+    ["addressees"]: new Dictionary<string, object>
+    {
+      new Dictionary<string, object>
+      {
+        ["address"] = new Dictionary<string, object>
+        {
+          ["street"] = "Elm St.",
+          ["zip"] = "83214"
+        }
+      }
+    ]
+  }
+});
+```
+
+```php
+<?php
+$facturapi = new Facturapi( FACTURAPI_KEY );
+
+$invoice = array(
+  "customer" => "YOUR_CUSTOMER_ID",
+  "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
+  "items" => array(
+    array(
+      "product" => array(
+        "description" => "MacBook Pro 15 inch",
+        "product_key" => "43211508",
+        "price" => 50000.00,
+        "unit_key" => "EA",
+        "sku" => "7890"
+      )
+    )
+  ),
+  "foreign_trade" => array(
+    "exchange" => 18.00,
+    "incoterm" => "DAP",
+    "goods" => array(
+      array(
+        "sku" => "7890",
+        "tariff_code" => "64069001",
+        "unit_price_usd" => 2777.78
+      )
+    ),
+    "addressees" => array(
+      array(
+        "address" => array(
+          "street" => "Elm St.",
+          "zip" => "83214"
+        )
+      )
+    )
+  )
+);
+
+$new_invoice = $facturapi->Invoices->create( $invoice );
+```
+
 
 #### Argumentos
 
@@ -34,24 +183,24 @@ creación de factura, consulta la sección del tipo de comprobante que quieres c
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **exchange**<br><small>requerido</small> | decimal | none | Tipo de cambio de USD a MXN. Número de pesos mexicanos que equivalen a un dólar de Estados Unidos.
-**goods**<br><small>requerido</small> | array of objects | none | Información sobre las mercancías exportadas.
-**goods[].sku**<br><small>requerido</small> | string | none | Número de parte o clave interna del producto, asignada por la empresa.
-**goods[].tariff_code**<br><small>consicional</small> | string | none | Clave de la fracción arancelaria que corresponde a la descripción de la mercancía. Es obligatorio si la mercancía es un producto físico (no un servicio). En caso contrario, este atributo es obligatorio. Puedes consultarla en nuestro [Catálogo de Fracción Arancelaria](https://www.facturapi.io/dashboard/catalogs/tariff)
-**goods[].quantity**<br><small>opcional</small> | decimal | 1 | Cantidad de la mercancía expresada en la unidad de medida.
-**goods[].unit_price**<br><small>opcional</small> | decimal | none | Precio unitario en dólares americanos (USD).
-**goods[].details**<br><small>requerido</small> | array of objects | none | Descripciones específicas de la mercancía.
-**goods[].details.brand**<br><small>requerido</small> | string | none | Marca.
-**goods[].details.model**<br><small>opcional</small> | string | none | Modelo.
-**goods[].details.submodel**<br><small>opcional</small> | string | none | Submodelo.
-**goods[].details.serial_number**<br><small>opcional</small> | string | none | Número de serie.
-**issuer**<br><small>condicional</small> | object | none | Requerido sólo en caso de que debas incluir alguno de los campos de este objeto.
-**issuer.curp**<br><small>condicional</small> | object | none | Requerido si la organización que emite la factura es persona física. CURP: Clave Única del Registro de Población.
+**incoterm**<br><small>requerido</small> | string | none | Clave del INCOTERM aplicable a la factura. Del [Catálogo INCOTERM](https://www.facturapi.io/dashboard/catalogs/transfer_motive)
 **transfer_motive**<br><small>condicional</small> | string | none | Requerido sólo cuando el comprobante es de tipo **Traslado**. Clave del [Catálogo de Motivos de Traslado](https://www.facturapi.io/dashboard/catalogs/transfer_motive).
 **origin_certificate**<br><small>opcional</small> | string | none |  Folio del certificado de origen o folio fiscal de la factura con la que se pagó la expedición del certificado de origen.
 **exporter_number**<br><small>opcional</small> | string | none | Número de exportador confiable.
-**incoterm**<br><small>opcional</small> | string | none | Clave del INCOTERM aplicable a la factura. Del [Catálogo INCOTERM](https://www.facturapi.io/dashboard/catalogs/transfer_motive)
 **notes**<br><small>opcional</small> | string | none | Observaciones. Texto para ingresar alguna información adicional.
 **exporter_number**<br><small>opcional</small> | string | none | Número de exportador confiable.
+**goods**<br><small>requerido</small> | array of objects | none | Información sobre las mercancías exportadas.
+**goods[].sku**<br><small>requerido</small> | string | none | Número de parte o clave interna del producto, asignada por la empresa. Este valor debe corresponder con uno de los elementos del atributo **items**.
+**goods[].unit_price_usd**<br><small>requerido</small> | decimal | none | Precio unitario de la mercancía en dólares americanos (USD).
+**goods[].quantity**<br><small>opcional</small> | decimal | 1 | Cantidad de la mercancía expresada en la unidad de medida.
+**goods[].tariff_code**<br><small>condicional</small> | string | none | Clave de la fracción arancelaria que corresponde a la descripción de la mercancía. Es obligatorio si la mercancía es un producto físico (no un servicio). De tratarse de un servicio, este campo no se debe enviar. Puedes consultarla en nuestro [Catálogo de Fracción Arancelaria](https://www.facturapi.io/dashboard/catalogs/tariff)
+**goods[].details**<br><small>opcional</small> | array of objects | none | Información específica sobre la mercancía.
+**goods[].details[].brand**<br><small>opcional</small> | string | none | Marca.
+**goods[].details[].model**<br><small>opcional</small> | string | none | Modelo.
+**goods[].details[].submodel**<br><small>opcional</small> | string | none | Submodelo.
+**goods[].details[].serial_number**<br><small>opcional</small> | string | none | Número de serie.
+**issuer**<br><small>condicional</small> | object | none | Requerido sólo en caso de que debas incluir alguno de los campos de este objeto.
+**issuer.curp**<br><small>condicional</small> | object | none | Requerido si la organización que emite la factura es persona física. CURP: Clave Única del Registro de Población.
 **owners**<br><small>opcional</small> | array of objects | none | Información del o los propietarios de la mercancía trasladada.
 **owners[].tax_id**<br><small>opcional</small> | string | none | Número de identificación o registro fiscal del país del propietario.
 **owners[].country**<br><small>opcional</small> | string | none | Clave del país del propietario, del [Catálogo de Países](https://www.facturapi.io/dashboard/catalogs/countries).

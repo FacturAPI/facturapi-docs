@@ -20,7 +20,7 @@ includes:
   - invoices
   - invoices_egreso
   - invoices_pago
-  - invoices_addons
+  - invoices_foreign_trade
   - invoices_list
   - organizations
   - organizations_customization

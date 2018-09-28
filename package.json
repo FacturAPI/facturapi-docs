@@ -8,7 +8,8 @@
     "yargs": "^11.0.0"
   },
   "scripts": {
-    "build": "bundle exec middleman build --clean"
+    "build": "bundle exec middleman build --clean",
+    "dev": "bundle exec middleman serve"
   },
   "repository": {
     "type": "git",

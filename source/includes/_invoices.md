@@ -8,6 +8,7 @@
   "created_at": "2017-01-01T14:00:08.000Z",
   "livemode": false,
   "status": "valid",
+  "cancellation_status": "none",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
     "legal_name": "Bimbo de México S.A. de C.V.",
@@ -35,6 +36,7 @@ Argumento | Tipo | Descripción
 **created_at** | date | Fecha de creación en formato ISO8601 (UTC String).
 **livemode** | boolean | `true`: fue creado en modo producción, `false`: fue creado en modo pruebas
 **status** | string | Estado actual de la factura. Posibles valores: `"valid"` si la factura fue emitida correctamente; `"canceled"` si fue cancelada.
+**cancellation_status** | string | Estado actual de la solicitud de cancelación, en caso de haberla realizado. Puedes ver los posibles valores y leer más al respecto en la sección de [Cancelar Factura](#cancelar-factura)
 **customer** | object | Información básica del cliente al que se le realiza la factura.
 **customer.id** | string | Identificador del cliente.
 **customer.legal_name** | string | Nombre Fiscal o Razón Social del cliente.

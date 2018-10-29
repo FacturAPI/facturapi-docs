@@ -312,6 +312,7 @@ $facturapi->Invoices->cancel("INVOICE_ID");
   "created_at": "2017-03-26T01:49:47.372Z",
   "livemode": false,
   "status": "canceled",
+  "cancellation_status": "none",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
     "legal_name": "Bimbo de México S.A. de C.V.",
@@ -332,10 +333,34 @@ $facturapi->Invoices->cancel("INVOICE_ID");
 }
 ```
 
-Realiza una solicitud de cancelación de factura ante el SAT. La factura ya no tendrá validez, el objeto cambiará su `status` a `"canceled"` y seguirá estando disponible para futuras consultas.
+Realiza una solicitud de cancelación de factura ante el SAT, soportando el esquema de cancelación de Noviembre 2018.
+
+Al usar este método pueden ocurrir 3 posibles resultados:
+
+- Que la llamada regrese un error con la explicación de por qué no se pudo cancelar.
+- Que la llamada sea satisfactoria y regrese un objeto `invoice` con la propiedad `status: "canceled"`.
+- Que la llamada sea satisfactoria, pero que la cancelación requiera de confirmación de parte de tu cliente, en cuyo caso se obtendrá como respuesta el objeto `invoice` con las propiedades `status: "active"` y `cancellation_status: "pending"`.
+
+En el tercer escenario, el valor de `cancellation_status` será actualizado automáticamente por Facturapi cuando tu cliente acepte, rechace o deje expirar la solicitud, de tal manera que al consultar una factura (usando [Obtener Factura](#obtener-una-factura)), la propiedad `cancellation_status` reflejará el estado más reciente de la soliitud.
+
+Consulta los valores posibles de `cancellation_status` más abajo.
+
+Después de la cancelación la factura ya no tendrá validez, el objeto cambiará su `status` a `"canceled"` y seguirá estando disponible para futuras consultas.
 
 #### Argumentos
 
 Argumento | Tipo | Descripción
 ---------:|:----:| -----------
 **id**<br><small>requerido</small> | string | Identificador de la factura a cancelar.
+
+#### Estados de cancelación
+
+Posibles valores para `cancellation_status`:
+
+Valor | Descripción
+-----:| -----------
+`none` | No se ha solicitado cancelación, o no fue necesario hacerlo.
+`pending` | La solicitud de cancelación fue enviada a tu cliente y se espera su decisión.
+`accepted` | Tu cliente aceptó la solicitud.
+`rejected` | Tu cliente rechazó la solicitud.
+`expired` | Tu cliente no respondió a la solicitud dentro de 72 horas, lo que permite que se aplique la cancelación.

@@ -19,6 +19,9 @@
   "folio_number": 914,
   "series": "A",
   "payment_form": "06",
+  "related": [], 
+  "currency": "MXN",
+  "exchange": 1,
   "items": [{
     "quantity": 2,
     "discount": 0,
@@ -46,13 +49,15 @@ Argumento | Tipo | Descripción
 **folio_number** | integer | Número de folio autoincremental para control interno y sin validez fiscal.
 **series** | string | Serie. De 1 a 25 caracteres designados por la empresa para control interno y sin validez fiscal.
 **payment_form** | string | Código que representa la forma de pago, según el catálogo del SAT.
-**items** | array | Arreglo de conceptos facturados.
+**items** | array of objects | Arreglo de conceptos facturados.
 **items[].quantity** | integer | Cantidad de unidades del concepto facturado.
 **items[].discount** | decimal | Monto total de descuento aplicado a este concepto.
 **items[].product** | object | Información básica del producto del concepto facturado.
 **items[].product.id** | string | Identificador del producto.
 **items[].product.unit_name** | string | Unidad de medida del producto.
 **items[].product.description** | string | Descripción del producto.
+**related** | array of strings | UUIDs de los CFDIs relacionados.
+**relation** | string | Clave de relación del catálogo del SAT.
 **currency** | string | Código de la moneda usada, acorde al estándar <a href="https://es.wikipedia.org/wiki/ISO_4217" target="_blank">ISO 4217</a>.
 **exchange** | decimal | Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos que equivalen a una unidad de la divisa señalada en el atributo `currency`.
 
@@ -159,8 +164,14 @@ $new_invoice = $facturapi->Invoices->create( $invoice );
     "legal_name": "Bimbo de México S.A. de C.V.",
     "tax_id": "MESB900314R87"
   },
+  "payment_form": "06",
   "total": 345.6,
   "uuid": "45BEC0CA-5F1E-491E-9417-698EA48C382A",
+  "folio_number": 914,
+  "series": "A",
+  "related": [], 
+  "currency": "MXN",
+  "exchange": 1,
   "items": [
     {
       "quantity": 2,

@@ -44,7 +44,7 @@ $invoices = $facturapi->Invoices->all();
       "id": "58e93bd8e86eb318b019743d",
       "created_at": "2017-03-26T01:49:47.372Z",
       "livemode": false,
-      "status": "active",
+      "status": "valid",
       "customer": {
         "id": "58e93bd8e86eb318b0197456",
         "legal_name": "Bimbo de México S.A. de C.V.",
@@ -122,7 +122,7 @@ $invoice = $facturapi->Invoices->retrieve( "59914af9b1bece552fcaaafd" );
   "id": "58e93bd8e86eb318b019743d",
   "created_at": "2017-03-26T01:49:47.372Z",
   "livemode": false,
-  "status": "active",
+  "status": "valid",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
     "legal_name": "Bimbo de México S.A. de C.V.",
@@ -339,7 +339,7 @@ Al usar este método pueden ocurrir 3 posibles resultados:
 
 - Que la llamada regrese un error con la explicación de por qué no se pudo cancelar.
 - Que la llamada sea satisfactoria y regrese un objeto `invoice` con la propiedad `status: "canceled"`.
-- Que la llamada sea satisfactoria, pero que la cancelación requiera de confirmación de parte de tu cliente, en cuyo caso se obtendrá como respuesta el objeto `invoice` con las propiedades `status: "active"` y `cancellation_status: "pending"`.
+- Que la llamada sea satisfactoria, pero que la cancelación requiera de confirmación de parte de tu cliente, en cuyo caso se obtendrá como respuesta el objeto `invoice` con las propiedades `status: "valid"` y `cancellation_status: "pending"`.
 
 En el tercer escenario, el valor de `cancellation_status` será actualizado automáticamente por Facturapi cuando tu cliente acepte, rechace o deje expirar la solicitud, de tal manera que al consultar una factura (usando [Obtener Factura](#obtener-una-factura)), la propiedad `cancellation_status` reflejará el estado más reciente de la soliitud.
 

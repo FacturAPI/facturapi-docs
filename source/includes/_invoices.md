@@ -205,6 +205,8 @@ Argumento | Tipo | Default | Descripción
 **exchange**<br><small>opcional</small> | decimal | 1.0 | Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos que equivalen a una unidad de la divisa señalada en el atributo `currency`.
 **conditions**<br><small>opcional</small> | string | none | Condiciones de pago.
 **foreign_trade**<br><small>opcional</small> | object | none | Objeto con información para incluir el Complemento de Comercio Exterior. Para ver la estructura de este objeto visita la sección de [Complemento de Pago](#complemento-de-comercio-exterior)
+**related**<br><small>opcional</small> | array of strings | none | Arreglo con los folios fiscales (UUID) de facturas relacionadas, en caso de haberlos.
+**relation**<br><small>condicional</small> | string | none | Código del SAT para relaciones entre facturas (que puedes consultar en las tablas de abajo). Es requerido cuando se envíe el argumento `related`.
 
 #### Formas de pago
 
@@ -266,3 +268,17 @@ Código | Descripción
 "D09" |	Depósitos en cuentas para el ahorro, primas que tengan como base planes de pensiones.
 "D10" |	Pagos por servicios educativos (colegiaturas).
 "P01" |	Por definir.
+
+#### Relación entre facturas
+
+Código | Descripción
+:-----:| -----------
+"01" | Nota de crédito de los documentos relacionados
+"02" | Nota de débito de los documentos relacionados
+"03" | Devolución de mercancía sobre facturas o traslados previos
+"04" | Sustitución de los CFDI previos
+"05" | Traslados de mercancias facturados previamente
+"06" | Factura generada por los traslados previos
+"07" | CFDI por aplicación de anticipo
+"08" | Factura generada por pagos en parcialidades
+"09" | Factura generada por pagos diferidos

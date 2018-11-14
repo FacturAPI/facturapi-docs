@@ -44,10 +44,6 @@
 }
 ```
 
-<aside class="notice">
-  <strong>Importante.</strong> Esta sección representa la versión <i>beta</i> de la API de organizaciones. Esta API está ahora disponible y puede usarse en producción, pero actualmente sólo el wrapper de Node.js la soporta. Nos encontramos trabajando en actualizar las librerías para los demás lenguajes. Apreciamos muchísimo que nos mandes sugerencias y comentarios a <a href="mailto:contacto@facturapi.io">contacto@facturapi.io</a>. También recibimos <a target="_blank" href="https://github.com/facturapi">Pull Requests</a> ;)
-</aside>
-
 Argumento | Tipo | Descripción
 ---------:|:----:| -----------
 **id** | string | Identificador de la organización.

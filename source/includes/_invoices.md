@@ -206,7 +206,8 @@ Argumento | Tipo | Default | Descripción
 **conditions**<br><small>opcional</small> | string | none | Condiciones de pago.
 **foreign_trade**<br><small>opcional</small> | object | none | Objeto con información para incluir el Complemento de Comercio Exterior. Para ver la estructura de este objeto visita la sección de [Complemento de Pago](#complemento-de-comercio-exterior)
 **related**<br><small>opcional</small> | array of strings | none | Arreglo con los folios fiscales (UUID) de facturas relacionadas, en caso de haberlos.
-**relation**<br><small>condicional</small> | string | none | Código del SAT para relaciones entre facturas (que puedes consultar en las tablas de abajo). Es requerido cuando se envíe el argumento `related`.
+**relation**<br><small>condicional</small> | string | none | Clave de relación del catálogo del SAT (que puedes consultar en las tablas de abajo). Es requerido cuando se envíe el argumento `related`.
+**addenda**<br><small>opcional</small> | string | none | Código XML con la Addenda que se necesite agregar a la factura.
 
 #### Formas de pago
 

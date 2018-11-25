@@ -196,6 +196,7 @@ Argumento | Tipo | Default | Descripción
 **items[].product**<br><small>requerido</small> | string or object | none | Producto a facturar. <br/>`string`: Identificador del producto previamente registrado en Facturapi. <br/>`object`: Objeto con la información del producto (acepta los mismos elementos detallados en la sección [Crear Producto](#crear-producto)), el cual sólo se usará para generar la factura y no se guardará en tu catálogo de productos.
 **items[].quantity**<br><small>opcional</small> | integer | 1 | Cantidad de unidades del producto.
 **items[].discount**<br><small>opcional</small> | decimal | 0 | Monto del descuento total a aplicar a este concepto.
+**items[].complement**<br><small>opcional</small> | string | none | Código XML con iformación adicioal personalizada acerca del concepto para añadir a la factura. Si tu complemento usa un namespace especial, recuerda añadirlo en el argumento `namespaces`.
 **payment_form**<br><small>requerido</small> | string | none | Código de la forma de pago según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
 **payment_method**<br><small>opcional</small> | string | "PUE" (Pago en una sola exhibición) | Código del método de pago según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
 **use**<br><small>opcional</small> | string | "G01" (Adquisición de mercancías) | Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
@@ -208,6 +209,10 @@ Argumento | Tipo | Default | Descripción
 **related**<br><small>opcional</small> | array of strings | none | Arreglo con los folios fiscales (UUID) de facturas relacionadas, en caso de haberlos.
 **relation**<br><small>condicional</small> | string | none | Clave de relación del catálogo del SAT (que puedes consultar en las tablas de abajo). Es requerido cuando se envíe el argumento `related`.
 **addenda**<br><small>opcional</small> | string | none | Código XML con la Addenda que se necesite agregar a la factura.
+**namespaces**<br><small>opcional</small> | array of objects | none | Si icluiste uno de los argumentos `addenda` o `items[].complement` y éstos incluyen un namespace especial, debes enviar la información necesaria para incluir estos namespaces en el XML de la factura.
+**namespaces[].prefix**<br><small>opcional</small> | string | none | Prefijo o nombre del namespace. Ejemplo: "iedu".
+**namespaces[].uri**<br><small>codicional</small> | string | none | Dirección URL asociada al namespace. Ejemplo: "http://www.sat.gob.mx/iedu". Requerido si se incluye `namespaces[].prefix`.
+**namespaces[].schema_location**<br><small>opcional</small> | string | none | Dirección URL del esquema de validación XSD. Ejemplo: "http://www.sat.gob.mx/sitio_interet/cfd/iedu/iedu.xsd".
 
 #### Formas de pago
 
@@ -240,8 +245,8 @@ Código | Descripción
 
 Código | Descripción
 :-----:| -----------
-"PUE" | Pago en una sola exhibición
-"PPD" | Pago en parcialidades o diferido
+"PUE" | Pago en una sola exhibición (de contado).
+"PPD" | Pago en parcialidades o diferido (total o parcialmente a crédito). Requiere expedir un comprobante de pago cuando se reciba un pago subsecuente.
 
 #### Uso CFDI
 

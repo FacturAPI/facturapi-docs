@@ -35,7 +35,8 @@ Argumento | Tipo | Descripción
 **tax_included** | boolean | `true`: todos los impuestos aplicables están incluídos en el precio (atributo `price`) y se desglosarán automáticamente al emitir la factura. `false`: el atributo `price` no incluye impuestos, por lo que aquellos impuestos a aplicar se sumarán en el precio final.
 **taxes** | array | Lista de impuestos que deberán aplicarse a este producto. Si la lista está vacía, se entiende que el producto está excento de impuestos.
 **taxes[].rate** | decimal | Tasa del impuesto.
-**taxes[].type** | string | Tipo de impuesto.
+**taxes[].type** | string | Tipo de impuesto. Puede tener los valores "IVA", "ISR" o "IEPS".
+**taxes[].factor** | string | Tipo factor. Puede tener los valores "Tasa", "Cuota" o "Exento".
 **taxes[].withholding** | boolean | `true`: el impuesto es una retención. `false`: el impuesto es un traslado (impuesto normal).
 **unit_key** | string | Clave de unidad de medida, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra <a href="https://www.facturapi.io/dashboard/tools/keys" target="_blank">herramienta de búsqueda de claves</a>.
 **unit_name** | string | Nombre de la unidad de medida como aparecerá en la factura.
@@ -136,6 +137,7 @@ Argumento | Tipo | Default | Descripción
 **taxes**<br><small>opcional</small> | array | Elemento con IVA trasladado del 16% | Lista de impuestos que deberán aplicarse a este producto. Si el argumento se omite o es nulo, se guardará con un elemento que representa el IVA trasladado del 16%, que es el impuesto más común. En caso de mandar explícitamente un arreglo vacío, se entiende que el producto está excento de impuestos.
 **taxes[].rate**<br><small>opcional</small> | decimal | 0.16 | Tasa del impuesto.
 **taxes[].type**<br><small>opcional</small> | string | "IVA" | Tipo de impuesto. Puede tener los valores "IVA", "ISR" o "IEPS".
+**taxes[].factor**<br><small>opcional</small> | string | "Tasa" | Tipo factor. Puede tener los valores "Tasa", "Cuota" o "Exento".
 **taxes[].withholding**<br><small>opcional</small> | boolean | false | `true`: el impuesto es una retención. `false`: el impuesto es un traslado (impuesto normal).
 **unit_key**<br><small>opcional</small> | string | "EA" | Clave de unidad de medida, del catálogo del SAT. El valor por default `"EA"` (each) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc). Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, te proporcionamos una manera conveniente de encontrar la clave utilizando nuestra <a href="https://www.facturapi.io/dashboard/tools/keys" target="_blank">herramienta de búsqueda de claves</a>.
 **unit_name**<br><small>opcional</small> | string | "Elemento" | Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.

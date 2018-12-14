@@ -33,7 +33,7 @@ Argumento | Tipo | Descripción
 **created_at** | date | Fecha de creación en formato ISO8601 (UTC String).
 **livemode** | boolean | `true`: fue creado en modo producción, `false`: fue creado en modo pruebas
 **legal_name** | string | Nombre o Razón Social del cliente.
-**tax_id** | string | RFC del cliente.
+**tax_id** | string | Para clientes de México contiene el RFC del cliente. Para extranjeros representa el número de registro de identificacón tributaria.
 **email** | string | Dirección de correo electrónico al cual enviar las facturas generadas.
 **phone** | string | Teléfono del cliente que aparecerá en la factura impresa (PDF).
 **address** | object | Domicilio fiscal.
@@ -44,7 +44,7 @@ Argumento | Tipo | Descripción
 **address.city** | string | Ciudad
 **address.municipality** | string | Municipio o Delegación
 **address.state** | string | Estado o Provincia
-**address.country** | string | País
+**address.country** | string | Código de País acorde al estándar ISO 3166-1 alpha-3, del <a href="https://www.facturapi.io/dashboard/catalogs/countries" target="_blank">Catálogo de Países</a>.
 
 ### Crear Cliente
 
@@ -122,7 +122,7 @@ Crea un nuevo Cliente
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **legal_name**<br><small>requerido</small> | string | none | Nombre Fiscal o Razón Social del cliente.
-**tax_id**<br><small>requerido</small> | string | none | RFC del cliente.
+**tax_id**<br><small>requerido</small> | string | none | Para clientes de México debe enviarse el RFC del cliente. Para extranjeros se envía el número de registro de identificacón tributaria, es decir, el equivalente al RFC en el país del cliente.
 **email**<br><small>requerido</small> | string | "" | Dirección de correo electrónico al cual enviar las facturas generadas.
 **phone**<br><small>opcional</small> | string | "" | Teléfono del cliente que aparecerá en la factura impresa (PDF).
 **address**<br><small>opcional</small> | object | none | Domicilio fiscal.
@@ -133,8 +133,8 @@ Argumento | Tipo | Default | Descripción
 **address.zip**<br><small>opcional</small> | string | none | Código postal
 **address.city**<br><small>opcional</small> | string | Si se omite, se obtiene del código postal | Ciudad.
 **address.municipality**<br><small>opcional</small> | string | Si se omite, se obtiene del código postal | Municipio o Delegación
-**address.state**<br><small>opcional</small> | string | Si se omite, se obtiene del código postal | Estado o Provincia
-**address.country**<br><small>opcional</small> | string | "México" | País
+**address.state**<br><small>opcional</small> | string | none | Si el país es "MEX", este campo puede dejarse en blanco y se deducirá del código postal. Para extranjeros debe enviarse el código de Estado de acuerdo al estándar iso 3166-2, que puedes consultar en nuestro <a href="https://www.facturapi.io/dashboard/catalogs/states" target="_blank">Catálogo de Estados</a>.
+**address.country**<br><small>opcional</small> | string | "MEX" | Código de País acorde al estándar ISO 3166-1 alpha-3, del <a href="https://www.facturapi.io/dashboard/catalogs/countries" target="_blank">Catálogo de Países</a>.
 
 ### Actualizar Cliente
 
@@ -229,7 +229,7 @@ Argumento | Tipo | Descripción
 ---------:|:----:| -----------
 **id**<br><small>requerido</small> | string | Identificador del cliente.
 **legal_name**<br><small>opcional</small> | string | Nombre Fiscal o Razón Social del cliente.
-**tax_id**<br><small>opcional</small> | string | RFC del cliente.
+**tax_id**<br><small>opcional</small> | string | Para clientes de México debe enviarse el RFC del cliente. Para extranjeros se envía el número de registro de identificacón tributaria, es decir, el equivalente al RFC en el país del cliente.
 **email**<br><small>opcional</small> | string | Dirección de correo electrónico al cual enviar las facturas generadas.
 **phone**<br><small>opcional</small> | string | Teléfono del cliente que aparecerá en la factura impresa (PDF).
 **address**<br><small>opcional</small> | object | Domicilio fiscal.
@@ -240,8 +240,8 @@ Argumento | Tipo | Descripción
 **address.zip**<br><small>opcional</small> | string | Código postal
 **address.city**<br><small>opcional</small> | string | Ciudad.
 **address.municipality**<br><small>opcional</small> | string | Municipio o Delegación
-**address.state**<br><small>opcional</small> | string | Estado o Provincia
-**address.country**<br><small>opcional</small> | string | País
+**address.state**<br><small>opcional</small> | string | Estado o código de Estado.
+**address.country**<br><small>opcional</small> | string | Código de País acorde al estándar ISO 3166-1 alpha-3, del <a href="https://www.facturapi.io/dashboard/catalogs/countries" target="_blank">Catálogo de Países</a>.
 
 ### Lista de Clientes
 

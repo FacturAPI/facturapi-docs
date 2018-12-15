@@ -126,11 +126,11 @@ Argumento | Tipo | Default | Descripción
 **email**<br><small>requerido</small> | string | "" | Dirección de correo electrónico al cual enviar las facturas generadas.
 **phone**<br><small>opcional</small> | string | "" | Teléfono del cliente que aparecerá en la factura impresa (PDF).
 **address**<br><small>opcional</small> | object | none | Domicilio fiscal.
-**address.street**<br><small>opcional</small> | string | "" | Calle
+**address.street**<br><small>opcional</small> | string | "" | Calle. Requerido para clientes extranjeros.
 **address.exterior**<br><small>opcional</small> | string | "" | Número exterior
 **address.interior**<br><small>opcional</small> | string | "" | Número interior
 **address.neighborhood**<br><small>opcional</small> | string | "" | Colonia
-**address.zip**<br><small>opcional</small> | string | none | Código postal
+**address.zip**<br><small>condicional</small> | string | none | Código postal. Requerido para clientes extranjeros.
 **address.city**<br><small>opcional</small> | string | Si se omite, se obtiene del código postal | Ciudad.
 **address.municipality**<br><small>opcional</small> | string | Si se omite, se obtiene del código postal | Municipio o Delegación
 **address.state**<br><small>opcional</small> | string | none | Si el país es "MEX", este campo puede dejarse en blanco y se deducirá del código postal. Para extranjeros debe enviarse el código de Estado de acuerdo al estándar iso 3166-2, que puedes consultar en nuestro <a href="https://www.facturapi.io/dashboard/catalogs/states" target="_blank">Catálogo de Estados</a>.

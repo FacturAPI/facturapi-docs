@@ -7,12 +7,12 @@
   "id": "590e22c26d04f840aa8438b2",
   "created_at": "2017-05-06T19:23:46.096Z",
   "livemode": false,
-  "description": "Licuadora",
-  "product_key": 123456,
+  "description": "Ukelele",
+  "product_key": "60131324",
   "price": 345.6,
   "sku": "ABC1234",
   "unit_name": "Pieza",
-  "unit_key": "EA",
+  "unit_key": "H87",
   "tax_included": true,
   "taxes": [
     {
@@ -30,7 +30,7 @@ Argumento | Tipo | Descripción
 **created_at** | date | Fecha de creación en formato ISO8601 (UTC String).
 **livemode** | boolean | `true`: fue creado en modo producción, `false`: fue creado en modo pruebas
 **description** | string | Descripción del bien o servicio como aparecerá en la factura.
-**product_key** | integer | Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra <a href="https://www.facturapi.io/dashboard/tools/keys" target="_blank">herramienta de búsqueda de claves</a>.
+**product_key** | string | Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra <a href="https://www.facturapi.io/dashboard/tools/keys" target="_blank">herramienta de búsqueda de claves</a>.
 **price** | decimal | Precio por unidad del bien o servicio. Este valor puede representar el precio con IVA incluído o sin él, dependiendo del valor de `tax_included`.
 **tax_included** | boolean | `true`: todos los impuestos aplicables están incluídos en el precio (atributo `price`) y se desglosarán automáticamente al emitir la factura. `false`: el atributo `price` no incluye impuestos, por lo que aquellos impuestos a aplicar se sumarán en el precio final.
 **taxes** | array | Lista de impuestos que deberán aplicarse a este producto. Si la lista está vacía, se entiende que el producto está excento de impuestos.
@@ -57,8 +57,8 @@ curl https://www.facturapi.io/v1/products \
   -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
   -H "Content-Type: application/json" \
   -d '{
-        "description": "Licuadora",
-        "product_key": 123456,
+        "description": "Ukelele",
+        "product_key": "60131324",
         "price": 345.60,
         "sku": "ABC1234"
     }'
@@ -68,8 +68,8 @@ curl https://www.facturapi.io/v1/products \
 const Facturapi = require('facturapi');
 const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const product = await facturapi.products.create({
-  description: 'Ukulele',
-  product_key: 123456,
+  description: 'Ukelele',
+  product_key: '60131324',
   price: 345.60,
   sku: 'ABC1234'
 });
@@ -79,8 +79,8 @@ const product = await facturapi.products.create({
 ```csharp
 var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
 {
-  ["description"] = "Ukulele",
-  ["product_key"] = 123456,
+  ["description"] = "Ukelele",
+  ["product_key"] = '60131324',
   ["price"] = 345.60,
   ["sku"] = "ABC1234"
 });
@@ -88,11 +88,11 @@ var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
 
 ```php
 <?php
-$facturapi = new Facturapi( FACTURAPI_KEY );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $product = array(
-  "description" => "Ukulele",
-  "product_key" => "60131303",
+  "description" => "Ukelele",
+  "product_key" => "60131324",
   "price" => 345.60,
   "sku" => "ABC1234"
 );
@@ -107,12 +107,12 @@ $new_product = $facturapi->Products->create( $product );
   "id": "590e22c26d04f840aa8438b2",
   "created_at": "2017-05-06T19:23:46.096Z",
   "livemode": false,
-  "description": "Licuadora",
-  "product_key": 123456,
+  "description": "Ukelele",
+  "product_key": "60131324",
   "price": 345.6,
   "sku": "ABC1234",
   "unit_name": "Pieza",
-  "unit_key": "EA",
+  "unit_key": "H87",
   "tax_included": true,
   "taxes": [
     {
@@ -139,7 +139,7 @@ Argumento | Tipo | Default | Descripción
 **taxes[].type**<br><small>opcional</small> | string | "IVA" | Tipo de impuesto. Puede tener los valores "IVA", "ISR" o "IEPS".
 **taxes[].factor**<br><small>opcional</small> | string | "Tasa" | Tipo factor. Puede tener los valores "Tasa", "Cuota" o "Exento".
 **taxes[].withholding**<br><small>opcional</small> | boolean | false | `true`: el impuesto es una retención. `false`: el impuesto es un traslado (impuesto normal).
-**unit_key**<br><small>opcional</small> | string | "EA" | Clave de unidad de medida, del catálogo del SAT. El valor por default `"EA"` (each) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc). Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, te proporcionamos una manera conveniente de encontrar la clave utilizando nuestra <a href="https://www.facturapi.io/dashboard/tools/keys" target="_blank">herramienta de búsqueda de claves</a>.
+**unit_key**<br><small>opcional</small> | string | "H87" | Clave de unidad de medida, del catálogo del SAT. El valor por default `"H87"` (each) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc). Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, te proporcionamos una manera conveniente de encontrar la clave utilizando nuestra <a href="https://www.facturapi.io/dashboard/tools/keys" target="_blank">herramienta de búsqueda de claves</a>.
 **unit_name**<br><small>opcional</small> | string | "Elemento" | Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.
 **sku**<br><small>opcional</small> | string | "" | Identificador de uso interno designado por la empresa. Puede tener cualquier valor.
 
@@ -180,7 +180,7 @@ var product = await facturapi.Product.UpdateAsync("590e22c26d04f840aa8438b2", ne
 
 ```php
 <?php
-$facturapi = new Facturapi( FACTURAPI_KEY );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $product = array(
   "description" => "Guitarra"
@@ -196,12 +196,12 @@ $updated_product = $facturapi->Products->update( "5a3f3e35f508333611ad6b3e", $pr
   "id": "590e22c26d04f840aa8438b2",
   "created_at": "2017-05-06T19:23:46.096Z",
   "livemode": false,
-  "description": "Licuadora",
-  "product_key": 123456,
+  "description": "Ukelele",
+  "product_key": "60131324",
   "price": 456.7,
   "sku": "ABC1234",
   "unit_name": "Pieza",
-  "unit_key": "EA",
+  "unit_key": "H87",
   "tax_included": true,
   "taxes": [
     {
@@ -227,7 +227,7 @@ Argumento | Tipo | Default | Descripción
 **taxes[].rate**<br><small>opcional</small> | decimal | 0.16 | Tasa del impuesto.
 **taxes[].type**<br><small>opcional</small> | string | "IVA" | Tipo de impuesto. Puede tener los valores "IVA", "ISR" o "IEPS".
 **taxes[].withholding**<br><small>opcional</small> | boolean | false | `true`: el impuesto es una retención. `false`: el impuesto es un traslado (impuesto normal).
-**unit_key**<br><small>opcional</small> | string | "EA" | Clave de unidad de medida, del catálogo del SAT. El valor por default `"EA"` (each) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc). Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, te proporcionamos una manera conveniente de encontrar la clave utilizando nuestra <a href="https://www.facturapi.io/dashboard/tools/keys" target="_blank">herramienta de búsqueda de claves</a>.
+**unit_key**<br><small>opcional</small> | string | "H87" | Clave de unidad de medida, del catálogo del SAT. El valor por default `"H87"` (each) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc). Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, te proporcionamos una manera conveniente de encontrar la clave utilizando nuestra <a href="https://www.facturapi.io/dashboard/tools/keys" target="_blank">herramienta de búsqueda de claves</a>.
 **unit_name**<br><small>opcional</small> | string | "Pieza" | Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.
 **sku**<br><small>opcional</small> | string | "" | Identificador de uso interno designado por la empresa. Puede tener cualquier valor.
 
@@ -260,7 +260,7 @@ var searchResult = await facturapi.Product.ListAsync();
 
 ```php
 <?php
-$facturapi = new Facturapi( FACTURAPI_KEY );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $products = $facturapi->Products->all();
 ```
@@ -271,17 +271,18 @@ $products = $facturapi->Products->all();
 {
   "page": 1,
   "total_pages": 1,
+  "total_results": 1,
   "data": [
     {
       "id": "590e22c26d04f840aa8438b2",
       "created_at": "2017-05-06T19:23:46.096Z",
       "livemode": false,
-      "description": "Licuadora",
-      "product_key": 123456,
+      "description": "Ukelele",
+      "product_key": "60131324",
       "price": 345.6,
       "sku": "ABC1234",
       "unit_name": "Pieza",
-      "unit_key": "EA",
+      "unit_key": "H87",
       "tax_included": true,
       "taxes": [
         {
@@ -332,7 +333,7 @@ var product = await facturapi.Product.RetrieveAsync("590e22c26d04f840aa8438b2");
 
 ```php
 <?php
-$facturapi = new Facturapi( FACTURAPI_KEY );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $product = $facturapi->Products->retrieve( "5a3ee743f508333611ad6b3c" );
 ```
@@ -344,12 +345,12 @@ $product = $facturapi->Products->retrieve( "5a3ee743f508333611ad6b3c" );
   "id": "590e22c26d04f840aa8438b2",
   "created_at": "2017-05-06T19:23:46.096Z",
   "livemode": false,
-  "description": "Licuadora",
-  "product_key": 123456,
+  "description": "Ukelele",
+  "product_key": "60131324",
   "price": 345.6,
   "sku": "ABC1234",
   "unit_name": "Pieza",
-  "unit_key": "EA",
+  "unit_key": "H87",
   "tax_included": true,
   "taxes": [
     {
@@ -387,7 +388,7 @@ var product = await facturapi.Product.DeleteAsync("590e22c26d04f840aa8438b2");
 
 ```php
 <?php
-$facturapi = new Facturapi( FACTURAPI_KEY );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $facturapi->Products->delete( "5a3f3e35f508333611ad6b3e" );
 ```
@@ -399,12 +400,12 @@ $facturapi->Products->delete( "5a3f3e35f508333611ad6b3e" );
   "id": "590e22c26d04f840aa8438b2",
   "created_at": "2017-05-06T19:23:46.096Z",
   "livemode": false,
-  "description": "Licuadora",
-  "product_key": 123456,
+  "description": "Ukelele",
+  "product_key": "60131324",
   "price": 345.6,
   "sku": "ABC1234",
   "unit_name": "Pieza",
-  "unit_key": "EA",
+  "unit_key": "H87",
   "tax_included": true,
   "taxes": [
     {

@@ -22,7 +22,7 @@ curl https://www.facturapi.io/v1/invoices \
             "description": "MacBook Pro 15 inch",
             "product_key": "43211508",
             "price": 50000,
-            "unit_key": "EA",
+            "unit_key": "H87",
             "sku": "7890"
           }
         }],
@@ -59,7 +59,7 @@ const invoice = await facturapi.invoices.create({
       description: 'MacBook Pro 15 inch',
       product_key: '43211508',
       price: 50000,
-      unit_key: 'EA',
+      unit_key: 'H87',
       sku: '7890'
     }
   }],
@@ -99,7 +99,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
         ["description"] = "MacBook Pro 15 inch",
         ["product_key"] = "43211508",
         ["price"] = 50000.00,
-        ["unit_key"] = "EA",
+        ["unit_key"] = "H87",
         ["sku"] = "7890"
       }
     }
@@ -117,7 +117,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
         ["unit_price_usd"] = 2777.78
       }
     },
-    ["addressees"]: new Dictionary<string, object>
+    ["addressees"] = new Dictionary<string, object>
     {
       new Dictionary<string, object>
       {
@@ -134,7 +134,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 
 ```php
 <?php
-$facturapi = new Facturapi( FACTURAPI_KEY );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $invoice = array(
   "customer" => "YOUR_CUSTOMER_ID",
@@ -145,7 +145,7 @@ $invoice = array(
         "description" => "MacBook Pro 15 inch",
         "product_key" => "43211508",
         "price" => 50000.00,
-        "unit_key" => "EA",
+        "unit_key" => "H87",
         "sku" => "7890"
       )
     )

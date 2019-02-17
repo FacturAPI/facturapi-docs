@@ -23,7 +23,7 @@ var searchResult = await facturapi.Organization.ListAsync();
 
 ```php
 <?php
-$facturapi = new Facturapi( FACTURAPI_KEY );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $organizations = $facturapi->Organizations->all()
 ```

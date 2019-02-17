@@ -13,7 +13,7 @@ toc_footers:
 
 includes:
   - intro
-  - requisites
+  # - requisites
   - started
   - customers
   - products

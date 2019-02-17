@@ -1,6 +1,6 @@
-# Guía de inicio rápido
+# Instalación
 
-### Instalación
+### Instala el cliente
 
 ```shell
 # cURL no requiere de instalar un cliente adicional
@@ -11,6 +11,7 @@ $> npm install --save facturapi
 ```
 
 ```csharp
+// Simplemente importa el paquete de NuGet: https://www.nuget.org/packages/Facturapi
 PM> Install-Package Facturapi
 ```
 
@@ -19,6 +20,22 @@ $> composer require "facturapi/facturapi-php"
 ```
 
 Empieza por incluir el cliente de Facturapi en las dependencias de tu proyecto.
+
+### Ambientes y llaves secretas
+
+#### Ambiente Test
+
+Facturapi cuenta con un ambiente de pruebas que puedes usar durante el desarrollo de tu aplicación sin costo alguno. Las facturas generadas en este ambiente no son enviadas al SAT y por lo tanto no tienen validez fiscal.
+
+Para emitir facturas en ambiente Test basta con utilizar la llave secreta `Test` de tu organización, la cual podrás obtener creando una cuenta gratuita en <a href="https://www.facturapi.io/register" target="_blank">https://www.facturapi.io/register</a>.
+
+#### Ambiente Live
+
+Una vez que hayas terminado de configurar tu organización, podrás obtener tu llave secreta `Live` para emitir facturas válidas.
+
+#### Llave de usuario
+
+Existe una tercera llave secreta (User Key) que sirve para registrar nuevas organizaciones y configurarlas por medio de la API. Puedes encontrar esta llave en las [configuraciones de cuenta](https://www.facturapi.io/dashboard/account/userkey) en tu dashboard de Facturapi.
 
 ### Autenticación
 
@@ -30,9 +47,9 @@ Empieza por incluir el cliente de Facturapi en las dependencias de tu proyecto.
 ```
 
 ```javascript
-// Importa el constructor desde tu
-const Facturapi = require('facturapi')
-// Instancia el módulo de Facturapi usando tu llave secreta
+// Importa el constructor del cliente
+const Facturapi = require('facturapi');
+// Crea una instancia del cliente usando tu llave secreta
 const facturapi = new Facturapi('sk_test_API_KEY');
 ```
 
@@ -44,149 +61,19 @@ var facturapi = new Facturapi.Wrapper("sk_test_API_KEY");
 
 ```php
 <?php
-$facturapi = new Facturapi( FACTURAPI_KEY );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 ```
 
-Inicializa el cliente de Facturapi con la llave secreta de tu organización.
+Inicializa el cliente de Facturapi con la llave secreta de tu organización, pudiendo ésta a su vez ser Test o Live, según el ambiente que se requiera.
 
 <aside class="notice">
   Asegurate de remplazar nuestra llave de ejemplo <code>sk_test_API_KEY</code>
   con tu propia llave secreta.
 </aside>
 
-### Registra a tu cliente
+# Inicio Rápido
 
-```shell
-curl https://www.facturapi.io/v1/customers \
-  -u "sk_test_API_KEY:" \
-  -H "Content-Type: application/json" \
-  -d '{
-      "legal_name": "John Doe",
-      "email": "email@example.com",
-      "tax_id": "ABCD111111ABC",
-      "address": {
-        "zip": "44940",
-        "street": "Sunset Blvd"
-      }
-    }'
-```
-
-```javascript
-const customer = await facturapi.customers.create({
-  legal_name: 'John Doe', // Razón social
-  email: 'email@example.com',
-  tax_id: 'ABCD101010XYZ', // RFC
-  address: {
-    zip: '44940',
-    street: 'Sunset Blvd'
-  }
-});
-// save the customer.id in your database
-```
-
-```csharp
-var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, object>
-{
-  ["legal_name"] = "John Doe",
-  ["email"] = "email@example.com",
-  ["tax_id"] = "ABCD101010XYZ",
-  ["address"] = new Dictionary<string, object>
-  {
-    ["zip"] = "44940",
-    ["street"] = "Sunset Blvd"
-  }
-});
-// Guarda el customer.Id para facturar a tu cliente
-```
-
-```php
-<?php
-$customer = array(
-  "email" => "walterwhite@gmail.com", //Optional but useful to send invoice by email
-  "legal_name" => "Walter White", // Razón social
-  "tax_id" => "WIWA761018", //RFC
-  "address" => array(
-    "zip" => "06800",
-    "street" => "Av. de los Rosales",
-    "exterior" => "123",
-    "neighborhood" => "Tepito"
-    // city, municipality and state are filled automatically from the zip code
-    // but if you want to, you can override their values
-    // city: 'México',
-    // municipality: 'Cuauhtémoc',
-    // state: 'Ciudad de México'
-  )
-);
-
-// Remember to store the customer.id in your records.
-// You will need it to create an invoice for this customer.
-$new_customer = $facturapi->Customers->create($customer);
-```
-
-Incluye en los parámetros de la llamada los datos fiscales de tu cliente. Para conocer qué otros
-datos puedes incluir, consulta la [referencia del método Crear Cliente](#crear-cliente).
-
-El objeto de respuesta contiene un campo `id` que deberás utilizar al momento de crear facturas
-para el mismo cliente sin tener que volver a introducir sus datos fiscales.
-
-### Registra tus productos (opcional)
-
-```shell
-curl https://www.facturapi.io/v1/products \
-  -u "sk_test_API_KEY:" \
-  -H "Content-Type: application/json" \
-  -d '{
-        "description": "Licuadora",
-        "product_key": 123456,
-        "price": 345.60,
-        "sku": "ABC1234"
-    }'
-```
-
-```javascript
-const product = await facturapi.products.create({
-  description: 'Licuadora',
-  product_key: 123456,
-  price: 345.60,
-  sku: 'ABC1234'
-});
-// save the product.id in your database
-```
-
-```csharp
-var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
-{
-  ["description"] = "Licuadora",
-  ["product_key"] = 123456,
-  ["price"] = 345.60,
-  ["sku"] = "ABC1234"
-});
-```
-
-```php
-<?php
-$product = array(
-  "product_key" => "4319150114", // Clave Producto/Servicio from SAT's catalog. Log in to FacturAPI and use our tool to look it up.
-  "description" => "Apple iPhone 8",
-  "price" => 345.60 // price in MXN.
-  // By default, taxes are calculated from the price with IVA 16%
-  // But again, you can override that by explicitly providing a taxes array
-  // "taxes" => array(
-  //   array ( "type" => \Facturapi\TaxType::IVA, "rate" => 0.16 ),
-  //   array ( "type" => \Facturapi\TaxType::ISR, "rate" => 0.03666, "withholding" => true )
-  // )
-);
-
-$new_product = $facturapi->Products->create( $product );
-```
-
-Puedes registrar tu inventario de productos en Facturapi para almacenar los datos relevantes como
-el precio, los impuestos que aplican, o la ClaveProdServ del SAT (`product_key`), con el objetivo
-de usar el `id` del producto al momento de crear una factura que incluya este producto.
-
-Para conocer los datos que puedes incluir en el producto, consulta la [referencia del método Crear Producto](#crear-producto).
-
-### Crea la factura
+### Crea tu factura en una sola llamada
 
 ```shell
 curl https://www.facturapi.io/v1/invoices \
@@ -206,26 +93,41 @@ curl https://www.facturapi.io/v1/invoices \
 const Facturapi = require('facturapi');
 const facturapi = new Facturapi('sk_test_API_KEY');
 const invoice = await facturapi.invoices.create({
-  customer: customer.id,
+  customer: {
+    legal_name: 'John Doe',
+    email: 'email@example.com',
+    tax_id: 'ABCD111111ABC'
+  },
   items: [{
-    quantity: 2,
-    product: product.id
+    product: {
+      description: 'Ukelele',
+      product_key: '60131324',
+      price: 345.60
+    }
   }],
   payment_form: Facturapi.PaymentForm.DINERO_ELECTRONICO
 });
-// remember to handle possible error throwing
 ```
 
 ```csharp
 var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 {
-  ["customer"] = customer.Id,
+  ["customer"] = new Dictionary<string, object>
+  {
+    ["legal_name"] = "John Doe",
+    ["email"] = "email@example.com",
+    ["tax_id"] = "ABCD111111ABC"
+  },
   ["items"] = new Dictionary<string, object>[]
   {
     new Dictionary<string, object>
     {
-      ["quantity"] = 2,
-      ["product"] = product.Id
+      ["product"] = new Dictionary<string, object>
+      {
+        ["description"] = "Ukelele",
+        ["product_key"] = "60131324",
+        ["price"] = 345.60
+      }
     }
   }
   ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO
@@ -235,32 +137,75 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 ```php
 <?php
 $invoice = $facturapi->Invoices->create(array(
-    "customer" => "YOUR_CUSTOMER_ID",
-    "items" => array(
-      array(
-        "quantity" => 1, // Optional. Defaults to 1.
-        "product" => "YOUR_PRODUCT_ID" // You can also pass a product object instead
-      ),
-      array(
-        "quantity" => 2,
-        "product" => array(
-          "description" => "Guitarra",
-          "product_key" => "01234567",
-          "price" => 420.69,
-          "sku" => "ABC4567"
-        )
-      ) // Add as many products as you want to include in your invoice
+  "customer" => array(
+    "legal_name" => "John Doe",
+    "email" => "email@example.com",
+    "tax_id" => "ABCD111111ABC"
+  ),
+  "items" => array(
+    array(
+      "product" => array(
+        "description" => "Ukelele",
+        "product_key" => "60131324",
+        "price" => 345.60
+      )
     ),
-    "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
-    "folio_number" => "581",
-    "series" => "F"
+  ),
+    "payment_form" => \Facturapi\PaymentForm::EFECTIVO
 ));
 ```
 
-Ahora utiliza los `id`s del cliente y el producto que creaste para generar la factura.
+> <h4 class="toc-ignore">Respuesta JSON</h4>
+
+```json
+{
+  "id": "58e93bd8e86eb318b019743d",
+  "created_at": "2017-03-26T01:49:47.372Z",
+  "livemode": false,
+  "status": "valid",
+  "verification_url": "https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111ABC&tt=345.600000&fe=bWApPw==",
+  "customer": {
+    "id": "58e93bd8e86eb318b0197456",
+    "legal_name": "John Doe",
+    "tax_id": "ABCD111111ABC"
+  },
+  "payment_form": "06",
+  "total": 345.6,
+  "uuid": "45BEC0CA-5F1E-491E-9417-698EA48C382A",
+  "folio_number": 1,
+  "series": "A",
+  "currency": "MXN",
+  "exchange": 1,
+  "items": [
+    {
+      "quantity": 2,
+      "discount": 0,
+      "product": {
+        "description": "Ukelele",
+        "product_key": "60131324",
+        "price": 345.6,
+        "tax_included": true,
+        "unit_key": "H87",
+        "unit_name": "Pieza",
+        "taxes": [{
+          "type": "IVA",
+          "rate": 0.16,
+          "factor": "Tasa"
+        }]
+      }
+    }
+  ]
+}
+```
+
+Este ejemplo muestra los campos mínimos requeridos para crear una factura en una sola llamada.
 
 Para conocer más a fondo las opciones disponibles al crear una factura, consulta la
 [referencia del método Crear Factura](#crear-factura-de-ingreso).
+
+<aside class="notice">
+  Por default se considera que el precio del producto tiene impuestos incluídos. Facturapi se encarga de desglosar los impuestos del producto (siendo IVA 16% el default) y calcular el precio unitario. Si en lugar de eso requieres que el atributo `price` sea el precio unitario, debes enviar el parámetro `tax_included` con el valor `false`.
+</aside>
 
 ### Envíala por correo
 
@@ -329,6 +274,124 @@ $facturapi->Invoices->download_xml("INVOICE_ID") // stream containing the XML fi
 ```
 
 Si lo necesitas, también puedes descargar los archivos de la factura en tu servidor.
+
+### Registra a tu cliente (opcional)
+
+```shell
+curl https://www.facturapi.io/v1/customers \
+  -u "sk_test_API_KEY:" \
+  -H "Content-Type: application/json" \
+  -d '{
+      "legal_name": "John Doe",
+      "email": "email@example.com",
+      "tax_id": "ABCD111111ABC",
+      "address": {
+        "zip": "44940",
+        "street": "Sunset Blvd"
+      }
+    }'
+```
+
+```javascript
+const customer = await facturapi.customers.create({
+  legal_name: 'John Doe', // Razón social
+  email: 'email@example.com',
+  tax_id: 'ABCD101010XYZ', // RFC
+  address: {
+    zip: '44940',
+    street: 'Sunset Blvd'
+  }
+});
+// save the customer.id in your database
+```
+
+```csharp
+var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, object>
+{
+  ["legal_name"] = "John Doe",
+  ["email"] = "email@example.com",
+  ["tax_id"] = "ABCD101010XYZ",
+  ["address"] = new Dictionary<string, object>
+  {
+    ["zip"] = "44940",
+    ["street"] = "Sunset Blvd"
+  }
+});
+// Guarda el customer.Id para facturar a tu cliente
+```
+
+```php
+<?php
+$customer = array(
+  "email" => "walterwhite@gmail.com", //Optional but useful to send invoice by email
+  "legal_name" => "Walter White", // Razón social
+  "tax_id" => "WIWA761018", //RFC
+  "address" => array(
+    "zip" => "06800",
+    "street" => "Av. de los Rosales"
+  )
+);
+
+// Remember to store the customer.id in your records.
+// You will need it to create an invoice for this customer.
+$new_customer = $facturapi->Customers->create($customer);
+```
+
+Si quieres evitar tener que enviar los datos fiscales de tu cliente repetidamente en cada factura, también tienes la opción de registrarlo de manera separada.
+
+El objeto de respuesta contiene un campo `id` que deberás utilizar al momento de crear facturas para el mismo cliente sin tener que volver a introducir sus datos fiscales.
+
+Para conocer qué otros datos puedes incluir, consulta la [referencia del método Crear Cliente](#crear-cliente).
+
+### Registra tus productos (opcional)
+
+```shell
+curl https://www.facturapi.io/v1/products \
+  -u "sk_test_API_KEY:" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "description": "Ukelele",
+        "product_key": "60131324",
+        "price": 345.60,
+        "sku": "ABC1234"
+    }'
+```
+
+```javascript
+const product = await facturapi.products.create({
+  description: 'Ukelele',
+  product_key: '60131324',
+  price: 345.60,
+  sku: 'ABC1234'
+});
+// save the product.id in your database
+```
+
+```csharp
+var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
+{
+  ["description"] = "Ukelele",
+  ["product_key"] = "60131324",
+  ["price"] = 345.60,
+  ["sku"] = "ABC1234"
+});
+```
+
+```php
+<?php
+$product = array(
+  "description" => "Ukelele",
+  "product_key" => "4319150114",
+  "price" => 345.60,
+  "sku" => "ABC1234"
+);
+
+$new_product = $facturapi->Products->create( $product );
+```
+
+También puedes registrar tu inventario de productos en Facturapi para no enviar los mismos datos cada vez.
+
+Para conocer los datos que puedes incluir en el producto, consulta la [referencia del método Crear Producto](#crear-producto).
 
 # Otros comprobantes
 

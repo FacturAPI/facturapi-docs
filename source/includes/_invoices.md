@@ -9,6 +9,7 @@
   "livemode": false,
   "status": "valid",
   "cancellation_status": "none",
+  "verification_url": "https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111ABC&tt=345.600000&fe=bWApPw==",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
     "legal_name": "Bimbo de México S.A. de C.V.",
@@ -27,7 +28,8 @@
     "discount": 0,
     "product": {
       "id": "58e93bd8e86eb318b0197454",
-      "description": "Gafas de sol Ray-Ban"
+      "description": "Gafas de sol Ray-Ban",
+      "price": 5472.41
     }
   }]
 }
@@ -124,7 +126,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 
 ```php
 <?php
-$facturapi = new Facturapi( FACTURAPI_KEY );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $invoice = array(
   "customer" => "YOUR_CUSTOMER_ID",
@@ -137,7 +139,7 @@ $invoice = array(
       "quantity" => 2,
         "product" => array(
         "description" => "Guitarra",
-        "product_key" => "01234567",
+        "product_key" => "0601313247",
         "price" => 420.69,
         "sku" => "ABC4567"
       )

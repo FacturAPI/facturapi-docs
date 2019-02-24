@@ -193,9 +193,9 @@ Crea una nueva Factura de tipo **Comprobante de Ingreso** (la más común).
 
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
-**customer**<br><small>requerido</small> | string | none | Identificador del cliente a facturar
+**customer**<br><small>requerido</small> | string or object | none | Cliente receptor de la factura. <br/>`string`: Id del cliente previamente registrado en Facturapi. <br/>`object`: Objeto con la información del cliente, el cual se guardará en tu lista de clientes.. Acepta los mismos argumentos detallados en la sección [Crear cliente](#crear-cliente).
 **items**<br><small>requerido</small> | array | none | Arreglo de objetoes que representan los productos y las cantidades de éstos a incluir en la factura.
-**items[].product**<br><small>requerido</small> | string or object | none | Producto a facturar. <br/>`string`: Identificador del producto previamente registrado en Facturapi. <br/>`object`: Objeto con la información del producto (acepta los mismos elementos detallados en la sección [Crear Producto](#crear-producto)), el cual sólo se usará para generar la factura y no se guardará en tu catálogo de productos.
+**items[].product**<br><small>requerido</small> | string or object | none | Producto a facturar. <br/>`string`: Identificador del producto previamente registrado en Facturapi. <br/>`object`: Objeto con la información del producto, el cual sólo se usará para generar la factura y no se guardará en tu catálogo de productos. Acepta los mismos argumentos detallados en la sección [Crear Producto](#crear-producto)
 **items[].quantity**<br><small>opcional</small> | integer | 1 | Cantidad de unidades del producto.
 **items[].discount**<br><small>opcional</small> | decimal | 0 | Monto del descuento total a aplicar a este concepto.
 **items[].complement**<br><small>opcional</small> | string | none | Código XML con iformación adicioal personalizada acerca del concepto para añadir a la factura. Si tu complemento usa un namespace especial, recuerda añadirlo en el argumento `namespaces`.

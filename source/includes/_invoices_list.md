@@ -89,7 +89,7 @@ Argumento | Tipo | Default | Descripción
 > <h4 class="toc-ignore">Definición</h4>
 
 ```text
-GET https://www.facturapi.io/v1/invoices/{INVOICE_ID}
+GET https://www.facturapi.io/v1/invoices/{id}
 ```
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
@@ -155,9 +155,9 @@ Argumento | Tipo | Descripción
 > <h4 class="toc-ignore">Definición</h4>
 
 ```text
-GET https://www.facturapi.io/v1/invoices/{INVOICE_ID}/zip
-GET https://www.facturapi.io/v1/invoices/{INVOICE_ID}/pdf
-GET https://www.facturapi.io/v1/invoices/{INVOICE_ID}/xml
+GET https://www.facturapi.io/v1/invoices/{id}/zip
+GET https://www.facturapi.io/v1/invoices/{id}/pdf
+GET https://www.facturapi.io/v1/invoices/{id}/xml
 ```
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
@@ -215,11 +215,11 @@ file.Close();
 <?php
 $facturapi = new Facturapi( "sk_test_API_KEY" );
 
-$zip = $facturapi->Invoices->download_zip("INVOICE_ID") // stream containing the PDF and XML as a ZIP file or
+$zip = $facturapi->Invoices->download_zip("58e93bd8e86eb318b019743d") // stream containing the PDF and XML as a ZIP file or
 
-$pdf = $facturapi->Invoices->download_pdf("INVOICE_ID") // stream containing the PDF file or
+$pdf = $facturapi->Invoices->download_pdf("58e93bd8e86eb318b019743d") // stream containing the PDF file or
 
-$xml = $facturapi->Invoices->download_xml("INVOICE_ID") // stream containing the XML file or
+$xml = $facturapi->Invoices->download_xml("58e93bd8e86eb318b019743d") // stream containing the XML file or
 ```
 
 Descarga tu Factura en PDF, XML o ambas comprimidas en ZIP
@@ -235,48 +235,80 @@ Argumento | Tipo | Descripción
 > <h4 class="toc-ignore">Definición</h4>
 
 ```text
-POST https://www.facturapi.io/v1/invoices/{INVOICE_ID}/email
+POST https://www.facturapi.io/v1/invoices/{id}/email
 ```
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
+# Enviar al correo del cliente
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
   -u "sk_test_API_KEY:"
   -X POST
+
+# Enviar a otro correo
+curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
+  -u "sk_test_API_KEY:"
+  -X POST
+  -H "Content-Type: application/json" \
+  -d '{
+        "email": "another_email@example.com"
+      }'
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
 const facturapi = new Facturap('sk_test_API_KEY');
+// Enviar al correo del cliente
 await facturapi.invoices.sendByEmail('58e93bd8e86eb318b019743d');
+// Enviar a otro correo
+await facturapi.invoices.sendByEmail(
+  '58e93bd8e86eb318b019743d',
+  { email: 'otro@correo@gmail.com' }
+);
 ```
 
 ```csharp
+// Enviar al correo del cliente
 await facturapi.Invoice.SendByEmailAsync("58e93bd8e86eb318b019743d");
+// Enviar a otro correo
+await facturapi.Invoice.SendByEmailAsync(
+  "58e93bd8e86eb318b019743d",
+  new Dictionary<string, object>
+  {
+    ["email] = "otro@correo@gmail.com"
+  }
+);
 ```
 
 ```php
 <?php
 $facturapi = new Facturapi( "sk_test_API_KEY" );
-
-$facturapi->Invoices->send_by_email("INVOICE_ID");
+// Enviar al correo del cliente
+$facturapi->Invoices->send_by_email("58e93bd8e86eb318b019743d");
+// Enviar a otro correo
+$facturapi->Invoices->send_by_email("58e93bd8e86eb318b019743d", array( email => "otro@correo@gmail.com" ));
 ```
 
 Envía un correo electrónico al email de tu cliente, con los archivos XML y PDF adjuntos al mensaje.
 
-#### Argumentos
+#### Argumentos en la URL
 
 Argumento | Tipo | Descripción
 ---------:|:----:| -----------
 **id**<br><small>requerido</small> | string | Identificador de la factura.
+
+#### Argumentos en el cuerpo de la llamada
+Argumento | Tipo | Descripción
+---------:|:----:| -----------
+**email**<br><small>opcional</small> | string | Dirección de correo electrónico a enviar la factura. Si no se envía este parámetro, la factura será enviada al correo que del cliente tenga registrado.
 
 ### Cancelar Factura
 
 > <h4 class="toc-ignore">Definición</h4>
 
 ```text
-DELETE https://www.facturapi.io/v1/invoices/{INVOICE_ID}
+DELETE https://www.facturapi.io/v1/invoices/{id}
 ```
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
@@ -302,7 +334,7 @@ var invoice = await facturapi.Invoice.CancelAsync("58e93bd8e86eb318b019743d");
 <?php
 $facturapi = new Facturapi( "sk_test_API_KEY" );
 
-$facturapi->Invoices->cancel("INVOICE_ID");
+$facturapi->Invoices->cancel("58e93bd8e86eb318b019743d");
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>

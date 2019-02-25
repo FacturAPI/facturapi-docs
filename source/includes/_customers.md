@@ -61,10 +61,10 @@ curl https://www.facturapi.io/v1/customers \
   -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
   -H "Content-Type: application/json" \
   -d '{
-      "legal_name": "John Doe",
-      "email": "email@example.com",
-      "tax_id": "ABCD111111ABC"
-    }'
+        "legal_name": "John Doe",
+        "email": "email@example.com",
+        "tax_id": "ABCD111111ABC"
+      }'
 ```
 
 ```javascript
@@ -89,6 +89,7 @@ var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, objec
 ```
 
 ```php
+<?php
 $facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $customer = $facturapi->Customers->create(array(
@@ -151,11 +152,11 @@ curl https://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
   -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
   -H "Content-Type: application/json" \
   -d '{
-      "email": "jdoe@example.com",
-      "address": {
-        "street": "Santa Monica Ave."
-      }
-    }'
+        "email": "jdoe@example.com",
+        "address": {
+          "street": "Santa Monica Ave."
+        }
+      }'
 ```
 
 ```javascript

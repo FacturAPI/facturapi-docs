@@ -9,28 +9,97 @@ GET https://www.facturapi.io/v1/invoices
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
-curl "https://www.facturapi.io/v1/invoices?customer=58e93bd8e86eb318b0197456&date[gt]=2017-01-01T06:00:00.000Z" \
+# Todas las facturas de la organización
+curl "https://www.facturapi.io/v1/invoices" \
+  -G \
+  -u "sk_test_API_KEY:"
+# Todas las facturas emitidas para cierto cliente
+curl "https://www.facturapi.io/v1/invoices" \
+  -G \
   -u "sk_test_API_KEY:" \
-  -Gg
+  -d "customer=58e93bd8e86eb318b0197456"
+# Página 3 de los resultados de búsqueda de texto libre
+# de facturas emitidas por cierto cliente entre 2017 y 2019
+curl "https://www.facturapi.io/v1/invoices" \
+  -G \
+  -u "sk_test_API_KEY:" \
+  -d "q=Aspiradora+Robot&customer=58e93bd8e86eb318b0197456&date[gte]=2017-01-01&date[lt]=2020-01-01&page=3&limit=10"
+});
 ```
 
 ```javascript
-const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_API_KEY');
+// Todas las facturas de la organización
 const invoiceSearch = await facturapi.invoices.list();
-// invoiceSearch.data contains the result array
+// Todas las facturas emitidas para cierto cliente
+const invoiceSearch = await facturapi.invoices.list({
+  customer: '590ce6c56d04f840aa8438af'
+});
+// Página 3 de los resultados de búsqueda de texto libre
+// de facturas emitidas por cierto cliente entre 2017 y 2019
+const invoiceSearch = await facturapi.invoices.list({
+  q: 'Aspiradora Robot',
+  customer: '590ce6c56d04f840aa8438af',
+  date: {
+    gte: new Date('2017-01-01'),
+    lt: new Date('2020-01-01')
+  },
+  page: 3,
+  limit: 10,
+});
 ```
 
 ```csharp
+// Todas las facturas de la organización
 var searchResult = await facturapi.Invoice.ListAsync();
-// searchResult.Data is an Invoice array
+
+// Todas las facturas emitidas para cierto cliente
+var searchResult = await facturapi.Invoice.ListAsync(
+  new Dictionary<string, object>
+  {
+    ["customer"] = "590ce6c56d04f840aa8438af"
+  }
+);
+// Página 3 de los resultados de búsqueda de texto libre
+// de facturas emitidas por cierto cliente entre 2017 y 2019
+var searchResult = await facturapi.Invoice.ListAsync(
+  new Dictionary<string, object>
+  {
+    ["q"] = "Aspiradora Robot",
+    ["customer"] = "590ce6c56d04f840aa8438af",  
+    ["date"] = new Dictionary<string, object>
+      {
+        ["gte"] = new DateTime("2017-01-01"),
+        ["lt"] = new DateTime("2020-01-01")
+      },
+    ["page"] = 3,
+    ["limit"] = 10,
+  }
+);
+});
 ```
 
 ```php
 <?php
 $facturapi = new Facturapi( "sk_test_API_KEY" );
 
+// Todas las facturas de la organización
 $invoices = $facturapi->Invoices->all();
+// Todas las facturas emitidas para cierto cliente
+$invoices = $facturapi->Invoices->all(array(
+  customer => "590ce6c56d04f840aa8438af"
+));
+// Página 3 de los resultados de búsqueda de texto libre
+// de facturas emitidas por cierto cliente entre 2017 y 2019
+$invoices = $facturapi->Invoices->all(array(
+  q => 'Aspiradora Robot',
+  customer => "590ce6c56d04f840aa8438af"
+  date => array(
+    gte => new DateTime("2017-01-01"),
+    lt => new DateTime("2020-01-01")
+  ),
+  page => 3,
+  limit => 10,
+));
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>
@@ -68,7 +137,7 @@ $invoices = $facturapi->Invoices->all();
 }
 ```
 
-Obtiene la lista de facturas emitidas.
+Obtiene la lista paginada de facturas emitidas por la organización. Puedes usar los argumentos para filtrar.
 
 #### Argumentos
 
@@ -76,11 +145,11 @@ Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **q**<br><small>opcional</small> | string | "" | Consulta. Texto a buscar en el nombre fiscal del cliente o su RFC.
 **customer**<br><small>opcional</small> | string | "" | Identificador del cliente. Útil para obtener las facturas emitidas a un sólo cliente.
-**date**<br><small>opcional</small> | object | none | Diccionario con atributos que representan el rango de fechas solicitado.
-**date.gt**<br><small>opcional</small> | string | none | Regresa clientes cuya fecha de creación es posterior a esta fecha.
-**date.gte**<br><small>opcional</small> | string | none | Regresa clientes cuya fecha de creación es posterior o igual a esta fecha.
-**date.lt**<br><small>opcional</small> | string | none | Regresa clientes cuya fecha de creación es anterior a esta fecha.
-**date.lte**<br><small>opcional</small> | string | none | Regresa clientes cuya fecha de creación es anterior o igual a esta fecha.
+**date**<br><small>opcional</small> | object | none | Objeto con atributos que representan el rango de fechas solicitado.
+**date.gt**<br><small>opcional</small> | string or date | none | Regresa facturas cuya fecha de creación es posterior a esta fecha.
+**date.gte**<br><small>opcional</small> | string or date | none | Regresa facturas cuya fecha de creación es posterior o igual a esta fecha.
+**date.lt**<br><small>opcional</small> | string or date | none | Regresa facturas cuya fecha de creación es anterior a esta fecha.
+**date.lte**<br><small>opcional</small> | string or date | none | Regresa facturas cuya fecha de creación es anterior o igual a esta fecha.
 **limit**<br><small>opcional</small> | integer | 50 | Número del 1 al 50 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
 **page**<br><small>opcional</small> | integer | 1 | Página de resultados a regresar, empezando desde la página 1.
 

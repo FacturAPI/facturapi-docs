@@ -302,7 +302,7 @@ $customers = $facturapi->Customers->all()
 }
 ```
 
-Obtiene la lista de clientes registrados en tu organización
+Obtiene la lista paginada de clientes registrados en tu organización.
 
 #### Argumentos
 

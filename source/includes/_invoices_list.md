@@ -345,7 +345,7 @@ await facturapi.Invoice.SendByEmailAsync(
   "58e93bd8e86eb318b019743d",
   new Dictionary<string, object>
   {
-    ["email] = "otro@correo@gmail.com"
+    ["email"] = "otro@correo@gmail.com"
   }
 );
 ```

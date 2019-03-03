@@ -63,6 +63,7 @@ Argumento | Tipo | Descripción
 **legal.address.exterior** | string | Número exterior
 **legal.address.interior** | string | Número interior
 **legal.address.neighborhood** | string | Colonia
+**legal.address.zip** | string | Código postal
 **legal.address.city** | string | Ciudad
 **legal.address.municipality** | string | Municipio o Delegación
 **legal.address.state** | string | Estado o Provincia
@@ -356,6 +357,7 @@ Argumento | Tipo | Default | Descripción
 **website**<br><small>opcional</small> | string | "" | Sitio web de la organización que se incluirá como enlace en el correo que se le envía al cliente con su factura adjunta.
 **phone**<br><small>opcional</small> | string | "" | Teléfono de la organización que aparecerá en la factura impresa (PDF).
 **address**<br><small>requerido</small> | object | none | Domicilio fiscal.
+**address.zip**<br><small>requerido</small> | string | none | Código postal
 **address.street**<br><small>requerido</small> | string | none | Calle
 **address.exterior**<br><small>requerido</small> | string | none | Número exterior
 **address.interior**<br><small>opcional</small> | string | "" | Número interior
@@ -363,7 +365,6 @@ Argumento | Tipo | Default | Descripción
 **address.city**<br><small>opcional</small> | string | "" | Ciudad
 **address.municipality**<br><small>opcional</small> | string | "" | Municipio o Delegación
 **address.state**<br><small>opcional</small> | string | "" | Estado o Provincia
-**address.country**<br><small>opcional</small> | string | "México" | País
 
 #### Código de Régimen Fiscal
 

@@ -1,33 +1,33 @@
 const argv = require('yargs')
-  .option('servers', {
+  .option('bucket', {
     type: 'string'
   })
   .argv;
-
-// const workspace = '/tmp/facturapi-docs';
+const { bucket } = argv;
 
 module.exports = function (shipit) {
   require('shipit-deploy')(shipit);
+  require('shipit-gcs')(shipit);
+
   shipit.initConfig({
     default: {
       dirToCopy: 'build',
-      deployTo: '~/facturapi-docs',
+      deployTo: '/',
       repositoryUrl: 'https://github.com/FacturAPI/facturapi-docs.git',
-      keepReleases: 2,
-      branch: 'master'
+      branch: 'master',
+      gcs: { bucket }
     },
     prod: {
-      servers: argv.servers
+      servers: bucket
     }
   });
 
-  shipit.task('default', ['deploy']);
+  shipit.task('default', ['gcs-deploy']);
 
   shipit.blTask('build', async () => {
+    await shipit.local('npm i', { cwd: shipit.workspace });
     await shipit.local('npm run build', { cwd: shipit.workspace });
-  });
+  })
 
-  shipit.on('fetched', () => {
-    return shipit.start('build');
-  });
+  shipit.on('fetched', () => shipit.start('build'));
 };

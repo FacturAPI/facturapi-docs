@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Facturapi Docs",
   "devDependencies": {
-    "semistandard": "^12.0.1",
-    "shipit-deploy": "^4.1.1",
-    "yargs": "^11.0.0"
+    "eslint-config-prettier": "^4.1.0",
+    "semistandard": "^13.0.1",
+    "shipit-deploy": "^4.1.4",
+    "shipit-gcs": "file:../shipit-gcs",
+    "yargs": "^13.2.2"
   },
   "scripts": {
     "build": "bundle exec middleman build --clean",
@@ -20,5 +22,6 @@
   "bugs": {
     "url": "https://github.com/FacturAPI/facturapi-docs/issues"
   },
-  "homepage": "https://github.com/FacturAPI/facturapi-docs#readme"
+  "homepage": "https://github.com/FacturAPI/facturapi-docs#readme",
+  "dependencies": {}
 }

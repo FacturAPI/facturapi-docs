@@ -17,6 +17,7 @@ curl https://www.facturapi.io/v1/invoices \
   -d '{
         "customer": "58e93bd8e86eb318b0197456",
         "payment_form": "06",
+        "quantity": 2.5,
         "items": [{
           "product": {
             "description": "MacBook Pro 15 inch",
@@ -31,6 +32,7 @@ curl https://www.facturapi.io/v1/invoices \
           "incoterm": "DAP",
           "goods": [
             {
+              "quantity": 2.5,
               "sku": "7890",
               "tariff_code": "64069001",
               "unit_price_usd": 2777.78
@@ -55,6 +57,7 @@ const invoice = await facturapi.invoices.create({
   customer: '58e93bd8e86eb318b0197456',
   payment_form: Facturapi.PaymentForm.DINERO_ELECTRONICO,
   items: [{
+    quantity: 2.5,
     product: {
       description: 'MacBook Pro 15 inch',
       product_key: '43211508',
@@ -68,6 +71,7 @@ const invoice = await facturapi.invoices.create({
     incoterm: 'DAP',
     goods: [
       {
+        quantity: 2.5,
         sku: '7890',
         tariff_code: '64069001',
         unit_price_usd: 2777.78
@@ -94,6 +98,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
   {
     new Dictionary<string, object>
     {  
+      ["quantity"] = 2.5,
       ["product"] = new Dictionary<string, object>
       {
         ["description"] = "MacBook Pro 15 inch",
@@ -112,6 +117,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
     {
       new Dictionary<string, object>
       {
+        ["quantity"] = 2.5,
         ["sku"] = "7890",
         ["tariff_code"] = "64069001",
         ["unit_price_usd"] = 2777.78
@@ -141,6 +147,7 @@ $invoice = array(
   "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
   "items" => array(
     array(
+      "quantity" => 2.5,
       "product" => array(
         "description" => "MacBook Pro 15 inch",
         "product_key" => "43211508",
@@ -155,6 +162,7 @@ $invoice = array(
     "incoterm" => "DAP",
     "goods" => array(
       array(
+        "quantity" => 2.5,
         "sku" => "7890",
         "tariff_code" => "64069001",
         "unit_price_usd" => 2777.78

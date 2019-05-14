@@ -17,7 +17,7 @@ const apiKeys = await facturapi.organizations.getApiKeys('5a2a307be93a2f00129ea0
 ```
 
 ```csharp
-var facturapi = new Facturapi.Wrapper("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
 var apiKeys = await facturapi.Organization.GetApiKeysAsync("5a2a307be93a2f00129ea035");
 ```
 

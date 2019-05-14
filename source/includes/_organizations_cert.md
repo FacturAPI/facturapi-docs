@@ -32,7 +32,7 @@ const organization = await facturapi.organizations.uploadCertificate(
 ```
 
 ```csharp
-var facturapi = new Facturapi.Wrapper("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
 var cerFileStream = File.OpenRead(@"C:\path\to\your\CSD.cer");
 var keyFileStream = File.OpenRead(@"C:\path\to\your\CSD.key");
 var organization = await facturapi.Organization.UploadCertificateAsync(

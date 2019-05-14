@@ -56,7 +56,7 @@ const facturapi = new Facturapi('sk_test_API_KEY');
 ```csharp
 // Crea una instancia del wrapper de Facturapi usando
 // tu llave secreta
-var facturapi = new Facturapi.Wrapper("sk_test_API_KEY");
+var facturapi = new FacturapiClient("sk_test_API_KEY");
 ```
 
 ```php

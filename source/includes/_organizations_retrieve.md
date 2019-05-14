@@ -19,7 +19,7 @@ const organization = await facturapi.organizations.retrieve(
 ```
 
 ```csharp
-var facturapi = new Facturapi.Wrapper("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
 var organization = await facturapi.Organization.RetrieveAsync(
   "5a2a307be93a2f00129ea035"
 );

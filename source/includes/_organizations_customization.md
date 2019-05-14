@@ -37,7 +37,7 @@ const organization = await facturapi.organizations.updateCustomization(
 ```
 
 ```csharp
-var facturapi = new Facturapi.Wrapper("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
 var organization = await facturapi.Organization.UpdateCustomizationAsync(
   "5a2a307be93a2f00129ea035",
   new Dictionary<string, object>
@@ -157,7 +157,7 @@ const organization = await facturapi.organizations.uploadLogo(
 ```
 
 ```csharp
-var facturapi = new Facturapi.Wrapper("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
 var fileStream = File.OpenRead(@"C:\path\to\your\logo.jpg");
 var organization = await facturapi.Organization.UploadLogoAsync(
   "5a2a307be93a2f00129ea035",

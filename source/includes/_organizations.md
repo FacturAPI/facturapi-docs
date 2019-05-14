@@ -107,7 +107,7 @@ const organization = await facturapi.organizations.create({
 ```
 
 ```csharp
-var facturapi = new Facturapi.Wrapper("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
 var organization = await facturapi.Organization.CreateAsync(new Dictionary<string, object>
 {
   ["name"] = "Skynet"
@@ -243,7 +243,7 @@ const organization = await facturapi.organizations.updateLegal(
 ```
 
 ```csharp
-var facturapi = new Facturapi.Wrapper("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
 var organization = await facturapi.Organization.UpdateLegalAsync(
   "5a2a307be93a2f00129ea035",
   new Dictionary<string, object>

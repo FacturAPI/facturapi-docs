@@ -49,6 +49,7 @@ $organization = $facturapi->Organizations->delete("5a2a307be93a2f00129ea035");
     "website": "www.sky.net",
     "phone": "555-555-5555",
     "address": {
+      "street":"Siempreviva",
       "exterior": "1414",
       "interior": "12",
       "zip": "44940",

@@ -194,16 +194,23 @@ Crea una nueva Factura de tipo **Comprobante de Ingreso** (la más común).
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **customer**<br><small>requerido</small> | string or object | none | Cliente receptor de la factura. <br/>`string`: Id del cliente previamente registrado en Facturapi. <br/>`object`: Objeto con la información del cliente, el cual se guardará en tu lista de clientes.. Acepta los mismos argumentos detallados en la sección [Crear cliente](#crear-cliente).
-**items**<br><small>requerido</small> | array | none | Arreglo de objetoes que representan los productos y las cantidades de éstos a incluir en la factura.
+**items**<br><small>requerido</small> | array | none | Arreglo de conceptos a incluir en la factura.
 **items[].product**<br><small>requerido</small> | string or object | none | Producto a facturar. <br/>`string`: Identificador del producto previamente registrado en Facturapi. <br/>`object`: Objeto con la información del producto, el cual sólo se usará para generar la factura y no se guardará en tu catálogo de productos. Acepta los mismos argumentos detallados en la sección [Crear Producto](#crear-producto)
 **items[].quantity**<br><small>opcional</small> | integer | 1 | Cantidad de unidades del producto.
 **items[].discount**<br><small>opcional</small> | decimal | 0 | Monto del descuento total a aplicar a este concepto.
 **items[].complement**<br><small>opcional</small> | string | none | Código XML con iformación adicioal personalizada acerca del concepto para añadir a la factura. Si tu complemento usa un namespace especial, recuerda añadirlo en el argumento `namespaces`.
+**items[].parts**<br><small>opcional</small> | array of objects | empty array | En caso de que el concepto cuente con partes.
+**items[].parts[].description**<br><small>requerido</small> | string | none | Descripción del producto o servicio.
+**items[].parts[].product_key**<br><small>requerido</small> | string | none | Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra <a href="https://www.facturapi.io/dashboard/tools/keys" target="_blank">herramienta de búsqueda de claves</a>.
+**items[].parts[].quantity**<br><small>opcional</small> | integer | 1 | Cantidad.
+**items[].parts[].sku**<br><small>opcional</small> | string | none | Identificador de uso interno designado por la empresa. Puede tener cualquier valor..
+**items[].parts[].unit_price**<br><small>opcional</small> | decimal | none | Precio unitario.
+**items[].parts[].unit_name**<br><small>opcional</small> | string | none | Nombre de la unidad de medida que expresa la cantidad.
 **payment_form**<br><small>requerido</small> | string | none | Código de la forma de pago según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
 **payment_method**<br><small>opcional</small> | string | "PUE" (Pago en una sola exhibición) | Código del método de pago según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
 **use**<br><small>opcional</small> | string | "G01" (Adquisición de mercancías) | Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
 **folio_number**<br><small>opcional</small> | integer | Autoincremental | Número de folio asignado por la empresa para control interno. Si se omite, se asignará el valor autoincremental de la organización. Si se envía un valor, este nuevo valor se usará para designar el siguiente número de folio de la organización.
-**series**<br><small>opcional</small> | string | "" | Serie. De 1 a 25 caracteres designados por la empresa para control interno y sin validez fiscal.
+**series**<br><small>opcional</small> | string | none | Serie. De 1 a 25 caracteres designados por la empresa para control interno y sin validez fiscal.
 **currency**<br><small>opcional</small> | string | "MXN" | Código de la moneda, acorde al estándar <a href="https://es.wikipedia.org/wiki/ISO_4217" target="_blank">ISO 4217</a>.
 **exchange**<br><small>opcional</small> | decimal | 1.0 | Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos que equivalen a una unidad de la divisa señalada en el atributo `currency`.
 **conditions**<br><small>opcional</small> | string | none | Condiciones de pago.

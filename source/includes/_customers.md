@@ -123,13 +123,13 @@ Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **legal_name**<br><small>requerido</small> | string | none | Nombre Fiscal o Razón Social del cliente.
 **tax_id**<br><small>requerido</small> | string | none | Para clientes de México debe enviarse el RFC del cliente. Para extranjeros se envía el número de registro de identificacón tributaria, es decir, el equivalente al RFC en el país del cliente.
-**email**<br><small>requerido</small> | string | "" | Dirección de correo electrónico al cual enviar las facturas generadas.
-**phone**<br><small>opcional</small> | string | "" | Teléfono del cliente que aparecerá en la factura impresa (PDF).
+**email**<br><small>requerido</small> | string | none | Dirección de correo electrónico al cual enviar las facturas generadas.
+**phone**<br><small>opcional</small> | string | none | Teléfono del cliente que aparecerá en la factura impresa (PDF).
 **address**<br><small>opcional</small> | object | none | Domicilio fiscal.
-**address.street**<br><small>opcional</small> | string | "" | Calle. Requerido para clientes extranjeros.
-**address.exterior**<br><small>opcional</small> | string | "" | Número exterior
-**address.interior**<br><small>opcional</small> | string | "" | Número interior
-**address.neighborhood**<br><small>opcional</small> | string | "" | Colonia
+**address.street**<br><small>opcional</small> | string | none | Calle. Requerido para clientes extranjeros.
+**address.exterior**<br><small>opcional</small> | string | none | Número exterior
+**address.interior**<br><small>opcional</small> | string | none | Número interior
+**address.neighborhood**<br><small>opcional</small> | string | none | Colonia
 **address.zip**<br><small>condicional</small> | string | none | Código postal. Requerido para clientes extranjeros.
 **address.city**<br><small>opcional</small> | string | Si se omite, se obtiene del código postal | Ciudad.
 **address.municipality**<br><small>opcional</small> | string | Si se omite, se obtiene del código postal | Municipio o Delegación

@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Facturapi Docs",
   "devDependencies": {
-    "eslint-config-prettier": "^4.1.0",
+    "eslint-config-prettier": "^6.0.0",
     "semistandard": "^13.0.1",
     "shipit-deploy": "^4.1.4",
     "shipit-gcs": "file:../shipit-gcs",
-    "yargs": "^13.2.2"
+    "yargs": "^13.2.4"
   },
   "scripts": {
     "build": "bundle exec middleman build --clean",

@@ -346,7 +346,7 @@ $organization = $facturapi->Organizations->updateLegal(
 }
 ```
 
-Actualiza los Datos Fiscales de la organización.
+Actualiza los datos fiscales de la organización.
 
 #### Argumentos
 
@@ -355,7 +355,6 @@ Argumento | Tipo | Default | Descripción
 **id**<br><small>requerido</small> | string | none | Identificador de la organización.
 **name**<br><small>requerido</small> | string | none | Nombre comercial de la organización.
 **legal_name**<br><small>requerido</small> | string | none | Nombre Fiscal o Razón Social de la organización.
-**tax_id**<br><small>requerido</small> | string | none | RFC de la organización.
 **tax_system**<br><small>requerido</small> | string | none | Código del Régimen Fiscal, del catálogo del SAT.
 **website**<br><small>opcional</small> | string | "" | Sitio web de la organización que se incluirá como enlace en el correo que se le envía al cliente con su factura adjunta.
 **phone**<br><small>opcional</small> | string | "" | Teléfono de la organización que aparecerá en la factura impresa (PDF).

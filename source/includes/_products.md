@@ -38,6 +38,10 @@ Argumento | Tipo | Descripción
 **taxes[].type** | string | Tipo de impuesto. Puede tener los valores "IVA", "ISR" o "IEPS".
 **taxes[].factor** | string | Tipo factor. Puede tener los valores "Tasa", "Cuota" o "Exento".
 **taxes[].withholding** | boolean | `true`: el impuesto es una retención. `false`: el impuesto es un traslado (impuesto normal).
+**local_taxes** | array | Arreglo de impuestos locales (estatales o municipales), en caso de haberlos.
+**local_taxes[].rate** | decimal | Tasa del impuesto.
+**local_taxes[].type** | string | Nombre del impuesto. Texto libre.
+**local_taxes[].withholding** | boolean | false | `true`: el impuesto es una retención. `false`: el impuesto es un traslado (impuesto normal).
 **unit_key** | string | Clave de unidad de medida, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra <a href="https://www.facturapi.io/dashboard/tools/keys" target="_blank">herramienta de búsqueda de claves</a>.
 **unit_name** | string | Nombre de la unidad de medida como aparecerá en la factura.
 **sku** | string | Identificador de uso interno designado por la empresa.

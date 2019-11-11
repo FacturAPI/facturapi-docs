@@ -44,6 +44,16 @@ var organization = await facturapi.Organization.UploadCertificateAsync(
 // Guarda el organization.Id para asociarlo con tu propia base de datos
 ```
 
+```php
+<?php
+$facturapi = new Facturapi( "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$organization = $facturapi->Organizations->uploadCertificate("5a2a307be93a2f00129ea035", array(
+  "cerFile" => "/path/to/CSD.cer",
+  "keyFile" => "/path/to/CSD.key",
+  "password" => "mYp455w0rD1553cUr3!"
+));
+```
+
 > <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json

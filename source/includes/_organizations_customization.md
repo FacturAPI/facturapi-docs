@@ -167,6 +167,14 @@ var organization = await facturapi.Organization.UploadLogoAsync(
 // Guarda el organization.Id para asociarlo con tu propia base de datos
 ```
 
+```php
+<?php
+$facturapi = new Facturapi( "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$organization = $facturapi->Organizations->uploadLogo("5a2a307be93a2f00129ea035", array(
+  "file" => "/path/to/logo.jpg"
+));
+```
+
 > <h4 class="toc-ignore">Respuesta JSON</h4>
 
 ```json

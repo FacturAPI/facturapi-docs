@@ -96,7 +96,7 @@ const invoice = await facturapi.invoices.create({
   customer: {
     legal_name: 'John Doe',
     email: 'email@example.com',
-    tax_id: 'ABCD111111ABC'
+    tax_id: 'ABCD111111CBA'
   },
   items: [{
     product: {
@@ -116,7 +116,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
   {
     ["legal_name"] = "John Doe",
     ["email"] = "email@example.com",
-    ["tax_id"] = "ABCD111111ABC"
+    ["tax_id"] = "ABCD111111CBA"
   },
   ["items"] = new Dictionary<string, object>[]
   {
@@ -140,7 +140,7 @@ $invoice = $facturapi->Invoices->create(array(
   "customer" => array(
     "legal_name" => "John Doe",
     "email" => "email@example.com",
-    "tax_id" => "ABCD111111ABC"
+    "tax_id" => "ABCD111111CBA"
   ),
   "items" => array(
     array(
@@ -163,11 +163,11 @@ $invoice = $facturapi->Invoices->create(array(
   "created_at": "2017-03-26T01:49:47.372Z",
   "livemode": false,
   "status": "valid",
-  "verification_url": "https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111ABC&tt=345.600000&fe=bWApPw==",
+  "verification_url": "https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111CBA&tt=345.600000&fe=bWApPw==",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
     "legal_name": "John Doe",
-    "tax_id": "ABCD111111ABC"
+    "tax_id": "ABCD111111CBA"
   },
   "payment_form": "06",
   "total": 345.6,
@@ -284,7 +284,7 @@ curl https://www.facturapi.io/v1/customers \
   -d '{
       "legal_name": "John Doe",
       "email": "email@example.com",
-      "tax_id": "ABCD111111ABC",
+      "tax_id": "ABCD111111CBA",
       "address": {
         "zip": "44940",
         "street": "Sunset Blvd"

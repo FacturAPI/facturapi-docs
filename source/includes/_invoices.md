@@ -9,7 +9,7 @@
   "livemode": false,
   "status": "valid",
   "cancellation_status": "none",
-  "verification_url": "https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111ABC&tt=345.600000&fe=bWApPw==",
+  "verification_url": "https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111CBA&tt=345.600000&fe=bWApPw==",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
     "legal_name": "Bimbo de México S.A. de C.V.",

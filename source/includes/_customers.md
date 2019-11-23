@@ -12,7 +12,7 @@
   "legal_name": "John Doe",
   "email": "email@example.com",
   "phone": "email@example.com",
-  "tax_id": "ABCD111111ABC",
+  "tax_id": "ABCD111111CBA",
   "address": {
     "street": "Sunset Blvd",
     "exterior": "123",
@@ -63,7 +63,7 @@ curl https://www.facturapi.io/v1/customers \
   -d '{
         "legal_name": "John Doe",
         "email": "email@example.com",
-        "tax_id": "ABCD111111ABC"
+        "tax_id": "ABCD111111CBA"
       }'
 ```
 
@@ -108,7 +108,7 @@ $customer = $facturapi->Customers->create(array(
   "livemode": false,
   "legal_name": "John Doe",
   "email": "email@example.com",
-  "tax_id": "ABCD111111ABC",
+  "tax_id": "ABCD111111CBA",
   "address": {
     "country": "México"
   }
@@ -209,7 +209,7 @@ $customer = $facturapi->Customers->update("590ce6c56d04f840aa8438af", array(
   "livemode": false,
   "legal_name": "John Doe",
   "email": "jdoe@example.com",
-  "tax_id": "ABCD111111ABC",
+  "tax_id": "ABCD111111CBA",
   "address": {
     "zip": "44940",
     "street": "Santa Monica Ave.",
@@ -291,7 +291,7 @@ $customers = $facturapi->Customers->all()
       "livemode": false,
       "legal_name": "John Doe",
       "email": "email@example.com",
-      "tax_id": "ABCD111111ABC",
+      "tax_id": "ABCD111111CBA",
       "address": {
         "zip": "12345",
         "street": "Sunset Blvd",
@@ -358,7 +358,7 @@ $customer = $facturapi->Customers->retrieve( "5a3ee743f508333611ad6b3c" );
   "livemode": false,
   "legal_name": "John Doe",
   "email": "email@example.com",
-  "tax_id": "ABCD111111ABC",
+  "tax_id": "ABCD111111CBA",
   "address": {
     "zip": "12345",
     "street": "Sunset Blvd",
@@ -408,7 +408,7 @@ $facturapi->Customers->delete( "5a3fefd9f508333611ad6b43" );
   "livemode": false,
   "legal_name": "John Doe",
   "email": "email@example.com",
-  "tax_id": "ABCD111111ABC",
+  "tax_id": "ABCD111111CBA",
   "address": {
     "zip": "12345",
     "street": "Sunset Blvd",

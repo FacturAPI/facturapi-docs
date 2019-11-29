@@ -28,6 +28,7 @@ includes:
   - organizations_list
   - organizations_retrieve
   - organizations_api_keys
+  - catalogs
   - errors
 
 search: false

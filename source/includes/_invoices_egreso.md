@@ -31,7 +31,7 @@ const facturapi = new Facturap('sk_test_API_KEY');
 const invoice = await facturapi.invoices.create({
   type: facturapi.InvoiceType.EGRESO,
   customer: customer.id,
-  payment_form: acturapi.PaymentForm.DINERO_ELECTRONICO,
+  payment_form: facturapi.PaymentForm.DINERO_ELECTRONICO,
   relation: facturapi.InvoiceRelation.DEVOLUCION,
   related: ['UUID_de_factura_relacionada'],
   product: {

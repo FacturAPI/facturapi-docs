@@ -110,3 +110,7 @@ $lang-selector-border-color: #33383b !default;
   word-break: break-all;
   hyphens: auto;
 }
+
+.content table code {
+  font-size: 12px;
+}

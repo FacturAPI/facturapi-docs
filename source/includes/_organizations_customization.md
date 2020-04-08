@@ -124,10 +124,11 @@ Actualiza la información relacionada con la identidad de la organización.
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **id**<br><small>requerido</small> | string | none | Identificador de la organización.
-**color**<br><small>requerido</small> | string | none | Color en representación Hexadecimal RGB de 6 caracteres. El caracter de almohadilla (#) al inicio es opcional.
-**pdf_extra**<br><small>opcional</small> | object | Objeto con opciones desactivadas | Configura qué campos opcionales se queiren mostrar en el PDF. El SAT no obliga a mostrar estos campos, pero pueden activarse según la preferencia de la organización.
+**color**<br><small>opcional</small> | string | none | Color en representación Hexadecimal RGB de 6 caracteres. El caracter de almohadilla (#) al inicio es opcional.
+**next_folio_number**<br><small>opcional</small> | string | none | Color en representación Hexadecimal RGB de 6 caracteres. El caracter de almohadilla (#) al inicio es opcional.
+**pdf_extra**<br><small>opcional</small> | object | Objeto con opciones activadas | Configura qué campos opcionales se queiren mostrar en el PDF. El SAT no obliga a mostrar estos campos, pero pueden activarse según la preferencia de la organización.
 **pdf_extra.codes**<br><small>opcional</small> | boolean | false | Mostrar códigos de catálogos del SAT junto a sus descripciones. Ejemplo: "KGM Kilogramo".
-**pdf_extra.product_key**<br><small>opcional</small> | boolean | false | Configura qué campos opcionales se queiren mostrar en el PDF. El SAT no obliga a mostrar estos campos, pero pueden activarse según la preferencia de la organización.
+**pdf_extra.product_key**<br><small>opcional</small> | boolean | false | Mostrar la clave de producto-servicio.
 
 ### Subir Logotipo
 

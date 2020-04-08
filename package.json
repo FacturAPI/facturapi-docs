@@ -11,7 +11,8 @@
   },
   "scripts": {
     "build": "bundle exec middleman build --clean",
-    "dev": "bundle exec middleman serve"
+    "dev": "bundle exec middleman serve",
+    "deploy": "firebase deploy"
   },
   "repository": {
     "type": "git",

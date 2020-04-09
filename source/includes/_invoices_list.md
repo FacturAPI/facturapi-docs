@@ -370,7 +370,7 @@ Argumento | Tipo | Descripción
 #### Argumentos en el cuerpo de la llamada
 Argumento | Tipo | Descripción
 ---------:|:----:| -----------
-**email**<br><small>opcional</small> | string | Dirección de correo electrónico a enviar la factura. Si no se envía este parámetro, la factura será enviada al correo que del cliente tenga registrado.
+**email**<br><small>opcional</small> | string or array of strings | Dirección de correo electrónico a enviar la factura. Si no se envía este parámetro, la factura será enviada al correo que del cliente tenga registrado. Puede enviarse un sólo string con el correo deseado o un array con una lista de correos (máximo 10).
 
 ### Cancelar Factura
 

@@ -80,10 +80,18 @@ curl https://www.facturapi.io/v1/invoices \
   -u "sk_test_API_KEY:" \
   -H "Content-Type: application/json" \
   -d '{
-    "customer": "58e93bd8e86eb318b0197456",
+    "customer": {
+      "legal_name": "John Doe S.A. de C.V.",
+      "email": "email@example.com",
+      "tax_id": "ABCD111111CBA"
+    },
     "items": [{
       "quantity": 2,
-      "product": "58e93bd8e86eb318b0197454"
+      "product": {
+        "description": "Ukelele",
+        "product_key": "60131324",
+        "price": 345.60
+      }
     }],
     "payment_form": "06"
   }'

@@ -408,7 +408,4 @@ Los ejemplos anteriores muestran cómo emitir el tipo de factura más común: el
 - [Crear Factura de Ingreso](#crear-factura-de-ingreso)
 - [Crear Factura de Egreso](#crear-factura-de-egreso)
 - [Crear Factura de Recepción de Pagos](#crear-factura-de-recepci-n-de-pagos)
-
-## Complementos
-
-- [Complemento de Comercio Exterior](#complemento-de-comercio-exterior)
+- [Crear Factura de Nómina](#crear-factura-de-n-mina)

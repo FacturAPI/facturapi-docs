@@ -113,7 +113,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
   {
     ["exchange"] = 18.00,
     ["incoterm"] = "DAP",
-    ["goods"] = new Dictionary<string, object>
+    ["goods"] = new Dictionary<string, object>[]
     {
       new Dictionary<string, object>
       {
@@ -123,7 +123,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
         ["unit_price_usd"] = 2777.78
       }
     },
-    ["addressees"] = new Dictionary<string, object>
+    ["addressees"] = new Dictionary<string, object>[]
     {
       new Dictionary<string, object>
       {

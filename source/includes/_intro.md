@@ -11,6 +11,7 @@ Es ideal para tu aplicación si buscas un servicio flexible y escalable para fac
   - **Ingreso** (la normal)
   - **Egreso** (nota de crédito)
   - **Pago** (complemento de pago)
+  - **Nómina** (recibo de nómina)
 - **Cancelaciones** con el nuevo esquema de Noviembre 2018.
 - **Registrar organizaciones** para emitir facturas usando distintos RFCs.
 

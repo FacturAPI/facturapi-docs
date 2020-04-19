@@ -18,9 +18,9 @@ includes:
   - customers
   - products
   - invoices
-  - invoices_egreso
   - invoices_pago
-  - invoices_foreign_trade
+  - invoices_nomina
+  - invoices_egreso
   - invoices_list
   - organizations
   - organizations_customization

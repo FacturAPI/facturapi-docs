@@ -323,6 +323,18 @@ curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
   -d '{
         "email": "another_email@example.com"
       }'
+
+# Enviar a otro correo
+curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
+  -u "sk_test_API_KEY:"
+  -X POST
+  -H "Content-Type: application/json" \
+  -d '{
+        "email": [
+          "first@email.com",
+          "second@email.com"
+        ]
+      }'
 ```
 
 ```javascript
@@ -333,7 +345,17 @@ await facturapi.invoices.sendByEmail('58e93bd8e86eb318b019743d');
 // Enviar a otro correo
 await facturapi.invoices.sendByEmail(
   '58e93bd8e86eb318b019743d',
-  { email: 'otro@correo@gmail.com' }
+  { email: 'otro@correo.com' }
+);
+// Enviar a más de un correo (máx. 10)
+await facturapi.invoices.sendByEmail(
+  '58e93bd8e86eb318b019743d',
+  { 
+    email: [
+      'primer@correo.com',
+      'segundo@correo.com'
+    ]
+  }
 );
 ```
 
@@ -345,7 +367,19 @@ await facturapi.Invoice.SendByEmailAsync(
   "58e93bd8e86eb318b019743d",
   new Dictionary<string, object>
   {
-    ["email"] = "otro@correo@gmail.com"
+    ["email"] = "otro@correo.com"
+  }
+);
+// Enviar a más de un correo
+await facturapi.Invoice.SendByEmailAsync(
+  "58e93bd8e86eb318b019743d",
+  new Dictionary<string, object>
+  {
+    ["email"] = new String[]
+    {
+      "primer@correo.com",
+      "segundo@correo.com"
+    }
   }
 );
 ```
@@ -356,7 +390,18 @@ $facturapi = new Facturapi( "sk_test_API_KEY" );
 // Enviar al correo del cliente
 $facturapi->Invoices->send_by_email("58e93bd8e86eb318b019743d");
 // Enviar a otro correo
-$facturapi->Invoices->send_by_email("58e93bd8e86eb318b019743d", array( email => "otro@correo@gmail.com" ));
+$facturapi->Invoices->send_by_email(
+  "58e93bd8e86eb318b019743d",
+  "otro@correo.com"
+);
+// Enviar a más de un correo (máx 10)
+$facturapi->Invoices->send_by_email(
+  "58e93bd8e86eb318b019743d",
+  array(
+    "primer@correo.com",
+    "segundo@correo.com"
+  )
+);
 ```
 
 Envía un correo electrónico al email de tu cliente, con los archivos XML y PDF adjuntos al mensaje.

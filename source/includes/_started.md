@@ -403,9 +403,15 @@ Para conocer los datos que puedes incluir en el producto, consulta la [referenci
 
 # Otros comprobantes
 
-Los ejemplos anteriores muestran cómo emitir el tipo de factura más común: el **comprobante de ingresos**. Actualmente, FacturAPI soporta la emisión de los 3 comprobantes más utilizados, de los 5 tipos que existen. Puedes ver en la sección de referencia cómo cear los diferentes tipos de comprobantes que soportamos:
+Los ejemplos anteriores muestran cómo emitir el tipo de factura más común: el **comprobante de ingreso**. Actualmente, FacturAPI soporta la emisión de 4, de los 5 tipos de comprobantes que existen. Puedes ver en la sección de referencia cómo cear los diferentes tipos de comprobantes que soportamos:
 
-- [Crear Factura de Ingreso](#crear-factura-de-ingreso)
-- [Crear Factura de Egreso](#crear-factura-de-egreso)
-- [Crear Factura de Recepción de Pagos](#crear-factura-de-recepci-n-de-pagos)
-- [Crear Factura de Nómina](#crear-factura-de-n-mina)
+### Tipos de factura soportados
+
+- [Comprobante de Ingreso](#crear-factura-de-ingreso)
+- [Comprobante de Egreso](#crear-factura-de-egreso)
+- [Comprobante de Recepción de Pagos](#crear-factura-de-recepci-n-de-pagos)
+- [Comprobante de Nómina](#crear-factura-de-n-mina)
+
+### Próximamente
+
+- Comprobante de Traslado

@@ -4,6 +4,7 @@
   "description": "Facturapi Docs",
   "devDependencies": {
     "eslint-config-prettier": "^6.0.0",
+    "firebase-tools": "^8.2.0",
     "semistandard": "^13.0.1",
     "shipit-deploy": "^4.1.4",
     "shipit-gcs": "file:../shipit-gcs",
@@ -12,7 +13,7 @@
   "scripts": {
     "build": "bundle exec middleman build --clean",
     "dev": "bundle exec middleman serve",
-    "deploy": "firebase deploy"
+    "deploy": "npm run build && firebase deploy"
   },
   "repository": {
     "type": "git",

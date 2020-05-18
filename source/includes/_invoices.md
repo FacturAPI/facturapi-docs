@@ -98,7 +98,7 @@ const invoice = await facturapi.invoices.create({
     quantity: 2,
     product: '58e93bd8e86eb318b0197454'
   }],
-  payment_form: facturapi.PaymentForm.DINERO_ELECTRONICO,
+  payment_form: Facturapi.PaymentForm.DINERO_ELECTRONICO,
   folio_number: 914,
   series: 'A'
 });

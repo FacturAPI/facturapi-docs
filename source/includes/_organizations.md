@@ -342,7 +342,7 @@ $organization = $facturapi->Organizations->updateLegal(
 }
 ```
 
-Actualiza los datos fiscales de la organización.
+Actualiza los datos fiscales de la organización. Ten en cuenta que el RFC (`tax_id`) se asigna automáticamente al subir tus Certificados de Sello Digital.
 
 #### Argumentos
 

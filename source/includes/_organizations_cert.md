@@ -98,8 +98,9 @@ $organization = $facturapi->Organizations->uploadCertificate("5a2a307be93a2f0012
 ```
 
 Sube los archivos del Certificado de Sello Digital (CSD) proporcionado por el SAT.
+Esta llamada también debe usarse para reemplazar los certificados existentes en caso de solicitar nuevos.
 
-Esta llamada también puede usarse para reemplazar los certificados existentes en caso de solicitar nuevos.
+Al actualizar tus certificados se leerá el RFC y asignará automáticamente a `legal.tax_id`.
 
 #### Argumentos
 

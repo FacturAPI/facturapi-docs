@@ -27,7 +27,7 @@ curl https://www.facturapi.io/v1/invoices \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_API_KEY');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const invoice = await facturapi.invoices.create({
   type: facturapi.InvoiceType.EGRESO,
   customer: customer.id,

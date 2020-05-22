@@ -12,7 +12,7 @@ curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035 \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const organization = await facturapi.organizations.retrieve(
   '5a2a307be93a2f00129ea035'
 );

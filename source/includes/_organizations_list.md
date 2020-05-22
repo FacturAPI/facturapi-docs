@@ -12,7 +12,7 @@ curl https://www.facturapi.io/v1/organizations \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const organizationResults = await facturapi.organizations.list();
 ```
 

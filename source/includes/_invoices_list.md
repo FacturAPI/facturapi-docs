@@ -170,7 +170,7 @@ curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_API_KEY');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const invoice = await facturapi.invoices.retrieve('58e93bd8e86eb318b019743d');
 ```
 
@@ -248,7 +248,7 @@ curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/xml \
 ```javascript
 const fs = require('fs');
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_API_KEY');
+const facturapi = new Facturapi('sk_test_API_KEY');
 
 // Descargar PDF y XML comprimidos en archivo ZIP
 const zipStream = await facturapi.invoices.downloadZip('58e93bd8e86eb318b019743d');
@@ -339,7 +339,7 @@ curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_API_KEY');
+const facturapi = new Facturapi('sk_test_API_KEY');
 // Enviar al correo del cliente
 await facturapi.invoices.sendByEmail('58e93bd8e86eb318b019743d');
 // Enviar a otro correo
@@ -435,7 +435,7 @@ curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_API_KEY');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const invoice = await facturapi.invoices.cancel('58e93bd8e86eb318b019743d');
 // invoice.status is now 'canceled'
 ```

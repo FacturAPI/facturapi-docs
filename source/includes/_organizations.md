@@ -100,7 +100,7 @@ curl https://www.facturapi.io/v1/organizations \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const organization = await facturapi.organizations.create({
   name: 'Skynet'
 });
@@ -201,7 +201,6 @@ curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/legal \
   -d '{
         "name": "Skynet",
         "legal_name": "Skynet S.A. de C.V.",
-        "tax_id": "SKY850208W40",
         "tax_system": "601",
         "website": "www.sky.net",
         "phone": "555-555-5555",
@@ -226,7 +225,6 @@ const organization = await facturapi.organizations.updateLegal(
   {
     name: 'Skynet',
     legal_name: 'Skynet S.A. de C.V.',
-    tax_id: 'SKY850208W40',
     tax_system: Facturapi.TaxSystem.GENERAL_LEY_DE_PERSONAS_MORALES,
     website: 'www.sky.net',
     phone: '555-555-5555',
@@ -252,7 +250,6 @@ var organization = await facturapi.Organization.UpdateLegalAsync(
   {
     ["name"] = "Skynet",
     ["legal_name"] = "Skynet S.A. de C.V.",
-    ["tax_id"] = "SKY850208W40",
     ["tax_system"] = "601",
     ["website"] = "www.sky.net",
     ["phone"] = "555-555-5555",
@@ -279,7 +276,6 @@ $organization = $facturapi->Organizations->updateLegal(
   "5a2a307be93a2f00129ea035", array(
     "name" => "Skynet",
     "legal_name" => "Skynet S.A. de C.V.",
-    "tax_id" => "SKY850208W40",
     "tax_system" => "601",
     "website" => "www.sky.net",
     "phone" => "555-555-5555",

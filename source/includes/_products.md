@@ -70,7 +70,7 @@ curl https://www.facturapi.io/v1/products \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const product = await facturapi.products.create({
   description: 'Ukelele',
   product_key: '60131324',
@@ -167,13 +167,13 @@ curl https://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
   -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
   -H "Content-Type: application/json" \
   -d '{
-        "price": 456.70"
+        "price": 456.70
     }'
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const product = await facturapi.products.update('590e22c26d04f840aa8438b2', {
   price: 456.70
 });
@@ -182,7 +182,7 @@ const product = await facturapi.products.update('590e22c26d04f840aa8438b2', {
 ```csharp
 var product = await facturapi.Product.UpdateAsync("590e22c26d04f840aa8438b2", new Dictionary<string, object>
 {
-  ["price"] = 345.60
+  ["price"] = 456.70
 });
 ```
 
@@ -191,7 +191,7 @@ var product = await facturapi.Product.UpdateAsync("590e22c26d04f840aa8438b2", ne
 $facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $product = array(
-  "description" => "Guitarra"
+  "price" => 456.70
 );
 
 $updated_product = $facturapi->Products->update( "5a3f3e35f508333611ad6b3e", $product );
@@ -256,7 +256,7 @@ curl https://www.facturapi.io/v1/products \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const productSearch = await facturapi.products.list();
 // productSearch.data contains the result array
 ```
@@ -331,7 +331,7 @@ curl https://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const product = await facturapi.products.retrieve('590e22c26d04f840aa8438b2');
 ```
 
@@ -386,7 +386,7 @@ curl https://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const removedProduct = await facturapi.products.del('590e22c26d04f840aa8438b2');
 ```
 

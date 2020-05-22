@@ -17,7 +17,7 @@ curl https://www.facturapi.io/v1/catalogs/products?q=ukelele \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const searchResult = await facturapi.catalogs.searchProducts({ q: 'ukelele' });
 // searchResult.data contains the result array
 ```
@@ -83,7 +83,7 @@ curl https://www.facturapi.io/v1/catalogs/units?q=pulgada \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const searchResult = await facturapi.catalogs.searchUnits({ q: 'pulgada' });
 // searchResult.data contains the result array
 ```

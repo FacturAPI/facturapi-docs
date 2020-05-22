@@ -225,7 +225,7 @@ curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_API_KEY');
+const facturapi = new Facturapi('sk_test_API_KEY');
 await facturapi.invoices.sendByEmail(invoice.id)
 // invoice has been sent
 ```

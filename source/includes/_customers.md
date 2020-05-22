@@ -69,7 +69,7 @@ curl https://www.facturapi.io/v1/customers \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const customer = await facturapi.customers.create({
   legal_name: 'John Doe',
   email: 'email@example.com',
@@ -161,7 +161,7 @@ curl https://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const customer = await facturapi.customers.update(
   '590ce6c56d04f840aa8438af',
   {
@@ -260,7 +260,7 @@ curl https://www.facturapi.io/v1/customers \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const customerSearch = await facturapi.customers.list();
 // customerSearch.data contains the result array
 ```
@@ -334,7 +334,7 @@ curl https://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const customer = await facturapi.customers.retrieve('590ce6c56d04f840aa8438af');
 ```
 
@@ -383,7 +383,7 @@ curl https://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const removedCustomer = await facturapi.customers.del('590ce6c56d04f840aa8438af');
 // remember to handle possible error throwing
 ```

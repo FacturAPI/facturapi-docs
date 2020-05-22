@@ -91,7 +91,7 @@ curl https://www.facturapi.io/v1/invoices \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_test_API_KEY');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const invoice = await facturapi.invoices.create({
   customer: '58e93bd8e86eb318b0197456',
   items: [{
@@ -129,11 +129,11 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 $facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $invoice = array(
-  "customer" => "YOUR_CUSTOMER_ID",
+  "customer" => "58e93bd8e86eb318b0197456",
   "items" => array(
     array(
       "quantity" => 1, // Optional. Defaults to 1.
-      "product" => "YOUR_PRODUCT_ID" // You can also pass a product object instead
+      "product" => "58e93bd8e86eb318b0197454" // You can also pass a product object instead
     ),
     array(
       "quantity" => 2,
@@ -209,7 +209,7 @@ Argumento | Tipo | Default | Descripción
 **payment_form**<br><small>requerido</small> | string | none | Código de la forma de pago según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
 **payment_method**<br><small>opcional</small> | string | "PUE" (Pago en una sola exhibición) | Código del método de pago según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
 **use**<br><small>opcional</small> | string | "G01" (Adquisición de mercancías) | Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
-**folio_number**<br><small>opcional</small> | integer | Autoincremental | Número de folio asignado por la empresa para control interno. Si se omite, se asignará el valor autoincremental de la organización. Si se envía un valor, este nuevo valor se usará para designar el siguiente número de folio de la organización.
+**folio_number**<br><small>opcional</small> | integer | Autoincremental | Número de folio asignado por la empresa para control interno. Si se omite, se asignará el valor autoincremental de la organización.
 **series**<br><small>opcional</small> | string | none | Serie. De 1 a 25 caracteres designados por la empresa para control interno y sin validez fiscal.
 **currency**<br><small>opcional</small> | string | "MXN" | Código de la moneda, acorde al estándar <a href="https://es.wikipedia.org/wiki/ISO_4217" target="_blank">ISO 4217</a>.
 **exchange**<br><small>opcional</small> | decimal | 1.0 | Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos que equivalen a una unidad de la divisa señalada en el atributo `currency`.

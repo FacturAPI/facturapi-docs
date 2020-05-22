@@ -23,7 +23,7 @@ curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/customiz
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const organization = await facturapi.organizations.updateCustomization(
   '5a2a307be93a2f00129ea035',
   {
@@ -149,7 +149,7 @@ curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/logo \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturap('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const fs = require('fs');
 const file = fs.createReadStream('/path/to/your/logo.jpg');
 const organization = await facturapi.organizations.uploadLogo(

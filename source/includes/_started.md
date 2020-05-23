@@ -401,7 +401,7 @@ También puedes registrar tu inventario de productos en Facturapi para no enviar
 
 Para conocer los datos que puedes incluir en el producto, consulta la [referencia del método Crear Producto](#crear-producto).
 
-### Organizaciones (Milti-RFC)
+### Organizaciones (Multi-RFC)
 
 ```shell
 curl https://www.facturapi.io/v1/organizations \

@@ -401,6 +401,48 @@ También puedes registrar tu inventario de productos en Facturapi para no enviar
 
 Para conocer los datos que puedes incluir en el producto, consulta la [referencia del método Crear Producto](#crear-producto).
 
+### Organizaciones (Milti-RFC)
+
+```shell
+curl https://www.facturapi.io/v1/organizations \
+  -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Content-Type: application/json" \
+  -d '{
+      "name": "Skynet"
+    }'
+```
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const organization = await facturapi.organizations.create({
+  name: 'Skynet'
+});
+// recuerda guardar el organization.id en tu propia base de datos
+```
+
+```csharp
+var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var organization = await facturapi.Organization.CreateAsync(new Dictionary<string, object>
+{
+  ["name"] = "Skynet"
+});
+// Guarda el organization.Id para asociarlo con tu propia base de datos
+```
+
+```php
+<?php
+$facturapi = new Facturapi("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+$organization = $facturapi->Organizations->create(array(
+    "name" => "Skynet"
+));
+// recuerda guardar el organization.id en tu propia base de datos
+```
+
+Puedes emitir facturas desde distintos RFC registrando nuevas organizaciones, ya sea desde tu dashboard o usando la API, con el método [Crear Organización](#crear-organizaci-n), así como los demás métodos para configurar datos fiscales, logotipo y colores, certificados, etc.
+
+Recuerda que para crear y administrar organizaciones deberás autenticarte usando tu User Key, que es una llave secreta asociada a toda tu cuenta, la cual puedes encontrar en tu [Configuración de cuenta > User Key](https://www.facturapi.io/dashboard/account/userkey).
+
 # Otros comprobantes
 
 Los ejemplos anteriores muestran cómo emitir el tipo de factura más común: el **comprobante de ingreso**. Actualmente, FacturAPI soporta la emisión de 4, de los 5 tipos de comprobantes que existen. Puedes ver en la sección de referencia cómo cear los diferentes tipos de comprobantes que soportamos:

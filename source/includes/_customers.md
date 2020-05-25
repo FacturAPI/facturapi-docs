@@ -90,7 +90,7 @@ var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, objec
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $customer = $facturapi->Customers->create(array(
   "email" => "email@example.com",
@@ -189,7 +189,7 @@ var customer = await facturapi.Customer.UpdateAsync(
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $customer = $facturapi->Customers->update("590ce6c56d04f840aa8438af", array(
   "email" => "jdoe@example.com",
@@ -272,7 +272,7 @@ var searchResult = await facturapi.Customer.ListAsync();
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $customers = $facturapi->Customers->all()
 ```
@@ -344,7 +344,7 @@ var customer = await facturapi.Customer.RetrieveAsync("590ce6c56d04f840aa8438af"
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $customer = $facturapi->Customers->retrieve( "5a3ee743f508333611ad6b3c" );
 ```
@@ -394,7 +394,7 @@ var customer = await facturapi.Customer.DeleteAsync("590ce6c56d04f840aa8438af");
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $facturapi->Customers->delete( "5a3fefd9f508333611ad6b43" );
 ```

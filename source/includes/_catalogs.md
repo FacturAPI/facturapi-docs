@@ -34,7 +34,7 @@ var searchResult = await facturapi.Catalog.SearchProducts(
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 $result = $facturapi->Catalogs->searchProducts([
   "q" => "ukelele"
 ]);
@@ -100,7 +100,7 @@ var searchResult = await facturapi.Catalog.SearchUnits(
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 $result = $facturapi->Catalogs->searchUnits([
   "q" => "pulgada"
 ]);

@@ -92,7 +92,7 @@ var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $product = array(
   "description" => "Ukelele",
@@ -188,7 +188,7 @@ var product = await facturapi.Product.UpdateAsync("590e22c26d04f840aa8438b2", ne
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $product = array(
   "price" => 456.70
@@ -268,7 +268,7 @@ var searchResult = await facturapi.Product.ListAsync();
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $products = $facturapi->Products->all();
 ```
@@ -341,7 +341,7 @@ var product = await facturapi.Product.RetrieveAsync("590e22c26d04f840aa8438b2");
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $product = $facturapi->Products->retrieve( "5a3ee743f508333611ad6b3c" );
 ```
@@ -396,7 +396,7 @@ var product = await facturapi.Product.DeleteAsync("590e22c26d04f840aa8438b2");
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $facturapi->Products->delete( "5a3f3e35f508333611ad6b3e" );
 ```

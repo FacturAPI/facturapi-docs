@@ -72,7 +72,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $invoice = array(
   "type" => \Facturapi\InvoiceType::PAGO,

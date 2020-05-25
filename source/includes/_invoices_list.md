@@ -80,7 +80,7 @@ var searchResult = await facturapi.Invoice.ListAsync(
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 // Todas las facturas de la organización
 $invoices = $facturapi->Invoices->all();
@@ -180,7 +180,7 @@ var invoice = await facturapi.Invoice.RetrieveAsync("58e93bd8e86eb318b019743d");
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $invoice = $facturapi->Invoices->retrieve( "59914af9b1bece552fcaaafd" );
 ```
@@ -282,7 +282,7 @@ file.Close();
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $zip = $facturapi->Invoices->download_zip("58e93bd8e86eb318b019743d") // stream containing the PDF and XML as a ZIP file or
 
@@ -386,7 +386,7 @@ await facturapi.Invoice.SendByEmailAsync(
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 // Enviar al correo del cliente
 $facturapi->Invoices->send_by_email("58e93bd8e86eb318b019743d");
 // Enviar a otro correo
@@ -446,7 +446,7 @@ var invoice = await facturapi.Invoice.CancelAsync("58e93bd8e86eb318b019743d");
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $facturapi->Invoices->cancel("58e93bd8e86eb318b019743d");
 ```

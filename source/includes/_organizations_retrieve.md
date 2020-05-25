@@ -39,6 +39,7 @@ $organization = $facturapi->Organizations->retrieve("5a2a307be93a2f00129ea035");
 {
   "id": "5a2a307be93a2f00129ea035",
   "created_at": "2017-05-05T20:55:33.468Z",
+  "domain": null,
   "is_production_ready": true,
   "pending_steps": [],
   "legal": {

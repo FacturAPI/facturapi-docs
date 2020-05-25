@@ -74,6 +74,7 @@ $organization = $facturapi->Organizations->updateCustomization(
 {
   "id": "5a2a307be93a2f00129ea035",
   "created_at": "2017-05-05T20:55:33.468Z",
+  "domain": null,
   "is_production_ready": false,
   "pending_steps": [{
     "type": "logo",
@@ -113,6 +114,11 @@ $organization = $facturapi->Organizations->updateCustomization(
     "expires_at": null,
     "updated_at": null,
     "has_cert": false
+  },
+  "receipts": {
+    "invoicing_period": "month",
+    "duration_days": 14,
+    "next_folio_number": 100
   }
 }
 ```

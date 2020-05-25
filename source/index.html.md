@@ -13,10 +13,10 @@ toc_footers:
 
 includes:
   - intro
-  # - requisites
   - started
   - customers
   - products
+  - receipts
   - invoices
   - invoices_pago
   - invoices_nomina
@@ -25,6 +25,7 @@ includes:
   - organizations
   - organizations_customization
   - organizations_cert
+  - organizations_receipts
   - organizations_list
   - organizations_retrieve
   - organizations_api_keys

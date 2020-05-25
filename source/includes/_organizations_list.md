@@ -23,7 +23,7 @@ var searchResult = await facturapi.Organization.ListAsync();
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $organizations = $facturapi->Organizations->all()
 ```
@@ -37,6 +37,7 @@ $organizations = $facturapi->Organizations->all()
   "data": [{
     "id": "5a2a307be93a2f00129ea035",
     "created_at": "2017-05-05T20:55:33.468Z",
+    "domain": null,
     "is_production_ready": true,
     "pending_steps": [],
     "legal": {
@@ -70,6 +71,11 @@ $organizations = $facturapi->Organizations->all()
       "expires_at": "2019-04-14T00:00:00.000Z",
       "updated_at": "2018-02-08T21:12:45.369Z",
       "has_cert": true
+    },
+    "receipts": {
+      "invoicing_period": "month",
+      "duration_days": 14,
+      "next_folio_number": 100
     }
   }]
 }

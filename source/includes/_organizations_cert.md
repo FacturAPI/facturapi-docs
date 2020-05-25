@@ -60,6 +60,7 @@ $organization = $facturapi->Organizations->uploadCertificate("5a2a307be93a2f0012
 {
   "id": "5a2a307be93a2f00129ea035",
   "created_at": "2017-05-05T20:55:33.468Z",
+  "domain": null,
   "is_production_ready": true,
   "pending_steps": [],
   "legal": {
@@ -93,6 +94,11 @@ $organization = $facturapi->Organizations->uploadCertificate("5a2a307be93a2f0012
     "expires_at": "2019-04-14T00:00:00.000Z",
     "updated_at": "2018-02-08T21:12:45.369Z",
     "has_certificate": true
+  },
+  "receipts": {
+    "invoicing_period": "month",
+    "duration_days": 14,
+    "next_folio_number": 100
   }
 }
 ```

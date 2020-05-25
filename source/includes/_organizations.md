@@ -7,6 +7,7 @@
   "id": "5a2a307be93a2f00129ea035",
   "created_at": "2017-05-05T20:55:33.468Z",
   "is_production_ready": false,
+  "domain": null,
   "pending_steps": [{
     "type": "logo",
     "description": "Sube tu logotipo"
@@ -41,6 +42,11 @@
     "expires_at": "2019-04-14T00:00:00.000Z",
     "updated_at": "2018-02-08T21:12:45.369Z",
     "has_certificate": true
+  },
+  "receipts": {
+    "invoicing_period": "month",
+    "duration_days": 14,
+    "next_folio_number": 100
   }
 }
 ```
@@ -299,6 +305,7 @@ $organization = $facturapi->Organizations->updateLegal(
 {
   "id": "5a2a307be93a2f00129ea035",
   "created_at": "2017-05-05T20:55:33.468Z",
+  "domain": null,
   "is_production_ready": false,
   "pending_steps": [{
     "type": "logo",
@@ -338,6 +345,11 @@ $organization = $facturapi->Organizations->updateLegal(
     "expires_at": null,
     "updated_at": null,
     "has_certificate": false
+  },
+  "receipts": {
+    "invoicing_period": "month",
+    "duration_days": 14,
+    "next_folio_number": 100
   }
 }
 ```

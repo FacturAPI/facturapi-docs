@@ -61,7 +61,7 @@ var facturapi = new FacturapiClient("sk_test_API_KEY");
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 ```
 
 Inicializa el cliente de Facturapi con la llave secreta de tu organización, pudiendo ésta a su vez ser Test o Live, según el ambiente que se requiera.
@@ -118,6 +118,7 @@ const invoice = await facturapi.invoices.create({
 ```
 
 ```csharp
+var facturapi = new FacturapiClient("sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
 var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 {
   ["customer"] = new Dictionary<string, object>
@@ -144,6 +145,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 
 ```php
 <?php
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 $invoice = $facturapi->Invoices->create(array(
   "customer" => array(
     "legal_name" => "John Doe",
@@ -218,25 +220,23 @@ Para conocer más a fondo las opciones disponibles al crear una factura, consult
 ### Envíala por correo
 
 ```shell
-curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
+curl https://www.facturapi.io/v1/invoices/<INVOICE_ID>/email \
   -u "sk_test_API_KEY:"
   -X POST
 ```
 
 ```javascript
-const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_API_KEY');
-await facturapi.invoices.sendByEmail(invoice.id)
+await facturapi.invoices.sendByEmail('<INVOICE_ID>')
 // invoice has been sent
 ```
 
 ```csharp
-await facturapi.Invoice.SendByEmailAsync(invoice.Id);
+await facturapi.Invoice.SendByEmailAsync("<INVOICE_ID>");
 ```
 
 ```php
 <?php
-$facturapi->Invoices->send_by_email("INVOICE_ID");
+$facturapi->Invoices->send_by_email("<INVOICE_ID>");
 ```
 
 Utilizando el `id` de la factura que acabamos de crear, podemos realizar operaciones como enviar
@@ -442,6 +442,147 @@ $organization = $facturapi->Organizations->create(array(
 Puedes emitir facturas desde distintos RFC registrando nuevas organizaciones, ya sea desde tu dashboard o usando la API, con el método [Crear Organización](#crear-organizaci-n), así como los demás métodos para configurar datos fiscales, logotipo y colores, certificados, etc.
 
 Recuerda que para crear y administrar organizaciones deberás autenticarte usando tu User Key, que es una llave secreta asociada a toda tu cuenta, la cual puedes encontrar en tu [Configuración de cuenta > User Key](https://www.facturapi.io/dashboard/account/userkey).
+
+### Emitir recibos
+
+```javascript
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const receipt = await facturapi.receipts.create({
+  folio_number: 1234,
+  payment_form: Facturapi.PaymentForm.DINERO_ELECTRONICO,
+  items: [{
+    quantity: 1,
+    product: {
+      description: 'Ukelele',
+      product_key: '60131324',
+      price: 345.60,
+      sku: 'ABC1234'
+    }
+  }]
+});
+// save the receipt.id in your database
+```
+
+```csharp
+var facturapi = new FacturapiClient("sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var receipt = await facturapi.Receipts.CreateAsync(new Dictionary<string, object>
+{
+  ["folio_number"] = 1234,
+  ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO,
+  ["items"] = new Dictionary<string, object>[]
+  {
+    new Dictionary<string, object> {
+      ["description"] = "Ukelele",
+      ["product_key"] = '60131324',
+      ["price"] = 345.60,
+      ["sku"] = "ABC1234"
+    }
+  }
+});
+```
+
+```php
+<?php
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+
+$receiptData = array(
+  "folio_number" => 1234,
+  "payment_form" => "03",
+  "items" => array(
+    array(
+      "description" => "Ukelele",
+      "product_key" => "60131324",
+      "price" => 345.60,
+      "sku" => "ABC1234"
+    )
+  )
+);
+
+$receipt = $facturapi->Receipts->create( $receiptData );
+```
+
+Otra manera de usar Facturapi es emitiendo recibos por cada venta que realizas. Los recibos (o notas de venta) contienen la información necesaria para que posteriormente puedan convertirse en una factura para tu cliente o formar parte de una factura global (al público en general).
+
+Para más detalles, consulta el método [Crear Recibo](#crear-recibo).
+
+### Factura tus recibos
+
+```shell
+curl https://www.facturapi.io/v1/receipts/<RECEIPT_ID>/invoice \
+  -X PUT
+  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "customer": {
+          "legal_name": "Roger Watters",
+          "tax_id": "ROWA121212A11",
+          "email": "roger@pinkfloyd.com"
+        },
+        "folio_number": 914,
+        "series": "F"
+    }'
+```
+
+```javascript
+const invoice = await facturapi.receipts.invoice('<RECEIPT_ID>', {
+  customer: {
+    legal_name: 'Roger Watters',
+    tax_id: 'ROWA121212A11',
+    email: 'roger@pinkfloyd.com'
+  },
+  folio_number: 914,
+  series: 'F'
+});
+```
+
+```csharp
+var invoice = await facturapi.Receipt.InvoiceAsync("<RECEIPT_ID>", new Dictionary<string, object>
+{
+  ["customer"] = new Dictionary<string, object>
+  {
+    ["legal_name"] = "Roger Watters",
+    ["tax_id"] = "ROWA121212A11",
+    ["email"] = "roger@pinkfloyd.com"
+  },
+  ["folio_number"] = 914,
+  ["series"] = "F"
+});
+```
+
+```php
+<?php
+$data = array(
+  "customer" => array(
+    "legal_name" => "Roger Watters",
+    "tax_id" => "ROWA121212A11",
+    "email" => "roger@pinkfloyd.com"
+  ),
+  "folio_number" => 914,
+  "series" => "F"
+);
+
+$invoice = $facturapi->Receipts->invoice( "<RECEIPT_ID>", $data );
+```
+
+Convierte tu recibo en factura si tu cliente te lo solicita. Más detalles en el método [Facturar Recibo](#facturar-recibo).
+
+### Autofactura
+
+Facturapi te permite tener un micrositio con el logotipo de tu empresa y tus colores, que tus clientes pueden visitar para introducir sus datos fiscales y convertir su recibo en factura.
+
+Para activar esta función, primero debes seleccionar un dominio para tu organización, ya sea desde la [Configuración de Recibos](https://www.facturapi.io/dashboard/settings/receipts) en tu dashboard, o llamando al método [Elegir dominio para autofactura](#elegir-dominio-para-autofactura) desde la API.
+
+Una vez elegido un dominio, nosotros asignaremos automáticamente el campo `self_invoice_url` para que contenga una dirección URL que le puedes dar a tu cliente para que termine de llenar sus datos fiscales y pueda convertir su recibo en factura. Dicha dirección URL tendrá la siguiente forma:
+
+`https://factura.space/<DOMAIN>/<RECEIPT_KEY>`
+
+También puedes instruir a tus clientes visitar `https://factura.space/<DOMAIN>` y proporcionarles la clave del campo `key` por separado, la cual podrán introducir en el sitio para acceder a tu recibo.
+
+El recibo sólo podrá facturarse mientras su atributo `status` tenga el valor `open`; es decir, mientras no haya sido facturado o cancelado. Un recibo abierto puede facturarse en cualquier momento por medio de la API, sin embargo, el portal de autofactura no permitirá facturar recibos después de su fecha de expiración (campo `expires_at`), la cual se calcula al momento de crear el recibo a partir de las configuraciones de recibos "Periodo de facturación" (`invoicing_period`) y "Días de vigencia para facturar" (`duration_days`).
+
+Por ejemplo, si tu periodo de facturación es mensual y tus días de vigencia para facturar son 7, el recibo expirará ya sea a los 7 días de su fecha de emisión, o el último día del mes, lo que ocurra primero. Cabe aclarar que la expiración del recibo sólo afecta al portal de autofactura. Los recibos pueden facturarse desde la API en cualquier momento.
+
+<!-- #### Factura global -->
 
 # Otros comprobantes
 

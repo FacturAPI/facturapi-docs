@@ -244,3 +244,60 @@ Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **id**<br><small>requerido</small> | string | none | Identificador de la organización.
 **domain**<br><small>requerido</small> | string | none | Nombre del dominio. Se permiten de 4 a 50 caracteres alfanuméricos, guión (-) y guión bajo (_). Puede contener mayúsculas, pero todo será transformado a minúsculas. Debe empezar con una letra y terminar en letra o número.
+
+### Revisar disponibilidad de un dominio
+
+> <h4 class="toc-ignore">Definición</h4>
+> `GET /v1/organizations/{ORGANIZATION_ID}/domain-check?domain={DOMAIN}`
+> <br/>
+
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
+
+```shell
+curl https://www.facturapi.io/v1/organizations/domain-check?domain=empresa-demo \
+  -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:"
+```
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const organization = await facturapi.organizations.checkDomainIsAvailable({
+  domain: 'empresa-demo'
+});
+```
+
+```csharp
+var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var organization = await facturapi.Organization.CheckDomainIsAvailableAsync(
+  new Dictionary<string, object>
+  {
+    ["domain"] = "empresa-demo"
+  }
+);
+// Guarda el organization.Id para asociarlo con tu propia base de datos
+```
+
+```php
+<?php
+$facturapi = new Facturapi("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+$organization = $facturapi->Organizations->checkDomainIsAvailable(
+  array( "domain" => "empresa-demo" )
+);
+```
+
+> <h4 class="toc-ignore">Respuesta JSON</h4>
+
+```json
+{
+  "available": true
+}
+```
+
+Revisa si un dominio está disponible para elegir.
+
+#### Argumentos
+
+Argumento | Tipo | Default | Descripción
+---------:|:----:|:-------:| -----------
+**id**<br><small>requerido</small> | string | none | Identificador de la organización.
+**domain**<br><small>requerido</small> | string | none | Nombre del dominio. Se permiten de 4 a 50 caracteres alfanuméricos, guión (-) y guión bajo (_). Puede contener mayúsculas, pero todo será transformado a minúsculas. Debe empezar con una letra y terminar en letra o número.

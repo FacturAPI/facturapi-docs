@@ -445,6 +445,25 @@ Recuerda que para crear y administrar organizaciones deberás autenticarte usand
 
 ### Emitir recibos
 
+```shell
+curl https://www.facturapi.io/v1/receipts \
+  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "folio_number": 1234,
+        "payment_form": "03",
+        "items": [{
+          "quantity": 1,
+          "product": {
+            "description": "Ukelele",
+            "product_key": "60131324",
+            "price": 345.60,
+            "sku": "ABC1234"
+          }
+        }]
+      }'
+```
+
 ```javascript
 const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const receipt = await facturapi.receipts.create({
@@ -509,7 +528,6 @@ Para más detalles, consulta el método [Crear Recibo](#crear-recibo).
 
 ```shell
 curl https://www.facturapi.io/v1/receipts/<RECEIPT_ID>/invoice \
-  -X PUT
   -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
   -H "Content-Type: application/json" \
   -d '{

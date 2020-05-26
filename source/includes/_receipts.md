@@ -233,7 +233,6 @@ POST https://www.facturapi.io/v1/receipts/{RECEIPT_ID}/invoice
 
 ```shell
 curl https://www.facturapi.io/v1/receipts/5ebd8e56f5687a013ca0df46/invoice \
-  -X PUT
   -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
   -H "Content-Type: application/json" \
   -d '{

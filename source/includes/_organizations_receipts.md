@@ -248,7 +248,7 @@ Argumento | Tipo | Default | Descripción
 ### Revisar disponibilidad de un dominio
 
 > <h4 class="toc-ignore">Definición</h4>
-> `GET /v1/organizations/{ORGANIZATION_ID}/domain-check?domain={DOMAIN}`
+> `GET /v1/organizations/domain-check?domain={DOMAIN}`
 > <br/>
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>

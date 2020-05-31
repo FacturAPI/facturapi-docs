@@ -44,7 +44,7 @@ Argumento | Tipo | Descripción
 **address.city** | string | Ciudad
 **address.municipality** | string | Municipio o Delegación
 **address.state** | string | Estado o Provincia
-**address.country** | string | Código de País acorde al estándar ISO 3166-1 alpha-3, del <a href="https://www.facturapi.io/dashboard/catalogs/countries" target="_blank">Catálogo de Países</a>.
+**address.country** | string | Código de País acorde al estándar ISO 3166-1 alpha-3, del <a href="https://www.facturapi.io/dashboard/catalogs/country" target="_blank">Catálogo de Países</a>.
 
 ### Crear Cliente
 
@@ -134,7 +134,7 @@ Argumento | Tipo | Default | Descripción
 **address.city**<br><small>opcional</small> | string | Si se omite, se obtiene del código postal | Ciudad.
 **address.municipality**<br><small>opcional</small> | string | Si se omite, se obtiene del código postal | Municipio o Delegación
 **address.state**<br><small>opcional</small> | string | none | Si el país es "MEX", este campo puede dejarse en blanco y se deducirá del código postal. Para extranjeros debe enviarse el código de Estado de acuerdo al estándar iso 3166-2, que puedes consultar en nuestro <a href="https://www.facturapi.io/dashboard/catalogs/states" target="_blank">Catálogo de Estados</a>.
-**address.country**<br><small>opcional</small> | string | "MEX" | Código de País acorde al estándar ISO 3166-1 alpha-3, del <a href="https://www.facturapi.io/dashboard/catalogs/countries" target="_blank">Catálogo de Países</a>.
+**address.country**<br><small>opcional</small> | string | "MEX" | Código de País acorde al estándar ISO 3166-1 alpha-3, del <a href="https://www.facturapi.io/dashboard/catalogs/country" target="_blank">Catálogo de Países</a>.
 
 ### Actualizar Cliente
 
@@ -241,7 +241,7 @@ Argumento | Tipo | Descripción
 **address.city**<br><small>opcional</small> | string | Ciudad.
 **address.municipality**<br><small>opcional</small> | string | Municipio o Delegación
 **address.state**<br><small>opcional</small> | string | Estado o código de Estado.
-**address.country**<br><small>opcional</small> | string | Código de País acorde al estándar ISO 3166-1 alpha-3, del <a href="https://www.facturapi.io/dashboard/catalogs/countries" target="_blank">Catálogo de Países</a>.
+**address.country**<br><small>opcional</small> | string | Código de País acorde al estándar ISO 3166-1 alpha-3, del <a href="https://www.facturapi.io/dashboard/catalogs/country" target="_blank">Catálogo de Países</a>.
 
 ### Lista de Clientes
 

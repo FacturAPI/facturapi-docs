@@ -47,9 +47,9 @@ podrás subir el logotipo de tu empresa para que aparezca en la versión impresa
 
 ### Obtén tus API Keys
 
-Por último, desde
-<a href="https://www.facturapi.io/dashboard/settings/apikeys" target="_blank">
-  Api Keys
+Por último, desde el
+<a href="https://www.facturapi.io/dashboard/integration" target="_blank">
+  Centro de Integración
 </a>
 podrás obtener las llaves privadas que sirven para identificar a tu organización al utilizar la
 API de Facturapi.

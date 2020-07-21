@@ -206,6 +206,7 @@ Argumento | Tipo | Default | Descripción
 **items[].parts[].sku**<br><small>opcional</small> | string | none | Identificador de uso interno designado por la empresa. Puede tener cualquier valor..
 **items[].parts[].unit_price**<br><small>opcional</small> | decimal | none | Precio unitario.
 **items[].parts[].unit_name**<br><small>opcional</small> | string | none | Nombre de la unidad de medida que expresa la cantidad.
+**items[].property_tax_account**<br><small>opcional</small> | string | none | Número de cuenta predial.
 **payment_form**<br><small>requerido</small> | string | none | Código de la forma de pago según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
 **payment_method**<br><small>opcional</small> | string | "PUE" (Pago en una sola exhibición) | Código del método de pago según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
 **use**<br><small>opcional</small> | string | "G01" (Adquisición de mercancías) | Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.

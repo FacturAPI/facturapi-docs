@@ -1,7 +1,8 @@
 ### Actualizar Configuración de Recibos
 
 <aside class="notice">
-  <strong>Importante</strong> Esta sección es un trabajo en progreso para documentar la API de recibos, con motivos informativos. <strong>Este recurso de la API aún no está disponible de manera general .</strong> Apreciamos mucho que nos contactes para compartirnos tus sugerencias y opiniones a contacto@facturapi.io.
+  <strong>Importante</strong> Esta sección es un trabajo en progreso para documentar la API de recibos, con motivos informativos. <strong>Este recurso de la API aún no está disponible de manera general .</strong> 
+  Si deseas ser parte del beta cerrado y ayudarnos a probarlo, envíanos un correo a contacto@facturapi.io
 </aside>
 
 > <h4 class="toc-ignore">Definición</h4>

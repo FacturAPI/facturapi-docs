@@ -122,7 +122,7 @@ Crea un nuevo Cliente
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **legal_name**<br><small>requerido</small> | string | none | Nombre Fiscal o Razón Social del cliente.
-**tax_id**<br><small>requerido</small> | string | none | Para clientes de México debe enviarse el RFC del cliente. Para extranjeros se envía el número de registro de identificacón tributaria, es decir, el equivalente al RFC en el país del cliente.
+**tax_id**<br><small>condicional</small> | string | none | Requerido para clientes de México, debe enviarse el RFC del cliente. Para extranjeros es opcional y se envía el número de registro de identificacón tributaria, es decir, el equivalente al RFC en el país del cliente.
 **email**<br><small>requerido</small> | string | none | Dirección de correo electrónico al cual enviar las facturas generadas.
 **phone**<br><small>opcional</small> | string | none | Teléfono del cliente que aparecerá en la factura impresa (PDF).
 **address**<br><small>opcional</small> | object | none | Domicilio fiscal.

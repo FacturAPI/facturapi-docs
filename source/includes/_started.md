@@ -35,7 +35,7 @@ Una vez que hayas terminado de configurar tu organización, podrás obtener tu l
 
 #### Llave de usuario
 
-Existe una tercera llave secreta (User Key) que sirve para registrar nuevas organizaciones y configurarlas por medio de la API. Puedes encontrar esta llave en las [configuraciones de cuenta](https://www.facturapi.io/dashboard/account/userkey) en tu dashboard de Facturapi.
+Existe una tercera llave secreta (User Key) que sirve para registrar nuevas organizaciones y configurarlas por medio de la API. Puedes encontrar esta llave en el [Centro de Integración](https://www.facturapi.io/dashboard/integration), en tu dashboard de Facturapi.
 
 ### Autenticación
 
@@ -439,9 +439,9 @@ $organization = $facturapi->Organizations->create(array(
 // recuerda guardar el organization.id en tu propia base de datos
 ```
 
-Puedes emitir facturas desde distintos RFC registrando nuevas organizaciones, ya sea desde tu dashboard o usando la API, con el método [Crear Organización](#crear-organizaci-n), así como los demás métodos para configurar datos fiscales, logotipo y colores, certificados, etc.
+Puedes emitir facturas desde distintos RFC registrando nuevas organizaciones emisoras, ya sea desde tu dashboard o usando la API, con el método [Crear Organización](#crear-organizaci-n), así como los demás métodos para configurar datos fiscales, logotipo y colores, certificados, etc.
 
-Recuerda que para crear y administrar organizaciones deberás autenticarte usando tu User Key, que es una llave secreta asociada a toda tu cuenta, la cual puedes encontrar en tu [Configuración de cuenta > User Key](https://www.facturapi.io/dashboard/account/userkey).
+Recuerda que para crear y administrar organizaciones deberás autenticarte usando tu User Key, que es una llave secreta asociada a toda tu cuenta, la cual puedes encontrar en tu [Centro de Integración](https://www.facturapi.io/dashboard/integration).
 
 ### Emitir recibos
 

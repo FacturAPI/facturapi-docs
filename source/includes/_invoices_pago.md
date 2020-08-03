@@ -14,7 +14,7 @@ curl https://www.facturapi.io/v1/invoices \
   -H "Content-Type: application/json" \
   -d '{
         "type": "P",
-        "customer": "58e93bd8e86eb318b0197456",
+        "customer": "58e93bd8e  86eb318b0197456",
         "payments": [{
           "payment_form": "06",
           "related": [{
@@ -152,7 +152,7 @@ Argumento | Tipo | Default | Descripción
 **payments[].related[].installment**<br><small>requerido</small> | integer | none | Número de parcialidad que representa este pago para la factura relacionada.
 **payments[].related[].last_balance**<br><small>requerido</small> | decimal | none | Cantidad que estaba pendiente por pagar antes de recibir este pago. Este valor se expresa en la moneda definida en `payments[].related[].currency`.
 **payments[].related[].currency**<br><small>opcional</small> | string | "MXN" | Si la moneda utilizada en la factura relacionada no es moneda nacional (MXN), debe especificarse su valor acorde al estándar <a href="https://es.wikipedia.org/wiki/ISO_4217" target="_blank">ISO 4217</a>.
-**payments[].related[].exchange**<br><small>condicional</small> | decimal | none | Obligatorio cuando la moneda del documento relacionado es distinta a la moneda de pago. Tipo de cambio entre las dos monedas. Ejemplo: El documento relacionado se registra en USD, mientras que el pago en EUR. Este atributo se registra como 1.1147 USD/EUR.
+**payments[].related[].exchange**<br><small>condicional</small> | decimal | none | Obligatorio cuando la moneda del documento relacionado es distinta a la moneda de pago. Tipo de cambio entre las dos monedas al momento del pago. Ejemplo: El documento relacionado se registra en USD, mientras que el monto de pago en MXN, este atributo debería registrarse como 0.45 USD/MXN.
 **payments[].related[].folio_number**<br><small>opcional</small> | integer | no se incluye | Número de folio asignado por la empresa para control interno.
 **payments[].related[].series**<br><small>opcional</small> | string | "" | Serie. De 1 a 25 caracteres designados por la empresa para control interno.
 

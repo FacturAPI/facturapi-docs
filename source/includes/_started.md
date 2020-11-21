@@ -286,16 +286,29 @@ Si lo necesitas, también puedes descargar los archivos de la factura en tu serv
 ### Registra a tu cliente (opcional)
 
 ```shell
+# Para clientes nacionales
 curl https://www.facturapi.io/v1/customers \
   -u "sk_test_API_KEY:" \
   -H "Content-Type: application/json" \
   -d '{
-      "legal_name": "John Doe",
+      "legal_name": "Juan Perez",
+      "email": "juan@example.com",
+      "tax_id": "ABCD111111CBA"
+    }'
+
+# Para clientes extranjeros.
+# Nótese que no necesitas usar el RFC genérico para extranjeros. Nosotros lo
+# pondremos por ti donde haga falta, siempre y cuando envíes el código del país
+curl https://www.facturapi.io/v1/customers \
+  -u "sk_test_API_KEY:" \
+  -H "Content-Type: application/json" \
+  -d '{
+      "legal_name": "IKEO",
       "email": "email@example.com",
-      "tax_id": "ABCD111111CBA",
+      "tax_id": "198912171234",
       "address": {
-        "zip": "44940",
-        "street": "Sunset Blvd"
+        "country": "SWE",
+        "zip": "17123"
       }
     }'
 ```

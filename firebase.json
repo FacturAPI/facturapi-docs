@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "facturapi-docs",
     "public": "build",
     "ignore": [
       "firebase.json",

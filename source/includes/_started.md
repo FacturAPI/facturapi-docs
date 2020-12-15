@@ -458,10 +458,6 @@ Recuerda que para crear y administrar organizaciones deberás autenticarte usand
 
 ### Emitir recibos
 
-<aside class="notice">
-  <strong>Importante</strong> Esta sección es un trabajo en progreso para documentar la API de recibos, con motivos informativos. <strong>Este recurso de la API aún no está disponible de manera general .</strong> Apreciamos mucho que nos contactes para compartirnos tus sugerencias y opiniones a contacto@facturapi.io.
-</aside>
-
 ```shell
 curl https://www.facturapi.io/v1/receipts \
   -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \

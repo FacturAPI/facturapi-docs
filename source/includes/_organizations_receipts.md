@@ -1,10 +1,5 @@
 ### Actualizar Configuración de Recibos
 
-<aside class="notice">
-  <strong>Importante</strong> Esta sección es un trabajo en progreso para documentar la API de recibos, con motivos informativos. <strong>Este recurso de la API aún no está disponible de manera general .</strong> 
-  Si deseas ser parte del beta cerrado y ayudarnos a probarlo, envíanos un correo a contacto@facturapi.io
-</aside>
-
 > <h4 class="toc-ignore">Definición</h4>
 > `PUT /v1/organizations/{ORGANIZATION_ID}/receipts`
 > <br/>
@@ -235,7 +230,7 @@ $organization = $facturapi->Organizations->updateDomain(
 
 Elige el dominio que utilizará esta organización en su micrositio de autofactura. Una vez elegido el dominio, deberás ponerte en contacto con nosotros si necesitas cambiarlo.
 
-El dominio que elijas será en que aparecerá en el campo `self_invoice_url` al crear un nuevo recibo, de la siguiente manera:
+El dominio que elijas será el que aparecerá en el campo `self_invoice_url` al crear un nuevo recibo, de la siguiente manera:
 
 `https://factura.space/{DOMAIN}/{RECEIPT_KEY}`
 

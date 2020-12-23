@@ -338,6 +338,187 @@ Argumento | Tipo | Default | Descripción
 **namespaces[].uri**<br><small>codicional</small> | string | none | Dirección URL asociada al namespace. Ejemplo: "http://www.sat.gob.mx/iedu". Requerido si se incluye `namespaces[].prefix`.
 **namespaces[].schema_location**<br><small>opcional</small> | string | none | Dirección URL del esquema de validación XSD. Ejemplo: "http://www.sat.gob.mx/sitio_interet/cfd/iedu/iedu.xsd".
 
+### Crear Factura Global
+
+> <h4 class="toc-ignore">Definición</h4>
+
+```text
+POST https://www.facturapi.io/v1/receipts/global-invoice
+```
+
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
+
+```shell
+curl https://www.facturapi.io/v1/receipts/global-invoice \
+  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "from": "2020-12-01T05:00:00.000Z",
+        "to": "2020-12-31T04:59:59.999Z",
+        "folio_number": 1234,
+        "series": "G"
+    }'
+```
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const invoice = await facturapi.receipts.createGlobalInvoice({
+  from: '2020-12-01T05:00:00.000Z',
+  to: '2020-12-31T04:59:59.999Z',
+  folio_number: 1234,
+  series: 'G'
+});
+```
+
+```csharp
+var invoice = await facturapi.Receipt.CreateGlobalInvoice(new Dictionary<string, object>
+{
+  ["from"] = "2020-12-01T05:00:00.000Z",
+  ["to"] = "2020-12-31T04:59:59.999Z",
+  ["folio_number"] = 1234,
+  ["series"] = "G"
+});
+```
+
+```php
+<?php
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+
+$invoice = $facturapi->Receipts->createGlobalInvoice(
+  array(
+    "from" => "2020-12-01T05:00:00.000Z",
+    "to" => "2020-12-31T04:59:59.999Z",
+    "folio_number" => 1234,
+    "series" => "G"
+  )
+);
+```
+
+> <h4 class="toc-ignore">Respuesta JSON</h4>
+
+```json
+{
+   "id":"5fe3a808626dbb49e0d312a6",
+   "created_at":"2020-12-01T05:59:59.999Z",
+   "livemode":false,
+   "verification_url":"https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=6CF6CE33-1BD2-4F88-A443-33013C069169&re=MYRF121212Q12&rr=XAXX010101000&tt=492.000000&fe=Hibcww==",
+   "status":"valid",
+   "type":"I",
+   "cancellation_status":"none",
+   "customer":{
+      "id":"5fe3a808626dbb49e0d312a5",
+      "legal_name":"Público en general",
+      "tax_id":"XAXX010101000"
+   },
+   "total":492,
+   "uuid":"6CF6CE33-1BD2-4F88-A443-33013C069169",
+   "use":"G03",
+   "folio_number":1,
+   "payment_form":"06",
+   "payment_method":"PUE",
+   "currency":"MXN",
+   "exchange":1,
+   "items":[
+      {
+         "quantity":1,
+         "discount":0,
+         "product":{
+            "description":"Venta",
+            "product_key":"01010101",
+            "unit_key":"ACT",
+            "unit_name":"Actividad",
+            "price":123,
+            "tax_included":true,
+            "taxes":[
+               {
+                  "rate":0.16,
+                  "type":"IVA",
+                  "withholding":false,
+                  "factor":"Tasa"
+               }
+            ],
+            "sku":"0"
+         }
+      },
+      {
+         "quantity":1,
+         "discount":0,
+         "product":{
+            "description":"Venta",
+            "product_key":"01010101",
+            "unit_key":"ACT",
+            "unit_name":"Actividad",
+            "price":123,
+            "tax_included":true,
+            "taxes":[
+               {
+                  "rate":0.16,
+                  "type":"IVA",
+                  "withholding":false,
+                  "factor":"Tasa"
+               }
+            ],
+            "sku":"0"
+         }
+      },
+      {
+         "quantity":1,
+         "discount":0,
+         "product":{
+            "description":"Venta",
+            "product_key":"01010101",
+            "unit_key":"ACT",
+            "unit_name":"Actividad",
+            "price":123,
+            "tax_included":true,
+            "taxes":[
+               {
+                  "rate":0.16,
+                  "type":"IVA",
+                  "withholding":false,
+                  "factor":"Tasa"
+               }
+            ],
+            "sku":"0"
+         }
+      },
+      {
+         "quantity":1,
+         "discount":0,
+         "product":{
+            "description":"Venta",
+            "product_key":"01010101",
+            "unit_key":"ACT",
+            "unit_name":"Actividad",
+            "price":123,
+            "tax_included":true,
+            "taxes":[
+               {
+                  "rate":0.16,
+                  "type":"IVA",
+                  "withholding":false,
+                  "factor":"Tasa"
+               }
+            ],
+            "sku":"0"
+         }
+      }
+   ]
+}
+```
+
+Crea una factura global por los recibos abiertos (con status = "open") de un cierto periodo.
+
+#### Argumentos
+
+Argumento | Tipo | Default | Descripción
+---------:|:----:|:-------:| -----------
+**from**<br><small>opcional</small> | string | Inicio del último periodo | Fecha inicial de los recibos que se incluirán en la factura global. Por default, este valor es el inicio del último periodo (día, semana, mes), según tengas configurado en tu configuración de recibos de tu organización.
+**to**<br><small>opcional</small> | string | Fin del último periodo | Fecha final de los recibos que se incluirán en la factura global. Por default, este valor es el fin del último periodo (día, semana, mes), según tengas configurado en tu configuración de recibos de tu organización.
+**folio_number**<br><small>opcional</small> | integer | Autoincremental | Número de folio asignado por la empresa para control interno. Si se omite, se asignará el valor autoincremental de la organización.
+**series**<br><small>opcional</small> | string | none | Serie. De 1 a 25 caracteres designados por la empresa para control interno y sin validez fiscal.
+
 ### Lista de Recibos
 
 > <h4 class="toc-ignore">Definición</h4>

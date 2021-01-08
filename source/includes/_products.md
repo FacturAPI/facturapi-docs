@@ -35,8 +35,9 @@ Argumento | Tipo | Descripción
 **tax_included** | boolean | `true`: todos los impuestos aplicables están incluídos en el precio (atributo `price`) y se desglosarán automáticamente al emitir la factura. `false`: el atributo `price` no incluye impuestos, por lo que aquellos impuestos a aplicar se sumarán en el precio final.
 **taxes** | array | Lista de impuestos que deberán aplicarse a este producto. Si la lista está vacía, se entiende que el producto está excento de impuestos.
 **taxes[].rate** | decimal | Tasa del impuesto.
-**taxes[].type** | string | Tipo de impuesto. Puede tener los valores "IVA", "ISR" o "IEPS".
-**taxes[].factor** | string | Tipo factor. Puede tener los valores "Tasa", "Cuota" o "Exento".
+**taxes[].type** | string | Tipo de impuesto. Puede tener los valores `"IVA"`, `"ISR"` o `"IEPS"`.
+**taxes[].ieps_mode** | string | Si el tipo de impuesto es `"IEPS"`, indica la manera de cobrar el impuesto, y puede tener los valores "sum_before_taxes" o "break_down".
+**taxes[].factor** | string | Tipo factor. Puede tener los valores `"Tasa"`, `"Cuota"` o `"Exento"`.
 **taxes[].withholding** | boolean | `true`: el impuesto es una retención. `false`: el impuesto es un traslado (impuesto normal).
 **local_taxes** | array | Arreglo de impuestos locales (estatales o municipales), en caso de haberlos.
 **local_taxes[].rate** | decimal | Tasa del impuesto.
@@ -137,12 +138,13 @@ Argumento | Tipo | Default | Descripción
 **description**<br><small>requerido</small> | string | none | Descripción del bien o servicio como aparecerá en la factura.
 **product_key**<br><small>requerido</small> | string | none | Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra <a href="https://www.facturapi.io/dashboard/tools/keys" target="_blank">herramienta de búsqueda de claves</a>.
 **price**<br><small>requerido</small> | decimal | none | Precio por unidad del bien o servicio. Este valor representará el precio con IVA incluído o sin él, dependiendo del valor de `tax_included`.
-**tax_included**<br><small>opcional</small> | boolean | true | `true`: todos los impuestos aplicables están incluídos en el precio (atributo `price`) y se desglosarán automáticamente al emitir la factura. `false`: el atributo `price` no incluye impuestos, por lo que aquellos impuestos a aplicar se sumarán en el precio final.
+**tax_included**<br><small>opcional</small> | boolean | true | <ul><li>`true`: todos los impuestos aplicables están incluídos en el precio (atributo `price`) y se desglosarán automáticamente al emitir la factura.</li><li>`false`: el atributo `price` no incluye impuestos, por lo que aquellos impuestos a aplicar se sumarán en el precio final.</li></ul>
 **taxes**<br><small>opcional</small> | array | Elemento con IVA trasladado del 16% | Lista de impuestos que deberán aplicarse a este producto. Si el argumento se omite o es nulo, se guardará con un elemento que representa el IVA trasladado del 16%, que es el impuesto más común. En caso de mandar explícitamente un arreglo vacío, se entiende que el producto está excento de impuestos.
 **taxes[].rate**<br><small>opcional</small> | decimal | 0.16 | Tasa del impuesto.
-**taxes[].type**<br><small>opcional</small> | string | "IVA" | Tipo de impuesto. Puede tener los valores "IVA", "ISR" o "IEPS".
-**taxes[].factor**<br><small>opcional</small> | string | "Tasa" | Tipo factor. Puede tener los valores "Tasa", "Cuota" o "Exento".
-**taxes[].withholding**<br><small>opcional</small> | boolean | false | `true`: el impuesto es una retención. `false`: el impuesto es un traslado (impuesto normal).
+**taxes[].type**<br><small>opcional</small> | string | "IVA" | Tipo de impuesto. Puede tener los valores `"IVA"`, `"ISR"` o `"IEPS"`.
+**taxes[].ieps_mode**<br><small>opcional</small> | string | "sum_before_taxes" | <p>Sólo aplica si el tipo de impuesto es `"IEPS"`. Indica la manera de cobrar el impuesto, y puede tener los valores:</p><ul><li>`"sum_before_taxes"`: Para aplicar primeero el IEPS al subtotal y usar el resultado como base del resto de impuestos en el producto.</li><li>`"break_down"`: Para cobrar el IEPS al mismo nivel que el resto de los impuestos en el producto.</li></ul><p>Consulta con tu contador qué caso aplica para tu giro de empresa y producto.</p>
+**taxes[].factor**<br><small>opcional</small> | string | "Tasa" | Tipo factor. Puede tener los valores `"Tasa"`, `"Cuota"` o `"Exento"`.
+**taxes[].withholding**<br><small>opcional</small> | boolean | false | <ul><li>`true`: el impuesto es una retención.</li><li>`false`: el impuesto es un traslado (impuesto normal).</li></ul>
 **local_taxes**<br><small>opcional</small> | array | [] | Arreglo de impuestos locales (estatales o municipales), en caso de haberlos.
 **local_taxes[].rate**<br><small>requerido</small> | decimal | none | Tasa del impuesto.
 **local_taxes[].type**<br><small>requerido</small> | string | none | Nombre del impuesto. Texto libre.

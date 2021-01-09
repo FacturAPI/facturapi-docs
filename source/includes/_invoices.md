@@ -137,7 +137,7 @@ $invoice = array(
     ),
     array(
       "quantity" => 2,
-        "product" => array(
+      "product" => array(
         "description" => "Guitarra",
         "product_key" => "0601313247",
         "price" => 420.69,

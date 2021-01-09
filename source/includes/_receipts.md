@@ -142,10 +142,12 @@ $receiptData = array(
   "payment_form" => "03",
   "items" => array(
     array(
-      "description" => "Ukelele",
-      "product_key" => "60131324",
-      "price" => 345.60,
-      "sku" => "ABC1234"
+      "product" => array(
+        "description" => "Ukelele",
+        "product_key" => "60131324",
+        "price" => 345.60,
+        "sku" => "ABC1234"
+      )
     )
   )
 );

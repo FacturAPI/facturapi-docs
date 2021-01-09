@@ -21,6 +21,28 @@ $> composer require "facturapi/facturapi-php"
 
 Empieza por incluir el cliente de Facturapi en las dependencias de tu proyecto.
 
+```shell
+# cURL no requiere de instalar un cliente adicional
+```
+
+```javascript
+// CommonJS
+const Facturapi = require('facturapi');
+
+// ES6 / Typescript
+import Facturapi from 'facturapi';
+```
+
+```csharp
+using Facturapi;
+```
+
+```php
+use use Facturapi\Facturapi;
+```
+
+No olvides importar la librería antes de usarla.
+
 ### Ambientes y llaves secretas
 
 #### Ambiente Test

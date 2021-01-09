@@ -1,8 +1,6 @@
-## Recibos (Beta)
+## Recibos
 
-<aside class="notice">
-  <strong>Importante</strong> Esta sección es un trabajo en progreso para documentar la API de recibos, con motivos informativos. <strong>Este recurso de la API aún no está disponible de manera general .</strong> Apreciamos mucho que nos contactes para compartirnos tus sugerencias y opiniones a contacto@facturapi.io.
-</aside>
+Notas de venta facturables.
 
 ### Objeto Recibo
 

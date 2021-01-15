@@ -23,12 +23,13 @@ includes:
   - invoices_egreso
   - invoices_list
   - organizations
-  - organizations_customization
   - organizations_cert
+  - organizations_api_keys
+  - organizations_customization
   - organizations_receipts
   - organizations_list
   - organizations_retrieve
-  - organizations_api_keys
+  - organizations_delete
   - catalogs
   - errors
 

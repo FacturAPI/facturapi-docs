@@ -50,6 +50,7 @@ Argumento | Tipo | Descripción
 **uuid** | string | Folio fiscal de la factura emitido por el SAT.
 **folio_number** | integer | Número de folio autoincremental para control interno y sin validez fiscal.
 **series** | string | Serie. De 1 a 25 caracteres designados por la empresa para control interno y sin validez fiscal.
+**external_id** | string | Identificador opcional que puedes usar para relacionar esta factura con tus registros para después buscar por este número.
 **payment_form** | string | Código que representa la forma de pago, según el catálogo del SAT.
 **items** | array of objects | Arreglo de conceptos facturados.
 **items[].quantity** | integer | Cantidad de unidades del concepto facturado.
@@ -214,6 +215,7 @@ Argumento | Tipo | Default | Descripción
 **use**<br><small>opcional</small> | string | "G01" (Adquisición de mercancías) | Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en la tabla que se muestra más abajo, o utilizar las constantes incluídas en nuestras librerías.
 **folio_number**<br><small>opcional</small> | integer | Autoincremental | Número de folio asignado por la empresa para control interno. Si se omite, se asignará el valor autoincremental de la organización.
 **series**<br><small>opcional</small> | string | none | Serie. De 1 a 25 caracteres designados por la empresa para control interno y sin validez fiscal.
+**external_id**<br><small>opcional</small> | string | Identificador opcional que puedes usar para relacionar esta factura con tus registros y poder hacer búsquedas usando este identificador. Facturapi <strong>no</strong> valida que este campo sea único.
 **currency**<br><small>opcional</small> | string | "MXN" | Código de la moneda, acorde al estándar <a href="https://es.wikipedia.org/wiki/ISO_4217" target="_blank">ISO 4217</a>.
 **exchange**<br><small>opcional</small> | decimal | 1.0 | Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos que equivalen a una unidad de la divisa señalada en el atributo `currency`.
 **conditions**<br><small>opcional</small> | string | none | Condiciones de pago.
@@ -222,7 +224,10 @@ Argumento | Tipo | Default | Descripción
 **relation**<br><small>condicional</small> | string | none | Clave de relación del catálogo del SAT (que puedes consultar en las tablas de abajo). Es requerido cuando se envíe el argumento `related`.
 **pdf_custom_section**<br><small>opcional</small> | string | none | En caso de que necesites incluir más información en el PDF, este campo te permite enviar código HTML con tu propio contenido. Por seguridad, el código que puedes enviar está limitado a las siguientes etiquetas: `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `div`, `p`, `span`, `small`, `br`, `b`, `i`, `ul`, `ol`, `li`, `strong`, `table`, `thead`, `tbody`, `tfoot`, `tr`, `th` y `td`. No se permiten atributos ni estilos.
 **addenda**<br><small>opcional</small> | string | none | Código XML con la Addenda que se necesite agregar a la factura.
-**namespaces**<br><small>opcional</small> | array of objects | none | Si icluiste uno de los argumentos `addenda` o `items[].complement` y éstos incluyen un namespace especial, debes enviar la información necesaria para incluir estos namespaces en el XML de la factura.
+**complements**<br><small>opcional</small> | array of objects | none | Arreglo de complementos a incluir en la factura. Puedes incluir cualquier complemento en la factura si tu mismo construyes el nodo XML del complemento y usas el tipo `custom`. No olvides que es necesario agregar el prefijo y las URLs necesarias usando el argumento `namespaces`. También recuerda agregar la información del complemento al PDF usando el argumento `pdf_custom_section`.
+**complements[].type**<br><small>requerido</small> | string | none | String que representa el tipo de complemento. Si construyes tu mismo el XML de tu complemento, puedes usar el valor `custom` en este campo y pasar tu complemento en el siguiente argumento `data`. El único otro valor soportado hasta ahora es `nomina`.
+**complements[].data**<br><small>requerido</small> | string or object | none | <ul><li>`string`: En caso de que el tipo de complemento sea `custom`, este argumento debe contener el código XML de tu complemento tal cual como quieres que se inserte en el XML. Debe contener sólamente un nodo XML raíz.</li><li>`object`: En caso de que se trate de un complemento soportado por Facturapi, en este objeto deberás incluir los datos del complemento.</li</ul>
+**namespaces**<br><small>opcional</small> | array of objects | none | Si icluiste uno de los argumentos `addenda`, `complements`, o `items[].complement` y éstos incluyen un namespace especial, debes enviar la información necesaria para incluir estos namespaces en el XML de la factura.
 **namespaces[].prefix**<br><small>opcional</small> | string | none | Prefijo o nombre del namespace. Ejemplo: "iedu".
 **namespaces[].uri**<br><small>codicional</small> | string | none | Dirección URL asociada al namespace. Ejemplo: "http://www.sat.gob.mx/iedu". Requerido si se incluye `namespaces[].prefix`.
 **namespaces[].schema_location**<br><small>opcional</small> | string | none | Dirección URL del esquema de validación XSD. Ejemplo: "http://www.sat.gob.mx/sitio_interet/cfd/iedu/iedu.xsd".

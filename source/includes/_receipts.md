@@ -208,7 +208,7 @@ Argumento | Tipo | Default | Descripción
 **items[].product**<br><small>requerido</small> | string or object | none | Producto a facturar. <br/>`string`: Identificador del producto previamente registrado en Facturapi. <br/>`object`: Objeto con la información del producto, el cual sólo se usará para generar el recibo y no se guardará en tu catálogo de productos. Acepta los mismos argumentos detallados en la sección [Crear Producto](#crear-producto)
 **items[].quantity**<br><small>opcional</small> | integer | 1 | Cantidad de unidades del producto.
 **items[].discount**<br><small>opcional</small> | decimal | 0 | Monto del descuento total a aplicar a este concepto.
-**items[].complement**<br><small>opcional</small> | string | none | Código XML con iformación adicioal personalizada acerca del concepto para añadir a la factura. Si tu complemento usa un namespace especial, recuerda añadirlo en el argumento `namespaces`.
+**items[].complement**<br><small>opcional</small> | string | none | Código XML de tu complemento. Recuerda que debes añadir el prefijo y las URLs usando el argumento `namespaces`.
 **items[].parts**<br><small>opcional</small> | array of objects | empty array | En caso de que el concepto cuente con partes.
 **items[].parts[].description**<br><small>requerido</small> | string | none | Descripción del producto o servicio.
 **items[].parts[].product_key**<br><small>requerido</small> | string | none | Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra <a href="https://www.facturapi.io/dashboard/tools/keys" target="_blank">herramienta de búsqueda de claves</a>.

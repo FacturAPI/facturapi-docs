@@ -85,7 +85,7 @@ const product = await facturapi.products.create({
 var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
 {
   ["description"] = "Ukelele",
-  ["product_key"] = '60131324',
+  ["product_key"] = "60131324",
   ["price"] = 345.60,
   ["sku"] = "ABC1234"
 });

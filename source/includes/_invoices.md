@@ -200,7 +200,7 @@ Argumento | Tipo | Default | Descripción
 **items[].quantity**<br><small>opcional</small> | integer | 1 | Cantidad de unidades del producto.
 **items[].discount**<br><small>opcional</small> | decimal | 0 | Monto del descuento total a aplicar a este concepto.
 **items[].customs_keys**<br><small>opcional</small> | array of strings | none | Arreglo para incluir uno o más números de pedimento asociados a este concepto.
-**items[].complement**<br><small>opcional</small> | string | none | Código XML con iformación adicioal personalizada acerca del concepto para añadir a la factura. Si tu complemento usa un namespace especial, recuerda añadirlo en el argumento `namespaces`.
+**items[].complement**<br><small>opcional</small> | string | none | Código XML de tu complemento. Recuerda que debes añadir el prefijo y las URLs usando el argumento `namespaces`.
 **items[].parts**<br><small>opcional</small> | array of objects | empty array | En caso de que el concepto cuente con partes.
 **items[].parts[].description**<br><small>requerido</small> | string | none | Descripción del producto o servicio.
 **items[].parts[].product_key**<br><small>requerido</small> | string | none | Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra <a href="https://www.facturapi.io/dashboard/tools/keys" target="_blank">herramienta de búsqueda de claves</a>.

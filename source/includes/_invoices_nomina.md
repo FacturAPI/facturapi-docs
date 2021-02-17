@@ -484,6 +484,7 @@ Argumento | Tipo | Default | Descripción
 **percepciones**<br><small>opcional</small> | object | none | Objeto para indicar las percepciones aplicables.
 **percepciones.percepcion**<br><small>requerido</small> | array of objects | none | Objeto para indicar las percepciones aplicables.
 **percepciones<br/>&nbsp;&nbsp;.percepcion[]<br/>&nbsp;&nbsp;.tipo_percepcion**<br><small>requerido</small> | string | none | Clave del catálogo "Tipo de percepción", que puedes consultar más abajo.
+**percepciones<br/>&nbsp;&nbsp;.percepcion[]<br/>&nbsp;&nbsp;.concepto**<br><small>opcional</small> | string | none | Concepto de la percepción. Si no se envía, se utilizará la descripción del catálogo del tipo de percepción.
 **percepciones<br/>&nbsp;&nbsp;.percepcion[]<br/>&nbsp;&nbsp;.clave**<br><small>requerido</small> | string | none | Clave de control interno que asigna el patrón a cada percepción de nómina propia de su contabilidad, de 3 a 15 caracteres.
 **percepciones<br/>&nbsp;&nbsp;.percepcion[]<br/>&nbsp;&nbsp;.importe_gravado**<br><small>requerido</small> | decimal | none | Importe gravado por el concepto indicado en el tipo de percepción.
 **percepciones<br/>&nbsp;&nbsp;.percepcion[]<br/>&nbsp;&nbsp;.importe_exento**<br><small>requerido</small> | decimal | none | Importe exento por el concepto indicado en el tipo de percepción.
@@ -509,6 +510,7 @@ Argumento | Tipo | Default | Descripción
 **percepciones<br/>&nbsp;&nbsp;.separacion_indemnizacion<br/>&nbsp;&nbsp;.ingreso_no_acumulable**<br><small>requerido</small> | decimal | none | Monto por ingresos no acumulables.
 **deducciones**<br><small>opcional</small> | array of objects | none | Arreglo de objetos donde se expresan las deducciones aplicables.
 **deducciones[]<br/>&nbsp;&nbsp;.tipo_deduccion**<br><small>requerido</small> | string | none | Clave del catálogo "Tipo de deducción", que puedes consultar más abajo.
+**deducciones[]<br/>&nbsp;&nbsp;.concepto**<br><small>opcional</small> | string | none | Concepto de la deducción. Si no se envía, se utilizará la descripción del catálogo del tipo de deducción.
 **deducciones[]<br/>&nbsp;&nbsp;.clave**<br><small>requerido</small> | string | none | Clave de control interno que asigna el patrón a cada deducción (descuento) de nómina propia de su contabilidad. De 3 a 15 caracteres.
 **deducciones[]<br/>&nbsp;&nbsp;.importe**<br><small>requerido</small> | decimal | none | Importe del concepto de deducción.
 **otros_pagos**<br><small>opcional</small> | array of objects | none | Arreglo de objetos para expresar otros pagos aplicables.

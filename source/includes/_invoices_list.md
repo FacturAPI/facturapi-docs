@@ -91,7 +91,7 @@ $invoices = $facturapi->Invoices->all(array(
 // Página 3 de los resultados de búsqueda de texto libre
 // de facturas emitidas por cierto cliente entre 2017 y 2019
 $invoices = $facturapi->Invoices->all(array(
-  q => 'Aspiradora Robot',
+  q => "Aspiradora Robot",
   customer => "590ce6c56d04f840aa8438af"
   date => array(
     gte => new DateTime("2017-01-01"),

@@ -1,0 +1,595 @@
+
+## Retenciones
+
+CFDI que ampara retenciones e información de pagos.
+
+### Objeto Retención
+
+```json
+{
+  "id": "6062d9fb226600001cd22f71",
+  "created_at": "2021-03-30T07:57:47.616Z",
+  "livemode": true,
+  "status": "valid",
+  "type": "Retención",
+  "customer": {
+    "id": "58e93bd8e86eb318b0197456",
+    "legal_name": "Bimbo de México S.A. de C.V.",
+    "tax_id": "MESB900314R87"
+  },
+  "uuid": "495e8506-9dc1-4a91-b6ef-d4e5ee27bcc6",
+  "folio_int": "R123",
+  "fecha_exp": "2021-03-30T07:57:47.616Z",
+  "cve_retenc": "26",
+  "periodo": {
+    "mes_ini": 2,
+    "mes_fin": 11,
+    "ejerc": 2020
+  },
+  "totales": {
+    "monto_tot_operacion": 244.654321,
+    "monto_tot_grav": 99.530865,
+    "monto_tot_exent": 145.123456,
+    "monto_tot_ret": 40,
+    "imp_retenidos": [
+      {
+        "base_ret": 250,
+        "impuesto": "01",
+        "monto_ret": 40,
+        "pago_provisional": false
+      }
+    ]
+  },
+  "stamp": {
+    "signature": "ZGgQ126+lbo6XxVmeM0Kys1rAllqRaDmaK4yW20B3H5AaVShnItBwKATpxqJuGK1qPmLA2r16B8dAb4UFjR27Xc/+SsNPSwRBYRVKI0AB62jx2Z4uxooiVQBY9Bb6czlgzJb+ftgNvnGwSXzI6QZKpuWRe9LmJvACzqTB3ZdC9QoqaVICDNZ9oaT99txu9ahbJu3ftPhlykXi1SxVTBZ7uUTqsBkc6iEjbSTYpE85bsrhbMw4tDODR7o/PS917whChOFUU0sQenm5sJQMenPcKPyS9JoGQPO/a/4wzxJ2RyWCkw72LNFBbJTsPXcXdOZmEJ06Ixc2Iy24Biz8GEbJg==",
+    "date": "2021-03-30T00:57:48",
+    "sat_cert_number": "20001000000300022323",
+    "sat_signature": "AzYwRdHfDp0BCBaTpT87gtAAE3Q="
+  }
+}
+```
+
+Argumento | Tipo | Descripción
+---------:|:----:| -----------
+**id** | string | Identificador de la retención.
+**created_at** | date | Fecha de creación en formato ISO8601 (UTC String).
+**livemode** | boolean | `true`: fue creado en modo Live, `false`: fue creado en modo Test
+**status** | string | Estado actual de la retención. Posibles valores: `"valid"` si la factura fue emitida correctamente; `"canceled"` si fue cancelada.
+**verification_url** | string | Dirección URL para verificar el estado del CFDI en el portal del SAT. Este link es el mismo que aparece en el código QR en el PDF de la factura.
+**cancellation_receipt** | string | Si el comprobante fue cancelado, este campo contiene el acuse de recibo de cancelación en formato XML.
+**type** | string | Tipo de comprobante. Las retenciones siempre tendrán el valor "`Retención`".
+**customer** | object | Información básica del receptor de la retención.
+**customer.id** | string | Identificador del cliente.
+**customer.legal_name** | string | Nombre Fiscal o Razón Social del cliente.
+**customer.tax_id** | string | RFC del cliente.
+**external_id** | string | Identificador opcional que puedes usar para relacionar esta factura con tus registros para después buscar por este número.
+**uuid** | string | Folio fiscal de la retención, asignado por el SAT.
+**fecha_exp** | date | Fecha de expedición del comprobante en formato ISO8601 (UTC String).
+**cve_retenc** | string | Clave de la retención o información de pagos de acuerdo al catálogo del SAT.
+**desc_retenc** | string | Si la clave de la retención es "25" (Otro tipo de retenciones), este campo se usa para registrar la descripción de la retención.
+**folio_int** | string | Identificador alfanumérico para control interno de la empresa y sin relevancia fiscal.
+**periodo** | object | Información sobre el periodo de la retención.
+**periodo.mes_ini** | int | Mes inicial del periodo de la retención. Mes expresado en números del 1 al 12.
+**periodo.mes_fin** | int | Mes final del periodo de la retención. Mes expresado en números del 1 al 12.
+**periodo.ejerc** | int | Año o ejercicio fiscal en que se realizó la retención.
+**totales** | object | Información sobre el total de retenciones efectuadas en el periodo correspondiente.
+**totales.monto_tot_operacion** | decimal | Monto total de la operación, con precisión de hasta 6 decimales.
+**totales.monto_tot_grav** | decimal | Monto total gravado.
+**totales.monto_tot_exent** | decimal | Monto total exento.
+**totales.monto_tot_ret** | decimal | Suma de los montos de impuestos retenidos.
+**totales.imp_retenidos** | array of objects | Colección de impuestos retenidos.
+**totales.imp_retenidos[].base_ret** | decimal | Base del impuesto retenido.
+**totales.imp_retenidos[].impuesto** | string | Clave del tipo de impuesto retenido, del catálogo del SAT.
+**totales.imp_retenidos[].monto_ret** | decimal | Importe del impuesto retenido.
+**totales.imp_retenidos[].pago_provisional** | boolean | `true`: Pago provisional, `false`: Pago definitivo.
+**pdf_custom_section** | string | En caso de que necesites incluir más información en el PDF, este campo te permite insertar código HTML con tu propio contenido.
+**addenda** | string | Código XML con la Addenda que se necesite agregar a la factura.
+**complements** | array of objects | Arreglo de complementos a incluir en la factura.
+**complements[].type** | string | Tipo de complemento.
+**complements[].data** | string or object | <ul><li>`string`: Si el tipo de complemento es `custom`, este campo contiene el código XML del complemento tal cual se inserta en el XML.</li><li>`object`: Si se trata de un complemento soportado por Facturapi, este objeto incluye los datos del complemento.</li</ul>
+**namespaces** | array of objects | Namespaces a insertar en el documento XML, en caso de haber utilizado addendas o complementos.
+**namespaces[].prefix** | string | Prefijo o nombre del namespace.
+**namespaces[].uri** | string | Dirección URL asociada al namespace.
+**namespaces[].schema_location** | string | Dirección URL del esquema de validación XSD.
+**stamp** | object | Información sobre el timbre fiscal digital agregado por el PAC.
+**stamp.signature** | string | Sello digital del comprobante fiscal.
+**stamp.date** | date | Fecha de timbrado en formato ISO8601 (UTC String).
+**stamp.sat_cert_number** | string | Número de serie del certificado del SAT usado para timbrar.
+**stamp.sat_signature** | string | Sello digital del timbre fiscal digital.
+
+### Crear Retención
+
+> <h4 class="toc-ignore">Definición</h4>
+
+```text
+POST https://www.facturapi.io/v1/retenciones
+```
+
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
+
+```shell
+curl https://www.facturapi.io/v1/retenciones \
+  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "customer": "58e93bd8e86eb318b0197456",
+        "cve_retenc": "26",
+        "periodo": {
+          "mes_ini": 1,
+          "mes_fin": 12,
+          "ejerc": 2020
+        },
+        "totales": {
+          "monto_tot_operacion": 244.654321,
+          "monto_tot_exent": 145.123456,
+          "imp_retenidos": [
+            {
+              "monto_ret": 40,
+              "base_ret": 250
+            }
+          ]
+        }
+      }'
+```
+
+```javascript
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const retencion = await facturapi.retenciones.create({
+  customer: '58e93bd8e86eb318b0197456',
+  cve_retenc: '26',
+  periodo: {
+    mes_ini: 1,
+    mes_fin: 12,
+    ejerc: 2020
+  },
+  totales: {
+    monto_tot_operacion: 244.654321,
+    monto_tot_exent: 145.123456,
+    imp_retenidos: [
+      {
+        monto_ret: 40,
+        base_ret: 250
+      }
+    ]
+  }
+});
+// save the retencion.id in your database
+```
+
+```csharp
+var facturapi = new FacturapiClient("sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var retencion = await facturapi.Retencion.CreateAsync(new Dictionary<string, object>
+{
+  ["customer"] = "58e93bd8e86eb318b0197456",
+  ["cve_retenc"] = "26",
+  ["periodo"] = new Dictionary<string, object>
+  {
+    ["mes_ini"] = 1,
+    ["mes_fin"] = 12,
+    ["ejerc"] = 2020
+  },
+  ["totales"] = new Dictionary<string, object>
+  {
+    ["monto_tot_operacion"] = 244.654321,
+    ["monto_tot_exent"] = 145.123456,
+    ["imp_retenidos"] = new Dictionary<string, object>[]
+    {
+      new Dictionary<string, object>
+      {
+        ["]
+        ["monto_ret"] = 40,
+        ["base_ret"] = 250
+      }
+    }
+  }
+});
+```
+
+```php
+<?php
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+
+$retencionData = array(
+  "customer" => "58e93bd8e86eb318b0197456",
+  "cve_retenc" => "26",
+  "periodo" => array(
+    "mes_ini" => 1,
+    "mes_fin" => 12,
+    "ejerc" => 2020
+  ),
+  "totales" => array(
+    "monto_tot_operacion" => 244.654321,
+    "monto_tot_exent" => 145.123456,
+    "imp_retenidos" => array(
+      array(
+        "impuesto" => "ISR",
+        "monto_ret" => 40,
+        "base_ret" => 250
+      )
+    )
+  )
+);
+
+$retencion = $facturapi->Retenciones->create( $retencionData );
+```
+
+> <h4 class="toc-ignore">Respuesta JSON</h4>
+
+```json
+{
+  "id": "6062d9fb226600001cd22f71",
+  "created_at": "2021-03-30T07:57:47.616Z",
+  "livemode": true,
+  "status": "valid",
+  "type": "Retención",
+  "customer": {
+    "id": "58e93bd8e86eb318b0197456",
+    "legal_name": "Bimbo de México S.A. de C.V.",
+    "tax_id": "MESB900314R87"
+  },
+  "uuid": "495e8506-9dc1-4a91-b6ef-d4e5ee27bcc6",
+  "folio_int": "R123",
+  "fecha_exp": "2021-03-30T07:57:47.616Z",
+  "cve_retenc": "26",
+  "periodo": {
+    "mes_ini": 2,
+    "mes_fin": 11,
+    "ejerc": 2020
+  },
+  "totales": {
+    "monto_tot_operacion": 244.654321,
+    "monto_tot_grav": 99.530865,
+    "monto_tot_exent": 145.123456,
+    "monto_tot_ret": 40,
+    "imp_retenidos": [
+      {
+        "base_ret": 250,
+        "impuesto": "01",
+        "monto_ret": 40,
+        "pago_provisional": false
+      }
+    ]
+  },
+  "stamp": {
+    "signature": "ZGgQ126+lbo6XxVmeM0Kys1rAllqRaDmaK4yW20B3H5AaVShnItBwKATpxqJuGK1qPmLA2r16B8dAb4UFjR27Xc/+SsNPSwRBYRVKI0AB62jx2Z4uxooiVQBY9Bb6czlgzJb+ftgNvnGwSXzI6QZKpuWRe9LmJvACzqTB3ZdC9QoqaVICDNZ9oaT99txu9ahbJu3ftPhlykXi1SxVTBZ7uUTqsBkc6iEjbSTYpE85bsrhbMw4tDODR7o/PS917whChOFUU0sQenm5sJQMenPcKPyS9JoGQPO/a/4wzxJ2RyWCkw72LNFBbJTsPXcXdOZmEJ06Ixc2Iy24Biz8GEbJg==",
+    "date": "2021-03-30T00:57:48",
+    "sat_cert_number": "20001000000300022323",
+    "sat_signature": "AzYwRdHfDp0BCBaTpT87gtAAE3Q="
+  }
+}
+```
+
+Crea una nueva Retención.
+
+#### Argumentos
+
+Argumento | Tipo | Default | Descripción
+---------:|:----:|:-------:| -----------
+**customer**<br><small>requerido</small> | string or object | none | Cliente receptor de la factura. <br/>`string`: Id del cliente previamente registrado en Facturapi. <br/>`object`: Objeto con la información del cliente, el cual se guardará en tu lista de clientes.. Acepta los mismos argumentos detallados en la sección [Crear cliente](#crear-cliente).
+**cve_retenc**<br><small>requerido</small> | string | none | Clave de la retención o información de pagos de acuerdo al catálogo del SAT. Puedes... TODO: complete
+**desc_retenc**<br><small>opcional</small> | string | none | Si la clave de la retención es "25" (Otro tipo de retenciones), este campo se usa para registrar la descripción de la retención.
+**fecha_exp**<br><small>opcional</small> | date | none | Fecha de expedición del comprobante en formato ISO8601 (UTC String).
+**folio_int**<br><small>opcional</small> | string | none | Identificador alfanumérico para control interno de la empresa y sin relevancia fiscal.
+**external_id**<br><small>opcional</small> | string | none | Identificador opcional que puedes usar para relacionar esta factura con tus registros y poder hacer búsquedas usando este identificador. Facturapi <strong>no</strong> valida que este campo sea único.
+**periodo**<br><small>requerido</small> | object | none | Información sobre el periodo de la retención.
+**periodo.mes_ini**<br><small>requerido</small> | int | none | Mes inicial del periodo de la retención. Mes expresado en números del 1 al 12.
+**periodo.mes_fin**<br><small>requerido</small> | int | none | Mes final del periodo de la retención. Mes expresado en números del 1 al 12.
+**periodo.ejerc**<br><small>requerido</small> | int | none | Año o ejercicio fiscal en que se realizó la retención.
+**totales**<br><small>requerido</small> | object | none | Información sobre el total de retenciones efectuadas en el periodo correspondiente.
+**totales.monto_tot_operacion**<br><small>requerido</small> | decimal | none | Monto total de la operación, con precisión de hasta 6 decimales.
+**totales.monto_tot_exent**<br><small>requerido</small> | decimal | none | Monto total exento, con precisión de hasta 6 decimales.
+**totales.imp_retenidos**<br><small>opcional</small> | array of objects | none | Colección de impuestos retenidos.
+**totales.imp_retenidos[].base_ret**<br><small>opcional</small> | decimal | none | Base del impuesto retenido.
+**totales.imp_retenidos[].monto_ret**<br><small>requerido</small> | decimal | none | Importe del impuesto retenido.
+**totales.imp_retenidos[].impuesto**<br><small>opcional</small> | string | none | Tipo de impuesto. Puede tener los valores `"IVA"` o `"ISR"`.
+**totales.imp_retenidos[].pago_provisional**<br><small>opcional</small> | boolean | false | `true`: Pago provisional, `false`: Pago definitivo.
+**pdf_custom_section**<br><small>opcional</small> | string | none | En caso de que necesites incluir más información en el PDF, este campo te permite enviar código HTML con tu propio contenido. Por seguridad, el código que puedes enviar está limitado a las siguientes etiquetas: `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `div`, `p`, `span`, `small`, `br`, `b`, `i`, `ul`, `ol`, `li`, `strong`, `table`, `thead`, `tbody`, `tfoot`, `tr`, `th` y `td`. No se permiten atributos ni estilos.
+**addenda**<br><small>opcional</small> | string | none | Código XML con la Addenda que se necesite agregar a la retención.
+**complements**<br><small>opcional</small> | array of objects | none | Arreglo de complementos a incluir en la retención. Puedes incluir cualquier complemento en la retención si tú mismo construyes el nodo XML del complemento y usas el tipo `custom`. No olvides que es necesario agregar el prefijo y las URLs necesarias usando el argumento `namespaces`. También recuerda agregar la información del complemento al PDF usando el argumento `pdf_custom_section`.
+**complements[].type**<br><small>requerido</small> | string | none | String que representa el tipo de complemento. Actualmente las retenciones sólo soportan el valor `custom`.
+**complements[].data**<br><small>requerido</small> | string | none | Este argumento debe contener el código XML de tu complemento tal cual como quieres que se inserte en el XML. Debe contener sólamente un nodo XML raíz.
+**namespaces**<br><small>opcional</small> | array of objects | none | Si icluiste uno de los argumentos `addenda`, `complements`, o `items[].complement` y éstos incluyen un namespace especial, debes enviar la información necesaria para incluir estos namespaces en el XML de la factura.
+**namespaces[].prefix**<br><small>opcional</small> | string | none | Prefijo o nombre del namespace. Ejemplo: "iedu".
+**namespaces[].uri**<br><small>codicional</small> | string | none | Dirección URL asociada al namespace. Ejemplo: "http://www.sat.gob.mx/iedu". Requerido si se incluye `namespaces[].prefix`.
+**namespaces[].schema_location**<br><small>opcional</small> | string | none | Dirección URL del esquema de validación XSD. Ejemplo: "http://www.sat.gob.mx/sitio_interet/cfd/iedu/iedu.xsd".
+
+#### Clave de retención
+
+"01" | Servicios profesionales.
+"02" | Regalías por derechos de autor.
+"03" | Autotransporte terrestre de carga.
+"04" | Servicios prestados por comisionistas.
+"05" | Arrendamiento.
+"06" | Enajenación de acciones.
+"07" | Enajenación de bienes objeto de la LIEPS, a través de mediadores, agentes, representantes, corredores, consignatarios o distribuidores.
+"08" | Enajenación de bienes inmuebles consignada en escritura pública.
+"09" | Enajenación de otros bienes, no consignada en escritura pública.
+"10" | Adquisición de desperdicios industriales.
+"11" | Adquisición de bienes consignada en escritura pública.
+"12" | Adquisición de otros bienes, no consignada en escritura pública.
+"13" | Otros retiros de AFORE.
+"14" | Dividendos o utilidades distribuidas.
+"15" | Remanente distribuible.
+"16" | Intereses.
+"17" | Arrendamiento en fideicomiso.
+"18" | Pagos realizados a favor de residentes en el extranjero.
+"19" | Enajenación de acciones u operaciones en bolsa de valores.
+"20" | Obtención de premios.
+"21" | Fideicomisos que no realizan actividades empresariales.
+"22" | Planes personales de retiro.
+"23" | Intereses reales deducibles por créditos hipotecarios.
+"24" | Operaciones Financieras Derivadas de Capital.
+"25" | Otro tipo de retenciones.
+"26" | Servicios mediante Plataformas Tecnológicas 
+
+### Lista de Retenciones
+
+> <h4 class="toc-ignore">Definición</h4>
+
+```text
+GET https://www.facturapi.io/v1/retenciones
+```
+
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
+
+```shell
+curl https://www.facturapi.io/v1/retenciones \
+  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" 
+```
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const searchResult = await facturapi.retenciones.list();
+// searchResult.data contains the result array
+```
+
+```csharp
+var searchResult = await facturapi.Retencion.ListAsync();
+// searchResult.Data is an array of Retenciones
+```
+
+```php
+<?php
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+
+$retenciones = $facturapi->Retenciones->all();
+```
+
+> <h4 class="toc-ignore">Respuesta JSON</h4>
+
+```json
+{
+  "page": 1,
+  "total_pages": 1,
+  "total_results": 1,
+  "data": [
+    {
+      "id": "6062d9fb226600001cd22f71",
+      "created_at": "2021-03-30T07:57:47.616Z",
+      "livemode": true,
+      "status": "valid",
+      "type": "Retención",
+      "customer": {
+        "id": "58e93bd8e86eb318b0197456",
+        "legal_name": "Bimbo de México S.A. de C.V.",
+        "tax_id": "MESB900314R87"
+      },
+      "uuid": "495e8506-9dc1-4a91-b6ef-d4e5ee27bcc6",
+      "folio_int": "R123",
+      "fecha_exp": "2021-03-30T07:57:47.616Z",
+      "cve_retenc": "26",
+      "periodo": {
+        "mes_ini": 2,
+        "mes_fin": 11,
+        "ejerc": 2020
+      },
+      "totales": {
+        "monto_tot_operacion": 244.654321,
+        "monto_tot_grav": 99.530865,
+        "monto_tot_exent": 145.123456,
+        "monto_tot_ret": 40,
+        "imp_retenidos": [
+          {
+            "base_ret": 250,
+            "impuesto": "01",
+            "monto_ret": 40,
+            "pago_provisional": false
+          }
+        ]
+      },
+      "stamp": {
+        "signature": "ZGgQ126+lbo6XxVmeM0Kys1rAllqRaDmaK4yW20B3H5AaVShnItBwKATpxqJuGK1qPmLA2r16B8dAb4UFjR27Xc/+SsNPSwRBYRVKI0AB62jx2Z4uxooiVQBY9Bb6czlgzJb+ftgNvnGwSXzI6QZKpuWRe9LmJvACzqTB3ZdC9QoqaVICDNZ9oaT99txu9ahbJu3ftPhlykXi1SxVTBZ7uUTqsBkc6iEjbSTYpE85bsrhbMw4tDODR7o/PS917whChOFUU0sQenm5sJQMenPcKPyS9JoGQPO/a/4wzxJ2RyWCkw72LNFBbJTsPXcXdOZmEJ06Ixc2Iy24Biz8GEbJg==",
+        "date": "2021-03-30T00:57:48",
+        "sat_cert_number": "20001000000300022323",
+        "sat_signature": "AzYwRdHfDp0BCBaTpT87gtAAE3Q="
+      }
+    }
+  ]
+}
+```
+
+Obtiene la lista de Retenciones registradas en la organización
+
+#### Argumentos
+
+Argumento | Tipo | Default | Descripción
+---------:|:----:|:-------:| -----------
+**q**<br><small>opcional</small> | string | "" | Consulta. Texto a buscar en el nombre fiscal del cliente o su RFC.
+**customer**<br><small>opcional</small> | string | "" | Identificador del cliente. Útil para obtener las retenciones emitidas a un sólo cliente.
+**date**<br><small>opcional</small> | object | none | Objeto con atributos que representan el rango de fechas solicitado.
+**date.gt**<br><small>opcional</small> | string or date | none | Regresa retenciones cuya fecha de creación es posterior a esta fecha.
+**date.gte**<br><small>opcional</small> | string or date | none | Regresa retenciones cuya fecha de creación es posterior o igual a esta fecha.
+**date.lt**<br><small>opcional</small> | string or date | none | Regresa retenciones cuya fecha de creación es anterior a esta fecha.
+**date.lte**<br><small>opcional</small> | string or date | none | Regresa retenciones cuya fecha de creación es anterior o igual a esta fecha.
+**limit**<br><small>opcional</small> | integer | 50 | Número del 1 al 50 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
+**page**<br><small>opcional</small> | integer | 1 | Página de resultados a regresar, empezando desde la página 1.
+
+### Obtener una Retención
+
+> <h4 class="toc-ignore">Definición</h4>
+
+```text
+GET https://www.facturapi.io/v1/retenciones/{RETENCION_ID}
+```
+
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
+
+```shell
+curl https://www.facturapi.io/v1/retenciones/5ebd8e56f5687a013ca0df46 \
+  -u "sk_test_vnpJkayXw4bxoMVQMO3r2B7QEP8LmOWM:" 
+```
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const retencion = await facturapi.retenciones.retrieve('5ebd8e56f5687a013ca0df46');
+```
+
+```csharp
+var retencion = await facturapi.Retencion.RetrieveAsync("5ebd8e56f5687a013ca0df46");
+```
+
+```php
+<?php
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+
+$retencion = $facturapi->Retenciones->retrieve( "5ebd8e56f5687a013ca0df46" );
+```
+
+> <h4 class="toc-ignore">Respuesta JSON</h4>
+
+```json
+{
+  "id": "6062d9fb226600001cd22f71",
+  "created_at": "2021-03-30T07:57:47.616Z",
+  "livemode": true,
+  "status": "valid",
+  "type": "Retención",
+  "customer": {
+    "id": "58e93bd8e86eb318b0197456",
+    "legal_name": "Bimbo de México S.A. de C.V.",
+    "tax_id": "MESB900314R87"
+  },
+  "uuid": "495e8506-9dc1-4a91-b6ef-d4e5ee27bcc6",
+  "folio_int": "R123",
+  "fecha_exp": "2021-03-30T07:57:47.616Z",
+  "cve_retenc": "26",
+  "periodo": {
+    "mes_ini": 2,
+    "mes_fin": 11,
+    "ejerc": 2020
+  },
+  "totales": {
+    "monto_tot_operacion": 244.654321,
+    "monto_tot_grav": 99.530865,
+    "monto_tot_exent": 145.123456,
+    "monto_tot_ret": 40,
+    "imp_retenidos": [
+      {
+        "base_ret": 250,
+        "impuesto": "01",
+        "monto_ret": 40,
+        "pago_provisional": false
+      }
+    ]
+  },
+  "stamp": {
+    "signature": "ZGgQ126+lbo6XxVmeM0Kys1rAllqRaDmaK4yW20B3H5AaVShnItBwKATpxqJuGK1qPmLA2r16B8dAb4UFjR27Xc/+SsNPSwRBYRVKI0AB62jx2Z4uxooiVQBY9Bb6czlgzJb+ftgNvnGwSXzI6QZKpuWRe9LmJvACzqTB3ZdC9QoqaVICDNZ9oaT99txu9ahbJu3ftPhlykXi1SxVTBZ7uUTqsBkc6iEjbSTYpE85bsrhbMw4tDODR7o/PS917whChOFUU0sQenm5sJQMenPcKPyS9JoGQPO/a/4wzxJ2RyWCkw72LNFBbJTsPXcXdOZmEJ06Ixc2Iy24Biz8GEbJg==",
+    "date": "2021-03-30T00:57:48",
+    "sat_cert_number": "20001000000300022323",
+    "sat_signature": "AzYwRdHfDp0BCBaTpT87gtAAE3Q="
+  }
+}
+```
+
+#### Argumentos
+
+Argumento | Tipo | Descripción
+---------:|:----:| -----------
+**id**<br><small>requerido</small> | string | Identificador de la retención
+
+### Cancelar Retención
+
+> <h4 class="toc-ignore">Definición</h4>
+
+```text
+DELETE https://www.facturapi.io/v1/retenciones/{RETENCION_ID}
+```
+
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
+
+```shell
+curl https://www.facturapi.io/v1/retenciones/5ebd8e56f5687a013ca0df46 \
+  -X DELETE \
+  -u "sk_test_vnpJkayXw4bxoMVQMO3r2B7QEP8LmOWM:" 
+```
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const canceledRetencion = await facturapi.retenciones.cancel('5ebd8e56f5687a013ca0df46');
+```
+
+```csharp
+var canceledRetencion = await facturapi.Retencion.CancelAsync("5ebd8e56f5687a013ca0df46");
+```
+
+```php
+<?php
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+
+$canceledRetencion = $facturapi->Retenciones->cancel( "5ebd8e56f5687a013ca0df46" );
+```
+
+> <h4 class="toc-ignore">Respuesta JSON</h4>
+
+```json
+{
+  "id": "6062d9fb226600001cd22f71",
+  "created_at": "2021-03-30T07:57:47.616Z",
+  "livemode": true,
+  "status": "canceled",
+  "type": "Retención",
+  "customer": {
+    "id": "58e93bd8e86eb318b0197456",
+    "legal_name": "Bimbo de México S.A. de C.V.",
+    "tax_id": "MESB900314R87"
+  },
+  "uuid": "495e8506-9dc1-4a91-b6ef-d4e5ee27bcc6",
+  "folio_int": "R123",
+  "fecha_exp": "2021-03-30T07:57:47.616Z",
+  "cve_retenc": "26",
+  "periodo": {
+    "mes_ini": 2,
+    "mes_fin": 11,
+    "ejerc": 2020
+  },
+  "totales": {
+    "monto_tot_operacion": 244.654321,
+    "monto_tot_grav": 99.530865,
+    "monto_tot_exent": 145.123456,
+    "monto_tot_ret": 40,
+    "imp_retenidos": [
+      {
+        "base_ret": 250,
+        "impuesto": "01",
+        "monto_ret": 40,
+        "pago_provisional": false
+      }
+    ]
+  },
+  "stamp": {
+    "signature": "ZGgQ126+lbo6XxVmeM0Kys1rAllqRaDmaK4yW20B3H5AaVShnItBwKATpxqJuGK1qPmLA2r16B8dAb4UFjR27Xc/+SsNPSwRBYRVKI0AB62jx2Z4uxooiVQBY9Bb6czlgzJb+ftgNvnGwSXzI6QZKpuWRe9LmJvACzqTB3ZdC9QoqaVICDNZ9oaT99txu9ahbJu3ftPhlykXi1SxVTBZ7uUTqsBkc6iEjbSTYpE85bsrhbMw4tDODR7o/PS917whChOFUU0sQenm5sJQMenPcKPyS9JoGQPO/a/4wzxJ2RyWCkw72LNFBbJTsPXcXdOZmEJ06Ixc2Iy24Biz8GEbJg==",
+    "date": "2021-03-30T00:57:48",
+    "sat_cert_number": "20001000000300022323",
+    "sat_signature": "AzYwRdHfDp0BCBaTpT87gtAAE3Q="
+  }
+}
+```
+
+#### Argumentos en URL
+
+Argumento | Tipo | Descripción
+---------:|:----:| -----------
+**id**<br><small>requerido</small> | string | Identificador de la Retención

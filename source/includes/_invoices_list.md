@@ -275,7 +275,7 @@ var xmlStream = await facturapi.Invoice.DownloadXmlAsync("58e93bd8e86eb318b01974
 var pdfStream = await facturapi.Invoice.DownloadPdfAsync("58e93bd8e86eb318b019743d");
 
 // Para guardar la descarga en un archivo
-var file = new System.IO.FileStrem("C:\\route\\to\\save\\invoice.zip", FileMode.Create);
+var file = new System.IO.FileStream("C:\\route\\to\\save\\invoice.zip", FileMode.Create);
 zipStream.CopyTo(file);
 file.Close();
 ```

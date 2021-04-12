@@ -115,7 +115,7 @@ const receipt = await facturapi.receipts.create({
 
 ```csharp
 var facturapi = new FacturapiClient("sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
-var receipt = await facturapi.Receipts.CreateAsync(new Dictionary<string, object>
+var receipt = await facturapi.Receipt.CreateAsync(new Dictionary<string, object>
 {
   ["folio_number"] = 1234,
   ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO,
@@ -562,57 +562,60 @@ $receipts = $facturapi->Receipts->all();
   "total_results": 1,
   "data": [
     {
-      {
-        "id": "5ebd8e56f5687a013ca0df46",
-        "created_at": "2020-05-14T18:30:46.712Z",
-        "expires_at": "2020-05-22T05:59:59.999Z",
-        "livemode": false,
-        "self_invoice_url": "https://factura.space/empresa-demo/r9YqYarL",
-        "folio_number": 1234,
-        "key": "r9YqYarL",
-        "branch": "",
-        "status": "open",
-        "invoice": null,
-        "currency": "MXN",
-        "exchange": 1,
-        "payment_form": "03",
-        "total": 345.6,
-        "items": [
-          {
-            "quantity": 1,
-            "discount": 0,
-            "product": {
-              "description": "Ukelele",
-              "product_key": "60131324",
-              "unit_key": "H87",
-              "unit_name": "Pieza",
-              "price": 345.6,
-              "tax_included": true,
-              "taxes": [
-                {
-                  "rate": 0.16,
-                  "type": "IVA",
-                  "withholding": false,
-                  "factor": "Tasa"
-                }
-              ],
-              "sku": "ABC1234"
-            }
+      "id": "5ebd8e56f5687a013ca0df46",
+      "created_at": "2020-05-14T18:30:46.712Z",
+      "expires_at": "2020-05-22T05:59:59.999Z",
+      "livemode": false,
+      "self_invoice_url": "https://factura.space/empresa-demo/r9YqYarL",
+      "folio_number": 1234,
+      "key": "r9YqYarL",
+      "branch": "",
+      "status": "open",
+      "invoice": null,
+      "currency": "MXN",
+      "exchange": 1,
+      "payment_form": "03",
+      "total": 345.6,
+      "items": [
+        {
+          "quantity": 1,
+          "discount": 0,
+          "product": {
+            "description": "Ukelele",
+            "product_key": "60131324",
+            "unit_key": "H87",
+            "unit_name": "Pieza",
+            "price": 345.6,
+            "tax_included": true,
+            "taxes": [
+              {
+                "rate": 0.16,
+                "type": "IVA",
+                "withholding": false,
+                "factor": "Tasa"
+              }
+            ],
+            "sku": "ABC1234"
           }
-        ]
-      }
+        }
+      ]
     }
   ]
 }
 ```
 
-Obtiene la lista de recibos registrados en tu organización
+Obtiene la lista de recibos registrados en la organización
 
 #### Argumentos
 
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **q**<br><small>opcional</small> | string | "" | Consulta. Texto a buscar en la descripción del recibo o SKU.
+**date**<br><small>opcional</small> | object | none | Objeto con atributos que representan el rango de fechas solicitado.
+**date.gt**<br><small>opcional</small> | string or date | none | Regresa recibos cuya fecha de creación es posterior a esta fecha.
+**date.gte**<br><small>opcional</small> | string or date | none | Regresa recibos cuya fecha de creación es posterior o igual a esta fecha.
+**date.lt**<br><small>opcional</small> | string or date | none | Regresa recibos cuya fecha de creación es anterior a esta fecha.
+**date.lte**<br><small>opcional</small> | string or date | none | Regresa recibos cuya fecha de creación es anterior o igual a esta fecha.
 **limit**<br><small>opcional</small> | integer | 50 | Número del 1 al 50 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
 **page**<br><small>opcional</small> | integer | 1 | Página de resultados a regresar, empezando desde la página 1.
 

@@ -54,15 +54,15 @@ Argumento | Tipo | Descripción
 **id** | string | Identificador de la retención.
 **created_at** | date | Fecha de creación en formato ISO8601 (UTC String).
 **livemode** | boolean | `true`: fue creado en modo Live, `false`: fue creado en modo Test
-**status** | string | Estado actual de la retención. Posibles valores: `"valid"` si la factura fue emitida correctamente; `"canceled"` si fue cancelada.
-**verification_url** | string | Dirección URL para verificar el estado del CFDI en el portal del SAT. Este link es el mismo que aparece en el código QR en el PDF de la factura.
+**status** | string | Estado actual de la retención. Posibles valores: `"valid"` si la retención fue emitida correctamente; `"canceled"` si fue cancelada.
+**verification_url** | string | Dirección URL para verificar el estado del CFDI en el portal del SAT. Este link es el mismo que aparece en el código QR en el PDF de la retención.
 **cancellation_receipt** | string | Si el comprobante fue cancelado, este campo contiene el acuse de recibo de cancelación en formato XML.
 **type** | string | Tipo de comprobante. Las retenciones siempre tendrán el valor "`Retención`".
 **customer** | object | Información básica del receptor de la retención.
 **customer.id** | string | Identificador del cliente.
 **customer.legal_name** | string | Nombre Fiscal o Razón Social del cliente.
 **customer.tax_id** | string | RFC del cliente.
-**external_id** | string | Identificador opcional que puedes usar para relacionar esta factura con tus registros para después buscar por este número.
+**external_id** | string | Identificador opcional que puedes usar para relacionar esta retención con tus registros para después buscar por este número.
 **uuid** | string | Folio fiscal de la retención, asignado por el SAT.
 **fecha_exp** | date | Fecha de expedición del comprobante en formato ISO8601 (UTC String).
 **cve_retenc** | string | Clave de la retención o información de pagos de acuerdo al catálogo del SAT.
@@ -83,8 +83,8 @@ Argumento | Tipo | Descripción
 **totales.imp_retenidos[].monto_ret** | decimal | Importe del impuesto retenido.
 **totales.imp_retenidos[].pago_provisional** | boolean | `true`: Pago provisional, `false`: Pago definitivo.
 **pdf_custom_section** | string | En caso de que necesites incluir más información en el PDF, este campo te permite insertar código HTML con tu propio contenido.
-**addenda** | string | Código XML con la Addenda que se necesite agregar a la factura.
-**complements** | array of objects | Arreglo de complementos a incluir en la factura.
+**addenda** | string | Código XML con la Addenda que se necesite agregar a la retención.
+**complements** | array of objects | Arreglo de complementos a incluir en la retención.
 **complements[].type** | string | Tipo de complemento.
 **complements[].data** | string or object | <ul><li>`string`: Si el tipo de complemento es `custom`, este campo contiene el código XML del complemento tal cual se inserta en el XML.</li><li>`object`: Si se trata de un complemento soportado por Facturapi, este objeto incluye los datos del complemento.</li</ul>
 **namespaces** | array of objects | Namespaces a insertar en el documento XML, en caso de haber utilizado addendas o complementos.
@@ -102,13 +102,13 @@ Argumento | Tipo | Descripción
 > <h4 class="toc-ignore">Definición</h4>
 
 ```text
-POST https://www.facturapi.io/v1/retenciones
+POST https://www.facturapi.io/v1/retentions
 ```
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
-curl https://www.facturapi.io/v1/retenciones \
+curl https://www.facturapi.io/v1/retentions \
   -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
   -H "Content-Type: application/json" \
   -d '{
@@ -134,7 +134,7 @@ curl https://www.facturapi.io/v1/retenciones \
 
 ```javascript
 const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-const retencion = await facturapi.retenciones.create({
+const retention = await facturapi.retentions.create({
   customer: '58e93bd8e86eb318b0197456',
   cve_retenc: '26',
   periodo: {
@@ -153,12 +153,12 @@ const retencion = await facturapi.retenciones.create({
     ]
   }
 });
-// save the retencion.id in your database
+// save the retention.id in your database
 ```
 
 ```csharp
 var facturapi = new FacturapiClient("sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
-var retencion = await facturapi.Retencion.CreateAsync(new Dictionary<string, object>
+var retention = await facturapi.Retention.CreateAsync(new Dictionary<string, object>
 {
   ["customer"] = "58e93bd8e86eb318b0197456",
   ["cve_retenc"] = "26",
@@ -189,7 +189,7 @@ var retencion = await facturapi.Retencion.CreateAsync(new Dictionary<string, obj
 <?php
 $facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
-$retencionData = array(
+$retentionData = array(
   "customer" => "58e93bd8e86eb318b0197456",
   "cve_retenc" => "26",
   "periodo" => array(
@@ -210,7 +210,7 @@ $retencionData = array(
   )
 );
 
-$retencion = $facturapi->Retenciones->create( $retencionData );
+$retention = $facturapi->Retentions->create( $retentionData );
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>
@@ -265,12 +265,12 @@ Crea una nueva Retención.
 
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
-**customer**<br><small>requerido</small> | string or object | none | Cliente receptor de la factura. <br/>`string`: Id del cliente previamente registrado en Facturapi. <br/>`object`: Objeto con la información del cliente, el cual se guardará en tu lista de clientes.. Acepta los mismos argumentos detallados en la sección [Crear cliente](#crear-cliente).
-**cve_retenc**<br><small>requerido</small> | string | none | Clave de la retención o información de pagos de acuerdo al catálogo del SAT. Puedes... TODO: complete
+**customer**<br><small>requerido</small> | string or object | none | Cliente receptor de la retención. <br/>`string`: Id del cliente previamente registrado en Facturapi. <br/>`object`: Objeto con la información del cliente, el cual se guardará en tu lista de clientes.. Acepta los mismos argumentos detallados en la sección [Crear cliente](#crear-cliente).
+**cve_retenc**<br><small>requerido</small> | string | none | Clave de la retención o información de pagos de acuerdo al catálogo del SAT. Puedes consultar las claves en la tabla de abajo.
 **desc_retenc**<br><small>opcional</small> | string | none | Si la clave de la retención es "25" (Otro tipo de retenciones), este campo se usa para registrar la descripción de la retención.
 **fecha_exp**<br><small>opcional</small> | date | none | Fecha de expedición del comprobante en formato ISO8601 (UTC String).
 **folio_int**<br><small>opcional</small> | string | none | Identificador alfanumérico para control interno de la empresa y sin relevancia fiscal.
-**external_id**<br><small>opcional</small> | string | none | Identificador opcional que puedes usar para relacionar esta factura con tus registros y poder hacer búsquedas usando este identificador. Facturapi <strong>no</strong> valida que este campo sea único.
+**external_id**<br><small>opcional</small> | string | none | Identificador opcional que puedes usar para relacionar esta retención con tus registros y poder hacer búsquedas usando este identificador. Facturapi <strong>no</strong> valida que este campo sea único.
 **periodo**<br><small>requerido</small> | object | none | Información sobre el periodo de la retención.
 **periodo.mes_ini**<br><small>requerido</small> | int | none | Mes inicial del periodo de la retención. Mes expresado en números del 1 al 12.
 **periodo.mes_fin**<br><small>requerido</small> | int | none | Mes final del periodo de la retención. Mes expresado en números del 1 al 12.
@@ -285,10 +285,8 @@ Argumento | Tipo | Default | Descripción
 **totales.imp_retenidos[].pago_provisional**<br><small>opcional</small> | boolean | false | `true`: Pago provisional, `false`: Pago definitivo.
 **pdf_custom_section**<br><small>opcional</small> | string | none | En caso de que necesites incluir más información en el PDF, este campo te permite enviar código HTML con tu propio contenido. Por seguridad, el código que puedes enviar está limitado a las siguientes etiquetas: `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `div`, `p`, `span`, `small`, `br`, `b`, `i`, `ul`, `ol`, `li`, `strong`, `table`, `thead`, `tbody`, `tfoot`, `tr`, `th` y `td`. No se permiten atributos ni estilos.
 **addenda**<br><small>opcional</small> | string | none | Código XML con la Addenda que se necesite agregar a la retención.
-**complements**<br><small>opcional</small> | array of objects | none | Arreglo de complementos a incluir en la retención. Puedes incluir cualquier complemento en la retención si tú mismo construyes el nodo XML del complemento y usas el tipo `custom`. No olvides que es necesario agregar el prefijo y las URLs necesarias usando el argumento `namespaces`. También recuerda agregar la información del complemento al PDF usando el argumento `pdf_custom_section`.
-**complements[].type**<br><small>requerido</small> | string | none | String que representa el tipo de complemento. Actualmente las retenciones sólo soportan el valor `custom`.
-**complements[].data**<br><small>requerido</small> | string | none | Este argumento debe contener el código XML de tu complemento tal cual como quieres que se inserte en el XML. Debe contener sólamente un nodo XML raíz.
-**namespaces**<br><small>opcional</small> | array of objects | none | Si icluiste uno de los argumentos `addenda`, `complements`, o `items[].complement` y éstos incluyen un namespace especial, debes enviar la información necesaria para incluir estos namespaces en el XML de la factura.
+**complements**<br><small>opcional</small> | array of strings | none | Arreglo de complementos a incluir en la retención. Cada elemento del arreglo debe contener el código XML de tu complemento tal cual como quieres que se inserte en el XML. Debe contener sólamente un nodo XML raíz por complemento.
+**namespaces**<br><small>opcional</small> | array of objects | none | Si icluiste uno de los argumentos `addenda`, `complements`, o `items[].complement` y éstos incluyen un namespace especial, debes enviar la información necesaria para incluir estos namespaces en el XML de la retención.
 **namespaces[].prefix**<br><small>opcional</small> | string | none | Prefijo o nombre del namespace. Ejemplo: "iedu".
 **namespaces[].uri**<br><small>codicional</small> | string | none | Dirección URL asociada al namespace. Ejemplo: "http://www.sat.gob.mx/iedu". Requerido si se incluye `namespaces[].prefix`.
 **namespaces[].schema_location**<br><small>opcional</small> | string | none | Dirección URL del esquema de validación XSD. Ejemplo: "http://www.sat.gob.mx/sitio_interet/cfd/iedu/iedu.xsd".
@@ -327,33 +325,33 @@ Argumento | Tipo | Default | Descripción
 > <h4 class="toc-ignore">Definición</h4>
 
 ```text
-GET https://www.facturapi.io/v1/retenciones
+GET https://www.facturapi.io/v1/retentions
 ```
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
-curl https://www.facturapi.io/v1/retenciones \
+curl https://www.facturapi.io/v1/retentions \
   -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" 
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
 const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-const searchResult = await facturapi.retenciones.list();
+const searchResult = await facturapi.retentions.list();
 // searchResult.data contains the result array
 ```
 
 ```csharp
-var searchResult = await facturapi.Retencion.ListAsync();
-// searchResult.Data is an array of Retenciones
+var searchResult = await facturapi.Retention.ListAsync();
+// searchResult.Data is an array of Retentions
 ```
 
 ```php
 <?php
 $facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
-$retenciones = $facturapi->Retenciones->all();
+$searchResult = $facturapi->Retentions->all();
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>
@@ -430,31 +428,31 @@ Argumento | Tipo | Default | Descripción
 > <h4 class="toc-ignore">Definición</h4>
 
 ```text
-GET https://www.facturapi.io/v1/retenciones/{RETENCION_ID}
+GET https://www.facturapi.io/v1/retentions/{RETENTION_ID}
 ```
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
-curl https://www.facturapi.io/v1/retenciones/5ebd8e56f5687a013ca0df46 \
+curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71 \
   -u "sk_test_vnpJkayXw4bxoMVQMO3r2B7QEP8LmOWM:" 
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
 const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-const retencion = await facturapi.retenciones.retrieve('5ebd8e56f5687a013ca0df46');
+const retention = await facturapi.retentions.retrieve('6062d9fb226600001cd22f71');
 ```
 
 ```csharp
-var retencion = await facturapi.Retencion.RetrieveAsync("5ebd8e56f5687a013ca0df46");
+var retention = await facturapi.Retention.RetrieveAsync("6062d9fb226600001cd22f71");
 ```
 
 ```php
 <?php
 $facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
-$retencion = $facturapi->Retenciones->retrieve( "5ebd8e56f5687a013ca0df46" );
+$retention = $facturapi->Retentions->retrieve( "6062d9fb226600001cd22f71" );
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>
@@ -509,18 +507,219 @@ Argumento | Tipo | Descripción
 ---------:|:----:| -----------
 **id**<br><small>requerido</small> | string | Identificador de la retención
 
-### Cancelar Retención
+### Descargar Retención
 
 > <h4 class="toc-ignore">Definición</h4>
 
 ```text
-DELETE https://www.facturapi.io/v1/retenciones/{RETENCION_ID}
+GET https://www.facturapi.io/v1/retentions/{id}/zip
+GET https://www.facturapi.io/v1/retentions/{id}/pdf
+GET https://www.facturapi.io/v1/retentions/{id}/xml
 ```
 
 > <h4 class="toc-ignore">Ejemplo de Petición</h4>
 
 ```shell
-curl https://www.facturapi.io/v1/retenciones/5ebd8e56f5687a013ca0df46 \
+## Descargar PDF y XML comprimidos en archivo ZIP
+curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71/zip \
+  -u "sk_test_API_KEY:"
+
+## Descargar sólo el PDF
+curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71/pdf \
+  -u "sk_test_API_KEY:"
+
+## Descargar sólo el XML
+curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71/xml \
+  -u "sk_test_API_KEY:"
+```
+
+```javascript
+const fs = require('fs');
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_test_API_KEY');
+
+// Descargar PDF y XML comprimidos en archivo ZIP
+const zipStream = await facturapi.retentions.downloadZip('6062d9fb226600001cd22f71');
+const file = fs.createWriteStream('./retention.zip');
+zipStream.pipe(file);
+
+// Descargar sólo el PDF
+const pdfStream = await facturapi.retentions.downloadPdf('6062d9fb226600001cd22f71');
+const file = fs.createWriteStream('./retention.pdf');
+pdfStream.pipe(file);
+
+// Descargar sólo el XML
+const xmlStream = await facturapi.retentions.downloadXml('6062d9fb226600001cd22f71');
+const file = fs.createWriteStream('./retention.xml');
+xmlStream.pipe(file);
+```
+
+```csharp
+// Descargar PDF y XML comprimidos en archivo ZIP
+var zipStream = await facturapi.Retention.DownloadZipAsync("6062d9fb226600001cd22f71");
+// Descargar sólo el XML
+var xmlStream = await facturapi.Retention.DownloadXmlAsync("6062d9fb226600001cd22f71");
+// Descargar sólo el PDF
+var pdfStream = await facturapi.Retention.DownloadPdfAsync("6062d9fb226600001cd22f71");
+
+// Para guardar la descarga en un archivo
+var file = new System.IO.FileStream("C:\\route\\to\\save\\retention.zip", FileMode.Create);
+zipStream.CopyTo(file);
+file.Close();
+```
+
+```php
+<?php
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+
+// buffer containing the PDF and XML as a ZIP file
+$zip = $facturapi->Retentions->download_zip("6062d9fb226600001cd22f71")
+
+// buffer containing the PDF file
+$pdf = $facturapi->Retentions->download_pdf("6062d9fb226600001cd22f71")
+
+// buffer containing the XML file
+$xml = $facturapi->Retentions->download_xml("6062d9fb226600001cd22f71")
+```
+
+Descarga tu retención en PDF, XML o ambos en un archivo comprimido ZIP.
+
+#### Argumentos
+
+Argumento | Tipo | Descripción
+---------:|:----:| -----------
+**id**<br><small>requerido</small> | string | Identificador de la retención.
+
+### Enviar Factura por email
+
+> <h4 class="toc-ignore">Definición</h4>
+
+```text
+POST https://www.facturapi.io/v1/retentions/{id}/email
+```
+
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
+
+```shell
+# Enviar al correo electrónico del cliente
+curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71/email \
+  -u "sk_test_API_KEY:"
+  -X POST
+
+# Enviar a otro correo electrónico
+curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71/email \
+  -u "sk_test_API_KEY:"
+  -X POST
+  -H "Content-Type: application/json" \
+  -d '{
+        "email": "another_email@example.com"
+      }'
+
+# Enviar a más de un correo electrónico
+curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71/email \
+  -u "sk_test_API_KEY:"
+  -X POST
+  -H "Content-Type: application/json" \
+  -d '{
+        "email": [
+          "first@email.com",
+          "second@email.com"
+        ]
+      }'
+```
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_test_API_KEY');
+// Enviar al correo del cliente
+await facturapi.retentions.sendByEmail('6062d9fb226600001cd22f71');
+// Enviar a otro correo
+await facturapi.retentions.sendByEmail(
+  '6062d9fb226600001cd22f71',
+  { email: 'otro@correo.com' }
+);
+// Enviar a más de un correo (máx. 10)
+await facturapi.retentions.sendByEmail(
+  '6062d9fb226600001cd22f71',
+  { 
+    email: [
+      'primer@correo.com',
+      'segundo@correo.com'
+    ]
+  }
+);
+```
+
+```csharp
+// Enviar al correo del cliente
+await facturapi.Retention.SendByEmailAsync("6062d9fb226600001cd22f71");
+// Enviar a otro correo
+await facturapi.Retention.SendByEmailAsync(
+  "6062d9fb226600001cd22f71",
+  new Dictionary<string, object>
+  {
+    ["email"] = "otro@correo.com"
+  }
+);
+// Enviar a más de un correo
+await facturapi.Retention.SendByEmailAsync(
+  "6062d9fb226600001cd22f71",
+  new Dictionary<string, object>
+  {
+    ["email"] = new String[]
+    {
+      "primer@correo.com",
+      "segundo@correo.com"
+    }
+  }
+);
+```
+
+```php
+<?php
+$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+// Enviar al correo del cliente
+$facturapi->Retentions->send_by_email("6062d9fb226600001cd22f71");
+// Enviar a otro correo
+$facturapi->Retentions->send_by_email(
+  "6062d9fb226600001cd22f71",
+  "otro@correo.com"
+);
+// Enviar a más de un correo (máx 10)
+$facturapi->Retentions->send_by_email(
+  "6062d9fb226600001cd22f71",
+  array(
+    "primer@correo.com",
+    "segundo@correo.com"
+  )
+);
+```
+
+Envía un correo electrónico al email de tu cliente, con los archivos XML y PDF adjuntos al mensaje.
+
+#### Argumentos en la URL
+
+Argumento | Tipo | Descripción
+---------:|:----:| -----------
+**id**<br><small>requerido</small> | string | Identificador de la retención.
+
+#### Argumentos en el cuerpo de la llamada
+Argumento | Tipo | Descripción
+---------:|:----:| -----------
+**email**<br><small>opcional</small> | string or array of strings | Dirección de correo electrónico a enviar la retención. Si no se envía este parámetro, la retención será enviada al correo que el cliente tenga registrado. Puede enviarse un sólo string con el correo deseado o un array con una lista de correos (máximo 10).
+
+### Cancelar Retención
+
+> <h4 class="toc-ignore">Definición</h4>
+
+```text
+DELETE https://www.facturapi.io/v1/retentions/{RETENTION_ID}
+```
+
+> <h4 class="toc-ignore">Ejemplo de Petición</h4>
+
+```shell
+curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71 \
   -X DELETE \
   -u "sk_test_vnpJkayXw4bxoMVQMO3r2B7QEP8LmOWM:" 
 ```
@@ -528,18 +727,18 @@ curl https://www.facturapi.io/v1/retenciones/5ebd8e56f5687a013ca0df46 \
 ```javascript
 const Facturapi = require('facturapi');
 const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
-const canceledRetencion = await facturapi.retenciones.cancel('5ebd8e56f5687a013ca0df46');
+const canceledRetention = await facturapi.retentions.cancel('6062d9fb226600001cd22f71');
 ```
 
 ```csharp
-var canceledRetencion = await facturapi.Retencion.CancelAsync("5ebd8e56f5687a013ca0df46");
+var canceledRetention = await facturapi.Retention.CancelAsync("6062d9fb226600001cd22f71");
 ```
 
 ```php
 <?php
 $facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
-$canceledRetencion = $facturapi->Retenciones->cancel( "5ebd8e56f5687a013ca0df46" );
+$canceledRetention = $facturapi->Retentions->cancel( "6062d9fb226600001cd22f71" );
 ```
 
 > <h4 class="toc-ignore">Respuesta JSON</h4>

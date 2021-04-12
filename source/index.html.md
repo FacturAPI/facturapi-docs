@@ -22,6 +22,7 @@ includes:
   - invoices_nomina
   - invoices_egreso
   - invoices_list
+  - retentions
   - organizations
   - organizations_cert
   - organizations_api_keys

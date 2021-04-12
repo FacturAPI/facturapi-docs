@@ -275,7 +275,7 @@ var xmlStream = await facturapi.Invoice.DownloadXmlAsync("58e93bd8e86eb318b01974
 var pdfStream = await facturapi.Invoice.DownloadPdfAsync("58e93bd8e86eb318b019743d");
 
 // Para guardar la descarga en un archivo
-var file = new System.IO.FileStrem("C:\\route\\to\\save\\invoice.zip", FileMode.Create);
+var file = new System.IO.FileStream("C:\\route\\to\\save\\invoice.zip", FileMode.Create);
 zipStream.CopyTo(file);
 file.Close();
 ```
@@ -291,7 +291,7 @@ $pdf = $facturapi->Invoices->download_pdf("58e93bd8e86eb318b019743d") // stream 
 $xml = $facturapi->Invoices->download_xml("58e93bd8e86eb318b019743d") // stream containing the XML file or
 ```
 
-Descarga tu Factura en PDF, XML o ambas comprimidas en ZIP
+Descarga tu Factura en PDF, XML o ambos en un archivo comprimido ZIP.
 
 #### Argumentos
 
@@ -415,7 +415,7 @@ Argumento | Tipo | Descripción
 #### Argumentos en el cuerpo de la llamada
 Argumento | Tipo | Descripción
 ---------:|:----:| -----------
-**email**<br><small>opcional</small> | string or array of strings | Dirección de correo electrónico a enviar la factura. Si no se envía este parámetro, la factura será enviada al correo que del cliente tenga registrado. Puede enviarse un sólo string con el correo deseado o un array con una lista de correos (máximo 10).
+**email**<br><small>opcional</small> | string or array of strings | Dirección de correo electrónico a enviar la factura. Si no se envía este parámetro, la factura será enviada al correo que el cliente tenga registrado. Puede enviarse un sólo string con el correo deseado o un array con una lista de correos (máximo 10).
 
 ### Cancelar Factura
 

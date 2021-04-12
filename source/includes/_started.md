@@ -289,7 +289,7 @@ zipStream.pipe(res);
 var zipStream = await facturapi.Invoice.DownloadZipAsync(invoice.Id);
 
 // Guarda la descarga en un archivo
-var file = new System.IO.FileStrem("C:\\route\\to\\save\\invoice.zip", FileMode.Create);
+var file = new System.IO.FileStream("C:\\route\\to\\save\\invoice.zip", FileMode.Create);
 zipStream.CopyTo(file);
 file.Close();
 ```
@@ -519,7 +519,7 @@ const receipt = await facturapi.receipts.create({
 
 ```csharp
 var facturapi = new FacturapiClient("sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
-var receipt = await facturapi.Receipts.CreateAsync(new Dictionary<string, object>
+var receipt = await facturapi.Receipt.CreateAsync(new Dictionary<string, object>
 {
   ["folio_number"] = 1234,
   ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO,

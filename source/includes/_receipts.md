@@ -372,7 +372,7 @@ const invoice = await facturapi.receipts.createGlobalInvoice({
 ```
 
 ```csharp
-var invoice = await facturapi.Receipt.CreateGlobalInvoice(new Dictionary<string, object>
+var invoice = await facturapi.Receipt.CreateGlobalInvoiceAsync(new Dictionary<string, object>
 {
   ["from"] = "2020-12-01T05:00:00.000Z",
   ["to"] = "2020-12-31T04:59:59.999Z",

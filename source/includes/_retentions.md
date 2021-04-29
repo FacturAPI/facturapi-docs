@@ -278,7 +278,7 @@ Argumento | Tipo | Default | Descripción
 **totales**<br><small>requerido</small> | object | none | Información sobre el total de retenciones efectuadas en el periodo correspondiente.
 **totales.monto_tot_operacion**<br><small>requerido</small> | decimal | none | Monto total de la operación, con precisión de hasta 6 decimales.
 **totales.monto_tot_exent**<br><small>requerido</small> | decimal | none | Monto total exento, con precisión de hasta 6 decimales.
-**totales.imp_retenidos**<br><small>opcional</small> | array of objects | none | Colección de impuestos retenidos.
+**totales.imp_retenidos**<br><small>requerido</small> | array of objects | none | Colección de impuestos retenidos.
 **totales.imp_retenidos[].base_ret**<br><small>opcional</small> | decimal | none | Base del impuesto retenido.
 **totales.imp_retenidos[].monto_ret**<br><small>requerido</small> | decimal | none | Importe del impuesto retenido.
 **totales.imp_retenidos[].impuesto**<br><small>opcional</small> | string | none | Tipo de impuesto. Puede tener los valores `"IVA"` o `"ISR"`.

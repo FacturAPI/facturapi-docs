@@ -153,6 +153,7 @@ Argumento | Tipo | Default | Descripción
 **payments[].related[].exchange**<br><small>condicional</small> | decimal | none | Obligatorio cuando la moneda del documento relacionado es distinta a la moneda de pago. Tipo de cambio entre las dos monedas al momento del pago. Ejemplo: El documento relacionado se registra en USD, mientras que el monto de pago en MXN, este atributo debería registrarse como 0.45 USD/MXN.
 **payments[].related[].folio_number**<br><small>opcional</small> | integer | no se incluye | Número de folio asignado por la empresa para control interno.
 **payments[].related[].series**<br><small>opcional</small> | string | "" | Serie. De 1 a 25 caracteres designados por la empresa para control interno.
+**date**<br><small>opcional</small> | date | now | Fecha de expedición del comprobante en formato ISO8601 (UTC String).
 **folio_number**<br><small>opcional</small> | integer | Autoincremental | Número de folio asignado por la empresa para control interno. Si se omite, se asignará el valor autoincremental de la organización. Si se envía un valor, este nuevo valor se usará para designar el siguiente número de folio de la organización.
 **series**<br><small>opcional</small> | string | "" | Serie. De 1 a 25 caracteres designados por la empresa para control interno y sin validez fiscal.
 **external_id**<br><small>opcional</small> | string | Identificador opcional que puedes usar para relacionar esta factura con tus registros y poder hacer búsquedas usando este identificador. Facturapi <strong>no</strong> valida que este campo sea único.

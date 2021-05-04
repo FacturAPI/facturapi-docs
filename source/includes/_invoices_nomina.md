@@ -439,6 +439,7 @@ Argumento | Tipo | Default | Descripción
 **customer**<br><small>requerido</small> | string or object | none | Receptor de la factura. <br/>`string`: Id del cliente previamente registrado en Facturapi. <br/>`object`: Objeto con la información del cliente, el cual se guardará en tu lista de clientes. Acepta los mismos argumentos detallados en la sección [Crear cliente](#crear-cliente).
 **folio_number**<br><small>opcional</small> | integer | Autoincremental | Número de folio asignado por la empresa para control interno. Si se omite, se asignará el valor autoincremental de la organización. Si se envía un valor, este nuevo valor se usará para designar el siguiente número de folio de la organización.
 **series**<br><small>opcional</small> | string | none | Serie. De 1 a 25 caracteres designados por la empresa para control interno y sin relevancia fiscal.
+**date**<br><small>opcional</small> | date | now | Fecha de expedición del comprobante en formato ISO8601 (UTC String).
 **complements**<br><small>requerido</small> | array of objects | none | Arreglo para incluir complementos.
 **complements[].type**<br><small>requerido</small> | string | none | Tipo de complemento. Para el complemento de Nómina, debe tener el valor "nomina".
 **complements[].data**<br><small>requerido</small> | object | none | Objeto con la información del complemento, cuya estructura puedes consultar más abajo.

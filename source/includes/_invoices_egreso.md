@@ -18,10 +18,10 @@ curl https://www.facturapi.io/v1/invoices \
         "payment_form": "06",
         "relation": "03",
         "related": ["UUID_de_factura_relacionada"],
-        "product": {
+        "products": [{
           "description": "Devolución de Impresora HP G3700",
           "price": 499.50
-        }
+        }]
       }'
 ```
 
@@ -34,10 +34,10 @@ const invoice = await facturapi.invoices.create({
   payment_form: facturapi.PaymentForm.DINERO_ELECTRONICO,
   relation: facturapi.InvoiceRelation.DEVOLUCION,
   related: ['UUID_de_factura_relacionada'],
-  product: {
+  products: [{
     description: 'Devolución de Impresora HP G3700',
     price: 499.50
-  }
+  }]
 });
 ```
 
@@ -49,10 +49,13 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
   ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO,
   ["relation"] = Facturapi.InvoiceRelation.DEVOLUCION,
   ["related"] = new string[] { "UUID_de_factura_relacionada" },
-  ["product"] = new Dictionary<string, object>
+  ["products"] = new Dictionary<string, object>[]
   {
-    ["description"] = "Devolución de Impresora HP G3700",
-    ["price"] = 499.50
+    new Dictionary<string, object>
+    {
+      ["description"] = "Devolución de Impresora HP G3700",
+      ["price"] = 499.50
+    }
   }
 });
 ```
@@ -67,9 +70,11 @@ $invoice = array(
   "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
   "relation" => \Facturapi\InvoiceRelation::DEVOLUCION,
   "related" => "UUID_de_factura_relacionada",
-  "product" => array(
-    "description" => "Devolución de Impresora HP G3700",
-    "price" => 499.50
+  "products" => array(
+    array(
+      "description" => "Devolución de Impresora HP G3700",
+      "price" => 499.50
+    )
   )
 );
 
@@ -116,10 +121,10 @@ Argumento | Tipo | Default | Descripción
 **payment_form**<br><small>requerido</small> | string | none | Código de la forma de pago según el catálogo del SAT. Puedes ver los códigos en la tabla antes mostrada, o utilizar las constantes incluídas en nuestras librerías `PaymentForm`.
 **related**<br><small>requerido</small> | array of strings | none | Arreglo con uno o más folios fiscales (UUID) de las facturas relacionadas.
 **relation**<br><small>opcional</small> | string | "01" (Nota de crédito) | Código de relación entre facturas según el catálogo del SAT. Puedes ver los códigos en la tabla mostrada más abajo, o utilizar las constantes incluidas en nuestras librerías `InvoiceRelation`.
-**product**<br><small>requerido</small> | object | none | Objeto con detalles del concepto a facturar. Los comprobantes de egreso permiten un sólo concepto.
-**product.description**<br><small>requerido</small> | string | none | Resumen de la operación en una sola descripción. Deben mencionarse cada uno de los productos que contempla el descuento, devolución o bonificación aplicada y que contienen las facturas relacionadas. Si el egreso está basado en un pocentaje (como al aplicar un 30% de descuento), dicho porcentaje debe incluirse en la descripción junto al nombre del producto que corresponda.
-**product.price**<br><small>requerido</small> | decimal | none | Suma total de la cantidad devuelta, descontada o bonificada.
-**product.[...]**<br><small>opcional</small> | various | various | Puedes usar las demás propiedades de [Crear Producto](#crear-producto), con la diferencia de que las no mencionadas en esta sección son opcionales y adquirirán el valor recomendado para el comprobante de Egreso.
+**products**<br><small>requerido</small> | array of objects | none | Arreglo de uno o más objetos con detalles del concepto a facturar.
+**products[].description**<br><small>requerido</small> | string | none | Resumen de la operación en una sola descripción. Deben mencionarse cada uno de los productos que contempla el descuento, devolución o bonificación aplicada y que contienen las facturas relacionadas. Si el egreso está basado en un pocentaje (como al aplicar un 30% de descuento), dicho porcentaje debe incluirse en la descripción junto al nombre del producto que corresponda.
+**products[].price**<br><small>requerido</small> | decimal | none | Suma total de la cantidad devuelta, descontada o bonificada.
+**products[].[...]**<br><small>opcional</small> | various | various | Puedes usar las demás propiedades de [Crear Producto](#crear-producto), con la diferencia de que las no mencionadas en esta sección son opcionales y adquirirán el valor recomendado para el comprobante de Egreso.
 **folio_number**<br><small>opcional</small> | integer | Autoincremental | Número de folio asignado por la empresa para control interno. Si se omite, se asignará el valor autoincremental de la organización. Si se envía un valor, este nuevo valor se usará para designar el siguiente número de folio de la organización.
 **series**<br><small>opcional</small> | string | "" | Serie. De 1 a 25 caracteres designados por la empresa para control interno y sin validez fiscal.
 **currency**<br><small>opcional</small> | string | "MXN" | Código de la moneda, acorde al estándar <a href="https://es.wikipedia.org/wiki/ISO_4217" target="_blank">ISO 4217</a>.

@@ -1,4 +1,4 @@
-### Crear Factura de Recepción de Pagos
+### Crear Factura de Pago
 
 > <h4 class="toc-ignore">Definición</h4>
 

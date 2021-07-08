@@ -117,7 +117,7 @@ $invoices = $facturapi->Invoices->all(array(
       "status": "valid",
       "customer": {
         "id": "58e93bd8e86eb318b0197456",
-        "legal_name": "Bimbo de México S.A. de C.V.",
+        "legal_name": "Dunder Mifflin S.A. de C.V.",
         "tax_id": "MESB900314R87"
       },
       "total": 345.6,
@@ -195,7 +195,7 @@ $invoice = $facturapi->Invoices->retrieve( "59914af9b1bece552fcaaafd" );
   "status": "valid",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
-    "legal_name": "Bimbo de México S.A. de C.V.",
+    "legal_name": "Dunder Mifflin S.A. de C.V.",
     "tax_id": "MESB900314R87"
   },
   "total": 345.6,
@@ -462,7 +462,7 @@ $facturapi->Invoices->cancel("58e93bd8e86eb318b019743d");
   "cancellation_status": "none",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
-    "legal_name": "Bimbo de México S.A. de C.V.",
+    "legal_name": "Dunder Mifflin S.A. de C.V.",
     "tax_id": "MESB900314R87"
   },
   "total": 345.6,

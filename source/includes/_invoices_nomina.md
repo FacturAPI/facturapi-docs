@@ -314,7 +314,7 @@ $new_invoice = $facturapi->Invoices->create( $invoice );
   "cancellation_status": "none",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
-    "legal_name": "Bimbo de México S.A. de C.V.",
+    "legal_name": "Dunder Mifflin S.A. de C.V.",
     "tax_id": "MESB900314R87"
   },
   "total": 29101,
@@ -411,7 +411,7 @@ $new_invoice = $facturapi->Invoices->create( $invoice );
   "status": "valid",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
-    "legal_name": "Bimbo de México S.A. de C.V.",
+    "legal_name": "Dunder Mifflin S.A. de C.V.",
     "tax_id": "MESB900314R87"
   },
   "total": 499.50,

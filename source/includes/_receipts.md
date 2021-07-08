@@ -284,7 +284,7 @@ $invoice = $facturapi->Receipts->invoice( "5a3f3e35f508333611ad6b3e", $data );
   "status": "valid",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
-    "legal_name": "Bimbo de México S.A. de C.V.",
+    "legal_name": "Dunder Mifflin S.A. de C.V.",
     "tax_id": "MESB900314R87"
   },
   "payment_form": "06",

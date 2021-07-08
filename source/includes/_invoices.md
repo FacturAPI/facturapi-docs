@@ -12,8 +12,8 @@
   "verification_url": "https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111CBA&tt=345.600000&fe=bWApPw==",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
-    "legal_name": "Bimbo de México S.A. de C.V.",
-    "tax_id": "MESB900314R87"
+    "legal_name": "Dunder Mifflin S.A. de C.V.",
+    "tax_id": "ABCD111111CBA"
   },
   "total": 10944.82,
   "uuid": "39c85a3f-275b-4341-b259-e8971d9f8a94",
@@ -102,10 +102,18 @@ curl https://www.facturapi.io/v1/invoices \
   -u "sk_test_API_KEY:" \
   -H "Content-Type: application/json" \
   -d '{
-    "customer": "58e93bd8e86eb318b0197456",
+    "customer": {
+      "legal_name": "Dunder Mifflin S.A. de C.V.",
+      "email": "email@example.com",
+      "tax_id": "ABCD111111CBA"
+    },
     "items": [{
       "quantity": 2,
-      "product": "58e93bd8e86eb318b0197454"
+      "product": {
+        "description": "Ukelele",
+        "product_key": "60131324",
+        "price": 345.60
+      }
     }],
     "payment_form": "06",
     "folio_number": 914,
@@ -117,10 +125,18 @@ curl https://www.facturapi.io/v1/invoices \
 const Facturapi = require('facturapi');
 const facturapi = new Facturapi('sk_test_API_KEY');
 const invoice = await facturapi.invoices.create({
-  customer: '58e93bd8e86eb318b0197456',
+  customer: {
+    legal_name: 'Dunder Mifflin S.A. de C.V.',
+    email: 'email@example.com',
+    tax_id: 'ABCD111111CBA'
+  },
   items: [{
     quantity: 2,
-    product: '58e93bd8e86eb318b0197454'
+    product: {
+      description: 'Ukelele',
+      product_key: '60131324',
+      price: 345.60
+    }
   }],
   payment_form: Facturapi.PaymentForm.DINERO_ELECTRONICO,
   folio_number: 914,
@@ -132,13 +148,22 @@ const invoice = await facturapi.invoices.create({
 ```csharp
 var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 {
-  ["customer"] = "58e93bd8e86eb318b0197456",
+  ["customer"] = new Dictionary<string, object>
+  {
+    ["legal_name"] = "Dunder Mifflin S.A. de C.V.",
+    ["email"] = "email@example.com",
+    ["tax_id"] = "ABCD111111CBA"
+  },
   ["items"] = new Dictionary<string, object>[]
   {
     new Dictionary<string, object>
     {
-      ["quantity"] = 2,
-      ["product"] = "58e93bd8e86eb318b0197454"
+      ["product"] = new Dictionary<string, object>
+      {
+        ["description"] = "Ukelele",
+        ["product_key"] = "60131324",
+        ["price"] = 345.60
+      }
     }
   },
   ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO,
@@ -153,24 +178,24 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 $facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $invoice = array(
-  "customer" => "58e93bd8e86eb318b0197456",
+  "customer" => array(
+    "legal_name" => "Dunder Mifflin S.A. de C.V.",
+    "email" => "email@example.com",
+    "tax_id" => "ABCD111111CBA"
+  ),
   "items" => array(
-    array(
-      "quantity" => 1, // Optional. Defaults to 1.
-      "product" => "58e93bd8e86eb318b0197454" // You can also pass a product object instead
-    ),
     array(
       "quantity" => 2,
       "product" => array(
-        "description" => "Guitarra",
-        "product_key" => "0601313247",
+        "description" => "Ukelele",
+        "product_key" => "60131324",
         "price" => 420.69,
         "sku" => "ABC4567"
       )
     ) // Add as many products as you want to include in your invoice
   ),
   "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
-  "folio_number" => "581",
+  "folio_number" => 581,
   "series" => "F"
 );
 
@@ -187,11 +212,11 @@ $new_invoice = $facturapi->Invoices->create( $invoice );
   "status": "valid",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
-    "legal_name": "Bimbo de México S.A. de C.V.",
-    "tax_id": "MESB900314R87"
+    "legal_name": "Dunder Mifflin S.A. de C.V.",
+    "tax_id": "ABCD111111CBA"
   },
   "payment_form": "06",
-  "total": 345.6,
+  "total": 420.69,
   "uuid": "45BEC0CA-5F1E-491E-9417-698EA48C382A",
   "folio_number": 914,
   "series": "A",
@@ -204,7 +229,8 @@ $new_invoice = $facturapi->Invoices->create( $invoice );
       "discount": 0,
       "product": {
         "id": "58e93bd8e86eb318b0197454",
-        "description": "Guitarra"
+        "description": "Ukelele",
+        "price": 420.69
       }
     }
   ]

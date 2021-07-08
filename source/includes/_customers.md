@@ -9,7 +9,7 @@
   "id": "590ce6c56d04f840aa8438af",
   "created_at": "2017-05-05T20:55:33.468Z",
   "livemode": false,
-  "legal_name": "John Doe",
+  "legal_name": "Dunder Mifflin S.A. de C.V.",
   "email": "email@example.com",
   "phone": "email@example.com",
   "tax_id": "ABCD111111CBA",
@@ -61,7 +61,7 @@ curl https://www.facturapi.io/v1/customers \
   -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
   -H "Content-Type: application/json" \
   -d '{
-        "legal_name": "John Doe",
+        "legal_name": "Dunder Mifflin S.A. de C.V.",
         "email": "email@example.com",
         "tax_id": "ABCD111111CBA"
       }'
@@ -71,7 +71,7 @@ curl https://www.facturapi.io/v1/customers \
 const Facturapi = require('facturapi');
 const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
 const customer = await facturapi.customers.create({
-  legal_name: 'John Doe',
+  legal_name: 'Dunder Mifflin S.A. de C.V.',
   email: 'email@example.com',
   tax_id: 'ABCD101010XYZ'
 });
@@ -81,7 +81,7 @@ const customer = await facturapi.customers.create({
 ```csharp
 var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, object>
 {
-  ["legal_name"] = "John Doe",
+  ["legal_name"] = "Dunder Mifflin S.A. de C.V.",
   ["email"] = "email@example.com",
   ["tax_id"] = "ABCD101010XYZ"
 });
@@ -94,7 +94,7 @@ $facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $customer = $facturapi->Customers->create(array(
   "email" => "email@example.com",
-  "legal_name" => "John Doe",
+  "legal_name" => "Dunder Mifflin S.A. de C.V.",
   "tax_id" => "ABCD101010XYZ"
 ));
 ```
@@ -106,7 +106,7 @@ $customer = $facturapi->Customers->create(array(
   "id": "590ce6c56d04f840aa8438af",
   "created_at": "2017-05-05T20:55:33.468Z",
   "livemode": false,
-  "legal_name": "John Doe",
+  "legal_name": "Dunder Mifflin S.A. de C.V.",
   "email": "email@example.com",
   "tax_id": "ABCD111111CBA",
   "address": {
@@ -193,7 +193,7 @@ $facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 
 $customer = $facturapi->Customers->update("590ce6c56d04f840aa8438af", array(
   "email" => "jdoe@example.com",
-  "legal_name" => "John Doe",
+  "legal_name" => "Dunder Mifflin S.A. de C.V.",
   "address" => array(
     "street" => "Santa Monica Ave."
   )
@@ -207,7 +207,7 @@ $customer = $facturapi->Customers->update("590ce6c56d04f840aa8438af", array(
   "id": "590ce6c56d04f840aa8438af",
   "created_at": "2017-05-05T20:55:33.468Z",
   "livemode": false,
-  "legal_name": "John Doe",
+  "legal_name": "Dunder Mifflin S.A. de C.V.",
   "email": "jdoe@example.com",
   "tax_id": "ABCD111111CBA",
   "address": {
@@ -289,7 +289,7 @@ $customers = $facturapi->Customers->all()
       "id": "590ce6c56d04f840aa8438af",
       "created_at": "2017-05-05T20:55:33.468Z",
       "livemode": false,
-      "legal_name": "John Doe",
+      "legal_name": "Dunder Mifflin S.A. de C.V.",
       "email": "email@example.com",
       "tax_id": "ABCD111111CBA",
       "address": {
@@ -356,7 +356,7 @@ $customer = $facturapi->Customers->retrieve( "5a3ee743f508333611ad6b3c" );
   "id": "590ce6c56d04f840aa8438af",
   "created_at": "2017-05-05T20:55:33.468Z",
   "livemode": false,
-  "legal_name": "John Doe",
+  "legal_name": "Dunder Mifflin S.A. de C.V.",
   "email": "email@example.com",
   "tax_id": "ABCD111111CBA",
   "address": {
@@ -406,7 +406,7 @@ $facturapi->Customers->delete( "5a3fefd9f508333611ad6b43" );
   "id": "590ce6c56d04f840aa8438af",
   "created_at": "2017-05-05T20:55:33.468Z",
   "livemode": false,
-  "legal_name": "John Doe",
+  "legal_name": "Dunder Mifflin S.A. de C.V.",
   "email": "email@example.com",
   "tax_id": "ABCD111111CBA",
   "address": {

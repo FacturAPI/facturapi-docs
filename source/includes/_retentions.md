@@ -14,7 +14,7 @@ CFDI que ampara retenciones e información de pagos.
   "type": "Retención",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
-    "legal_name": "Bimbo de México S.A. de C.V.",
+    "legal_name": "Dunder Mifflin S.A. de C.V.",
     "tax_id": "MESB900314R87"
   },
   "uuid": "495e8506-9dc1-4a91-b6ef-d4e5ee27bcc6",
@@ -224,7 +224,7 @@ $retention = $facturapi->Retentions->create( $retentionData );
   "type": "Retención",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
-    "legal_name": "Bimbo de México S.A. de C.V.",
+    "legal_name": "Dunder Mifflin S.A. de C.V.",
     "tax_id": "MESB900314R87"
   },
   "uuid": "495e8506-9dc1-4a91-b6ef-d4e5ee27bcc6",
@@ -370,7 +370,7 @@ $searchResult = $facturapi->Retentions->all();
       "type": "Retención",
       "customer": {
         "id": "58e93bd8e86eb318b0197456",
-        "legal_name": "Bimbo de México S.A. de C.V.",
+        "legal_name": "Dunder Mifflin S.A. de C.V.",
         "tax_id": "MESB900314R87"
       },
       "uuid": "495e8506-9dc1-4a91-b6ef-d4e5ee27bcc6",
@@ -466,7 +466,7 @@ $retention = $facturapi->Retentions->retrieve( "6062d9fb226600001cd22f71" );
   "type": "Retención",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
-    "legal_name": "Bimbo de México S.A. de C.V.",
+    "legal_name": "Dunder Mifflin S.A. de C.V.",
     "tax_id": "MESB900314R87"
   },
   "uuid": "495e8506-9dc1-4a91-b6ef-d4e5ee27bcc6",
@@ -752,7 +752,7 @@ $canceledRetention = $facturapi->Retentions->cancel( "6062d9fb226600001cd22f71" 
   "type": "Retención",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
-    "legal_name": "Bimbo de México S.A. de C.V.",
+    "legal_name": "Dunder Mifflin S.A. de C.V.",
     "tax_id": "MESB900314R87"
   },
   "uuid": "495e8506-9dc1-4a91-b6ef-d4e5ee27bcc6",

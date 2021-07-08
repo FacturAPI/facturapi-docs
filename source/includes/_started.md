@@ -103,7 +103,7 @@ curl https://www.facturapi.io/v1/invoices \
   -H "Content-Type: application/json" \
   -d '{
     "customer": {
-      "legal_name": "John Doe S.A. de C.V.",
+      "legal_name": "Dunder Mifflin S.A. de C.V.",
       "email": "email@example.com",
       "tax_id": "ABCD111111CBA"
     },
@@ -124,7 +124,7 @@ const Facturapi = require('facturapi');
 const facturapi = new Facturapi('sk_test_API_KEY');
 const invoice = await facturapi.invoices.create({
   customer: {
-    legal_name: 'John Doe',
+    legal_name: 'Dunder Mifflin S.A. de C.V.',
     email: 'email@example.com',
     tax_id: 'ABCD111111CBA'
   },
@@ -145,7 +145,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 {
   ["customer"] = new Dictionary<string, object>
   {
-    ["legal_name"] = "John Doe",
+    ["legal_name"] = "Dunder Mifflin S.A. de C.V.",
     ["email"] = "email@example.com",
     ["tax_id"] = "ABCD111111CBA"
   },
@@ -170,7 +170,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 $facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
 $invoice = $facturapi->Invoices->create(array(
   "customer" => array(
-    "legal_name" => "John Doe",
+    "legal_name" => "Dunder Mifflin S.A. de C.V.",
     "email" => "email@example.com",
     "tax_id" => "ABCD111111CBA"
   ),
@@ -198,7 +198,7 @@ $invoice = $facturapi->Invoices->create(array(
   "verification_url": "https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111CBA&tt=345.600000&fe=bWApPw==",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
-    "legal_name": "John Doe",
+    "legal_name": "Dunder Mifflin S.A. de C.V.",
     "tax_id": "ABCD111111CBA"
   },
   "payment_form": "06",
@@ -337,7 +337,7 @@ curl https://www.facturapi.io/v1/customers \
 
 ```javascript
 const customer = await facturapi.customers.create({
-  legal_name: 'John Doe', // Razón social
+  legal_name: 'Dunder Mifflin S.A. de C.V.', // Razón social
   email: 'email@example.com',
   tax_id: 'ABCD101010XYZ', // RFC
   address: {
@@ -351,7 +351,7 @@ const customer = await facturapi.customers.create({
 ```csharp
 var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, object>
 {
-  ["legal_name"] = "John Doe",
+  ["legal_name"] = "Dunder Mifflin S.A. de C.V.",
   ["email"] = "email@example.com",
   ["tax_id"] = "ABCD101010XYZ",
   ["address"] = new Dictionary<string, object>

@@ -47,7 +47,7 @@ No olvides importar la librería antes de usarla.
 
 #### Ambiente Test
 
-Facturapi cuenta con un ambiente de pruebas que puedes usar durante el desarrollo de tu aplicación sin costo alguno. Las facturas generadas en este ambiente no son enviadas al SAT y por lo tanto no tienen validez fiscal.
+Facturapi cuenta con un ambiente de pruebas ó sandbox que puedes usar durante el desarrollo de tu aplicación sin generar ningún costo. Las facturas creadas en este ambiente no son enviadas al SAT y por lo tanto no tienen validez fiscal.
 
 Para emitir facturas en ambiente Test basta con utilizar la llave secreta `Test` de tu organización, la cual podrás obtener creando una cuenta gratuita en <a href="https://www.facturapi.io/register" target="_blank">https://www.facturapi.io/register</a>.
 
@@ -160,7 +160,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
         ["price"] = 345.60
       }
     }
-  }
+  },
   ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO
 });
 ```
@@ -434,7 +434,7 @@ $new_product = $facturapi->Products->create( $product );
 
 También puedes registrar tu inventario de productos en Facturapi para no enviar los mismos datos cada vez.
 
-Para conocer los datos que puedes incluir en el producto, consulta la [referencia del método Crear Producto](#crear-producto).
+Para conocer todos los argumentos que puedes incluir en la llamada, consulta la [referencia del método Crear Producto](#crear-producto).
 
 ### Organizaciones (Multi-RFC)
 

@@ -130,6 +130,7 @@ Argumento | Tipo | Default | Descripción
 **currency**<br><small>opcional</small> | string | "MXN" | Código de la moneda, acorde al estándar <a href="https://es.wikipedia.org/wiki/ISO_4217" target="_blank">ISO 4217</a>.
 **exchange**<br><small>opcional</small> | decimal | 1.0 | Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos que equivalen a una unidad de la divisa señalada en el atributo `currency`.
 **date**<br><small>opcional</small> | date | now | Fecha de expedición del comprobante en formato ISO8601 (UTC String).
+**external_id**<br><small>opcional</small> | string | none | Identificador opcional que puedes usar para relacionar esta factura con tus registros y poder hacer búsquedas usando este identificador. Facturapi <strong>no</strong> valida que este campo sea único.
 
 #### Relación entre facturas
 

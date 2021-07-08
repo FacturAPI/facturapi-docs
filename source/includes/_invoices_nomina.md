@@ -443,6 +443,7 @@ Argumento | Tipo | Default | Descripción
 **complements**<br><small>requerido</small> | array of objects | none | Arreglo para incluir complementos.
 **complements[].type**<br><small>requerido</small> | string | none | Tipo de complemento. Para el complemento de Nómina, debe tener el valor "nomina".
 **complements[].data**<br><small>requerido</small> | object | none | Objeto con la información del complemento, cuya estructura puedes consultar más abajo.
+**external_id**<br><small>opcional</small> | string | none | Identificador opcional que puedes usar para relacionar esta factura con tus registros y poder hacer búsquedas usando este identificador. Facturapi <strong>no</strong> valida que este campo sea único.
 
 #### Complemento de Nómina
 

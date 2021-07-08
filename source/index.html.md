@@ -19,8 +19,9 @@ includes:
   - receipts
   - invoices
   - invoices_pago
-  - invoices_nomina
   - invoices_egreso
+  - invoices_nomina
+  - invoices_traslado
   - invoices_list
   - retentions
   - organizations

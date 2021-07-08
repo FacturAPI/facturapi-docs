@@ -7,13 +7,17 @@ Es ideal para tu aplicación si buscas un servicio flexible y escalable para fac
 ### Características soportadas
 
 - **CFDI versión 3.3** (la más reciente).
-- Tipos de factura:
+- Todos los tipos de facturas (CFDI):
   - **Ingreso** (la normal)
-  - **Egreso** (nota de crédito)
-  - **Pago** (complemento de pago)
-  - **Nómina** (recibo de nómina)
+  - **Egreso** (conocida como Nota de Crédito)
+  - **Pago** (conocida como Complemento de Pago)
+  - **Nómina** (conocida como Recibo de Nómina)
+  - **Traslado** (conocida como Carta Porte)
+- **Retenciones**
+- Inserta cualquier **complemento** y/o **addenda**.
 - **Cancelaciones** con el nuevo esquema de Noviembre 2018.
 - **Registrar organizaciones** para emitir facturas usando distintos RFCs.
+- **Recibos facturables** que puedes enviar a tus clientes para que completen los datos de su factura por si mismos (**autofactura**).
 
 ### ¿Facturapi es un PAC?
 

@@ -12,7 +12,7 @@ Es ideal para tu aplicación si buscas un servicio flexible y escalable para fac
   - **Egreso** (conocida como Nota de Crédito)
   - **Pago** (conocida como Complemento de Pago)
   - **Nómina** (conocida como Recibo de Nómina)
-  - **Traslado** (conocida como Carta Porte)
+  - **Traslado** (incluyendo Carta Porte)
 - **Retenciones**
 - Inserta cualquier **complemento** y/o **addenda**.
 - **Cancelaciones** con el nuevo esquema de Noviembre 2018.

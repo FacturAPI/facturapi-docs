@@ -137,13 +137,13 @@ $invoices = $facturapi->Invoices->all(array(
 }
 ```
 
-Obtiene la lista paginada de facturas emitidas por la organización. Puedes usar los argumentos para filtrar.
+Obtiene la lista paginada de facturas emitidas por la organización. Puedes usar los argumentos para filtrar o realizar búsquedas.
 
 #### Argumentos
 
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
-**q**<br><small>opcional</small> | string | "" | Consulta. Texto a buscar en el nombre fiscal del cliente o su RFC.
+**q**<br><small>opcional</small> | string | "" | <p>Consulta. Texto a buscar en la factura.</p><p>La búsqueda se realizará por <strong>coincidencias parciales</strong> en los campos:<br/><ul><li>`items[].product.description`</li><li>`customer.legal_name`</li></ul></p>Y por <strong>coincidencias exactas</strong> en los campos:<br/><ul><li>`id`</li><li>`uuid`</li><li>`customer.tax_id`</li><li>`folio_number`</li><li>`total`</li></ul>.
 **customer**<br><small>opcional</small> | string | "" | Identificador del cliente. Útil para obtener las facturas emitidas a un sólo cliente.
 **date**<br><small>opcional</small> | object | none | Objeto con atributos que representan el rango de fechas solicitado.
 **date.gt**<br><small>opcional</small> | string or date | none | Regresa facturas cuya fecha de creación es posterior a esta fecha.

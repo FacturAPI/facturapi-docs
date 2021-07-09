@@ -15,7 +15,8 @@ curl https://www.facturapi.io/v1/organizations/<ORGANIZATION_ID>/receipts \
   -d '{
         "invoicing_period": "month",
         "duration_days": 14,
-        "next_folio_number": 100
+        "next_folio_number": 100,
+        "ask_address": "hidden"
     }'
 ```
 
@@ -27,7 +28,8 @@ const organization = await facturapi.organizations.updateReceiptSettings(
   {
     invoicing_period: "month",
     duration_days: 14,
-    next_folio_number: 100
+    next_folio_number: 100,
+    ask_address: 'hidden'
   }
 );
 ```
@@ -40,7 +42,8 @@ var organization = await facturapi.Organization.UpdateReceiptSettingsAsync(
   {
     ["invoicing_period"] = "month",
     ["duration_days"] = 14,
-    ["next_folio_number"] = 100
+    ["next_folio_number"] = 100,
+    ["ask_address"] = "hidden"
   }
 );
 // Guarda el organization.Id para asociarlo con tu propia base de datos
@@ -53,7 +56,8 @@ $organization = $facturapi->Organizations->updateReceiptSettings(
   "<ORGANIZATION_ID>", array(
     "invoicing_period" => "month",
     "duration_days" => 14,
-    "next_folio_number" => 100
+    "next_folio_number" => 100,
+    "ask_address" => "hidden"
   )
 );
 ```
@@ -108,7 +112,8 @@ $organization = $facturapi->Organizations->updateReceiptSettings(
   "receipts": {
     "invoicing_period": "month",
     "duration_days": 14,
-    "next_folio_number": 100
+    "next_folio_number": 100,
+    "ask_address": "hidden"
   }
 }
 ```
@@ -120,9 +125,10 @@ Actualiza la configuración de recibos de la organización.
 Argumento | Tipo | Default | Descripción
 ---------:|:----:|:-------:| -----------
 **id**<br><small>requerido</small> | string | none | Identificador de la organización.
-**invoicing_period**<br><small>requerido</small> | string | "month" | Periodicidad con la que la empresa decide realizar una factura global (al público en general) por todos los recibos no facturados. Puede ser `day`, `week`, `month` ó `two_months`.
-**duration_days**<br><small>requerido</small> | string | 0 | Días máximos para facturar por medio del portal de autofactura después de emitido el recibo y antes del último día del "Periodo de facturación" (`invoicing_period`). El valor `0` desactiva esta opción, haciendo que los recibos expiren siempre el último día del periodo.
-**next_folio_number**<br><small>requerido</small> | integer | 1 | Número de folio que se asignará al siguiente recibo creado en esta organización.
+**invoicing_period**<br><small>opcional</small> | string | "month" | Periodicidad con la que la empresa decide realizar una factura global (al público en general) por todos los recibos no facturados. Puede ser `day`, `week`, `month` ó `two_months`.
+**duration_days**<br><small>opcional</small> | string | 0 | Días máximos para facturar por medio del portal de autofactura después de emitido el recibo y antes del último día del "Periodo de facturación" (`invoicing_period`). El valor `0` desactiva esta opción, haciendo que los recibos expiren siempre el último día del periodo.
+**next_folio_number**<br><small>opcional</small> | integer | 1 | Número de folio que se asignará al siguiente recibo creado en esta organización.
+**ask_address**<br><small>opcional</small> | string | "optional" | Opción que define si se le debe pedir el domicilio al usuario en el sitio de autofactura. Puede tener los siguientes valores:<ul><li>`"optional"` (default): El usuario tendrá la opción de agregar su domicilio si así lo desea, pero no será obligatorio.</li><li>`"hidden"`: El usuario no tendrá la opción de agregar su domicilio.</li><li>`"required"`: El usuario deberá llenar la información sobre su domicilio para crear su factura.</li></ul>
 
 ### Elegir Dominio para Autofactura
 

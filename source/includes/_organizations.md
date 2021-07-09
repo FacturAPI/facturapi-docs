@@ -401,3 +401,4 @@ Código | Descripción
 "629" |	De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales
 "630" |	Enajenación de acciones en bolsa de valores
 "615" |	Régimen de los ingresos por obtención de premios
+"625" | Régimen de las Actividades Empresariales con ingresos a través de plataformas tecnológicas

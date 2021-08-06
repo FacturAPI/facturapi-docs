@@ -33,6 +33,7 @@ includes:
   - organizations_retrieve
   - organizations_delete
   - catalogs
+  - tools
   - errors
 
 search: false

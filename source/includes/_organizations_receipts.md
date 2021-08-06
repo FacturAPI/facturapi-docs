@@ -10,7 +10,7 @@
 ```shell
 curl https://www.facturapi.io/v1/organizations/<ORGANIZATION_ID>/receipts \
   -X PUT \
-  -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Authorization: Bearer sk_user_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
         "invoicing_period": "month",
@@ -22,7 +22,7 @@ curl https://www.facturapi.io/v1/organizations/<ORGANIZATION_ID>/receipts \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_API_KEY');
 const organization = await facturapi.organizations.updateReceiptSettings(
   '<ORGANIZATION_ID>',
   {
@@ -35,7 +35,7 @@ const organization = await facturapi.organizations.updateReceiptSettings(
 ```
 
 ```csharp
-var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_API_KEY");
 var organization = await facturapi.Organization.UpdateReceiptSettingsAsync(
   "<ORGANIZATION_ID>",
   new Dictionary<string, object>
@@ -51,7 +51,7 @@ var organization = await facturapi.Organization.UpdateReceiptSettingsAsync(
 
 ```php
 <?php
-$facturapi = new Facturapi("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+$facturapi = new Facturapi("sk_user_API_KEY");
 $organization = $facturapi->Organizations->updateReceiptSettings(
   "<ORGANIZATION_ID>", array(
     "invoicing_period" => "month",
@@ -142,7 +142,7 @@ Argumento | Tipo | Default | Descripción
 ```shell
 curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/domain \
   -X PUT \
-  -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Authorization: Bearer sk_user_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
         "domain": "empresa-demo"
@@ -151,7 +151,7 @@ curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/domain \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_API_KEY');
 const organization = await facturapi.organizations.updateDomain(
   '5a2a307be93a2f00129ea035',
   { domain: 'empresa-demo' }
@@ -159,7 +159,7 @@ const organization = await facturapi.organizations.updateDomain(
 ```
 
 ```csharp
-var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_API_KEY");
 var organization = await facturapi.Organization.UpdateDomainAsync(
   "5a2a307be93a2f00129ea035",
   new Dictionary<string, object>
@@ -172,7 +172,7 @@ var organization = await facturapi.Organization.UpdateDomainAsync(
 
 ```php
 <?php
-$facturapi = new Facturapi("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+$facturapi = new Facturapi("sk_user_API_KEY");
 $organization = $facturapi->Organizations->updateDomain(
   "5a2a307be93a2f00129ea035",
   array( "domain" => "empresa-demo" )
@@ -257,19 +257,19 @@ Argumento | Tipo | Default | Descripción
 
 ```shell
 curl https://www.facturapi.io/v1/organizations/domain-check?domain=empresa-demo \
-  -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:"
+  -H "Authorization: Bearer sk_user_API_KEY"
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_API_KEY');
 const organization = await facturapi.organizations.checkDomainIsAvailable({
   domain: 'empresa-demo'
 });
 ```
 
 ```csharp
-var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_API_KEY");
 var organization = await facturapi.Organization.CheckDomainIsAvailableAsync(
   new Dictionary<string, object>
   {
@@ -281,7 +281,7 @@ var organization = await facturapi.Organization.CheckDomainIsAvailableAsync(
 
 ```php
 <?php
-$facturapi = new Facturapi("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+$facturapi = new Facturapi("sk_user_API_KEY");
 $organization = $facturapi->Organizations->checkDomainIsAvailable(
   array( "domain" => "empresa-demo" )
 );

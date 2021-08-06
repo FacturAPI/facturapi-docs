@@ -12,17 +12,17 @@ GET https://www.facturapi.io/v1/invoices
 # Todas las facturas de la organización
 curl "https://www.facturapi.io/v1/invoices" \
   -G \
-  -u "sk_test_API_KEY:"
+  -H "Authorization: Bearer sk_test_API_KEY"
 # Todas las facturas emitidas para cierto cliente
 curl "https://www.facturapi.io/v1/invoices" \
   -G \
-  -u "sk_test_API_KEY:" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
   -d "customer=58e93bd8e86eb318b0197456"
 # Página 3 de los resultados de búsqueda de texto libre
 # de facturas emitidas por cierto cliente entre 2017 y 2019
 curl "https://www.facturapi.io/v1/invoices" \
   -G \
-  -u "sk_test_API_KEY:" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
   -d "q=Aspiradora+Robot&customer=58e93bd8e86eb318b0197456&date[gte]=2017-01-01&date[lt]=2020-01-01&page=3&limit=10"
 });
 ```
@@ -80,7 +80,7 @@ var searchResult = await facturapi.Invoice.ListAsync(
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 // Todas las facturas de la organización
 $invoices = $facturapi->Invoices->all();
@@ -165,7 +165,7 @@ GET https://www.facturapi.io/v1/invoices/{id}
 
 ```shell
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d \
-  -u "sk_test_API_KEY:"
+  -H "Authorization: Bearer sk_test_API_KEY"
 ```
 
 ```javascript
@@ -180,7 +180,7 @@ var invoice = await facturapi.Invoice.RetrieveAsync("58e93bd8e86eb318b019743d");
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $invoice = $facturapi->Invoices->retrieve( "59914af9b1bece552fcaaafd" );
 ```
@@ -234,15 +234,15 @@ GET https://www.facturapi.io/v1/invoices/{id}/xml
 ```shell
 ## Descargar PDF y XML comprimidos en archivo ZIP
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/zip \
-  -u "sk_test_API_KEY:"
+  -H "Authorization: Bearer sk_test_API_KEY"
 
 ## Descargar sólo el PDF
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/pdf \
-  -u "sk_test_API_KEY:"
+  -H "Authorization: Bearer sk_test_API_KEY"
 
 ## Descargar sólo el XML
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/xml \
-  -u "sk_test_API_KEY:"
+  -H "Authorization: Bearer sk_test_API_KEY"
 ```
 
 ```javascript
@@ -282,7 +282,7 @@ file.Close();
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $zip = $facturapi->Invoices->download_zip("58e93bd8e86eb318b019743d") // stream containing the PDF and XML as a ZIP file or
 
@@ -312,12 +312,12 @@ POST https://www.facturapi.io/v1/invoices/{id}/email
 ```shell
 # Enviar al correo del cliente
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
-  -u "sk_test_API_KEY:"
+  -H "Authorization: Bearer sk_test_API_KEY"
   -X POST
 
 # Enviar a otro correo
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
-  -u "sk_test_API_KEY:"
+  -H "Authorization: Bearer sk_test_API_KEY"
   -X POST
   -H "Content-Type: application/json" \
   -d '{
@@ -326,7 +326,7 @@ curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
 
 # Enviar a otro correo
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
-  -u "sk_test_API_KEY:"
+  -H "Authorization: Bearer sk_test_API_KEY"
   -X POST
   -H "Content-Type: application/json" \
   -d '{
@@ -386,7 +386,7 @@ await facturapi.Invoice.SendByEmailAsync(
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 // Enviar al correo del cliente
 $facturapi->Invoices->send_by_email("58e93bd8e86eb318b019743d");
 // Enviar a otro correo
@@ -429,7 +429,7 @@ DELETE https://www.facturapi.io/v1/invoices/{id}
 
 ```shell
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d \
-  -u "sk_test_API_KEY:" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
   -X DELETE
 ```
 
@@ -446,7 +446,7 @@ var invoice = await facturapi.Invoice.CancelAsync("58e93bd8e86eb318b019743d");
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $facturapi->Invoices->cancel("58e93bd8e86eb318b019743d");
 ```

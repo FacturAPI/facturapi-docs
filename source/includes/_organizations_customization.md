@@ -10,7 +10,7 @@
 ```shell
 curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/customization \
   -X PUT \
-  -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Authorization: Bearer sk_user_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
         "color": "#BADA55",
@@ -23,7 +23,7 @@ curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/customiz
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_API_KEY');
 const organization = await facturapi.organizations.updateCustomization(
   '5a2a307be93a2f00129ea035',
   {
@@ -37,7 +37,7 @@ const organization = await facturapi.organizations.updateCustomization(
 ```
 
 ```csharp
-var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_API_KEY");
 var organization = await facturapi.Organization.UpdateCustomizationAsync(
   "5a2a307be93a2f00129ea035",
   new Dictionary<string, object>
@@ -55,7 +55,7 @@ var organization = await facturapi.Organization.UpdateCustomizationAsync(
 
 ```php
 <?php
-$facturapi = new Facturapi("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+$facturapi = new Facturapi("sk_user_API_KEY");
 $organization = $facturapi->Organizations->updateCustomization(
   "5a2a307be93a2f00129ea035",
   array(
@@ -148,14 +148,14 @@ Argumento | Tipo | Default | Descripción
 ```shell
 curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/logo \
   -X PUT \
-  -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Authorization: Bearer sk_user_API_KEY" \
   -H "Content-Type: mutipart/form-data" \
   -F 'file=@/path/to/your/logo.jpg'
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_API_KEY');
 const fs = require('fs');
 const file = fs.createReadStream('/path/to/your/logo.jpg');
 const organization = await facturapi.organizations.uploadLogo(
@@ -165,7 +165,7 @@ const organization = await facturapi.organizations.uploadLogo(
 ```
 
 ```csharp
-var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_API_KEY");
 var fileStream = File.OpenRead(@"C:\path\to\your\logo.jpg");
 var organization = await facturapi.Organization.UploadLogoAsync(
   "5a2a307be93a2f00129ea035",
@@ -176,7 +176,7 @@ var organization = await facturapi.Organization.UploadLogoAsync(
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_user_API_KEY" );
 $organization = $facturapi->Organizations->uploadLogo(
   "5a2a307be93a2f00129ea035",
   "/path/to/logo.jpg"

@@ -12,12 +12,12 @@ GET https://www.facturapi.io/v1/catalogs/products
 
 ```shell
 curl https://www.facturapi.io/v1/catalogs/products?q=ukelele \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" 
+  -H "Authorization: Bearer sk_test_API_KEY" 
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const searchResult = await facturapi.catalogs.searchProducts({ q: 'ukelele' });
 // searchResult.data contains the result array
 ```
@@ -34,7 +34,7 @@ var searchResult = await facturapi.Catalog.SearchProducts(
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 $result = $facturapi->Catalogs->searchProducts([
   "q" => "ukelele"
 ]);
@@ -78,12 +78,12 @@ GET https://www.facturapi.io/v1/catalogs/units
 
 ```shell
 curl https://www.facturapi.io/v1/catalogs/units?q=pulgada \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" 
+  -H "Authorization: Bearer sk_test_API_KEY" 
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const searchResult = await facturapi.catalogs.searchUnits({ q: 'pulgada' });
 // searchResult.data contains the result array
 ```
@@ -100,7 +100,7 @@ var searchResult = await facturapi.Catalog.SearchUnits(
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 $result = $facturapi->Catalogs->searchUnits([
   "q" => "pulgada"
 ]);

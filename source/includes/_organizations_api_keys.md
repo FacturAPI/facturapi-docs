@@ -7,23 +7,23 @@
 
 ```shell
 curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/apikeys \
-  -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:"
+  -H "Authorization: Bearer sk_user_API_KEY"
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_API_KEY');
 const apiKeys = await facturapi.organizations.getApiKeys('5a2a307be93a2f00129ea035');
 ```
 
 ```csharp
-var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_API_KEY");
 var apiKeys = await facturapi.Organization.GetApiKeysAsync("5a2a307be93a2f00129ea035");
 ```
 
 ```php
 <?php
-$facturapi = new Facturapi("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+$facturapi = new Facturapi("sk_user_API_KEY");
 $organization = $facturapi->Organizations->getApiKeys("5a2a307be93a2f00129ea035");
 ```
 

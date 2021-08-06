@@ -7,12 +7,12 @@
 
 ```shell
 curl https://www.facturapi.io/v1/organizations \
-  -u "sk_user_vnpJkayXw4bxoMVQMO3r2B7QEP8LmOWM:" 
+  -H "Authorization: Bearer sk_user_API_KEY"
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_API_KEY');
 const organizationResults = await facturapi.organizations.list();
 ```
 
@@ -23,7 +23,7 @@ var searchResult = await facturapi.Organization.ListAsync();
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $organizations = $facturapi->Organizations->all()
 ```

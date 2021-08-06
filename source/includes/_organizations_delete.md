@@ -8,19 +8,19 @@
 ```shell
 curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035 \
   -X DELETE \
-  -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:"
+  -H "Authorization: Bearer sk_user_API_KEY"
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_API_KEY');
 const organization = await facturapi.organizations.del(
   '5a2a307be93a2f00129ea035'
 );
 ```
 
 ```csharp
-var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_API_KEY");
 var organization = await facturapi.Organization.DeleteAsync(
   "5a2a307be93a2f00129ea035"
 );
@@ -28,7 +28,7 @@ var organization = await facturapi.Organization.DeleteAsync(
 
 ```php
 <?php
-$facturapi = new Facturapi("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+$facturapi = new Facturapi("sk_user_API_KEY");
 $organization = $facturapi->Organizations->delete("5a2a307be93a2f00129ea035");
 ```
 

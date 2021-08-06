@@ -78,7 +78,7 @@ POST https://www.facturapi.io/v1/receipts
 
 ```shell
 curl https://www.facturapi.io/v1/receipts \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
         "folio_number": 1234,
@@ -96,7 +96,7 @@ curl https://www.facturapi.io/v1/receipts \
 ```
 
 ```javascript
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const receipt = await facturapi.receipts.create({
   folio_number: 1234,
   payment_form: Facturapi.PaymentForm.DINERO_ELECTRONICO,
@@ -114,7 +114,7 @@ const receipt = await facturapi.receipts.create({
 ```
 
 ```csharp
-var facturapi = new FacturapiClient("sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_test_API_KEY");
 var receipt = await facturapi.Receipt.CreateAsync(new Dictionary<string, object>
 {
   ["folio_number"] = 1234,
@@ -133,7 +133,7 @@ var receipt = await facturapi.Receipt.CreateAsync(new Dictionary<string, object>
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $receiptData = array(
   "folio_number" => 1234,
@@ -233,7 +233,7 @@ POST https://www.facturapi.io/v1/receipts/{RECEIPT_ID}/invoice
 
 ```shell
 curl https://www.facturapi.io/v1/receipts/5ebd8e56f5687a013ca0df46/invoice \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
         "customer": "58e93bd8e86eb318b0197456",
@@ -244,7 +244,7 @@ curl https://www.facturapi.io/v1/receipts/5ebd8e56f5687a013ca0df46/invoice \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const invoice = await facturapi.receipts.invoice('5ebd8e56f5687a013ca0df46', {
   customer: '58e93bd8e86eb318b0197456',
   folio_number: 914,
@@ -263,7 +263,7 @@ var invoice = await facturapi.Receipt.InvoiceAsync("5ebd8e56f5687a013ca0df46", n
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $data = array(
   "customer" => "58e93bd8e86eb318b0197456",
@@ -350,7 +350,7 @@ POST https://www.facturapi.io/v1/receipts/global-invoice
 
 ```shell
 curl https://www.facturapi.io/v1/receipts/global-invoice \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
         "from": "2020-12-01T05:00:00.000Z",
@@ -362,7 +362,7 @@ curl https://www.facturapi.io/v1/receipts/global-invoice \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const invoice = await facturapi.receipts.createGlobalInvoice({
   from: '2020-12-01T05:00:00.000Z',
   to: '2020-12-31T04:59:59.999Z',
@@ -383,7 +383,7 @@ var invoice = await facturapi.Receipt.CreateGlobalInvoiceAsync(new Dictionary<st
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $invoice = $facturapi->Receipts->createGlobalInvoice(
   array(
@@ -531,12 +531,12 @@ GET https://www.facturapi.io/v1/receipts
 
 ```shell
 curl https://www.facturapi.io/v1/receipts \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" 
+  -H "Authorization: Bearer sk_test_API_KEY" 
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const searchResult = await facturapi.receipts.list();
 // searchResult.data contains the result array
 ```
@@ -548,7 +548,7 @@ var searchResult = await facturapi.Receipt.ListAsync();
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $receipts = $facturapi->Receipts->all();
 ```
@@ -631,12 +631,12 @@ GET https://www.facturapi.io/v1/receipts/{RECEIPT_ID}
 
 ```shell
 curl https://www.facturapi.io/v1/receipts/5ebd8e56f5687a013ca0df46 \
-  -u "sk_test_vnpJkayXw4bxoMVQMO3r2B7QEP8LmOWM:" 
+  -H "Authorization: Bearer sk_test_API_KEY" 
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const receipt = await facturapi.receipts.retrieve('5ebd8e56f5687a013ca0df46');
 ```
 
@@ -646,7 +646,7 @@ var receipt = await facturapi.Receipt.RetrieveAsync("5ebd8e56f5687a013ca0df46");
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $receipt = $facturapi->Receipts->retrieve( "5ebd8e56f5687a013ca0df46" );
 ```
@@ -714,12 +714,12 @@ DELETE https://www.facturapi.io/v1/receipts/{RECEIPT_ID}
 ```shell
 curl https://www.facturapi.io/v1/receipts/5ebd8e56f5687a013ca0df46 \
   -X DELETE \
-  -u "sk_test_vnpJkayXw4bxoMVQMO3r2B7QEP8LmOWM:" 
+  -H "Authorization: Bearer sk_test_API_KEY" 
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const removedReceipt = await facturapi.receipts.cancel('5ebd8e56f5687a013ca0df46');
 ```
 
@@ -729,7 +729,7 @@ var receipt = await facturapi.Receipt.CancelAsync("5ebd8e56f5687a013ca0df46");
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $facturapi->Receipts->cancel( "5ebd8e56f5687a013ca0df46" );
 ```

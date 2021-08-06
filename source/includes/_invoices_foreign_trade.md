@@ -12,7 +12,7 @@ POST https://www.facturapi.io/v1/invoices
 
 ```shell
 curl https://www.facturapi.io/v1/invoices \
-  -u "sk_test_API_KEY:" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
         "customer": "58e93bd8e86eb318b0197456",
@@ -140,7 +140,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $invoice = array(
   "customer" => "YOUR_CUSTOMER_ID",

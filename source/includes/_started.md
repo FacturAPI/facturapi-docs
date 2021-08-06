@@ -83,10 +83,12 @@ var facturapi = new FacturapiClient("sk_test_API_KEY");
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 ```
 
-Inicializa el cliente de Facturapi con la llave secreta de tu organización, pudiendo ésta a su vez ser Test o Live, según el ambiente que se requiera.
+Facturapi utiliza el método de autenticación HTTP [Bearer Token](https://swagger.io/docs/specification/authentication/bearer-authentication/).
+
+Si usas una de nuestras librerías, deberás construir una instancia del cliente con la llave secreta, pudiendo ésta a su vez ser Test, Live o User, según el ambiente que se requiera.
 
 <aside class="notice">
   Asegurate de remplazar nuestra llave de ejemplo <code>sk_test_API_KEY</code>
@@ -99,7 +101,7 @@ Inicializa el cliente de Facturapi con la llave secreta de tu organización, pud
 
 ```shell
 curl https://www.facturapi.io/v1/invoices \
-  -u "sk_test_API_KEY:" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "customer": {
@@ -140,7 +142,7 @@ const invoice = await facturapi.invoices.create({
 ```
 
 ```csharp
-var facturapi = new FacturapiClient("sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_test_API_KEY");
 var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 {
   ["customer"] = new Dictionary<string, object>
@@ -167,7 +169,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 $invoice = $facturapi->Invoices->create(array(
   "customer" => array(
     "legal_name" => "Dunder Mifflin S.A. de C.V.",
@@ -243,7 +245,7 @@ Para conocer más a fondo las opciones disponibles al crear una factura, consult
 
 ```shell
 curl https://www.facturapi.io/v1/invoices/<INVOICE_ID>/email \
-  -u "sk_test_API_KEY:"
+  -H "Authorization: Bearer sk_test_API_KEY"
   -X POST
 ```
 
@@ -269,7 +271,7 @@ los archivos de la factura al correo electrónico del cliente a quien se le emit
 ```shell
 ## Descargar PDF y XML comprimidos en archivo ZIP
 curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/zip \
-  -u "sk_test_API_KEY:"
+  -H "Authorization: Bearer sk_test_API_KEY"
 ```
 
 ```javascript
@@ -310,7 +312,7 @@ Si lo necesitas, también puedes descargar los archivos de la factura en tu serv
 ```shell
 # Para clientes nacionales
 curl https://www.facturapi.io/v1/customers \
-  -u "sk_test_API_KEY:" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
       "legal_name": "Juan Perez",
@@ -322,7 +324,7 @@ curl https://www.facturapi.io/v1/customers \
 # Nótese que no necesitas usar el RFC genérico para extranjeros. Nosotros lo
 # pondremos por ti donde haga falta, siempre y cuando envíes el código del país
 curl https://www.facturapi.io/v1/customers \
-  -u "sk_test_API_KEY:" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
       "legal_name": "IKEO",
@@ -390,7 +392,7 @@ Para conocer qué otros datos puedes incluir, consulta la [referencia del métod
 
 ```shell
 curl https://www.facturapi.io/v1/products \
-  -u "sk_test_API_KEY:" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
         "description": "Ukelele",
@@ -440,7 +442,7 @@ Para conocer todos los argumentos que puedes incluir en la llamada, consulta la 
 
 ```shell
 curl https://www.facturapi.io/v1/organizations \
-  -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Authorization: Bearer sk_user_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
       "name": "Skynet"
@@ -449,7 +451,7 @@ curl https://www.facturapi.io/v1/organizations \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_API_KEY');
 const organization = await facturapi.organizations.create({
   name: 'Skynet'
 });
@@ -457,7 +459,7 @@ const organization = await facturapi.organizations.create({
 ```
 
 ```csharp
-var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_API_KEY");
 var organization = await facturapi.Organization.CreateAsync(new Dictionary<string, object>
 {
   ["name"] = "Skynet"
@@ -467,7 +469,7 @@ var organization = await facturapi.Organization.CreateAsync(new Dictionary<strin
 
 ```php
 <?php
-$facturapi = new Facturapi("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+$facturapi = new Facturapi("sk_user_API_KEY");
 $organization = $facturapi->Organizations->create(array(
     "name" => "Skynet"
 ));
@@ -482,7 +484,7 @@ Recuerda que para crear y administrar organizaciones deberás autenticarte usand
 
 ```shell
 curl https://www.facturapi.io/v1/receipts \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
         "folio_number": 1234,
@@ -500,7 +502,7 @@ curl https://www.facturapi.io/v1/receipts \
 ```
 
 ```javascript
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const receipt = await facturapi.receipts.create({
   folio_number: 1234,
   payment_form: Facturapi.PaymentForm.DINERO_ELECTRONICO,
@@ -518,7 +520,7 @@ const receipt = await facturapi.receipts.create({
 ```
 
 ```csharp
-var facturapi = new FacturapiClient("sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_test_API_KEY");
 var receipt = await facturapi.Receipt.CreateAsync(new Dictionary<string, object>
 {
   ["folio_number"] = 1234,
@@ -537,7 +539,7 @@ var receipt = await facturapi.Receipt.CreateAsync(new Dictionary<string, object>
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $receiptData = array(
   "folio_number" => 1234,
@@ -563,7 +565,7 @@ Para más detalles, consulta el método [Crear Recibo](#crear-recibo).
 
 ```shell
 curl https://www.facturapi.io/v1/receipts/<RECEIPT_ID>/invoice \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
         "customer": {

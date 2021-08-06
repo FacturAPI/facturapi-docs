@@ -109,7 +109,7 @@ POST https://www.facturapi.io/v1/retentions
 
 ```shell
 curl https://www.facturapi.io/v1/retentions \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
         "customer": "58e93bd8e86eb318b0197456",
@@ -133,7 +133,7 @@ curl https://www.facturapi.io/v1/retentions \
 ```
 
 ```javascript
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const retention = await facturapi.retentions.create({
   customer: '58e93bd8e86eb318b0197456',
   cve_retenc: '26',
@@ -157,7 +157,7 @@ const retention = await facturapi.retentions.create({
 ```
 
 ```csharp
-var facturapi = new FacturapiClient("sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_test_API_KEY");
 var retention = await facturapi.Retention.CreateAsync(new Dictionary<string, object>
 {
   ["customer"] = "58e93bd8e86eb318b0197456",
@@ -187,7 +187,7 @@ var retention = await facturapi.Retention.CreateAsync(new Dictionary<string, obj
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $retentionData = array(
   "customer" => "58e93bd8e86eb318b0197456",
@@ -332,12 +332,12 @@ GET https://www.facturapi.io/v1/retentions
 
 ```shell
 curl https://www.facturapi.io/v1/retentions \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" 
+  -H "Authorization: Bearer sk_test_API_KEY" 
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const searchResult = await facturapi.retentions.list();
 // searchResult.data contains the result array
 ```
@@ -349,7 +349,7 @@ var searchResult = await facturapi.Retention.ListAsync();
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $searchResult = $facturapi->Retentions->all();
 ```
@@ -435,12 +435,12 @@ GET https://www.facturapi.io/v1/retentions/{RETENTION_ID}
 
 ```shell
 curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71 \
-  -u "sk_test_vnpJkayXw4bxoMVQMO3r2B7QEP8LmOWM:" 
+  -H "Authorization: Bearer sk_test_API_KEY" 
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const retention = await facturapi.retentions.retrieve('6062d9fb226600001cd22f71');
 ```
 
@@ -450,7 +450,7 @@ var retention = await facturapi.Retention.RetrieveAsync("6062d9fb226600001cd22f7
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $retention = $facturapi->Retentions->retrieve( "6062d9fb226600001cd22f71" );
 ```
@@ -522,15 +522,15 @@ GET https://www.facturapi.io/v1/retentions/{id}/xml
 ```shell
 ## Descargar PDF y XML comprimidos en archivo ZIP
 curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71/zip \
-  -u "sk_test_API_KEY:"
+  -H "Authorization: Bearer sk_test_API_KEY"
 
 ## Descargar sólo el PDF
 curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71/pdf \
-  -u "sk_test_API_KEY:"
+  -H "Authorization: Bearer sk_test_API_KEY"
 
 ## Descargar sólo el XML
 curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71/xml \
-  -u "sk_test_API_KEY:"
+  -H "Authorization: Bearer sk_test_API_KEY"
 ```
 
 ```javascript
@@ -570,7 +570,7 @@ file.Close();
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 // buffer containing the PDF and XML as a ZIP file
 $zip = $facturapi->Retentions->download_zip("6062d9fb226600001cd22f71")
@@ -603,12 +603,12 @@ POST https://www.facturapi.io/v1/retentions/{id}/email
 ```shell
 # Enviar al correo electrónico del cliente
 curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71/email \
-  -u "sk_test_API_KEY:"
+  -H "Authorization: Bearer sk_test_API_KEY"
   -X POST
 
 # Enviar a otro correo electrónico
 curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71/email \
-  -u "sk_test_API_KEY:"
+  -H "Authorization: Bearer sk_test_API_KEY"
   -X POST
   -H "Content-Type: application/json" \
   -d '{
@@ -617,7 +617,7 @@ curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71/email \
 
 # Enviar a más de un correo electrónico
 curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71/email \
-  -u "sk_test_API_KEY:"
+  -H "Authorization: Bearer sk_test_API_KEY"
   -X POST
   -H "Content-Type: application/json" \
   -d '{
@@ -677,7 +677,7 @@ await facturapi.Retention.SendByEmailAsync(
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 // Enviar al correo del cliente
 $facturapi->Retentions->send_by_email("6062d9fb226600001cd22f71");
 // Enviar a otro correo
@@ -721,12 +721,12 @@ DELETE https://www.facturapi.io/v1/retentions/{RETENTION_ID}
 ```shell
 curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71 \
   -X DELETE \
-  -u "sk_test_vnpJkayXw4bxoMVQMO3r2B7QEP8LmOWM:" 
+  -H "Authorization: Bearer sk_test_API_KEY" 
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const canceledRetention = await facturapi.retentions.cancel('6062d9fb226600001cd22f71');
 ```
 
@@ -736,7 +736,7 @@ var canceledRetention = await facturapi.Retention.CancelAsync("6062d9fb226600001
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $canceledRetention = $facturapi->Retentions->cancel( "6062d9fb226600001cd22f71" );
 ```

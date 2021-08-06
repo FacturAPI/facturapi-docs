@@ -10,7 +10,7 @@
 ```shell
 curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/certificate \
   -X PUT \
-  -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Authorization: Bearer sk_user_API_KEY" \
   -H "Content-Type: mutipart/form-data" \
   -F 'cer=@/path/to/your/CSD.cer' \
   -F 'key=@/path/to/your/CSD.key' \
@@ -19,7 +19,7 @@ curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/certific
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_API_KEY');
 const fs = require('fs');
 const cerFile = fs.createReadStream('/path/to/your/CSD.cer');
 const keyFile = fs.createReadStream('/path/to/your/CSD.key');
@@ -32,7 +32,7 @@ const organization = await facturapi.organizations.uploadCertificate(
 ```
 
 ```csharp
-var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_API_KEY");
 var cerFileStream = File.OpenRead(@"C:\path\to\your\CSD.cer");
 var keyFileStream = File.OpenRead(@"C:\path\to\your\CSD.key");
 var organization = await facturapi.Organization.UploadCertificateAsync(
@@ -46,7 +46,7 @@ var organization = await facturapi.Organization.UploadCertificateAsync(
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_user_API_KEY" );
 $organization = $facturapi->Organizations->uploadCertificate("5a2a307be93a2f00129ea035", array(
   "cerFile" => "/path/to/CSD.cer",
   "keyFile" => "/path/to/CSD.key",

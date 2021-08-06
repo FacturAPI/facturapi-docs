@@ -97,7 +97,7 @@ Argumento | Tipo | Descripción
 
 ```shell
 curl https://www.facturapi.io/v1/organizations \
-  -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Authorization: Bearer sk_user_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
       "name": "Skynet"
@@ -106,7 +106,7 @@ curl https://www.facturapi.io/v1/organizations \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_API_KEY');
 const organization = await facturapi.organizations.create({
   name: 'Skynet'
 });
@@ -114,7 +114,7 @@ const organization = await facturapi.organizations.create({
 ```
 
 ```csharp
-var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_API_KEY");
 var organization = await facturapi.Organization.CreateAsync(new Dictionary<string, object>
 {
   ["name"] = "Skynet"
@@ -124,7 +124,7 @@ var organization = await facturapi.Organization.CreateAsync(new Dictionary<strin
 
 ```php
 <?php
-$facturapi = new Facturapi("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+$facturapi = new Facturapi("sk_user_API_KEY");
 $organization = $facturapi->Organizations->create(array(
     "name" => "Skynet"
 ));
@@ -202,7 +202,7 @@ Argumento | Tipo | Default | Descripción
 ```shell
 curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/legal \
   -X PUT \
-  -u "sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Authorization: Bearer sk_user_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
         "name": "Skynet",
@@ -225,7 +225,7 @@ curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/legal \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_user_API_KEY');
 const organization = await facturapi.organizations.updateLegal(
   '5a2a307be93a2f00129ea035',
   {
@@ -249,7 +249,7 @@ const organization = await facturapi.organizations.updateLegal(
 ```
 
 ```csharp
-var facturapi = new FacturapiClient("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+var facturapi = new FacturapiClient("sk_user_API_KEY");
 var organization = await facturapi.Organization.UpdateLegalAsync(
   "5a2a307be93a2f00129ea035",
   new Dictionary<string, object>
@@ -277,7 +277,7 @@ var organization = await facturapi.Organization.UpdateLegalAsync(
 
 ```php
 <?php
-$facturapi = new Facturapi("sk_user_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP");
+$facturapi = new Facturapi("sk_user_API_KEY");
 $organization = $facturapi->Organizations->updateLegal(
   "5a2a307be93a2f00129ea035", array(
     "name" => "Skynet",

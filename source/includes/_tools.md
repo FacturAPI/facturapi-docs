@@ -12,12 +12,12 @@ GET https://www.facturapi.io/v1/tools/tax_id_validation
 
 ```shell
 curl https://www.facturapi.io/v1/tools/tax_id_validation?tax_id=BBA830831LJ2 \
-  -u "sk_test_vnpJkayXw4bxoMVQMO3r2B7QEP8LmOWM:" 
+  -H "Authorization: Bearer sk_test_API_KEY" 
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const customer = await facturapi.tools.validateTaxId('BBA830831LJ2');
 ```
 
@@ -27,7 +27,7 @@ var customer = await facturapi.Tools.ValidateTaxIdAsync("BBA830831LJ2");
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $customer = $facturapi->Tools->validateTaxId("BBA830831LJ2");
 ```

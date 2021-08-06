@@ -59,7 +59,7 @@ POST https://www.facturapi.io/v1/products
 
 ```shell
 curl https://www.facturapi.io/v1/products \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
         "description": "Ukelele",
@@ -71,7 +71,7 @@ curl https://www.facturapi.io/v1/products \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const product = await facturapi.products.create({
   description: 'Ukelele',
   product_key: '60131324',
@@ -93,7 +93,7 @@ var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $product = array(
   "description" => "Ukelele",
@@ -166,7 +166,7 @@ PUT https://www.facturapi.io/v1/products/{PRODUCT_ID}
 ```shell
 curl https://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
   -X PUT
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
         "price": 456.70
@@ -175,7 +175,7 @@ curl https://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const product = await facturapi.products.update('590e22c26d04f840aa8438b2', {
   price: 456.70
 });
@@ -190,7 +190,7 @@ var product = await facturapi.Product.UpdateAsync("590e22c26d04f840aa8438b2", ne
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $product = array(
   "price" => 456.70
@@ -253,12 +253,12 @@ GET https://www.facturapi.io/v1/products
 
 ```shell
 curl https://www.facturapi.io/v1/products \
-  -u "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP:" 
+  -H "Authorization: Bearer sk_test_API_KEY" 
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const productSearch = await facturapi.products.list();
 // productSearch.data contains the result array
 ```
@@ -270,7 +270,7 @@ var searchResult = await facturapi.Product.ListAsync();
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $products = $facturapi->Products->all();
 ```
@@ -328,12 +328,12 @@ GET https://www.facturapi.io/v1/products/{PRODUCT_ID}
 
 ```shell
 curl https://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
-  -u "sk_test_vnpJkayXw4bxoMVQMO3r2B7QEP8LmOWM:" 
+  -H "Authorization: Bearer sk_test_API_KEY" 
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const product = await facturapi.products.retrieve('590e22c26d04f840aa8438b2');
 ```
 
@@ -343,7 +343,7 @@ var product = await facturapi.Product.RetrieveAsync("590e22c26d04f840aa8438b2");
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $product = $facturapi->Products->retrieve( "5a3ee743f508333611ad6b3c" );
 ```
@@ -383,12 +383,12 @@ Argumento | Tipo | Descripción
 ```shell
 curl https://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
   -X DELETE \
-  -u "sk_test_vnpJkayXw4bxoMVQMO3r2B7QEP8LmOWM:" 
+  -H "Authorization: Bearer sk_test_API_KEY" 
 ```
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP');
+const facturapi = new Facturapi('sk_test_API_KEY');
 const removedProduct = await facturapi.products.del('590e22c26d04f840aa8438b2');
 ```
 
@@ -398,7 +398,7 @@ var product = await facturapi.Product.DeleteAsync("590e22c26d04f840aa8438b2");
 
 ```php
 <?php
-$facturapi = new Facturapi( "sk_test_Ba8RVx6kL45lKzGOOdejxr0yQEopbmDP" );
+$facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $facturapi->Products->delete( "5a3f3e35f508333611ad6b3e" );
 ```

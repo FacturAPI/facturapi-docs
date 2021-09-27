@@ -4,15 +4,16 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 // With JSDoc @type annotations, IDEs can provide config autocompletion
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 (module.exports = {
-  title: 'Facturapi | Documentación',
+  title: 'Facturapi. Documentación.',
   tagline: 'Poderosa API de Facturación Electrónica',
-  url: 'https://www.facturapi.io',
-  baseUrl: '/',
+  url: 'https://facturapi.github.io',
+  baseUrl: '/facturapi-docs/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'facturapi', // Usually your GitHub org/user name.
   projectName: 'facturapi-docs', // Usually your repo name.
+  trailingSlash: false,
 
   presets: [
     [
@@ -21,14 +22,12 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
+          editUrl: 'https://github.com/facturapi/facturapi-docs/edit/main/website/',
         },
         blog: {
           showReadingTime: true,
-          // Please change this to your repo.
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/main/website/blog/',
+            'https://github.com/facturapi/facturapi-docs/edit/main/website/blog/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -44,6 +43,9 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
             spec: 'openapi.yaml',
           },
         ],
+        theme: {
+          primaryColor: '#4786FF'
+        },
       },
     ],
   ],
@@ -52,10 +54,10 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'My Site',
+        title: 'Facturapi Docs',
         logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.svg',
+          alt: 'Facturapi',
+          src: 'https://www.facturapi.io/img/icon.svg',
         },
         items: [
           {
@@ -90,15 +92,15 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
             items: [
               {
                 label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                href: 'https://stackoverflow.com/questions/tagged/facturapi',
               },
               {
                 label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                href: 'https://discordapp.com/invite/facturapi',
               },
               {
                 label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                href: 'https://twitter.com/facturapi',
               },
             ],
           },
@@ -111,12 +113,12 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/facturapi/facturapi-docs',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Facturación Espacial, SAPI de CV`,
       },
       prism: {
         theme: lightCodeTheme,

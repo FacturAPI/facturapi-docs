@@ -1,4 +1,4 @@
-openapi: "3.0.2"
+openapi: "3.1.0"
 servers:
   - url: https://www.facturapi.io/v1
 info:
@@ -12,32 +12,7 @@ info:
     url: https://www.facturapi.io/img/logo.svg
     altText: Facturapi
   description: |
-    # Instalación
-
-    ## Ambientes y llaves secretas
-
-    ### Ambiente Test
-
-    Facturapi cuenta con un ambiente de pruebas ó sandbox que puedes usar durante el desarrollo de tu aplicación sin generar ningún costo. Las facturas creadas en este ambiente no son enviadas al SAT y por lo tanto no tienen validez fiscal.
-
-    Para emitir facturas en ambiente Test basta con utilizar la llave secreta Test de tu organización, la cual podrás obtener creando una cuenta gratuita en https://www.facturapi.io/register.
-
-    ### Ambiente Live
-
-    Una vez que hayas terminado de configurar tu organización, podrás obtener tu llave secreta Live para emitir facturas válidas.
-
-    ### Llave de Usuario
-
-    Existe una tercera llave secreta (User Key) que sirve para registrar nuevas organizaciones y configurarlas por medio de la API. Puedes encontrar esta llave en el Centro de Integración, en tu dashboard de Facturapi.
-
-    ## Autenticación
-
-    Facturapi utiliza el método de autenticación HTTP Bearer Token.
-
-    Si usas una de nuestras librerías, deberás construir una instancia del cliente con la llave secreta, pudiendo ésta a su vez ser Test, Live o User, según el ambiente que se requiera.
-
-    **Importante:** Asegurate de remplazar nuestra llave de ejemplo `sk_test_API_KEY` con tu propia llave secreta.
-
+    # Autenticación
     <!-- ReDoc-Inject: <security-definitions> -->
 
 tags:
@@ -434,6 +409,27 @@ tags:
       "25" | Otro tipo de retenciones.
       "26" | Servicios mediante Plataformas Tecnológicas
 
+      ### Validez de obligaciones
+
+      | Validez | IVA Exento | Tasa 0% | Tasa 8% Fronteriza Norte | Tasa 8% Fronteriza Sur | Tasa 16%
+      |:-------:|:----------:|:-------:|:------------------------:|:----------------------:|:--------
+      | "0" <td colspan="5">El contribuyente no está autorizado para emitir facturas</td>
+      | "1" | Sí | Sí | No | No | Sí
+      | "2" | Sí | Sí | Sí | No | Sí
+      | "3" | Sí | Sí | No | Sí | Sí
+      | "4" | Sí | Sí | Sí | Sí | Sí
+
+      #### Situación del contribuyente
+
+      | Valor | Explicación
+      |:-----:|:-----------
+      | "Previsto" | Vía buzón tributario o notificaciones por estrados, el contribuyente recibe un oficio en el que se establece su situación y se le solicita que demuestre la materialidad de las operaciones facturadas.
+      | "Presunto" | El contribuyente notificado se considera presunto cuando, en su página web, la autoridad emite sus datos dentro de la relación de los EFOS, es decir, en las listas negras del SAT.
+      | "Desvirtuado" | En este caso, el contribuyente acusado de operaciones inexistentes ya aportó a la autoridad la documentación e información pertinente para desvirtuar los hechos que llevaron a notificarlo.
+      | "Definitivo" | En este caso, el EFO no atendió el llamado de la autoridad en el plazo de 15 días, a partir de la última notificación; o bien, no pudo desvirtuar los hechos imputados.
+      | "Sentencia favorable" | Los contribuyentes EFOS “definitivos” que se inconforman e interponen algún medio de defensa, el cual concluye a su favor, son clasificados en la lista de “sentencia favorable”.
+      | "EFOS de información suprimida" | En esta categoría, se encuentran los EFOS “presuntos” y “definitivos” que presentaron algún medio de defensa (amparo, juicio de nulidad) y, por lo tanto, un juez ordenó suprimir sus datos de la lista, sin ser eliminados.
+
   - name: customer_model
     x-displayName: Objeto Customer
     description: |
@@ -514,7 +510,8 @@ paths:
               email: 'email@example.com',
               tax_id: 'ABCD101010XYZ'
             });
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, object>
@@ -561,7 +558,7 @@ paths:
       operationId: listCustomers
       tags:
         - customer
-      summary: Consultar clientes
+      summary: Listar clientes
       description: Regresa una lista paginada de todos los clientes de una organización o realiza una búsqueda de acuerdo a parámetros
       x-codeSamples:
         - lang: Bash
@@ -587,7 +584,8 @@ paths:
               },
               page: 1
             });
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var searchResult = await facturapi.Customer.ListAsync(new Dictionary<string, object>
@@ -657,7 +655,8 @@ paths:
             const Facturapi = require('facturapi');
             const facturapi = new Facturapi('sk_test_API_KEY');
             const customer = await facturapi.customers.retrieve('590ce6c56d04f840aa8438af');
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var customer = await facturapi.Customer.RetrieveAsync("590ce6c56d04f840aa8438af");
@@ -722,7 +721,8 @@ paths:
                 }
               }
             );
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var customer = await facturapi.Customer.UpdateAsync(
@@ -790,7 +790,8 @@ paths:
             const Facturapi = require('facturapi');
             const facturapi = new Facturapi('sk_test_API_KEY');
             const removedCustomer = await facturapi.customers.del('590ce6c56d04f840aa8438af');
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var customer = await facturapi.Customer.DeleteAsync("590ce6c56d04f840aa8438af");
@@ -855,7 +856,8 @@ paths:
               price: 345.60,
               sku: 'ABC1234'
             });
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
@@ -898,7 +900,7 @@ paths:
       operationId: listProducts
       tags:
         - product
-      summary: Consultar productos
+      summary: Listar productos
       description: Regresa una lista paginada de todos los productos de una organización o realiza una búsqueda de acuerdo a parámetros
       x-codeSamples:
         - lang: Bash
@@ -918,7 +920,8 @@ paths:
               q: 'ukelele',
               page: 1
             });
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var searchResult = await facturapi.Product.ListAsync(new Dictionary<string, object>
@@ -983,7 +986,8 @@ paths:
             const Facturapi = require('facturapi');
             const facturapi = new Facturapi('sk_test_API_KEY');
             const product = await facturapi.products.retrieve('590e22c26d04f840aa8438b2');
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var product = await facturapi.Product.RetrieveAsync("590e22c26d04f840aa8438b2");
@@ -1045,7 +1049,8 @@ paths:
                 }
               }
             );
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var product = await facturapi.Product.UpdateAsync(
@@ -1105,7 +1110,8 @@ paths:
             const Facturapi = require('facturapi');
             const facturapi = new Facturapi('sk_test_API_KEY');
             const removedProduct = await facturapi.products.del('590e22c26d04f840aa8438b2');
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var product = await facturapi.Product.DeleteAsync("590e22c26d04f840aa8438b2");
@@ -1192,7 +1198,8 @@ paths:
               folio_number: 914,
               series: 'F'
             });
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
@@ -1267,7 +1274,7 @@ paths:
       operationId: listInvoices
       tags:
         - invoice
-      summary: Consultar facturas
+      summary: Listar facturas
       description: Regresa una lista paginada de todas las facturas de una organización o realiza una búsqueda de acuerdo a parámetros
       x-codeSamples:
         - lang: Bash
@@ -1316,7 +1323,8 @@ paths:
               page: 3,
               limit: 10,
             });
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
 
@@ -1436,7 +1444,8 @@ paths:
             const Facturapi = require('facturapi');
             const facturapi = new Facturapi('sk_test_API_KEY');
             const invoice = await facturapi.invoices.retrieve('58e93bd8e86eb318b019743d');
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var invoice = await facturapi.Invoice.RetrieveAsync("58e93bd8e86eb318b019743d");
@@ -1499,7 +1508,8 @@ paths:
             const Facturapi = require('facturapi');
             const facturapi = new Facturapi('sk_test_API_KEY');
             const invoice = await facturapi.invoices.cancel('58e93bd8e86eb318b019743d');
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var invoice = await facturapi.Invoice.CancelAsync("58e93bd8e86eb318b019743d");
@@ -1573,7 +1583,8 @@ paths:
             const xmlStream = await facturapi.invoices.downloadXml('58e93bd8e86eb318b019743d');
             const xmlFile = fs.createWriteStream('./factura.xml');
             xmlStream.pipe(xmlFile);
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             // Descargar PDF y XML comprimidos en archivo ZIP
             var zipStream = await facturapi.Invoice.DownloadZipAsync("58e93bd8e86eb318b019743d");
@@ -1679,7 +1690,8 @@ paths:
                 ]
               }
             );
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             // Enviar al correo del cliente
             await facturapi.Invoice.SendByEmailAsync("58e93bd8e86eb318b019743d");
@@ -1822,7 +1834,8 @@ paths:
                 }
               }]
             });
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var receipt = await facturapi.Receipt.CreateAsync(new Dictionary<string, object>
@@ -1880,7 +1893,7 @@ paths:
       operationId: listReceipts
       tags:
         - receipt
-      summary: Consultar recibos
+      summary: Listar recibos
       description: Regresa una lista paginada de todos los recibos de una organización o realiza una búsqueda de acuerdo a parámetros
       x-codeSamples:
         - lang: Bash
@@ -1917,7 +1930,8 @@ paths:
               page: 3,
               limit: 10,
             });
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
 
@@ -2004,7 +2018,8 @@ paths:
             const Facturapi = require('facturapi');
             const facturapi = new Facturapi('sk_test_API_KEY');
             const receipt = await facturapi.receipts.retrieve('58e93bd8e86eb318b019743d');
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var receipt = await facturapi.Receipt.RetrieveAsync("58e93bd8e86eb318b019743d");
@@ -2057,7 +2072,8 @@ paths:
             const Facturapi = require('facturapi');
             const facturapi = new Facturapi('sk_test_API_KEY');
             const receipt = await facturapi.receipts.cancel('5ebd8e56f5687a013ca0df46');
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var receipt = await facturapi.Receipt.CancelAsync("5ebd8e56f5687a013ca0df46");
@@ -2123,7 +2139,8 @@ paths:
               folio_number: 914,
               series: 'F'
             });
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var invoice = await facturapi.Receipt.InvoiceAsync("5ebd8e56f5687a013ca0df46", new Dictionary<string, object>
@@ -2194,7 +2211,8 @@ paths:
               folio_number: 1234,
               series: 'G'
             });
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var invoice = await facturapi.Receipt.CreateGlobalInvoiceAsync(new Dictionary<string, object>
@@ -2293,7 +2311,8 @@ paths:
                 ]
               }
             });
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var retention = await facturapi.Retention.CreateAsync(new Dictionary<string, object>
@@ -2368,7 +2387,7 @@ paths:
       operationId: listRetentions
       tags:
         - retention
-      summary: Consultar retenciones
+      summary: Listar retenciones
       description: Regresa una lista paginada de todas las retenciones de una organización o realiza una búsqueda de acuerdo a parámetros
       x-codeSamples:
         - lang: Bash
@@ -2415,7 +2434,8 @@ paths:
               page: 3,
               limit: 10,
             });
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
 
@@ -2519,7 +2539,8 @@ paths:
             const Facturapi = require('facturapi');
             const facturapi = new Facturapi('sk_test_API_KEY');
             const retention = await facturapi.retentions.retrieve('6062d9fb226600001cd22f71');
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var retention = await facturapi.Retention.RetrieveAsync("6062d9fb226600001cd22f71");
@@ -2572,7 +2593,8 @@ paths:
             const Facturapi = require('facturapi');
             const facturapi = new Facturapi('sk_test_API_KEY');
             const canceledRetention = await facturapi.retentions.cancel('6062d9fb226600001cd22f71');
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var canceledRetention = await facturapi.Retention.CancelAsync("6062d9fb226600001cd22f71");
@@ -2646,7 +2668,8 @@ paths:
             const xmlStream = await facturapi.retentions.downloadXml('58e93bd8e86eb318b019743d');
             const xmlFile = fs.createWriteStream('./retencion.xml');
             xmlStream.pipe(xmlFile);
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             // Descargar PDF y XML comprimidos en archivo ZIP
             var zipStream = await facturapi.Retention.DownloadZipAsync("58e93bd8e86eb318b019743d");
@@ -2752,7 +2775,8 @@ paths:
                 ]
               }
             );
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             // Enviar al correo del cliente
             await facturapi.Retention.SendByEmailAsync("58e93bd8e86eb318b019743d");
@@ -2855,8 +2879,8 @@ paths:
 
         Después de crear la organización y antes de poder emitir facturas con
         la organización, deberás de terminar de configurarla llamando a los
-        métodos de [Actuualizar datos fiscales](#operation/updateLegal) y
-        [Subir certificados (CSD)](#operation/deleteInvoice)
+        métodos de [Actualizar datos fiscales](#operation/editOrganizationLegal) y
+        [Subir certificados (CSD)](#operation/uploadOrganizationCertificate)
 
         Recuerda que los folios de tu suscripción podrán ser consumidos por
         cualquiera de las organizaaciones registradas bajo tu cuenta.
@@ -2878,7 +2902,8 @@ paths:
             const organization = await facturapi.organizations.create({
               name: 'Skynet'
             });
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_user_API_KEY");
             var organization = await facturapi.Organization.CreateAsync(new Dictionary<string, object>
@@ -2914,7 +2939,7 @@ paths:
       operationId: listOrganizations
       tags:
         - organization
-      summary: Consultar organizaciones
+      summary: Listar organizaciones
       description: Regresa una lista paginada de todas las organizationes registradas bajo tu cuenta, o realiza una búsqueda de acuerdo a parámetros.
       x-codeSamples:
         - lang: Bash
@@ -2929,7 +2954,8 @@ paths:
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             const organizationResults = await facturapi.organizations.list();
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
 
@@ -3027,7 +3053,8 @@ paths:
                 }
               }
             );
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_user_API_KEY");
             var organization = await facturapi.Organization.UpdateLegalAsync(
@@ -3140,7 +3167,8 @@ paths:
               keyFileStream,
               'CONTRASEÑA_DEL_CERTIFICADO'
             );
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_user_API_KEY");
 
@@ -3227,7 +3255,8 @@ paths:
               '5a2a307be93a2f00129ea035',
               fileStream
             );
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_user_API_KEY");
 
@@ -3310,7 +3339,8 @@ paths:
                 }
               }
             );
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_user_API_KEY");
 
@@ -3403,7 +3433,8 @@ paths:
                 ask_address: 'hidden'
               }
             );
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_user_API_KEY");
 
@@ -3478,7 +3509,8 @@ paths:
             const organization = await facturapi.organizations.checkDomainIsAvailable({
               domain: 'empresa-demo'
             });
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var organization = await facturapi.Organization.CheckDomainIsAvailableAsync(
@@ -3554,7 +3586,8 @@ paths:
               '5a2a307be93a2f00129ea035',
               { domain: 'empresa-demo' }
             );
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_user_API_KEY");
 
@@ -3620,7 +3653,8 @@ paths:
             const organization = await facturapi.organizations.retrieve(
               '5a2a307be93a2f00129ea035'
             );
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var organization = await facturapi.Organization.RetrieveAsync(
@@ -3676,7 +3710,8 @@ paths:
             const organization = await facturapi.organizations.del(
               '5a2a307be93a2f00129ea035'
             );
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_user_API_KEY");
             var organization = await facturapi.Organization.DeleteAsync(
@@ -3732,7 +3767,8 @@ paths:
             const apiKeys = await facturapi.organizations.getApiKeys(
               '5a2a307be93a2f00129ea035'
             );
-        - lang: C#
+        - lang: csharp
+          label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var apiKeys = await facturapi.Organization.GetApiKeysAsync(
@@ -3792,7 +3828,216 @@ paths:
           description: Error de autenticación. Asegúrate de estar usando tu llave secreta.
         "502":
           description: Servicio temporalmente no disponible.
+  /tools/tax_id_validation:
+    get:
+      tags:
+        - tools
+      summary: Validar RFC
+      description: |
+        Consulta el estado de un RFC en 3 listas distintas:
 
+        - **Registro** de RFCs del SAT. Indica que el RFC es correcto y está dado
+          de alta ante el SAT como contribuyente, por lo tanto, el RFC está
+          autorizado para recibir facturas (ser receptor de CFDI).
+        - **LCO**. Lista de Contribuyentes Obligados. Indica que el RFC registró
+          uno o más Certificados de Sello Digital y por lo tanto está
+          autorizado para emitir facturas (ser emisor de CFDI).
+        - **EFOS**. Empresas que Facturan Operaciones Simuladas. Al aparecer en
+          esta lista, el RFC es o fue sospechoso de incurrir en simulación de
+          operaciones fiscales (empresas factureras).
+
+        La respuesta (detallada más abajo) incluye los resultados de las 3
+        validaciones. En cada uno de estos objetos se incluye la propiedad
+        booleana `is_valid`, que Facturapi resuelve interpretando cada respuesta.
+        Un valor de `true` para esta propiedad indica que el RFC no tiene asuntos
+        por resolver y está libre de problemas; y lo contrario para `false`.
+        Adicionalmente puedes consultar la propiedad data para ver los valores
+        en bruto de la consulta al SAT.
+
+        El SAT puede tardar de 24 a 72 horas para actualizar sus listas, por
+        lo tanto recomendamos esperar dicho intervalo de tiempo después de
+        haberte dado de alta en el SAT para aparecer en el Registro de RFC; o
+        después de haber generado tu Certificado de Sello Digital (CSD) para
+        aparecer en la LCO.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v1/tools/tax_id_validation?tax_id=BBA830831LJ2 \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            const validation = await facturapi.tools.validateTaxId('BBA830831LJ2');
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            
+            var customer = await facturapi.Tools.ValidateTaxIdAsync("BBA830831LJ2");
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            
+            $customer = $facturapi->Tools->validateTaxId("BBA830831LJ2");
+      parameters:
+        - in: query
+          name: tax_id
+          required: true
+          schema:
+            type: string
+            description: RFC a validar
+            example: BBA830831LJ2
+      security:
+        - "Secret Live Key": []
+        - "Secret Test Key": []
+      responses:
+        "200":
+          description: Resultado de la validación
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaxIdValidationResult"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  
+  /catalogs/products:
+    get:
+      tags:
+        - sat_keys
+      summary: Producto/Servicio
+      description: Busca en el catálogo Productos/Servicios del SAT, el cual contiene la clave a incluir en la factura.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v1/catalogs/products?q=ukelele \
+              -H "Authorization: Bearer sk_test_API_KEY" 
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            const searchResult = await facturapi.catalogs.searchProducts({
+              q: 'ukelele'
+            });
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var searchResult = await facturapi.Catalog.SearchProducts(
+              new Dictionary<string, object>
+              {
+                ["q"] = "ukelele"
+              }
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+
+            $result = $facturapi->Catalogs->searchProducts([
+              "q" => "ukelele"
+            ]);
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: Consulta. Texto a buscar en la descripción de la categoría.
+        - $ref: "#/components/parameters/SearchPage"
+        - $ref: "#/components/parameters/SearchLimit"
+      security:
+        - "Secret Live Key": []
+        - "Secret Test Key": []
+      responses:
+        "200":
+          description: Resultado de la búsqueda
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductCatalogSearchResult"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /catalogs/units:
+    get:
+      tags:
+        - sat_keys
+      summary: Unidades de medida
+      description: Busca en el catálogo de Unidades de Medida del SAT.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v1/catalogs/units?q=pulgada \
+              -H "Authorization: Bearer sk_test_API_KEY" 
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            const searchResult = await facturapi.catalogs.searchUnits({
+              q: 'pulgada'
+            });
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var searchResult = await facturapi.Catalog.SearchUnits(
+              new Dictionary<string, object>
+              {
+                ["q"] = "pulgada"
+              }
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+
+            $result = $facturapi->Catalogs->searchUnits([
+              "q" => "pulgada"
+            ]);
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: Consulta. Texto a buscar en la descripción de la unidad de medida.
+        - $ref: "#/components/parameters/SearchPage"
+        - $ref: "#/components/parameters/SearchLimit"
+      security:
+        - "Secret Live Key": []
+        - "Secret Test Key": []
+      responses:
+        "200":
+          description: Resultado de la búsqueda
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnitCatalogSearchResult"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
 components:
   responses:
     BadRequest:
@@ -4004,6 +4249,269 @@ components:
           example: false
 
     # Global objects
+    TaxIdValidationResult:
+      type: object
+      properties:
+        registro:
+          type: object
+          description: Resultado de la validación en el Registro de RFCs del SAT.
+          properties:
+            is_valid:
+              type: boolean
+              example: true
+              description: |
+                Indica que el RFC es válido, es decir, que tiene un formato
+                correcto, y que se encuentra dado de alta como contribuyente en
+                el SAT. `true`: el RFC puede recibir facturas. `false`: el RFC no
+                puede recibir facturas.
+            data:
+              type: object
+              description: |
+                Objeto con el resultado de la búqueda ante el SAT. Toda la
+                información contenida en este objeto proviene del SAT.
+              properties:
+                codigo:
+                  type: string
+                  example: 200
+                  enum:
+                    - 200
+                    - 101
+                    - 102
+                  description: |
+                    Código asignado por el SAT para identificar el resultado de
+                    la respuesta. Posibles valores:
+                    
+                    - `“200”`: RFC encontrado
+                    - `“101”`: El RFC no existe en la lista de RFC inscritos no
+                      cancelados del SAT
+                    - `“102”`: El RFC no cumple con el patrón requerido
+                mensaje:
+                  type: string
+                  description: |
+                    Disponible sólo cuando codigo es distinto a `“200”`. Describe el problema con el RFC.
+                fechaLista:
+                  type: string
+                  format: date
+                  example: 2021-08-03
+                  description: Fecha de actualización de la lista.
+                rfc:
+                  type: string
+                  example: BBA830831LJ2
+                  description: Devuelve el RFC consultado, a manera de confirmación.
+        lco:
+          type: object
+          description: |
+            Resultado de la validación en la Lista de Contribuyentes Obligados
+            del SAT.
+          properties:
+            is_valid:
+              type: boolean
+              example: true
+              description: |
+                Indica si el RFC tiene por lo menos un certificado válido para
+                emitir facturas. `true`: El RFC cuenta con por lo menos un
+                certificado válido. `false`: El RFC no cuenta con certificados
+                válidos para emitir facturas.
+            data:
+              type: object
+              description: |
+                Objeto con el resultado de la búqueda ante el SAT.
+                Toda la información contenida en este objeto
+                proviene del SAT.
+              properties:
+                mensaje:
+                  type: string
+                  description: |
+                    Disponible sólo cuando el RFC no fue encontrado.
+                    Describe la razón del problema.
+                rfc:
+                  type: string
+                  example: BBA830831LJ2
+                  description: |
+                    Devuelve el RFC consultado, a manera de confirmación.
+                lcoItems:
+                  type: array
+                  description: |
+                    Resultados de la búsqueda en la LCO. Se obtiene un resultado
+                    por cada Certificado de Sello Digital que se tenga registrado.
+                  items:
+                    type: object
+                    properties:
+                      numCert:
+                        type: string
+                        example: 00001000000407813773
+                        description: Número de serie del Certificado de Sello Digital (CSD).
+                      estatus:
+                        type: string
+                        enum:
+                          - A
+                          - C
+                          - R
+                        example: A
+                        description: |
+                          Puede tener los siguientes valores:
+
+                          - `“A”`: Activo
+                          - `“C”`: Cancelado
+                          - `“R”`: Revocado
+                      fechaInicio:
+                        type: string
+                        format: YYYY-MM-DD HH:mm:ss
+                        example: 2020-08-15 00:52:13
+                        description: Fecha de inicio de validez del certificado.
+                      fechaFin:
+                        type: string
+                        format: YYYY-MM-DD HH:mm:ss
+                        example: 2024-08-15 00:52:13
+                        description: Fecha final de validez del certificado.
+                      validez:
+                        type: string
+                        example: 2
+                        description: |
+                          Validez de obligaciones. Consulta [esta tabla](#validez-de-obligaciones)
+                          para ver qué implicaciones tienen los distintos valores.
+        efos:
+          type: object
+          description: |
+            Resultado de la validación en la lista de Empresas que
+            Facturan Operaciones Simuladas del SAT.
+          properties:
+            is_valid:
+              type: boolean
+              example: true
+              description: |
+                Indica si el RFC tiene algún asunto relacionado con esta lista.
+                `true`: El RFC no está en la lista de EFOS o su situación fue
+                apelada y resultó favorable. `false`: El RFC está registrado como
+                “Presunto” o “Definitivo” en la lista de EFOS.
+            data:
+              type: object
+              description: |
+                Objeto con el resultado de la búqueda ante el SAT.
+                Toda la información contenida en este objeto proviene del SAT.
+              properties:
+                mensaje:
+                  type: string
+                  description: |
+                    Disponible sólo cuando el RFC no fue encontrado en la lista,
+                    lo cual es bueno.
+                fechaLista:
+                  type: string
+                  example: Información actualizada al 17 de septiembre de 2021
+                  description: Texto que indica la fecha de actualización de la lista.
+                detalles:
+                  type: array
+                  description: Arreglo con los resultados de la búsqueda en la lista de EFOS.
+                  items:
+                    type: object
+                    properties:
+                      rfc:
+                        type: string
+                        example: NOR170627727
+                        description: El RFC consultado, a manera de confirmación.
+                      razonSocial:
+                        type: string
+                        example: NORMANDIA FERRE, S.A. DE C.V.
+                        description: Razón social del contribuyente.
+                      situacionContribuyente:
+                        type: string
+                        example: Definitivo
+                        description: |
+                          Texto que indica la situación actual. Consulta
+                          [esta tabla](#situación-del-contribuyente) para ver
+                          el detalle de los distintos valores.
+                      numFechaPresuncion:
+                        type: string
+                        example: 500-05-2020-23758 de fecha 03 de noviembre de 2020
+                        description: Texto con identificador y fecha del reporte de presunción.
+                      pubFechaSatPresuntos:
+                        type: string
+                        format: "DD/MM/YYYY"
+                        example:  03/11/2020
+                        description: Fecha de publicación de presunción.
+                      numGlobalPresuncion:
+                        type: string
+                        example: 500-05-2020-23758 de fecha 03 de noviembre de 2020
+                        description: Texto con identificador y fecha de publicación en el listado global de presunción.
+                      pubFechaDofPresuntos:
+                        type: string
+                        format: "DD/MM/YYYY"
+                        example: 18/11/2020
+                        description: Fecha de publicación en el Diario Oficial de la Federación (DOF).
+                      pubSatDefinitivos: 
+                        type: string
+                        example: 500-05-2021-151
+                        description: Identificador de la publicación de estado “Definitivo”.
+                      pubDofDefinitivos: 
+                        type: string
+                        format: "DD/MM/YYYY"
+                        example: 25/05/2021
+                        description: Fecha de la publicación de estado “Definitivo” en el DOF.
+                      numFechaSentFav:
+                        type: string
+                        example: 500-05-2021-15156 de fecha 25 de mayo de 2021
+                        description: Texto con identificador y fecha de sentencia favorable.
+                      pubSatSentFav: 
+                        type: string
+                        example: 08/06/2021
+                        format: "DD/MM/YYYY"
+                        description: Fecha de sentencia favorable
+                      
+    ProductCatalogResult:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Clave del catálogo
+          example: 60131324
+        description:
+          type: string
+          description: Descripción
+          example: Ukelele
+        score:
+          type: number
+          description: |
+            Número del 0 al 1 que representa el nivel de coincidencia del
+            resultado con respecto a la consulta de búsqueda.
+          example: 0.8
+    UnitCatalogResult:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Clave del catálogo
+          example: INH
+        description:
+          type: string
+          description: Descripción
+          example: Pulgada
+        score:
+          type: number
+          description: |
+            Número del 0 al 1 que representa el nivel de coincidencia del
+            resultado con respecto a la consulta de búsqueda.
+          example: 0.9
+
+    ProductCatalogSearchResult:
+      allOf:
+        - $ref: "#/components/schemas/SearchResult"
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/ProductCatalogResult"
+    UnitCatalogSearchResult:
+      allOf:
+        - $ref: "#/components/schemas/SearchResult"
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/UnitCatalogResult"
+
+    
     LocalTax:
       type: object
       required:
@@ -4327,7 +4835,7 @@ components:
           description: Número de días enteros que el trabajador se incapacitó en el periodo.
         tipo_incapacidad:
           type: string
-          description: Clave del catálogo [Tipo de Incapacidad](#section/Tipo-de-Incapacidad).
+          description: Clave del catálogo [Tipo de Incapacidad](#tipo-de-incapacidad).
         importe_monetario:
           type: number
           description: Monto del importe monetario de la incapacidad.
@@ -4349,12 +4857,15 @@ components:
       properties:
         tipo_otro_pago:
           type: string
-          description: Clave del catálogo [Tipo de Otro Pago](#section/Tipo-de-Otro-Pago).
+          description: Clave del catálogo [Tipo de Otro Pago](#tipo-de-otro-pago).
         clave:
           type: string
           minLength: 3
           maxLength: 15
           description: Clave de otro pago de nómina propia de la contabilidad de cada patrón.
+        concepto:
+          type: string
+          description: Descripción alternativa correspondiente a la clave utilizada.
         importe:
           type: number
           description: Importe por concepto de otro pago.
@@ -4396,7 +4907,7 @@ components:
       properties:
         tipo_deduccion:
           type: string
-          description: Clave del catálogo [Tipo de deducción](#section/Tipo-de-deducción).
+          description: Clave del catálogo [Tipo de deducción](#tipo-de-deducción).
         concepto:
           type: string
           description: Concepto de la deducción. Si no se envía, se utilizará la descripción del catálogo del tipo de deducción.
@@ -4517,7 +5028,7 @@ components:
       properties:
         tipo_percepcion:
           type: string
-          description: Clave del catálogo [Tipo de percepción](#section/Tipo-de-percepcion).
+          description: Clave del catálogo [Tipo de percepción](#tipo-de-percepcion).
         concepto:
           type: string
           description: Concepto de la percepción. Si no se envía, se utilizará la descripción del catálogo del tipo de percepción.
@@ -4571,7 +5082,7 @@ components:
           description: Número de días en que el trabajador laboró horas extra adicionales a su jornada normal de trabajo.
         tipo_horas:
           type: string
-          description: Clave del catálogo [Tipo de Horas](#section/Tipo-de-Horas).
+          description: Clave del catálogo [Tipo de Horas](#tipo-de-Horas).
         horas_extra:
           type: integer
           description: Número de horas extra trabajadas en el periodo.
@@ -4640,17 +5151,17 @@ components:
           description: Antigüedad del empleado en el formato especificado por el SAT. Si se envía un `string`, se espera que éste contenga la antigüedad en el formato que especifica el SAT. Si se envía el valor booleano `false`, este campo no se incluirá en la factura. Si se envía el valor booleano `true` y `fecha_inicio_rel_laboral` existe, este valor se calculará con la diferencia entre la fecha de inicio de relación laboral y la fecha de pago.
         tipo_contrato:
           type: string
-          description: Clave del catálogo del SAT [Tipo de Contrato](#section/Tipo-de-Contrato).
+          description: Clave del catálogo del SAT [Tipo de Contrato](#tipo-de-contrato).
         sindicalizado:
           type: boolean
           default: false
           description: Indica si el trabajador está asociado a un sindicato.
         tipo_jornada:
           type: string
-          description: Clave del catálogo del SAT [Tipo de Jornada](#section/Tipo-de-Jornada).
+          description: Clave del catálogo del SAT [Tipo de Jornada](#tipo-de-jornada).
         tipo_regimen:
           type: string
-          description: Clave del catálogo del SAT [Tipo de Régimen](#section/Tipo-de-Regimen).
+          description: Clave del catálogo del SAT [Tipo de Régimen](#tipo-de-regimen).
         num_empleado:
           type: string
           minLength: 1
@@ -4664,10 +5175,10 @@ components:
           description: Nombre del puesto asignado al empleado o el nombre de la actividad que realiza.
         riesgo_puesto:
           type: string
-          description: Clave del catálogo del SAT [Riesgo del Puesto](#section/Riesgo-del-Puesto).
+          description: Clave del catálogo del SAT [Riesgo del Puesto](#riesgo-del-puesto).
         periodicidad_pago:
           type: string
-          description: Clave del catálogo del SAT [Periodicidad de Pago](#section/Periodicidad-de-Pago).
+          description: Clave del catálogo del SAT [Periodicidad de Pago](#periodicidad-de-pago).
         banco:
           type: string
           description: Clave del banco de acuerdo al catálogo del SAT “Bancos” que puedes consultar utilizando nuestra [herramienta de búsqueda](https://www.facturapi.io/dashboard/catalogs/bank).
@@ -5111,7 +5622,7 @@ components:
       properties:
         payment_form:
           type: string
-          description: Código de la forma de pago según el [catálogo del SAT](#section/Forma-de-pago). También puedes utilizar la constante `PaymentForm` incluída en nuestras librerías.
+          description: Código de la forma de pago según el [catálogo del SAT](#forma-de-pago). También puedes utilizar la constante `PaymentForm` incluída en nuestras librerías.
         related:
           type: array
           description: Arreglo que incluye un elemento por cada comprobante de ingreso relacionado a este pago. Lo más común es que el pago esté relacionado a un sólo comprobante de ingreso. Un caso en el que se agrega más de un elemento es cuando se recibe (por ejemplo) un sólo depósito que ampara el pago de 2 facturas relacionadas. En lugar de expedir un comprobante de recepción de pago por cada factura, debes expedir sólo uno relacionando los 2 comprobantes.
@@ -5310,7 +5821,7 @@ components:
           description: Identificador opcional que puedes usar para relacionar esta factura con tus registros para después buscar por este número.
         payment_form:
           type: string
-          description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#section/Forma-de-pago).
+          description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
           example: 06
         items:
           type: array
@@ -5436,7 +5947,7 @@ components:
               type: string
               minLength: 2
               maxLength: 2
-              description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#section/Forma-de-pago).
+              description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
             payment_method:
               type: string
               default: PUE
@@ -5451,7 +5962,7 @@ components:
             use:
               type: string
               default: G01
-              description: Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en [esta tabla](#section/Uso-CFDI), o utilizar las constantes incluídas en nuestras librerías.
+              description: Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en nuestras librerías.
             currency:
               type: string
               default: MXN
@@ -5475,7 +5986,7 @@ components:
             relation:
               type: string
               nullable: true
-              description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#section/Relacion-entre-facturas)). Es requerido cuando se envíe el parámetro `related`.
+              description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#relacion-entre-facturas)). Es requerido cuando se envíe el parámetro `related`.
             complements:
               type: array
               default: []
@@ -5502,7 +6013,7 @@ components:
               type: string
               minLength: 2
               maxLength: 2
-              description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#section/Forma-de-pago).
+              description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
             related:
               type: array
               default: []
@@ -5512,7 +6023,7 @@ components:
             relation:
               type: string
               default: 01
-              description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#section/Relacion-entre-facturas)).
+              description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#relacion-entre-facturas)).
             products:
               type: array
               items:
@@ -5560,7 +6071,7 @@ components:
             relation:
               type: string
               nullable: true
-              description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#section/Relacion-entre-facturas)).
+              description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#relacion-entre-facturas)).
             complements:
               type: array
               default: []
@@ -5596,7 +6107,7 @@ components:
             relation:
               type: string
               nullable: true
-              description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#section/Relacion-entre-facturas)).
+              description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#relacion-entre-facturas)).
         - $ref: "#/components/schemas/InvoiceCommonInputProperties"
     InvoiceTrasladoInput:
       title: Traslado
@@ -5625,7 +6136,7 @@ components:
             use:
               type: string
               default: G01
-              description: Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en [esta tabla](#section/Uso-CFDI), o utilizar las constantes incluídas en nuestras librerías.
+              description: Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en nuestras librerías.
             currency:
               type: string
               default: MXN
@@ -5643,7 +6154,7 @@ components:
             relation:
               type: string
               nullable: true
-              description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#section/Relacion-entre-facturas)).
+              description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#relacion-entre-facturas)).
         - $ref: "#/components/schemas/InvoiceCommonInputProperties"
 
     Receipt:
@@ -5715,7 +6226,7 @@ components:
         payment_form:
           type: string
           example: "03"
-          description: Código que representa la forma de pago, según el [catálogo del SAT](#section/Forma-de-pago).
+          description: Código que representa la forma de pago, según el [catálogo del SAT](#forma-de-pago).
         folio_number:
           type: integer
           example: 120
@@ -5759,7 +6270,7 @@ components:
             use:
               type: string
               default: G01
-              description: Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en [esta tabla](#section/Uso-CFDI), o utilizar las constantes incluídas en nuestras librerías.
+              description: Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en nuestras librerías.
             conditions:
               type: string
               nullable: true
@@ -5966,7 +6477,7 @@ components:
         cve_retenc:
           type: string
           example: 26
-          description: Clave de la retención o información de pagos de acuerdo al [catálogo del SAT](#section/Clave-de-retencion).
+          description: Clave de la retención o información de pagos de acuerdo al [catálogo del SAT](#clave-de-retencion).
         fecha_exp:
           type: string
           format: date-time
@@ -6143,7 +6654,7 @@ components:
               description: Nombre Fiscal o Razón Social de la organización.
             tax_system:
               type: string
-              description: Código de Régimen Fiscal, del [catálogo del SAT](#section/Tipo-de-Régimen).
+              description: Código de Régimen Fiscal, del [catálogo del SAT](#tipo-de-régimen).
             website:
               type: string
               description: Sitio web de la organización, que se utilizará al enviar la factura por correo electrónico.
@@ -6185,7 +6696,7 @@ components:
           type: string
           maxLength: 2
           minLength: 2
-          description: Código del Régimen Fiscal, del [catálogo del SAT](#section/Tipo-de-Régimen).
+          description: Código del Régimen Fiscal, del [catálogo del SAT](#tipo-de-régimen).
         website:
           type: string
           description: Sitio web de la organización, que se utilizará al enviar la factura por correo electrónico.

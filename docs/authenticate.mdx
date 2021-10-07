@@ -1,0 +1,80 @@
+---
+sidebar_position: 3
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Autenticación
+
+Facturapi utiliza el método de autenticación HTTP [Bearer Token](https://swagger.io/docs/specification/authentication/bearer-authentication/).
+
+El token a utilizar dependerá de lo que necesites hacer. Lo explicamos con más detalle en la siguiente sección, pero en resumen:
+
+- **Test Secret Key**: Identifica a una organización en ambiente Test para administrar recursos (clientes, facturas, etc). Es única por organización.
+- **Live Secret Key**: Identifica a una Organización en ambiente Live para administrar recursos (clientes, facturas, etc). Es única por organización.
+- **User Secret Key**: Identifica a tu cuenta para crear y confiigurar organizaciones. Es única por cuenta.
+
+<Tabs groupId="codeExamples">
+<TabItem value="curl" label="cURL">
+
+Cada petición deberá incluir tu llave privada en el
+encabezado de autorización.
+
+```bash
+curl https://www.facturapi.io/v1/<endpoint_method> \
+  -H "Authorization: Bearer <SECRET_KEY>" \
+```
+
+</TabItem>
+<TabItem value="js" label="Node.js" default>
+
+Usa la llave secreta al momento de crear la instancia del cliiente
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('<SECRET_KEY>');
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+Usa la llave secreta al momento de crear la instancia del cliiente
+
+```csharp
+var facturapi = new FacturapiClient("<SECRET_KEY>");
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+Usa la llave secreta al momento de crear la instancia del cliiente
+
+```php
+$facturapi = new Facturapi( "<SECRET_KEY>" );
+```
+
+</TabItem>
+</Tabs>
+
+## Ambientes y llaves secretas
+
+### Ambiente Test / Llave secreta Test
+
+Facturapi cuenta con un ambiente de pruebas ó sandbox que puedes usar durante el desarrollo de tu aplicación sin generar ningún costo. Las facturas creadas en este ambiente no son enviadas al SAT y por lo tanto no tienen validez fiscal.
+
+En este ambiente también puedes crear otros recursos como Clientes, Productos, Retenciones y Recibos.
+
+Los recursos creados en ambiente `Test` no se mezclan con el ambiente `Live`.
+
+Para emitir facturas en ambiente `Test` basta con utilizar la llave secreta `Test` de tu organización, la cual podrás obtener creando una cuenta gratuita en <a href="https://www.facturapi.io/register" target="_blank">https://www.facturapi.io/register</a>.
+
+### Ambiente Live / Llave secreta Live
+
+Una vez que hayas terminado de configurar tu organización, podrás obtener tu llave secreta `Live` para crear recursos en ambiente `Live`.
+
+Las facturas en ambiente `Live` son timbradas y enviadas al SAT, y por tanto son válidas fiscalmente.
+
+### Ambiente de administración de cuenta / Llave de usuario
+
+Si necesitas registrar más organizaciones bajo tu cuenta y emitir facturas usando distintos RFC emisores, puedes utilizar la llave secreta `User` para registrar nuevas organizaciones y configurarlas por medio de la API. Puedes encontrar esta llave en el [Centro de Integración](https://www.facturapi.io/dashboard/integration), en tu dashboard de Facturapi.

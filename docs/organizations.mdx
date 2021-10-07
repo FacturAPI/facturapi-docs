@@ -1,0 +1,70 @@
+---
+sidebar_position: 5
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Organizaciones (Multi-RFC)
+
+## Registra más organizaciones emisoras
+
+Puedes emitir facturas desde distintos RFC registrando nuevas organizaciones emisoras,
+ya sea desde tu dashboard o usando la API, con el método [Crear Organización](/api#operation/createOrganization),
+así como los demás métodos para configurar datos fiscales, logotipo y colores, certificados, etc.
+
+:::info
+Recuerda que para crear y administrar organizaciones deberás autenticarte usando tu User Key,
+que es una llave secreta asociada a toda tu cuenta, la cual puedes encontrar en tu
+[Centro de Integración](https://www.facturapi.io/dashboard/integration).
+:::
+
+<Tabs groupId="codeExamples">
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v1/organizations \
+  -H "Authorization: Bearer sk_user_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+      "name": "Skynet"
+    }'
+```
+
+</TabItem>
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_user_API_KEY');
+const organization = await facturapi.organizations.create({
+  name: 'Skynet'
+});
+// recuerda guardar el organization.id en tu propia base de datos
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_user_API_KEY");
+var organization = await facturapi.Organization.CreateAsync(new Dictionary<string, object>
+{
+  ["name"] = "Skynet"
+});
+// Guarda el organization.Id para asociarlo con tu propia base de datos
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi("sk_user_API_KEY");
+$organization = $facturapi->Organizations->create(array(
+    "name" => "Skynet"
+));
+// recuerda guardar el organization.id en tu propia base de datos
+```
+
+</TabItem>
+</Tabs>

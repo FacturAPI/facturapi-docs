@@ -1,0 +1,174 @@
+---
+sidebar_position: 3
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Recibos
+
+## Crea tu primer recibo
+
+Otra manera de usar Facturapi es emitiendo recibos por cada venta que realizas. Los recibos (o notas de venta) contienen la información necesaria para que posteriormente puedan convertirse en una factura para tu cliente o formar parte de una factura global (al público en general).
+
+Para más detalles, consulta el método [Crear Recibo](/api/#operation/createReceipt).
+
+<Tabs groupId="codeExamples">
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v1/receipts \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "folio_number": 1234,
+        "payment_form": "03",
+        "items": [{
+          "quantity": 1,
+          "product": {
+            "description": "Ukelele",
+            "product_key": "60131324",
+            "price": 345.60,
+            "sku": "ABC1234"
+          }
+        }]
+      }'
+```
+
+</TabItem>
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const facturapi = new Facturapi('sk_test_API_KEY');
+const receipt = await facturapi.receipts.create({
+  folio_number: 1234,
+  payment_form: Facturapi.PaymentForm.DINERO_ELECTRONICO,
+  items: [{
+    quantity: 1,
+    product: {
+      description: 'Ukelele',
+      product_key: '60131324',
+      price: 345.60,
+      sku: 'ABC1234'
+    }
+  }]
+});
+// save the receipt.id in your database
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_test_API_KEY");
+var receipt = await facturapi.Receipt.CreateAsync(new Dictionary<string, object>
+{
+  ["folio_number"] = 1234,
+  ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO,
+  ["items"] = new Dictionary<string, object>[]
+  {
+    new Dictionary<string, object>
+    {
+      ["description"] = "Ukelele",
+      ["product_key"] = "60131324",
+      ["price"] = 345.60,
+      ["sku"] = "ABC1234"
+    }
+  }
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi("sk_test_API_KEY");
+
+$receipt = $facturapi->Receipts->create([
+  "folio_number" => 1234,
+  "payment_form" => "03",
+  "items" => [
+    [
+      "description" => "Ukelele",
+      "product_key" => "60131324",
+      "price" => 345.60,
+      "sku" => "ABC1234"
+    ]
+  ]
+]);
+```
+
+</TabItem>
+</Tabs>
+
+## Factura tus recibos
+
+Convierte tu recibo en factura si tu cliente te lo solicita. Más detalles en el método [Facturar Recibo](/api/#operation/invoiceReceipt).
+
+<Tabs groupId="codeExamples">
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v1/receipts/5ebd8e56f5687a013ca0df46/invoice \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "customer": {
+          "legal_name": "Roger Watters",
+          "tax_id": "ROWA121212A11",
+          "email": "roger@pinkfloyd.com"
+        },
+        "folio_number": 914,
+        "series": "F"
+    }'
+```
+
+</TabItem>
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const invoice = await facturapi.receipts.invoice(receipt.id, {
+  customer: {
+    legal_name: 'Roger Watters',
+    tax_id: 'ROWA121212A11',
+    email: 'roger@pinkfloyd.com'
+  },
+  folio_number: 914,
+  series: 'F'
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var invoice = await facturapi.Receipt.InvoiceAsync(receipt.Id, new Dictionary<string, object>
+{
+  ["customer"] = new Dictionary<string, object>
+  {
+    ["legal_name"] = "Roger Watters",
+    ["tax_id"] = "ROWA121212A11",
+    ["email"] = "roger@pinkfloyd.com"
+  },
+  ["folio_number"] = 914,
+  ["series"] = "F"
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$invoice = $facturapi->Receipts->invoice($receipt->id, [
+  "customer" => [
+    "legal_name" => "Roger Watters",
+    "tax_id" => "ROWA121212A11",
+    "email" => "roger@pinkfloyd.com"
+  ],
+  "folio_number" => 914,
+  "series" => "F"
+]);
+```
+
+</TabItem>
+</Tabs>

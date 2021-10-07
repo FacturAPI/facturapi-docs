@@ -5,9 +5,9 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 (module.exports = {
   title: 'Facturapi. Documentación.',
-  tagline: 'Poderosa API de Facturación Electrónica',
-  url: 'https://facturapi.github.io',
-  baseUrl: '/facturapi-docs/',
+  tagline: 'Rest API de Facturación Electrónica',
+  url: 'https://docs.facturapi.io',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
@@ -44,7 +44,16 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
           },
         ],
         theme: {
-          primaryColor: '#4786FF'
+          primaryColor: '#4786FF',
+          redocOptions: {
+            disableSearch: true,
+            requiredPropsFirst: true,
+            theme: {
+              spacing: {
+                unuit: 2
+              }
+            }
+          }
         },
       },
     ],
@@ -64,10 +73,9 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Docs',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
-          {to: '/api', label: 'API' },
+          { to: '/api', label: 'API' },
           {
             href: 'https://github.com/facturapi/facturapi-docs',
             label: 'GitHub',
@@ -123,6 +131,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+        additionalLanguages: ['powershell', 'php', 'csharp']
       },
     }),
 });

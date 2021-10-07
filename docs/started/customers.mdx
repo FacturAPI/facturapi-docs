@@ -1,0 +1,100 @@
+---
+sidebar_position: 4
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Clientes
+
+## Registra a tus clientes (opcional)
+
+Si quieres evitar tener que enviar los datos fiscales de tu cliente repetidamente en cada factura, también tienes la opción de registrarlo de manera separada.
+
+El objeto de respuesta contiene un campo `id` que deberás utilizar al momento de crear facturas para el mismo cliente sin tener que volver a introducir sus datos fiscales.
+
+Para conocer qué otros datos puedes incluir, consulta la [referencia del método Crear Cliente](/api/#operation/createCustomer).
+
+<Tabs groupId="codeExamples">
+<TabItem value="curl" label="cURL">
+
+```bash
+# Para clientes nacionales
+curl https://www.facturapi.io/v1/customers \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+      "legal_name": "Juan Perez",
+      "email": "juan@example.com",
+      "tax_id": "ABCD111111CBA"
+    }'
+
+# Para clientes extranjeros.
+# Nótese que no necesitas usar el RFC genérico para extranjeros. Nosotros lo
+# pondremos por ti donde haga falta, siempre y cuando envíes el código del país
+curl https://www.facturapi.io/v1/customers \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+      "legal_name": "IKEO",
+      "email": "email@example.com",
+      "tax_id": "198912171234",
+      "address": {
+        "country": "SWE",
+        "zip": "17123"
+      }
+    }'
+```
+
+</TabItem>
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const customer = await facturapi.customers.create({
+  legal_name: 'Dunder Mifflin S.A. de C.V.', // Razón social
+  email: 'email@example.com',
+  tax_id: 'ABCD101010XYZ', // RFC
+  address: {
+    zip: '44940',
+    street: 'Sunset Blvd'
+  }
+});
+// save the customer.id in your database
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, object>
+{
+  ["legal_name"] = "Dunder Mifflin S.A. de C.V.",
+  ["email"] = "email@example.com",
+  ["tax_id"] = "ABCD101010XYZ",
+  ["address"] = new Dictionary<string, object>
+  {
+    ["zip"] = "44940",
+    ["street"] = "Sunset Blvd"
+  }
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$customer = array(
+  "email" => "walterwhite@gmail.com", //Optional but useful
+  "legal_name" => "Walter White", // Razón social
+  "tax_id" => "WIWA761018", //RFC
+  "address" => array(
+    "zip" => "06800",
+    "street" => "Av. de los Rosales"
+  )
+);
+
+$new_customer = $facturapi->Customers->create($customer);
+```
+
+</TabItem>
+</Tabs>

@@ -1,0 +1,86 @@
+---
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Instalación
+
+### Instala el cliente
+
+Empieza por incluir el cliente de Facturapi en las dependencias de tu proyecto.
+
+<Tabs groupId="codeExamples">
+<TabItem value="curl" label="cURL">
+
+cURL no requiere de instalar un cliente adicional
+
+</TabItem>
+<TabItem value="js" label="Node.js" default>
+
+Instala el paquete de [NPM](https://www.npmjs.com/package/facturapi).
+
+```bash
+$> npm install --save facturapi
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+Desde Visual Studio, instala el
+[paquete de NuGet](https://www.nuget.org/packages/Facturapi)
+desde Visual Studio, o bien, desde la terminal del Package Manager:
+
+```powershell
+PM> Install-Package Facturapi
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+Importa el [paquete de Packagist](https://packagist.org/packages/facturapi/facturapi-php) usando composer:
+
+```bash
+$> composer require "facturapi/facturapi-php"
+```
+
+</TabItem>
+</Tabs>
+
+Importa la librería antes de usarla.
+
+<Tabs groupId="codeExamples">
+<TabItem value="curl" label="cURL">
+
+cURL no requiere de instalar un cliente adicional
+
+</TabItem>
+<TabItem value="js" label="Node.js" default>
+
+CommonJS
+```javascript
+const Facturapi = require('facturapi');
+```
+
+ESM / Typescript
+```javascript
+import Facturapi from 'facturapi';
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+using Facturapi;
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+use use Facturapi\Facturapi;
+```
+
+</TabItem>
+</Tabs>

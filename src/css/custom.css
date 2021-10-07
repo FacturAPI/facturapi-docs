@@ -14,6 +14,16 @@
   --ifm-color-primary-lighter: #A3C3FF;
   --ifm-color-primary-lightest: #D1E1FF;
   --ifm-code-font-size: 95%;
+  --ifm-heading-font-weight: 600;
+}
+
+.markdown h1 {
+  --ifm-h1-font-size: 2.5rem !important;
+
+}
+
+.markdown h2 {
+  --ifm-h2-font-size: 1.8rem !important;
 }
 
 .docusaurus-highlight-code-line {

@@ -6,14 +6,15 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 (module.exports = {
   title: 'Facturapi. Documentación.',
   tagline: 'Rest API de Facturación Electrónica',
-  url: 'https://docs.facturapi.io',
+  url: 'https://facturapi.github.io',
+  // baseUrl: '/facturapi-docs/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'facturapi', // Usually your GitHub org/user name.
   projectName: 'facturapi-docs', // Usually your repo name.
-  trailingSlash: false,
+  trailingSlash: true,
 
   presets: [
     [

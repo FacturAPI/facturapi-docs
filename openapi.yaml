@@ -4871,7 +4871,12 @@ components:
           description: Importe por concepto de otro pago.
         subsidio_causado:
           type: number
-          description: Subsudio causado conforme a la tabla del subsidio para el empleo publicada en el Anexo 8 de la Resolución Miscelánea Fiscal vigente.
+          description: |
+            Subsudio causado conforme a la tabla del subsidio para el empleo
+            publicada en el Anexo 8 de la Resolución Miscelánea Fiscal vigente.
+
+            Este valor será insertado dentro del nodo `SubsidioAlEmpleo`, y es
+            requerido cuando el valor de `tipo_otro_pago` es `"002"`.
     NominaCompensacionInput:
       allOf:
         - type: object

@@ -98,12 +98,16 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
                 href: 'https://stackoverflow.com/questions/tagged/facturapi',
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/facturapi',
-              },
-              {
                 label: 'Twitter',
                 href: 'https://twitter.com/facturapi',
+              },
+              {
+                label: 'Facebook',
+                href: 'https://facebook.com/facturapi',
+              },
+              {
+                label: 'Instagram',
+                href: 'https://instagram.com/facturapi',
               },
             ],
           },

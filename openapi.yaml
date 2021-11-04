@@ -1080,11 +1080,11 @@ paths:
         - "Secret Test Key": []
       responses:
         "200":
-          description: Objeto `Customer` eliminado correctamente
+          description: Objeto `Product` eliminado correctamente
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Customer"
+                $ref: "#/components/schemas/Product"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -1876,7 +1876,7 @@ paths:
         - "Secret User Key": []
       responses:
         "200":
-          description: Nuevo objeto `Organization` creado
+          description: Nuevo objeto `Receipt` creado
           content:
             application/json:
               schema:
@@ -2039,7 +2039,7 @@ paths:
         - "Secret Test Key": []
       responses:
         "200":
-          description: Objeto `Invoice`
+          description: Objeto `Receipt`
           content:
             application/json:
               schema:
@@ -2093,7 +2093,7 @@ paths:
         - "Secret Test Key": []
       responses:
         "200":
-          description: Solicitud de cancelación exitosa
+          description: Objeto 'Receipt' cancelado exitosamente
           content:
             application/json:
               schema:
@@ -2614,7 +2614,7 @@ paths:
         - "Secret Test Key": []
       responses:
         "200":
-          description: Solicitud de cancelación exitosa
+          description: Objeto `Retention` cancelado exitosamente
           content:
             application/json:
               schema:

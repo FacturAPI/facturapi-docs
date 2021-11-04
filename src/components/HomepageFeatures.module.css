@@ -3,9 +3,27 @@
   align-items: center;
   padding: 2rem 0;
   width: 100%;
+  background-color: #f6fafd;
+}
+
+.feature {
+  padding: 2rem;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1rem;
 }
 
 .featureSvg {
-  height: 200px;
-  width: 200px;
+  height: 60px;
+  width: 60px;
+  margin-bottom: 20px;
+}
+
+html[data-theme='dark'] .features {
+  background-color: var(--ifm-background-surface-color);
+}
+
+html[data-theme='dark'] .feature {
+  background-color: var(--ifm-background-color);
 }

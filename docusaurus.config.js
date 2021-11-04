@@ -48,12 +48,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
           primaryColor: '#4786FF',
           redocOptions: {
             disableSearch: true,
-            requiredPropsFirst: true,
-            theme: {
-              spacing: {
-                unuit: 2
-              }
-            }
+            requiredPropsFirst: true
           }
         },
       },
@@ -64,7 +59,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'Facturapi Docs',
+        title: 'Facturapi',
         logo: {
           alt: 'Facturapi',
           src: 'https://www.facturapi.io/img/icon.svg',
@@ -73,12 +68,11 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
           {
             type: 'doc',
             docId: 'intro',
-            position: 'left',
             label: 'Docs',
           },
-          { to: '/api', label: 'API' },
+          { to: '/api', label: 'API (Referencia)' },
           {
-            href: 'https://github.com/facturapi/facturapi-docs',
+            href: 'https://github.com/facturapi',
             label: 'GitHub',
             position: 'right',
           },
@@ -122,7 +116,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facturapi/facturapi-docs',
+                href: 'https://github.com/facturapi',
               },
             ],
           },

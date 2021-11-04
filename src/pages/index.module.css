@@ -4,20 +4,89 @@
  */
 
 .heroBanner {
-  padding: 4rem 0;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-@media screen and (max-width: 966px) {
-  .heroBanner {
-    padding: 2rem;
+.hero {
+  flex: 3;
+  padding: 100px 150px 100px 47px;
+}
+
+.hero h1 {
+  font-weight: 600;
+}
+
+.overlappedImages {
+  flex: 5;
+  position: relative;
+}
+
+.circleBackground {
+  background-image: url('/img/home/green-circle.png');
+  background-size: 110%;
+  background-position: left;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.showcase {
+  background-image: url('/img/home/code-interface.png');
+  background-size: auto 360px;
+  background-position: center top 80px;
+  background-repeat: no-repeat;
+  height: 380px;
+  position: relative;
+  z-index: 2;
+}
+
+@media screen and (max-width: 1200px) {
+  .hero {
+    padding: 60px 15px 60px 47px;
+  }
+
+  .showcase {
+    background-size: auto 320px;
+    background-position: center top 40px;
+    height: 300px;
   }
 }
 
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@media screen and (max-width: 992px) {
+  .showcase {
+    background-size: auto 260px;
+    background-position: center top 60px;
+    height: 300px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .hero,
+  .overlappedImages {
+    width: 100%;
+    flex: auto;
+  }
+
+  .hero {
+    padding: 50px 16px;
+  }
+
+  .hero p {
+    max-width: 400px;
+  }
+
+  .circleBackground {
+    background-size: cover;
+    background-position: center;
+  }
+
+  .showcase {
+    background-size: contain;
+    background-position: center top 15px;
+  }
 }

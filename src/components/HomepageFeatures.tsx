@@ -23,7 +23,7 @@ const getFeatureList = (baseUrl: string): FeatureItem[] => [
     title: 'Introducción',
     image: `${baseUrl}img/home/book.svg`,
     linkText: 'Comenzar',
-    linkTo: '/docs/started/introduction',
+    linkTo: '/docs/intro',
     description: (
       <>
         Si es tu primera vez integrando Facturapi, te recomendamos empezar por aquí.

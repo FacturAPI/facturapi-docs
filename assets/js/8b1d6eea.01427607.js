@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkfacturapi_docs=self.webpackChunkfacturapi_docs||[]).push([[5],{574:function(a){a.exports=JSON.parse('{"allTagsPath":"/facturapi-docs/blog/tags","slug":"/facturapi-docs/blog/tags/facebook","name":"facebook","count":1,"permalink":"/facturapi-docs/blog/tags/facebook"}')}}]);

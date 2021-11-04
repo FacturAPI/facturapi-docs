@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkfacturapi_docs=self.webpackChunkfacturapi_docs||[]).push([[317],{886:function(a){a.exports=JSON.parse('{"allTagsPath":"/facturapi-docs/blog/tags","slug":"/facturapi-docs/blog/tags/docusaurus","name":"docusaurus","count":4,"permalink":"/facturapi-docs/blog/tags/docusaurus"}')}}]);

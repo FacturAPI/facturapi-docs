@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkfacturapi_docs=self.webpackChunkfacturapi_docs||[]).push([[271],{8806:function(a){a.exports=JSON.parse('{"allTagsPath":"/facturapi-docs/blog/tags","slug":"/facturapi-docs/blog/tags/hello","name":"hello","count":2,"permalink":"/facturapi-docs/blog/tags/hello"}')}}]);

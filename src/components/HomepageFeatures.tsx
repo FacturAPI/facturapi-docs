@@ -8,6 +8,7 @@ import React from 'react';
 import clsx from 'clsx';
 import styles from './HomepageFeatures.module.css';
 import Link from '@docusaurus/Link';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 type FeatureItem = {
   title: string;
@@ -17,10 +18,10 @@ type FeatureItem = {
   linkText?: string;
 };
 
-const FeatureList: FeatureItem[] = [
+const getFeatureList = (baseUrl: string): FeatureItem[] => [
   {
     title: 'Introducción',
-    image: '/img/home/book.svg',
+    image: `${baseUrl}img/home/book.svg`,
     linkText: 'Comenzar',
     linkTo: '/docs/started/introduction',
     description: (
@@ -31,7 +32,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Inicio Rápido',
-    image: '/img/home/rocket.svg',
+    image: `${baseUrl}img/home/rocket.svg`,
     linkText: 'Ver ejemplos',
     linkTo: '/docs/started/invoices',
     description: (
@@ -43,7 +44,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Referencia API',
-    image: '/img/home/api.svg',
+    image: `${baseUrl}img/home/api.svg`,
     linkText: 'Ver referencia',
     linkTo: '/api',
     description: (
@@ -54,7 +55,7 @@ const FeatureList: FeatureItem[] = [
   },
 ];
 
-function Feature({title, image, description, linkTo, linkText}: FeatureItem) {
+function Feature({ title, image, description, linkTo, linkText }: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className={styles.feature}>
@@ -76,11 +77,12 @@ function Feature({title, image, description, linkTo, linkText}: FeatureItem) {
 }
 
 export default function HomepageFeatures(): JSX.Element {
+  const { siteConfig } = useDocusaurusContext();
   return (
     <section className={styles.features}>
       <div className="container">
         <div className="row">
-          {FeatureList.map((props, idx) => (
+          {getFeatureList(siteConfig.baseUrl).map((props, idx) => (
             <Feature key={idx} {...props} />
           ))}
         </div>

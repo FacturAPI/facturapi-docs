@@ -110,6 +110,33 @@ tags:
       "08" | Factura generada por pagos en parcialidades
       "09" | Factura generada por pagos diferidos
 
+      ### Régimen Fiscal
+
+      Código | Descripción
+      :-----:| -----------
+      "601" |	General de Ley Personas Morales
+      "603" |	Personas Morales con Fines no Lucrativos
+      "605" |	Sueldos y Salarios e Ingresos Asimilados a Salarios
+      "606" |	Arrendamiento
+      "608" |	Demás ingresos
+      "609" |	Consolidación
+      "610" |	Residentes en el Extranjero sin Establecimiento Permanente en México
+      "611" |	Ingresos por Dividendos (socios y accionistas)
+      "612" |	Personas Físicas con Actividades Empresariales y Profesionales
+      "614" |	Ingresos por intereses
+      "616" |	Sin obligaciones fiscales
+      "620" |	Sociedades Cooperativas de Producción que optan por diferir sus ingresos
+      "621" |	Incorporación Fiscal
+      "622" |	Actividades Agrícolas, Ganaderas, Silvícolas y Pesqueras
+      "623" |	Opcional para Grupos de Sociedades
+      "624" |	Coordinados
+      "628" |	Hidrocarburos
+      "607" |	Régimen de Enajenación o Adquisición de Bienes
+      "629" |	De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales
+      "630" |	Enajenación de acciones en bolsa de valores
+      "615" |	Régimen de los ingresos por obtención de premios
+      "625" |	Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas
+
       ### Tipo de Contrato
 
       Código | Descripción
@@ -5166,7 +5193,7 @@ components:
           description: Clave del catálogo del SAT [Tipo de Jornada](#tipo-de-jornada).
         tipo_regimen:
           type: string
-          description: Clave del catálogo del SAT [Tipo de Régimen](#tipo-de-regimen).
+          description: Clave del catálogo del SAT [Tipo de Régimen](#tipo-de-régimen).
         num_empleado:
           type: string
           minLength: 1
@@ -6701,13 +6728,16 @@ components:
           type: string
           maxLength: 2
           minLength: 2
-          description: Código del Régimen Fiscal, del [catálogo del SAT](#tipo-de-régimen).
+          description: Código del Régimen Fiscal, del [catálogo del SAT](#régimen-fiscal).
         website:
           type: string
-          description: Sitio web de la organización, que se utilizará al enviar la factura por correo electrónico.
+          description: Sitio web de la organización, que aparecerá en el PDF y correos de facturas y recibos.
+        support_email:
+          type: string
+          description: Dirección de correo electrónico para aclaraciones. Aparecerá en el PDF y correos de facturas y recibos.
         phone:
           type: string
-          description: Teléfono de la organización, que aparecerá en el PDF de la factura.
+          description: Teléfono de la organización, que aparecerá en el PDF y correos de facturas y recibos.
         address:
           allOf:
             - type: object

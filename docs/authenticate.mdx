@@ -7,29 +7,16 @@ import TabItem from '@theme/TabItem';
 
 # Autenticación
 
-Facturapi utiliza el método de autenticación HTTP [Bearer Token](https://swagger.io/docs/specification/authentication/bearer-authentication/).
+Para poder llamar a cualquier método de la API, necesitarás identificarte
+usando una **Llave Secreta**. Te recomendamos leer la sección de
+[llaves secretas](/docs/into#llaves-secretas) antes de leer este artículo.
 
-El token a utilizar dependerá de lo que necesites hacer. Lo explicamos con más detalle en la siguiente sección, pero en resumen:
-
-- **Test Secret Key**: Identifica a una organización en ambiente Test para administrar recursos (clientes, facturas, etc). Es única por organización.
-- **Live Secret Key**: Identifica a una Organización en ambiente Live para administrar recursos (clientes, facturas, etc). Es única por organización.
-- **User Secret Key**: Identifica a tu cuenta para crear y confiigurar organizaciones. Es única por cuenta.
-
-<Tabs groupId="codeExamples">
-<TabItem value="curl" label="cURL">
-
-Cada petición deberá incluir tu llave privada en el
-encabezado de autorización.
-
-```bash
-curl https://www.facturapi.io/v1/<endpoint_method> \
-  -H "Authorization: Bearer <SECRET_KEY>" \
-```
-
-</TabItem>
-<TabItem value="js" label="Node.js" default>
+## Usando una de nuestras librerías
 
 Usa la llave secreta al momento de crear la instancia del cliiente
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
 
 ```javascript
 const Facturapi = require('facturapi');
@@ -39,16 +26,12 @@ const facturapi = new Facturapi('<SECRET_KEY>');
 </TabItem>
 <TabItem value="cs" label="C#">
 
-Usa la llave secreta al momento de crear la instancia del cliiente
-
 ```csharp
 var facturapi = new FacturapiClient("<SECRET_KEY>");
 ```
 
 </TabItem>
 <TabItem value="php" label="PHP">
-
-Usa la llave secreta al momento de crear la instancia del cliiente
 
 ```php
 $facturapi = new Facturapi( "<SECRET_KEY>" );
@@ -57,30 +40,25 @@ $facturapi = new Facturapi( "<SECRET_KEY>" );
 </TabItem>
 </Tabs>
 
-## ¿Cómo obtener mis llaves secretas?
+## Usando tu propio cliente HTTP
 
-Crea una cuenta gratuita visitando:
+Facturapi utiliza el método de autenticación HTTP
+[Bearer Token](https://swagger.io/docs/specification/authentication/bearer-authentication/).
 
-<a href="https://www.facturapi.io/register?utm_source=facturapi-docs&utm_medium=GithubPages" target="_blank">https://www.facturapi.io/register</a>
+El token a utilizar es una de las 3 **Llaves Secretas**, explicadas con detalle
+en la sección de [llaves secretas](/docs/into#llaves-secretas).
 
-## Ambientes y llaves secretas
 
-### Ambiente Test / Llave secreta Test
+<Tabs groupId="codeExamples">
+<TabItem value="curl" label="cURL">
 
-Facturapi cuenta con un ambiente de pruebas ó sandbox que puedes usar durante el desarrollo de tu aplicación sin generar ningún costo. Las facturas creadas en este ambiente no son enviadas al SAT y por lo tanto no tienen validez fiscal.
+Cada petición deberá incluir tu llave secreta en el
+encabezado de autorización.
 
-En este ambiente también puedes crear otros recursos como Clientes, Productos, Retenciones y Recibos.
+```bash
+curl https://www.facturapi.io/v1/<endpoint_method> \
+  -H "Authorization: Bearer <SECRET_KEY>" \
+```
 
-Los recursos creados en ambiente `Test` no se mezclan con el ambiente `Live`.
-
-Para emitir facturas en ambiente `Test` basta con utilizar la llave secreta `Test` de tu organización.
-
-### Ambiente Live / Llave secreta Live
-
-Una vez que hayas terminado de configurar tu organización, podrás obtener tu llave secreta `Live` para crear recursos en ambiente `Live`.
-
-Las facturas en ambiente `Live` son timbradas y enviadas al SAT, y por tanto son válidas fiscalmente.
-
-### Ambiente de administración de cuenta / Llave de usuario
-
-Si necesitas registrar más organizaciones bajo tu cuenta y emitir facturas usando distintos RFC emisores, puedes utilizar la llave secreta `User` para registrar nuevas organizaciones y configurarlas por medio de la API. Puedes encontrar esta llave en el [Centro de Integración](https://www.facturapi.io/dashboard/integration), en tu dashboard de Facturapi.
+</TabItem>
+</Tabs>

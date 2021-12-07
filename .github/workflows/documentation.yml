@@ -15,6 +15,7 @@ jobs:
         with:
           node-version: 16.x
           cache: yarn
+          cache-dependency-path: website/yarn.lock
       - name: Build website
         working-directory: website
         run: |
@@ -26,7 +27,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GH_PAGES_DEPLOY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           # Build output to publish to the `gh-pages` branch:
           publish_dir: ./website/build
           # Assign commit authorship to the official GH-Actions bot for deploys to `gh-pages` branch:

@@ -22,7 +22,7 @@ Es ideal para tu aplicación si buscas un servicio flexible y escalable para fac
 - **Comprobante de Retención**. Incluyendo el complemento de Plataformas Tenológicas.
 - Inserta cualquier **complemento** y/o **addenda**.
 - **Cancelación** de comprobantes.
-- **MiltiRFC**. Registra múltiples organizaciones bajo una misma cuenta y emitie facturas usando distintos RFCs.
+- **MultiRFC**. Registra múltiples organizaciones bajo una misma cuenta y emitie facturas usando distintos RFCs.
 - **Autofactura**. Emite recibos digitales que puedes enviar a tus clientes para que completen los datos de su factura por si mismos en un portal con tu branding.
 
 ## ¿Facturapi es un PAC?

@@ -12,7 +12,8 @@ Es ideal para tu aplicación si buscas un servicio flexible y escalable para fac
 
 ## Características soportadas
 
-- **CFDI versión 3.3** (la más reciente).
+- **CFDI versión 4.0** (próximamente en Enero de 2022).
+- **CFDI versión 3.3** (la vigente).
 - Todos los tipos de facturas (CFDI):
   - **Ingreso** (la normal)
   - **Egreso** (conocida como Nota de Crédito)

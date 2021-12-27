@@ -9,7 +9,8 @@ function HomepageHeader() {
       <div className={styles.hero}>
         <h1>Documentación</h1>
         <p>
-          Aquí encontrarás guías, tutoriales y la referencia técnica para integrar la API de Facturapi con tu aplicación.
+          Aquí encontrarás guías, tutoriales y la referencia técnica para
+          integrar la API de Facturapi con tu aplicación.
         </p>
       </div>
       <div className={styles.overlappedImages}>

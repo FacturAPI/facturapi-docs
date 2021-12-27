@@ -1,9 +1,9 @@
 openapi: "3.0.1"
 servers:
-  - url: https://www.facturapi.io/v1
+  - url: https://www.facturapi.io/v2
 info:
   title: Facturapi
-  version: "1.0"
+  version: "2.0"
   contact:
     name: Facturapi
     url: https://www.facturapi.io
@@ -37,7 +37,7 @@ tags:
 
       ### Forma de pago
 
-      Código | Descripción
+      Clave | Descripción
       :-----:| -----------
       "01" | Efectivo
       "02" | Cheque nominativo
@@ -64,14 +64,14 @@ tags:
 
       ### Método de pago
 
-      Código | Descripción
+      Clave | Descripción
       :-----:| -----------
       "PUE" | Pago en una sola exhibición (de contado).
       "PPD" | Pago en parcialidades o diferido (total o parcialmente a crédito). Requiere expedir un comprobante de pago cuando se reciba un pago subsecuente.
 
       ### Uso CFDI
 
-      Código | Descripción
+      Clave | Descripción
       :-----:| -----------
       "G01" |	Adquisición de mercancias.
       "G02" |	Devoluciones, descuentos o bonificaciones.
@@ -98,7 +98,7 @@ tags:
 
       ### Relación entre facturas
 
-      Código | Descripción
+      Clave | Descripción
       :-----:| -----------
       "01" | Nota de crédito de los documentos relacionados
       "02" | Nota de débito de los documentos relacionados
@@ -112,7 +112,7 @@ tags:
 
       ### Régimen Fiscal
 
-      Código | Descripción
+      Clave | Descripción
       :-----:| -----------
       "601" |	General de Ley Personas Morales
       "603" |	Personas Morales con Fines no Lucrativos
@@ -137,9 +137,32 @@ tags:
       "615" |	Régimen de los ingresos por obtención de premios
       "625" |	Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas
 
+      ### Meses y bimestres
+
+      Clave | Descripción
+      :-----:| -----------
+      01 | Enero
+      02 | Febrero
+      03 | Marzo
+      04 | Abril
+      05 | Mayo
+      06 | Junio
+      07 | Julio
+      08 | Agosto
+      09 | Septiembre
+      10 | Octubre
+      11 | Noviembre
+      12 | Diciembre
+      13 | Enero-Febrero
+      14 | Marzo-Abril
+      15 | Mayo-Junio
+      16 | Julio-Agosto
+      17 | Septiembre-Octubre
+      18 | Noviembre-Diciembre
+
       ### Tipo de Contrato
 
-      Código | Descripción
+      Clave | Descripción
       :-----:| -----------
       "01" | Contrato de trabajo por tiempo indeterminado
       "02" | Contrato de trabajo para obra determinada
@@ -155,7 +178,7 @@ tags:
 
       ### Tipo de Jornada
 
-      Código | Descripción
+      Clave | Descripción
       :-----:| -----------
       "01" | Diurna
       "02" | Nocturna
@@ -169,7 +192,7 @@ tags:
 
       ### Tipo de Régimen
 
-      Código | Descripción
+      Clave | Descripción
       :-----:| -----------
       "02" | Sueldos (Incluye ingresos señalados en la fracción I del artículo 94 de LISR)
       "03" | Jubilados
@@ -187,7 +210,7 @@ tags:
 
       ### Riesgo del Puesto
 
-      Código | Descripción
+      Clave | Descripción
       :-----:| -----------
       "1" | Clase I
       "2" | Clase II
@@ -198,7 +221,7 @@ tags:
 
       ### Periodicidad del Pago
 
-      Código | Descripción
+      Clave | Descripción
       :-----:| -----------
       "01" | Diario
       "02" | Semanal
@@ -214,7 +237,7 @@ tags:
 
       ### Tipo de Percepción
 
-      Código | Descripción
+      Clave | Descripción
       :-----:| -----------
       "001" | Sueldos, Salarios  Rayas y Jornales
       "002" | Gratificación Anual (Aguinaldo)
@@ -263,7 +286,7 @@ tags:
 
       ### Tipo de Horas
 
-      Código | Descripción
+      Clave | Descripción
       :-----:| -----------
       "01" | Dobles
       "02" | Triples
@@ -271,7 +294,7 @@ tags:
 
       ### Tipo de Deducción
 
-      Código | Descripción
+      Clave | Descripción
       :-----:| -----------
       "001" | Seguridad social
       "002" | ISR
@@ -383,7 +406,7 @@ tags:
 
       ### Tipo de Otro Pago
 
-      Código | Descripción
+      Clave | Descripción
       :-----:| -----------
       "001" | Reintegro de ISR pagado en exceso.
       "002" | Subsidio para el empleo (efectivamente entregado al trabajador).
@@ -398,7 +421,7 @@ tags:
 
       ### Tipo de Incapacidad
 
-      Código | Descripción
+      Clave | Descripción
       :-----:| -----------
       "01" | Riesgo de trabajo.
       "02" | Enfermedad en general.
@@ -407,7 +430,7 @@ tags:
 
       ### Clave de retención
 
-      Código | Descripción
+      Clave | Descripción
       :-----:| -----------
       "01" | Servicios profesionales.
       "02" | Regalías por derechos de autor.
@@ -519,7 +542,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/customers \
+            curl https://www.facturapi.io/v2/customers \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -H "Content-Type: application/json" \
               -d '{
@@ -591,7 +614,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/customers \
+            curl https://www.facturapi.io/v2/customers \
               -H "Authorization: Bearer sk_test_API_KEY"
               -G
               -d 'q=Dunder'
@@ -674,7 +697,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
+            curl https://www.facturapi.io/v2/customers/590ce6c56d04f840aa8438af \
               -H "Authorization: Bearer sk_test_API_KEY"
         - lang: JavaScript
           label: Node.js
@@ -724,7 +747,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
+            curl https://www.facturapi.io/v2/customers/590ce6c56d04f840aa8438af \
               -X PUT
               -H "Authorization: Bearer sk_test_API_KEY" \
               -H "Content-Type: application/json" \
@@ -808,7 +831,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/customers/590ce6c56d04f840aa8438af \
+            curl https://www.facturapi.io/v2/customers/590ce6c56d04f840aa8438af \
               -X DELETE \
               -H "Authorization: Bearer sk_test_API_KEY"
         - lang: JavaScript
@@ -863,7 +886,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/products \
+            curl https://www.facturapi.io/v2/products \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -H "Content-Type: application/json" \
               -d '{
@@ -933,7 +956,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/products \
+            curl https://www.facturapi.io/v2/products \
               -H "Authorization: Bearer sk_test_API_KEY"
               -G
               -d 'q=ukelele'
@@ -1005,7 +1028,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
+            curl https://www.facturapi.io/v2/products/590e22c26d04f840aa8438b2 \
               -H "Authorization: Bearer sk_test_API_KEY"
         - lang: JavaScript
           label: Node.js
@@ -1055,7 +1078,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
+            curl https://www.facturapi.io/v2/products/590e22c26d04f840aa8438b2 \
               -X PUT
               -H "Authorization: Bearer sk_test_API_KEY" \
               -H "Content-Type: application/json" \
@@ -1128,7 +1151,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/products/590e22c26d04f840aa8438b2 \
+            curl https://www.facturapi.io/v2/products/590e22c26d04f840aa8438b2 \
               -X DELETE \
               -H "Authorization: Bearer sk_test_API_KEY"
         - lang: JavaScript
@@ -1181,7 +1204,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/invoices \
+            curl https://www.facturapi.io/v2/invoices \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -H "Content-Type: application/json" \
               -d '{
@@ -1308,19 +1331,19 @@ paths:
           label: cURL
           source: |
             # Todas las facturas de la organización
-            curl "https://www.facturapi.io/v1/invoices" \
+            curl "https://www.facturapi.io/v2/invoices" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY"
 
             # Todas las facturas emitidas para cierto cliente
-            curl "https://www.facturapi.io/v1/invoices" \
+            curl "https://www.facturapi.io/v2/invoices" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -d "customer=58e93bd8e86eb318b0197456"
 
             # Página 3 de los resultados de búsqueda de texto libre
             # de facturas emitidas por cierto cliente entre 2017 y 2019
-            curl "https://www.facturapi.io/v1/invoices" \
+            curl "https://www.facturapi.io/v2/invoices" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -d "q=Aspiradora+Robot&customer=58e93bd8e86eb318b0197456&date[gte]=2017-01-01T00:00:00.000Z&date[lt]=2020-01-01T00:00:00.000Z&page=3&limit=10"
@@ -1463,7 +1486,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d \
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d \
               -H "Authorization: Bearer sk_test_API_KEY"
         - lang: JavaScript
           label: Node.js
@@ -1509,7 +1532,7 @@ paths:
         - invoice
       summary: Cancelar factura
       description: |
-        Realiza una solicitud de cancelación de factura ante el SAT, soportando el esquema de cancelación de Noviembre 2018.
+        Realiza una solicitud de cancelación de factura ante el SAT, soportando el esquema de cancelación 2022.
 
         Al usar este método pueden ocurrir 3 posibles resultados:
 
@@ -1526,7 +1549,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d \
+            curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d?motive=02 \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -X DELETE
         - lang: JavaScript
@@ -1534,16 +1557,30 @@ paths:
           source: |
             const Facturapi = require('facturapi');
             const facturapi = new Facturapi('sk_test_API_KEY');
-            const invoice = await facturapi.invoices.cancel('58e93bd8e86eb318b019743d');
+            const invoice = await facturapi.invoices.cancel(
+              '58e93bd8e86eb318b019743d',
+              { motive: '02' }
+            );
         - lang: csharp
           label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
-            var invoice = await facturapi.Invoice.CancelAsync("58e93bd8e86eb318b019743d");
+            var invoice = await facturapi.Invoice.CancelAsync(
+              "58e93bd8e86eb318b019743d",
+              new Dictionary<string, object>
+              {
+                ["motive"] = "02"
+              }
+            );
         - lang: PHP
           source: |
             $facturapi = new Facturapi( "sk_test_API_KEY" );
-            $facturapi->Invoices->cancel("58e93bd8e86eb318b019743d");
+            $facturapi->Invoices->cancel(
+              "58e93bd8e86eb318b019743d",
+              [
+                "motive" => "02"
+              ]
+            );
       parameters:
         - in: path
           name: invoice_id
@@ -1551,6 +1588,38 @@ paths:
             type: string
           required: true
           description: ID de la factura a cancelar
+        - in: query
+          name: motive
+          required: true
+          schema:
+            type: string
+            enum:
+              - "01"
+              - "02"
+              - "03"
+              - "04"
+          description: |
+            Clave que representa el motivo de la cancelación de la factura.
+
+            - `01`: **Comprobante emitido con errores con relación**. Cuando la
+              factura contiene algún error en las cantidades, claves o cualquier otro dato y ya
+              se ha emitido el comprobante que la sustituye, el cual deberá indicarse por medio
+              del atributo `substitution`.
+            - `02`: **Comprobante emitido con errores sin relación**. Cuando la
+              factura contiene algún error en las cantidades, claves o cualquier otro dato y no
+              se requiere relacionar con otra factura.
+            - `03`: **No se llevó a cabo la operación**. Cuando la venta o transacción no se concretó.
+            - `04`: **Operación nominativa relacionada en la factura global**. Cuando se requiere cancelar
+              una factura al público en general porque el cliente solicita su comprobante.
+        - in: query
+          name: substitution
+          required: false
+          schema:
+            type: string
+          description: |
+            ID de la factura que sustituye a la factura que se está cancelando.
+
+            Puedes usar el ID de Facturapi o el folio fiscal (UUID).
       security:
         - "Secret Live Key": []
         - "Secret Test Key": []
@@ -1579,15 +1648,15 @@ paths:
           label: cURL
           source: |
             ## Descargar PDF y XML comprimidos en archivo ZIP
-            curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/zip \
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/zip \
               -H "Authorization: Bearer sk_test_API_KEY"
 
             ## Descargar sólo el PDF
-            curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/pdf \
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/pdf \
               -H "Authorization: Bearer sk_test_API_KEY"
 
             ## Descargar sólo el XML
-            curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/xml \
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/xml \
               -H "Authorization: Bearer sk_test_API_KEY"
         - lang: JavaScript
           label: Node.js
@@ -1680,12 +1749,12 @@ paths:
           label: cURL
           source: |
             # Enviar al correo del cliente
-            curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/email \
               -H "Authorization: Bearer sk_test_API_KEY"
               -X POST
 
             # Enviar a otro correo
-            curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/email \
               -H "Authorization: Bearer sk_test_API_KEY"
               -X POST
               -H "Content-Type: application/json" \
@@ -1826,7 +1895,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/receipts \
+            curl https://www.facturapi.io/v2/receipts \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -H "Content-Type: application/json" \
               -d '{
@@ -1927,13 +1996,13 @@ paths:
           label: cURL
           source: |
             # Todos los recibos de la organización
-            curl "https://www.facturapi.io/v1/receipts" \
+            curl "https://www.facturapi.io/v2/receipts" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY"
 
             # Página 3 de los resultados de búsqueda de texto libre
             # de recibos creados entre 2017 y 2019
-            curl "https://www.facturapi.io/v1/receipts" \
+            curl "https://www.facturapi.io/v2/receipts" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -d "q=Aspiradora+Robot&date[gte]=2017-01-01T00:00:00.000Z&date[lt]=2020-01-01T00:00:00.000Z&page=3&limit=10"
@@ -2037,7 +2106,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/receipts/58e93bd8e86eb318b019743d \
+            curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d \
               -H "Authorization: Bearer sk_test_API_KEY"
         - lang: JavaScript
           label: Node.js
@@ -2090,7 +2159,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/receipts/5ebd8e56f5687a013ca0df46 \
+            curl https://www.facturapi.io/v2/receipts/5ebd8e56f5687a013ca0df46 \
               -X DELETE \
               -H "Authorization: Bearer sk_test_API_KEY"
         - lang: JavaScript
@@ -2147,7 +2216,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/receipts/5ebd8e56f5687a013ca0df46/invoice \
+            curl https://www.facturapi.io/v2/receipts/5ebd8e56f5687a013ca0df46/invoice \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -H "Content-Type: application/json" \
               -d '{
@@ -2212,17 +2281,20 @@ paths:
         - receipt
       summary: Crear factura global
       description: |
-        Crea una factura global por los recibos abiertos (con `status = “open”`) de un cierto periodo.
+        Crea una factura global que incluirá todos los recibos con `status = “open”` de un cierto periodo.
       x-codeSamples:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/receipts/global-invoice \
+            curl https://www.facturapi.io/v2/receipts/global-invoice \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -H "Content-Type: application/json" \
               -d '{
-                    "from": "2020-12-01T05:00:00.000Z",
-                    "to": "2020-12-31T04:59:59.999Z",
+                    "from": "2021-01-01T05:00:00.000Z",
+                    "to": "2021-01-31T04:59:59.999Z",
+                    "periodicity": "month",
+                    "months": "01",
+                    "year": 2021,
                     "folio_number": 1234,
                     "series": "G"
                 }'
@@ -2235,6 +2307,9 @@ paths:
             const invoice = await facturapi.receipts.createGlobalInvoice({
               from: '2020-12-01T05:00:00.000Z',
               to: '2020-12-31T04:59:59.999Z',
+              periodicity: 'month',
+              months: '01',
+              year: 2021
               folio_number: 1234,
               series: 'G'
             });
@@ -2246,6 +2321,9 @@ paths:
             {
               ["from"] = "2020-12-01T05:00:00.000Z",
               ["to"] = "2020-12-31T04:59:59.999Z",
+              ["periodicity"] = "month",
+              ["months"] = "01",
+              ["year"] = 2021,
               ["folio_number"] = 1234,
               ["series"] = "G"
             });
@@ -2256,6 +2334,9 @@ paths:
             $invoice = $facturapi->Receipts->createGlobalInvoice([
               "from" => "2020-12-01T05:00:00.000Z",
               "to" => "2020-12-31T04:59:59.999Z",
+              "periodicity" => "month",
+              "months" => "01",
+              "year" => 2021,
               "folio_number" => 1234,
               "series" => "G"
             ]);
@@ -2292,7 +2373,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/retentions \
+            curl https://www.facturapi.io/v2/retentions \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -H "Content-Type: application/json" \
               -d '{
@@ -2421,18 +2502,18 @@ paths:
           label: cURL
           source: |
             # Todas las retenciones de la organización
-            curl https://www.facturapi.io/v1/retentions \
+            curl https://www.facturapi.io/v2/retentions \
               -H "Authorization: Bearer sk_test_API_KEY"
 
             # Todas las retenciones emitidas para cierto cliente
-            curl "https://www.facturapi.io/v1/retentions" \
+            curl "https://www.facturapi.io/v2/retentions" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -d "customer=58e93bd8e86eb318b0197456"
 
             # Página 3 de los resultados de búsqueda de texto libre
             # de retenciones emitidas entre 2017 y 2019
-            curl "https://www.facturapi.io/v1/retentions" \
+            curl "https://www.facturapi.io/v2/retentions" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -d "q=John+Doe6&date[gte]=2017-01-01T00:00:00.000Z&date[lt]=2020-01-01T00:00:00.000Z&page=3&limit=10"
@@ -2558,7 +2639,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71 \
+            curl https://www.facturapi.io/v2/retentions/6062d9fb226600001cd22f71 \
               -H "Authorization: Bearer sk_test_API_KEY"
         - lang: JavaScript
           label: Node.js
@@ -2611,7 +2692,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/retentions/6062d9fb226600001cd22f71 \
+            curl https://www.facturapi.io/v2/retentions/6062d9fb226600001cd22f71 \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -X DELETE
         - lang: JavaScript
@@ -2664,15 +2745,15 @@ paths:
           label: cURL
           source: |
             ## Descargar PDF y XML comprimidos en archivo ZIP
-            curl https://www.facturapi.io/v1/retentions/58e93bd8e86eb318b019743d/zip \
+            curl https://www.facturapi.io/v2/retentions/58e93bd8e86eb318b019743d/zip \
               -H "Authorization: Bearer sk_test_API_KEY"
 
             ## Descargar sólo el PDF
-            curl https://www.facturapi.io/v1/retentions/58e93bd8e86eb318b019743d/pdf \
+            curl https://www.facturapi.io/v2/retentions/58e93bd8e86eb318b019743d/pdf \
               -H "Authorization: Bearer sk_test_API_KEY"
 
             ## Descargar sólo el XML
-            curl https://www.facturapi.io/v1/retentions/58e93bd8e86eb318b019743d/xml \
+            curl https://www.facturapi.io/v2/retentions/58e93bd8e86eb318b019743d/xml \
               -H "Authorization: Bearer sk_test_API_KEY"
         - lang: JavaScript
           label: Node.js
@@ -2765,12 +2846,12 @@ paths:
           label: cURL
           source: |
             # Enviar al correo del cliente
-            curl https://www.facturapi.io/v1/retentions/58e93bd8e86eb318b019743d/email \
+            curl https://www.facturapi.io/v2/retentions/58e93bd8e86eb318b019743d/email \
               -H "Authorization: Bearer sk_test_API_KEY"
               -X POST
 
             # Enviar a otro correo
-            curl https://www.facturapi.io/v1/retentions/58e93bd8e86eb318b019743d/email \
+            curl https://www.facturapi.io/v2/retentions/58e93bd8e86eb318b019743d/email \
               -H "Authorization: Bearer sk_test_API_KEY"
               -X POST
               -H "Content-Type: application/json" \
@@ -2915,7 +2996,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/organizations \
+            curl https://www.facturapi.io/v2/organizations \
               -H "Authorization: Bearer sk_user_API_KEY" \
               -H "Content-Type: application/json" \
               -d '{
@@ -2972,7 +3053,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/organizations \
+            curl https://www.facturapi.io/v2/organizations \
               -H "Authorization: Bearer sk_user_API_KEY"
         - lang: JavaScript
           label: Node.js
@@ -3034,7 +3115,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/legal \
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/legal \
               -X PUT \
               -H "Authorization: Bearer sk_user_API_KEY" \
               -H "Content-Type: application/json" \
@@ -3171,7 +3252,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/certificate \
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/certificate \
               -X PUT \
               -H "Authorization: Bearer sk_user_API_KEY" \
               -H "Content-Type: mutipart/form-data" \
@@ -3265,7 +3346,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/logo \
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/logo \
               -X PUT \
               -H "Authorization: Bearer sk_user_API_KEY" \
               -H "Content-Type: mutipart/form-data" \
@@ -3339,7 +3420,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/customization \
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/customization \
               -X PUT \
               -H "Authorization: Bearer sk_user_API_KEY" \
               -H "Content-Type: application/json" \
@@ -3435,7 +3516,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/receipts \
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/receipts \
               -X PUT \
               -H "Authorization: Bearer sk_user_API_KEY" \
               -H "Content-Type: application/json" \
@@ -3525,7 +3606,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/organizations/domain-check?domain=empresa-demo \
+            curl https://www.facturapi.io/v2/organizations/domain-check?domain=empresa-demo \
               -H "Authorization: Bearer sk_user_API_KEY"
         - lang: JavaScript
           label: Node.js
@@ -3596,7 +3677,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/domain \
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/domain \
               -X PUT \
               -H "Authorization: Bearer sk_user_API_KEY" \
               -H "Content-Type: application/json" \
@@ -3670,7 +3751,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035 \
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035 \
               -H "Authorization: Bearer sk_user_API_KEY"
         - lang: JavaScript
           label: Node.js
@@ -3726,7 +3807,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035 \
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035 \
               -X DELETE \
               -H "Authorization: Bearer sk_user_API_KEY"
         - lang: JavaScript
@@ -3783,7 +3864,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/apikeys \
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/apikeys \
               -H "Authorization: Bearer sk_user_API_KEY"
         - lang: JavaScript
           label: Node.js
@@ -3890,7 +3971,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/tools/tax_id_validation?tax_id=BBA830831LJ2 \
+            curl https://www.facturapi.io/v2/tools/tax_id_validation?tax_id=BBA830831LJ2 \
               -H "Authorization: Bearer sk_test_API_KEY"
         - lang: JavaScript
           label: Node.js
@@ -3934,6 +4015,61 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /tools/cancellation_receipt/{invoice_or_retention_id}:
+    get:
+      tags:
+        - tools
+      summary: Obtener acuse de cancelación
+      description: Regresa el acuse de cancelación de un comprobante.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/tools/cancellation_receipt/<invoice_or_retention_id> \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            const validation = await facturapi.tools.getCancellationReceipt('<invoice_or_retention_id>');
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            
+            var customer = await facturapi.Tools.GetCancellationReceipt("<invoice_or_retention_id>");
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            
+            $customer = $facturapi->Tools->getCancellationReceipt("<invoice_or_retention_id>");
+      parameters:
+        - in: path
+          name: invoice_or_retention_id
+          required: true
+          schema:
+            type: string
+            description: ID de la factura o la retención cancelada de la que se quiere obtener el acuse.
+            example: 58e93bd8e86eb318b019743d
+      security:
+        - "Secret Live Key": []
+        - "Secret Test Key": []
+      responses:
+        "200":
+          description: Acuse de recibo
+          content:
+            application/xml:
+              schema:
+                type: string
+                format: xml
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
   
   /catalogs/products:
     get:
@@ -3945,7 +4081,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/catalogs/products?q=ukelele \
+            curl https://www.facturapi.io/v2/catalogs/products?q=ukelele \
               -H "Authorization: Bearer sk_test_API_KEY" 
         - lang: JavaScript
           label: Node.js
@@ -4010,7 +4146,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/catalogs/units?q=pulgada \
+            curl https://www.facturapi.io/v2/catalogs/units?q=pulgada \
               -H "Authorization: Bearer sk_test_API_KEY" 
         - lang: JavaScript
           label: Node.js
@@ -4644,7 +4780,29 @@ components:
           example: 0
         product:
           $ref: "#/components/schemas/LineItemProduct"
-          # description: Objeto con información del producto o servicio facturado.
+          description: Objeto con información del producto o servicio facturado.
+        parts:
+          $ref: "#/components/schemas/Parts"
+          description: Objeto con información de las partes de la factura.
+    ThirdParty:
+      type: object
+      properties:
+        legal_name:
+          type: string
+          description: Nombre o razón social del tercero.
+          example: "The Michael Scott Paper Company"
+        tax_id:
+          type: string
+          description: RFC del tercero.
+          example: "STA920101HN7"
+        tax_system:
+          type: string
+          description: Régimen fiscal del tercero.
+          example: "601"
+        zip:
+          type: string
+          description: Código postal del tercero.
+          example: "01234"
     LineItemInput:
       title: LineItem
       required:
@@ -4669,6 +4827,10 @@ components:
             - type: string
               title: product_id
               description: ID de un producto previamente registrado en Facturapi
+        parts:
+          type: array
+          items:
+            $ref: "#/components/schemas/PartInput"
         customs_keys:
           type: array
           items:
@@ -4678,10 +4840,15 @@ components:
           type: string
           format: xml
           description: Código XML de tu complemento. Recuerda que debes añadir el prefijo y las URLs usando el parámetro namespaces.
-        parts:
-          type: array
-          items:
-            $ref: "#/components/schemas/PartInput"
+        third_party:
+          allOf:
+            - type: object
+              required:
+                - legal_name
+                - tax_id
+                - tax_system
+                - zip
+            - $ref: "#/components/schemas/ThirdParty"
     LineItemTrasladoInput:
       title: LineItem
       required:
@@ -4714,6 +4881,30 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/PartInput"
+        third_party:
+          type: object
+          required:
+            - legal_name
+            - tax_id
+            - tax_system
+            - zip
+          properties:
+            legal_name:
+              type: string
+              description: Nombre o razón social del tercero.
+              example: "The Michael Scott Paper Company"
+            tax_id:
+              type: string
+              description: RFC del tercero.
+              example: "STA920101HN7"
+            tax_system:
+              type: string
+              description: Régimen fiscal del tercero.
+              example: "601"
+            zip:
+              type: string
+              description: Código postal del tercero.
+              example: "01234"
 
     CustomComplementProperties:
       title: CustomComplement
@@ -5391,7 +5582,7 @@ components:
         neighborhood:
           type: string
           description: Colonia
-          example: Villas del Marro
+          example: Centro
         city:
           type: string
           description: Ciudad
@@ -5400,6 +5591,10 @@ components:
           type: string
           description: Municipio o delegación
           example: Huatabampo
+        zip:
+          type: string
+          description: Código postal
+          example: 86500
 
     # Main resources
     Customer:
@@ -5416,12 +5611,27 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/Customer"
-    CustomerRequiredProperties:
-      type: object
-      required:
-        - legal_name
-        - tax_id
     CustomerProperties:
+      allOf:
+        - $ref: "#/components/schemas/CustomerCommonProperties"
+        - type: object
+          properties:
+            address:
+              allOf:
+                - $ref: "#/components/schemas/CommonAddressProperties"
+                - type: object
+                  description: Domicilio fiscal.
+                  properties:
+                    state:
+                      type: string
+                      description: Si el país es México ("MEX"), contiene el nombre del Estado o Entidad Federativa. Para extranjeros contiene el código de Estado de acuerdo al estándar [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que puedes consultar en nuestro [Catálogo de Estados](https://www.facturapi.io/dashboard/catalogs/state).
+                      example: Sonora
+                    country:
+                      type: string
+                      description: Código de país acorde al estándar [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), del [Catálogo de Países](https://www.facturapi.io/dashboard/catalogs/country).
+                      example: MEX
+                      default: MEX
+    CustomerCommonProperties:
       type: object
       properties:
         legal_name:
@@ -5432,6 +5642,10 @@ components:
           type: string
           example: ABCD101010XYZ
           description: En clientes de México contiene el RFC del cliente. Para extranjeros es opcional y representa el número de registro de identificacón tributaria, es decir, el equivalente al RFC en el país del cliente.
+        tax_system:
+          type: string
+          example: 06
+          description: Requerido para clientes nacionales. Clave del régimen fiscal del cliente.
         email:
           type: string
           format: email
@@ -5441,26 +5655,34 @@ components:
           type: string
           description: Teléfono del cliente.
           example: 6474010101
-        address:
-          allOf:
-            - $ref: "#/components/schemas/CommonAddressProperties"
-            - type: object
-              description: Domicilio fiscal.
-              properties:
-                state:
-                  type: string
-                  description: Si el país es México ("MEX"), contiene el nombre del Estado o Entidad Federativa. Para extranjeros contiene el código de Estado de acuerdo al estándar [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que puedes consultar en nuestro [Catálogo de Estados](https://www.facturapi.io/dashboard/catalogs/state).
-                  example: Sonora
-                country:
-                  type: string
-                  description: Código de país acorde al estándar [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), del [Catálogo de Países](https://www.facturapi.io/dashboard/catalogs/country).
-                  example: MEX
-                  default: MEX
     CustomerCreateInput:
       title: Customer
       allOf:
-        - $ref: "#/components/schemas/CustomerRequiredProperties"
-        - $ref: "#/components/schemas/CustomerProperties"
+        - $ref: "#/components/schemas/CustomerCommonProperties"
+        - type: object
+          required:
+          - legal_name
+          - tax_id
+          - tax_system
+          - address
+          properties:
+            address:
+              allOf:
+                - $ref: "#/components/schemas/CommonAddressProperties"
+                - type: object
+                  description: Domicilio fiscal.
+                  required:
+                    - zip
+                  properties:
+                    state:
+                      type: string
+                      description: Si el país es México ("MEX"), contiene el nombre del Estado o Entidad Federativa. Para extranjeros contiene el código de Estado de acuerdo al estándar [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que puedes consultar en nuestro [Catálogo de Estados](https://www.facturapi.io/dashboard/catalogs/state).
+                      example: Sonora
+                    country:
+                      type: string
+                      description: Código de país acorde al estándar [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), del [Catálogo de Países](https://www.facturapi.io/dashboard/catalogs/country).
+                      example: MEX
+                      default: MEX
 
     LineItemProductInput:
       title: Product
@@ -5512,11 +5734,8 @@ components:
               description: ID del producto base. Sólo presente si se utilizó como base un objeto `Product` guardado previamente.
               example: 58e93bd8e86eb318b0197454
         - $ref: "#/components/schemas/ProductProperties"
-    PartInput:
+    Parts:
       type: object
-      required:
-        - description
-        - product_key
       properties:
         description:
           type: string
@@ -5542,7 +5761,13 @@ components:
           items:
             type: string
           description: Números de pedimento aduanal asociados a esta parte.
-
+    PartInput:
+      allOf:
+        - type: object
+          required:
+            - description
+            - product_key
+        - $ref: "#/components/schemas/Parts"
     Product:
       title: Objeto Product
       allOf:
@@ -6019,6 +6244,45 @@ components:
               type: string
               nullable: true
               description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#relacion-entre-facturas)). Es requerido cuando se envíe el parámetro `related`.
+            global:
+              type: object
+              nullable: true
+              required:
+                - periodicity
+                - months
+                - year
+              description: |
+                Objeto requerido al crear una factura global.
+              properties:
+                periodicity:
+                  type: string
+                  nullable: true
+                  description: |
+                    Periodicidad .
+
+                    - `day`: Diario
+                    - `week`: Semanal
+                    - `month`: Mensual
+                    - `fortnight`: Quincenal
+                    - `year`: Anual
+                    - `two_years`: Bimestral
+                  enum:
+                    - day
+                    - week
+                    - month
+                    - fortnight
+                    - year
+                    - two_years
+                months:
+                  type: string
+                  description: |
+                    Clave que representa el mes o bimestre de la factura. Consulta
+                    los posibles valores en el [catálogo de Meses y Bimestres](#meses-y-bimestres).
+                  example: 01
+                year:
+                  type: integer
+                  description: Año de la factura.
+                  example: 2022
             complements:
               type: array
               default: []
@@ -6056,11 +6320,11 @@ components:
               type: string
               default: 01
               description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#relacion-entre-facturas)).
-            products:
+            items:
               type: array
+              description: Conceptos a incluir en la factura.
               items:
-                $ref: "#/components/schemas/LineItemProductEgresoInput"
-              description: Objetos con detalles del concepto a facturar.
+                $ref: "#/components/schemas/LineItemInput"
             currency:
               type: string
               default: MXN
@@ -6317,7 +6581,11 @@ components:
           type: string
           format: date-time
           default: Inicio del último periodo
-          description: Fecha inicial de los recibos que se incluirán en la factura global. Por default, este valor es el inicio del último periodo (día, semana, mes), según tengas configurado en tu configuración de recibos de tu organización.
+          description: |
+            Fecha inicial de los recibos que se incluirán en la factura global.
+            Por default, este valor es el inicio del último periodo (día, semana,
+            quincena o mes), según el valor de "Periodicidad" (`periodicity`)
+            en la configuración de recibos de tu organización.
         to:
           type: string
           format: date-time
@@ -6325,12 +6593,26 @@ components:
           description: |
             Fecha final de los recibos que se incluirán en la factura global.
             Por default, este valor es el fin del último periodo (día, semana,
-            mes), según tengas configurado en tu configuración de recibos de
-            tu organización.
+            quincena o mes), según el valor de "Periodicidad" (`periodicity`)
+            en la configuración de recibos de tu organización.
+        periodicity:
+          type: string
+          default: Propiedad `periodicity` de la configuración de recibos de la organización.
+          enum:
+            - day
+            - week
+            - fortnight
+            - month
+            - two_months
+          description: |
+            Periodicidad que corresponde al rango de fechas utilizado.
+            Si se omite, se tomará la configuración de recibos de la organización.
         folio_number:
           type: integer
           default: autoincremental
-          description: Número de folio asignado por la empresa para control interno. Si se omite, se asignará el valor autoincremental de la organización.
+          description: |
+            Número de folio asignado por la empresa para control interno.
+            Si se omite, se asignará el valor autoincremental de la organización.
         series:
           type: string
           maxLength: 25
@@ -6359,10 +6641,6 @@ components:
           format: uri
           description: Dirección URL para verificar el estado de la retención en el portal del SAT. Este link es el mismo que aparece en el código QR, en el PDF de la retención.
           example: https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111CBA&tt=345.600000&fe=bWApPw==
-        cancellation_receipt:
-          type: string
-          format: xml
-          description: Si el comprobante fue cancelado, este campo contiene el acuse de recibo de cancelación en formato XML.
         type:
           type: string
           enum:
@@ -6812,23 +7090,26 @@ components:
     OrganizationReceiptsInput:
       type: object
       properties:
-        invoicing_period:
+        periodicity:
           type: string
           default: month
           enum:
             - day
             - week
+            - fortnight
             - month
             - two_months
           description: |
-            Periodicidad con la que la empresa decide realizar una factura global (al público en general) por todos los recibos no facturados.
+            Periodicidad con la que la empresa decide realizar una factura global
+            (al público en general) por todos los recibos no facturados. Este
+            valor se utiliza como default al crear una factura global.
         duration_days:
           type: integer
           default: 7
           description: |
             Días máximos para facturar por medio del portal de autofactura
-            después de emitido el recibo y antes del último día del “Periodo de
-            facturación” (`invoicing_period`). El valor `0` desactiva esta
+            después de emitido el recibo y antes del último día del periodo
+            definido por el atributo `periodicity`. El valor `0` desactiva esta
             opción, haciendo que los recibos expiren siempre el último día del
             periodo.
         next_folio_number:

@@ -34,7 +34,7 @@ const getFeatureList = (baseUrl: string): FeatureItem[] => [
     title: 'Inicio Rápido',
     image: `${baseUrl}img/home/rocket.svg`,
     linkText: 'Ver ejemplos',
-    linkTo: '/docs/started/invoices',
+    linkTo: '/docs/guides/invoices',
     description: (
       <>
         Consulta ejemplos simples de los casos de uso más comunes para darte una idea

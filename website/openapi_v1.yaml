@@ -5256,7 +5256,7 @@ components:
           description: Clave del catálogo del SAT [Riesgo del Puesto](#riesgo-del-puesto).
         periodicidad_pago:
           type: string
-          description: Clave del catálogo del SAT [Periodicidad de Pago](#periodicidad-de-pago).
+          description: Clave del catálogo del SAT [Periodicidad de Pago](#periodicidad-del-pago).
         banco:
           type: string
           description: Clave del banco de acuerdo al catálogo del SAT “Bancos” que puedes consultar utilizando nuestra [herramienta de búsqueda](https://www.facturapi.io/dashboard/catalogs/bank).
@@ -6559,7 +6559,7 @@ components:
         cve_retenc:
           type: string
           example: 26
-          description: Clave de la retención o información de pagos de acuerdo al [catálogo del SAT](#clave-de-retencion).
+          description: Clave de la retención o información de pagos de acuerdo al [catálogo del SAT](#clave-de-retención).
         fecha_exp:
           type: string
           format: date-time
@@ -6776,8 +6776,8 @@ components:
           description: Nombre Fiscal o Razón Social de la organización.
         tax_system:
           type: string
-          maxLength: 2
-          minLength: 2
+          maxLength: 3
+          minLength: 3
           description: Código del Régimen Fiscal, del [catálogo del SAT](#régimen-fiscal).
         website:
           type: string

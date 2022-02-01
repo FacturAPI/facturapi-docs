@@ -1,0 +1,33 @@
+---
+sidebar_position: 1
+---
+
+# Formato de fechas
+
+Aunque nuestra recomendación es enviar un string con la fecha en UTC y en formato
+ISO8601, sabemos que esto no siempre es lo más práctico.
+
+Facturapi acepta fechas como string en cualquiera de las variaciones del formato
+ISO8601. Si tu fecha incluye información sobre la zona horaria ésta se respetará,
+y en caso contrario se interpretará usando la zona horaria de la organización
+emisora, que se deduce a partir del código postal que se haya registrado para
+la organización.
+
+La siguiente tabla muestra a manera resumida cómo Facturapi interpreta las fechas
+enviadas a la API. Los ejemplos consideran que la zona horaria de la organización
+es GMT-06:00, hora del centro de México.
+
+Input | Descripción | Normalizada con zona horaria | Normalizada UTC
+----- | ----------- | ----------------- | ------------------------------
+`2022-01-01T00:00:00.000Z` | Fecha y hora en formato ISO8601. La Z al final indica la zona horaria UTC. | `2021-12-31T18:00:00.000-06:00` | `2022-01-01T00:00:00.000Z`
+`2022-01-01T00:00:00.000-06:00` | Fecha y hora en formato ISO8601 con la misma zona horaria de la organización. | `2022-01-01T00:00:00.000-06:00` | `2022-01-01T06:00:00.000Z`
+`2022-01-01T00:00:00.000-08:00` | Fecha y hora en formato ISO8601 con una zona horaria diferente a la de la organización. | `2022-01-01T02:00:00.000-06:00` | `2022-01-01T08:00:00.000Z`
+`2022-01-01T00:00:00.000` | Fecha y hora en formato ISO8601 sin zona horaria. | `2022-01-01T00:00:00.000-06:00` | `2022-01-01T06:00:00.000Z`
+`2022-01-01` | Fecha en formato `YYYY-MM-DD` | `2022-01-01T00:00:00.000-06:00` | `2022-01-01T06:00:00.000Z`
+
+En los objetos de respuesta, nuestra API siempre devolverá la fecha en formato
+ISO8601 con zona horaria UTC.
+
+En comprobantes, el SAT pide que las fechas se muestren en la zona horaria del emisor,
+por lo que haremos la conversión correspondiente y mostraremos la porción de la fecha
+que se requiera, pudiendo ser ésta sólo la fecha o la fecha y la hora.

@@ -1197,7 +1197,7 @@ paths:
       operationId: createInvoice
       tags:
         - invoice
-      summary: Crear factura (CFDI)
+      summary: Crear factura (CFDI 4.0)
       description: |
         Crea una nueva Factura. Si la factura es creada en ambiente Live, ésta será **timbrada y enviada al SAT**.
       x-codeSamples:
@@ -3523,8 +3523,7 @@ paths:
               -d '{
                     "invoicing_period": "month",
                     "duration_days": 14,
-                    "next_folio_number": 100,
-                    "ask_address": "hidden"
+                    "next_folio_number": 100
                 }'
         - lang: JavaScript
           label: Node.js
@@ -3537,8 +3536,7 @@ paths:
               {
                 invoicing_period: "month",
                 duration_days: 14,
-                next_folio_number: 100,
-                ask_address: 'hidden'
+                next_folio_number: 100
               }
             );
         - lang: csharp
@@ -3552,8 +3550,7 @@ paths:
               {
                 ["invoicing_period"] = "month",
                 ["duration_days"] = 14,
-                ["next_folio_number"] = 100,
-                ["ask_address"] = "hidden"
+                ["next_folio_number"] = 100
               }
             );
         - lang: PHP
@@ -3565,8 +3562,7 @@ paths:
               [
                 "invoicing_period" => "month",
                 "duration_days" => 14,
-                "next_folio_number" => 100,
-                "ask_address" => "hidden"
+                "next_folio_number" => 100
               ]
             );
       parameters:
@@ -3612,7 +3608,7 @@ paths:
           label: Node.js
           source: |
             const Facturapi = require('facturapi');
-            const facturapi = new Facturapi('sk_test_API_KEY');
+            const facturapi = new Facturapi('sk_user_API_KEY');
 
             const organization = await facturapi.organizations.checkDomainIsAvailable({
               domain: 'empresa-demo'
@@ -3620,7 +3616,7 @@ paths:
         - lang: csharp
           label: C#
           source: |
-            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
             var organization = await facturapi.Organization.CheckDomainIsAvailableAsync(
               new Dictionary<string, object>
               {
@@ -3629,7 +3625,7 @@ paths:
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi( "sk_user_API_KEY" );
             $organization = $facturapi->Organizations->checkDomainIsAvailable(
               ["domain" => "empresa-demo"]
             );
@@ -3757,20 +3753,20 @@ paths:
           label: Node.js
           source: |
             const Facturapi = require('facturapi');
-            const facturapi = new Facturapi('sk_test_API_KEY');
+            const facturapi = new Facturapi('sk_user_API_KEY');
             const organization = await facturapi.organizations.retrieve(
               '5a2a307be93a2f00129ea035'
             );
         - lang: csharp
           label: C#
           source: |
-            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
             var organization = await facturapi.Organization.RetrieveAsync(
               "5a2a307be93a2f00129ea035"
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi( "sk_user_API_KEY" );
             $organization = $facturapi->Organizations->retrieve("5a2a307be93a2f00129ea035");
       parameters:
         - in: path
@@ -3853,39 +3849,39 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "500":
           $ref: "#/components/responses/UnexpectedError"
-  /organizations/{organization_id}/apikeys:
+  /organizations/{organization_id}/apikeys/test:
     get:
-      operationId: getOrganizationApiKeys
+      operationId: getTestApiKey
       tags:
         - organization
-      summary: Obtener Api Keys
-      description: Obtiene las llaves secretas de ambiente Test y Live de la organización.
+      summary: Obtener Test Api Key
+      description: Obtiene la llave secreta de ambiente Test de la organización.
       x-codeSamples:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/apikeys \
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/apikeys/test \
               -H "Authorization: Bearer sk_user_API_KEY"
         - lang: JavaScript
           label: Node.js
           source: |
             const Facturapi = require('facturapi');
-            const facturapi = new Facturapi('sk_test_API_KEY');
+            const facturapi = new Facturapi('sk_user_API_KEY');
 
-            const apiKeys = await facturapi.organizations.getApiKeys(
+            const apiKeys = await facturapi.organizations.getTestApiKey(
               '5a2a307be93a2f00129ea035'
             );
         - lang: csharp
           label: C#
           source: |
-            var facturapi = new FacturapiClient("sk_test_API_KEY");
-            var apiKeys = await facturapi.Organization.GetApiKeysAsync(
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var apiKeys = await facturapi.Organization.GetTestApiKeyAsync(
               "5a2a307be93a2f00129ea035"
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
-            $organization = $facturapi->Organizations->getApiKeys(
+            $facturapi = new Facturapi( "sk_user_API_KEY" );
+            $organization = $facturapi->Organizations->getTestApiKey(
               "5a2a307be93a2f00129ea035"
             );
       parameters:
@@ -3899,11 +3895,129 @@ paths:
         - "Secret User Key": []
       responses:
         "200":
-          description: Objeto `Organization`
+          description: Test API Key
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OrganizationApiKeys"
+                type: string
+                example: sk_test_API_KEY
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    put:
+      operationId: renewTestApiKey
+      tags:
+        - organization
+      summary: Renovar Test Api Key
+      description: Renueva la llave secreta de ambiente Test de la organización e invalida inmediatamente la anterior.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/apikeys/test \
+              -X PUT \
+              -H "Authorization: Bearer sk_user_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_user_API_KEY');
+
+            const newTestApiKey = await facturapi.organizations.renewTestApiKey(
+              '5a2a307be93a2f00129ea035'
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var newTestApiKey = await facturapi.Organization.RenewTestApiKeyAsync(
+              "5a2a307be93a2f00129ea035"
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_user_API_KEY" );
+            $new_test_api_key = $facturapi->Organizations->renewTestApiKey(
+              "5a2a307be93a2f00129ea035"
+            );
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+      security:
+        - "Secret User Key": []
+      responses:
+        "200":
+          description: Test API Key
+          content:
+            application/json:
+              schema:
+                type: string
+                example: sk_test_API_KEY
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/apikeys/live:
+    put:
+      operationId: renewLiveApiKey
+      tags:
+        - organization
+      summary: Renovar Live Api Key
+      description: Renueva la llave secreta de ambiente Live de la organización e invalida inmediatamente la anterior.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/apikeys/live \
+              -X PUT \
+              -H "Authorization: Bearer sk_user_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_user_API_KEY');
+
+            const newLiveApiKey = await facturapi.organizations.renewLiveApiKey(
+              '5a2a307be93a2f00129ea035'
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var newLiveApiKey = await facturapi.Organization.RenewLiveApiKeyAsync(
+              "5a2a307be93a2f00129ea035"
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_user_API_KEY" );
+            $new_live_api_key = $facturapi->Organizations->renewLiveApiKey(
+              "5a2a307be93a2f00129ea035"
+            );
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+      security:
+        - "Secret User Key": []
+      responses:
+        "200":
+          description: Live API Key
+          content:
+            application/json:
+              schema:
+                type: string
+                example: sk_live_API_KEY
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -4786,6 +4900,10 @@ components:
           description: Objeto con información de las partes de la factura.
     ThirdParty:
       type: object
+      description: |
+        Objeto con información del contribuyente tercero, a cuenta del que se realiza la operación.
+
+        Corresponde al campo "ACuentaTerceros" en el CFDI.
       properties:
         legal_name:
           type: string
@@ -4794,9 +4912,11 @@ components:
         tax_id:
           type: string
           description: RFC del tercero.
-          example: "STA920101HN7"
+          example: "MIC920101HN7"
         tax_system:
           type: string
+          maxLength: 3
+          minLength: 3
           description: Régimen fiscal del tercero.
           example: "601"
         zip:
@@ -4899,6 +5019,8 @@ components:
               example: "STA920101HN7"
             tax_system:
               type: string
+              maxLength: 3
+              minLength: 3
               description: Régimen fiscal del tercero.
               example: "601"
             zip:
@@ -4927,7 +5049,6 @@ components:
             - type
             - data
         - $ref: "#/components/schemas/CustomComplementProperties"
-
     NominaComplementDataInput:
       title: NominaComplementData
       description: Objeto con la información del complemento de nómina.
@@ -5401,7 +5522,7 @@ components:
           description: Clave del catálogo del SAT [Riesgo del Puesto](#riesgo-del-puesto).
         periodicidad_pago:
           type: string
-          description: Clave del catálogo del SAT [Periodicidad de Pago](#periodicidad-de-pago).
+          description: Clave del catálogo del SAT [Periodicidad de Pago](#periodicidad-del-pago).
         banco:
           type: string
           description: Clave del banco de acuerdo al catálogo del SAT “Bancos” que puedes consultar utilizando nuestra [herramienta de búsqueda](https://www.facturapi.io/dashboard/catalogs/bank).
@@ -5490,6 +5611,61 @@ components:
               type: number
               description: |
                 Inporte de recursos propios. Requerido cuando el origen del recurso es por ingresos mixtos.
+
+    PagoOrCustomComplementProperties:
+      title: Complement
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          pago: "#/components/schemas/PagoComplementProperties"
+          custom: "#/components/schemas/CustomComplementProperties"
+      properties:
+        type:
+          type: string
+          enum:
+            - pago
+            - custom
+          description: Tipo de complemento.
+
+    PagoOrCustomComplementInput:
+      type: object
+      title: Complement
+      discriminator:
+        propertyName: type
+        mapping:
+          pago: "#/components/schemas/PagoComplementInput"
+          custom: "#/components/schemas/CustomComplementInput"
+      required:
+        - type
+        - data
+      properties:
+        type:
+          type: string
+          enum:
+            - nomina
+            - custom
+          description: Tipo de complemento.
+    PagoComplementProperties:
+      allOf:
+        - $ref: "#/components/schemas/NominaOrCustomComplementProperties"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/NominaComplementDataProperties"
+    PagoComplementInput:
+      allOf:
+        - $ref: "#/components/schemas/PagoOrCustomComplementInput"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/PagoComplementDataInput"
+    PagoComplementDataInput:
+      type: array
+      title: PagoComplementData
+      description: Pagos a incluir en este comprobante. Lo más común es incluir un sólo pago. Un caso en el que se debe de agregar más de uno es cuando el pago se realiza con 2 formas de pago distintas; por ejemplo, cuando se paga una parte con tarjeta y otra en efectivo.
+      items:
+        $ref: "#/components/schemas/PaymentInput"
 
     NominaOrCustomComplementProperties:
       title: Complement
@@ -5644,7 +5820,9 @@ components:
           description: En clientes de México contiene el RFC del cliente. Para extranjeros es opcional y representa el número de registro de identificacón tributaria, es decir, el equivalente al RFC en el país del cliente.
         tax_system:
           type: string
-          example: 06
+          example: "601"
+          maxLength: 3
+          minLength: 3
           description: Requerido para clientes nacionales. Clave del régimen fiscal del cliente.
         email:
           type: string
@@ -5812,9 +5990,22 @@ components:
           type: boolean
           default: true
           description: |
-            `true`: Indica que todos los impuestos aplicables están incluídos en el precio (atributo price) y se desglosarán automáticamente al emitir la factura.
+            - `true`: Indica que todos los impuestos aplicables están incluídos en el precio (atributo price) y se desglosarán automáticamente al emitir la factura.
+            - `false`: Indica que el atributo price no incluye impuestos, por lo que aquellos impuestos a aplicar se sumarán en el precio final.
+        taxability:
+          type: string
+          default: |
+            '01' si el array `taxes` está vacío; '02' si el array `taxes` tiene por lo menos un elemento.
+          enum:
+            - "01"
+            - "02"
+            - "03"
+          description: |
+            Código que representa si el bien o servicio es objeto de impuesto o no. Este atributo corresponde al campo "ObjetoImp" en el CFDI.
 
-            `false`: Indica que el atributo price no incluye impuestos, por lo que aquellos impuestos a aplicar se sumarán en el precio final.
+            - `01`: No objeto de impuesto.
+            - `02`: Sí objeto de impuesto.
+            - `03`: Sí objeto de impuesto, pero no obligado a desglose.
         taxes:
           type: array
           default: IVA trasladado 16%
@@ -5832,7 +6023,7 @@ components:
           default: H87
           description: |
             Clave de unidad de medida, del catálogo del SAT. El valor por default `"H87"` (elemento) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc).
-            Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, te proporcionamos una manera conveniente de encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+            Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
         unit_name:
           type: string
           default: Elemento
@@ -5847,6 +6038,11 @@ components:
           type: string
           description: Resumen de la operación en una sola descripción. Deben mencionarse cada uno de los productos que contempla el descuento, devolución o bonificación aplicada y que contienen las facturas relacionadas. Si el egreso está basado en un pocentaje (como al aplicar un 30% de descuento), dicho porcentaje debe incluirse en la descripción junto al nombre del producto que corresponda.
           example: Ukelele
+        product_key:
+          type: string
+          default: 84111506
+          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+          example: 84111506
         price:
           type: number
           description: Suma total de la cantidad devuelta, descontada o bonificada.
@@ -5855,9 +6051,21 @@ components:
           type: boolean
           default: true
           description: |
-            `true`: Indica que todos los impuestos aplicables están incluídos en el precio (atributo price) y se desglosarán automáticamente al emitir la factura.
+            - `true`: Indica que todos los impuestos aplicables están incluídos en el precio (atributo price) y se desglosarán automáticamente al emitir la factura.
+            - `false`: Indica que el atributo price no incluye impuestos, por lo que aquellos impuestos a aplicar se sumarán en el precio final.
+        taxability:
+          type: string
+          default: "02"
+          enum:
+            - "01"
+            - "02"
+            - "03"
+          description: |
+            Código que representa si el bien o servicio es objeto de impuesto o no. Este atributo corresponde al campo "ObjetoImp" en el CFDI.
 
-            `false`: Indica que el atributo price no incluye impuestos, por lo que aquellos impuestos a aplicar se sumarán en el precio final.
+            - `01`: No objeto de impuesto.
+            - `02`: Sí objeto de impuesto.
+            - `03`: Sí objeto de impuesto, pero no obligado a desglose.
         taxes:
           type: array
           default: IVA trasladado 16%
@@ -5870,17 +6078,27 @@ components:
           default: []
           items:
             $ref: "#/components/schemas/LocalTax"
+        unit_key:
+          type: string
+          default: ACT
+          description: |
+            Clave de unidad de medida, del catálogo del SAT.
+            Puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+        unit_name:
+          type: string
+          default: Actividad
+          description: Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.
     PaymentInput:
       title: Payment
       required:
         - payment_form
-        - related
+        - related_documents
       type: object
       properties:
         payment_form:
           type: string
           description: Código de la forma de pago según el [catálogo del SAT](#forma-de-pago). También puedes utilizar la constante `PaymentForm` incluída en nuestras librerías.
-        related:
+        related_documents:
           type: array
           description: Arreglo que incluye un elemento por cada comprobante de ingreso relacionado a este pago. Lo más común es que el pago esté relacionado a un sólo comprobante de ingreso. Un caso en el que se agrega más de un elemento es cuando se recibe (por ejemplo) un sólo depósito que ampara el pago de 2 facturas relacionadas. En lugar de expedir un comprobante de recepción de pago por cada factura, debes expedir sólo uno relacionando los 2 comprobantes.
           items:
@@ -5888,6 +6106,7 @@ components:
             required:
               - uuid
               - amount
+              - taxes
               - installment
               - last_balance
             properties:
@@ -5898,6 +6117,58 @@ components:
               amount:
                 type: number
                 description: Cantidad del pago correspondiente al comprobante relacionado, usando el método de pago indicado en este elemento del arreglo `payments`. Este valor debe ser expresado en la moneda definida en `payments[].currency`.
+              taxes:
+                type: object
+                description: |
+                  Arreglo con impuestos del documento relacionado que aplican al pago realizado.
+                required:
+                  - base
+                  - type
+                  - rate
+                properties:
+                  base:
+                    type: number
+                    description: |
+                      Base utilizada para el cálculo del impuestos.
+                  type:
+                    type: string
+                    enum:
+                      - IVA
+                      - ISR
+                      - IEPS
+                    description: |
+                      Tipo de impuesto.
+                  rate:
+                    type: number
+                    example: 0.16
+                    description: |
+                      Tasa o cuota del impuesto
+                  factor:
+                    type: string
+                    default: Tasa
+                    enum:
+                      - Tasa
+                      - Cuota   
+                      - Exento
+                    description: Tipo factor.
+                  withholding:
+                    type: boolean
+                    default: false
+                    description: Indica si el impuesto es una retención (`true`) o un traslado (`false`).
+              taxability:
+                type: string
+                default: |
+                  '01' si el array `taxes` está vacío; '02' si el array `taxes` tiene por lo menos un elemento.
+                enum:
+                  - "01"
+                  - "02"
+                  - "03"
+                description: |
+                  Código que representa si el bien o servicio es objeto de impuesto o no. Este atributo corresponde al campo "ObjetoImp" en el CFDI.
+
+                  - `01`: No objeto de impuesto.
+                  - `02`: Sí objeto de impuesto.
+                  - `03`: Sí objeto de impuesto, pero no obligado a desglose.
               installment:
                 type: integer
                 description: Número de parcialidad del pago.
@@ -5955,7 +6226,11 @@ components:
           description: Número de cuenta donde se recibió el pago.
         tipoCadPago:
           type: string
-          description: Clave del tipo de cadena de pago que genera la entidad receptora del pago. Si existe este campo, es obligatorio registrar los campos `certPago`, `cadPago` y `selloPago`.
+          enum:
+            - 01
+          description: |
+            Clave del tipo de cadena de pago que genera la entidad receptora del pago.
+            Si existe este campo, es obligatorio registrar los campos `certPago`, `cadPago` y `selloPago`.
         certPago:
           type: string
           format: base64
@@ -5992,7 +6267,25 @@ components:
               format: ISO 3166-1 alpha-3
               description: Código de País acorde al estándar ISO 3166-1 alpha-3, del Catálogo de Países.
               example: MEX
-
+    RelatedDocumentInput:
+      allOf:
+        - type: object
+          required:
+            - relationship
+            - related
+        - $ref: '#/components/schemas/RelatedDocument'
+    RelatedDocument:
+      type: object
+      properties:
+        relationship:
+          type: string
+          description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#relacion-entre-facturas)). Es requerido cuando se envíe el parámetro `related`.
+        documents:
+          type: array
+          default: []
+          items:
+            type: string
+          description: Folios fiscales (UUID) de facturas relacionadas.
     Invoice:
       title: Objeto Invoice
       allOf:
@@ -6085,15 +6378,11 @@ components:
           description: Conceptos incluidos en el documento
           items:
             $ref: "#/components/schemas/LineItem"
-        related:
+        related_documents:
           type: array
+          description: Documentos relacionados con la factura.
           items:
-            type: string
-            format: uuid
-          description: Folios fiscales de los CFDIs relacionados.
-        relation:
-          type: string
-          description: Clave de relación del catálogo del SAT.
+            $ref: "#/components/schemas/RelatedDocument"
         currency:
           type: string
           example: MXN
@@ -6234,16 +6523,12 @@ components:
               minLength: 1
               maxLength: 1000
               description: Condiciones de pago
-            related:
+            related_documents:
               type: array
+              description: Documentos relacionados con la factura.
               default: []
               items:
-                type: string
-              description: Folios fiscales (UUID) de facturas relacionadas.
-            relation:
-              type: string
-              nullable: true
-              description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#relacion-entre-facturas)). Es requerido cuando se envíe el parámetro `related`.
+                $ref: "#/components/schemas/RelatedDocumentInput"
             global:
               type: object
               nullable: true
@@ -6258,31 +6543,42 @@ components:
                   type: string
                   nullable: true
                   description: |
-                    Periodicidad .
+                    Periodicidad que abarca la factura global.
 
                     - `day`: Diario
                     - `week`: Semanal
-                    - `month`: Mensual
                     - `fortnight`: Quincenal
-                    - `year`: Anual
-                    - `two_years`: Bimestral
+                    - `month`: Mensual
+                    - `two_months`: Bimestral
                   enum:
                     - day
                     - week
-                    - month
                     - fortnight
-                    - year
-                    - two_years
+                    - month
+                    - two_months
                 months:
                   type: string
                   description: |
                     Clave que representa el mes o bimestre de la factura. Consulta
                     los posibles valores en el [catálogo de Meses y Bimestres](#meses-y-bimestres).
-                  example: 01
+                  example: "01"
                 year:
                   type: integer
                   description: Año de la factura.
                   example: 2022
+            export:
+              type: string
+              default: "01"
+              enum:
+                - "01"
+                - "02"
+                - "03"
+              description: |
+                Indica si el comprobante ampara una operación de exportación.
+
+                - `01`: No aplica
+                - `02`: Definitiva
+                - `03`: Temporal
             complements:
               type: array
               default: []
@@ -6310,16 +6606,12 @@ components:
               minLength: 2
               maxLength: 2
               description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
-            related:
+            related_documents:
               type: array
+              description: Documentos relacionados con la factura.
               default: []
               items:
-                type: string
-              description: Folios fiscales (UUID) de facturas relacionadas.
-            relation:
-              type: string
-              default: 01
-              description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#relacion-entre-facturas)).
+                $ref: "#/components/schemas/RelatedDocumentInput"
             items:
               type: array
               description: Conceptos a incluir en la factura.
@@ -6346,34 +6638,25 @@ components:
         - type: object
           required:
             - type
-            - payments
             - customer
+            - complements
           properties:
             type:
               type: string
               enum:
                 - P
-            payments:
+            related_documents:
               type: array
-              description: Pagos a incluir en este comprobante. Lo más común es incluir un sólo pago. Un caso en el que se debe de agregar más de uno es cuando el pago se realiza con 2 formas de pago distintas; por ejemplo, cuando se paga una parte con tarjeta y otra en efectivo.
-              items:
-                $ref: "#/components/schemas/PaymentInput"
-            related:
-              type: array
+              description: Documentos relacionados con la factura.
               default: []
               items:
-                type: string
-              description: Folios fiscales (UUID) de facturas relacionadas.
-            relation:
-              type: string
-              nullable: true
-              description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#relacion-entre-facturas)).
+                $ref: "#/components/schemas/RelatedDocumentInput"
             complements:
               type: array
               default: []
               items:
-                $ref: "#/components/schemas/CustomComplementInput"
-              description: Complementos a incluir en la factura. Puedes incluir cualquier complemento en la factura si tú mismo construyes el nodo XML del complemento y usas el tipo `custom`. No olvides que **es necesario agregar el prefijo y las URLs necesarias usando el parámetro `namespaces`**. También recuerda agregar la información del complemento al PDF usando el parámetro `pdf_custom_section`.
+                $ref: "#/components/schemas/PagoOrCustomComplementInput"
+              description: Complementos a incluir en la factura.
         - $ref: "#/components/schemas/InvoiceCommonInputProperties"
     InvoiceNominaInput:
       title: Nómina
@@ -6381,8 +6664,8 @@ components:
         - type: object
           required:
             - type
-            - complements
             - customer
+            - complements
           properties:
             type:
               type: string
@@ -6394,16 +6677,12 @@ components:
               items:
                 $ref: "#/components/schemas/NominaOrCustomComplementInput"
               description: Complementos a incluir en la factura.
-            related:
+            related_documents:
               type: array
+              description: Documentos relacionados con la factura.
               default: []
               items:
-                type: string
-              description: Folios fiscales (UUID) de facturas relacionadas.
-            relation:
-              type: string
-              nullable: true
-              description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#relacion-entre-facturas)).
+                $ref: "#/components/schemas/RelatedDocumentInput"
         - $ref: "#/components/schemas/InvoiceCommonInputProperties"
     InvoiceTrasladoInput:
       title: Traslado
@@ -6441,16 +6720,12 @@ components:
               type: number
               default: 1
               description: Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos (MXN) que equivalen a una unidad de la divisa señalada en el atributo `currency`.
-            related:
+            related_documents:
               type: array
+              description: Documentos relacionados con la factura.
               default: []
               items:
-                type: string
-              description: Folios fiscales (UUID) de facturas relacionadas.
-            relation:
-              type: string
-              nullable: true
-              description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#relacion-entre-facturas)).
+                $ref: "#/components/schemas/RelatedDocumentInput"
         - $ref: "#/components/schemas/InvoiceCommonInputProperties"
 
     Receipt:
@@ -6579,8 +6854,9 @@ components:
       properties:
         from:
           type: string
-          format: date-time
+          format: date
           default: Inicio del último periodo
+          example: 2022-01-01T00:00:00.000
           description: |
             Fecha inicial de los recibos que se incluirán en la factura global.
             Por default, este valor es el inicio del último periodo (día, semana,
@@ -6588,8 +6864,9 @@ components:
             en la configuración de recibos de tu organización.
         to:
           type: string
-          format: date-time
+          format: date
           default: Fin del último periodo
+          example: 2022-31-01T23:59:59.999
           description: |
             Fecha final de los recibos que se incluirán en la factura global.
             Por default, este valor es el fin del último periodo (día, semana,
@@ -6607,6 +6884,13 @@ components:
           description: |
             Periodicidad que corresponde al rango de fechas utilizado.
             Si se omite, se tomará la configuración de recibos de la organización.
+        months:
+          type: string
+          default: Mes contenido en el rango de fechas utilizado.
+          description: |
+            Clave que representa el mes o bimestre de la factura. Consulta
+            los posibles valores en el [catálogo de Meses y Bimestres](#meses-y-bimestres).
+          example: "01"
         folio_number:
           type: integer
           default: autoincremental
@@ -6717,7 +7001,7 @@ components:
               items:
                 type: object
                 properties:
-                  base_ret:
+                  base:
                     type: number
                     minimum: 0
                     description: Base del impuesto retenido.
@@ -6728,15 +7012,22 @@ components:
                       - ISR
                     example: IVA
                     description: Clave del tipo de impuesto retenido, del catálogo del SAT.
-                  monto_ret:
+                  monto:
                     type: number
                     minimum: 0
                     description: Importe del impuesto retenido
-                  pago_provisional:
-                    type: boolean
+                  tipo_pago:
+                    type: string
+                    enum:
+                      - 01
+                      - 02
+                      - 03
+                      - 04
                     description: |
-                      - `true`: Pago provisional
-                      - `false`: Pago definitivo
+                      - `01`: Pago definitivo IVA
+                      - `02`: Pago definitivo IEPS
+                      - `03`: Pago definitivo ISR Plataformas
+                      - `04`: Pago provisional ISR
         external_id:
           type: string
           description: Identificador opcional que puedes usar para relacionar esta retención con tus registros y poder hacer búsquedas usando este identificador. Facturapi no valida que este campo sea único.
@@ -6855,6 +7146,9 @@ components:
                 - monto_ret
               items:
                 type: object
+                required:
+                  - monto_ret
+                  - tipo_pago
                 properties:
                   base_ret:
                     type: number
@@ -6871,11 +7165,18 @@ components:
                     type: number
                     minimum: 0
                     description: Importe del impuesto retenido
-                  pago_provisional:
-                    type: boolean
+                  tipo_pago:
+                    type: string
+                    enum:
+                      - 01
+                      - 02
+                      - 03
+                      - 04
                     description: |
-                      - `true`: Pago provisional
-                      - `false`: Pago definitivo
+                      - `01`: Pago definitivo IVA
+                      - `02`: Pago definitivo IEPS
+                      - `03`: Pago definitivo ISR Plataformas
+                      - `04`: Pago provisional ISR
         external_id:
           type: string
           description: Identificador opcional que puedes usar para relacionar esta retención con tus registros y poder hacer búsquedas usando este identificador. Facturapi no valida que este campo sea único.
@@ -6964,6 +7265,9 @@ components:
               description: Nombre Fiscal o Razón Social de la organización.
             tax_system:
               type: string
+              example: "601"
+              maxLength: 3
+              minLength: 3
               description: Código de Régimen Fiscal, del [catálogo del SAT](#tipo-de-régimen).
             website:
               type: string
@@ -7004,8 +7308,9 @@ components:
           description: Nombre Fiscal o Razón Social de la organización.
         tax_system:
           type: string
-          maxLength: 2
-          minLength: 2
+          maxLength: 3
+          minLength: 3
+          example: "601"
           description: Código del Régimen Fiscal, del [catálogo del SAT](#régimen-fiscal).
         website:
           type: string
@@ -7118,18 +7423,6 @@ components:
         next_folio_number_test:
           type: integer
           description: Número de folio que se asignará al siguiente recibo creado en esta organización en ambiente Test.
-        ask_address:
-          type: string
-          enum:
-            - optional
-            - hidden
-            - required
-          default: optional
-          description: |
-            Opción que define si se le debe pedir el domicilio al usuario en el sitio de autofactura. Puede tener los siguientes valores:
-            - `optional`: El usuario tendrá la opción de agregar su domicilio si así lo desea, pero no será obligatorio.
-            - `hidden`: El usuario no tendrá la opción de agregar su domicilio.
-            - `required`: El usuario deberá llenar la información sobre su domicilio para crear su factura.
     DomainField:
       type: string
       maxLength: 50
@@ -7146,15 +7439,6 @@ components:
       properties:
         domain:
           $ref: "#/components/schemas/DomainField"
-    OrganizationApiKeys:
-      type: object
-      properties:
-        live_key:
-          type: string
-          description: Llave secreta para crear recursos para la organización en ambiente Live
-        test_key:
-          type: string
-          description: Llave secreta para crear recursos para la organización en ambiente Test
   securitySchemes:
     "Secret Live Key":
       type: http

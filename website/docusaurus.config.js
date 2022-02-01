@@ -40,14 +40,12 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
         "redocusaurus",
         {
           specs: [
-            // {
-            //   routePath: "/api",
-            //   spec: 'openapi_v2.yaml',
-            // },
-            // {
-            //   routePath: "/api_v1",
             {
               routePath: "/api",
+              spec: 'openapi_v2.yaml',
+            },
+            {
+              routePath: "/api_v1",
               spec: "openapi_v1.yaml",
             },
           ],
@@ -77,18 +75,18 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
               docId: "intro",
               label: "Docs",
             },
-            // {
-            //   type: 'dropdown',
-            //   label: 'API',
-            //   items: [
-            //     { href: '/api', label: 'v2 (CFDI v4.0)' },
-            //     { href: '/api_v1', label: 'v1 (CFDI v3.3)' },
-            //   ]
-            // },
             {
-              href: "/api",
-              label: "API",
+              type: 'dropdown',
+              label: 'API',
+              items: [
+                { href: '/api', label: 'v2 (CFDI v4.0)' },
+                { href: '/api_v1', label: 'v1 (CFDI v3.3)' },
+              ]
             },
+            // {
+            //   href: "/api",
+            //   label: "API",
+            // },
             {
               href: "https://github.com/facturapi",
               label: "GitHub",

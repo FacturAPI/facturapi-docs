@@ -26,7 +26,11 @@ curl https://www.facturapi.io/v1/customers \
   -d '{
       "legal_name": "Juan Perez",
       "email": "juan@example.com",
-      "tax_id": "ABCD111111CBA"
+      "tax_id": "ABCD111111CBA",
+      "tax_system": "601",
+      "address": {
+        "zip": "85900"
+      }
     }'
 
 # Para clientes extranjeros.
@@ -54,6 +58,7 @@ const customer = await facturapi.customers.create({
   legal_name: 'Dunder Mifflin S.A. de C.V.', // Razón social
   email: 'email@example.com',
   tax_id: 'ABCD101010XYZ', // RFC
+  tax_system: '601', // Regimen fiscal
   address: {
     zip: '44940',
     street: 'Sunset Blvd'
@@ -71,6 +76,7 @@ var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, objec
   ["legal_name"] = "Dunder Mifflin S.A. de C.V.",
   ["email"] = "email@example.com",
   ["tax_id"] = "ABCD101010XYZ",
+  ["tax_system"] = "601",
   ["address"] = new Dictionary<string, object>
   {
     ["zip"] = "44940",
@@ -87,6 +93,7 @@ $customer = array(
   "email" => "walterwhite@gmail.com", //Optional but useful
   "legal_name" => "Walter White", // Razón social
   "tax_id" => "WIWA761018", //RFC
+  "tax_system" => "601", // Regimen fiscal
   "address" => array(
     "zip" => "06800",
     "street" => "Av. de los Rosales"

@@ -34,7 +34,11 @@ curl https://www.facturapi.io/v1/invoices \
     "customer": {
       "legal_name": "Dunder Mifflin S.A. de C.V.",
       "email": "email@example.com",
-      "tax_id": "ABCD111111CBA"
+      "tax_id": "ABCD111111CBA",
+      "tax_system": "601",
+      "address": {
+        "zip": "85900"
+      }
     },
     "items": [{
       "quantity": 2,
@@ -44,6 +48,7 @@ curl https://www.facturapi.io/v1/invoices \
         "price": 345.60
       }
     }],
+    "use": "G01",
     "payment_form": "06"
   }'
 ```
@@ -59,7 +64,11 @@ const invoice = await facturapi.invoices.create({
   customer: {
     legal_name: 'Dunder Mifflin S.A. de C.V.',
     email: 'email@example.com',
-    tax_id: 'ABCD111111CBA'
+    tax_id: 'ABCD111111CBA',
+    tax_system: '601',
+    address: {
+      zip: '85900'
+    }
   },
   items: [{
     product: {
@@ -68,6 +77,7 @@ const invoice = await facturapi.invoices.create({
       price: 345.60
     }
   }],
+  use: 'G01',
   payment_form: Facturapi.PaymentForm.DINERO_ELECTRONICO
 });
 ```
@@ -84,7 +94,12 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
   {
     ["legal_name"] = "Dunder Mifflin S.A. de C.V.",
     ["email"] = "email@example.com",
-    ["tax_id"] = "ABCD111111CBA"
+    ["tax_id"] = "ABCD111111CBA",
+    ["tax_system"] = "601",
+    ["address"] = new Dictionary<string, object>
+    {
+      ["zip"] = "85900"
+    }
   },
   ["items"] = new Dictionary<string, object>[]
   {
@@ -98,6 +113,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
       }
     }
   },
+  ["use"] = "G01",
   ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO
 });
 ```
@@ -108,23 +124,27 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 ```php
 $facturapi = new Facturapi( "sk_test_API_KEY" );
 
-$invoice = $facturapi->Invoices->create(array(
-  "customer" => array(
+$invoice = $facturapi->Invoices->create([
+  "customer" => [
     "legal_name" => "Dunder Mifflin S.A. de C.V.",
     "email" => "email@example.com",
-    "tax_id" => "ABCD111111CBA"
-  ),
-  "items" => array(
-    array(
-      "product" => array(
+    "tax_id" => "ABCD111111CBA",
+    "tax_system" => "601",
+    "address" => [
+      "zip" => "85900"
+    ]
+  ],
+  "items" => [
+    [
+      "product" => [
         "description" => "Ukelele",
         "product_key" => "60131324",
         "price" => 345.60
-      )
-    ),
-  ),
-    "payment_form" => \Facturapi\PaymentForm::EFECTIVO
-));
+      ]
+    ],
+  ],
+  "payment_form" => \Facturapi\PaymentForm::EFECTIVO
+]);
 ```
 
 </TabItem>

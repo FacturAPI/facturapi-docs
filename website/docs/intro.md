@@ -12,16 +12,16 @@ Es ideal para tu aplicación si buscas un servicio flexible y escalable para fac
 
 ## Características soportadas
 
-- **CFDI versión 4.0** (próximamente en Enero de 2022).
-- **CFDI versión 3.3** (la vigente).
+- **CFDI versión 4.0** (vigeste desde Enero de 2022).
+- **CFDI versión 3.3** (soportada hasta el último día de Abril de 2022).
 - Todos los tipos de facturas (CFDI):
   - **Ingreso** (la normal)
   - **Egreso** (conocida como Nota de Crédito)
   - **Pago** (conocida como Complemento de Pago)
   - **Nómina** (conocida como Recibo de Nómina)
   - **Traslado** (incluyendo el complemento Carta Porte)
-- **Comprobante de Retención**. Incluyendo el complemento de Plataformas Tenológicas.
 - Inserta cualquier **complemento** y/o **addenda**.
+- **Comprobante de Retención**. Incluyendo el complemento de Plataformas Tenológicas.
 - **Cancelación** de comprobantes.
 - **MultiRFC**. Registra múltiples organizaciones bajo una misma cuenta y emitie facturas usando distintos RFCs.
 - **Autofactura**. Emite recibos digitales que puedes enviar a tus clientes para que completen los datos de su factura por si mismos en un portal con tu branding.

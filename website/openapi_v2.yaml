@@ -4886,7 +4886,7 @@ components:
       type: object
       properties:
         quantity:
-          type: integer
+          type: number
           description: Cantidad de unidades incluídas del mismo concepto.
           example: 1
         discount:
@@ -4932,7 +4932,7 @@ components:
       description: Conceptos incluidos en el documento
       properties:
         quantity:
-          type: integer
+          type: number
           default: 1
           description: Cantidad de unidades incluídas del mismo concepto.
           example: 1
@@ -4978,7 +4978,7 @@ components:
       description: Conceptos incluidos en el documento
       properties:
         quantity:
-          type: integer
+          type: number
           default: 1
           description: Cantidad de unidades incluídas del mismo concepto.
           example: 1
@@ -5923,7 +5923,7 @@ components:
           type: string
           description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra herramienta de búsqueda de claves.
         quantity:
-          type: integer
+          type: number
           description: Cantidad
           example: 1
         sku:

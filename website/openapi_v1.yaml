@@ -3908,31 +3908,18 @@ paths:
         - tools
       summary: Validar RFC
       description: |
-        Consulta el estado de un RFC en 3 listas distintas:
+        Consulta el estado de un RFC en la lista de **EFOS** (Empresas que
+        Facturan Operaciones Simuladas). Al aparecer en esta lista, el RFC es o
+        fue sospechoso de incurrir en simulación de operaciones fiscales
+        (empresas factureras).
 
-        - **Registro** de RFCs del SAT. Indica que el RFC es correcto y está dado
-          de alta ante el SAT como contribuyente, por lo tanto, el RFC está
-          autorizado para recibir facturas (ser receptor de CFDI).
-        - **LCO**. Lista de Contribuyentes Obligados. Indica que el RFC registró
-          uno o más Certificados de Sello Digital y por lo tanto está
-          autorizado para emitir facturas (ser emisor de CFDI).
-        - **EFOS**. Empresas que Facturan Operaciones Simuladas. Al aparecer en
-          esta lista, el RFC es o fue sospechoso de incurrir en simulación de
-          operaciones fiscales (empresas factureras).
-
-        La respuesta (detallada más abajo) incluye los resultados de las 3
-        validaciones. En cada uno de estos objetos se incluye la propiedad
-        booleana `is_valid`, que Facturapi resuelve interpretando cada respuesta.
+        La respuesta (detallada más abajo) incluye los resultados de esta
+        validación. Se incluye la propiedad
+        booleana `is_valid`, que Facturapi resuelve interpretando la respuesta.
         Un valor de `true` para esta propiedad indica que el RFC no tiene asuntos
         por resolver y está libre de problemas; y lo contrario para `false`.
         Adicionalmente puedes consultar la propiedad data para ver los valores
         en bruto de la consulta al SAT.
-
-        El SAT puede tardar de 24 a 72 horas para actualizar sus listas, por
-        lo tanto recomendamos esperar dicho intervalo de tiempo después de
-        haberte dado de alta en el SAT para aparecer en el Registro de RFC; o
-        después de haber generado tu Certificado de Sello Digital (CSD) para
-        aparecer en la LCO.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -4326,124 +4313,6 @@ components:
     TaxIdValidationResult:
       type: object
       properties:
-        registro:
-          type: object
-          description: Resultado de la validación en el Registro de RFCs del SAT.
-          properties:
-            is_valid:
-              type: boolean
-              example: true
-              description: |
-                Indica que el RFC es válido, es decir, que tiene un formato
-                correcto, y que se encuentra dado de alta como contribuyente en
-                el SAT. `true`: el RFC puede recibir facturas. `false`: el RFC no
-                puede recibir facturas.
-            data:
-              type: object
-              description: |
-                Objeto con el resultado de la búqueda ante el SAT. Toda la
-                información contenida en este objeto proviene del SAT.
-              properties:
-                codigo:
-                  type: string
-                  example: 200
-                  enum:
-                    - 200
-                    - 101
-                    - 102
-                  description: |
-                    Código asignado por el SAT para identificar el resultado de
-                    la respuesta. Posibles valores:
-                    
-                    - `“200”`: RFC encontrado
-                    - `“101”`: El RFC no existe en la lista de RFC inscritos no
-                      cancelados del SAT
-                    - `“102”`: El RFC no cumple con el patrón requerido
-                mensaje:
-                  type: string
-                  description: |
-                    Disponible sólo cuando codigo es distinto a `“200”`. Describe el problema con el RFC.
-                fechaLista:
-                  type: string
-                  format: date
-                  example: 2021-08-03
-                  description: Fecha de actualización de la lista.
-                rfc:
-                  type: string
-                  example: BBA830831LJ2
-                  description: Devuelve el RFC consultado, a manera de confirmación.
-        lco:
-          type: object
-          description: |
-            Resultado de la validación en la Lista de Contribuyentes Obligados
-            del SAT.
-          properties:
-            is_valid:
-              type: boolean
-              example: true
-              description: |
-                Indica si el RFC tiene por lo menos un certificado válido para
-                emitir facturas. `true`: El RFC cuenta con por lo menos un
-                certificado válido. `false`: El RFC no cuenta con certificados
-                válidos para emitir facturas.
-            data:
-              type: object
-              description: |
-                Objeto con el resultado de la búqueda ante el SAT.
-                Toda la información contenida en este objeto
-                proviene del SAT.
-              properties:
-                mensaje:
-                  type: string
-                  description: |
-                    Disponible sólo cuando el RFC no fue encontrado.
-                    Describe la razón del problema.
-                rfc:
-                  type: string
-                  example: BBA830831LJ2
-                  description: |
-                    Devuelve el RFC consultado, a manera de confirmación.
-                lcoItems:
-                  type: array
-                  description: |
-                    Resultados de la búsqueda en la LCO. Se obtiene un resultado
-                    por cada Certificado de Sello Digital que se tenga registrado.
-                  items:
-                    type: object
-                    properties:
-                      numCert:
-                        type: string
-                        example: 00001000000407813773
-                        description: Número de serie del Certificado de Sello Digital (CSD).
-                      estatus:
-                        type: string
-                        enum:
-                          - A
-                          - C
-                          - R
-                        example: A
-                        description: |
-                          Puede tener los siguientes valores:
-
-                          - `“A”`: Activo
-                          - `“C”`: Cancelado
-                          - `“R”`: Revocado
-                      fechaInicio:
-                        type: string
-                        format: YYYY-MM-DD HH:mm:ss
-                        example: 2020-08-15 00:52:13
-                        description: Fecha de inicio de validez del certificado.
-                      fechaFin:
-                        type: string
-                        format: YYYY-MM-DD HH:mm:ss
-                        example: 2024-08-15 00:52:13
-                        description: Fecha final de validez del certificado.
-                      validez:
-                        type: string
-                        example: 2
-                        description: |
-                          Validez de obligaciones. Consulta [esta tabla](#validez-de-obligaciones)
-                          para ver qué implicaciones tienen los distintos valores.
         efos:
           type: object
           description: |

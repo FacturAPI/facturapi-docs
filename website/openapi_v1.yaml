@@ -5905,12 +5905,12 @@ components:
               default: PUE
               enum:
                 - PUE
-                - PDD
+                - PPD
               description: |
                 Código del método de pago según el catálogo del SAT.
 
                 - `PUE`: Pago en Una sola Exhibición
-                - `PDD`: Pago en Parcialidades o Diferido
+                - `PPD`: Pago en Parcialidades o Diferido
             use:
               type: string
               default: G01

@@ -897,6 +897,75 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /customers/{customer_id}/tax-info-validation:
+    get:
+      operationId: validateCustomerTaxInfo
+      tags:
+        - customer
+      summary: Validar información fiscal
+      description: Valida que la información fiscal del cliente coincida con los registros del SAT.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/customers/590ce6c56d04f840aa8438af/tax-info-validation \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const customer = await facturapi.customers.validateTaxInfo('590ce6c56d04f840aa8438af');
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var customer = await facturapi.Customer.ValidateTaxInfoAsync("590ce6c56d04f840aa8438af");
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $customer = $facturapi->Customers->validateTaxInfo( "5a3ee743f508333611ad6b3c" );
+      parameters:
+        - in: path
+          name: customer_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto `Customer` a validar
+      security:
+        - "Secret Live Key": []
+      responses:
+        "200":
+          description: Resultado de la validación
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  is_valid:
+                    type: boolean
+                    description: Indica si la información fiscal del cliente coincide con los registros del SAT
+                    example: true
+                  errors:
+                    type: array
+                    description: Lista de errores encontrados
+                    items:
+                      type: object
+                      properties:
+                        path:
+                          type: string
+                          description: Nombre del campo que no coincide con los registros del SAT
+                          example: tax_system
+                        message:
+                          type: string
+                          description: Mensaje de error
+                          example: El RégimenFiscal no coincide con el registrado para el RFC en la lista de contribuyentes obligados del SAT.
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
   /products:
     post:
       operationId: createProduct

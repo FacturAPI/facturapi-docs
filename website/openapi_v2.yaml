@@ -538,7 +538,12 @@ paths:
       description: |
         Registra un nuevo cliente en Facturapi.
 
-        Puedes usar el ID de un cliente para crear facturas sin tener que enviar todos los datos fiscales cada vez.
+        Puedes guardar el ID del cliente y usarlo para crear facturas sin tener
+        que enviar todos los datos fiscales.
+
+        Al guardar al cliente, validamos que los datos fiscales coincidan con
+        los registros del SAT para ese RFC, de lo contrario, la llamada
+        devolverá un error indicando el problema.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -549,7 +554,11 @@ paths:
               -d '{
                     "legal_name": "Dunder Mifflin S.A. de C.V.",
                     "email": "email@example.com",
-                    "tax_id": "ABCD111111CBA"
+                    "tax_id": "ABCD111111CBA",
+                    "tax_system": "601",
+                    "address": {
+                      "zip": "01234"
+                    }
                   }'
         - lang: JavaScript
           label: Node.js
@@ -559,7 +568,11 @@ paths:
             const customer = await facturapi.customers.create({
               legal_name: 'Dunder Mifflin S.A. de C.V.',
               email: 'email@example.com',
-              tax_id: 'ABCD101010XYZ'
+              tax_id: 'ABCD101010XYZ',
+              tax_system: '601',
+              address: {
+                zip: '01234'
+              }
             });
         - lang: csharp
           label: C#
@@ -569,7 +582,12 @@ paths:
             {
               ["legal_name"] = "Dunder Mifflin S.A. de C.V.",
               ["email"] = "email@example.com",
-              ["tax_id"] = "ABCD101010XYZ"
+              ["tax_id"] = "ABCD101010XYZ",
+              ["tax_system"] = "601",
+              ["address"] = new Dictionary<string, object>
+              {
+                ["zip"] = "01234"
+              }
             });
         - lang: PHP
           source: |
@@ -577,7 +595,11 @@ paths:
             $customer = $facturapi->Customers->create([
               "email" => "email@example.com",
               "legal_name" => "Dunder Mifflin S.A. de C.V.",
-              "tax_id" => "ABCD101010XYZ"
+              "tax_id" => "ABCD101010XYZ",
+              "tax_system" => "601",
+              "address" => [
+                "zip" => "01234"
+              ]
             ]);
       requestBody:
         $ref: "#/components/requestBodies/CustomerCreate"

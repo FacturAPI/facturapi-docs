@@ -1660,7 +1660,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d?motive=02 \
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d?motive=02 \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -X DELETE
         - lang: JavaScript

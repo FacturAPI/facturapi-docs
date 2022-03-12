@@ -6996,7 +6996,7 @@ components:
                     type: number
                     minimum: 0
                     description: Importe del impuesto retenido
-                  tipo_pago:
+                  tipo_pago_ret:
                     type: string
                     enum:
                       - 01

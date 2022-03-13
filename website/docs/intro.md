@@ -12,7 +12,7 @@ Es ideal para tu aplicación si buscas un servicio flexible y escalable para fac
 
 ## Características soportadas
 
-- **CFDI versión 4.0** (vigeste desde Enero de 2022).
+- **CFDI versión 4.0** (vigente desde Enero de 2022).
 - **CFDI versión 3.3** (soportada hasta el último día de Abril de 2022).
 - Todos los tipos de facturas (CFDI):
   - **Ingreso** (la normal)

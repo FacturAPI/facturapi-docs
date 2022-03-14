@@ -6313,6 +6313,21 @@ components:
           format: uri
           description: Dirección URL para verificar el estado del CFDI en el portal del SAT. Este link es el mismo que aparece en el código QR, en el PDF de la factura.
           example: https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111CBA&tt=345.600000&fe=bWApPw==
+        date:
+          type: string
+          format: date-time
+          default: now
+          description: Fecha de expedición del comprobante en formato ISO8601 (UTC String).
+        address:
+          allOf:
+            - $ref: "#/components/schemas/CommonAddressProperties"
+            - type: object
+              description: Domicilio de expedición de la factura.
+              properties:
+                state:
+                  type: string
+                  description: Nombre del Estado o Entidad Federativa.
+                  example: Sonora
         cancellation_receipt:
           type: string
           format: xml
@@ -6444,6 +6459,21 @@ components:
               format: date-time
               default: now
               description: Fecha de expedición del comprobante en formato ISO8601 (UTC String). No puede ser anterior a 72 horas en el pasado, ni posterior al presente.
+            address:
+              allOf:
+                - $ref: "#/components/schemas/CommonAddressProperties"
+                - type: object
+                  description: |
+                    Puedes usar este parámetro para especificar el domicilio de expedición de la factura.
+                    Este campo es opcional y si no se envía, la factura se expedirá con el domicilio de
+                    la organización.
+                  required:
+                    - zip
+                  properties:
+                    state:
+                      type: string
+                      description: Nombre del Estado o Entidad Federativa.
+                      example: Sonora
             external_id:
               type: string
               nullable: true

@@ -5989,6 +5989,11 @@ components:
         taxes:
           type: array
           default: IVA trasladado 16%
+          example:
+            [{
+              "type": "IVA",
+              "rate": 0.16
+            }]
           description: Lista de impuestos que deberán aplicarse a este producto. Si el parámetro se omite o es nulo, se guardará con un elemento que representa el IVA trasladado del 16%, que es el impuesto más común. En caso de mandar explícitamente un arreglo vacío, se entiende que el producto está exento de impuestos.
           items:
             $ref: "#/components/schemas/BaseTax"

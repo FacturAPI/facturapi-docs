@@ -6588,12 +6588,14 @@ components:
                 - "01"
                 - "02"
                 - "03"
+                - "04"
               description: |
                 Indica si el comprobante ampara una operación de exportación.
 
                 - `01`: No aplica
-                - `02`: Definitiva
+                - `02`: Definitiva con clave A1
                 - `03`: Temporal
+                - `04`: Definitiva con clave distinta a A1 o cuando no existe enajenación en términos del CFF
             complements:
               type: array
               default: []

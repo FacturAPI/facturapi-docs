@@ -5592,7 +5592,11 @@ components:
                 description: Folio fiscal ó UUID del comprobante de ingreso relacionado.
               amount:
                 type: number
-                description: Cantidad del pago correspondiente al comprobante relacionado, usando el método de pago indicado en este elemento del arreglo `payments`. Este valor debe ser expresado en la moneda definida en `payments[].currency`.
+                description: |
+                  Cantidad del pago correspondiente al comprobante relacionado,
+                  usando el método de pago indicado en este elemento del arreglo
+                  `payments`. Este valor debe ser expresado en la moneda definida
+                  en `payments[].related_documents[].currency`.
               installment:
                 type: integer
                 description: Número de parcialidad del pago.

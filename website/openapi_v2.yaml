@@ -6101,7 +6101,11 @@ components:
                 description: Folio fiscal ó UUID del comprobante de ingreso relacionado.
               amount:
                 type: number
-                description: Cantidad del pago correspondiente al comprobante relacionado, usando el método de pago indicado en este elemento del arreglo `payments`. Este valor debe ser expresado en la moneda definida en `payments[].currency`.
+                description: |
+                  Cantidad del pago correspondiente al comprobante relacionado,
+                  usando el método de pago indicado en este elemento del arreglo
+                  de pagos. Este valor debe ser expresado en la moneda definida
+                  en `related_documents[].currency`.
               taxes:
                 type: object
                 description: |

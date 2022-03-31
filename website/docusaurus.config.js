@@ -41,17 +41,17 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
         {
           specs: [
             {
-              routePath: "/api",
+              route: "/api",
               spec: 'openapi_v2.yaml',
             },
             {
-              routePath: "/api_v1",
+              route: "/api_v1",
               spec: "openapi_v1.yaml",
             },
           ],
           theme: {
             primaryColor: "#4786FF",
-            redocOptions: {
+            options: {
               disableSearch: true,
               requiredPropsFirst: true,
             },

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfacturapi_docs=self.webpackChunkfacturapi_docs||[]).push([[6280],{9162:function(u){u.exports=JSON.parse('{"plugin":{"name":"docusaurus-plugin-redoc","id":"plugin-redoc-0"}}')}}]);

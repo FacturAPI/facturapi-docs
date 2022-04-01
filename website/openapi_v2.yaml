@@ -1,4 +1,4 @@
-openapi: "3.0.1"
+openapi: "3.1.0"
 servers:
   - url: https://www.facturapi.io/v2
 info:
@@ -30,6 +30,17 @@ tags:
     x-displayName: Retenciones
   - name: organization
     x-displayName: Organizaciones
+  # - name: webhooks
+  #   x-displayName: Webhooks
+  - name: events
+    x-displayName: Eventos
+    description: |
+      Los eventos ocurren cuando Facturapi realiza una operación
+      de manera asíncrona, es decir, fuera del ciclo de vida de
+      una petición a la API.
+
+      Próximamente podrás suscribirte a estos eventos registrando
+      webhooks.
   - name: sat_keys
     x-displayName: Claves de catálogos
     description: |
@@ -521,6 +532,10 @@ x-tagGroups:
     tags:
       - tools
       - sat_keys
+  - name: Webhooks
+    tags:
+      - events
+      - webhooks
   - name: Modelos
     tags:
       - customer_model
@@ -4413,6 +4428,63 @@ paths:
           $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+x-webhooks:
+  "Autofactura completada":
+    post:
+      tags:
+        - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/EventBase"
+                - type: object
+                  properties:
+                    type:
+                      type: string
+                      description: Tipo de evento
+                      exacmple: "receipt.self_invoice_complete"
+                      enum:
+                        - receipt.self_invoice_complete
+                    data:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: Tipo de objeto asociado al evento
+                          enum:
+                            - receipt
+                        object:
+                          $ref: "#/components/schemas/Receipt"
+  "Estatus de cancelación actualizado":
+    post:
+      tags:
+        - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/EventBase"
+                - type: object
+                  properties:
+                    type:
+                      type: string
+                      description: Tipo de evento
+                      enum:
+                        - invoice.cancellation_status_updated
+                    data:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: Tipo de objeto asociado al evento
+                          enum:
+                            - invoice
+                        object:
+                          $ref: "#/components/schemas/Invoice"
+                
 components:
   responses:
     BadRequest:
@@ -4557,6 +4629,26 @@ components:
       description: Número del 1 al 50 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
 
   schemas:
+    EventBase:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID del evento
+          exacmple: 61f81a81bd4661b11b9b404e
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de creación del evento
+          exacmple: 2022-03-30T00:00:00Z
+        livemode:
+          type: boolean
+          description: Indica si el evento se generó en modo test (false) o en modo producción (true).
+          exacmple: false
+        organization:
+          type: string
+          description: ID de la organización a la que pertenece el evento
+          exacmple: 61f81a7fbd4661b11b9b3f27
     DateRange:
       type: object
       properties:

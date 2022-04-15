@@ -569,7 +569,7 @@ paths:
               -H "Authorization: Bearer sk_test_API_KEY" \
               -H "Content-Type: application/json" \
               -d '{
-                    "legal_name": "Dunder Mifflin S.A. de C.V.",
+                    "legal_name": "Dunder Mifflin",
                     "email": "email@example.com",
                     "tax_id": "ABCD111111CBA",
                     "tax_system": "601",
@@ -583,7 +583,7 @@ paths:
             const Facturapi = require('facturapi');
             const facturapi = new Facturapi('sk_test_API_KEY');
             const customer = await facturapi.customers.create({
-              legal_name: 'Dunder Mifflin S.A. de C.V.',
+              legal_name: 'Dunder Mifflin',
               email: 'email@example.com',
               tax_id: 'ABCD101010XYZ',
               tax_system: '601',
@@ -597,7 +597,7 @@ paths:
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, object>
             {
-              ["legal_name"] = "Dunder Mifflin S.A. de C.V.",
+              ["legal_name"] = "Dunder Mifflin",
               ["email"] = "email@example.com",
               ["tax_id"] = "ABCD101010XYZ",
               ["tax_system"] = "601",
@@ -611,7 +611,7 @@ paths:
             $facturapi = new Facturapi( "sk_test_API_KEY" );
             $customer = $facturapi->Customers->create([
               "email" => "email@example.com",
-              "legal_name" => "Dunder Mifflin S.A. de C.V.",
+              "legal_name" => "Dunder Mifflin",
               "tax_id" => "ABCD101010XYZ",
               "tax_system" => "601",
               "address" => [
@@ -831,7 +831,7 @@ paths:
             $facturapi = new Facturapi( "sk_test_API_KEY" );
             $customer = $facturapi->Customers->update("590ce6c56d04f840aa8438af", [
               "email" => "jdoe@example.com",
-              "legal_name" => "Dunder Mifflin S.A. de C.V.",
+              "legal_name" => "Dunder Mifflin",
               "address" => [
                 "street" => "Santa Monica Ave."
               ]
@@ -1318,7 +1318,7 @@ paths:
               -H "Content-Type: application/json" \
               -d '{
                 "customer": {
-                  "legal_name": "Dunder Mifflin S.A. de C.V.",
+                  "legal_name": "Dunder Mifflin",
                   "email": "email@example.com",
                   "tax_id": "ABCD111111CBA",
                   "tax_system": "601",
@@ -1345,7 +1345,7 @@ paths:
             const facturapi = new Facturapi('sk_test_API_KEY');
             const invoice = await facturapi.invoices.create({
               customer: {
-                legal_name: 'Dunder Mifflin S.A. de C.V.',
+                legal_name: 'Dunder Mifflin',
                 email: 'email@example.com',
                 tax_id: 'ABCD111111CBA',
                 tax_system: '601',
@@ -1373,7 +1373,7 @@ paths:
             {
               ["customer"] = new Dictionary<string, object>
               {
-                ["legal_name"] = "Dunder Mifflin S.A. de C.V.",
+                ["legal_name"] = "Dunder Mifflin",
                 ["email"] = "email@example.com",
                 ["tax_id"] = "ABCD111111CBA",
                 ["tax_system"] = "601",
@@ -1403,7 +1403,7 @@ paths:
             $facturapi = new Facturapi( "sk_test_API_KEY" );
             $invoice = $facturapi->Invoices->create([
               "customer" => [
-                "legal_name" => "Dunder Mifflin S.A. de C.V.",
+                "legal_name" => "Dunder Mifflin",
                 "email" => "email@example.com",
                 "tax_id" => "ABCD111111CBA",
                 "tax_system" => "601",
@@ -3247,7 +3247,7 @@ paths:
               -H "Content-Type: application/json" \
               -d '{
                     "name": "Skynet",
-                    "legal_name": "Skynet S.A. de C.V.",
+                    "legal_name": "Skynet",
                     "tax_system": "601",
                     "website": "www.sky.net",
                     "phone": "555-555-5555",
@@ -3271,7 +3271,7 @@ paths:
               '5a2a307be93a2f00129ea035',
               {
                 name: 'Skynet',
-                legal_name: 'Skynet S.A. de C.V.',
+                legal_name: 'Skynet',
                 tax_system: Facturapi.TaxSystem.GENERAL_LEY_DE_PERSONAS_MORALES,
                 website: 'www.sky.net',
                 phone: '555-555-5555',
@@ -3296,7 +3296,7 @@ paths:
               new Dictionary<string, object>
               {
                 ["name"] = "Skynet",
-                ["legal_name"] = "Skynet S.A. de C.V.",
+                ["legal_name"] = "Skynet",
                 ["tax_system"] = "601",
                 ["website"] = "www.sky.net",
                 ["phone"] = "555-555-5555",
@@ -3319,7 +3319,7 @@ paths:
             $organization = $facturapi->Organizations->updateLegal(
               "5a2a307be93a2f00129ea035", [
                 "name" => "Skynet",
-                "legal_name" => "Skynet S.A. de C.V.",
+                "legal_name" => "Skynet",
                 "tax_system" => "601",
                 "website" => "www.sky.net",
                 "phone" => "555-555-5555",
@@ -4761,7 +4761,7 @@ components:
                         description: El RFC consultado, a manera de confirmación.
                       razonSocial:
                         type: string
-                        example: NORMANDIA FERRE, S.A. DE C.V.
+                        example: NORMANDIA FERRE,
                         description: Razón social del contribuyente.
                       situacionContribuyente:
                         type: string
@@ -5885,8 +5885,9 @@ components:
       properties:
         legal_name:
           type: string
-          description: Nombre Fiscal o Razón Social del cliente.
-          example: Dunder Mifflin S.A. de C.V.
+          description: |
+            Nombre Fiscal o Razón Social del cliente. *sin* el régimen societario (ej.: S.A. de C.V.).
+          example: Dunder Mifflin
         tax_id:
           type: string
           example: ABCD101010XYZ
@@ -6335,8 +6336,9 @@ components:
           example: 58e93bd8e86eb318b0197456
         legal_name:
           type: string
-          description: Nombre Fiscal o Razón Social del cliente.
-          example: Dunder Mifflin S.A. de C.V.
+          description: |
+            Nombre Fiscal o Razón Social del cliente, *sin* incluir el régimen societario (ej.: S.A. de C.V.).
+          example: Dunder Mifflin
         tax_id:
           type: string
           description: RFC del cliente.
@@ -7376,7 +7378,8 @@ components:
               description: Nombre comercial de la organización.
             legal_name:
               type: string
-              description: Nombre Fiscal o Razón Social de la organización.
+              description: |
+                Nombre Fiscal o Razón Social de la organización, *sin* el régimen societario (ej.: S.A. de C.V.).
             tax_system:
               type: string
               example: "601"
@@ -7419,7 +7422,8 @@ components:
         legal_name:
           type: string
           maxLength: 100
-          description: Nombre Fiscal o Razón Social de la organización.
+          description: |
+            Nombre Fiscal o Razón Social de la organización, *sin* el régimen societario (ej.: S.A. de C.V.).
         tax_system:
           type: string
           maxLength: 3

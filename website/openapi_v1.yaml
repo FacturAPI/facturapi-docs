@@ -1170,7 +1170,7 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "500":
           $ref: "#/components/responses/UnexpectedError"
-  /invioces:
+  /invoices:
     post:
       operationId: createInvoice
       tags:

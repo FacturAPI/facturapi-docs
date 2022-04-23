@@ -7222,6 +7222,11 @@ components:
       allOf:
         - type: object
           properties:
+            date:
+              type: string
+              format: date-time
+              example: '2021-09-10T15:21:23.456Z'
+              description: Fecha de emisión del recibo.
             expires_at:
               type: string
               format: date-time
@@ -7288,6 +7293,11 @@ components:
     ReceiptEditableProperties:
       type: object
       properties:
+        date:
+          type: string
+          format: date-time
+          example: '2021-09-10T15:21:23.456Z'
+          description: Fecha de emisión del recibo. Por defecto se utiliza la fecha actual.
         payment_form:
           type: string
           example: '03'

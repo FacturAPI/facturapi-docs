@@ -850,7 +850,7 @@ paths:
         - "Secret Test Key": []
       responses:
         "200":
-          description: Objeto `Customer` eliminado correctamente
+          description: Objeto `Customer` editado correctamente
           content:
             application/json:
               schema:
@@ -1239,7 +1239,7 @@ paths:
         - "Secret Test Key": []
       responses:
         "200":
-          description: Objeto `Product` eliminado correctamente
+          description: Objeto `Product` editado correctamente
           content:
             application/json:
               schema:
@@ -5101,6 +5101,11 @@ components:
               description: Código postal del tercero.
               example: "01234"
 
+    CustomComplementData:
+      title: string
+      type: string
+      format: xml
+      description: Código XML de tu complemento tal cual como quieres que se inserte en el XML. Debe contener sólamente un nodo XML raíz.
     CustomComplementProperties:
       title: CustomComplement
       type: object
@@ -5111,9 +5116,7 @@ components:
             - custom
           description: Tipo de complemento.
         data:
-          type: string
-          format: xml
-          description: Código XML de tu complemento tal cual como quieres que se inserte en el XML. Debe contener sólamente un nodo XML raíz.
+          $ref: '#/components/schemas/CustomComplementData'
     CustomComplementInput:
       title: CustomComplement
       allOf:
@@ -7161,8 +7164,10 @@ components:
           type: array
           default: []
           items:
-            $ref: "#/components/schemas/CustomComplementProperties"
-          description: Complementos a incluir en la factura.
+            $ref: "#/components/schemas/CustomComplementData"
+          description: |
+            Arreglo de complementos a incluir en la factura. Cada elemento contiene
+            un `string` con el código XML del complemento.
         pdf_custom_section:
           type: string
           format: html
@@ -7310,8 +7315,11 @@ components:
           type: array
           default: []
           items:
-            $ref: "#/components/schemas/CustomComplementInput"
-          description: Complementos a incluir en la factura.
+            $ref: "#/components/schemas/CustomComplementData"
+          description: |
+            Arreglo de complementos a incluir en la factura. Cada elemento del arreglo deberá contener
+            un `string` con el código XML de tu complemento tal cual como quieres que se inserte en el
+            XML del CFDI. Sólo se permite un nodo XML raíz por elemento del arreglo.
         pdf_custom_section:
           type: string
           format: html

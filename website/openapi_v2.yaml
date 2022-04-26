@@ -12,8 +12,13 @@ info:
     url: https://www.facturapi.io/img/logo.svg
     altText: Facturapi
   description: |
-    # Autenticación
-    <!-- ReDoc-Inject: <security-definitions> -->
+    <br />
+    <br />
+
+    En esta página enlistamos todos los métodos
+    disponibles en la API de Facturapi, así como
+    la referencia completa de los objetos y campos
+    que acepta cada uno.
 
 tags:
   - name: tools

@@ -12,8 +12,12 @@ info:
     url: https://www.facturapi.io/img/logo.svg
     altText: Facturapi
   description: |
-    # Autenticación
-    <!-- ReDoc-Inject: <security-definitions> -->
+    # Aviso sobre /v1
+    La versión 1 de la API (`/v1`) **no** debe usarse para nuevos proyectos.
+    En su lugar utiliza la [versión 2](/api), que te permite emitir CFDI v4.0.
+
+    La versión 1 de la API dejará de estar disponible cuando el SAT
+    termine la vigencia del CFDI 3.3.
 tags:
   - name: tools
     x-displayName: Herramientas

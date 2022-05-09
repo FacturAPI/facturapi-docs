@@ -1,0 +1,69 @@
+---
+sidebar_position: 7
+---
+
+# Autofactura
+
+Facturapi te permite tener un micrositio con el logotipo de tu empresa y tus
+colores, que tus clientes pueden visitar para introducir sus datos fiscales y
+convertir su recibo en factura.
+
+Esta implementación se realiza creando un [Recibo Digital](/docs/guides/receipts)
+con la información de la venta. Cada recibo creado contiene un
+enlace al micrositio de autofacturación en la propiedad `self_invoice_url`, con
+el siguiente formato:
+
+```
+https://factura.space/<DOMAIN>/<RECEIPT_KEY>
+```
+
+donde `<RECEIPT_KEY>` es la llave autogenerada alfanumérica del recibo
+(propiedad `key`), y `<DOMAIN>` es el dominio seleccionado por la organización,
+en la configuración de recibos.
+
+Ejemplo:
+
+```
+https://factura.space/facturapi/rx5WApXR
+```
+
+## Durante el desarrollo de tu integración
+
+Para seleccionar el dominio para tu organización es necesario tener una
+suscripción activa en Facturapi.
+
+Durante la etapa de desarrollo, el dominio de todos tus recibos será `demo`.
+
+## Seleccionar dominio de autofacturación
+
+Si cuentas con una suscripción activa, puedes seleccionar un dominio para
+una organización, desde la
+[Configuración de Recibos](https://www.facturapi.io/dashboard/settings/receipts)
+en el dashboard, o llamando al método
+[Elegir dominio para autofactura](/api/#operation/editOrganizationDomain)
+desde la API.
+
+Una vez elegido un dominio, nosotros asignaremos automáticamente el campo
+`self_invoice_url` para que contenga una dirección URL que le puedes dar a tu
+cliente para que termine de llenar sus datos fiscales y pueda convertir su
+recibo en factura.
+
+También puedes instruir a tus clientes visitar `https://factura.space/<DOMAIN>`
+y proporcionarles la clave del campo `key` por separado, la cual podrán
+introducir en el sitio para acceder a tu recibo.
+
+## Fecha de expiración
+
+El recibo sólo podrá facturarse mientras su atributo `status` tenga el valor
+`open`; es decir, mientras no haya sido facturado o cancelado. Un recibo
+abierto puede facturarse en cualquier momento por medio de la API, sin embargo,
+el portal de autofactura no permitirá facturar recibos después de su fecha de
+expiración (campo `expires_at`), la cual se calcula al momento de crear el
+recibo a partir de las configuraciones de recibos "Periodo de facturación"
+(`invoicing_period`) y "Días de vigencia para facturar" (`duration_days`).
+
+Por ejemplo, si tu periodo de facturación es mensual y tus días de vigencia
+para facturar son 7, el recibo expirará ya sea a los 7 días de su fecha de
+emisión, o el último día del mes, lo que ocurra primero. Cabe aclarar que la
+expiración del recibo sólo afecta al portal de autofactura. Los recibos pueden
+facturarse desde la API en cualquier momento.

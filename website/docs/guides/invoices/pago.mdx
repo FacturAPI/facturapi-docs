@@ -1,0 +1,411 @@
+---
+sidebar_position: 2
+title: Pago
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Comprobante de Pago
+
+El **Comprobante de Pago**, también llamado _Recibo Electrónico de Pago (REP)_, _comprobante al que se le
+incorpora el complemento de recepción de pagos_, o simplemente _complemento de pago_ se utiliza para
+dar constancia fiscal de que la empresa o la persona recibió un pago por una mercancía o servicio entregado
+con anterioridad.
+
+Para emitir un Comprobante de Pago, debe existir un Comprobante de Ingreso que se haya creado al momento de
+la entrega de la mercancía o servicio, y cuyo método de pago se haya registrado el valor `"PPD"`
+(Pago en Parcialidades o Diferido).
+
+## Ejemplos
+
+A continuación se enlistan algunos casos de uso comunes.
+
+Para conocer a fondo todas las opciones disponibles al crear un Comprobante de Pago, descripciiones
+detalladas de cada campo y los catálogos más utilizados consulta la
+[referencia del método Crear Factura](/api/#operation/createInvoice), y posteriormente haz clic sobre
+el tipo de factura **Pago**.
+
+### Pago total de una factura pendiente
+
+En este ejemplo, se recibe un sólo pago para liquidar el total de una factura pendiente de pago por $345.60 MXN.
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_test_API_KEY');
+
+const invoice = await facturapi.invoices.create({
+  type: 'P',
+  customer: {
+    legal_name: 'Dunder Mifflin',
+    email: 'email@example.com',
+    tax_id: 'ABC101010111',
+    tax_system: '601',
+    address: {
+      zip: '85900'
+    }
+  },
+  complements: [
+    {
+      type: 'pago',
+      data: {
+        payment_form: '28', // Tarjeta de Crédito
+        related_documents: [
+          {
+            uuid: '39c85a3f-275b-4341-b259-e8971d9f8a94',
+            amount: 345.60,
+            installment: 1,
+            last_balance: 345.60,
+            taxes: [
+              {
+                base: 297.93,
+                type: 'IVA',
+                rate: 0.16
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
+{
+  ["type"] = "P",
+  ["customer"] = new Dictionary<string, object>
+  {
+    ["legal_name"] = "Dunder Mifflin",
+    ["email"] = "email@example.com",
+    ["tax_id"] = "ABC101010111",
+    ["tax_system"] = "601",
+    ["address"] = new Dictionary<string, object>
+    {
+      ["zip"] = "85900"
+    }
+  },
+  ["complements"] = new Dictionary<string, object>[]
+  {
+    new Dictionary<string, object>
+    {
+      ["type"] = "pago",
+      ["data"] = new Dictionary<string, object>
+      {
+        ["payment_form"] = "28", // Tarjeta de Crédito
+        ["related_documents"] = new Dictionary<string, object>[]
+        {
+          new Dictionary<string, object>
+          {
+            ["uuid"] = "39c85a3f-275b-4341-b259-e8971d9f8a94",
+            ["amount"] = 345.60,
+            ["installment"] = 1,
+            ["last_balance"] = 345.60,
+            ["taxes"] = new Dictionary<string, object>[]
+            {
+              new Dictionary<string, object>
+              {
+                ["base"] = 297.93,
+                ["type"] = "IVA",
+                ["rate"] = 0.16
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi( "sk_test_API_KEY" );
+
+$invoice = $facturapi->Invoices->create([
+  "type" => "P",
+  "customer" => [
+    "legal_name" => "Dunder Mifflin",
+    "email" => "email@example.com",
+    "tax_id" => "ABC101010111",
+    "tax_system" => "601",
+    "address" => [
+      "zip" => "85900"
+    ]
+  ],
+  "complements" => [
+    [
+      "type" => "pago",
+      "data" => [
+        "payment_form" => "28", // Tarjeta de Crédito
+        "related_documents" => [
+          [
+            "uuid" => "39c85a3f-275b-4341-b259-e8971d9f8a94",
+            "amount" => 345.60,
+            "installment" => 1,
+            "last_balance" => 345.60,
+            "taxes" => [
+              [
+                "base" => 297.93,
+                "type" => "IVA",
+                "rate" => 0.16
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v2/invoices \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "P",
+    "customer": {
+      "legal_name": "Dunder Mifflin",
+      "email": "email@example.com",
+      "tax_id": "ABC101010111",
+      "tax_system": "601",
+      "address": {
+        "zip": "85900"
+      }
+    },
+    "complements": [
+      {
+        "type": "pago",
+        "data": {
+          "payment_form": "28", // Tarjeta de Crédito
+          "related_documents": [
+            {
+              "uuid": "39c85a3f-275b-4341-b259-e8971d9f8a94",
+              "amount": 345.60,
+              "installment": 1,
+              "last_balance": 345.60,
+              "taxes": [
+                {
+                  "base": 297.93,
+                  "type": "IVA",
+                  "rate": 0.16
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+### Pago en parcialidades de una factura pendiente
+
+En este ejemplo, se reciben $100 MXN como pago por la segunda parcialidad de una factura pendiente de pago cuyo
+total era de $345.60 MXN. Se considera que en la primera parcialidad también se pagaron $100 MXN.
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_test_API_KEY');
+
+const invoice = await facturapi.invoices.create({
+  type: 'P',
+  customer: {
+    legal_name: 'Dunder Mifflin',
+    email: 'email@example.com',
+    tax_id: 'ABC101010111',
+    tax_system: '601',
+    address: {
+      zip: '85900'
+    }
+  },
+  complements: [
+    {
+      type: 'pago',
+      data: {
+        payment_form: '28', // Tarjeta de Crédito
+        related_documents: [
+          {
+            uuid: '39c85a3f-275b-4341-b259-e8971d9f8a94',
+            amount: 100, // Monto de la factura relacionada que se paga en la presente parcialidad
+            installment: 2, // Esta es la segunda parcialidad
+            last_balance: 245.60, // Saldo insoluto de la primera parcialidad
+            taxes: [
+              {
+                base: 86.21, // Base de IVA de la segunda parcialidad
+                type: 'IVA',
+                rate: 0.16
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
+{
+  ["type"] = "P",
+  ["customer"] = new Dictionary<string, object>
+  {
+    ["legal_name"] = "Dunder Mifflin",
+    ["email"] = "email@example.com",
+    ["tax_id"] = "ABC101010111",
+    ["tax_system"] = "601",
+    ["address"] = new Dictionary<string, object>
+    {
+      ["zip"] = "85900"
+    }
+  },
+  ["complements"] = new Dictionary<string, object>[]
+  {
+    new Dictionary<string, object>
+    {
+      ["type"] = "pago",
+      ["data"] = new Dictionary<string, object>
+      {
+        ["payment_form"] = "28", // Tarjeta de Crédito
+        ["related_documents"] = new Dictionary<string, object>[]
+        {
+          new Dictionary<string, object>
+          {
+            ["uuid"] = "39c85a3f-275b-4341-b259-e8971d9f8a94",
+            ["amount"] = 100, // Monto de la factura relacionada que se paga en la presente parcialidad
+            ["installment"] = 2, // Esta es la segunda parcialidad
+            ["last_balance"] = 245.60, // Saldo insoluto de la primera parcialidad
+            ["taxes"] = new Dictionary<string, object>[]
+            {
+              new Dictionary<string, object>
+              {
+                ["base"] = 86.21, // Base de IVA de la segunda parcialidad
+                ["type"] = "IVA",
+                ["rate"] = 0.16
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi( "sk_test_API_KEY" );
+
+$invoice = $facturapi->Invoices->create([
+  "type" => "P",
+  "customer" => [
+    "legal_name" => "Dunder Mifflin",
+    "email" => "email@example.com",
+    "tax_id" => "ABC101010111",
+    "tax_system" => "601",
+    "address" => [
+      "zip" => "85900"
+    ]
+  ],
+  "complements" => [
+    [
+      "type" => "pago",
+      "data" => [
+        "payment_form" => "28", // Tarjeta de Crédito
+        "related_documents" => [
+          [
+            "uuid" => "39c85a3f-275b-4341-b259-e8971d9f8a94",
+            "amount" => 100, // Monto de la factura relacionada que se paga en la presente parcialidad
+            "installment" => 2, // Esta es la segunda parcialidad
+            "last_balance" => 245.60, // Saldo insoluto de la primera parcialidad
+            "taxes" => [
+              [
+                "base" => 86.21, // Base de IVA de la segunda parcialidad
+                "type" => "IVA",
+                "rate" => 0.16
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v2/invoices \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "P",
+    "customer": {
+      "legal_name": "Dunder Mifflin",
+      "email": "email@example.com",
+      "tax_id": "ABC101010111",
+      "tax_system": "601",
+      "address": {
+        "zip": "85900"
+      }
+    },
+    "complements": [
+      {
+        "type": "pago",
+        "data": {
+          "payment_form": "28", // Tarjeta de Crédito
+          "related_documents": [
+            {
+              "uuid": "39c85a3f-275b-4341-b259-e8971d9f8a94",
+              "amount": 100, // Monto de la factura relacionada que se paga en la presente parcialidad
+              "installment": 2, // Esta es la segunda parcialidad
+              "last_balance": 245.60, // Saldo insoluto de la primera parcialidad
+              "taxes": [
+                {
+                  "base": 86.21, // Base de IVA de la segunda parcialidad
+                  "type": "IVA",
+                  "rate": 0.16
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }'
+```
+
+</TabItem>
+</Tabs>
+

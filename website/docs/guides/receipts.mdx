@@ -1,41 +1,28 @@
 ---
-sidebar_position: 3
+sidebar_position: 6
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Recibos
+# Recibos digitales
 
-## Crea tu primer recibo
+Un **recibo**, conocido como _ticket_ o _nota de venta_, es un comprobante de pago que puedes darle a tu
+cliente sin solicitarle sus datos fiscales. Dicho comprobante incluye toda
+la información de la venta con el propósito de que pueda facturarse si el cliente lo solicita.
 
-Otra manera de usar Facturapi es emitiendo recibos por cada venta que realizas. Los recibos (o notas de venta) contienen la información necesaria para que posteriormente puedan convertirse en una factura para tu cliente o formar parte de una factura global (al público en general).
+Al crear un **recibo digital** en Facturapi, tus clientes tendrán acceso a un sitio web a donde pdrán
+llenar sus datos fiscales y descargar su facuta (autofactura).
 
-Para más detalles, consulta el método [Crear Recibo](/api/#operation/createReceipt).
+También puedes crear una factura global al final del mes que incluya todos aquellos recibos que no fueron
+facturados.
+
+## Crear un recibo
+
+Para ver las descripciones de todos los parámetros, consulta la referencia completa del método
+[Crear Recibo](/api/#operation/createReceipt).
 
 <Tabs groupId="codeExamples">
-<TabItem value="curl" label="cURL">
-
-```bash
-curl https://www.facturapi.io/v1/receipts \
-  -H "Authorization: Bearer sk_test_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-        "folio_number": 1234,
-        "payment_form": "03",
-        "items": [{
-          "quantity": 1,
-          "product": {
-            "description": "Ukelele",
-            "product_key": "60131324",
-            "price": 345.60,
-            "sku": "ABC1234"
-          }
-        }]
-      }'
-```
-
-</TabItem>
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
@@ -53,7 +40,6 @@ const receipt = await facturapi.receipts.create({
     }
   }]
 });
-// save the receipt.id in your database
 ```
 
 </TabItem>
@@ -99,31 +85,39 @@ $receipt = $facturapi->Receipts->create([
 ```
 
 </TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v1/receipts \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "folio_number": 1234,
+        "payment_form": "03",
+        "items": [{
+          "quantity": 1,
+          "product": {
+            "description": "Ukelele",
+            "product_key": "60131324",
+            "price": 345.60,
+            "sku": "ABC1234"
+          }
+        }]
+      }'
+```
+
+</TabItem>
 </Tabs>
 
-## Factura tus recibos
+## Autofactura
+
+Para más información consulta el artículo de [Autofactura](/docs/guides/self-invoice).
+
+## Facturar un recibo
 
 Convierte tu recibo en factura si tu cliente te lo solicita. Más detalles en el método [Facturar Recibo](/api/#operation/invoiceReceipt).
 
 <Tabs groupId="codeExamples">
-<TabItem value="curl" label="cURL">
-
-```bash
-curl https://www.facturapi.io/v1/receipts/5ebd8e56f5687a013ca0df46/invoice \
-  -H "Authorization: Bearer sk_test_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-        "customer": {
-          "legal_name": "Roger Watters",
-          "tax_id": "ROWA121212A11",
-          "email": "roger@pinkfloyd.com"
-        },
-        "folio_number": 914,
-        "series": "F"
-    }'
-```
-
-</TabItem>
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
@@ -168,6 +162,24 @@ $invoice = $facturapi->Receipts->invoice($receipt->id, [
   "folio_number" => 914,
   "series" => "F"
 ]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v1/receipts/5ebd8e56f5687a013ca0df46/invoice \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "customer": {
+          "legal_name": "Roger Watters",
+          "tax_id": "ROWA121212A11",
+          "email": "roger@pinkfloyd.com"
+        },
+        "folio_number": 914,
+        "series": "F"
+    }'
 ```
 
 </TabItem>

@@ -23,7 +23,7 @@ const getFeatureList = (baseUrl: string): FeatureItem[] => [
     title: 'Introducción',
     image: `${baseUrl}img/home/book.svg`,
     linkText: 'Comenzar',
-    linkTo: '/docs/intro',
+    linkTo: '/docs/getting-started/intro',
     description: (
       <>
         Si es tu primera vez integrando Facturapi, te recomendamos empezar por aquí.
@@ -34,7 +34,7 @@ const getFeatureList = (baseUrl: string): FeatureItem[] => [
     title: 'Inicio Rápido',
     image: `${baseUrl}img/home/rocket.svg`,
     linkText: 'Ver ejemplos',
-    linkTo: '/docs/guides/invoices',
+    linkTo: '/docs/quickstart',
     description: (
       <>
         Consulta ejemplos simples de los casos de uso más comunes para darte una idea

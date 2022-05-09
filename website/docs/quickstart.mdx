@@ -5,55 +5,26 @@ sidebar_position: 1
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Facturas
+# Inicio rápido
 
-:::caution
+:::caution ¡No lo olvides!
   Recuerda reemplazar nuestra llave de ejemplo <code>sk_test_API_KEY</code>
   con tu propia llave secreta.
 :::
 
-## Crea tu primera factura
+Este ejemplo muestra los campos mínimos requeridos para crear una factura de tipo `Ingreso` en una sola llamada.
 
-Este ejemplo muestra los campos mínimos requeridos para crear una factura en una sola llamada.
-
-Para conocer a fondo todas las opciones disponibles al crear una factura, consulta la
-[referencia del método Crear Factura](/api/#operation/createInvoice).
+Para conocer a fondo todas las opciones disponibles al crear una factura, así como una descripción
+detallada de cada campo, consulta la [referencia del método Crear Factura](/api/#operation/createInvoice).
 
 :::info
-  Por default se considera que el precio del producto tiene impuestos incluídos. Facturapi se encarga de desglosar los impuestos del producto (siendo IVA 16% el default) y calcular el precio unitario. Si en lugar de eso requieres que el atributo `price` sea el precio unitario, debes enviar el parámetro `tax_included` con el valor `false`.
+  Por default se considera que el precio del producto tiene impuestos incluídos.
+  Facturapi se encarga de desglosar los impuestos del producto (siendo IVA 16% el default)
+  y calcular el precio unitario. Si en lugar de eso requieres que el atributo `price` sea
+  el precio unitario, debes enviar el parámetro `tax_included` con el valor `false`.
 :::
 
 <Tabs groupId="codeExamples">
-<TabItem value="curl" label="cURL">
-
-```bash
-curl https://www.facturapi.io/v1/invoices \
-  -H "Authorization: Bearer sk_test_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "customer": {
-      "legal_name": "Dunder Mifflin S.A. de C.V.",
-      "email": "email@example.com",
-      "tax_id": "ABCD111111CBA",
-      "tax_system": "601",
-      "address": {
-        "zip": "85900"
-      }
-    },
-    "items": [{
-      "quantity": 2,
-      "product": {
-        "description": "Ukelele",
-        "product_key": "60131324",
-        "price": 345.60
-      }
-    }],
-    "use": "G01",
-    "payment_form": "06"
-  }'
-```
-
-</TabItem>
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
@@ -62,15 +33,16 @@ const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.create({
   customer: {
-    legal_name: 'Dunder Mifflin S.A. de C.V.',
+    legal_name: 'Dunder Mifflin',
     email: 'email@example.com',
-    tax_id: 'ABCD111111CBA',
+    tax_id: 'ABC101010111',
     tax_system: '601',
     address: {
       zip: '85900'
     }
   },
   items: [{
+    quantity: 1,
     product: {
       description: 'Ukelele',
       product_key: '60131324',
@@ -78,7 +50,7 @@ const invoice = await facturapi.invoices.create({
     }
   }],
   use: 'G01',
-  payment_form: Facturapi.PaymentForm.DINERO_ELECTRONICO
+  payment_form: '28' // Tarjeta de crédito
 });
 ```
 
@@ -92,9 +64,9 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 {
   ["customer"] = new Dictionary<string, object>
   {
-    ["legal_name"] = "Dunder Mifflin S.A. de C.V.",
+    ["legal_name"] = "Dunder Mifflin",
     ["email"] = "email@example.com",
-    ["tax_id"] = "ABCD111111CBA",
+    ["tax_id"] = "ABC101010111",
     ["tax_system"] = "601",
     ["address"] = new Dictionary<string, object>
     {
@@ -105,6 +77,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
   {
     new Dictionary<string, object>
     {
+      ["quantity"] = 1,
       ["product"] = new Dictionary<string, object>
       {
         ["description"] = "Ukelele",
@@ -114,7 +87,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
     }
   },
   ["use"] = "G01",
-  ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO
+  ["payment_form"] = "28" // Tarjeta de crédito
 });
 ```
 
@@ -126,9 +99,9 @@ $facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $invoice = $facturapi->Invoices->create([
   "customer" => [
-    "legal_name" => "Dunder Mifflin S.A. de C.V.",
+    "legal_name" => "Dunder Mifflin",
     "email" => "email@example.com",
-    "tax_id" => "ABCD111111CBA",
+    "tax_id" => "ABC101010111",
     "tax_system" => "601",
     "address" => [
       "zip" => "85900"
@@ -136,6 +109,7 @@ $invoice = $facturapi->Invoices->create([
   ],
   "items" => [
     [
+      "quantity" => 1,
       "product" => [
         "description" => "Ukelele",
         "product_key" => "60131324",
@@ -143,14 +117,44 @@ $invoice = $facturapi->Invoices->create([
       ]
     ],
   ],
-  "payment_form" => \Facturapi\PaymentForm::EFECTIVO
+  "payment_form" => "28" // Tarjeta de crédito
 ]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v1/invoices \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "customer": {
+      "legal_name": "Dunder Mifflin",
+      "email": "email@example.com",
+      "tax_id": "ABC101010111",
+      "tax_system": "601",
+      "address": {
+        "zip": "85900"
+      }
+    },
+    "items": [{
+      "quantity": 1,
+      "product": {
+        "description": "Ukelele",
+        "product_key": "60131324",
+        "price": 345.60
+      }
+    }],
+    "use": "G01",
+    "payment_form": "28" // Tarjeta de crédito
+  }'
 ```
 
 </TabItem>
 </Tabs>
 
-#### Respuesta: Objecto Invoice
+<details><summary>Respuesta: Objeto Invoice</summary>
 
 ```json
 {
@@ -159,32 +163,38 @@ $invoice = $facturapi->Invoices->create([
   "livemode": false,
   "status": "valid",
   "cancellation_status": "none",
-  "verification_url": "https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111CBA&tt=345.600000&fe=bWApPw==",
+  "verification_url": "https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABC101010111&tt=345.600000&fe=bWApPw==",
   "customer": {
     "id": "58e93bd8e86eb318b0197456",
     "legal_name": "Dunder Mifflin S.A. de C.V.",
-    "tax_id": "ABCD111111CBA",
+    "tax_id": "ABC101010111",
     "tax_system": "601",
     "address": {
       "zip": "85900",
       "country": "MEX"
     }
   },
-  "total": 10944.82,
+  "total": 345.60,
   "uuid": "39c85a3f-275b-4341-b259-e8971d9f8a94",
   "folio_number": 914,
   "series": "A",
-  "payment_form": "06",
+  "payment_form": "28",
   "related": [], 
   "currency": "MXN",
   "exchange": 1,
   "items": [{
-    "quantity": 2,
+    "quantity": 1,
     "discount": 0,
     "product": {
-      "id": "58e93bd8e86eb318b0197454",
-      "description": "Gafas de sol Ray-Ban",
-      "price": 5472.41
+      "description": "Ukelele",
+      "price": 345.60,
+      "tax_included": true,
+      "taxes": [
+        {
+          "type": "IVA",
+          "rate": 0.16
+        }
+      ]
     }
   }],
   "stamp": {
@@ -195,17 +205,19 @@ $invoice = $facturapi->Invoices->create([
   }
 }
 ```
+</details>
 
-:::success
-¡Listo! 🎉 Para este punto tu factura fue creada exitosamente, y si estás en ambiente Live, enviada al SAT.
+:::success ¡Listo! 🎉
+Para este punto tu factura fue creada exitosamente, y si estás en ambiente Live, enviada al SAT.
 :::
 
-¿Cómo asegurarme de que se envió al SAT? Notarás que el objeto Invoice (que
-obtuviste como respuesta) tiene una propiedad llamada `verification_url`;
-ésta contiene el enlace oficial al portal de verificación del SAT (el mismo que se
-muestra como QR en la versión PDF). Dentro del portal podrás ver información básica de
+¿Cómo asegurarme de que se envió al SAT? La propiedad `verification_url` del objeto Invoice de la respuesta
+contiene el enlace oficial al portal de verificación del SAT (el mismo que se
+muestra como QR en la versión PDF). Si creaste la factura en ambiente **Live**,
+el portal de verificación te mostrará información básica de
 la factura, así como su estatus oficial, si está vigente o si ha sido
-cancelada.
+cancelada. Las facturas creadas en ambiente Test no aparecerán en el portal porque
+no son enviadas al SAT.
 
 Otras propiedades interesantes que Facturapi añade a la respuesta son:
 
@@ -218,21 +230,12 @@ Otras propiedades interesantes que Facturapi añade a la respuesta son:
 
 A continuación exploraremos cómo enviar la factura a tu cliente y cómo descargar los archivos XML y PDF.
 
-## Envía la factura por correo
+## Envía la factura por correo electrónico
 
 Utilizando el `id` de la factura que acabamos de crear, podemos realizar operaciones como enviar
 los archivos de la factura al correo electrónico del cliente a quien se le emitió.
 
 <Tabs groupId="codeExamples">
-<TabItem value="curl" label="cURL">
-
-```bash
-curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
-  -H "Authorization: Bearer sk_test_API_KEY"
-  -X POST
-```
-
-</TabItem>
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
@@ -254,22 +257,22 @@ $facturapi->Invoices->send_by_email($invoice->id);
 ```
 
 </TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
+  -H "Authorization: Bearer sk_test_API_KEY"
+  -X POST
+```
+
+</TabItem>
 </Tabs>
 
-## Descarga la factura
+## Descarga el XML y PDF
 
 Si lo necesitas, también puedes descargar los archivos de la factura en tu servidor.
 
 <Tabs groupId="codeExamples">
-<TabItem value="curl" label="cURL">
-
-```bash
-## Descargar PDF y XML comprimidos en archivo ZIP
-curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/zip \
-  -H "Authorization: Bearer sk_test_API_KEY"
-```
-
-</TabItem>
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
@@ -306,6 +309,15 @@ $zip = $facturapi->Invoices->download_zip($invoice->id) // stream containing the
 $pdf = $facturapi->Invoices->download_pdf($invoice->id) // stream containing the PDF file or
 
 $xml = $facturapi->Invoices->download_xml($invoice->id) // stream containing the XML file or
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+## Descargar PDF y XML comprimidos en archivo ZIP
+curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/zip \
+  -H "Authorization: Bearer sk_test_API_KEY"
 ```
 
 </TabItem>

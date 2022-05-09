@@ -17,8 +17,27 @@ info:
 
     En esta página enlistamos todos los métodos
     disponibles en la API de Facturapi, así como
-    la referencia completa de los objetos y campos
-    que acepta cada uno.
+    la referencia completa de los parámetros
+    que acepta cada uno. Para ver las propiedades
+    anidadas de un objeto o arreglo de objetos,
+    puedes hacer clic sobre el nombre del campo y
+    expandirlo.
+
+    La API de Facturapi está diseñada con el
+    estándar [REST](https://developer.mozilla.org/en-US/docs/Glossary/REST)
+    en mente. Los endpoints de la API están agrupados
+    por recursos, tienen URLs predecibles, las respuestas
+    tienen formato JSON y usamos códigos HTTP de respuesta,
+    autenticación y verbos estándar.
+
+    Durante el desarrollo, puedes usar la API de Facturapi en
+    ambiente Test y las facturas que emitas no se enviarán al SAT ni
+    tendrán validez fiscal.
+    
+    La llave secreta que utilices para autenticarte
+    determinará tanto el ambiente en el que se creará la factura
+    (Test o Live), así como la organización a utilizar como emisor
+    de tu factura, o bien como dueña del recurso que solicites crear.
 
 tags:
   - name: tools
@@ -576,7 +595,7 @@ paths:
               -d '{
                     "legal_name": "Dunder Mifflin",
                     "email": "email@example.com",
-                    "tax_id": "ABCD111111CBA",
+                    "tax_id": "ABC101010111",
                     "tax_system": "601",
                     "address": {
                       "zip": "01234"
@@ -590,7 +609,7 @@ paths:
             const customer = await facturapi.customers.create({
               legal_name: 'Dunder Mifflin',
               email: 'email@example.com',
-              tax_id: 'ABCD101010XYZ',
+              tax_id: 'ABC101010111',
               tax_system: '601',
               address: {
                 zip: '01234'
@@ -604,7 +623,7 @@ paths:
             {
               ["legal_name"] = "Dunder Mifflin",
               ["email"] = "email@example.com",
-              ["tax_id"] = "ABCD101010XYZ",
+              ["tax_id"] = "ABC101010111",
               ["tax_system"] = "601",
               ["address"] = new Dictionary<string, object>
               {
@@ -617,7 +636,7 @@ paths:
             $customer = $facturapi->Customers->create([
               "email" => "email@example.com",
               "legal_name" => "Dunder Mifflin",
-              "tax_id" => "ABCD101010XYZ",
+              "tax_id" => "ABC101010111",
               "tax_system" => "601",
               "address" => [
                 "zip" => "01234"
@@ -1325,7 +1344,7 @@ paths:
                 "customer": {
                   "legal_name": "Dunder Mifflin",
                   "email": "email@example.com",
-                  "tax_id": "ABCD111111CBA",
+                  "tax_id": "ABC101010111",
                   "tax_system": "601",
                   "address": {
                     "zip": "85900"
@@ -1352,7 +1371,7 @@ paths:
               customer: {
                 legal_name: 'Dunder Mifflin',
                 email: 'email@example.com',
-                tax_id: 'ABCD111111CBA',
+                tax_id: 'ABC101010111',
                 tax_system: '601',
                 address: {
                   zip: '85900'
@@ -1380,7 +1399,7 @@ paths:
               {
                 ["legal_name"] = "Dunder Mifflin",
                 ["email"] = "email@example.com",
-                ["tax_id"] = "ABCD111111CBA",
+                ["tax_id"] = "ABC101010111",
                 ["tax_system"] = "601",
                 ["address"] = new Dictionary<string, object>
                 {
@@ -1410,7 +1429,7 @@ paths:
               "customer" => [
                 "legal_name" => "Dunder Mifflin",
                 "email" => "email@example.com",
-                "tax_id" => "ABCD111111CBA",
+                "tax_id" => "ABC101010111",
                 "tax_system" => "601",
                 "address" => [
                   "zip" => "85900"
@@ -5898,7 +5917,7 @@ components:
           example: Dunder Mifflin
         tax_id:
           type: string
-          example: ABCD101010XYZ
+          example: ABC101010111
           description: En clientes de México contiene el RFC del cliente. Para extranjeros es opcional y representa el número de registro de identificacón tributaria, es decir, el equivalente al RFC en el país del cliente.
         tax_system:
           type: string
@@ -6333,7 +6352,6 @@ components:
           type: string
           format: base64
           description: Sello digital que se asocie al pago expresado como una cadena de texto en formato base 64.
-
     CuustomerInfo:
       type: object
       description: Objeto con información parcial del cliente receptor del comprobante. Para obtener el objeto `Customer` completo, deberás consultarlo con el método de [Obtener Cliente]('#/operation/getCustomer').
@@ -6350,7 +6368,7 @@ components:
         tax_id:
           type: string
           description: RFC del cliente.
-          example: ABCD111111CBA
+          example: ABC101010111
         address:
           type: object
           properties:
@@ -6424,7 +6442,7 @@ components:
           type: string
           format: uri
           description: Dirección URL para verificar el estado del CFDI en el portal del SAT. Este link es el mismo que aparece en el código QR, en el PDF de la factura.
-          example: https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111CBA&tt=345.600000&fe=bWApPw==
+          example: https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABC101010111&tt=345.600000&fe=bWApPw==
         date:
           type: string
           format: date-time
@@ -7058,7 +7076,7 @@ components:
           type: string
           format: uri
           description: Dirección URL para verificar el estado de la retención en el portal del SAT. Este link es el mismo que aparece en el código QR, en el PDF de la retención.
-          example: https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111CBA&tt=345.600000&fe=bWApPw==
+          example: https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABC101010111&tt=345.600000&fe=bWApPw==
         type:
           type: string
           enum:

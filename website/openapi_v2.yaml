@@ -6985,6 +6985,8 @@ components:
         - $ref: "#/components/schemas/InvoiceableCommonInput"
     GlobalInvoiceInput:
       type: object
+      required:
+        - periodicity
       properties:
         from:
           type: string
@@ -7036,7 +7038,13 @@ components:
           maxLength: 25
           nullable: true
           description: Serie. Caracteres designados por la empresa para control interno y sin validez fiscal.
-
+        date:
+          type: string
+          format: date
+          default: Valor del atributo `to`
+          example: 2022-01-01T00:00:00.000
+          description: |
+            Fecha de emisión de la factura.
     Retention:
       title: Objeto Retention
       allOf:

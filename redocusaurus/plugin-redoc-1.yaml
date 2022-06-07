@@ -104,7 +104,7 @@ paths:
               -d '{
                     "legal_name": "Dunder Mifflin S.A. de C.V.",
                     "email": "email@example.com",
-                    "tax_id": "ABCD111111CBA"
+                    "tax_id": "ABC101010111"
                   }'
         - lang: JavaScript
           label: Node.js
@@ -114,7 +114,7 @@ paths:
             const customer = await facturapi.customers.create({
               legal_name: 'Dunder Mifflin S.A. de C.V.',
               email: 'email@example.com',
-              tax_id: 'ABCD101010XYZ'
+              tax_id: 'ABC101010111'
             });
         - lang: csharp
           label: C#
@@ -127,7 +127,7 @@ paths:
             {
               ["legal_name"] = "Dunder Mifflin S.A. de C.V.",
               ["email"] = "email@example.com",
-              ["tax_id"] = "ABCD101010XYZ"
+              ["tax_id"] = "ABC101010111"
             });
         - lang: PHP
           source: |
@@ -135,7 +135,7 @@ paths:
             $customer = $facturapi->Customers->create([
               "email" => "email@example.com",
               "legal_name" => "Dunder Mifflin S.A. de C.V.",
-              "tax_id" => "ABCD101010XYZ"
+              "tax_id" => "ABC101010111"
             ]);
       requestBody:
         $ref: '#/components/requestBodies/CustomerCreate'
@@ -829,7 +829,7 @@ paths:
                 "customer": {
                   "legal_name": "Dunder Mifflin S.A. de C.V.",
                   "email": "email@example.com",
-                  "tax_id": "ABCD111111CBA"
+                  "tax_id": "ABC101010111"
                 },
                 "items": [{
                   "quantity": 2,
@@ -852,7 +852,7 @@ paths:
               customer: {
                 legal_name: 'Dunder Mifflin S.A. de C.V.',
                 email: 'email@example.com',
-                tax_id: 'ABCD111111CBA'
+                tax_id: 'ABC101010111'
               },
               items: [{
                 quantity: 2,
@@ -879,7 +879,7 @@ paths:
               {
                 ["legal_name"] = "Dunder Mifflin S.A. de C.V.",
                 ["email"] = "email@example.com",
-                ["tax_id"] = "ABCD111111CBA"
+                ["tax_id"] = "ABC101010111"
               },
               ["items"] = new Dictionary<string, object>[]
               {
@@ -904,7 +904,7 @@ paths:
               "customer" => [
                 "legal_name" => "Dunder Mifflin S.A. de C.V.",
                 "email" => "email@example.com",
-                "tax_id" => "ABCD111111CBA"
+                "tax_id" => "ABC101010111"
               ],
               "items" => [
                 [
@@ -5425,7 +5425,7 @@ components:
           example: Dunder Mifflin S.A. de C.V.
         tax_id:
           type: string
-          example: ABCD101010XYZ
+          example: ABC101010111
           description: >-
             En clientes de México contiene el RFC del cliente. Para extranjeros
             es opcional y representa el número de registro de identificacón
@@ -5892,7 +5892,7 @@ components:
         tax_id:
           type: string
           description: RFC del cliente.
-          example: ABCD111111CBA
+          example: ABC101010111
         address:
           type: object
           properties:
@@ -5955,7 +5955,7 @@ components:
             SAT. Este link es el mismo que aparece en el código QR, en el PDF de
             la factura.
           example: >-
-            https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111CBA&tt=345.600000&fe=bWApPw==
+            https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABC101010111&tt=345.600000&fe=bWApPw==
         cancellation_receipt:
           type: string
           format: xml
@@ -6643,7 +6643,7 @@ components:
             del SAT. Este link es el mismo que aparece en el código QR, en el
             PDF de la retención.
           example: >-
-            https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111CBA&tt=345.600000&fe=bWApPw==
+            https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABC101010111&tt=345.600000&fe=bWApPw==
         cancellation_receipt:
           type: string
           format: xml

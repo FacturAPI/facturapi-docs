@@ -87,32 +87,32 @@ tags:
 
       ### Uso CFDI
 
-      Clave | Descripción
-      :-----:| -----------
-      "G01" | Adquisición de mercancías.
-      "G02" | Devoluciones, descuentos o bonificaciones.
-      "G03" | Gastos en general.
-      "I01" | Construcciones.
-      "I02" | Mobiliario y equipo de oficina por inversiones.
-      "I03" | Equipo de transporte.
-      "I04" | Equipo de computo y accesorios.
-      "I05" | Dados, troqueles, moldes, matrices y herramental.
-      "I06" | Comunicaciones telefónicas.
-      "I07" | Comunicaciones satelitales.
-      "I08" | Otra maquinaria y equipo.
-      "D01" | Honorarios médicos, dentales y gastos hospitalarios.
-      "D02" | Gastos médicos por incapacidad o discapacidad.
-      "D03" | Gastos funerales.
-      "D04" | Donativos.
-      "D05" | Intereses reales efectivamente pagados por créditos hipotecarios (casa habitación).
-      "D06" | Aportaciones voluntarias al SAR.
-      "D07" | Primas por seguros de gastos médicos.
-      "D08" | Gastos de transportación escolar obligatoria.
-      "D09" | Depósitos en cuentas para el ahorro, primas que tengan como base planes de pensiones.
-      "D10" | Pagos por servicios educativos (colegiaturas).
-      "S01" | Sin efectos fiscales.  
-      "CP01" | Pagos
-      "CN01" | Nómina
+      Clave | Descripción | Régimen Fiscal 
+      :-----:| ----------- | -----------
+      "G01" | Adquisición de mercancías. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625,626
+      "G02" | Devoluciones, descuentos o bonificaciones. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625,626
+      "G03" | Gastos en general. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "I01" | Construcciones. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "I02" | Mobiliario y equipo de oficina por inversiones. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "I03" | Equipo de transporte. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "I04" | Equipo de computo y accesorios. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "I05" | Dados, troqueles, moldes, matrices y herramental. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "I06" | Comunicaciones telefónicas. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "I07" | Comunicaciones satelitales. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "I08" | Otra maquinaria y equipo. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "D01" | Honorarios médicos, dentales y gastos hospitalarios. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D02" | Gastos médicos por incapacidad o discapacidad. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D03" | Gastos funerales. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D04" | Donativos. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D05" | Intereses reales efectivamente pagados por créditos hipotecarios (casa habitación). | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D06" | Aportaciones voluntarias al SAR. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D07" | Primas por seguros de gastos médicos. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D08" | Gastos de transportación escolar obligatoria. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D09" | Depósitos en cuentas para el ahorro, primas que tengan como base planes de pensiones. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D10" | Pagos por servicios educativos (colegiaturas). | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "S01" | Sin efectos fiscales.  | 601, 603, 605, 606, 608, 610, 611, 612, 614, 616, 620, 621, 622, 623, 624, 607, 615, 625, 626
+      "CP01" | Pagos |  601, 603, 605, 606, 608, 610, 611, 612, 614, 616, 620, 621, 622, 623, 624, 607, 615, 625, 626
+      "CN01" | Nómina | 605
 
       ### Relación entre facturas
 

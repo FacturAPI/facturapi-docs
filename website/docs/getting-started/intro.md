@@ -26,5 +26,5 @@ Facturapi usa **PCCFDI (antes PAC) autorizados por el SAT** para timbrar tus fac
 - **Comprobante de Retención**. Incluyendo el complemento de Plataformas Tenológicas.
 - **Cancelación** de CFDI's.
 - **Multi RFC**. Registra múltiples organizaciones bajo una misma cuenta y emitie facturas usando distintos RFCs.
-- **Autofactura**. Emite [recibos digitales](https://docs.facturapi.io/docs/guides/receipts/) que puedes enviar a tus clientes para que completen los datos de su factura por si mismos en un portal con tu branding.
+- **Autofactura**. Emite [recibos digitales](/docs/guides/receipts/) que puedes enviar a tus clientes para que completen los datos de su factura por si mismos en un portal con tu branding.
 

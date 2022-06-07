@@ -9,8 +9,9 @@ sidebar_position: 6
 - La nueva URL de la API es `https://www.facturapi.io/v2`.
 - Si usas una de nuestras librerías, asegúrate de actualizar a la última versión mayor para usar el nuevo endpoint.
 - Ya no se permite enviar atributos desconocidos, es decir, que no formen parte de la estructura descrita en la documentación. Ahora, si se envía un atributo desconocido, la API devolverá un error.
-- El SAT ahora valida, tanto en el emisor como en el receptor, que el RFC coincida exactamente con la razón social y el domicilio registrados en el SAT, por lo que deberás revisar los datos del emisor y el receptor antes de enviar la factura.
-- Si envías fechas en formato ISO 8601 y no incluyes la zona horaria, ahora la API la interpretará como tu hora local (definida por el código postal de tu organización), en lugar de interpretarla como UTC. Puedes leer más a fondo en [este artículo](https://www.facturapi.io/docs/advanced/dates).
+- El SAT ahora valida, que tanto para el emisor como para el receptor, coincidan exactamente con los datos registrados ante la autoridad como RFC, razón social, régimen y código postal; por lo que deberás revisar los datos del emisor y el receptor antes de enviar la factura.
+- Además de esto el nombre de la razón social debe escribirse en mayúsculas, sin acentos, y en caso de persona moral, sin régimen societario (por ejemplo sin S.A. de C.V.)
+- Si envías fechas en formato ISO 8601 y no incluyes la zona horaria, ahora la API la interpretará como tu hora local (definida por el código postal de tu organización), en lugar de interpretarla como UTC. Puedes leer más a fondo en [este artículo](https://docs.facturapi.io/docs/advanced/dates/).
 
 ## Facturas
 

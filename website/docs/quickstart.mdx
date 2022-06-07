@@ -6,23 +6,22 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Inicio rápido
+Te damos la bienvenida a esta **guía de inicio rápido** donde se muestran los campos mínimos requeridos para crear una factura de tipo `Ingreso` en una sola llamada.
 
-:::caution ¡No lo olvides!
+Para conocer a fondo todas las opciones disponibles al crear una factura, así como una descripción
+detallada de cada campo, consulta la [referencia del método Crear Factura](/api/#operation/createInvoice) dentro de nuestra documentación completa.
+
+:::caution ¡No olvides esto antes de comenzar!
   Recuerda reemplazar nuestra llave de ejemplo <code>sk_test_API_KEY</code>
   con tu propia llave secreta.
 :::
 
-Este ejemplo muestra los campos mínimos requeridos para crear una factura de tipo `Ingreso` en una sola llamada.
+## ¡Comencemos!
 
-Para conocer a fondo todas las opciones disponibles al crear una factura, así como una descripción
-detallada de cada campo, consulta la [referencia del método Crear Factura](/api/#operation/createInvoice).
+Un Comprobante o factura de Ingreso, se utiliza para dar constancia fiscal de que una empresa o persona ha entregado una mercancía o un servicio, así como las condiciones del intercambio como la forma de pago y si se recibe en ese momento el pago o se acuerda para cobrarse después.
 
-:::info
-  Por default se considera que el precio del producto tiene impuestos incluídos.
-  Facturapi se encarga de desglosar los impuestos del producto (siendo IVA 16% el default)
-  y calcular el precio unitario. Si en lugar de eso requieres que el atributo `price` sea
-  el precio unitario, debes enviar el parámetro `tax_included` con el valor `false`.
-:::
+El caso más común es emitir una factura por motivo de una venta, y enviarla por correo electrónico, o hacer que esté disponible para su descarga.
+
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -154,6 +153,14 @@ curl https://www.facturapi.io/v1/invoices \
 </TabItem>
 </Tabs>
 
+:::info
+  Por default se considera que el precio del producto tiene impuestos incluídos.
+  Facturapi se encarga de desglosar los impuestos del producto (siendo 16% de IVA el default)
+  y calcular el precio unitario. Si en lugar de eso requieres que el atributo `price` sea
+  el precio unitario, debes enviar el parámetro `tax_included` con el valor `false`.
+:::
+
+
 <details><summary>Respuesta: Objeto Invoice</summary>
 
 ```json
@@ -208,10 +215,12 @@ curl https://www.facturapi.io/v1/invoices \
 </details>
 
 :::success ¡Listo! 🎉
-Para este punto tu factura fue creada exitosamente, y si estás en ambiente Live, enviada al SAT.
+En este punto tu factura fue creada exitosamente, y si estás en ambiente Live, enviada al SAT.
 :::
 
-¿Cómo asegurarme de que se envió al SAT? La propiedad `verification_url` del objeto Invoice de la respuesta
+## ¿Cómo asegurarme de que la factura se envió al SAT y fue timbrada exitosamente?
+
+La propiedad `verification_url` del objeto Invoice de la respuesta
 contiene el enlace oficial al portal de verificación del SAT (el mismo que se
 muestra como QR en la versión PDF). Si creaste la factura en ambiente **Live**,
 el portal de verificación te mostrará información básica de
@@ -222,10 +231,10 @@ no son enviadas al SAT.
 Otras propiedades interesantes que Facturapi añade a la respuesta son:
 
 - `id`: Identificador único de la factura en Facturapi. Te recomendamos guardar este valor en tu base de datos para relacionarlo con tus registros.
-- `created_at`: Fecha en que fue creada.
+- `created_at`: Fecha en que la factura fue creada.
 - `livemode`: Ambiente en que se creó.
 - `total`: El total, que Facturapi calcula y no es parte del input.
-- `uuid`: El folio fiscal oficial por el que el SAT identifica tu factura
+- `uuid`: El folio fiscal oficial con el que el SAT identifica tu factura
 - `stamp`: Información del timbre fiscal digital.
 
 A continuación exploraremos cómo enviar la factura a tu cliente y cómo descargar los archivos XML y PDF.
@@ -268,7 +277,7 @@ curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
 </TabItem>
 </Tabs>
 
-## Descarga el XML y PDF
+## Descarga de XML y PDF
 
 Si lo necesitas, también puedes descargar los archivos de la factura en tu servidor.
 
@@ -322,3 +331,12 @@ curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/zip \
 
 </TabItem>
 </Tabs>
+
+
+## ¡Concluímos!
+
+Ahora ya sabes crear una factura, descargar los archivos PDF y XML; y también hacer que los archivos estén disponibles o enviarlos por correo a tus clientes.
+
+Con facturapi puedes crear facturas de cualquier tipo, también hacer uso de complementos y automatizar todo el proceso para tu organización.
+
+Te invitamos a consultar [nuestra documentación completa](docs.facturapi.io), en ella podrás explorar todas las posibilidades que tienes disponibles en Facturapi.

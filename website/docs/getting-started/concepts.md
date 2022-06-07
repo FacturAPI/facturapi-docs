@@ -8,23 +8,23 @@ Si esta es tu primera vez integrando la API de Facturapi, te recomendamos famili
 
 ## Recursos
 
-La API de Facturapi te permiten crear, consultar y administrar los siguientes recursos.
+La API de Facturapi te permite crear, consultar y administrar los siguientes recursos:
 
-Pertenecientes a cada organización:
+#### Pertenecientes a cada organización
 
-- **Clientes**
-- **Productos**
-- **Facturas**
-- **Recibos**
-- **Retenciones**
+- Clientes
+- Productos
+- Facturas
+- Recibos
+- Retenciones
 
-Pertenecientes a la cuenta del usuario:
+#### Pertenecientes a la cuenta del usuario:
 
-- **Organizaciones**
+- Organizaciones
 
 ## Roles
 
-Esiten 2 roles distintos con los que puedes identificarte en la API:
+Existen 2 roles distintos con los que puedes identificarte en la API:
 
 - **Organización**. Identificarte como **organización** te permite emitir facturas usando la
   información fiscal previamente configurada para la organización, así como crear, consular y
@@ -48,8 +48,7 @@ Facturapi cuenta con 2 ambientes independientes y únicos por cada organización
   **Test Secret Key** de la organización que desees identificar durante el proceso de
   autenticación.
 
-Los recursos creados por una organización en un ambiente son inaccesibles para otras organizaciones, o para la misma
-organización en diferents ambientes.
+Los recursos creados por una organización en un ambiente son inaccesibles para otras organizaciones, o para la misma organización en diferents ambientes.
 
 **Nota:** No requieres pagar una suscripción para usar la API en ambiente Test.
 
@@ -65,6 +64,6 @@ Existen 3 tipos de llaves secretas, cada una con una función específica:
 
 Las llaves secretas se utilizan durante el proceso de [autenticación](/docs/getting-started/authenticate).
 
-Para obtener tus llaves secretas, crea una cuenta gratuita en Facturapi visitando:
+Para obtener tus llaves secretas y crear una cuenta gratuita en Facturapi visita:
 
 <a href="https://www.facturapi.io/register?utm_source=facturapi-docs&utm_medium=GithubPages" target="_blank">https://www.facturapi.io/register</a>

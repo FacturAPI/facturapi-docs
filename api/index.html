@@ -58,8 +58,8 @@ determinará tanto el ambiente en el que se creará la factura
 (Test o Live), así como la organización a utilizar como emisor
 de tu factura, o bien como dueña del recurso que solicites crear.
 "><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://docs.facturapi.io/api/"><link data-rh="true" rel="alternate" href="https://docs.facturapi.io/api/" hreflang="en"><link data-rh="true" rel="alternate" href="https://docs.facturapi.io/api/" hreflang="x-default"><link rel="stylesheet" href="/assets/css/styles.1b3b84f6.css">
-<link rel="preload" href="/assets/js/runtime~main.b517a059.js" as="script">
-<link rel="preload" href="/assets/js/main.5d96762b.js" as="script">
+<link rel="preload" href="/assets/js/runtime~main.73aab59a.js" as="script">
+<link rel="preload" href="/assets/js/main.44bdc17b.js" as="script">
 </head>
 <body class="navigation-with-keyboard">
 <script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){var t=null;try{t=localStorage.getItem("theme")}catch(t){}return t}();t(null!==e?e:"light")}()</script><div id="__docusaurus">
@@ -954,103 +954,128 @@ en bruto de la consulta al SAT.</p>
 <tr>
 <th align="center">Clave</th>
 <th>Descripción</th>
+<th>Régimen Fiscal</th>
 </tr>
 </thead>
 <tbody><tr>
 <td align="center">&quot;G01&quot;</td>
 <td>Adquisición de mercancías.</td>
+<td>601, 603, 606, 612, 620, 621, 622, 623, 624, 625,626</td>
 </tr>
 <tr>
 <td align="center">&quot;G02&quot;</td>
 <td>Devoluciones, descuentos o bonificaciones.</td>
+<td>601, 603, 606, 612, 620, 621, 622, 623, 624, 625,626</td>
 </tr>
 <tr>
 <td align="center">&quot;G03&quot;</td>
 <td>Gastos en general.</td>
+<td>601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626</td>
 </tr>
 <tr>
 <td align="center">&quot;I01&quot;</td>
 <td>Construcciones.</td>
+<td>601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626</td>
 </tr>
 <tr>
 <td align="center">&quot;I02&quot;</td>
 <td>Mobiliario y equipo de oficina por inversiones.</td>
+<td>601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626</td>
 </tr>
 <tr>
 <td align="center">&quot;I03&quot;</td>
 <td>Equipo de transporte.</td>
+<td>601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626</td>
 </tr>
 <tr>
 <td align="center">&quot;I04&quot;</td>
 <td>Equipo de computo y accesorios.</td>
+<td>601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626</td>
 </tr>
 <tr>
 <td align="center">&quot;I05&quot;</td>
 <td>Dados, troqueles, moldes, matrices y herramental.</td>
+<td>601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626</td>
 </tr>
 <tr>
 <td align="center">&quot;I06&quot;</td>
 <td>Comunicaciones telefónicas.</td>
+<td>601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626</td>
 </tr>
 <tr>
 <td align="center">&quot;I07&quot;</td>
 <td>Comunicaciones satelitales.</td>
+<td>601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626</td>
 </tr>
 <tr>
 <td align="center">&quot;I08&quot;</td>
 <td>Otra maquinaria y equipo.</td>
+<td>601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626</td>
 </tr>
 <tr>
 <td align="center">&quot;D01&quot;</td>
 <td>Honorarios médicos, dentales y gastos hospitalarios.</td>
+<td>605, 606, 608, 611, 612, 614, 607, 615, 625</td>
 </tr>
 <tr>
 <td align="center">&quot;D02&quot;</td>
 <td>Gastos médicos por incapacidad o discapacidad.</td>
+<td>605, 606, 608, 611, 612, 614, 607, 615, 625</td>
 </tr>
 <tr>
 <td align="center">&quot;D03&quot;</td>
 <td>Gastos funerales.</td>
+<td>605, 606, 608, 611, 612, 614, 607, 615, 625</td>
 </tr>
 <tr>
 <td align="center">&quot;D04&quot;</td>
 <td>Donativos.</td>
+<td>605, 606, 608, 611, 612, 614, 607, 615, 625</td>
 </tr>
 <tr>
 <td align="center">&quot;D05&quot;</td>
 <td>Intereses reales efectivamente pagados por créditos hipotecarios (casa habitación).</td>
+<td>605, 606, 608, 611, 612, 614, 607, 615, 625</td>
 </tr>
 <tr>
 <td align="center">&quot;D06&quot;</td>
 <td>Aportaciones voluntarias al SAR.</td>
+<td>605, 606, 608, 611, 612, 614, 607, 615, 625</td>
 </tr>
 <tr>
 <td align="center">&quot;D07&quot;</td>
 <td>Primas por seguros de gastos médicos.</td>
+<td>605, 606, 608, 611, 612, 614, 607, 615, 625</td>
 </tr>
 <tr>
 <td align="center">&quot;D08&quot;</td>
 <td>Gastos de transportación escolar obligatoria.</td>
+<td>605, 606, 608, 611, 612, 614, 607, 615, 625</td>
 </tr>
 <tr>
 <td align="center">&quot;D09&quot;</td>
 <td>Depósitos en cuentas para el ahorro, primas que tengan como base planes de pensiones.</td>
+<td>605, 606, 608, 611, 612, 614, 607, 615, 625</td>
 </tr>
 <tr>
 <td align="center">&quot;D10&quot;</td>
 <td>Pagos por servicios educativos (colegiaturas).</td>
+<td>605, 606, 608, 611, 612, 614, 607, 615, 625</td>
 </tr>
 <tr>
 <td align="center">&quot;S01&quot;</td>
 <td>Sin efectos fiscales.</td>
+<td>601, 603, 605, 606, 608, 610, 611, 612, 614, 616, 620, 621, 622, 623, 624, 607, 615, 625, 626</td>
 </tr>
 <tr>
 <td align="center">&quot;CP01&quot;</td>
 <td>Pagos</td>
+<td>601, 603, 605, 606, 608, 610, 611, 612, 614, 616, 620, 621, 622, 623, 624, 607, 615, 625, 626</td>
 </tr>
 <tr>
 <td align="center">&quot;CN01&quot;</td>
 <td>Nómina</td>
+<td>605</td>
 </tr>
 </tbody></table>
 <h3 id="relación-entre-facturas">Relación entre facturas</h3>
@@ -2581,7 +2606,7 @@ un <code>string</code> con el código XML del complemento.</p>
 </div></div></div></td></tr><tr><td class="sc-hBUSln sc-fFeiMQ sc-clIzBv jpHNWT TMPHd bSTmYd" kind="field" title="pending_steps"><span class="sc-ieecCq hwZCBD"></span><button aria-label="expand properties"><span>pending_steps</span><svg class="sc-egiyK JgnVt" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button></td><td class="sc-bkkeKt fAkPvd"><div><div><span class="sc-faUpoM sc-Galmp hBGVGg kyyuRi">Array of </span><span class="sc-faUpoM sc-fWCJzd hBGVGg hYmbIx">objects</span><span class="sc-faUpoM sc-Galmp sc-jQrDum hBGVGg kyyuRi heCnGO">[ items<!-- --> ]</span></div> <div><div class="sc-iAKWXU sc-cNKqjZ eojXkT QvRXZ"><p>Lista de pasos que se necesitan completar para que esta organización pueda emitir facturas válidas en ambiente Live.</p>
 </div></div></div></td></tr><tr class="last undefined"><td class="sc-hBUSln sc-fFeiMQ sc-clIzBv jpHNWT TMPHd bSTmYd" kind="field" title="legal"><span class="sc-ieecCq hwZCBD"></span><button aria-label="expand properties"><span>legal</span><svg class="sc-egiyK JgnVt" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button></td><td class="sc-bkkeKt fAkPvd"><div><div><span class="sc-faUpoM sc-Galmp hBGVGg kyyuRi"></span><span class="sc-faUpoM sc-fWCJzd hBGVGg hYmbIx">object</span></div> <div><div class="sc-iAKWXU sc-cNKqjZ eojXkT QvRXZ"><p>Datos fiscales de la empresa.</p>
 </div></div></div></td></tr></tbody></table></div><div class="sc-jRQBWg sc-gKclnd jogbr fdbVEu"><div class="sc-fbyfCU hOSJLK"><div class="sc-gGCDDS dkihOy"><div class="sc-iNGGcK jMHH"><div class="sc-efQSVx jCUYDL"><button><div class="sc-khQegj hwKvZp">Copy</div></button><button> Expand all </button><button> Collapse all </button></div><div class="sc-iAKWXU eojXkT sc-jeraig bzdYFL"><div class="redoc-json"><code><button class="collapser" aria-label="collapse"></button><span class="token punctuation">{</span><span class="ellipsis"></span><ul class="obj collapsible"><li><div class="hoverable"><span class="property token string">"id"</span>: <span class="token string">&quot;5a2a307be93a2f00129ea035&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable"><span class="property token string">"created_at"</span>: <span class="token string">&quot;2017-05-05T20:55:33.468Z&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable"><span class="property token string">"is_production_ready"</span>: <span class="token boolean">true</span><span class="token punctuation">,</span></div></li><li><div class="hoverable"><span class="property token string">"pending_steps"</span>: <button class="collapser" aria-label="collapse"></button><span class="token punctuation">[</span><span class="ellipsis"></span><ul class="array collapsible"><li><div class="hoverable collapsed"><button class="collapser" aria-label="expand"></button><span class="token punctuation">{</span><span class="ellipsis"></span><ul class="obj collapsible"><li><div class="hoverable collapsed"><span class="property token string">"type"</span>: <span class="token string">&quot;legal&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"description"</span>: <span class="token string">&quot;string&quot;</span></div></li></ul><span class="token punctuation">}</span></div></li></ul><span class="token punctuation">]</span><span class="token punctuation">,</span></div></li><li><div class="hoverable"><span class="property token string">"legal"</span>: <button class="collapser" aria-label="collapse"></button><span class="token punctuation">{</span><span class="ellipsis"></span><ul class="obj collapsible"><li><div class="hoverable collapsed"><span class="property token string">"name"</span>: <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"legal_name"</span>: <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"tax_system"</span>: <span class="token string">&quot;601&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"website"</span>: <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"phone"</span>: <span class="token string">&quot;string&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"address"</span>: <button class="collapser" aria-label="expand"></button><span class="token punctuation">{</span><span class="ellipsis"></span><ul class="obj collapsible"><li><div class="hoverable collapsed"><span class="property token string">"street"</span>: <span class="token string">&quot;Blvd. Atardecer&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"exterior"</span>: <span class="token number">142</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"interior"</span>: <span class="token number">4</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"neighborhood"</span>: <span class="token string">&quot;Centro&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"city"</span>: <span class="token string">&quot;Huatabampo&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"municipality"</span>: <span class="token string">&quot;Huatabampo&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"zip"</span>: <span class="token number">86500</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"state"</span>: <span class="token string">&quot;Sonora&quot;</span></div></li></ul><span class="token punctuation">}</span></div></li></ul><span class="token punctuation">}</span></div></li></ul><span class="token punctuation">}</span></code></div></div></div></div></div></div></div></div><div class="sc-hKwDye enzzeX"><div class="sc-iAKWXU sc-cNKqjZ eojXkT gBTrWz redoc-markdown"></div></div></div></div><div class="sc-cLpAjG kaixRU"></div></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Docs</div><ul class="footer__items"><li class="footer__item"><a class="footer__link-item" href="/docs/quickstart/">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items"><li class="footer__item"><a href="https://stackoverflow.com/questions/tagged/facturapi" target="_blank" rel="noopener noreferrer" class="footer__link-item">Stack Overflow<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_I5OW"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://twitter.com/facturapi" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_I5OW"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://facebook.com/facturapi" target="_blank" rel="noopener noreferrer" class="footer__link-item">Facebook<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_I5OW"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://instagram.com/facturapi" target="_blank" rel="noopener noreferrer" class="footer__link-item">Instagram<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_I5OW"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items"><li class="footer__item"><a href="https://github.com/facturapi" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_I5OW"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2022 Facturación Espacial, SAPI de CV</div></div></div></footer></div>
-<script src="/assets/js/runtime~main.b517a059.js"></script>
-<script src="/assets/js/main.5d96762b.js"></script>
+<script src="/assets/js/runtime~main.73aab59a.js"></script>
+<script src="/assets/js/main.44bdc17b.js"></script>
 </body>
 </html>

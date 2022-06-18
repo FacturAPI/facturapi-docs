@@ -1767,6 +1767,69 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  
+  /invoices/{invoice_id}/cancellation_receipt/xml:
+    get:
+      operationId: getCanceledReceipt
+      tags:
+        - invoice
+      summary: Descargar acuse de cancelación
+      description: Descarga acuse de recibo de cancelación de una factura en un archivo xml.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            # Acuse de factura cancelada
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/xml \
+              -H "Authorization: Bearer sk_test_API_KEY"
+              -X GET
+
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            // Acuse de factura cancelada
+            await facturapi.invoices.getCancellationReceipt('58e93bd8e86eb318b019743d');
+
+        - lang: csharp
+          label: C#
+          source: |
+            // Acuse de factura cancelada
+            await facturapi.Invoice.getCancellationReceipt("58e93bd8e86eb318b019743d");
+
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+
+            // Acuse de factura cancelada
+            $facturapi->Invoices->get_cancellation_receipt("58e93bd8e86eb318b019743d");
+      parameters:
+        - in: path
+          name: invoice_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto a obtener
+      security:
+        - "Secret Live Key": []
+        - "Secret Test Key": []
+      responses:
+        "200":
+          description: Archivo del acuse de recibo de cancelación
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+
   /invoices/{invoice_id}/{format}:
     get:
       operationId: downloadInvoice
@@ -2009,7 +2072,7 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "500":
           $ref: "#/components/responses/UnexpectedError"
-
+  
   /receipts:
     post:
       operationId: createReceipt
@@ -4241,61 +4304,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TaxIdValidationResult"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-  /tools/cancellation_receipt/{invoice_or_retention_id}:
-    get:
-      tags:
-        - tools
-      summary: Obtener acuse de cancelación
-      description: Regresa el acuse de cancelación de un comprobante.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/tools/cancellation_receipt/<invoice_or_retention_id> \
-              -H "Authorization: Bearer sk_test_API_KEY"
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            const Facturapi = require('facturapi');
-            const facturapi = new Facturapi('sk_test_API_KEY');
-
-            const validation = await facturapi.tools.getCancellationReceipt('<invoice_or_retention_id>');
-        - lang: csharp
-          label: C#
-          source: |
-            var facturapi = new FacturapiClient("sk_test_API_KEY");
-            
-            var customer = await facturapi.Tools.GetCancellationReceipt("<invoice_or_retention_id>");
-        - lang: PHP
-          source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
-            
-            $customer = $facturapi->Tools->getCancellationReceipt("<invoice_or_retention_id>");
-      parameters:
-        - in: path
-          name: invoice_or_retention_id
-          required: true
-          schema:
-            type: string
-            description: ID de la factura o la retención cancelada de la que se quiere obtener el acuse.
-            example: 58e93bd8e86eb318b019743d
-      security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
-      responses:
-        "200":
-          description: Acuse de recibo
-          content:
-            application/xml:
-              schema:
-                type: string
-                format: xml
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":

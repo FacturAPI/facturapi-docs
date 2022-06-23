@@ -1770,7 +1770,7 @@ paths:
   
   /invoices/{invoice_id}/cancellation_receipt/xml:
     get:
-      operationId: getCancelationReceipt
+      operationId: getCancellationReceipt
       tags:
         - invoice
       summary: Descargar acuse de cancelación

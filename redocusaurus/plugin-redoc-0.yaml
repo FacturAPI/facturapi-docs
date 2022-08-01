@@ -7108,6 +7108,13 @@ components:
               description: Conceptos a incluir en la factura.
               items:
                 $ref: '#/components/schemas/LineItemInput'
+            use:
+              type: string
+              default: G01
+              description: >-
+                Código de Uso CFDI según el catálogo del SAT. Puedes ver los
+                códigos en [esta tabla](#uso-cfdi), o utilizar las constantes
+                incluídas en nuestras librerías.
             currency:
               type: string
               default: MXN

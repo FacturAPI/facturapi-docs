@@ -3,6 +3,48 @@ sidebar_position: 3
 title: Egreso
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Comprobante de Egreso
 
-Próximamente
+El **Comprobante de egreso**, conocido anteriormente como _nota de crédito_, se utiliza para
+amparar salidas de dinero como devoluciones, descuentos y bonificaciones.
+La función principal de este tipo de comprobantes es la deductibilidad ya que se utilizan para corregir o restar montos de comprobantes de ingresos emitidos con anterioridad.
+
+
+La clave de este tipo de CFDI es comprobante tipo "E".
+
+:::info **¿Un comprobante de egreso debe relacionarse?**
+Los CFDI's de egreso siempre deben relacionarse con uno o varios comprobantes de ingreso utilizando la clave de relación correspondiente.
+
+Es importante mencionar que un comprobante de egreso no sirve para cancelar un comprobante de ingreso.
+:::
+
+## Ejemplos
+
+A continuación se listan algunos casos de uso comunes.
+
+Para conocer a fondo todas las opciones disponibles al crear una factura, descripciiones
+detalladas de cada campo y los catálogos más utilizados consulta la
+[referencia del método Crear Factura](/api/#operation/createInvoice).
+
+### Descuento por una venta ya facturada
+En este ejemplo, se recibió un pago de $3,600.00 pesos por un producto con el 10% descuento que tiene un valor de 4,000 pesos, los $400.00 pesos descontados se amparan emitiendo un CFDI de egreso.
+
+:::caution *Sección en construcción*
+:::
+
+### Anulación de un CFDI de ingreso
+Para este escenario, se emite un comprobante de egreso por $5000.00 pesos para anular el monto total de un CFDI de ingreso previo con el mismo monto.
+
+:::caution *Sección en construcción*
+:::
+
+### Bonificación a una venta futura
+Es posible ofrecer bonificaciones a ventas por realizarse de forma anticipada, en este ejemplo se emite un CFDI de egreso por $400.00 pesos para amparar un bono que será aplicado a una venta por 2,000.00 pesos.
+
+:::caution *Sección en construcción*
+:::
+
+

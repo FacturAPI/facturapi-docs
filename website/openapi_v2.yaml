@@ -4657,8 +4657,8 @@ components:
         type: integer
         minimum: 1
         default: 50
-        maximum: 1000
-      description: Número del 1 al 50 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
+        maximum: 100
+      description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
 
   schemas:
     EventBase:

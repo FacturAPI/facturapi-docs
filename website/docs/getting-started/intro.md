@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Introducción
 
-Facturapi es la primera REST API de facturación electrónica en México que rediseña y simplifica la emisión y envío de CFDIs.
+Facturapi es la primera REST API de facturación electrónica en México que rediseña y simplifica la emisión y envío de CFDI.
 
 Aspiramos a ser una alternativa simplificada y moderna frente a los PCCFDI (Proveedor de certificación de Comprobante Fiscal Digital por Internet, antes PAC Proveedor Autorizado de Certificación) tradicionales, que requieren de una gran cantidad de tiempo y experiencia para implementarse.
 
@@ -24,7 +24,7 @@ Facturapi usa **PCCFDI (antes PAC) autorizados por el SAT** para timbrar tus fac
   - **Traslado** (incluyendo el complemento Carta Porte)
 - Inserta cualquier **complemento** y/o **addenda**.
 - **Comprobante de Retención**. Incluyendo el complemento de Plataformas Tenológicas.
-- **Cancelación** de CFDI's.
-- **Multi RFC**. Registra múltiples organizaciones bajo una misma cuenta y emitie facturas usando distintos RFCs.
+- **Cancelación** de CFDI.
+- **Multi RFC**. Registra múltiples organizaciones bajo una misma cuenta y emitie facturas usando distintos RFC.
 - **Autofactura**. Emite [recibos digitales](/docs/guides/receipts/) que puedes enviar a tus clientes para que completen los datos de su factura por si mismos en un portal con tu branding.
 

@@ -26,8 +26,7 @@ sidebar_position: 6
 
 ### Nuevos campos opcionales al crear facturas:
 
-- `items.third_party` 
-    _*Opción recomendable para emitir facturas a cuenta de terceros; puede utilizarse para sustituir namespaces y complements._
+- `items.third_party` <br> _*Opción recomendable para emitir facturas a cuenta de terceros; debe utilizarse para sustituir namespaces y complements._</br>
 - `export`
 - `global`
 
@@ -98,8 +97,7 @@ Al crear una factura global, ahora es requerido enviar información adicional:
 
 ### Llaves secretas o Api Keys
 
-- Como medida de seguridad, ya no es posible obtener la llave secreta Live de una organización. Se elimina el método `getApiKeys` y en su lugar se introducen los métodos `getTestApiKey`, `renewTestApiKey` y `renewLiveApiKey`. Los dos últimos pueden ser usados para generar nuevas llaves secretas, sustituyendo a las actuales, y en la respuesta se incluye la nueva llave generada. Para el caso de la llave secreta Live, el momento de su creación será la única
-oportunidad para leer el valor.
+- Como medida de seguridad, ya no es posible obtener la llave secreta Live de una organización. Se elimina el método `getApiKeys` y en su lugar se introducen los métodos `getTestApiKey`, `renewTestApiKey` y `renewLiveApiKey`. Los dos últimos pueden ser usados para generar nuevas llaves secretas, sustituyendo a las actuales, y en la respuesta se incluye la nueva llave generada. Para el caso de la llave secreta Live, el momento de su creación será la única oportunidad para leer el valor.
 
 ### Configuración de recibos
 

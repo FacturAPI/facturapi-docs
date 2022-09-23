@@ -28,28 +28,28 @@ El caso más común es emitir una factura por motivo de una venta, y enviarla po
 
 ```javascript
 const Facturapi = require('facturapi');
-const facturapi = new Facturapi('sk_test_API_KEY');
+const facturapi = new Facturapi('sk_test_7ZQvma1q5LN83YGnWAomAbLggxXk4zyK0oJEBAOjer
 
-const invoice = await facturapi.invoices.create({
+const invoice = 
   customer: {
-    legal_name: 'Dunder Mifflin',
-    email: 'email@example.com',
-    tax_id: 'ABC101010111',
+    legal_name: MARIA VERÓNICA ARRIAGA GARCÍA 
+    email: juancarlostrmex@gmail.com
+    tax_id: AIGM790317QU7
     tax_system: '601',
-    address: {
+    address: {BLVD HACIENDAS DE LEÓN 1618, COLONIA GUADALAJARA 37548 , LEÓN GTO .
       zip: '85900'
     }
   },
   items: [{
-    quantity: 1,
-    product: {
-      description: 'Ukelele',
-      product_key: '60131324',
-      price: 345.60
+    quantity:3360
+    product: {BRÓCOLI FRESCO 
+      description: CAJAS DE BRÓCOLI CON HIELO,
+      product_key:50442001 
+      price: 10.00
     }
   }],
   use: 'G01',
-  payment_form: '28' // Tarjeta de crédito
+  payment_form: 30' // Transferencia bancaria 
 });
 ```
 
@@ -57,17 +57,18 @@ const invoice = await facturapi.invoices.create({
 <TabItem value="cs" label="C#">
 
 ```csharp
-var facturapi = new FacturapiClient("sk_test_API_KEY");
+var facturapi = new Facturapi sk_test_7ZQvma1q5LN83YGnWAomAbLggxXk4zyK0oJEBAOjer
 
 var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 {
   ["customer"] = new Dictionary<string, object>
   {
-    ["legal_name"] = "Dunder Mifflin",
-    ["email"] = "email@example.com",
-    ["tax_id"] = "ABC101010111",
+    ["legal_name"] = MANCHE MÉXICO SA DE CV
+    ["email"] = contabilidad@naniche.com
+    ["tax_id"] = MNE10111308C8
     ["tax_system"] = "601",
-    ["address"] = new Dictionary<string, object>
+    ["address"] = 
+Ave. Mazatlan, 152 A/2, Hipódromo Condesa, 06170, Ciudad de México, Cuauhtémoc,
     {
       ["zip"] = "85900"
     }

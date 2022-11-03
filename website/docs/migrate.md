@@ -26,7 +26,7 @@ sidebar_position: 6
 
 ### Nuevos campos opcionales al crear facturas:
 
-- `items.third_party` <br> _*Opción recomendable para emitir facturas a cuenta de terceros; debe utilizarse para sustituir namespaces y complements._</br>
+- `items.third_party` <br/>_*Opción recomendable para emitir facturas a cuenta de terceros; debe utilizarse para sustituir namespaces y complements._
 - `export`
 - `global`
 

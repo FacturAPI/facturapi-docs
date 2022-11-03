@@ -4886,7 +4886,12 @@ components:
       properties:
         rate:
           type: number
-          description: Tasa del impuesto
+          example: 0.1
+          description: Tasa del impuesto en fracción decimal.
+        base:
+          type: number
+          default: 100% del subtotal
+          description: Base del impuesto
         type:
           type: string
           description: Nombre del impuesto. Texto libre.
@@ -4899,6 +4904,8 @@ components:
     BaseTax:
       title: Tax
       type: object
+      required:
+        - rate
       discriminator:
         propertyName: type
         mapping:
@@ -4908,8 +4915,12 @@ components:
       properties:
         rate:
           type: number
-          default: 0.16
-          description: Tasa del impuesto
+          example: 0.16
+          description: Tasa del impuesto en fracción decimal.
+        base:
+          type: number
+          default: 100% del subtotal
+          description: Base del impuesto.
         type:
           type: string
           default: IVA
@@ -5046,6 +5057,54 @@ components:
           description: Objeto con información del producto o servicio facturado.
           oneOf:
             - $ref: '#/components/schemas/LineItemProductInput'
+            - type: string
+              title: product_id
+              description: ID de un producto previamente registrado en Facturapi
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PartInput'
+        customs_keys:
+          type: array
+          items:
+            type: string
+          description: Números de pedimento asociados a este concepto.
+        complement:
+          type: string
+          format: xml
+          description: >-
+            Código XML de tu complemento. Recuerda que debes añadir el prefijo y
+            las URLs usando el parámetro namespaces.
+        third_party:
+          allOf:
+            - type: object
+              required:
+                - legal_name
+                - tax_id
+                - tax_system
+                - zip
+            - $ref: '#/components/schemas/ThirdParty'
+    LineItemEgresoInput:
+      title: LineItem
+      required:
+        - product
+      type: object
+      description: Conceptos incluidos en el documento
+      properties:
+        quantity:
+          type: number
+          default: 1
+          description: Cantidad de unidades incluídas del mismo concepto.
+          example: 1
+        discount:
+          type: number
+          description: Monto total de descuento aplicado a este concepto.
+          default: 0
+          example: 0
+        product:
+          description: Objeto con información del producto o servicio facturado.
+          oneOf:
+            - $ref: '#/components/schemas/LineItemProductEgresoInput'
             - type: string
               title: product_id
               description: ID de un producto previamente registrado en Facturapi
@@ -6090,6 +6149,11 @@ components:
       allOf:
         - $ref: '#/components/schemas/ProductRequiredProperties'
         - $ref: '#/components/schemas/ProductProperties'
+    LineItemProductEgresoInput:
+      title: Product
+      allOf:
+        - $ref: '#/components/schemas/ProductEgresoRequiredProperties'
+        - $ref: '#/components/schemas/ProductEgresoProperties'
     LineItemTrasladoProductInput:
       title: Product
       required:
@@ -6131,11 +6195,6 @@ components:
           description: >-
             Identificador de uso interno designado por la empresa. Puede tener
             cualquier valor.
-    LineItemProductEgresoInput:
-      title: Product
-      allOf:
-        - $ref: '#/components/schemas/ProductEgresoRequiredProperties'
-        - $ref: '#/components/schemas/ProductEgresoProperties'
     LineItemProduct:
       allOf:
         - type: object
@@ -6972,10 +7031,17 @@ components:
             use:
               type: string
               default: G01
-              description: >-
+              description: >
                 Código de Uso CFDI según el catálogo del SAT. Puedes ver los
-                códigos en [esta tabla](#uso-cfdi), o utilizar las constantes
-                incluídas en nuestras librerías.
+                códigos
+
+                en [esta tabla](#uso-cfdi), o utilizar las constantes incluídas
+                en
+
+                nuestras librerías.
+
+
+                Para factura global debe ingresarse la clave `S01``.
             currency:
               type: string
               default: MXN
@@ -7107,7 +7173,7 @@ components:
               type: array
               description: Conceptos a incluir en la factura.
               items:
-                $ref: '#/components/schemas/LineItemInput'
+                $ref: '#/components/schemas/LineItemEgresoInput'
             use:
               type: string
               default: G01

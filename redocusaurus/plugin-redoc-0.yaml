@@ -1498,7 +1498,7 @@ paths:
             // Acuse de factura cancelada
 
             await
-            facturapi.Invoice.DownloadCancellationReceiptXml("58e93bd8e86eb318b019743d");
+            facturapi.Invoice.DownloadCancellationReceiptXmlAsync("58e93bd8e86eb318b019743d");
         - lang: PHP
           source: >
             $facturapi = new Facturapi( "sk_test_API_KEY" );

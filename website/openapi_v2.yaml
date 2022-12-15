@@ -1789,7 +1789,7 @@ paths:
   
   /invoices/{invoice_id}/cancellation_receipt/xml:
     get:
-      operationId: getCancellationReceipt
+      operationId: downloadCancellationReceiptXml
       tags:
         - invoice
       summary: Descargar acuse de cancelación
@@ -1810,20 +1810,20 @@ paths:
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             // Acuse de factura cancelada
-            await facturapi.invoices.getCancellationReceipt('58e93bd8e86eb318b019743d');
+            await facturapi.invoices.downloadCancellationReceiptXml('58e93bd8e86eb318b019743d');
 
         - lang: csharp
           label: C#
           source: |
             // Acuse de factura cancelada
-            await facturapi.Invoice.getCancellationReceipt("58e93bd8e86eb318b019743d");
+            await facturapi.Invoice.DownloadCancellationReceiptXml("58e93bd8e86eb318b019743d");
 
         - lang: PHP
           source: |
             $facturapi = new Facturapi( "sk_test_API_KEY" );
 
             // Acuse de factura cancelada
-            $facturapi->Invoices->get_cancellation_receipt("58e93bd8e86eb318b019743d");
+            $facturapi->Invoices->download_cancellation_receipt_xml("58e93bd8e86eb318b019743d");
       parameters:
         - in: path
           name: invoice_id
@@ -2413,6 +2413,204 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /receipts/{receipt_id}/pdf:
+    get:
+      operationId: downloadReceiptPdf
+      tags:
+        - receipt
+      summary: Descargar PDF
+      description: Descarga el recibo digital en formato PDF.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const fs = require('fs');
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            // Descargar recibo en formato PDF
+            const pdfStream = await facturapi.receipts.downloadPdf('58e93bd8e86eb318b019743d');
+            const pdfFile = fs.createWriteStream('./recibo.pdf');
+            pdfStream.pipe(pdfFile);
+        - lang: csharp
+          label: C#
+          source: |
+            // Descargar recibo en formato PDF
+            var pdfStream = await facturapi.Receipt.DownloadPdfAsync("58e93bd8e86eb318b019743d");
+
+            // Para guardar la descarga en un archivo
+            var file = new System.IO.FileStream("C:\\route\\to\\save\\receipt.pdf", FileMode.Create);
+            pdfStream.CopyTo(file);
+            file.Close();
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+
+            // stream containing the PDF file
+            $pdf = $facturapi->Receipts->download_pdf("58e93bd8e86eb318b019743d");
+      parameters:
+        - in: path
+          name: receipt_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto a descargar
+      security:
+        - "Secret Live Key": []
+        - "Secret Test Key": []
+      responses:
+        "200":
+          description: Archivo del recibo digital en formato PDF
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /receipts/{receipt_id}/email:
+    post:
+      operationId: sendReceiptByEmail
+      tags:
+        - receipt
+      summary: Enviar recibo por correo electrónico
+      description: |
+        Envía un correo electrónico a la dirección de tu cliente.
+        
+        El correo enviado estará personalizado con el logotipo y los colores de la organización que lo creó,
+        e incluirá un botón para facturar el recibo, así con el recibo en formato PDF adjunto al mensaje.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            # Enviar recibo por correo electrónico
+            curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d/email \
+              -H "Authorization: Bearer sk_test_API_KEY"
+              -X POST
+              -H "Content-Type: application/json" \
+              -d '{
+                    "email": "another_email@example.com"
+                  }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            // Enviar recibo por correo electrónico
+            await facturapi.receipts.sendByEmail(
+              '58e93bd8e86eb318b019743d',
+              { email: 'ejemplo@correo.com' }
+            );
+
+            // Enviar a más de un correo (máx. 10)
+            await facturapi.receipts.sendByEmail(
+              '58e93bd8e86eb318b019743d',
+              { 
+                email: [
+                  'primer@correo.com',
+                  'segundo@correo.com'
+                ]
+              }
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            // Enviar recibo por correo electrónico
+            await facturapi.Receipt.SendByEmailAsync(
+              "58e93bd8e86eb318b019743d",
+              new Dictionary<string, object>
+              {
+                ["email"] = "ejemplo@correo.com"
+              }
+            );
+
+            // Enviar a más de un correo
+            await facturapi.Receipt.SendByEmailAsync(
+              "58e93bd8e86eb318b019743d",
+              new Dictionary<string, object>
+              {
+                ["email"] = new String[]
+                {
+                  "primer@correo.com",
+                  "segundo@correo.com"
+                }
+              }
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+
+            // Enviar recibo por correo electrónico
+            $facturapi->Receipts->send_by_email(
+              "58e93bd8e86eb318b019743d",
+              "ejemplo@correo.com"
+            );
+
+            // Enviar a más de un correo (máx 10)
+            $facturapi->Receipts->send_by_email(
+              "58e93bd8e86eb318b019743d",
+              [
+                "primer@correo.com",
+                "segundo@correo.com"
+              ]
+            );
+      parameters:
+        - in: path
+          name: receipt_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto a obtener
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  description: Dirección de correo electrónico a enviar el recibo digital.
+                  oneOf:
+                    - type: string
+                      format: email
+                      description: Dirección de correo eletrónico
+                      example: otro@correo.com
+                    - type: array
+                      example: ["primer@correo.com", "segundo@correo.com"]
+                      description: Lista de direcciones de correo que recibirán el recibo digital.
+                      maxLength: 10
+                      items:
+                        type: string
+                        format: email
+      security:
+        - "Secret Live Key": []
+        - "Secret Test Key": []
+      responses:
+        "200":
+          description: Archivo del comprobante CFDI en el formato solicitado
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  
   /receipts/{receipt_id}/invoice:
     post:
       operationId: invoiceReceipt

@@ -1816,7 +1816,7 @@ paths:
           label: C#
           source: |
             // Acuse de factura cancelada
-            await facturapi.Invoice.DownloadCancellationReceiptXml("58e93bd8e86eb318b019743d");
+            await facturapi.Invoice.DownloadCancellationReceiptXmlAsync("58e93bd8e86eb318b019743d");
 
         - lang: PHP
           source: |

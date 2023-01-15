@@ -7454,6 +7454,15 @@ components:
               default: []
               items:
                 $ref: '#/components/schemas/RelatedDocumentInput'
+            third_party:
+              allOf:
+                - type: object
+                  required:
+                    - legal_name
+                    - tax_id
+                    - tax_system
+                    - zip
+                - $ref: '#/components/schemas/ThirdParty'
             complements:
               type: array
               default: []

@@ -17,7 +17,7 @@ info:
     En su lugar utiliza la [versión 2](/api), que te permite emitir CFDI v4.0.
 
     La versión 1 de la API dejará de estar disponible cuando el SAT
-    termine la vigencia del CFDI 3.3.
+    termine la vigencia del CFDI 3.3, el 01 de Abril de 2023.
 
 tags:
   - name: tools

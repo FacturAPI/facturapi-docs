@@ -15,7 +15,7 @@ Facturapi usa **PCCFDI (antes PAC) autorizados por el SAT** para timbrar tus fac
 ## Características soportadas por Facturapi
 
 - **CFDI versión 4.0** (vigente desde Enero de 2022).
-- **CFDI versión 3.3** (soportada hasta el último día de Diciembre de 2022).
+- **CFDI versión 3.3** (válida hasta el último día de Marzo de 2023).
 - Todos los tipos de facturas (CFDI):
   - **Ingreso** (la normal)
   - **Egreso** (conocida como Nota de Crédito)

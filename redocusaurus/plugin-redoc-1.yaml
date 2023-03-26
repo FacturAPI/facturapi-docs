@@ -17,7 +17,7 @@ info:
     En su lugar utiliza la [versión 2](/api), que te permite emitir CFDI v4.0.
 
     La versión 1 de la API dejará de estar disponible cuando el SAT
-    termine la vigencia del CFDI 3.3.
+    termine la vigencia del CFDI 3.3, el 01 de Abril de 2023.
 tags:
   - name: tools
     x-displayName: Herramientas
@@ -3124,7 +3124,7 @@ paths:
             \
               -X PUT \
               -H "Authorization: Bearer sk_user_API_KEY" \
-              -H "Content-Type: mutipart/form-data" \
+              -H "Content-Type: multipart/form-data" \
               -F 'cer=@/path/to/your/CSD.cer' \
               -F 'key=@/path/to/your/CSD.key' \
               -F 'password=CONTRASEÑA_DEL_CERTIFICADO'
@@ -3230,7 +3230,7 @@ paths:
             \
               -X PUT \
               -H "Authorization: Bearer sk_user_API_KEY" \
-              -H "Content-Type: mutipart/form-data" \
+              -H "Content-Type: multipart/form-data" \
               -F 'file=@/path/to/your/logo.jpg'
         - lang: JavaScript
           label: Node.js

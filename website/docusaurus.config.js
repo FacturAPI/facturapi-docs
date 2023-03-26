@@ -74,11 +74,11 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
             {
               type: "doc",
               docId: "quickstart",
-              label: "Docs",
+              label: "Documentación",
             },
             {
               type: 'dropdown',
-              label: 'API',
+              label: 'Referencia API',
               items: [
                 { href: '/api', label: 'v2 (CFDI v4.0)' },
                 { href: '/api_v1', label: 'v1 (CFDI v3.3)' },

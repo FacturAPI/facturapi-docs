@@ -3225,7 +3225,7 @@ paths:
             curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/certificate \
               -X PUT \
               -H "Authorization: Bearer sk_user_API_KEY" \
-              -H "Content-Type: mutipart/form-data" \
+              -H "Content-Type: multipart/form-data" \
               -F 'cer=@/path/to/your/CSD.cer' \
               -F 'key=@/path/to/your/CSD.key' \
               -F 'password=CONTRASEÑA_DEL_CERTIFICADO'
@@ -3319,7 +3319,7 @@ paths:
             curl https://www.facturapi.io/v1/organizations/5a2a307be93a2f00129ea035/logo \
               -X PUT \
               -H "Authorization: Bearer sk_user_API_KEY" \
-              -H "Content-Type: mutipart/form-data" \
+              -H "Content-Type: multipart/form-data" \
               -F 'file=@/path/to/your/logo.jpg'
         - lang: JavaScript
           label: Node.js

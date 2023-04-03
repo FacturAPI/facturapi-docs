@@ -519,9 +519,20 @@ paths:
       tags:
         - customer
       summary: Validar información fiscal
-      description: >-
+      description: >
         Valida que la información fiscal del cliente coincida con los registros
         del SAT.
+
+
+        Su función principal es validar que los datos del cliente registraado
+        siguen cumpliendo la validación del SAT.
+
+
+        :::tip
+          Las operaciones de crear cliente, editar cliente y crear factura ya realizan una
+          validación de la información del cliente, por lo que **no** es necesario llamar a este endpoint
+          antes de realizar dichas operaciones.
+        :::
       x-codeSamples:
         - lang: Bash
           label: cURL

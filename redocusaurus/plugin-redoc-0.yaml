@@ -121,15 +121,31 @@ paths:
       tags:
         - customer
       summary: Crear cliente
-      description: |
+      description: >
         Registra un nuevo cliente en Facturapi.
 
-        Puedes guardar el ID del cliente y usarlo para crear facturas sin tener
-        que enviar todos los datos fiscales.
 
-        Al guardar al cliente, validamos que los datos fiscales coincidan con
+        Esta llamada valida que los datos fiscales coincidan con
+
         los registros del SAT para ese RFC, de lo contrario, la llamada
+
         devolverá un error indicando el problema.
+
+
+        Una vez creado el cliente y obtenido un objeto de respuesta,
+
+        te recomendamos guardar el ID en tu base de datos junto a la información
+
+        de tu cliente. Posteriormente, puedes llamar al encpoint de Crear
+        Factura
+
+        pasando el ID del cliente en lugar de repetir la información.
+
+
+        Por último, ten en cuenta que los clientes que crees en ambiente _Test_
+        **no se
+
+        comparten** con el ambiente _Live_.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -623,6 +639,11 @@ paths:
 
         Puedes usar el ID del producto para crear facturas sin tener que enviar
         todos los datos del producto cada vez.
+
+
+        Te en cuenta que los productos que crees en ambiente _Test_ **no se
+
+        comparten** con el ambiente _Live_.
       x-codeSamples:
         - lang: Bash
           label: cURL

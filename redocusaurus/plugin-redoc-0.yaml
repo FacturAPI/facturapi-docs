@@ -1278,6 +1278,27 @@ paths:
           description: >-
             Identificador del cliente. Útil para obtener las facturas emitidas a
             un sólo cliente.
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum:
+              - I
+              - E
+              - P
+              - 'N'
+              - T
+          description: >-
+            Tipo de factura. Búsqueda por tipo de factura con las claves
+            exactas.
+        - in: query
+          name: payment_method
+          schema:
+            type: string
+            enum:
+              - PUE
+              - PPD
+          description: Método de pago. Búsqueda exacta por método de pago.
         - $ref: '#/components/parameters/SearchDate'
         - $ref: '#/components/parameters/SearchPage'
         - $ref: '#/components/parameters/SearchLimit'

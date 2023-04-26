@@ -5343,6 +5343,10 @@ components:
                 - tax_system
                 - zip
             - $ref: '#/components/schemas/ThirdParty'
+        property_tax_account:
+          type: string
+          description: Número de cuenta para el impuesto predial.
+          example: '0102030405'
     LineItemEgresoInput:
       title: LineItem
       required:

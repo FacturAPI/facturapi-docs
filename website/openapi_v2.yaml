@@ -7767,6 +7767,64 @@ components:
                 - type: object
                   description: Domicilio fiscal de la organización.
                 - $ref: "#/components/schemas/OrganizationAddress"
+        customization:
+          type: object
+          description: |
+            Configuración de personalización de la organización, que se utilizarán para reflejar el branding y
+            las preferencias de PDFs de la organización. Estos datos se pueden actualizar en cualquier momento.
+          properties:
+            has_logo:
+              type: boolean
+              description: Indica si la organización ya tiene un logotipo cargado.
+            color:
+              type: string
+              format: hex
+              example: BADA55
+              description: Color distintivo de la marca en representación Hexadecimal RGB de 6 caracteres.
+            next_folio_number:
+              type: integer
+              example: 123
+              description: Número de folio que se asignará a la siguiente factura en ambiente Live (y que se incrementará automáticamente por cada nueva factura).
+            next_folio_number_test:
+              type: integer
+              example: 123
+              description: Número de folio que se asignará a la siguiente factura en ambiente Test (y que se incrementará automáticamente por cada nueva factura).
+            pdf_extra:
+              type: object
+              description: Configura qué campos opcionales se queiren mostrar en el PDF. El SAT no obliga a mostrar estos campos, pero pueden activarse según la preferencia de la organización.
+              properties:
+                codes:
+                  type: boolean
+                  default: true
+                  description: |
+                    Mostrar códigos de catálogos del SAT junto a sus descripciones. Ejemplo: “KGM Kilogramo”.
+                product_key:
+                  type: boolean
+                  default: true
+                  description: |
+                    Mostrar la clave de producto-servicio.
+                round_unit_price:
+                  type: boolean
+                  default: false
+                  description: |
+                    Redondear el precio unitario en el PDF a 2 decimales, pero conservar los 6 decimales en el XML.
+                tax_breakdown:
+                  type: boolean
+                  default: true
+                  description: |
+                    Mostrar el desglose de impuestos en el PDF. Si se desactiva, sólo se mostratán los impuestos en los totales, pero no en el detalle de cada concepto.
+        certificate:
+          has_certificates:
+            type: boolean
+            description: Indica si la organización ya tiene el Certificado de Sello Digital (CSD) cargado.
+          updated_at:
+            type: string
+            format: date-time
+            description: Fecha de la última actualización del certificado.
+          expires_at:
+            type: string
+            format: date-time
+            description: Fecha de expiración del certificado.
 
     OrganizationCreateInput:
       type: object
@@ -7856,8 +7914,8 @@ components:
         color:
           type: string
           format: hex
-          example: #BADA55
-          description: Color en representación Hexadecimal RGB de 6 caracteres. El caracter de almohadilla (#) al inicio es opcional.
+          example: BADA55
+          description: Color distintivo de la marca en representación Hexadecimal RGB de 6 caracteres.
         next_folio_number:
           type: integer
           example: 123
@@ -7872,14 +7930,24 @@ components:
           properties:
             codes:
               type: boolean
-              default: false
+              default: true
               description: |
                 Mostrar códigos de catálogos del SAT junto a sus descripciones. Ejemplo: “KGM Kilogramo”.
             product_key:
               type: boolean
-              default: false
+              default: true
               description: |
                 Mostrar la clave de producto-servicio.
+            round_unit_price:
+              type: boolean
+              default: false
+              description: |
+                Redondear el precio unitario en el PDF a 2 decimales, pero conservar los 6 decimales en el XML.
+            tax_breakdown:
+              type: boolean
+              default: true
+              description: |
+                Mostrar el desglose de impuestos en el PDF. Si se desactiva, sólo se mostratán los impuestos en los totales, pero no en el detalle de cada concepto.
     OrganizationReceiptsInput:
       type: object
       properties:

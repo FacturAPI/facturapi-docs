@@ -7816,17 +7816,23 @@ components:
                   description: |
                     Mostrar el desglose de impuestos en el PDF. Si se desactiva, sólo se mostratán los impuestos en los totales, pero no en el detalle de cada concepto.
         certificate:
-          has_certificates:
-            type: boolean
-            description: Indica si la organización ya tiene el Certificado de Sello Digital (CSD) cargado.
-          updated_at:
-            type: string
-            format: date-time
-            description: Fecha de la última actualización del certificado.
-          expires_at:
-            type: string
-            format: date-time
-            description: Fecha de expiración del certificado.
+          type: object
+          description: |
+            Información últil sobre el certificado de sello digital (CSD) de la organización, que se utilizará para firmar las facturas.
+          properties:
+            has_certificates:
+              type: boolean
+              description: Indica si la organización ya tiene el Certificado de Sello Digital (CSD) cargado.
+            updated_at:
+              type: string
+              format: date-time
+              example: "2023-05-05T20:55:33.468Z"
+              description: Fecha de la última actualización del certificado.
+            expires_at:
+              type: string
+              format: date-time
+              example: "2025-05-05T20:55:33.468Z"
+              description: Fecha de expiración del certificado.
 
     OrganizationCreateInput:
       type: object

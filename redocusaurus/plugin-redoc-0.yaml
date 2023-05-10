@@ -6780,46 +6780,48 @@ components:
                   de pagos. Este valor debe ser expresado en la moneda definida
                   en `related_documents[].currency`.
               taxes:
-                type: object
+                type: array
                 description: >
                   Arreglo con impuestos del documento relacionado que aplican al
                   pago realizado.
-                required:
-                  - base
-                  - type
-                  - rate
-                properties:
-                  base:
-                    type: number
-                    description: |
-                      Base utilizada para el cálculo del impuestos.
-                  type:
-                    type: string
-                    enum:
-                      - IVA
-                      - ISR
-                      - IEPS
-                    description: |
-                      Tipo de impuesto.
-                  rate:
-                    type: number
-                    example: 0.16
-                    description: |
-                      Tasa o cuota del impuesto
-                  factor:
-                    type: string
-                    default: Tasa
-                    enum:
-                      - Tasa
-                      - Cuota
-                      - Exento
-                    description: Tipo factor.
-                  withholding:
-                    type: boolean
-                    default: false
-                    description: >-
-                      Indica si el impuesto es una retención (`true`) o un
-                      traslado (`false`).
+                items:
+                  type: object
+                  required:
+                    - base
+                    - type
+                    - rate
+                  properties:
+                    base:
+                      type: number
+                      description: |
+                        Base utilizada para el cálculo del impuestos.
+                    type:
+                      type: string
+                      enum:
+                        - IVA
+                        - ISR
+                        - IEPS
+                      description: |
+                        Tipo de impuesto.
+                    rate:
+                      type: number
+                      example: 0.16
+                      description: |
+                        Tasa o cuota del impuesto
+                    factor:
+                      type: string
+                      default: Tasa
+                      enum:
+                        - Tasa
+                        - Cuota
+                        - Exento
+                      description: Tipo factor.
+                    withholding:
+                      type: boolean
+                      default: false
+                      description: >-
+                        Indica si el impuesto es una retención (`true`) o un
+                        traslado (`false`).
               taxability:
                 type: string
                 default: >
@@ -8344,19 +8346,26 @@ components:
                     sólo se mostratán los impuestos en los totales, pero no en
                     el detalle de cada concepto.
         certificate:
-          has_certificates:
-            type: boolean
-            description: >-
-              Indica si la organización ya tiene el Certificado de Sello Digital
-              (CSD) cargado.
-          updated_at:
-            type: string
-            format: date-time
-            description: Fecha de la última actualización del certificado.
-          expires_at:
-            type: string
-            format: date-time
-            description: Fecha de expiración del certificado.
+          type: object
+          description: >
+            Información últil sobre el certificado de sello digital (CSD) de la
+            organización, que se utilizará para firmar las facturas.
+          properties:
+            has_certificates:
+              type: boolean
+              description: >-
+                Indica si la organización ya tiene el Certificado de Sello
+                Digital (CSD) cargado.
+            updated_at:
+              type: string
+              format: date-time
+              example: '2023-05-05T20:55:33.468Z'
+              description: Fecha de la última actualización del certificado.
+            expires_at:
+              type: string
+              format: date-time
+              example: '2025-05-05T20:55:33.468Z'
+              description: Fecha de expiración del certificado.
     OrganizationCreateInput:
       type: object
       required:

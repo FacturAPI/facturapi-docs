@@ -6531,43 +6531,45 @@ components:
                   de pagos. Este valor debe ser expresado en la moneda definida
                   en `related_documents[].currency`.
               taxes:
-                type: object
+                type: array
                 description: |
                   Arreglo con impuestos del documento relacionado que aplican al pago realizado.
-                required:
-                  - base
-                  - type
-                  - rate
-                properties:
-                  base:
-                    type: number
-                    description: |
-                      Base utilizada para el cálculo del impuestos.
-                  type:
-                    type: string
-                    enum:
-                      - IVA
-                      - ISR
-                      - IEPS
-                    description: |
-                      Tipo de impuesto.
-                  rate:
-                    type: number
-                    example: 0.16
-                    description: |
-                      Tasa o cuota del impuesto
-                  factor:
-                    type: string
-                    default: Tasa
-                    enum:
-                      - Tasa
-                      - Cuota   
-                      - Exento
-                    description: Tipo factor.
-                  withholding:
-                    type: boolean
-                    default: false
-                    description: Indica si el impuesto es una retención (`true`) o un traslado (`false`).
+                items:
+                  type: object
+                  required:
+                    - base
+                    - type
+                    - rate
+                  properties:
+                    base:
+                      type: number
+                      description: |
+                        Base utilizada para el cálculo del impuestos.
+                    type:
+                      type: string
+                      enum:
+                        - IVA
+                        - ISR
+                        - IEPS
+                      description: |
+                        Tipo de impuesto.
+                    rate:
+                      type: number
+                      example: 0.16
+                      description: |
+                        Tasa o cuota del impuesto
+                    factor:
+                      type: string
+                      default: Tasa
+                      enum:
+                        - Tasa
+                        - Cuota   
+                        - Exento
+                      description: Tipo factor.
+                    withholding:
+                      type: boolean
+                      default: false
+                      description: Indica si el impuesto es una retención (`true`) o un traslado (`false`).
               taxability:
                 type: string
                 default: |

@@ -6745,6 +6745,7 @@ components:
       properties:
         payment_form:
           type: string
+          example: '03'
           description: >-
             Código de la forma de pago según el [catálogo del
             SAT](#forma-de-pago). También puedes utilizar la constante
@@ -7300,6 +7301,7 @@ components:
               type: string
               minLength: 2
               maxLength: 2
+              example: '03'
               description: >-
                 Código que representa la forma de pago, de acuerdo al [catálogo
                 del SAT](#forma-de-pago).
@@ -7446,6 +7448,7 @@ components:
               type: string
               minLength: 2
               maxLength: 2
+              example: '03'
               description: >-
                 Código que representa la forma de pago, de acuerdo al [catálogo
                 del SAT](#forma-de-pago).

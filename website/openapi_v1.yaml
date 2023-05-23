@@ -12,12 +12,15 @@ info:
     url: https://www.facturapi.io/img/logo.svg
     altText: Facturapi
   description: |
-    # Aviso sobre /v1
-    La versión 1 de la API (`/v1`) **no** debe usarse para nuevos proyectos.
+    # 🚧 Aviso sobre /v1
+    **La versión 1 de la API (`/v1`) ya no debe usarse**.
     En su lugar utiliza la [versión 2](/api), que te permite emitir CFDI v4.0.
 
-    La versión 1 de la API dejará de estar disponible cuando el SAT
-    termine la vigencia del CFDI 3.3, el 01 de Abril de 2023.
+    La versión 1 de la API dejó de estar disponible cuando el SAT
+    terminó con la vigencia del CFDI 3.3, el 01 de Abril de 2023.
+
+    Si tu integración está basada en la **v1** de la API, puedes realizar la
+    migración a la **v2** siguiendo los pasos en [esta guía](/docs/migrate).
 
 tags:
   - name: tools

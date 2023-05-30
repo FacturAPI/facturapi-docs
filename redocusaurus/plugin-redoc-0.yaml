@@ -7134,7 +7134,7 @@ components:
           example: 6
         items:
           type: array
-          description: Conceptos incluidos en el documento
+          description: Conceptos incluidos en el comprobante
           items:
             $ref: '#/components/schemas/LineItem'
         related_documents:
@@ -7294,7 +7294,16 @@ components:
               description: Tipo de comprobante. El valor default es `“I”` (Ingreso).
             items:
               type: array
-              description: Conceptos a incluir en la factura.
+              maxItems: 5000
+              description: >
+                Conceptos a incluir en la factura.
+
+
+                El número máximo de elementos que puedes incluir en una factura
+                es de 5,000. Si necesitas
+
+                emitir una factura con más de 5,000 conceptos, puedes dividir la
+                transacción en varias facturas.
               items:
                 $ref: '#/components/schemas/LineItemInput'
             payment_form:
@@ -7454,13 +7463,22 @@ components:
                 del SAT](#forma-de-pago).
             related_documents:
               type: array
-              description: Documentos relacionados con la factura.
+              description: Documentos relacionados con la nota de crédito.
               default: []
               items:
                 $ref: '#/components/schemas/RelatedDocumentInput'
             items:
               type: array
-              description: Conceptos a incluir en la factura.
+              maxItems: 5000
+              description: >
+                Conceptos a incluir en la nota de crédito.
+
+
+                El número máximo de elementos que puedes incluir en el
+                comprobante es de 5,000. Si necesitas
+
+                emitir un comprobante con más de 5,000 conceptos, puedes dividir
+                la transacción en varios comprobantes.
               items:
                 $ref: '#/components/schemas/LineItemEgresoInput'
             use:
@@ -7489,11 +7507,11 @@ components:
               items:
                 $ref: '#/components/schemas/CustomComplementInput'
               description: >-
-                Complementos a incluir en la factura. Puedes incluir cualquier
-                complemento en la factura si tú mismo construyes el nodo XML del
-                complemento y usas el tipo `custom`. No olvides que **es
-                necesario agregar el prefijo y las URLs necesarias usando el
-                parámetro `namespaces`**. También recuerda agregar la
+                Complementos a incluir en el comprobante. Puedes incluir
+                cualquier complemento en el comprobante si tú mismo construyes
+                el nodo XML del complemento y usas el tipo `custom`. No olvides
+                que **es necesario agregar el prefijo y las URLs necesarias
+                usando el parámetro `namespaces`**. También recuerda agregar la
                 información del complemento al PDF usando el parámetro
                 `pdf_custom_section`.
         - $ref: '#/components/schemas/InvoiceCommonInputProperties'
@@ -7573,7 +7591,16 @@ components:
                 - T
             items:
               type: array
-              description: Conceptos a incluir en la factura.
+              maxItems: 5000
+              description: >
+                Conceptos a incluir en el comprobante de Traslado.
+
+
+                El número máximo de elementos que puedes incluir en un
+                comprobante es de 5,000. Si necesitas
+
+                emitir un comprobante con más de 5,000 conceptos, puedes dividir
+                la transacción en varios comprobantes.
               items:
                 $ref: '#/components/schemas/LineItemTrasladoInput'
             complements:
@@ -7582,11 +7609,11 @@ components:
               items:
                 $ref: '#/components/schemas/CustomComplementInput'
               description: >-
-                Complementos a incluir en la factura. Puedes incluir cualquier
-                complemento en la factura si tú mismo construyes el nodo XML del
-                complemento y usas el tipo `custom`. No olvides que **es
-                necesario agregar el prefijo y las URLs necesarias usando el
-                parámetro `namespaces`**. También recuerda agregar la
+                Complementos a incluir en el comprobante. Puedes incluir
+                cualquier complemento en el comprobante si tú mismo construyes
+                el nodo XML del complemento y usas el tipo `custom`. No olvides
+                que **es necesario agregar el prefijo y las URLs necesarias
+                usando el parámetro `namespaces`**. También recuerda agregar la
                 información del complemento al PDF usando el parámetro
                 `pdf_custom_section`.
             use:
@@ -7611,7 +7638,7 @@ components:
                 señalada en el atributo `currency`.
             related_documents:
               type: array
-              description: Documentos relacionados con la factura.
+              description: Documentos relacionados con el comprobante.
               default: []
               items:
                 $ref: '#/components/schemas/RelatedDocumentInput'
@@ -7689,7 +7716,16 @@ components:
           properties:
             items:
               type: array
-              description: Conceptos a incluir en el recibo.
+              maxItems: 5000
+              description: >
+                Conceptos a incluir en el recibo.
+
+
+                El número máximo de elementos que puedes incluir en un recxibo
+                es de 5,000. Si necesitas
+
+                emitir una recibo con más de 5,000 conceptos, prueba dividir la
+                transacción en varios recibos.
               items:
                 $ref: '#/components/schemas/LineItemInput'
         - $ref: '#/components/schemas/ReceiptEditableProperties'

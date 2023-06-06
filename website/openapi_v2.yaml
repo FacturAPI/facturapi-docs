@@ -5928,7 +5928,7 @@ components:
           description: Clave del catálogo del SAT [Periodicidad de Pago](#periodicidad-del-pago).
         banco:
           type: string
-          description: Clave del banco de acuerdo al catálogo del SAT “Bancos” que puedes consultar utilizando nuestra [herramienta de búsqueda](https://www.facturapi.io/dashboard/catalogs/bank).
+          description: Clave del banco de acuerdo al catálogo del SAT “Bancos” que puedes consultar utilizando nuestra [herramienta de búsqueda](https://dashboard.facturapi.io/catalogs/bank).
         cuenta_bancaria:
           type: string
           description: |
@@ -5941,7 +5941,7 @@ components:
           description: Salario que se integra con los pagos hechos en efectivo por cuota diaria, gratificaciones, percepciones, habitación, primas, comisiones, prestaciones en especie y cualquier otra cantidad o prestación que se entregue al trabajador por su trabajo.
         clave_ent_fed:
           type: string
-          description: Clave de la entidad federativa en donde el trabajador prestó sus servicios al empleador, que puedes consultar utilizando nuestra [herramienta de búsqueda](https://www.facturapi.io/dashboard/catalogs/state).
+          description: Clave de la entidad federativa en donde el trabajador prestó sus servicios al empleador, que puedes consultar utilizando nuestra [herramienta de búsqueda](https://dashboard.facturapi.io/catalogs/state).
     NominaReceptorNestedProperties:
       type: object
       properties:
@@ -6203,11 +6203,11 @@ components:
                   properties:
                     state:
                       type: string
-                      description: Si el país es México ("MEX"), contiene el nombre del Estado o Entidad Federativa. Para extranjeros contiene el código de Estado de acuerdo al estándar [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que puedes consultar en nuestro [Catálogo de Estados](https://www.facturapi.io/dashboard/catalogs/state).
+                      description: Si el país es México ("MEX"), contiene el nombre del Estado o Entidad Federativa. Para extranjeros contiene el código de Estado de acuerdo al estándar [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que puedes consultar en nuestro [Catálogo de Estados](https://dashboard.facturapi.io/catalogs/state).
                       example: Sonora
                     country:
                       type: string
-                      description: Código de país acorde al estándar [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), del [Catálogo de Países](https://www.facturapi.io/dashboard/catalogs/country).
+                      description: Código de país acorde al estándar [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), del [Catálogo de Países](https://dashboard.facturapi.io/catalogs/country).
                       example: MEX
                       default: MEX
     CustomerCommonProperties:
@@ -6258,11 +6258,11 @@ components:
                   properties:
                     state:
                       type: string
-                      description: Si el país es México ("MEX"), contiene el nombre del Estado o Entidad Federativa. Para extranjeros contiene el código de Estado de acuerdo al estándar [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que puedes consultar en nuestro [Catálogo de Estados](https://www.facturapi.io/dashboard/catalogs/state).
+                      description: Si el país es México ("MEX"), contiene el nombre del Estado o Entidad Federativa. Para extranjeros contiene el código de Estado de acuerdo al estándar [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que puedes consultar en nuestro [Catálogo de Estados](https://dashboard.facturapi.io/catalogs/state).
                       example: Sonora
                     country:
                       type: string
-                      description: Código de país acorde al estándar [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), del [Catálogo de Países](https://www.facturapi.io/dashboard/catalogs/country).
+                      description: Código de país acorde al estándar [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), del [Catálogo de Países](https://dashboard.facturapi.io/catalogs/country).
                       example: MEX
                       default: MEX
 
@@ -6290,14 +6290,14 @@ components:
           example: Ukelele
         product_key:
           type: string
-          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
           example: 60131324
         unit_key:
           type: string
           default: H87
           description: |
             Clave de unidad de medida, del catálogo del SAT. El valor por default `"H87"` (elemento) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc).
-            Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, te proporcionamos una manera conveniente de encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+            Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, te proporcionamos una manera conveniente de encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
         unit_name:
           type: string
           default: Elemento
@@ -6384,7 +6384,7 @@ components:
           example: Ukelele
         product_key:
           type: string
-          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
           example: 60131324
         price:
           type: number
@@ -6432,7 +6432,7 @@ components:
           default: H87
           description: |
             Clave de unidad de medida, del catálogo del SAT. El valor por default `"H87"` (elemento) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc).
-            Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+            Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
         unit_name:
           type: string
           default: Elemento
@@ -6450,7 +6450,7 @@ components:
         product_key:
           type: string
           default: 84111506
-          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
           example: 84111506
         price:
           type: number
@@ -6492,7 +6492,7 @@ components:
           default: ACT
           description: |
             Clave de unidad de medida, del catálogo del SAT.
-            Puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+            Puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
         unit_name:
           type: string
           default: Actividad

@@ -63,8 +63,8 @@ tags:
       de manera asíncrona, es decir, fuera del ciclo de vida de
       una petición a la API.
 
-      Próximamente podrás suscribirte a estos eventos registrando
-      webhooks.
+      Para recibir estos eventos en tu servidor, puedes registrar una URL de escucha
+      creando un **Webhook** desde tu dashboard: https://dashboard.facturapi.io/integration/webhooks
   - name: sat_keys
     x-displayName: Claves de catálogos
     description: |

@@ -5180,7 +5180,7 @@ components:
           description: >-
             Clave del banco de acuerdo al catálogo del SAT “Bancos” que puedes
             consultar utilizando nuestra [herramienta de
-            búsqueda](https://www.facturapi.io/dashboard/catalogs/bank).
+            búsqueda](https://dashboard.facturapi.io/catalogs/bank).
         cuenta_bancaria:
           type: string
           description: >
@@ -5207,7 +5207,7 @@ components:
             Clave de la entidad federativa en donde el trabajador prestó sus
             servicios al empleador, que puedes consultar utilizando nuestra
             [herramienta de
-            búsqueda](https://www.facturapi.io/dashboard/catalogs/state).
+            búsqueda](https://dashboard.facturapi.io/catalogs/state).
     NominaReceptorNestedProperties:
       type: object
       properties:
@@ -5458,7 +5458,7 @@ components:
                     Estado de acuerdo al estándar [ISO
                     3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que
                     puedes consultar en nuestro [Catálogo de
-                    Estados](https://www.facturapi.io/dashboard/catalogs/state).
+                    Estados](https://dashboard.facturapi.io/catalogs/state).
                   example: Sonora
                 country:
                   type: string
@@ -5466,7 +5466,7 @@ components:
                     Código de país acorde al estándar [ISO 3166-1
                     alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3),
                     del [Catálogo de
-                    Países](https://www.facturapi.io/dashboard/catalogs/country).
+                    Países](https://dashboard.facturapi.io/catalogs/country).
                   example: MEX
                   default: MEX
     CustomerCreateInput:
@@ -5495,7 +5495,7 @@ components:
             Clave de producto/servicio, del catálogo del SAT. Nosotros te
             proporcionamos una manera más conveniente de encontrarlo utilizando
             nuestra [herramienta de búsqueda de
-            claves](https://www.facturapi.io/dashboard/tools/keys).
+            claves](https://dashboard.facturapi.io/tools/keys).
           example: 60131324
         unit_key:
           type: string
@@ -5508,7 +5508,7 @@ components:
             Si la unidad de tu producto es kilogramos, litros, horas u otra
             unidad, te proporcionamos una manera conveniente de encontrar la
             clave utilizando nuestra [herramienta de búsqueda de
-            claves](https://www.facturapi.io/dashboard/tools/keys).
+            claves](https://dashboard.facturapi.io/tools/keys).
         unit_name:
           type: string
           default: Elemento
@@ -5610,7 +5610,7 @@ components:
             Clave de producto/servicio, del catálogo del SAT. Nosotros te
             proporcionamos una manera más conveniente de encontrarlo utilizando
             nuestra [herramienta de búsqueda de
-            claves](https://www.facturapi.io/dashboard/tools/keys).
+            claves](https://dashboard.facturapi.io/tools/keys).
           example: 60131324
         price:
           type: number
@@ -5660,7 +5660,7 @@ components:
             Si la unidad de tu producto es kilogramos, litros, horas u otra
             unidad, te proporcionamos una manera conveniente de encontrar la
             clave utilizando nuestra [herramienta de búsqueda de
-            claves](https://www.facturapi.io/dashboard/tools/keys).
+            claves](https://dashboard.facturapi.io/tools/keys).
         unit_name:
           type: string
           default: Elemento

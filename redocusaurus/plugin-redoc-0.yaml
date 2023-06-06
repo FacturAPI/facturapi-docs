@@ -55,13 +55,19 @@ tags:
     x-displayName: Organizaciones
   - name: events
     x-displayName: Eventos
-    description: |
+    description: >
       Los eventos ocurren cuando Facturapi realiza una operación
+
       de manera asíncrona, es decir, fuera del ciclo de vida de
+
       una petición a la API.
 
-      Próximamente podrás suscribirte a estos eventos registrando
-      webhooks.
+
+      Para recibir estos eventos en tu servidor, puedes registrar una URL de
+      escucha
+
+      creando un **Webhook** desde tu dashboard:
+      https://dashboard.facturapi.io/integration/webhooks
   - name: sat_keys
     x-displayName: Claves de catálogos
     description: "Principales catálogos del SAT, incluídos aquí por conveniencia. Puedes consultar estos y más catálogos desde el portal oficial del SAT: http://omawww.sat.gob.mx/tramitesyservicios/Paginas/anexo_20_version3-3.htm\n\n### Forma de pago\n\nClave | Descripción\n:-----:| -----------\n\"01\" | Efectivo\n\"02\" | Cheque nominativo\n\"03\" | Transferencia electrónica de fondos\n\"04\" | Tarjeta de crédito\n\"05\" | Monedero electrónico\n\"06\" | Dinero electrónico\n\"08\" | Vales de despensa\n\"12\" | Dación en pago\n\"13\" | Pago por subrogación\n\"14\" | Pago por consignación\n\"15\" | Condonación\n\"17\" | Compensación\n\"23\" | Novación\n\"24\" | Confusión\n\"25\" | Remisión de deuda\n\"26\" | Prescripción o caducidad\n\"27\" | A satisfacción del acreedor\n\"28\" | Tarjeta de débito\n\"29\" | Tarjeta de servicios\n\"30\" | Aplicación de anticipos\n\"31\" | Intermediario pagos\n\"99\" | Por definir\n\n### Método de pago\n\nClave | Descripción\n:-----:| -----------\n\"PUE\" | Pago en una sola exhibición (de contado).\n\"PPD\" | Pago en parcialidades o diferido (total o parcialmente a crédito). Requiere expedir un comprobante de pago cuando se reciba un pago subsecuente.\n\n### Uso CFDI\n\nClave | Descripción | Régimen Fiscal \n:-----:| ----------- | -----------\n\"G01\" | Adquisición de mercancías. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625,626\n\"G02\" | Devoluciones, descuentos o bonificaciones. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625,626\n\"G03\" | Gastos en general. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626\n\"I01\" | Construcciones. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626\n\"I02\" | Mobiliario y equipo de oficina por inversiones. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626\n\"I03\" | Equipo de transporte. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626\n\"I04\" | Equipo de computo y accesorios. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626\n\"I05\" | Dados, troqueles, moldes, matrices y herramental. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626\n\"I06\" | Comunicaciones telefónicas. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626\n\"I07\" | Comunicaciones satelitales. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626\n\"I08\" | Otra maquinaria y equipo. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626\n\"D01\" | Honorarios médicos, dentales y gastos hospitalarios. | 605, 606, 608, 611, 612, 614, 607, 615, 625\n\"D02\" | Gastos médicos por incapacidad o discapacidad. | 605, 606, 608, 611, 612, 614, 607, 615, 625\n\"D03\" | Gastos funerales. | 605, 606, 608, 611, 612, 614, 607, 615, 625\n\"D04\" | Donativos. | 605, 606, 608, 611, 612, 614, 607, 615, 625\n\"D05\" | Intereses reales efectivamente pagados por créditos hipotecarios (casa habitación). | 605, 606, 608, 611, 612, 614, 607, 615, 625\n\"D06\" | Aportaciones voluntarias al SAR. | 605, 606, 608, 611, 612, 614, 607, 615, 625\n\"D07\" | Primas por seguros de gastos médicos. | 605, 606, 608, 611, 612, 614, 607, 615, 625\n\"D08\" | Gastos de transportación escolar obligatoria. | 605, 606, 608, 611, 612, 614, 607, 615, 625\n\"D09\" | Depósitos en cuentas para el ahorro, primas que tengan como base planes de pensiones. | 605, 606, 608, 611, 612, 614, 607, 615, 625\n\"D10\" | Pagos por servicios educativos (colegiaturas). | 605, 606, 608, 611, 612, 614, 607, 615, 625\n\"S01\" | Sin efectos fiscales.  | 601, 603, 605, 606, 608, 610, 611, 612, 614, 616, 620, 621, 622, 623, 624, 607, 615, 625, 626\n\"CP01\" | Pagos |  601, 603, 605, 606, 608, 610, 611, 612, 614, 616, 620, 621, 622, 623, 624, 607, 615, 625, 626\n\"CN01\" | Nómina | 605\n\n### Relación entre facturas\n\nClave | Descripción\n:-----:| -----------\n\"01\" | Nota de crédito de los documentos relacionados\n\"02\" | Nota de débito de los documentos relacionados\n\"03\" | Devolución de mercancía sobre facturas o traslados previos\n\"04\" | Sustitución de los CFDI previos\n\"05\" | Traslados de mercancias facturados previamente\n\"06\" | Factura generada por los traslados previos\n\"07\" | CFDI por aplicación de anticipo\n\"08\" | Factura generada por pagos en parcialidades\n\"09\" | Factura generada por pagos diferidos\n\n### Régimen Fiscal\n\nClave | Descripción\n:-----:| -----------\n\"601\" |\tGeneral de Ley Personas Morales\n\"603\" |\tPersonas Morales con Fines no Lucrativos\n\"605\" |\tSueldos y Salarios e Ingresos Asimilados a Salarios\n\"606\" |\tArrendamiento\n\"608\" |\tDemás ingresos\n\"609\" |\tConsolidación\n\"610\" |\tResidentes en el Extranjero sin Establecimiento Permanente en México\n\"611\" |\tIngresos por Dividendos (socios y accionistas)\n\"612\" |\tPersonas Físicas con Actividades Empresariales y Profesionales\n\"614\" |\tIngresos por intereses\n\"616\" |\tSin obligaciones fiscales\n\"620\" |\tSociedades Cooperativas de Producción que optan por diferir sus ingresos\n\"621\" |\tIncorporación Fiscal\n\"622\" |\tActividades Agrícolas, Ganaderas, Silvícolas y Pesqueras\n\"623\" |\tOpcional para Grupos de Sociedades\n\"624\" |\tCoordinados\n\"628\" |\tHidrocarburos\n\"607\" |\tRégimen de Enajenación o Adquisición de Bienes\n\"629\" |\tDe los Regímenes Fiscales Preferentes y de las Empresas Multinacionales\n\"630\" |\tEnajenación de acciones en bolsa de valores\n\"615\" |\tRégimen de los ingresos por obtención de premios\n\"625\" |\tRégimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas\n\"626\" | Régimen Simplificado de Confianza\n\n### Meses y bimestres\n\nClave | Descripción\n:-----:| -----------\n01 | Enero\n02 | Febrero\n03 | Marzo\n04 | Abril\n05 | Mayo\n06 | Junio\n07 | Julio\n08 | Agosto\n09 | Septiembre\n10 | Octubre\n11 | Noviembre\n12 | Diciembre\n13 | Enero-Febrero\n14 | Marzo-Abril\n15 | Mayo-Junio\n16 | Julio-Agosto\n17 | Septiembre-Octubre\n18 | Noviembre-Diciembre\n\n### Tipo de Contrato\n\nClave | Descripción\n:-----:| -----------\n\"01\" | Contrato de trabajo por tiempo indeterminado\n\"02\" | Contrato de trabajo para obra determinada\n\"03\" | Contrato de trabajo por tiempo determinado\n\"04\" | Contrato de trabajo por temporada\n\"05\" | Contrato de trabajo sujeto a prueba\n\"06\" | Contrato de trabajo con capacitación inicial\n\"07\" | Modalidad de contratación por pago de hora laborada\n\"08\" | Modalidad de trabajo por comisión laboral\n\"09\" | Modalidades de contratación donde no existe relación de trabajo\n\"10\" | Jubilación, pensión, retiro.\n\"99\" | Otro contrato\n\n### Tipo de Jornada\n\nClave | Descripción\n:-----:| -----------\n\"01\" | Diurna\n\"02\" | Nocturna\n\"03\" | Mixta\n\"04\" | Por hora\n\"05\" | Reducida\n\"06\" | Continuada\n\"07\" | Partida\n\"08\" | Por turnos\n\"99\" | Otra Jornada\n\n### Tipo de Régimen\n\nClave | Descripción\n:-----:| -----------\n\"02\" | Sueldos (Incluye ingresos señalados en la fracción I del artículo 94 de LISR)\n\"03\" | Jubilados\n\"04\" | Pensionados\n\"05\" | Asimilados Miembros Sociedades Cooperativas Produccion\n\"06\" | Asimilados Integrantes Sociedades Asociaciones Civiles\n\"07\" | Asimilados Miembros consejos\n\"08\" | Asimilados comisionistas\n\"09\" | Asimilados Honorarios\n\"10\" | Asimilados acciones\n\"11\" | Asimilados otros\n\"12\" | Jubilados o Pensionados\n\"13\" | Indemnización o Separación\n\"99\" | Otro Regimen\n\n### Riesgo del Puesto\n\nClave | Descripción\n:-----:| -----------\n\"1\" | Clase I\n\"2\" | Clase II\n\"3\" | Clase III\n\"4\" | Clase IV\n\"5\" | Clase V\n\"99\" | No aplica\n\n### Periodicidad del Pago\n\nClave | Descripción\n:-----:| -----------\n\"01\" | Diario\n\"02\" | Semanal\n\"03\" | Catorcenal\n\"04\" | Quincenal\n\"05\" | Mensual\n\"06\" | Bimestral\n\"07\" | Unidad obra\n\"08\" | Comisión\n\"09\" | Precio alzado\n\"10\" | Decenal\n\"99\" | Otra Periodicidad\n\n### Tipo de Percepción\n\nClave | Descripción\n:-----:| -----------\n\"001\" | Sueldos, Salarios  Rayas y Jornales\n\"002\" | Gratificación Anual (Aguinaldo)\n\"003\" | Participación de los Trabajadores en las Utilidades PTU\n\"004\" | Reembolso de Gastos Médicos Dentales y Hospitalarios\n\"005\" | Fondo de Ahorro\n\"006\" | Caja de ahorro\n\"009\" | Contribuciones a Cargo del Trabajador Pagadas por el Patrón\n\"010\" | Premios por puntualidad\n\"011\" | Prima de Seguro de vida\n\"012\" | Seguro de Gastos Médicos Mayores\n\"013\" | Cuotas Sindicales Pagadas por el Patrón\n\"014\" | Subsidios por incapacidad\n\"015\" | Becas para trabajadores y/o hijos\n\"019\" | Horas extra\n\"020\" | Prima dominical\n\"021\" | Prima vacacional\n\"022\" | Prima por antigüedad\n\"023\" | Pagos por separación\n\"024\" | Seguro de retiro\n\"025\" | Indemnizaciones\n\"026\" | Reembolso por funeral\n\"027\" | Cuotas de seguridad social pagadas por el patrón\n\"028\" | Comisiones\n\"029\" | Vales de despensa\n\"030\" | Vales de restaurante\n\"031\" | Vales de gasolina\n\"032\" | Vales de ropa\n\"033\" | Ayuda para renta\n\"034\" | Ayuda para artículos escolares\n\"035\" | Ayuda para anteojos\n\"036\" | Ayuda para transporte\n\"037\" | Ayuda para gastos de funeral\n\"038\" | Otros ingresos por salarios\n\"039\" | Jubilaciones, pensiones o haberes de retiro\n\"044\" | Jubilaciones, pensiones o haberes de retiro en parcialidades\n\"045\" | Ingresos en acciones o títulos valor que representan bienes\n\"046\" | Ingresos asimilados a salarios\n\"047\" | Alimentación diferentes a los establecidos en el Art 94 último párrafo LISR\n\"048\" | Habitación\n\"049\" | Premios por asistencia\n\"050\" | Viáticos\n\"051\" | Pagos por gratificaciones, primas, compensaciones, recompensas u otros en parcialidades\n\"052\" | Pagos por jubilación en parcialidades derivados de una resolución judicial\n\"053\" | Pagos por jubilación en una sola exhibición derivados de la ejecución de una resolución judicial\n\n### Tipo de Horas\n\nClave | Descripción\n:-----:| -----------\n\"01\" | Dobles\n\"02\" | Triples\n\"03\" | Simples\n\n### Tipo de Deducción\n\nClave | Descripción\n:-----:| -----------\n\"001\" | Seguridad social\n\"002\" | ISR\n\"003\" | Aportaciones a retiro, cesantía en edad avanzada y vejez.\n\"004\" | Otros\n\"005\" | Aportaciones a Fondo de vivienda\n\"006\" | Descuento por incapacidad\n\"007\" | Pensión alimenticia\n\"008\" | Renta\n\"009\" | Préstamos provenientes del Fondo Nacional de la Vivienda para los Trabajadores\n\"010\" | Pago por crédito de vivienda\n\"011\" | Pago de abonos INFONACOT\n\"012\" | Anticipo de salarios\n\"013\" | Pagos hechos con exceso al trabajador\n\"014\" | Errores\n\"015\" | Pérdidas\n\"016\" | Averías\n\"017\" | Adquisición de artículos producidos por la empresa o establecimiento\n\"018\" | Cuotas para la constitución y fomento de sociedades cooperativas y de cajas de ahorro\n\"019\" | Cuotas sindicales\n\"020\" | Ausencia (Ausentismo)\n\"021\" | Cuotas obrero patronales\n\"022\" | Impuestos Locales\n\"023\" | Aportaciones voluntarias\n\"024\" | Ajuste en Gratificación Anual (Aguinaldo) Exento\n\"025\" | Ajuste en Gratificación Anual (Aguinaldo) Gravado\n\"026\" | Ajuste en Participación de los Trabajadores en las Utilidades PTU Exento\n\"027\" | Ajuste en Participación de los Trabajadores en las Utilidades PTU Gravado\n\"028\" | Ajuste en Reembolso de Gastos Médicos Dentales y Hospitalarios Exento\n\"029\" | Ajuste en Fondo de ahorro Exento\n\"030\" | Ajuste en Caja de ahorro Exento\n\"031\" | Ajuste en Contribuciones a Cargo del Trabajador Pagadas por el Patrón Exento\n\"032\" | Ajuste en Premios por puntualidad Gravado\n\"033\" | Ajuste en Prima de Seguro de vida Exento\n\"034\" | Ajuste en Seguro de Gastos Médicos Mayores Exento\n\"035\" | Ajuste en Cuotas Sindicales Pagadas por el Patrón Exento\n\"036\" | Ajuste en Subsidios por incapacidad Exento\n\"037\" | Ajuste en Becas para trabajadores y/o hijos Exento\n\"038\" | Ajuste en Horas extra Exento\n\"039\" | Ajuste en Horas extra Gravado\n\"040\" | Ajuste en Prima dominical Exento\n\"041\" | Ajuste en Prima dominical Gravado\n\"042\" | Ajuste en Prima vacacional Exento\n\"043\" | Ajuste en Prima vacacional Gravado\n\"044\" | Ajuste en Prima por antigüedad Exento\n\"045\" | Ajuste en Prima por antigüedad Gravado\n\"046\" | Ajuste en Pagos por separación Exento\n\"047\" | Ajuste en Pagos por separación Gravado\n\"048\" | Ajuste en Seguro de retiro Exento\n\"049\" | Ajuste en Indemnizaciones Exento\n\"050\" | Ajuste en Indemnizaciones Gravado\n\"051\" | Ajuste en Reembolso por funeral Exento\n\"052\" | Ajuste en Cuotas de seguridad social pagadas por el patrón Exento\n\"053\" | Ajuste en Comisiones Gravado\n\"054\" | Ajuste en Vales de despensa Exento\n\"055\" | Ajuste en Vales de restaurante Exento\n\"056\" | Ajuste en Vales de gasolina Exento\n\"057\" | Ajuste en Vales de ropa Exento\n\"058\" | Ajuste en Ayuda para renta Exento\n\"059\" | Ajuste en Ayuda para artículos escolares Exento\n\"060\" | Ajuste en Ayuda para anteojos Exento\n\"061\" | Ajuste en Ayuda para transporte Exento\n\"062\" | Ajuste en Ayuda para gastos de funeral Exento\n\"063\" | Ajuste en Otros ingresos por salarios Exento\n\"064\" | Ajuste en Otros ingresos por salarios Gravado\n\"065\" | Ajuste en Jubilaciones, pensiones o haberes de retiro en una sola exhibición Exento\n\"066\" | Ajuste en Jubilaciones, pensiones o haberes de retiro en una sola exhibición Gravado\n\"067\" | Ajuste en Pagos por separación Acumulable\n\"068\" | Ajuste en Pagos por separación No acumulable\n\"069\" | Ajuste en Jubilaciones, pensiones o haberes de retiro en parcialidades Exento\n\"070\" | Ajuste en Jubilaciones, pensiones o haberes de retiro en parcialidades Gravado\n\"071\" | Ajuste en Subsidio para el empleo (efectivamente entregado al trabajador)\n\"072\" | Ajuste en Ingresos en acciones o títulos valor que representan bienes Exento\n\"073\" | Ajuste en Ingresos en acciones o títulos valor que representan bienes Gravado\n\"074\" | Ajuste en Alimentación Exento\n\"075\" | Ajuste en Alimentación Gravado\n\"076\" | Ajuste en Habitación Exento\n\"077\" | Ajuste en Habitación Gravado\n\"078\" | Ajuste en Premios por asistencia\n\"079\" | Ajuste en Pagos distintos a los listados\n\"080\" | Ajuste en Viáticos gravados\n\"081\" | Ajuste en Viáticos (entregados al trabajador)\n\"082\" | Ajuste en Fondo de ahorro Gravado\n\"083\" | Ajuste en Caja de ahorro Gravado\n\"084\" | Ajuste en Prima de Seguro de vida Gravado\n\"085\" | Ajuste en Seguro de Gastos Médicos Mayores Gravado\n\"086\" | Ajuste en Subsidios por incapacidad Gravado\n\"087\" | Ajuste en Becas para trabajadores y/o hijos Gravado\n\"088\" | Ajuste en Seguro de retiro Gravado\n\"089\" | Ajuste en Vales de despensa Gravado\n\"090\" | Ajuste en Vales de restaurante Gravado\n\"091\" | Ajuste en Vales de gasolina Gravado\n\"092\" | Ajuste en Vales de ropa Gravado\n\"093\" | Ajuste en Ayuda para renta Gravado\n\"094\" | Ajuste en Ayuda para artículos escolares Gravado\n\"095\" | Ajuste en Ayuda para anteojos Gravado\n\"096\" | Ajuste en Ayuda para transporte Gravado\n\"097\" | Ajuste en Ayuda para gastos de funeral Gravado\n\"098\" | Ajuste a ingresos asimilados a salarios gravados\n\"099\" | Ajuste a ingresos por sueldos y salarios gravados\n\"100\" | Ajuste en Viáticos exentos\n\"101\" | ISR Retenido de ejercicio anterior\n\"102\" | Ajuste a pagos por gratificaciones, primas, compensaciones, recompensas u otros\n\"103\" | Ajuste a pagos en parcialidades derivados de una resolución judicial gravados\n\"104\" | Ajuste a pagos en parcialidades derivados de una resolución judicial exentos\n\"105\" | Ajuste a pagos en una sola exhibición derivados de una resolución judicial gravados\n\"106\" | Ajuste a pagos en una sola exhibición derivados de una resolución judicial exentos\n\"107\" | Ajuste al Subsidio Causado\n\n### Tipo de Otro Pago\n\nClave | Descripción\n:-----:| -----------\n\"001\" | Reintegro de ISR pagado en exceso.\n\"002\" | Subsidio para el empleo (efectivamente entregado al trabajador).\n\"003\" | Viáticos (entregados al trabajador).\n\"004\" | Aplicación de saldo a favor por compensación anual.\n\"005\" | Reintegro de ISR retenido en exceso de ejercicio anterior\n\"006\" | Alimentos en bienes (Servicios de comedor y comida).\n\"007\" | ISR ajustado por subsidio.\n\"008\" | Subsidio efectivamente entregado que no correspondía.\n\"009\" | Reembolso de descuentos efectuados para el crédito de vivienda.\n\"999\" | Pagos distintos a los listados.\n\n### Tipo de Incapacidad\n\nClave | Descripción\n:-----:| -----------\n\"01\" | Riesgo de trabajo.\n\"02\" | Enfermedad en general.\n\"03\" | Maternidad.\n\"04\" | Licencia por cuidados médicos de hijos diagnosticados con cáncer.\n\n### Clave de retención\n\nClave | Descripción\n:-----:| -----------\n\"01\" | Servicios profesionales.\n\"02\" | Regalías por derechos de autor.\n\"03\" | Autotransporte terrestre de carga.\n\"04\" | Servicios prestados por comisionistas.\n\"05\" | Arrendamiento.\n\"06\" | Enajenación de acciones.\n\"07\" | Enajenación de bienes objeto de la LIEPS, a través de mediadores, agentes, representantes, corredores, consignatarios o distribuidores.\n\"08\" | Enajenación de bienes inmuebles consignada en escritura pública.\n\"09\" | Enajenación de otros bienes, no consignada en escritura pública.\n\"10\" | Adquisición de desperdicios industriales.\n\"11\" | Adquisición de bienes consignada en escritura pública.\n\"12\" | Adquisición de otros bienes, no consignada en escritura pública.\n\"13\" | Otros retiros de AFORE.\n\"14\" | Dividendos o utilidades distribuidas.\n\"15\" | Remanente distribuible.\n\"16\" | Intereses.\n\"17\" | Arrendamiento en fideicomiso.\n\"18\" | Pagos realizados a favor de residentes en el extranjero.\n\"19\" | Enajenación de acciones u operaciones en bolsa de valores.\n\"20\" | Obtención de premios.\n\"21\" | Fideicomisos que no realizan actividades empresariales.\n\"22\" | Planes personales de retiro.\n\"23\" | Intereses reales deducibles por créditos hipotecarios.\n\"24\" | Operaciones Financieras Derivadas de Capital.\n\"25\" | Otro tipo de retenciones.\n\"26\" | Servicios mediante Plataformas Tecnológicas\n\n### Validez de obligaciones\n\n| Validez | IVA Exento | Tasa 0% | Tasa 8% Fronteriza Norte | Tasa 8% Fronteriza Sur | Tasa 16%\n|:-------:|:----------:|:-------:|:------------------------:|:----------------------:|:--------\n| \"0\" <td colspan=\"5\">El contribuyente no está autorizado para emitir facturas</td>\n| \"1\" | Sí | Sí | No | No | Sí\n| \"2\" | Sí | Sí | Sí | No | Sí\n| \"3\" | Sí | Sí | No | Sí | Sí\n| \"4\" | Sí | Sí | Sí | Sí | Sí\n\n#### Situación del contribuyente\n\n| Valor | Explicación\n|:-----:|:-----------\n| \"Previsto\" | Vía buzón tributario o notificaciones por estrados, el contribuyente recibe un oficio en el que se establece su situación y se le solicita que demuestre la materialidad de las operaciones facturadas.\n| \"Presunto\" | El contribuyente notificado se considera presunto cuando, en su página web, la autoridad emite sus datos dentro de la relación de los EFOS, es decir, en las listas negras del SAT.\n| \"Desvirtuado\" | En este caso, el contribuyente acusado de operaciones inexistentes ya aportó a la autoridad la documentación e información pertinente para desvirtuar los hechos que llevaron a notificarlo.\n| \"Definitivo\" | En este caso, el EFO no atendió el llamado de la autoridad en el plazo de 15 días, a partir de la última notificación; o bien, no pudo desvirtuar los hechos imputados.\n| \"Sentencia favorable\" | Los contribuyentes EFOS “definitivos” que se inconforman e interponen algún medio de defensa, el cual concluye a su favor, son clasificados en la lista de “sentencia favorable”.\n| \"EFOS de información suprimida\" | En esta categoría, se encuentran los EFOS “presuntos” y “definitivos” que presentaron algún medio de defensa (amparo, juicio de nulidad) y, por lo tanto, un juez ordenó suprimir sus datos de la lista, sin ser eliminados.\n"
@@ -6034,7 +6040,7 @@ components:
           description: >-
             Clave del banco de acuerdo al catálogo del SAT “Bancos” que puedes
             consultar utilizando nuestra [herramienta de
-            búsqueda](https://www.facturapi.io/dashboard/catalogs/bank).
+            búsqueda](https://dashboard.facturapi.io/catalogs/bank).
         cuenta_bancaria:
           type: string
           description: >
@@ -6061,7 +6067,7 @@ components:
             Clave de la entidad federativa en donde el trabajador prestó sus
             servicios al empleador, que puedes consultar utilizando nuestra
             [herramienta de
-            búsqueda](https://www.facturapi.io/dashboard/catalogs/state).
+            búsqueda](https://dashboard.facturapi.io/catalogs/state).
     NominaReceptorNestedProperties:
       type: object
       properties:
@@ -6344,7 +6350,7 @@ components:
                         el código de Estado de acuerdo al estándar [ISO
                         3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que
                         puedes consultar en nuestro [Catálogo de
-                        Estados](https://www.facturapi.io/dashboard/catalogs/state).
+                        Estados](https://dashboard.facturapi.io/catalogs/state).
                       example: Sonora
                     country:
                       type: string
@@ -6352,7 +6358,7 @@ components:
                         Código de país acorde al estándar [ISO 3166-1
                         alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3),
                         del [Catálogo de
-                        Países](https://www.facturapi.io/dashboard/catalogs/country).
+                        Países](https://dashboard.facturapi.io/catalogs/country).
                       example: MEX
                       default: MEX
     CustomerCommonProperties:
@@ -6417,7 +6423,7 @@ components:
                         el código de Estado de acuerdo al estándar [ISO
                         3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que
                         puedes consultar en nuestro [Catálogo de
-                        Estados](https://www.facturapi.io/dashboard/catalogs/state).
+                        Estados](https://dashboard.facturapi.io/catalogs/state).
                       example: Sonora
                     country:
                       type: string
@@ -6425,7 +6431,7 @@ components:
                         Código de país acorde al estándar [ISO 3166-1
                         alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3),
                         del [Catálogo de
-                        Países](https://www.facturapi.io/dashboard/catalogs/country).
+                        Países](https://dashboard.facturapi.io/catalogs/country).
                       example: MEX
                       default: MEX
     LineItemProductInput:
@@ -6454,7 +6460,7 @@ components:
             Clave de producto/servicio, del catálogo del SAT. Nosotros te
             proporcionamos una manera más conveniente de encontrarlo utilizando
             nuestra [herramienta de búsqueda de
-            claves](https://www.facturapi.io/dashboard/tools/keys).
+            claves](https://dashboard.facturapi.io/tools/keys).
           example: 60131324
         unit_key:
           type: string
@@ -6467,7 +6473,7 @@ components:
             Si la unidad de tu producto es kilogramos, litros, horas u otra
             unidad, te proporcionamos una manera conveniente de encontrar la
             clave utilizando nuestra [herramienta de búsqueda de
-            claves](https://www.facturapi.io/dashboard/tools/keys).
+            claves](https://dashboard.facturapi.io/tools/keys).
         unit_name:
           type: string
           default: Elemento
@@ -6568,7 +6574,7 @@ components:
             Clave de producto/servicio, del catálogo del SAT. Nosotros te
             proporcionamos una manera más conveniente de encontrarlo utilizando
             nuestra [herramienta de búsqueda de
-            claves](https://www.facturapi.io/dashboard/tools/keys).
+            claves](https://dashboard.facturapi.io/tools/keys).
           example: 60131324
         price:
           type: number
@@ -6638,7 +6644,7 @@ components:
 
             Si la unidad de tu producto es kilogramos, litros, horas u otra
             unidad, puedes encontrar la clave utilizando nuestra [herramienta de
-            búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+            búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
         unit_name:
           type: string
           default: Elemento
@@ -6670,7 +6676,7 @@ components:
             Clave de producto/servicio, del catálogo del SAT. Nosotros te
             proporcionamos una manera más conveniente de encontrarlo utilizando
             nuestra [herramienta de búsqueda de
-            claves](https://www.facturapi.io/dashboard/tools/keys).
+            claves](https://dashboard.facturapi.io/tools/keys).
           example: 84111506
         price:
           type: number
@@ -6729,7 +6735,7 @@ components:
             Clave de unidad de medida, del catálogo del SAT.
 
             Puedes encontrar la clave utilizando nuestra [herramienta de
-            búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+            búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
         unit_name:
           type: string
           default: Actividad

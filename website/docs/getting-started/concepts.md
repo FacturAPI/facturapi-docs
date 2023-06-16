@@ -45,7 +45,7 @@ Facturapi cuenta con 2 ambientes independientes y únicos por cada organización
   durante el proceso de autenticación.
 - **Ambiente Live**. Úsalo al operar en producción. Las facturas que crees en este ambiente
   se enviarán al SAT y tendrán validez fiscal. Para usar este ambiente deberás utilizar la
-  **Test Secret Key** de la organización que desees identificar durante el proceso de
+  **Live Secret Key** de la organización que desees identificar durante el proceso de
   autenticación.
 
 Los recursos creados por una organización en un ambiente son inaccesibles para otras organizaciones, o para la misma organización en diferents ambientes.

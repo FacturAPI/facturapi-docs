@@ -17,8 +17,27 @@ info:
 
     En esta página enlistamos todos los métodos
     disponibles en la API de Facturapi, así como
-    la referencia completa de los objetos y campos
-    que acepta cada uno.
+    la referencia completa de los parámetros
+    que acepta cada uno. Para ver las propiedades
+    anidadas de un objeto o arreglo de objetos,
+    puedes hacer clic sobre el nombre del campo y
+    expandirlo.
+
+    La API de Facturapi está diseñada con el
+    estándar [REST](https://developer.mozilla.org/en-US/docs/Glossary/REST)
+    en mente. Los endpoints de la API están agrupados
+    por recursos, tienen URLs predecibles, las respuestas
+    tienen formato JSON y usamos códigos HTTP de respuesta,
+    autenticación y verbos estándar.
+
+    Durante el desarrollo, puedes usar la API de Facturapi en
+    ambiente Test y las facturas que emitas no se enviarán al SAT ni
+    tendrán validez fiscal.
+    
+    La llave secreta que utilices para autenticarte
+    determinará tanto el ambiente en el que se creará la factura
+    (Test o Live), así como la organización a utilizar como emisor
+    de tu factura, o bien como dueña del recurso que solicites crear.
 
 tags:
   - name: tools
@@ -44,8 +63,8 @@ tags:
       de manera asíncrona, es decir, fuera del ciclo de vida de
       una petición a la API.
 
-      Próximamente podrás suscribirte a estos eventos registrando
-      webhooks.
+      Para recibir estos eventos en tu servidor, puedes registrar una URL de escucha
+      creando un **Webhook** desde tu dashboard: https://dashboard.facturapi.io/integration/webhooks
   - name: sat_keys
     x-displayName: Claves de catálogos
     description: |
@@ -87,32 +106,32 @@ tags:
 
       ### Uso CFDI
 
-      Clave | Descripción
-      :-----:| -----------
-      "G01" | Adquisición de mercancías.
-      "G02" | Devoluciones, descuentos o bonificaciones.
-      "G03" | Gastos en general.
-      "I01" | Construcciones.
-      "I02" | Mobiliario y equipo de oficina por inversiones.
-      "I03" | Equipo de transporte.
-      "I04" | Equipo de computo y accesorios.
-      "I05" | Dados, troqueles, moldes, matrices y herramental.
-      "I06" | Comunicaciones telefónicas.
-      "I07" | Comunicaciones satelitales.
-      "I08" | Otra maquinaria y equipo.
-      "D01" | Honorarios médicos, dentales y gastos hospitalarios.
-      "D02" | Gastos médicos por incapacidad o discapacidad.
-      "D03" | Gastos funerales.
-      "D04" | Donativos.
-      "D05" | Intereses reales efectivamente pagados por créditos hipotecarios (casa habitación).
-      "D06" | Aportaciones voluntarias al SAR.
-      "D07" | Primas por seguros de gastos médicos.
-      "D08" | Gastos de transportación escolar obligatoria.
-      "D09" | Depósitos en cuentas para el ahorro, primas que tengan como base planes de pensiones.
-      "D10" | Pagos por servicios educativos (colegiaturas).
-      "S01" | Sin efectos fiscales.  
-      "CP01" | Pagos
-      "CN01" | Nómina
+      Clave | Descripción | Régimen Fiscal 
+      :-----:| ----------- | -----------
+      "G01" | Adquisición de mercancías. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625,626
+      "G02" | Devoluciones, descuentos o bonificaciones. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625,626
+      "G03" | Gastos en general. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "I01" | Construcciones. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "I02" | Mobiliario y equipo de oficina por inversiones. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "I03" | Equipo de transporte. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "I04" | Equipo de computo y accesorios. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "I05" | Dados, troqueles, moldes, matrices y herramental. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "I06" | Comunicaciones telefónicas. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "I07" | Comunicaciones satelitales. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "I08" | Otra maquinaria y equipo. | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
+      "D01" | Honorarios médicos, dentales y gastos hospitalarios. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D02" | Gastos médicos por incapacidad o discapacidad. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D03" | Gastos funerales. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D04" | Donativos. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D05" | Intereses reales efectivamente pagados por créditos hipotecarios (casa habitación). | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D06" | Aportaciones voluntarias al SAR. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D07" | Primas por seguros de gastos médicos. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D08" | Gastos de transportación escolar obligatoria. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D09" | Depósitos en cuentas para el ahorro, primas que tengan como base planes de pensiones. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D10" | Pagos por servicios educativos (colegiaturas). | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "S01" | Sin efectos fiscales.  | 601, 603, 605, 606, 608, 610, 611, 612, 614, 616, 620, 621, 622, 623, 624, 607, 615, 625, 626
+      "CP01" | Pagos |  601, 603, 605, 606, 608, 610, 611, 612, 614, 616, 620, 621, 622, 623, 624, 607, 615, 625, 626
+      "CN01" | Nómina | 605
 
       ### Relación entre facturas
 
@@ -560,12 +579,17 @@ paths:
       description: |
         Registra un nuevo cliente en Facturapi.
 
-        Puedes guardar el ID del cliente y usarlo para crear facturas sin tener
-        que enviar todos los datos fiscales.
-
-        Al guardar al cliente, validamos que los datos fiscales coincidan con
+        Esta llamada valida que los datos fiscales coincidan con
         los registros del SAT para ese RFC, de lo contrario, la llamada
         devolverá un error indicando el problema.
+
+        Una vez creado el cliente y obtenido un objeto de respuesta,
+        te recomendamos guardar el ID en tu base de datos junto a la información
+        de tu cliente. Posteriormente, puedes llamar al encpoint de Crear Factura
+        pasando el ID del cliente en lugar de repetir la información.
+        
+        Por último, ten en cuenta que los clientes que crees en ambiente _Test_ **no se
+        comparten** con el ambiente _Live_.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -576,7 +600,7 @@ paths:
               -d '{
                     "legal_name": "Dunder Mifflin",
                     "email": "email@example.com",
-                    "tax_id": "ABCD111111CBA",
+                    "tax_id": "ABC101010111",
                     "tax_system": "601",
                     "address": {
                       "zip": "01234"
@@ -590,7 +614,7 @@ paths:
             const customer = await facturapi.customers.create({
               legal_name: 'Dunder Mifflin',
               email: 'email@example.com',
-              tax_id: 'ABCD101010XYZ',
+              tax_id: 'ABC101010111',
               tax_system: '601',
               address: {
                 zip: '01234'
@@ -604,7 +628,7 @@ paths:
             {
               ["legal_name"] = "Dunder Mifflin",
               ["email"] = "email@example.com",
-              ["tax_id"] = "ABCD101010XYZ",
+              ["tax_id"] = "ABC101010111",
               ["tax_system"] = "601",
               ["address"] = new Dictionary<string, object>
               {
@@ -617,7 +641,7 @@ paths:
             $customer = $facturapi->Customers->create([
               "email" => "email@example.com",
               "legal_name" => "Dunder Mifflin",
-              "tax_id" => "ABCD101010XYZ",
+              "tax_id" => "ABC101010111",
               "tax_system" => "601",
               "address" => [
                 "zip" => "01234"
@@ -923,7 +947,16 @@ paths:
       tags:
         - customer
       summary: Validar información fiscal
-      description: Valida que la información fiscal del cliente coincida con los registros del SAT.
+      description: |
+        Valida que la información fiscal del cliente coincida con los registros del SAT.
+
+        Su función principal es validar que los datos del cliente registraado siguen cumpliendo la validación del SAT.
+
+        :::tip
+          Las operaciones de crear cliente, editar cliente y crear factura ya realizan una
+          validación de la información del cliente, por lo que **no** es necesario llamar a este endpoint
+          antes de realizar dichas operaciones.
+        :::
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -996,6 +1029,9 @@ paths:
         Registra un nuevo producto o servicio en tu catálogo de Facturapi.
 
         Puedes usar el ID del producto para crear facturas sin tener que enviar todos los datos del producto cada vez.
+
+        Te en cuenta que los productos que crees en ambiente _Test_ **no se
+        comparten** con el ambiente _Live_.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -1325,7 +1361,7 @@ paths:
                 "customer": {
                   "legal_name": "Dunder Mifflin",
                   "email": "email@example.com",
-                  "tax_id": "ABCD111111CBA",
+                  "tax_id": "ABC101010111",
                   "tax_system": "601",
                   "address": {
                     "zip": "85900"
@@ -1352,7 +1388,7 @@ paths:
               customer: {
                 legal_name: 'Dunder Mifflin',
                 email: 'email@example.com',
-                tax_id: 'ABCD111111CBA',
+                tax_id: 'ABC101010111',
                 tax_system: '601',
                 address: {
                   zip: '85900'
@@ -1380,7 +1416,7 @@ paths:
               {
                 ["legal_name"] = "Dunder Mifflin",
                 ["email"] = "email@example.com",
-                ["tax_id"] = "ABCD111111CBA",
+                ["tax_id"] = "ABC101010111",
                 ["tax_system"] = "601",
                 ["address"] = new Dictionary<string, object>
                 {
@@ -1410,7 +1446,7 @@ paths:
               "customer" => [
                 "legal_name" => "Dunder Mifflin",
                 "email" => "email@example.com",
-                "tax_id" => "ABCD111111CBA",
+                "tax_id" => "ABC101010111",
                 "tax_system" => "601",
                 "address" => [
                   "zip" => "85900"
@@ -1585,6 +1621,25 @@ paths:
           schema:
             type: string
           description: Identificador del cliente. Útil para obtener las facturas emitidas a un sólo cliente.
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum:
+              - I  
+              - E 
+              - P 
+              - N
+              - T 
+          description: Tipo de factura. Búsqueda por tipo de factura con las claves exactas. 
+        - in: query
+          name: payment_method
+          schema:
+            type: string
+            enum:
+              - PUE  
+              - PPD
+          description: Método de pago. Búsqueda exacta por método de pago. 
         - $ref: "#/components/parameters/SearchDate"
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
@@ -1767,6 +1822,69 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  
+  /invoices/{invoice_id}/cancellation_receipt/xml:
+    get:
+      operationId: downloadCancellationReceiptXml
+      tags:
+        - invoice
+      summary: Descargar acuse de cancelación
+      description: Descarga acuse de recibo de cancelación de una factura en un archivo xml.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            # Acuse de factura cancelada
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/xml \
+              -H "Authorization: Bearer sk_test_API_KEY"
+              -X GET
+
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            // Acuse de factura cancelada
+            await facturapi.invoices.downloadCancellationReceiptXml('58e93bd8e86eb318b019743d');
+
+        - lang: csharp
+          label: C#
+          source: |
+            // Acuse de factura cancelada
+            await facturapi.Invoice.DownloadCancellationReceiptXmlAsync("58e93bd8e86eb318b019743d");
+
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+
+            // Acuse de factura cancelada
+            $facturapi->Invoices->download_cancellation_receipt_xml("58e93bd8e86eb318b019743d");
+      parameters:
+        - in: path
+          name: invoice_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto a obtener
+      security:
+        - "Secret Live Key": []
+        - "Secret Test Key": []
+      responses:
+        "200":
+          description: Archivo del acuse de recibo de cancelación
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+
   /invoices/{invoice_id}/{format}:
     get:
       operationId: downloadInvoice
@@ -2009,7 +2127,7 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "500":
           $ref: "#/components/responses/UnexpectedError"
-
+  
   /receipts:
     post:
       operationId: createReceipt
@@ -2331,6 +2449,204 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /receipts/{receipt_id}/pdf:
+    get:
+      operationId: downloadReceiptPdf
+      tags:
+        - receipt
+      summary: Descargar PDF
+      description: Descarga el recibo digital en formato PDF.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const fs = require('fs');
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            // Descargar recibo en formato PDF
+            const pdfStream = await facturapi.receipts.downloadPdf('58e93bd8e86eb318b019743d');
+            const pdfFile = fs.createWriteStream('./recibo.pdf');
+            pdfStream.pipe(pdfFile);
+        - lang: csharp
+          label: C#
+          source: |
+            // Descargar recibo en formato PDF
+            var pdfStream = await facturapi.Receipt.DownloadPdfAsync("58e93bd8e86eb318b019743d");
+
+            // Para guardar la descarga en un archivo
+            var file = new System.IO.FileStream("C:\\route\\to\\save\\receipt.pdf", FileMode.Create);
+            pdfStream.CopyTo(file);
+            file.Close();
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+
+            // stream containing the PDF file
+            $pdf = $facturapi->Receipts->download_pdf("58e93bd8e86eb318b019743d");
+      parameters:
+        - in: path
+          name: receipt_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto a descargar
+      security:
+        - "Secret Live Key": []
+        - "Secret Test Key": []
+      responses:
+        "200":
+          description: Archivo del recibo digital en formato PDF
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /receipts/{receipt_id}/email:
+    post:
+      operationId: sendReceiptByEmail
+      tags:
+        - receipt
+      summary: Enviar recibo por correo electrónico
+      description: |
+        Envía un correo electrónico a la dirección de tu cliente.
+        
+        El correo enviado estará personalizado con el logotipo y los colores de la organización que lo creó,
+        e incluirá un botón para facturar el recibo, así con el recibo en formato PDF adjunto al mensaje.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            # Enviar recibo por correo electrónico
+            curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d/email \
+              -H "Authorization: Bearer sk_test_API_KEY"
+              -X POST
+              -H "Content-Type: application/json" \
+              -d '{
+                    "email": "another_email@example.com"
+                  }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            // Enviar recibo por correo electrónico
+            await facturapi.receipts.sendByEmail(
+              '58e93bd8e86eb318b019743d',
+              { email: 'ejemplo@correo.com' }
+            );
+
+            // Enviar a más de un correo (máx. 10)
+            await facturapi.receipts.sendByEmail(
+              '58e93bd8e86eb318b019743d',
+              { 
+                email: [
+                  'primer@correo.com',
+                  'segundo@correo.com'
+                ]
+              }
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            // Enviar recibo por correo electrónico
+            await facturapi.Receipt.SendByEmailAsync(
+              "58e93bd8e86eb318b019743d",
+              new Dictionary<string, object>
+              {
+                ["email"] = "ejemplo@correo.com"
+              }
+            );
+
+            // Enviar a más de un correo
+            await facturapi.Receipt.SendByEmailAsync(
+              "58e93bd8e86eb318b019743d",
+              new Dictionary<string, object>
+              {
+                ["email"] = new String[]
+                {
+                  "primer@correo.com",
+                  "segundo@correo.com"
+                }
+              }
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+
+            // Enviar recibo por correo electrónico
+            $facturapi->Receipts->send_by_email(
+              "58e93bd8e86eb318b019743d",
+              "ejemplo@correo.com"
+            );
+
+            // Enviar a más de un correo (máx 10)
+            $facturapi->Receipts->send_by_email(
+              "58e93bd8e86eb318b019743d",
+              [
+                "primer@correo.com",
+                "segundo@correo.com"
+              ]
+            );
+      parameters:
+        - in: path
+          name: receipt_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto a obtener
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  description: Dirección de correo electrónico a enviar el recibo digital.
+                  oneOf:
+                    - type: string
+                      format: email
+                      description: Dirección de correo eletrónico
+                      example: otro@correo.com
+                    - type: array
+                      example: ["primer@correo.com", "segundo@correo.com"]
+                      description: Lista de direcciones de correo que recibirán el recibo digital.
+                      maxLength: 10
+                      items:
+                        type: string
+                        format: email
+      security:
+        - "Secret Live Key": []
+        - "Secret Test Key": []
+      responses:
+        "200":
+          description: Archivo del comprobante CFDI en el formato solicitado
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  
   /receipts/{receipt_id}/invoice:
     post:
       operationId: invoiceReceipt
@@ -3386,7 +3702,7 @@ paths:
             curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/certificate \
               -X PUT \
               -H "Authorization: Bearer sk_user_API_KEY" \
-              -H "Content-Type: mutipart/form-data" \
+              -H "Content-Type: multipart/form-data" \
               -F 'cer=@/path/to/your/CSD.cer' \
               -F 'key=@/path/to/your/CSD.key' \
               -F 'password=CONTRASEÑA_DEL_CERTIFICADO'
@@ -3480,7 +3796,7 @@ paths:
             curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/logo \
               -X PUT \
               -H "Authorization: Bearer sk_user_API_KEY" \
-              -H "Content-Type: mutipart/form-data" \
+              -H "Content-Type: multipart/form-data" \
               -F 'file=@/path/to/your/logo.jpg'
         - lang: JavaScript
           label: Node.js
@@ -4247,61 +4563,6 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "500":
           $ref: "#/components/responses/UnexpectedError"
-  /tools/cancellation_receipt/{invoice_or_retention_id}:
-    get:
-      tags:
-        - tools
-      summary: Obtener acuse de cancelación
-      description: Regresa el acuse de cancelación de un comprobante.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/tools/cancellation_receipt/<invoice_or_retention_id> \
-              -H "Authorization: Bearer sk_test_API_KEY"
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            const Facturapi = require('facturapi');
-            const facturapi = new Facturapi('sk_test_API_KEY');
-
-            const validation = await facturapi.tools.getCancellationReceipt('<invoice_or_retention_id>');
-        - lang: csharp
-          label: C#
-          source: |
-            var facturapi = new FacturapiClient("sk_test_API_KEY");
-            
-            var customer = await facturapi.Tools.GetCancellationReceipt("<invoice_or_retention_id>");
-        - lang: PHP
-          source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
-            
-            $customer = $facturapi->Tools->getCancellationReceipt("<invoice_or_retention_id>");
-      parameters:
-        - in: path
-          name: invoice_or_retention_id
-          required: true
-          schema:
-            type: string
-            description: ID de la factura o la retención cancelada de la que se quiere obtener el acuse.
-            example: 58e93bd8e86eb318b019743d
-      security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
-      responses:
-        "200":
-          description: Acuse de recibo
-          content:
-            application/xml:
-              schema:
-                type: string
-                format: xml
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
   
   /catalogs/products:
     get:
@@ -4489,7 +4750,33 @@ x-webhooks:
                             - invoice
                         object:
                           $ref: "#/components/schemas/Invoice"
-                
+  "Estatus de recibo actualizado":
+    post:
+      tags:
+        - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/EventBase"
+                - type: object
+                  properties:
+                    type:
+                      type: string
+                      description: Tipo de evento
+                      enum:
+                        - receipt.status_updated
+                    data:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: Tipo de objeto asociado al evento
+                          enum:
+                            - receipt
+                        object:
+                          $ref: "#/components/schemas/Receipt"
 components:
   responses:
     BadRequest:
@@ -4630,8 +4917,8 @@ components:
         type: integer
         minimum: 1
         default: 50
-        maximum: 1000
-      description: Número del 1 al 50 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
+        maximum: 100
+      description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
 
   schemas:
     EventBase:
@@ -4875,7 +5162,12 @@ components:
       properties:
         rate:
           type: number
-          description: Tasa del impuesto
+          example: 0.10
+          description: Tasa del impuesto en fracción decimal.
+        base:
+          type: number
+          default: 100% del subtotal
+          description: Base del impuesto
         type:
           type: string
           description: Nombre del impuesto. Texto libre.
@@ -4886,6 +5178,8 @@ components:
     BaseTax:
       title: Tax
       type: object
+      required:
+        - rate
       discriminator:
         propertyName: type
         mapping:
@@ -4895,8 +5189,12 @@ components:
       properties:
         rate:
           type: number
-          default: 0.16
-          description: Tasa del impuesto
+          example: 0.16
+          description: Tasa del impuesto en fracción decimal.
+        base:
+          type: number
+          default: 100% del subtotal
+          description: Base del impuesto.
         type:
           type: string
           default: IVA
@@ -5022,6 +5320,56 @@ components:
           description: Objeto con información del producto o servicio facturado.
           oneOf:
             - $ref: "#/components/schemas/LineItemProductInput"
+            - type: string
+              title: product_id
+              description: ID de un producto previamente registrado en Facturapi
+        parts:
+          type: array
+          items:
+            $ref: "#/components/schemas/PartInput"
+        customs_keys:
+          type: array
+          items:
+            type: string
+          description: Números de pedimento asociados a este concepto.
+        complement:
+          type: string
+          format: xml
+          description: Código XML de tu complemento. Recuerda que debes añadir el prefijo y las URLs usando el parámetro namespaces.
+        third_party:
+          allOf:
+            - type: object
+              required:
+                - legal_name
+                - tax_id
+                - tax_system
+                - zip
+            - $ref: "#/components/schemas/ThirdParty"
+        property_tax_account:
+          type: string
+          description: Número de cuenta para el impuesto predial.
+          example: "0102030405"
+    LineItemEgresoInput:
+      title: LineItem
+      required:
+        - product
+      type: object
+      description: Conceptos incluidos en el documento
+      properties:
+        quantity:
+          type: number
+          default: 1
+          description: Cantidad de unidades incluídas del mismo concepto.
+          example: 1
+        discount:
+          type: number
+          description: Monto total de descuento aplicado a este concepto.
+          default: 0
+          example: 0
+        product:
+          description: Objeto con información del producto o servicio facturado.
+          oneOf:
+            - $ref: "#/components/schemas/LineItemProductEgresoInput"
             - type: string
               title: product_id
               description: ID de un producto previamente registrado en Facturapi
@@ -5606,7 +5954,7 @@ components:
           description: Clave del catálogo del SAT [Periodicidad de Pago](#periodicidad-del-pago).
         banco:
           type: string
-          description: Clave del banco de acuerdo al catálogo del SAT “Bancos” que puedes consultar utilizando nuestra [herramienta de búsqueda](https://www.facturapi.io/dashboard/catalogs/bank).
+          description: Clave del banco de acuerdo al catálogo del SAT “Bancos” que puedes consultar utilizando nuestra [herramienta de búsqueda](https://dashboard.facturapi.io/catalogs/bank).
         cuenta_bancaria:
           type: string
           description: |
@@ -5619,7 +5967,7 @@ components:
           description: Salario que se integra con los pagos hechos en efectivo por cuota diaria, gratificaciones, percepciones, habitación, primas, comisiones, prestaciones en especie y cualquier otra cantidad o prestación que se entregue al trabajador por su trabajo.
         clave_ent_fed:
           type: string
-          description: Clave de la entidad federativa en donde el trabajador prestó sus servicios al empleador, que puedes consultar utilizando nuestra [herramienta de búsqueda](https://www.facturapi.io/dashboard/catalogs/state).
+          description: Clave de la entidad federativa en donde el trabajador prestó sus servicios al empleador, que puedes consultar utilizando nuestra [herramienta de búsqueda](https://dashboard.facturapi.io/catalogs/state).
     NominaReceptorNestedProperties:
       type: object
       properties:
@@ -5881,11 +6229,11 @@ components:
                   properties:
                     state:
                       type: string
-                      description: Si el país es México ("MEX"), contiene el nombre del Estado o Entidad Federativa. Para extranjeros contiene el código de Estado de acuerdo al estándar [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que puedes consultar en nuestro [Catálogo de Estados](https://www.facturapi.io/dashboard/catalogs/state).
+                      description: Si el país es México ("MEX"), contiene el nombre del Estado o Entidad Federativa. Para extranjeros contiene el código de Estado de acuerdo al estándar [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que puedes consultar en nuestro [Catálogo de Estados](https://dashboard.facturapi.io/catalogs/state).
                       example: Sonora
                     country:
                       type: string
-                      description: Código de país acorde al estándar [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), del [Catálogo de Países](https://www.facturapi.io/dashboard/catalogs/country).
+                      description: Código de país acorde al estándar [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), del [Catálogo de Países](https://dashboard.facturapi.io/catalogs/country).
                       example: MEX
                       default: MEX
     CustomerCommonProperties:
@@ -5898,7 +6246,7 @@ components:
           example: Dunder Mifflin
         tax_id:
           type: string
-          example: ABCD101010XYZ
+          example: ABC101010111
           description: En clientes de México contiene el RFC del cliente. Para extranjeros es opcional y representa el número de registro de identificacón tributaria, es decir, el equivalente al RFC en el país del cliente.
         tax_system:
           type: string
@@ -5936,11 +6284,11 @@ components:
                   properties:
                     state:
                       type: string
-                      description: Si el país es México ("MEX"), contiene el nombre del Estado o Entidad Federativa. Para extranjeros contiene el código de Estado de acuerdo al estándar [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que puedes consultar en nuestro [Catálogo de Estados](https://www.facturapi.io/dashboard/catalogs/state).
+                      description: Si el país es México ("MEX"), contiene el nombre del Estado o Entidad Federativa. Para extranjeros contiene el código de Estado de acuerdo al estándar [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que puedes consultar en nuestro [Catálogo de Estados](https://dashboard.facturapi.io/catalogs/state).
                       example: Sonora
                     country:
                       type: string
-                      description: Código de país acorde al estándar [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), del [Catálogo de Países](https://www.facturapi.io/dashboard/catalogs/country).
+                      description: Código de país acorde al estándar [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), del [Catálogo de Países](https://dashboard.facturapi.io/catalogs/country).
                       example: MEX
                       default: MEX
 
@@ -5949,6 +6297,12 @@ components:
       allOf:
         - $ref: "#/components/schemas/ProductRequiredProperties"
         - $ref: "#/components/schemas/ProductProperties"
+    
+    LineItemProductEgresoInput:
+      title: Product
+      allOf:
+        - $ref: "#/components/schemas/ProductEgresoRequiredProperties"
+        - $ref: "#/components/schemas/ProductEgresoProperties"
 
     LineItemTrasladoProductInput:
       title: Product
@@ -5962,14 +6316,14 @@ components:
           example: Ukelele
         product_key:
           type: string
-          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
           example: 60131324
         unit_key:
           type: string
           default: H87
           description: |
             Clave de unidad de medida, del catálogo del SAT. El valor por default `"H87"` (elemento) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc).
-            Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, te proporcionamos una manera conveniente de encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+            Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, te proporcionamos una manera conveniente de encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
         unit_name:
           type: string
           default: Elemento
@@ -5977,12 +6331,6 @@ components:
         sku:
           type: string
           description: Identificador de uso interno designado por la empresa. Puede tener cualquier valor.
-
-    LineItemProductEgresoInput:
-      title: Product
-      allOf:
-        - $ref: "#/components/schemas/ProductEgresoRequiredProperties"
-        - $ref: "#/components/schemas/ProductEgresoProperties"
 
     LineItemProduct:
       allOf:
@@ -6062,7 +6410,7 @@ components:
           example: Ukelele
         product_key:
           type: string
-          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
           example: 60131324
         price:
           type: number
@@ -6110,7 +6458,7 @@ components:
           default: H87
           description: |
             Clave de unidad de medida, del catálogo del SAT. El valor por default `"H87"` (elemento) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc).
-            Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+            Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
         unit_name:
           type: string
           default: Elemento
@@ -6128,7 +6476,7 @@ components:
         product_key:
           type: string
           default: 84111506
-          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
           example: 84111506
         price:
           type: number
@@ -6170,7 +6518,7 @@ components:
           default: ACT
           description: |
             Clave de unidad de medida, del catálogo del SAT.
-            Puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://www.facturapi.io/dashboard/tools/keys).
+            Puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
         unit_name:
           type: string
           default: Actividad
@@ -6184,6 +6532,7 @@ components:
       properties:
         payment_form:
           type: string
+          example: "03"
           description: Código de la forma de pago según el [catálogo del SAT](#forma-de-pago). También puedes utilizar la constante `PaymentForm` incluída en nuestras librerías.
         related_documents:
           type: array
@@ -6209,43 +6558,45 @@ components:
                   de pagos. Este valor debe ser expresado en la moneda definida
                   en `related_documents[].currency`.
               taxes:
-                type: object
+                type: array
                 description: |
                   Arreglo con impuestos del documento relacionado que aplican al pago realizado.
-                required:
-                  - base
-                  - type
-                  - rate
-                properties:
-                  base:
-                    type: number
-                    description: |
-                      Base utilizada para el cálculo del impuestos.
-                  type:
-                    type: string
-                    enum:
-                      - IVA
-                      - ISR
-                      - IEPS
-                    description: |
-                      Tipo de impuesto.
-                  rate:
-                    type: number
-                    example: 0.16
-                    description: |
-                      Tasa o cuota del impuesto
-                  factor:
-                    type: string
-                    default: Tasa
-                    enum:
-                      - Tasa
-                      - Cuota   
-                      - Exento
-                    description: Tipo factor.
-                  withholding:
-                    type: boolean
-                    default: false
-                    description: Indica si el impuesto es una retención (`true`) o un traslado (`false`).
+                items:
+                  type: object
+                  required:
+                    - base
+                    - type
+                    - rate
+                  properties:
+                    base:
+                      type: number
+                      description: |
+                        Base utilizada para el cálculo del impuestos.
+                    type:
+                      type: string
+                      enum:
+                        - IVA
+                        - ISR
+                        - IEPS
+                      description: |
+                        Tipo de impuesto.
+                    rate:
+                      type: number
+                      example: 0.16
+                      description: |
+                        Tasa o cuota del impuesto
+                    factor:
+                      type: string
+                      default: Tasa
+                      enum:
+                        - Tasa
+                        - Cuota   
+                        - Exento
+                      description: Tipo factor.
+                    withholding:
+                      type: boolean
+                      default: false
+                      description: Indica si el impuesto es una retención (`true`) o un traslado (`false`).
               taxability:
                 type: string
                 default: |
@@ -6333,7 +6684,6 @@ components:
           type: string
           format: base64
           description: Sello digital que se asocie al pago expresado como una cadena de texto en formato base 64.
-
     CuustomerInfo:
       type: object
       description: Objeto con información parcial del cliente receptor del comprobante. Para obtener el objeto `Customer` completo, deberás consultarlo con el método de [Obtener Cliente]('#/operation/getCustomer').
@@ -6350,7 +6700,7 @@ components:
         tax_id:
           type: string
           description: RFC del cliente.
-          example: ABCD111111CBA
+          example: ABC101010111
         address:
           type: object
           properties:
@@ -6424,7 +6774,7 @@ components:
           type: string
           format: uri
           description: Dirección URL para verificar el estado del CFDI en el portal del SAT. Este link es el mismo que aparece en el código QR, en el PDF de la factura.
-          example: https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111CBA&tt=345.600000&fe=bWApPw==
+          example: https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABC101010111&tt=345.600000&fe=bWApPw==
         date:
           type: string
           format: date-time
@@ -6482,7 +6832,7 @@ components:
           example: 06
         items:
           type: array
-          description: Conceptos incluidos en el documento
+          description: Conceptos incluidos en el comprobante
           items:
             $ref: "#/components/schemas/LineItem"
         related_documents:
@@ -6549,7 +6899,7 @@ components:
         namespaces:
           type: array
           default: []
-          description: Si icluiste uno de los parámetros `addenda`, `complements`, o `items[].complement` y éstos incluyen un namespace especial, debes enviar la información necesaria para incluir estos namespaces en el XML de la factura.
+          description: Si incluiste el parámetro `complements`, este campo es opcional; en cambio si inclusite uno de los parámetros `addenda` o `items[].complement` y éstos incluyen un namespace especial, debes enviar la información necesaria para incluir estos namespaces en el XML de la factura.
           items:
             allOf:
               - $ref: "#/components/schemas/NamespaceRequiredProperties"
@@ -6608,13 +6958,19 @@ components:
               description: Tipo de comprobante. El valor default es `“I”` (Ingreso).
             items:
               type: array
-              description: Conceptos a incluir en la factura.
+              maxItems: 5000
+              description: |
+                Conceptos a incluir en la factura.
+
+                El número máximo de elementos que puedes incluir en una factura es de 5,000. Si necesitas
+                emitir una factura con más de 5,000 conceptos, puedes dividir la transacción en varias facturas.
               items:
                 $ref: "#/components/schemas/LineItemInput"
             payment_form:
               type: string
               minLength: 2
               maxLength: 2
+              example: "03"
               description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
             payment_method:
               type: string
@@ -6630,7 +6986,12 @@ components:
             use:
               type: string
               default: G01
-              description: Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en nuestras librerías.
+              description: |
+                Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos
+                en [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en
+                nuestras librerías.
+
+                Para factura global debe ingresarse la clave `S01``.
             currency:
               type: string
               default: MXN
@@ -6729,18 +7090,28 @@ components:
               type: string
               minLength: 2
               maxLength: 2
+              example: "03"
               description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
             related_documents:
               type: array
-              description: Documentos relacionados con la factura.
+              description: Documentos relacionados con la nota de crédito.
               default: []
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
             items:
               type: array
-              description: Conceptos a incluir en la factura.
+              maxItems: 5000
+              description: |
+                Conceptos a incluir en la nota de crédito.
+
+                El número máximo de elementos que puedes incluir en el comprobante es de 5,000. Si necesitas
+                emitir un comprobante con más de 5,000 conceptos, puedes dividir la transacción en varios comprobantes.
               items:
-                $ref: "#/components/schemas/LineItemInput"
+                $ref: "#/components/schemas/LineItemEgresoInput"
+            use:
+              type: string
+              default: G01
+              description: Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en nuestras librerías.
             currency:
               type: string
               default: MXN
@@ -6754,7 +7125,7 @@ components:
               default: []
               items:
                 $ref: "#/components/schemas/CustomComplementInput"
-              description: Complementos a incluir en la factura. Puedes incluir cualquier complemento en la factura si tú mismo construyes el nodo XML del complemento y usas el tipo `custom`. No olvides que **es necesario agregar el prefijo y las URLs necesarias usando el parámetro `namespaces`**. También recuerda agregar la información del complemento al PDF usando el parámetro `pdf_custom_section`.
+              description: Complementos a incluir en el comprobante. Puedes incluir cualquier complemento en el comprobante si tú mismo construyes el nodo XML del complemento y usas el tipo `custom`. No olvides que **es necesario agregar el prefijo y las URLs necesarias usando el parámetro `namespaces`**. También recuerda agregar la información del complemento al PDF usando el parámetro `pdf_custom_section`.
         - $ref: "#/components/schemas/InvoiceCommonInputProperties"
     InvoicePagoInput:
       title: Pago
@@ -6775,6 +7146,15 @@ components:
               default: []
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
+            third_party:
+              allOf:
+                - type: object
+                  required:
+                    - legal_name
+                    - tax_id
+                    - tax_system
+                    - zip
+                - $ref: "#/components/schemas/ThirdParty"
             complements:
               type: array
               default: []
@@ -6823,7 +7203,12 @@ components:
                 - T
             items:
               type: array
-              description: Conceptos a incluir en la factura.
+              maxItems: 5000
+              description: |
+                Conceptos a incluir en el comprobante de Traslado.
+
+                El número máximo de elementos que puedes incluir en un comprobante es de 5,000. Si necesitas
+                emitir un comprobante con más de 5,000 conceptos, puedes dividir la transacción en varios comprobantes.
               items:
                 $ref: "#/components/schemas/LineItemTrasladoInput"
             complements:
@@ -6831,7 +7216,7 @@ components:
               default: []
               items:
                 $ref: "#/components/schemas/CustomComplementInput"
-              description: Complementos a incluir en la factura. Puedes incluir cualquier complemento en la factura si tú mismo construyes el nodo XML del complemento y usas el tipo `custom`. No olvides que **es necesario agregar el prefijo y las URLs necesarias usando el parámetro `namespaces`**. También recuerda agregar la información del complemento al PDF usando el parámetro `pdf_custom_section`.
+              description: Complementos a incluir en el comprobante. Puedes incluir cualquier complemento en el comprobante si tú mismo construyes el nodo XML del complemento y usas el tipo `custom`. No olvides que **es necesario agregar el prefijo y las URLs necesarias usando el parámetro `namespaces`**. También recuerda agregar la información del complemento al PDF usando el parámetro `pdf_custom_section`.
             use:
               type: string
               default: G01
@@ -6846,7 +7231,7 @@ components:
               description: Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos (MXN) que equivalen a una unidad de la divisa señalada en el atributo `currency`.
             related_documents:
               type: array
-              description: Documentos relacionados con la factura.
+              description: Documentos relacionados con el comprobante.
               default: []
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
@@ -6916,7 +7301,12 @@ components:
           properties:
             items:
               type: array
-              description: Conceptos a incluir en el recibo.
+              maxItems: 5000
+              description: |
+                Conceptos a incluir en el recibo.
+
+                El número máximo de elementos que puedes incluir en un recxibo es de 5,000. Si necesitas
+                emitir una recibo con más de 5,000 conceptos, prueba dividir la transacción en varios recibos.
               items:
                 $ref: "#/components/schemas/LineItemInput"
         - $ref: "#/components/schemas/ReceiptEditableProperties"
@@ -7066,7 +7456,7 @@ components:
           type: string
           format: uri
           description: Dirección URL para verificar el estado de la retención en el portal del SAT. Este link es el mismo que aparece en el código QR, en el PDF de la retención.
-          example: https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABCD111111CBA&tt=345.600000&fe=bWApPw==
+          example: https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABC101010111&tt=345.600000&fe=bWApPw==
         type:
           type: string
           enum:
@@ -7191,7 +7581,7 @@ components:
           description: Código XML con la Addenda que se necesite agregar a la factura.
         namespaces:
           type: array
-          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en complementos y addenda.
+          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en addenda.
           items:
             $ref: "#/components/schemas/NamespaceProperties"
     RetentionSearchResult:
@@ -7343,7 +7733,7 @@ components:
           description: Código XML con la Addenda que se necesite agregar a la factura.
         namespaces:
           type: array
-          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en complementos y addenda.
+          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en addenda.
           items:
             allOf:
               - $ref: "#/components/schemas/NamespaceRequiredProperties"
@@ -7428,6 +7818,70 @@ components:
                 - type: object
                   description: Domicilio fiscal de la organización.
                 - $ref: "#/components/schemas/OrganizationAddress"
+        customization:
+          type: object
+          description: |
+            Configuración de personalización de la organización, que se utilizarán para reflejar el branding y
+            las preferencias de PDFs de la organización. Estos datos se pueden actualizar en cualquier momento.
+          properties:
+            has_logo:
+              type: boolean
+              description: Indica si la organización ya tiene un logotipo cargado.
+            color:
+              type: string
+              format: hex
+              example: BADA55
+              description: Color distintivo de la marca en representación Hexadecimal RGB de 6 caracteres.
+            next_folio_number:
+              type: integer
+              example: 123
+              description: Número de folio que se asignará a la siguiente factura en ambiente Live (y que se incrementará automáticamente por cada nueva factura).
+            next_folio_number_test:
+              type: integer
+              example: 123
+              description: Número de folio que se asignará a la siguiente factura en ambiente Test (y que se incrementará automáticamente por cada nueva factura).
+            pdf_extra:
+              type: object
+              description: Configura qué campos opcionales se queiren mostrar en el PDF. El SAT no obliga a mostrar estos campos, pero pueden activarse según la preferencia de la organización.
+              properties:
+                codes:
+                  type: boolean
+                  default: true
+                  description: |
+                    Mostrar códigos de catálogos del SAT junto a sus descripciones. Ejemplo: “KGM Kilogramo”.
+                product_key:
+                  type: boolean
+                  default: true
+                  description: |
+                    Mostrar la clave de producto-servicio.
+                round_unit_price:
+                  type: boolean
+                  default: false
+                  description: |
+                    Redondear el precio unitario en el PDF a 2 decimales, pero conservar los 6 decimales en el XML.
+                tax_breakdown:
+                  type: boolean
+                  default: true
+                  description: |
+                    Mostrar el desglose de impuestos en el PDF. Si se desactiva, sólo se mostratán los impuestos en los totales, pero no en el detalle de cada concepto.
+        certificate:
+          type: object
+          description: |
+            Información últil sobre el certificado de sello digital (CSD) de la organización, que se utilizará para firmar las facturas.
+          properties:
+            has_certificates:
+              type: boolean
+              description: Indica si la organización ya tiene el Certificado de Sello Digital (CSD) cargado.
+            updated_at:
+              type: string
+              format: date-time
+              example: "2023-05-05T20:55:33.468Z"
+              description: Fecha de la última actualización del certificado.
+            expires_at:
+              type: string
+              format: date-time
+              example: "2025-05-05T20:55:33.468Z"
+              description: Fecha de expiración del certificado.
 
     OrganizationCreateInput:
       type: object
@@ -7517,8 +7971,8 @@ components:
         color:
           type: string
           format: hex
-          example: #BADA55
-          description: Color en representación Hexadecimal RGB de 6 caracteres. El caracter de almohadilla (#) al inicio es opcional.
+          example: BADA55
+          description: Color distintivo de la marca en representación Hexadecimal RGB de 6 caracteres.
         next_folio_number:
           type: integer
           example: 123
@@ -7533,14 +7987,24 @@ components:
           properties:
             codes:
               type: boolean
-              default: false
+              default: true
               description: |
                 Mostrar códigos de catálogos del SAT junto a sus descripciones. Ejemplo: “KGM Kilogramo”.
             product_key:
               type: boolean
-              default: false
+              default: true
               description: |
                 Mostrar la clave de producto-servicio.
+            round_unit_price:
+              type: boolean
+              default: false
+              description: |
+                Redondear el precio unitario en el PDF a 2 decimales, pero conservar los 6 decimales en el XML.
+            tax_breakdown:
+              type: boolean
+              default: true
+              description: |
+                Mostrar el desglose de impuestos en el PDF. Si se desactiva, sólo se mostratán los impuestos en los totales, pero no en el detalle de cada concepto.
     OrganizationReceiptsInput:
       type: object
       properties:

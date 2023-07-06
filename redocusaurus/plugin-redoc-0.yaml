@@ -4772,6 +4772,33 @@ x-webhooks:
                             - invoice
                         object:
                           $ref: '#/components/schemas/Invoice'
+  Estatus de recibo actualizado:
+    post:
+      tags:
+        - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/EventBase'
+                - type: object
+                  properties:
+                    type:
+                      type: string
+                      description: Tipo de evento
+                      enum:
+                        - receipt.status_updated
+                    data:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: Tipo de objeto asociado al evento
+                          enum:
+                            - receipt
+                        object:
+                          $ref: '#/components/schemas/Receipt'
 components:
   responses:
     BadRequest:
@@ -7226,7 +7253,8 @@ components:
           type: array
           default: []
           description: >-
-            Si icluiste uno de los parámetros `addenda`, `complements`, o
+            Si incluiste el parámetro `complements`, este campo es opcional; en
+            cambio si inclusite uno de los parámetros `addenda` o
             `items[].complement` y éstos incluyen un namespace especial, debes
             enviar la información necesaria para incluir estos namespaces en el
             XML de la factura.
@@ -8055,7 +8083,7 @@ components:
           type: array
           description: >-
             Namespaces a insertar en el nodo raíz de la factura. Requerido en
-            complementos y addenda.
+            addenda.
           items:
             $ref: '#/components/schemas/NamespaceProperties'
     RetentionSearchResult:
@@ -8227,7 +8255,7 @@ components:
           type: array
           description: >-
             Namespaces a insertar en el nodo raíz de la factura. Requerido en
-            complementos y addenda.
+            addenda.
           items:
             allOf:
               - $ref: '#/components/schemas/NamespaceRequiredProperties'

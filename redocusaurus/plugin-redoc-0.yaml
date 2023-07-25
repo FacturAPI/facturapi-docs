@@ -7157,8 +7157,14 @@ components:
         external_id:
           type: string
           description: >-
-            Identificador opcional que puedes usar para relacionar esta factura
-            con tus registros para después buscar por este número.
+            Identificador que puedes usar para relacionar esta factura con tus
+            registros para después buscar por este número.
+        idempotency_key:
+          type: string
+          description: >-
+            Identificador único que puedes usar para evitar duplicados al
+            reintentar una petición. Puede ser cualquier cadena de texto,
+            mientras sea única para cada documento.
         payment_form:
           type: string
           description: >-
@@ -7310,6 +7316,15 @@ components:
                 Identificador opcional que puedes usar para relacionar esta
                 factura con tus registros y poder hacer búsquedas usando este
                 identificador. Facturapi no valida que este campo sea único.
+            idempotency_key:
+              type: string
+              nullable: true
+              description: >
+                Identificador único que puedes usar para evitar duplicados al
+                reintentar una petición. Puede ser cualquier cadena de texto,
+                mientras sea única para cada documento.
+
+                Si se deja en blanco, no se tomará en cuenta.
         - $ref: '#/components/schemas/InvoiceableCommonInput'
     InvoiceIngresoInput:
       title: Ingreso
@@ -7740,6 +7755,17 @@ components:
               description: Conceptos incluidos en el recibo
               items:
                 $ref: '#/components/schemas/LineItem'
+            external_id:
+              type: string
+              description: >-
+                Identificador que puedes usar para relacionar este recibo con
+                tus registros para después buscar por este número.
+            idempotency_key:
+              type: string
+              description: >-
+                Identificador único que puedes usar para evitar duplicados al
+                reintentar una petición. Puede ser cualquier cadena de texto,
+                mientras sea única para cada documento.
         - $ref: '#/components/schemas/ReceiptEditableProperties'
     ReceiptInput:
       allOf:
@@ -7763,6 +7789,17 @@ components:
               items:
                 $ref: '#/components/schemas/LineItemInput'
         - $ref: '#/components/schemas/ReceiptEditableProperties'
+        - type: object
+          properties:
+            idempotency_key:
+              type: string
+              nullable: true
+              description: >
+                Identificador único que puedes usar para evitar duplicados al
+                reintentar una petición. Puede ser cualquier cadena de texto,
+                mientras sea única para cada documento.
+
+                Si se deja en blanco, no se tomará en cuenta.
     ReceiptEditableProperties:
       type: object
       properties:
@@ -7800,6 +7837,13 @@ components:
         branch:
           type: string
           description: Nombre de la sucursal donde se expidió el recibo.
+        external_id:
+          type: string
+          nullable: true
+          description: >-
+            Identificador opcional que puedes usar para relacionar este recibo
+            con tus registros y poder hacer búsquedas usando este identificador.
+            Facturapi no valida que este campo sea único.
     ReceiptSearchResult:
       allOf:
         - $ref: '#/components/schemas/SearchResult'
@@ -8059,6 +8103,15 @@ components:
             Identificador opcional que puedes usar para relacionar esta
             retención con tus registros y poder hacer búsquedas usando este
             identificador. Facturapi no valida que este campo sea único.
+        idempotency_key:
+          type: string
+          nullable: true
+          description: >
+            Identificador único que puedes usar para evitar duplicados al
+            reintentar una petición. Puede ser cualquier cadena de texto,
+            mientras sea única para cada documento.
+
+            Si se deja en blanco, no se tomará en cuenta.
         complements:
           type: array
           default: []
@@ -8227,6 +8280,12 @@ components:
             Identificador opcional que puedes usar para relacionar esta
             retención con tus registros y poder hacer búsquedas usando este
             identificador. Facturapi no valida que este campo sea único.
+        idempotency_key:
+          type: string
+          description: >
+            Identificador único que puedes usar para evitar duplicados al
+            reintentar una petición. Puede ser cualquier cadena de texto,
+            mientras sea única para cada documento.
         complements:
           type: array
           default: []

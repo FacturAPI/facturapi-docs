@@ -5335,7 +5335,7 @@ components:
         complement:
           type: string
           format: xml
-          description: Código XML de tu complemento. Recuerda que debes añadir el prefijo y las URLs usando el parámetro namespaces.
+          description: Código XML de tu complemento.
         third_party:
           allOf:
             - type: object
@@ -5385,7 +5385,7 @@ components:
         complement:
           type: string
           format: xml
-          description: Código XML de tu complemento. Recuerda que debes añadir el prefijo y las URLs usando el parámetro namespaces.
+          description: Código XML de tu complemento.
         third_party:
           allOf:
             - type: object
@@ -5422,7 +5422,7 @@ components:
         complement:
           type: string
           format: xml
-          description: Código XML de tu complemento. Recuerda que debes añadir el prefijo y las URLs usando el parámetro namespaces.
+          description: Código XML de tu complemento.
         parts:
           type: array
           items:
@@ -6868,7 +6868,7 @@ components:
           description: Código XML con la Addenda que se necesite agregar a la factura.
         namespaces:
           type: array
-          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en complementos y addenda.
+          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda` y en `items[].complement`.
           items:
             $ref: "#/components/schemas/NamespaceProperties"
         stamp:
@@ -6902,7 +6902,7 @@ components:
         namespaces:
           type: array
           default: []
-          description: Si incluiste el parámetro `complements`, este campo es opcional; en cambio si inclusite uno de los parámetros `addenda` o `items[].complement` y éstos incluyen un namespace especial, debes enviar la información necesaria para incluir estos namespaces en el XML de la factura.
+          description: Si incluiste el parámetro `complements`, este campo es opcional; en cambio si inclusite uno de los parámetros `addenda` o `items[].complement`, debes enviar la información necesaria para incluir estos namespaces en el XML de la factura.
           items:
             allOf:
               - $ref: "#/components/schemas/NamespaceRequiredProperties"
@@ -7008,7 +7008,9 @@ components:
             exchange:
               type: number
               default: 1
-              description: Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos (MXN) que equivalen a una unidad de la divisa señalada en el atributo `currency`.
+              description: |
+                Tipo de cambio conforme a la moneda usada. Representa el número de pesos
+                mexicanos (MXN) que equivalen a una unidad de la divisa señalada en el atributo `currency`.
             conditions:
               type: string
               nullable: true
@@ -7078,7 +7080,11 @@ components:
               default: []
               items:
                 $ref: "#/components/schemas/CustomComplementInput"
-              description: Complementos a incluir en la factura. Puedes incluir cualquier complemento en la factura si tú mismo construyes el nodo XML del complemento y usas el tipo `custom`. No olvides que **es necesario agregar el prefijo y las URLs necesarias usando el parámetro `namespaces`**. También recuerda agregar la información del complemento al PDF usando el parámetro `pdf_custom_section`.
+              description: |
+                Complementos a incluir en la factura. Puedes incluir cualquier complemento en la
+                factura si tú mismo construyes el nodo XML del complemento y usas el tipo `custom`.
+                Es necesario agregar la información del complemento al PDF por separado usando el
+                parámetro `pdf_custom_section`.
         - $ref: "#/components/schemas/InvoiceCommonInputProperties"
     InvoiceEgresoInput:
       title: Egreso
@@ -7134,7 +7140,11 @@ components:
               default: []
               items:
                 $ref: "#/components/schemas/CustomComplementInput"
-              description: Complementos a incluir en el comprobante. Puedes incluir cualquier complemento en el comprobante si tú mismo construyes el nodo XML del complemento y usas el tipo `custom`. No olvides que **es necesario agregar el prefijo y las URLs necesarias usando el parámetro `namespaces`**. También recuerda agregar la información del complemento al PDF usando el parámetro `pdf_custom_section`.
+              description: |
+                Complementos a incluir en el comprobante. Puedes incluir cualquier
+                complemento en el comprobante si tú mismo construyes el nodo XML del
+                complemento y usas el tipo `custom`. Es necesario agregar la información
+                del complemento al PDF por separado usando el parámetro `pdf_custom_section`.
         - $ref: "#/components/schemas/InvoiceCommonInputProperties"
     InvoicePagoInput:
       title: Pago
@@ -7225,11 +7235,17 @@ components:
               default: []
               items:
                 $ref: "#/components/schemas/CustomComplementInput"
-              description: Complementos a incluir en el comprobante. Puedes incluir cualquier complemento en el comprobante si tú mismo construyes el nodo XML del complemento y usas el tipo `custom`. No olvides que **es necesario agregar el prefijo y las URLs necesarias usando el parámetro `namespaces`**. También recuerda agregar la información del complemento al PDF usando el parámetro `pdf_custom_section`.
+              description: |
+                Complementos a incluir en el comprobante. Puedes incluir cualquier complemento en
+                el comprobante si tú mismo construyes el nodo XML del complemento y usas el tipo
+                `custom`. Es necesario agregar la información del complemento al PDF por separado
+                usando el parámetro `pdf_custom_section`.
             use:
               type: string
               default: G01
-              description: Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en nuestras librerías.
+              description: |
+                Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en
+                [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en nuestras librerías.
             currency:
               type: string
               default: MXN
@@ -7237,7 +7253,9 @@ components:
             exchange:
               type: number
               default: 1
-              description: Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos (MXN) que equivalen a una unidad de la divisa señalada en el atributo `currency`.
+              description: |
+                Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos
+                (MXN) que equivalen a una unidad de la divisa señalada en el atributo `currency`.
             related_documents:
               type: array
               description: Documentos relacionados con el comprobante.
@@ -7615,7 +7633,7 @@ components:
           description: Código XML con la Addenda que se necesite agregar a la factura.
         namespaces:
           type: array
-          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en addenda.
+          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda`` y en `items[].complement`.
           items:
             $ref: "#/components/schemas/NamespaceProperties"
     RetentionSearchResult:
@@ -7771,7 +7789,7 @@ components:
           description: Código XML con la Addenda que se necesite agregar a la factura.
         namespaces:
           type: array
-          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en addenda.
+          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda` y en `items[].complement`.
           items:
             allOf:
               - $ref: "#/components/schemas/NamespaceRequiredProperties"

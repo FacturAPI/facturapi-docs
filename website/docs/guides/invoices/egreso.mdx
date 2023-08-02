@@ -33,19 +33,506 @@ detalladas de cada campo y los catálogos más utilizados consulta la
 ### Descuento por una venta ya facturada
 En este ejemplo, se recibió un pago de $3,600.00 pesos por un producto con el 10% descuento que tiene un valor de 4,000 pesos, los $400.00 pesos descontados se amparan emitiendo un CFDI de egreso.
 
-:::caution *Sección en construcción*
-:::
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_test_API_KEY');
+
+const invoice = await facturapi.invoices.create({
+  customer: {
+    legal_name: 'Dunder Mifflin',
+    email: 'email@example.com',
+    tax_id: 'ABC101010111',
+    tax_system: '601',
+    address: {
+      zip: '85900'
+    }
+  },
+  items: [{
+    product: {
+      description: 'Descuento',
+      price: 400,
+      taxes: [
+        {
+          type: 'IVA',
+          rate: 0.16
+        }
+      ]
+    }
+  }],
+  payment_form: "28", // "Tarjeta de débito"
+  related_documents: [
+    {
+      relationship: "01", // "Nota de crédito de los documentos relacionados"
+      uuid: "UUID_DEL_CFDI_DE_INGRESO"
+    }
+  ]
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
+{
+  ["customer"] = new Dictionary<string, object>
+  {
+    ["legal_name"] = "Dunder Mifflin",
+    ["email"] = "email@example.com",
+    ["tax_id"] = "ABC101010111",
+    ["tax_system"] = "601",
+    ["address"] = new Dictionary<string, object>
+    {
+      ["zip"] = "85900"
+    }
+  },
+  ["items"] = new Dictionary<string, object>[]
+  {
+    new Dictionary<string, object>
+    {
+      ["product"] = new Dictionary<string, object>
+      {
+        ["description"] = "Descuento",
+        ["price"] = 400,
+        ["taxes"] = new Dictionary<string, object>[]
+        {
+          new Dictionary<string, object>
+          {
+            ["type"] = "IVA",
+            ["rate"] = 0.16
+          }
+        }
+      }
+    }
+  },
+  ["payment_form"] = "28", // "Tarjeta de débito",
+  ["related_documents"] = new Dictionary<string, object>[]
+  {
+    new Dictionary<string, object>
+    {
+      ["relationship"] = "01", // "Nota de crédito de los documentos relacionados"
+      ["uuid"] = "UUID_DEL_CFDI_DE_INGRESO"
+    }
+  }
+
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi( "sk_test_API_KEY" );
+
+$invoice = $facturapi->Invoices->create([
+  "customer" => [
+    "legal_name" => "Dunder Mifflin",
+    "email" => "email@example.com",
+    "tax_id" => "ABC101010111",
+    "tax_system" => "601",
+    "address" => [
+      "zip" => "85900"
+    ]
+  ],
+  "items" => [
+    [
+      "product" => [
+        "description" => "Descuento",
+        "price" => 400,
+        "taxes" => [
+          [
+            "type" => "IVA",
+            "rate" => 0.16
+          ]
+        ]
+      ]
+    ]
+  ],
+  "payment_form" => "28", // "Tarjeta de débito",
+  "related_documents" => [
+    [
+      "relationship" => "01", // "Nota de crédito de los documentos relacionados"
+      "uuid" => "UUID_DEL_CFDI_DE_INGRESO"
+    ]
+  ]
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v2/invoices \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "customer": {
+      "legal_name": "Dunder Mifflin",
+      "email": "email@example.com",
+      "tax_id": "ABC101010111",
+      "tax_system": "601",
+      "address": {
+        "zip": "85900"
+      }
+    },
+    "items": [
+      {
+        "product": {
+          "description": "Descuento",
+          "price": 400,
+          "taxes": [
+            {
+              "type": "IVA",
+              "rate": 0.16
+            }
+          ]
+        }
+      }
+    ],
+    "payment_form": "28", // "Tarjeta de débito"
+    "related_documents": [
+      {
+        "relationship": "01", // "Nota de crédito de los documentos relacionados"
+        "uuid": "UUID_DEL_CFDI_DE_INGRESO"
+      }
+    ]
+  }'
+```
+
+</TabItem>
+</Tabs>
 
 ### Anulación de un CFDI de ingreso
 Para este escenario, se emite un comprobante de egreso por $5000.00 pesos para anular el monto total de un CFDI de ingreso previo con el mismo monto.
 
-:::caution *Sección en construcción*
-:::
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_test_API_KEY');
+
+const invoice = await facturapi.invoices.create({
+  customer: {
+    legal_name: 'Dunder Mifflin',
+    email: 'email@example.com',
+    tax_id: 'ABC101010111',
+    tax_system: '601',
+    address: {
+      zip: '85900'
+    }
+  },
+  items: [{
+    product: {
+      description: 'Devolución total de mercancía',
+      price: 5000,
+      taxes: [
+        {
+          type: 'IVA',
+          rate: 0.16
+        }
+      ]
+    }
+  }],
+  payment_form: "28", // "Tarjeta de débito"
+  related_documents: [
+    {
+      relationship: "01", // "Nota de crédito de los documentos relacionados"
+      uuid: "UUID_DEL_CFDI_DE_INGRESO"
+    }
+  ]
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
+{
+  ["customer"] = new Dictionary<string, object>
+  {
+    ["legal_name"] = "Dunder Mifflin",
+    ["email"] = "email@example.com",
+    ["tax_id"] = "ABC101010111",
+    ["tax_system"] = "601",
+    ["address"] = new Dictionary<string, object>
+    {
+      ["zip"] = "85900"
+    }
+  },
+  ["items"] = new Dictionary<string, object>[]
+  {
+    new Dictionary<string, object>
+    {
+      ["product"] = new Dictionary<string, object>
+      {
+        ["description"] = "Devolución total de mercancía",
+        ["price"] = 5000,
+        ["taxes"] = new Dictionary<string, object>[]
+        {
+          new Dictionary<string, object>
+          {
+            ["type"] = "IVA",
+            ["rate"] = 0.16
+          }
+        }
+      }
+    }
+  },
+  ["payment_form"] = "28", // "Tarjeta de débito",
+  ["related_documents"] = new Dictionary<string, object>[]
+  {
+    new Dictionary<string, object>
+    {
+      ["relationship"] = "01", // "Nota de crédito de los documentos relacionados"
+      ["uuid"] = "UUID_DEL_CFDI_DE_INGRESO"
+    }
+  }
+
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi( "sk_test_API_KEY" );
+
+$invoice = $facturapi->Invoices->create([
+  "customer" => [
+    "legal_name" => "Dunder Mifflin",
+    "email" => "email@example.com",
+    "tax_id" => "ABC101010111",
+    "tax_system" => "601",
+    "address" => [
+      "zip" => "85900"
+    ]
+  ],
+  "items" => [
+    [
+      "product" => [
+        "description" => "Devolución total de mercancía",
+        "price" => 5000,
+        "taxes" => [
+          [
+            "type" => "IVA",
+            "rate" => 0.16
+          ]
+        ]
+      ]
+    ]
+  ],
+  "payment_form" => "28", // "Tarjeta de débito",
+  "related_documents" => [
+    [
+      "relationship" => "01", // "Nota de crédito de los documentos relacionados"
+      "uuid" => "UUID_DEL_CFDI_DE_INGRESO"
+    ]
+  ]
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v2/invoices \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "customer": {
+      "legal_name": "Dunder Mifflin",
+      "email": "email@example.com",
+      "tax_id": "ABC101010111",
+      "tax_system": "601",
+      "address": {
+        "zip": "85900"
+      }
+    },
+    "items": [
+      {
+        "product": {
+          "description": "Devolución total de mercancía",
+          "price": 5000,
+          "taxes": [
+            {
+              "type": "IVA",
+              "rate": 0.16
+            }
+          ]
+        }
+      }
+    ],
+    "payment_form": "28", // "Tarjeta de débito"
+    "related_documents": [
+      {
+        "relationship": "01", // "Nota de crédito de los documentos relacionados"
+        "uuid": "UUID_DEL_CFDI_DE_INGRESO"
+      }
+    ]
+  }'
+```
+
+</TabItem>
+</Tabs>
 
 ### Bonificación a una venta futura
-Es posible ofrecer bonificaciones a ventas por realizarse de forma anticipada, en este ejemplo se emite un CFDI de egreso por $400.00 pesos para amparar un bono que será aplicado a una venta por 2,000.00 pesos.
 
-:::caution *Sección en construcción*
-:::
+Es posible ofrecer bonificaciones a ventas por realizarse de forma anticipada.
+En este ejemplo se emite un CFDI de egreso por $400.00 pesos para amparar un bono
+que será aplicado a una venta por 2,000.00 pesos.
 
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
 
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_test_API_KEY');
+
+const invoice = await facturapi.invoices.create({
+  customer: {
+    legal_name: 'Dunder Mifflin',
+    email: 'email@example.com',
+    tax_id: 'ABC101010111',
+    tax_system: '601',
+    address: {
+      zip: '85900'
+    }
+  },
+  items: [{
+    product: {
+      description: 'Bonificación a venta futura',
+      price: 400,
+      taxes: [
+        {
+          type: 'IVA',
+          rate: 0.16
+        }
+      ]
+    }
+  }],
+  payment_form: "23" // "Novación"
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
+{
+  ["customer"] = new Dictionary<string, object>
+  {
+    ["legal_name"] = "Dunder Mifflin",
+    ["email"] = "email@example.com",
+    ["tax_id"] = "ABC101010111",
+    ["tax_system"] = "601",
+    ["address"] = new Dictionary<string, object>
+    {
+      ["zip"] = "85900"
+    }
+  },
+  ["items"] = new Dictionary<string, object>[]
+  {
+    new Dictionary<string, object>
+    {
+      ["product"] = new Dictionary<string, object>
+      {
+        ["description"] = "Bonificación a venta futura",
+        ["price"] = 400,
+        ["taxes"] = new Dictionary<string, object>[]
+        {
+          new Dictionary<string, object>
+          {
+            ["type"] = "IVA",
+            ["rate"] = 0.16
+          }
+        }
+      }
+    }
+  },
+  ["payment_form"] = "23" // "Novación"
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi( "sk_test_API_KEY" );
+
+$invoice = $facturapi->Invoices->create([
+  "customer" => [
+    "legal_name" => "Dunder Mifflin",
+    "email" => "email@example.com",
+    "tax_id" => "ABC101010111",
+    "tax_system" => "601",
+    "address" => [
+      "zip" => "85900"
+    ]
+  ],
+  "items" => [
+    [
+      "product" => [
+        "description" => "Bonificación a venta futura",
+        "price" => 400,
+        "taxes" => [
+          [
+            "type" => "IVA",
+            "rate" => 0.16
+          ]
+        ]
+      ]
+    ]
+  ],
+  "payment_form" => "23" // "Novación"
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v2/invoices \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "customer": {
+      "legal_name": "Dunder Mifflin",
+      "email": "email@example.com",
+      "tax_id": "ABC101010111",
+      "tax_system": "601",
+      "address": {
+        "zip": "85900"
+      }
+    },
+    "items": [
+      {
+        "product": {
+          "description": "Descuento",
+          "price": 400,
+          "taxes": [
+            {
+              "type": "IVA",
+              "rate": 0.16
+            }
+          ]
+        }
+      }
+    ],
+    "payment_form": "23" // "Novación"
+  }'
+```
+
+</TabItem>
+</Tabs>

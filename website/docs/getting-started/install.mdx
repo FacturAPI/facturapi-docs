@@ -5,9 +5,17 @@ sidebar_position: 2
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Instalación
+# Instalación del SDK
 
-## Realizar la instalación utilizando una de nuestras librerías
+Contamos con librerías oficiales para los siguientes lenguajes:
+
+- Node.js
+- C#
+- PHP
+
+Si usas algún otro lenguaje, aún puedes consumir la API usando tu propio cliente HTTP.
+
+## Usando una de nuestras librerías oficiales
 
 Empieza por incluir el cliente de Facturapi en las dependencias de tu proyecto.
 
@@ -27,8 +35,8 @@ Instala el
 [paquete de NuGet](https://www.nuget.org/packages/Facturapi)
 desde Visual Studio, o bien, desde la terminal del Package Manager:
 
-```powershell
-PM> Install-Package Facturapi
+```bash
+dotnet add package Facturapi
 ```
 
 </TabItem>
@@ -80,7 +88,7 @@ cURL no requiere de instalar un cliente adicional
 </TabItem>
 </Tabs>
 
-## Hacer la instalación usando tu propio cliente HTTP
+## Usando tu propio cliente HTTP
 
 Si consumes la API directamente usando tu propio cliente HTTP, no requieres
 instalar nada. Puedes avanzar a la siguiente sección.

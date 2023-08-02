@@ -1,35 +1,57 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Inicio rápido
-Te damos la bienvenida a esta **guía de inicio rápido** donde se muestran los campos mínimos requeridos para crear una factura de tipo `Ingreso` en una sola llamada.
 
-Para conocer a fondo todas las opciones disponibles al crear una factura, así como una descripción
-detallada de cada campo, consulta la [referencia del método Crear Factura](/api/#operation/createInvoice) dentro de nuestra documentación completa.
+### 1. Instala el paquete
 
-:::caution ¡No olvides esto antes de comenzar!
-  Recuerda reemplazar nuestra llave de ejemplo <code>sk_test_API_KEY</code>
-  con tu propia llave secreta.
-:::
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
 
-## ¡Comencemos!
+```bash
+npm install facturapi
+```
 
-Un Comprobante o factura de Ingreso, se utiliza para dar constancia fiscal de que una empresa o persona ha entregado una mercancía o un servicio, así como las condiciones del intercambio como la forma de pago y si se recibe en ese momento el pago o se acuerda para cobrarse después.
+</TabItem>
+<TabItem value="cs" label="C#">
 
-El caso más común es emitir una factura por motivo de una venta, y enviarla por correo electrónico, o hacer que esté disponible para su descarga.
+```bash
+dotnet add package Facturapi
+```
 
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```bash
+composer require facturapi/facturapi-php
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+# No es necesario instalar nada
+```
+
+</TabItem>
+</Tabs>
+
+### 2. Crea tu primer factura
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
+// a) Importa el paquete
 const Facturapi = require('facturapi');
+// b) Crea una instancia del cliente, usando la llave secreta
+//    de la organización emisora (https://dashboard.facturapi.io/integration/apikeys)
 const facturapi = new Facturapi('sk_test_API_KEY');
-
+// c) Crea una factura
 const invoice = await facturapi.invoices.create({
   customer: {
     legal_name: 'Dunder Mifflin',
@@ -57,8 +79,12 @@ const invoice = await facturapi.invoices.create({
 <TabItem value="cs" label="C#">
 
 ```csharp
+// a) Importa el paquete
+using Facturapi;
+// b) Crea una instancia del cliente, usando la llave secreta
+//    de la organización emisora (https://dashboard.facturapi.io/integration/apikeys)
 var facturapi = new FacturapiClient("sk_test_API_KEY");
-
+// c) Crea una factura
 var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 {
   ["customer"] = new Dictionary<string, object>
@@ -94,8 +120,12 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 <TabItem value="php" label="PHP">
 
 ```php
+// a) Importa el paquete
+use Facturapi\Facturapi;
+// b) Crea una instancia del cliente, usando la llave secreta
+//    de la organización emisora (https://dashboard.facturapi.io/integration/apikeys)
 $facturapi = new Facturapi( "sk_test_API_KEY" );
-
+// c) Crea una factura
 $invoice = $facturapi->Invoices->create([
   "customer" => [
     "legal_name" => "Dunder Mifflin",
@@ -125,8 +155,10 @@ $invoice = $facturapi->Invoices->create([
 
 ```bash
 curl https://www.facturapi.io/v1/invoices \
+  # a) Autentícate con la API Key de la organización emisora
   -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
+  # b) Crea una factura
   -d '{
     "customer": {
       "legal_name": "Dunder Mifflin",
@@ -214,35 +246,7 @@ curl https://www.facturapi.io/v1/invoices \
 ```
 </details>
 
-:::success ¡Listo! 🎉
-En este punto tu factura fue creada exitosamente, y si estás en ambiente Live, enviada al SAT.
-:::
-
-## ¿Cómo asegurarme de que la factura se envió al SAT y fue timbrada exitosamente?
-
-La propiedad `verification_url` del objeto Invoice de la respuesta
-contiene el enlace oficial al portal de verificación del SAT (el mismo que se
-muestra como QR en la versión PDF). Si creaste la factura en ambiente **Live**,
-el portal de verificación te mostrará información básica de
-la factura, así como su estatus oficial, si está vigente o si ha sido
-cancelada. Las facturas creadas en ambiente Test no aparecerán en el portal porque
-no son enviadas al SAT.
-
-Otras propiedades interesantes que Facturapi añade a la respuesta son:
-
-- `id`: Identificador único de la factura en Facturapi. Te recomendamos guardar este valor en tu base de datos para relacionarlo con tus registros.
-- `created_at`: Fecha en que la factura fue creada.
-- `livemode`: Ambiente en que se creó.
-- `total`: El total, que Facturapi calcula y no es parte del input.
-- `uuid`: El folio fiscal oficial con el que el SAT identifica tu factura
-- `stamp`: Información del timbre fiscal digital.
-
-A continuación exploraremos cómo enviar la factura a tu cliente y cómo descargar los archivos XML y PDF.
-
-## Envía la factura por correo electrónico
-
-Utilizando el `id` de la factura que acabamos de crear, podemos realizar operaciones como enviar
-los archivos de la factura al correo electrónico del cliente a quien se le emitió.
+### 3. Envía la factura por correo electrónico
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -277,9 +281,7 @@ curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
 </TabItem>
 </Tabs>
 
-## Descarga de XML y PDF
-
-Si lo necesitas, también puedes descargar los archivos de la factura en tu servidor.
+### 4. Descarga de XML y PDF
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -332,11 +334,10 @@ curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/zip \
 </TabItem>
 </Tabs>
 
+## Siguientes pasos
 
-## ¡Concluímos!
+Este fue un vistazo rápido del uso de Facturapi.
 
-Ahora ya sabes crear una factura, descargar los archivos PDF y XML; y también hacer que los archivos estén disponibles o enviarlos por correo a tus clientes.
-
-Con facturapi puedes crear facturas de cualquier tipo, también hacer uso de complementos y automatizar todo el proceso para tu organización.
-
-Te invitamos a consultar [nuestra documentación completa](//docs.facturapi.io), en ella podrás explorar todas las posibilidades que tienes disponibles en Facturapi.
+Te invitamos a consultar nuestra [sección de ejemplos](/docs/guides/customers),
+así como ver la [referencia completa de la API](/api), donde podrás explorar todos
+los endpoints disponibles en Facturapi.

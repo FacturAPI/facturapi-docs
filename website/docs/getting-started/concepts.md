@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Conceptos
+# Conceptos de la API
 
 Si esta es tu primera vez integrando la API de Facturapi, te recomendamos familiarizarte con los siguientes conceptos, los cuales te ayudarán a entender mejor el flujo de integración.
 

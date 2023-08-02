@@ -73,7 +73,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
           items: [
             {
               type: "doc",
-              docId: "quickstart",
+              docId: "intro",
               label: "Documentación",
             },
             {
@@ -84,10 +84,6 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
                 { href: '/api_v1', label: 'v1 (CFDI v3.3) 🚧' },
               ]
             },
-            // {
-            //   href: "/api",
-            //   label: "API",
-            // },
             {
               href: "https://github.com/facturapi",
               label: "GitHub",

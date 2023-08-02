@@ -7493,8 +7493,7 @@ components:
             - type
             - customer
             - payment_form
-            - related
-            - products
+            - items
           properties:
             type:
               type: string

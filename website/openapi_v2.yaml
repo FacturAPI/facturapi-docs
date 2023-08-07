@@ -6790,10 +6790,6 @@ components:
                   type: string
                   description: Nombre del Estado o Entidad Federativa.
                   example: Sonora
-        cancellation_receipt:
-          type: string
-          format: xml
-          description: Si el comprobante fue cancelado, este campo contiene el acuse de recibo de cancelación en formato XML.
         type:
           type: string
           enum:

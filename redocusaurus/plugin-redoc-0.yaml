@@ -2098,6 +2098,17 @@ paths:
           description: >
             Consulta. Texto a buscar en la descripción de los conceptos del
             recibo o el SKU.
+        - in: query
+          name: payment_form
+          schema:
+            type: string
+            minLength: 2
+            maxLength: 2
+          example: '02'
+          description: >
+            Código que representa la forma de pago, de acuerdo al [catálogo del
+            SAT](#forma-de-pago). Si se incluye, los recibos se agruparán y se
+            listarán de acuerdo a la forma de pago.
         - $ref: '#/components/parameters/SearchDate'
         - $ref: '#/components/parameters/SearchPage'
         - $ref: '#/components/parameters/SearchLimit'
@@ -6623,6 +6634,7 @@ components:
             - '01'
             - '02'
             - '03'
+            - '04'
           description: >
             Código que representa si el bien o servicio es objeto de impuesto o
             no. Este atributo corresponde al campo "ObjetoImp" en el CFDI.
@@ -6633,6 +6645,8 @@ components:
             - `02`: Sí objeto de impuesto.
 
             - `03`: Sí objeto de impuesto, pero no obligado a desglose.
+
+            - `04`: Sí objeto de impuesto, y no causa impuesto.
         taxes:
           type: array
           default: IVA trasladado 16%
@@ -6720,6 +6734,7 @@ components:
             - '01'
             - '02'
             - '03'
+            - '04'
           description: >
             Código que representa si el bien o servicio es objeto de impuesto o
             no. Este atributo corresponde al campo "ObjetoImp" en el CFDI.
@@ -6730,6 +6745,8 @@ components:
             - `02`: Sí objeto de impuesto.
 
             - `03`: Sí objeto de impuesto, pero no obligado a desglose.
+
+            - `04`: Sí objeto de impuesto, y no causa impuesto.
         taxes:
           type: array
           default: IVA trasladado 16%
@@ -6859,6 +6876,7 @@ components:
                   - '01'
                   - '02'
                   - '03'
+                  - '04'
                 description: >
                   Código que representa si el bien o servicio es objeto de
                   impuesto o no. Este atributo corresponde al campo "ObjetoImp"
@@ -6870,6 +6888,8 @@ components:
                   - `02`: Sí objeto de impuesto.
 
                   - `03`: Sí objeto de impuesto, pero no obligado a desglose.
+
+                  - `04`: Sí objeto de impuesto, y no causa impuesto.
               installment:
                 type: integer
                 description: Número de parcialidad del pago.
@@ -7962,6 +7982,15 @@ components:
           example: '2022-01-01T00:00:00.000'
           description: |
             Fecha de emisión de la factura.
+        payment_form:
+          type: string
+          minLength: 2
+          maxLength: 2
+          example: '02'
+          description: >
+            description: Código que representa la forma de pago, de acuerdo al
+            [catálogo del SAT](#forma-de-pago). Si se incluye, los recibos se
+            agruparán y se crearán la factura global por la forma de pago.
     Retention:
       title: Objeto Retention
       allOf:

@@ -47,7 +47,7 @@ Lo único que necesitas para empezar a usar Facturapi es una cuenta de usuario y
   - Inserta cualquier **complemento** y/o **addenda**.
     - Acreditamiento de IEPS
     - Instituciones Educativas
-    - Aerolineas
+    - Aerolíneas
     - Certificado de destrucción
     - Comercio Exterior
     - Divisas
@@ -76,6 +76,6 @@ Lo único que necesitas para empezar a usar Facturapi es una cuenta de usuario y
     - Nómina
     - Pagos
     - Carta Porte
-- **Comprobante de Retención**. (Incluyendo el complemento de Plataformas Tenológicas).
+- **Comprobante de Retención**. (Incluyendo el complemento de Plataformas Tecnológicas).
 - **Cancelaciones**.
-- **Multi RFC**. Registra múltiples organizaciones bajo una misma cuenta y emitie facturas usando distintos RFC.
+- **Multi RFC**. Registra múltiples organizaciones bajo una misma cuenta y emite facturas usando distintos RFC.

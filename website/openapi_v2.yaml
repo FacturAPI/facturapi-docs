@@ -7252,13 +7252,13 @@ components:
                 usando el parámetro `pdf_custom_section`.
             use:
               type: string
-              default: G01
+              default: S01 (Sin efectos fiscales)
               description: |
                 Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en
                 [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en nuestras librerías.
             currency:
               type: string
-              default: MXN
+              default: XXX
               description: Código de la moneda, acorde al estándar [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
             exchange:
               type: number

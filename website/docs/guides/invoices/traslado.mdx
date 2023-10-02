@@ -48,8 +48,10 @@ const document = await facturapi.invoices.create({
     legal_name: 'GASERA NACIONAL',
     tax_id: 'ABC010101A19',
     tax_system: '601',
-    country: 'MEX',
-    zip: '06123'
+    address: {
+      country: 'MEX',
+      zip: '06123'
+    }
   },
   items: [
     {
@@ -257,8 +259,11 @@ var document = await facturapi.Invoice.CreateAsync(new Dictionary<string, object
     ["legal_name"] = "GASERA NACIONAL",
     ["tax_id"] = "ABC010101A19",
     ["tax_system"] = "601",
-    ["country"] = "MEX",
-    ["zip"] = "06123"
+    ["address"] = new Dictionary<string, object>
+    {
+      ["country"] = "MEX",
+      ["zip"] = "06123"
+    }
   },
   ["items"] = new object[]
   {
@@ -467,8 +472,10 @@ $document = $facturapi->invoices->create([
     'legal_name' => 'GASERA NACIONAL',
     'tax_id' => 'ABC010101A19',
     'tax_system' => '601',
-    'country' => 'MEX',
-    'zip' => '06123'
+    'address' => [
+      'country' => 'MEX',
+      'zip' => '06123'
+    ]
   ],
   'items' => [
     [
@@ -674,8 +681,10 @@ curl https://www.facturapi.io/v2/invoices \
       "legal_name": "GASERA NACIONAL",
       "tax_id": "ABC010101A19",
       "tax_system": "601",
-      "country": "MEX",
-      "zip": "06123"
+      "address": {
+        "country": "MEX",
+        "zip": "06123"
+      }
     },
     "items": [
       {

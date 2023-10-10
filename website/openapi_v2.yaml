@@ -5228,6 +5228,7 @@ components:
                 - sum_before_taxes
                 - break_down
                 - unit
+                - subtract_before_break_down
               description: |
                 Indica la manera de cobrar el impuesto, y puede tener los valores:
 
@@ -5236,6 +5237,8 @@ components:
                 `"break_down"`: Cobra y desgloza el IEPS al mismo nivel que el resto de los impuestos en el producto.
 
                 `"unit"`: Aplica el IEPS antes del precio unitario, y usa el precio unitario original como base para el resto de impuestos.
+
+                `"subtract_before_break_down"`: Aplica el IEPS solo para calcular impuestos como IVA de traslado y retenciones, y usa el precio unitario original como base para el resto de impuestos.
 
                 Consulta con tu contador qué caso aplica para tu giro de empresa y producto.
 

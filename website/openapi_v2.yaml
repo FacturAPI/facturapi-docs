@@ -1823,19 +1823,19 @@ paths:
         "500":
           $ref: "#/components/responses/UnexpectedError"
   
-  /invoices/{invoice_id}/cancellation_receipt/xml:
+  /invoices/{invoice_id}/cancellation_receipt/{format}:
     get:
       operationId: downloadCancellationReceiptXml
       tags:
         - invoice
       summary: Descargar acuse de cancelación
-      description: Descarga acuse de recibo de cancelación de una factura en un archivo xml.
+      description: Descarga acuse de recibo de cancelación de una factura en un archivo xml o pdf.
       x-codeSamples:
         - lang: Bash
           label: cURL
           source: |
             # Acuse de factura cancelada
-            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/xml \
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/{format} \
               -H "Authorization: Bearer sk_test_API_KEY"
               -X GET
 
@@ -1845,8 +1845,11 @@ paths:
             const Facturapi = require('facturapi');
             const facturapi = new Facturapi('sk_test_API_KEY');
 
-            // Acuse de factura cancelada
+            // Acuse de factura cancelada xml
             await facturapi.invoices.downloadCancellationReceiptXml('58e93bd8e86eb318b019743d');
+
+            // Acuse de factura cancelada pdf
+            await facturapi.invoices.downloadCancellationReceiptPdf('58e93bd8e86eb318b019743d');
 
         - lang: csharp
           label: C#
@@ -1858,8 +1861,11 @@ paths:
           source: |
             $facturapi = new Facturapi( "sk_test_API_KEY" );
 
-            // Acuse de factura cancelada
+            // Acuse de factura cancelada xml
             $facturapi->Invoices->download_cancellation_receipt_xml("58e93bd8e86eb318b019743d");
+            
+            // Acuse de factura cancelada pdf
+            $facturapi->Invoices->download_cancellation_receipt_pdf("58e93bd8e86eb318b019743d");
       parameters:
         - in: path
           name: invoice_id
@@ -1867,6 +1873,15 @@ paths:
             type: string
           required: true
           description: ID del objeto a obtener
+        - in: path
+          name: format
+          schema:
+            type: string
+            enum:
+              - xml
+              - pdf
+          required: true
+          description: Formato del archivo de descarga
       security:
         - "Secret Live Key": []
         - "Secret Test Key": []

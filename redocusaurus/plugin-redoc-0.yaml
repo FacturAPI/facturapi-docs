@@ -7365,6 +7365,7 @@ components:
         - customer
         - items
         - payment_form
+        - use
       allOf:
         - type: object
           properties:
@@ -7420,7 +7421,7 @@ components:
                 nuestras librerías.
 
 
-                Para factura global debe ingresarse la clave `S01``.
+                Para factura global debe ingresarse la clave `S01`.
             currency:
               type: string
               default: MXN

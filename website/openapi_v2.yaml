@@ -6985,6 +6985,7 @@ components:
         - customer
         - items
         - payment_form
+        - use
       allOf:
         - type: object
           properties:
@@ -7029,7 +7030,7 @@ components:
                 en [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en
                 nuestras librerías.
 
-                Para factura global debe ingresarse la clave `S01``.
+                Para factura global debe ingresarse la clave `S01`.
             currency:
               type: string
               default: MXN

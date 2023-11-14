@@ -54,8 +54,8 @@ tags:
     x-displayName: Retenciones
   - name: organization
     x-displayName: Organizaciones
-  # - name: webhooks
-  #   x-displayName: Webhooks
+  - name: webhooks
+    x-displayName: Webhooks
   - name: events
     x-displayName: Eventos
     description: |
@@ -4496,6 +4496,316 @@ paths:
         "500":
           $ref: "#/components/responses/UnexpectedError"
 
+  /webhooks:
+    post:
+      operationId: createWebhook
+      tags:
+        - webhooks
+      summary: Crear Webhook
+      description: |
+        Registra un nuevo webhook en tu organización de Facturapi.
+        Utiliza esta llamada para recibir notificaciones de eventos asíncronos a la API. 
+        Los webhooks de ambiente test y ambiente live son independientes.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/webhooks \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                    "enabled_events": ["receipt.self_invoice_complete"],
+                    "url": "http://webhook_api.com"
+                  }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const customer = await facturapi.webhooks.create({
+                    "enabled_events": ["receipt.self_invoice_complete"],
+                    "url": "http://webhook_api.com"
+                  });
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var customer = await facturapi.Webhook.CreateAsync(new Dictionary<string, object>
+            {
+              ["enabled_events"] = new Dictionary<string, object>["receipt.self_invoice_complete"],
+              ["url"] = "http://webhook_api.com"
+            });
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $customer = $facturapi->Webhooks->create([
+              "enabled_events" => ["receipt.self_invoice_complete"],
+              "url" => "http://webhook_api.com"
+            ]);
+      requestBody:
+        $ref: "#/components/requestBodies/WebhookCreate"
+      security:
+        - "Secret Live Key": []
+        - "Secret Test Key": []
+      responses:
+        "201":
+          description: Nuevo objeto `Webhook` creado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Webhook"
+        "200":
+          description: Un objeto `Webhook` con la misma información ya existía
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Webhook"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    get:
+      operationId: listWebhooks
+      tags:
+        - webhooks
+      summary: Listar webhooks
+      description: Retorna una lista de webhooks creados previamente para la organización.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/webhooks \
+              -H "Authorization: Bearer sk_test_API_KEY"
+              -G
+              -d 'page=1'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const searchResult = await facturapi.webhooks.list({
+              limit: 0,
+              page: 1
+            });
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var searchResult = await facturapi.Webhooks.ListAsync(new Dictionary<string, object>
+            {
+              ["page"] = 1
+              ["limit"] = 0,
+            });
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $searchResult = $facturapi->Webhooks->all([
+              "page" => 1
+            ]);
+      parameters:
+        - $ref: "#/components/parameters/SearchPage"
+        - $ref: "#/components/parameters/SearchLimit"
+      security:
+        - "Secret Live Key": []
+        - "Secret Test Key": []
+      responses:
+        "200":
+          description: Resultado de la búsqueda
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookSearchResult"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+
+  /webhooks/{webhook_id}:
+    get:
+      operationId: getWebhook
+      tags:
+        - webhooks
+      summary: Obtener cliente por ID
+      description: Regresa el objeto "Webhook" relacionado al `id` especificado.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/webhooks/590ce6c56d04f840aa8438af \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const customer = await facturapi.Webhooks.retrieve('590ce6c56d04f840aa8438af');
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var customer = await facturapi.Webhooks.RetrieveAsync("590ce6c56d04f840aa8438af");
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $customer = $facturapi->Webhooks->retrieve( "5a3ee743f508333611ad6b3c" );
+      parameters:
+        - in: path
+          name: webhook_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto a obtener
+      security:
+        - "Secret Live Key": []
+        - "Secret Test Key": []
+      responses:
+        "200":
+          description: Objeto `Webhook`
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Webhook"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    put:
+      operationId: editWebhook
+      tags:
+        - webhooks
+      summary: Editar webhook
+      description: Actualiza la información de un Webhook existente con los parámetros que envíes en la petición.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/webhooks/590ce6c56d04f840aa8438af \
+              -X PUT
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                    "status": "disabled",
+                    "enabled_events": ["receipt.self_invoice_complete"]
+                  }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const customer = await facturapi.webhooks.update(
+              '590ce6c56d04f840aa8438af',
+              {
+                "status": "disabled",
+                "enabled_events": ["receipt.self_invoice_complete"]
+              }
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var customer = await facturapi.Webhooks.UpdateAsync(
+              "590ce6c56d04f840aa8438af",
+              new Dictionary<string, object>
+              {
+                ["status"] = "disabled",
+                ["address"] = new Dictionary<string>["receipt.self_invoice_complete"]
+              }
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $customer = $facturapi->Webhooks->update("590ce6c56d04f840aa8438af", [
+                "status" => "disabled",
+                "address" => ["receipt.self_invoice_complete"]
+              ]
+            ]);
+      parameters:
+        - in: path
+          name: webhook_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto a editar
+      requestBody:
+        $ref: "#/components/requestBodies/WebhookEdit"
+      security:
+        - "Secret Live Key": []
+        - "Secret Test Key": []
+      responses:
+        "200":
+          description: Objeto `Webhook` editado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Webhook"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    delete:
+      operationId: deleteWebhook
+      tags:
+        - webhooks
+      summary: Eliminar Webhook
+      description: Elimina el webhooks pertenciente a la organización.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/webhooks/590ce6c56d04f840aa8438af \
+              -X DELETE \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const removedCustomer = await facturapi.webhooks.del('590ce6c56d04f840aa8438af');
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var customer = await facturapi.Webhooks.DeleteAsync("590ce6c56d04f840aa8438af");
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi->Webhooks->delete( "5a3fefd9f508333611ad6b43" );
+      parameters:
+        - in: path
+          name: webhook_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto a eliminar
+      security:
+        - "Secret Live Key": []
+        - "Secret Test Key": []
+      responses:
+        "200":
+          description: Objeto `Webhook` eliminado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Webhook"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+          
   /check:
     get:
       tags:
@@ -4521,6 +4831,7 @@ paths:
           description: Error de autenticación. Asegúrate de estar usando tu llave secreta.
         "502":
           description: Servicio temporalmente no disponible.
+          
   /tools/tax_id_validation:
     get:
       tags:
@@ -4918,6 +5229,17 @@ components:
         multipart/form-data:
           schema:
             $ref: "#/components/schemas/OrganizationDomainInput"
+    WebhookCreate:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/WebhookCreateInput"
+
+    WebhookEdit:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/WebhookCreateEdit"
 
   parameters:
     SearchDate:
@@ -6066,7 +6388,7 @@ components:
             monto_recurso_propio:
               type: number
               description: |
-                Inporte de recursos propios. Requerido cuando el origen del recurso es por ingresos mixtos.
+                Importe de recursos propios. Requerido cuando el origen del recurso es por ingresos mixtos.
 
     PagoOrCustomComplementProperties:
       title: Complement
@@ -6229,6 +6551,92 @@ components:
           example: 86500
 
     # Main resources
+    Webhook:
+      title: Objeto Webhook
+      allOf:
+        - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
+        - $ref: "#/components/schemas/WebhookProperties"
+    WebhookSearchResult:
+      allOf:
+        - $ref: "#/components/schemas/SearchResult"
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/Webhook"
+    WebhookProperties:
+      properties:
+        organization:
+          type: string
+          description: |
+            Id de la organización la cual se está dando de alta el webhook.
+        livemode:
+          type: boolean 
+          example: false
+          description: Ambiente en el cual se está dando de alta el webhook.
+        enabled_events:
+          type: string
+          example: ["receipt.cancellation_status"]
+          description: Eventos dados de alta para el webhook.
+        url:
+          type: string
+          format: email
+          description: Http ruta para el webhook
+          example: http://webhook_api.com
+        status:
+          type: string
+          description:  Status del webhook
+          example: enabled
+    WebhookCreateInput:
+      title: Webhook
+      allOf:
+        - type: object
+          required:
+            - enabled_events
+            - url
+          properties:
+            url:
+              type: string
+              description: URL del webhook a dar de alta.
+              example: http://webhook_api.com
+            enabled_events:
+              type: array
+              items:
+                type: string
+                enum: 
+                  - "receipt.self_invoice_complete"
+                  - "receipt.cancellation_status_updated"
+                  - "receipt.status_updated"
+              description: Los eventos que puedes dar de alta para el webhook. 
+              example: ["receipt.self_invoice_complete"]
+    WebhookCreateEdit:
+      title: Webhook
+      allOf:
+        - type: object
+          required:
+            - enabled_events
+            - url
+          properties:
+            status:
+              type: string
+              description: Estatus del webhook
+              enum:
+                - "disabled"
+                - "enabled"
+              example: disabled
+            enabled_events:
+              type: array
+              items:
+                type: string
+                enum: 
+                  - "receipt.self_invoice_complete"
+                  - "receipt.cancellation_status_updated"
+                  - "receipt.status_updated"
+              description: Los eventos que puedes dar de alta para el webhook. 
+              example: ["receipt.self_invoice_complete"]
+
+
     Customer:
       title: Objeto Customer
       allOf:

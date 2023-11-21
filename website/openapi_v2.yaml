@@ -7305,7 +7305,7 @@ components:
           description: Código XML con la Addenda que se necesite agregar a la factura.
         namespaces:
           type: array
-          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda` y en `items[].complement`.
+          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda`.
           items:
             $ref: "#/components/schemas/NamespaceProperties"
         stamp:
@@ -7339,7 +7339,7 @@ components:
         namespaces:
           type: array
           default: []
-          description: Si incluiste el parámetro `complements`, este campo es opcional; en cambio si inclusite uno de los parámetros `addenda` o `items[].complement`, debes enviar la información necesaria para incluir estos namespaces en el XML de la factura.
+          description: Si incluiste el parámetro `complements`, este campo es opcional; en cambio si inclusite el parámetro `addenda`, debes enviar la información necesaria para incluir estos namespaces en el documento XML.
           items:
             allOf:
               - $ref: "#/components/schemas/NamespaceRequiredProperties"
@@ -8077,7 +8077,7 @@ components:
           description: Código XML con la Addenda que se necesite agregar a la factura.
         namespaces:
           type: array
-          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda`` y en `items[].complement`.
+          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda`.
           items:
             $ref: "#/components/schemas/NamespaceProperties"
     RetentionSearchResult:
@@ -8233,7 +8233,7 @@ components:
           description: Código XML con la Addenda que se necesite agregar a la factura.
         namespaces:
           type: array
-          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda` y en `items[].complement`.
+          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda`.
           items:
             allOf:
               - $ref: "#/components/schemas/NamespaceRequiredProperties"

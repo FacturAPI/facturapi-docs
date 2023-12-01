@@ -5030,6 +5030,61 @@ paths:
         "500":
           $ref: "#/components/responses/UnexpectedError"
 x-webhooks:
+  "Factura global creada":
+    post:
+      tags:
+        - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/EventBase"
+                - type: object
+                  properties:
+                    type:
+                      type: string
+                      description: Tipo de evento
+                      exacmple: "invoice.global_invoice_created"
+                      enum:
+                        - invoice.global_invoice_created
+                    data:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: Tipo de objeto asociado al evento
+                          enum:
+                            - invoice
+                        object:
+                          $ref: "#/components/schemas/Invoice"
+  "Estatus de cancelación actualizado":
+    post:
+      tags:
+        - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/EventBase"
+                - type: object
+                  properties:
+                    type:
+                      type: string
+                      description: Tipo de evento
+                      enum:
+                        - invoice.cancellation_status_updated
+                    data:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: Tipo de objeto asociado al evento
+                          enum:
+                            - invoice
+                        object:
+                          $ref: "#/components/schemas/Invoice"
   "Autofactura completada":
     post:
       tags:
@@ -5058,33 +5113,6 @@ x-webhooks:
                             - receipt
                         object:
                           $ref: "#/components/schemas/Receipt"
-  "Estatus de cancelación actualizado":
-    post:
-      tags:
-        - events
-      requestBody:
-        content:
-          application/json:
-            schema:
-              allOf:
-                - $ref: "#/components/schemas/EventBase"
-                - type: object
-                  properties:
-                    type:
-                      type: string
-                      description: Tipo de evento
-                      enum:
-                        - invoice.cancellation_status_updated
-                    data:
-                      type: object
-                      properties:
-                        type:
-                          type: string
-                          description: Tipo de objeto asociado al evento
-                          enum:
-                            - invoice
-                        object:
-                          $ref: "#/components/schemas/Invoice"
   "Estatus de recibo actualizado":
     post:
       tags:

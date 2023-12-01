@@ -5083,6 +5083,61 @@ paths:
         '500':
           $ref: '#/components/responses/UnexpectedError'
 x-webhooks:
+  Factura global creada:
+    post:
+      tags:
+        - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/EventBase'
+                - type: object
+                  properties:
+                    type:
+                      type: string
+                      description: Tipo de evento
+                      exacmple: invoice.global_invoice_created
+                      enum:
+                        - invoice.global_invoice_created
+                    data:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: Tipo de objeto asociado al evento
+                          enum:
+                            - invoice
+                        object:
+                          $ref: '#/components/schemas/Invoice'
+  Estatus de cancelación actualizado:
+    post:
+      tags:
+        - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/EventBase'
+                - type: object
+                  properties:
+                    type:
+                      type: string
+                      description: Tipo de evento
+                      enum:
+                        - invoice.cancellation_status_updated
+                    data:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: Tipo de objeto asociado al evento
+                          enum:
+                            - invoice
+                        object:
+                          $ref: '#/components/schemas/Invoice'
   Autofactura completada:
     post:
       tags:
@@ -5111,33 +5166,6 @@ x-webhooks:
                             - receipt
                         object:
                           $ref: '#/components/schemas/Receipt'
-  Estatus de cancelación actualizado:
-    post:
-      tags:
-        - events
-      requestBody:
-        content:
-          application/json:
-            schema:
-              allOf:
-                - $ref: '#/components/schemas/EventBase'
-                - type: object
-                  properties:
-                    type:
-                      type: string
-                      description: Tipo de evento
-                      enum:
-                        - invoice.cancellation_status_updated
-                    data:
-                      type: object
-                      properties:
-                        type:
-                          type: string
-                          description: Tipo de objeto asociado al evento
-                          enum:
-                            - invoice
-                        object:
-                          $ref: '#/components/schemas/Invoice'
   Estatus de recibo actualizado:
     post:
       tags:
@@ -7681,7 +7709,7 @@ components:
           type: array
           description: >-
             Namespaces a insertar en el nodo raíz de la factura. Requerido en
-            `addenda` y en `items[].complement`.
+            `addenda`.
           items:
             $ref: '#/components/schemas/NamespaceProperties'
         stamp:
@@ -7726,9 +7754,9 @@ components:
           default: []
           description: >-
             Si incluiste el parámetro `complements`, este campo es opcional; en
-            cambio si inclusite uno de los parámetros `addenda` o
-            `items[].complement`, debes enviar la información necesaria para
-            incluir estos namespaces en el XML de la factura.
+            cambio si inclusite el parámetro `addenda`, debes enviar la
+            información necesaria para incluir estos namespaces en el documento
+            XML.
           items:
             allOf:
               - $ref: '#/components/schemas/NamespaceRequiredProperties'
@@ -8626,7 +8654,7 @@ components:
           type: array
           description: >-
             Namespaces a insertar en el nodo raíz de la factura. Requerido en
-            `addenda`` y en `items[].complement`.
+            `addenda`.
           items:
             $ref: '#/components/schemas/NamespaceProperties'
     RetentionSearchResult:
@@ -8804,7 +8832,7 @@ components:
           type: array
           description: >-
             Namespaces a insertar en el nodo raíz de la factura. Requerido en
-            `addenda` y en `items[].complement`.
+            `addenda`.
           items:
             allOf:
               - $ref: '#/components/schemas/NamespaceRequiredProperties'

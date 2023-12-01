@@ -8478,6 +8478,17 @@ components:
             description: Código que representa la forma de pago, de acuerdo al
             [catálogo del SAT](#forma-de-pago). Si se incluye, los recibos se
             agruparán y se crearán la factura global por la forma de pago.
+        receipts:
+          type: array
+          description: >
+            Recibos a incluir en la factura global. Si se incluye este
+            parámetro, se ignorarán los parámetros `from` y `to`.
+          items:
+            type: string
+            format: hex
+            length: 24
+            description: ID de un recibo previamente registrado en Facturapi.
+            example: 614496b471d422de4b6cfcc4
     Retention:
       title: Objeto Retention
       allOf:

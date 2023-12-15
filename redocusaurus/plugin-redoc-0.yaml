@@ -8411,17 +8411,22 @@ components:
 
             quincena o mes), según el valor de "Periodicidad" (`periodicity`)
 
-            en la configuración de recibos de tu organización.
+            en la configuración de recibos de tu organización. Este valor es
+            requerido cuando se envíe el campo `receipts`.
         to:
           type: string
           format: date
           default: Fin del último periodo
           example: '2022-31-01T23:59:59.999'
-          description: |
+          description: >
             Fecha final de los recibos que se incluirán en la factura global.
+
             Por default, este valor es el fin del último periodo (día, semana,
+
             quincena o mes), según el valor de "Periodicidad" (`periodicity`)
-            en la configuración de recibos de tu organización.
+
+            en la configuración de recibos de tu organización. Este valor es
+            requerido cuando se envíe el campo `receipts`.
         periodicity:
           type: string
           default: >-
@@ -8437,7 +8442,10 @@ components:
             Periodicidad que corresponde al rango de fechas utilizado.
 
             Si se omite, se tomará la configuración de recibos de la
-            organización.
+            organización. 
+
+            Si omites enviar los campos `from` y `to`, las fechas que se
+            asignarán por default dependerán del valor de periodicity.
         months:
           type: string
           default: Mes contenido en el rango de fechas utilizado.
@@ -8482,7 +8490,8 @@ components:
           type: array
           description: >
             Recibos a incluir en la factura global. Si se incluye este
-            parámetro, se ignorarán los parámetros `from` y `to`.
+            parámetro, los parámetros `from` y `to` serán requeridos y tendrán
+            que cumplir con el campo `periodicity`.
           items:
             type: string
             format: hex

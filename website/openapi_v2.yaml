@@ -3798,6 +3798,67 @@ paths:
           $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+    delete:
+      operationId: deleteOrganizationCertificate
+      tags:
+        - organization
+      summary: Eliminar certificados (CSD)
+      description: |
+        Eliminar los certificados (CSD) de tu organización. 
+        Esto no afecta a las facturas ya emitidas, pero no podrás emitir nuevas facturas hasta que subas nuevos certificados.
+
+        Al actualizar tus certificados se leerá el RFC y asignará
+        automáticamente a `legal.tax_id`.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/certificate \
+              -X DELETE \
+              -H "Authorization: Bearer sk_user_API_KEY" \
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_user_API_KEY');
+
+            const organization = await facturapi.organizations.deleteCertificate(
+              '5a2a307be93a2f00129ea035'
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var organization = await facturapi.Organization.DeleteCertificateAsync("5a2a307be93a2f00129ea035");
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_user_API_KEY");
+
+            $organization = $facturapi->Organizations->deleteCertificate("5a2a307be93a2f00129ea035");
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+      security:
+        - "Secret User Key": []
+      responses:
+        "200":
+          description: Objeto `Organization` modificado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationDeleteCerts"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
   /organizations/{organization_id}/logo:
     put:
       operationId: uploadOrganizationLogo
@@ -8428,6 +8489,14 @@ components:
               format: date-time
               example: "2025-05-05T20:55:33.468Z"
               description: Fecha de expiración del certificado.
+
+    OrganizationDeleteCerts: 
+      type: object
+      properties:
+        updated_at:
+          type: string
+          format: date-time
+          description: Fecha de eliminación del certificado CSD.
 
     OrganizationCreateInput:
       type: object

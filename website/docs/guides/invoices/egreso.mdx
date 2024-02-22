@@ -41,6 +41,7 @@ const Facturapi = require('facturapi');
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.create({
+  type: "E",
   customer: {
     legal_name: 'Dunder Mifflin',
     email: 'email@example.com',
@@ -80,6 +81,7 @@ var facturapi = new FacturapiClient("sk_test_API_KEY");
 
 var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 {
+  ["type"] = "E",
   ["customer"] = new Dictionary<string, object>
   {
     ["legal_name"] = "Dunder Mifflin",
@@ -130,6 +132,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 $facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $invoice = $facturapi->Invoices->create([
+  "type" => "E",
   "customer" => [
     "legal_name" => "Dunder Mifflin",
     "email" => "email@example.com",
@@ -171,6 +174,7 @@ curl https://www.facturapi.io/v2/invoices \
   -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
+    "type": "E",
     "customer": {
       "legal_name": "Dunder Mifflin",
       "email": "email@example.com",
@@ -207,7 +211,7 @@ curl https://www.facturapi.io/v2/invoices \
 </TabItem>
 </Tabs>
 
-### Anulación de un CFDI de ingreso
+### Devolución de mercancía
 Para este escenario, se emite un comprobante de egreso por $5000.00 pesos para anular el monto total de un CFDI de ingreso previo con el mismo monto.
 
 <Tabs groupId="codeExamples">
@@ -218,6 +222,7 @@ const Facturapi = require('facturapi');
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.create({
+  type: "E",
   customer: {
     legal_name: 'Dunder Mifflin',
     email: 'email@example.com',
@@ -257,6 +262,7 @@ var facturapi = new FacturapiClient("sk_test_API_KEY");
 
 var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 {
+  ["type"] = "E",
   ["customer"] = new Dictionary<string, object>
   {
     ["legal_name"] = "Dunder Mifflin",
@@ -307,6 +313,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 $facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $invoice = $facturapi->Invoices->create([
+  "type" => "E",
   "customer" => [
     "legal_name" => "Dunder Mifflin",
     "email" => "email@example.com",
@@ -348,6 +355,7 @@ curl https://www.facturapi.io/v2/invoices \
   -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
+    "type": "E",
     "customer": {
       "legal_name": "Dunder Mifflin",
       "email": "email@example.com",
@@ -398,6 +406,7 @@ const Facturapi = require('facturapi');
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.create({
+  type: "E",
   customer: {
     legal_name: 'Dunder Mifflin',
     email: 'email@example.com',
@@ -431,6 +440,7 @@ var facturapi = new FacturapiClient("sk_test_API_KEY");
 
 var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 {
+  ["type"] = "E",
   ["customer"] = new Dictionary<string, object>
   {
     ["legal_name"] = "Dunder Mifflin",
@@ -472,6 +482,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 $facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $invoice = $facturapi->Invoices->create([
+  "type" => "E",
   "customer" => [
     "legal_name" => "Dunder Mifflin",
     "email" => "email@example.com",
@@ -507,6 +518,7 @@ curl https://www.facturapi.io/v2/invoices \
   -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
+    "type": "E",
     "customer": {
       "legal_name": "Dunder Mifflin",
       "email": "email@example.com",

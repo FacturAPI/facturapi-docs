@@ -4,8 +4,8 @@ sidebar_position: 7
 
 # Complementos
 
-<!-- Los ejemplos anteriores muestran cómo emitir el tipo de factura más común: el **comprobante de ingreso**. Actualmente, FacturAPI soporta la emisión de todos los tipos de comprobantes que existen. Puedes ver cómo cear los diferentes tipos de comprobantes en la referencia de [Crear Factura](/api#operation/createInvoice) y [Crear Retención](/api#operation/createRetention): -->
+Actualmente, FacturAPI soporta la emisión de todos los tipos de CFDI que existen así como todos los complementos del SAT. Puedes ver cómo cear los diferentes tipos de comprobantes en la referencia de [Crear Factura](/api#operation/createInvoice) y [Crear Retención](/api#operation/createRetention)
 
-
-:::caution *Sección en construcción*
+:::caution 
+*Ejemplos de complementos en construcción*
 :::

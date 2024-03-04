@@ -67,7 +67,7 @@ const invoice = await facturapi.invoices.create({
   related_documents: [
     {
       relationship: "01", // "Nota de crédito de los documentos relacionados"
-      uuid: "UUID_DEL_CFDI_DE_INGRESO"
+      documents: "UUID_DEL_CFDI_DE_INGRESO"
     }
   ]
 });

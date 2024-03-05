@@ -5,9 +5,53 @@ title: Retenciones
 
 # Comprobante de Retenciones
 
-Próximamente
+La factura de retenciones e información de pagos es un documento distinto a una factura estándar, es decir, no es un CFDI de ingresos, egresos o traslado.
+
+Se conforma por datos generales y puede agregársele un complemento.
+
+Para proporcionar un registro de las retenciones de impuestos o pagos realizados, debes emitir este tipo de CFDI. Por ejemplo, se utiliza en transacciones de venta de acciones, pago de dividendos, regalías por derechos de autor, remuneración a residentes extranjeros o deducciones de intereses reales por créditos hipotecarios.
 
 ## Ejemplos de Retenciones
+
+A continuación encontrarás el ejemplo de una petición sencilla para emitir un comprobante de retenciones:
+
+```
+{
+  "customer": {
+    "legal_name": "John Doe",
+    "tax_id": "XAXX010101000",
+    "tax_system": "601",
+    "email": "john@example.com",
+    "address": {
+      "zip": "83240"
+    }
+  },
+  "cve_retenc": "03",
+  "periodo": {
+    "mes_ini": 3,
+    "mes_fin": 5,
+    "ejerc": 2023
+  },
+  "totales": {
+    "monto_tot_operacion": 1000,
+    "monto_tot_exent": 733.33,
+    "imp_retenidos": [
+      {
+        "monto_ret": 7.41,
+        "tipo_pago_ret": "04",
+        "impuesto": "ISR"
+      },
+      {
+        "monto_ret": 59.26,
+        "tipo_pago_ret": "01",
+        "impuesto": "IVA"
+      }
+    ]
+  }
+}
+
+```
+
 Para conocer a fondo todas las opciones disponibles al crear una factura, descripciones
 detalladas de cada campo y los catálogos más utilizados consulta la
 [referencia del método Crear Factura](/api/#operation/createInvoice).

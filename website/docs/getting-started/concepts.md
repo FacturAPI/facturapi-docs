@@ -50,7 +50,10 @@ Facturapi cuenta con 2 ambientes independientes y únicos por cada organización
 
 Los recursos creados por una organización en un ambiente son inaccesibles para otras organizaciones, o para la misma organización en diferentes ambientes.
 
-**Nota:** No requieres pagar una suscripción para usar la API en ambiente Test.
+:::info **No es necesario que pagues por una suscripción para usar la API en ambiente Test**
+Podrás hacer uso de tus recursos en ambiente test sin contratar una suscripción, de esta forma podrás familiarizarte con la API y realizar las pruebas necesarias antes de pasar a producción
+:::
+
 
 ## Llaves secretas
 

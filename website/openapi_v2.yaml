@@ -5093,6 +5093,9 @@ paths:
 x-webhooks:
   "Factura global creada":
     post:
+      summary: Factura global creada
+      description: |
+        Notifica acerca de la creación de una factura global a partir de e-Receipts.
       tags:
         - events
       requestBody:
@@ -5119,10 +5122,46 @@ x-webhooks:
                             - invoice
                         object:
                           $ref: "#/components/schemas/Invoice"
+  "Estatus de factura actualizado":
+    post:
+      summary: Estatus de factura actualizado
+      description: |
+        Notifica acerca del cambio del campo `status` de una factura.
+
+        Se utiliza en el caso de haber creado la factura de manera asíncrona.
+      tags:
+        - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/EventBase"
+                - type: object
+                  properties:
+                    type:
+                      type: string
+                      description: Tipo de evento
+                      exacmple: "invoice.status_updated"
+                      enum:
+                        - invoice.status_updated
+                    data:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: Tipo de objeto asociado al evento
+                          enum:
+                            - invoice
+                        object:
+                          $ref: "#/components/schemas/Invoice"
   "Estatus de cancelación actualizado":
     post:
       tags:
         - events
+      summary: Estatus de cancelación actualizado
+      description: |
+        Notifica acerca de cambios en el campo `cancellation_status` de una factura.
       requestBody:
         content:
           application/json:
@@ -5150,6 +5189,9 @@ x-webhooks:
     post:
       tags:
         - events
+      summary: Autofactura completada
+      description: |
+        Notifica acerca de la creación de una autofactura a partir de un e-Receipt.
       requestBody:
         content:
           application/json:
@@ -5178,6 +5220,9 @@ x-webhooks:
     post:
       tags:
         - events
+      summary: Estatus de recibo actualizado
+      description: |
+        Notifica acerca de cambios en el campo `status` de un recibo.
       requestBody:
         content:
           application/json:

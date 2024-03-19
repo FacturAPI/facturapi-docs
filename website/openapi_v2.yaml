@@ -6716,7 +6716,7 @@ components:
           example: "601"
           maxLength: 3
           minLength: 3
-          description: Requerido para clientes nacionales. Clave del régimen fiscal del cliente.
+          description: Requerido para clientes nacionales. Clave del régimen fiscal del cliente, del catálogo de [Regímenes Fiscales](#r%C3%A9gimen-fiscal).
         email:
           type: string
           format: email

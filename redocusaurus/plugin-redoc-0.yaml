@@ -7892,6 +7892,46 @@ components:
             allOf:
               - $ref: '#/components/schemas/NamespaceRequiredProperties'
               - $ref: '#/components/schemas/NamespaceProperties'
+        pdf_options:
+          type: object
+          description: >-
+            Configura qué campos opcionales se queiren mostrar en el PDF. El SAT
+            no obliga a mostrar estos campos, pero pueden activarse según la
+            preferencia del cliente para la factura en curso. Utiliza este campo
+            para peticiones de generación de facturas en las cuales necesites
+            utilizar una configuración distinta al campo pdf_extra de la
+            organización.
+          properties:
+            codes:
+              type: boolean
+              default: true
+              description: >
+                Mostrar códigos de catálogos del SAT junto a sus descripciones.
+                Ejemplo: “KGM Kilogramo”.
+            product_key:
+              type: boolean
+              default: true
+              description: |
+                Mostrar la clave de producto-servicio.
+            round_unit_price:
+              type: boolean
+              default: false
+              description: >
+                Redondear el precio unitario en el PDF a 2 decimales, pero
+                conservar los 6 decimales en el XML.
+            tax_breakdown:
+              type: boolean
+              default: true
+              description: >
+                Mostrar el desglose de impuestos en el PDF. Si se desactiva,
+                sólo se mostratán los impuestos en los totales, pero no en el
+                detalle de cada concepto.
+            ieps_breakdown:
+              type: boolean
+              default: true
+              description: >
+                Mostrar el desglose de ieps en el PDF. Si se desactiva, solo se
+                mostrarán los impuestos relacionados al IVA en el subtotal.    
     InvoiceCommonInputProperties:
       allOf:
         - type: object
@@ -9146,6 +9186,13 @@ components:
                     Mostrar el desglose de impuestos en el PDF. Si se desactiva,
                     sólo se mostratán los impuestos en los totales, pero no en
                     el detalle de cada concepto.
+                ieps_breakdown:
+                  type: boolean
+                  default: true
+                  description: >
+                    Mostrar el desglose de ieps en el PDF. Si se desactiva, solo
+                    se mostrarán los impuestos relacionados al IVA en el
+                    subtotal.    
         certificate:
           type: object
           description: >
@@ -9320,6 +9367,13 @@ components:
                 Mostrar el desglose de impuestos en el PDF. Si se desactiva,
                 sólo se mostratán los impuestos en los totales, pero no en el
                 detalle de cada concepto.
+                        ieps_breakdown:
+            ieps_breakdown:
+              type: boolean
+              default: true
+              description: >
+                Mostrar el desglose de ieps en el PDF. Si se desactiva, solo se
+                mostrarán los impuestos relacionados al IVA en el subtotal.   
     OrganizationReceiptsInput:
       type: object
       properties:

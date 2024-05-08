@@ -8768,4 +8768,3 @@ components:
       scheme: bearer
       bearerFormat: sk_user_XXXXXXXXXXXX
       description: Única por cuenta. Permite crear y configurar organizaciones pertenecientes a la cuenta del usuario.
-x

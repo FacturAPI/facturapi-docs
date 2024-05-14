@@ -1948,6 +1948,22 @@ paths:
             Útil para facturas de gran tamaño. Si se envía `false` o no se envía, la llamada esperará a que el SAT responda timbrando la factura.
             Si se envía `true`, la llamada regresará inmediatamente con el objeto `invoice` en status `pending`, y podrá consultarse su cambio de status
             a `valid`` en un momento posterior.
+      security:
+        - "Secret Live Key": []
+        - "Secret Test Key": []
+      responses:
+        "200":
+          description: Objeto `Invoice` timbrado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Invoice"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
 
   /invoices/{invoice_id}/cancellation_receipt/{format}:
     get:

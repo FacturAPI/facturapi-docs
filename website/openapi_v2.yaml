@@ -1718,7 +1718,14 @@ paths:
         - invoice
       summary: Editar borrador de factura
       description: |
-        Actualiza la información de una factura con status `draft`, asignando los valores de los parámetros enviados. Los parámetros que no se envíen en la petición no se modificarán.
+        Actualiza la información de una factura con status `draft`, asignando
+        los valores de los parámetros enviados. Los parámetros que no se envíen
+        en la petición no se modificarán.
+
+        En el objeto `invoice` de respuesta, Facturapi asignará automáticamente
+        el campo `is_ready_to_stamp` con el valor `true` si la factura pasa la
+        validación mínima requerida para ser timbrada; de lo contrario, el campo
+        `is_ready_to_stamp` será `false`.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -7570,6 +7577,16 @@ components:
           type: string
           description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
           example: 06
+        is_ready_to_stamp:
+          type: boolean
+          description: |
+            Este campo es asignado automáticamente por Facturapi. Indica si una factura
+            con status `draft` está completa y lista para intentar timbrarse. Si el valor es `true`, puedes
+            intentar timbrar la factura con el método [Timbrar Factura]('#/operation/stampInvoice').
+            Si el valor es `false`, debes usar el método [Actualizar Factura]('#/operation/updateDraftInvoice')
+            para completar los campos faltantes.
+
+            En una factura con status diferente a `draft`, este campo siempre será `false`.
         items:
           type: array
           description: Conceptos incluidos en el comprobante
@@ -7731,6 +7748,16 @@ components:
           description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda`.
           items:
             $ref: "#/components/schemas/NamespaceProperties"
+        is_ready_to_stamp:
+          type: boolean
+          description: |
+            Este campo es asignado automáticamente por Facturapi. Indica si una factura
+            con status `draft` está completa y lista para intentar timbrarse. Si el valor es `true`, puedes
+            intentar timbrar la factura con el método [Timbrar Factura]('#/operation/stampInvoice').
+            Si el valor es `false`, debes usar el método [Actualizar Factura]('#/operation/updateDraftInvoice')
+            para completar los campos faltantes.
+
+            En una factura con status diferente a `draft`, este campo siempre será `false`.
         stamp:
           allOf:
             - $ref: "#/components/schemas/Stamp"

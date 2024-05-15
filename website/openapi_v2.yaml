@@ -1809,6 +1809,10 @@ paths:
         Consulta los valores posibles de `cancellation_status` más abajo.
 
         Después de la cancelación la factura ya no tendrá validez, el objeto cambiará su `status` a `"canceled"` y seguirá estando disponible para futuras consultas.
+
+        Si el status de la factura es `draft`, este método la eliminará de la base de datos.
+
+        Si el status de la factura es `canceled`, este método regresará un error.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -1898,6 +1902,8 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthenticated"
+        "409":
+          $ref: "#/components/responses/Conflict"
         "500":
           $ref: "#/components/responses/UnexpectedError"
   
@@ -1969,6 +1975,8 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthenticated"
+        "409":
+          $ref: "#/components/responses/Conflict"
         "500":
           $ref: "#/components/responses/UnexpectedError"
 
@@ -5405,6 +5413,13 @@ components:
             $ref: "#/components/schemas/GenericError"
     Unauthenticated:
       description: Error de autenticación
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GenericError"
+    Conflict:
+      description: |
+        Conflicto en la petición. La operación que se intenta realizar no puede completarse debido a conflictos en el estado actual del recurso.
       content:
         application/json:
           schema:

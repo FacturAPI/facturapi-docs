@@ -1919,6 +1919,72 @@ paths:
           $ref: '#/components/responses/Unauthenticated'
         '500':
           $ref: '#/components/responses/UnexpectedError'
+  /invoices/{invoice_id}/status:
+    put:
+      operationId: updateInvoiceStatus
+      tags:
+        - invoice
+      summary: |
+        Actualizar status de factura
+      description: >
+        Consulta el status de una factura timbrada en el SAT y actualiza el
+        objeto invoice
+
+        con La información más reciente.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/status
+            \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -X PUT
+        - lang: JavaScript
+          label: Node.js
+          source: >
+            const Facturapi = require('facturapi');
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            const invoice = await
+            facturapi.invoices.updateStatus('58e93bd8e86eb318b019743d');
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new Facturapi
+
+            var invoice = await
+            facturapi.Invoice.UpdateStatusAsync("58e93bd8e86eb318b019743d");
+        - lang: PHP
+          source: >
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+
+            $invoice =
+            $facturapi->Invoices->update_status("58e93bd8e86eb318b019743d");
+      parameters:
+        - in: path
+          name: invoice_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto invoice a actualizar
+      security:
+        - Secret Live Key: []
+        - Secret Test Key: []
+      responses:
+        '200':
+          description: Objeto `Invoice` actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
   /receipts:
     post:
       operationId: createReceipt

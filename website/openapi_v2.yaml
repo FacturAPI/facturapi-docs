@@ -650,8 +650,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/CustomerCreate"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "201":
           description: Nuevo objeto `Customer` creado
@@ -738,8 +738,8 @@ paths:
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Resultado de la búsqueda
@@ -791,8 +791,8 @@ paths:
           required: true
           description: ID del objeto a obtener
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto `Customer`
@@ -875,8 +875,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/CustomerEdit"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto `Customer` editado correctamente
@@ -926,8 +926,8 @@ paths:
           required: true
           description: ID del objeto a eliminar
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto `Customer` eliminado correctamente
@@ -986,7 +986,7 @@ paths:
           required: true
           description: ID del objeto `Customer` a validar
       security:
-        - "Secret Live Key": []
+        - "SecretLiveKey": []
       responses:
         "200":
           description: Resultado de la validación
@@ -1079,8 +1079,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/ProductCreate"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Nuevo objeto `Product` creado
@@ -1150,8 +1150,8 @@ paths:
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Resultado de la búsqueda
@@ -1203,8 +1203,8 @@ paths:
           required: true
           description: ID del objeto a obtener
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto `Product`
@@ -1276,8 +1276,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/ProductEdit"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto `Product` editado correctamente
@@ -1327,8 +1327,8 @@ paths:
           required: true
           description: ID del objeto a eliminar
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto `Product` eliminado correctamente
@@ -1470,8 +1470,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/InvoiceCreate"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Nuevo objeto `Invoice` creado
@@ -1644,8 +1644,8 @@ paths:
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Resultado de la búsqueda
@@ -1697,8 +1697,8 @@ paths:
           required: true
           description: ID del objeto a obtener
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto `Invoice`
@@ -1775,8 +1775,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/InvoiceEdit"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto `Invoice` editado correctamente
@@ -1889,8 +1889,8 @@ paths:
 
             Puedes usar el ID de Facturapi o el folio fiscal (UUID).
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Solicitud de cancelación exitosa
@@ -1921,7 +1921,6 @@ paths:
 
         Este método no permite editar la factura, sólo timbrarla. Si necesitas editar información
         en la factura antes de timbrarla, usa el método [Editar Borrador de Factura](#operation/editDraftInvoice).
-
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -1956,14 +1955,13 @@ paths:
           schema:
             type: boolean
           required: false
-          default: false
           description: |
             Útil para facturas de gran tamaño. Si se envía `false` o no se envía, la llamada esperará a que el SAT responda timbrando la factura.
             Si se envía `true`, la llamada regresará inmediatamente con el objeto `invoice` en status `pending`, y podrá consultarse su cambio de status
             a `valid`` en un momento posterior.
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto `Invoice` timbrado correctamente
@@ -2040,8 +2038,8 @@ paths:
           required: true
           description: Formato del archivo de descarga
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Archivo del acuse de recibo de cancelación
@@ -2142,8 +2140,8 @@ paths:
           required: true
           description: Formato del archivo de descarga
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Archivo del comprobante CFDI en el formato solicitado
@@ -2283,8 +2281,8 @@ paths:
                         type: string
                         format: email
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Archivo del comprobante CFDI en el formato solicitado
@@ -2445,7 +2443,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/ReceiptCreate"
       security:
-        - "Secret User Key": []
+        - "SecretUsertKey": []
       responses:
         "200":
           description: Nuevo objeto `Receipt` creado
@@ -2563,8 +2561,8 @@ paths:
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Resultado de la búsqueda
@@ -2616,8 +2614,8 @@ paths:
           required: true
           description: ID del objeto a obtener
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto `Receipt`
@@ -2670,8 +2668,8 @@ paths:
           required: true
           description: ID del recibo a cancelar
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto 'Receipt' cancelado exitosamente
@@ -2733,8 +2731,8 @@ paths:
           required: true
           description: ID del objeto a descargar
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Archivo del recibo digital en formato PDF
@@ -2866,8 +2864,8 @@ paths:
                         type: string
                         format: email
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Archivo del comprobante CFDI en el formato solicitado
@@ -2937,11 +2935,18 @@ paths:
               "folio_number" => 914,
               "series" => "F"
             ]);
+      parameters:
+        - in: path
+          name: receipt_id
+          schema:
+            type: string
+          required: true
+          description: ID del recibo a facturar
       requestBody:
         $ref: "#/components/requestBodies/ReceiptInvoice"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Nuevo objeto `Invoice` creado
@@ -3026,8 +3031,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/ReceiptCreateGlobalInvoice"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Nuevo objeto `Invoice` creado
@@ -3157,8 +3162,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/RetentionCreate"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Nuevo objeto `Retention` creado
@@ -3294,8 +3299,8 @@ paths:
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Resultado de la búsqueda
@@ -3347,8 +3352,8 @@ paths:
           required: true
           description: ID del objeto a obtener
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto `Retention`
@@ -3401,8 +3406,8 @@ paths:
           required: true
           description: ID de la retención a cancelar
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto `Retention` cancelado exitosamente
@@ -3501,8 +3506,8 @@ paths:
           required: true
           description: Formato del archivo de descarga
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Archivo del comprobante CFDI en el formato solicitado
@@ -3642,8 +3647,8 @@ paths:
                         type: string
                         format: email
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Archivo del comprobante en el formato solicitado
@@ -3710,7 +3715,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationCreate"
       security:
-        - "Secret User Key": []
+        - "SecretUsertKey": []
       responses:
         "200":
           description: Nuevo objeto `Organization` creado
@@ -3766,7 +3771,7 @@ paths:
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:
-        - "Secret User Key": []
+        - "SecretUsertKey": []
       responses:
         "200":
           description: Resultado de la búsqueda
@@ -3902,7 +3907,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationEditLegal"
       security:
-        - "Secret User Key": []
+        - "SecretUsertKey": []
       responses:
         "200":
           description: Objeto `Organization` modificado
@@ -3994,7 +3999,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationUploadCerts"
       security:
-        - "Secret User Key": []
+        - "SecretUsertKey": []
       responses:
         "200":
           description: Objeto `Organization` modificado
@@ -4055,7 +4060,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "Secret User Key": []
+        - "SecretUsertKey": []
       responses:
         "200":
           description: Objeto `Organization` modificado
@@ -4136,7 +4141,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationUploadLogo"
       security:
-        - "Secret User Key": []
+        - "SecretUsertKey": []
       responses:
         "200":
           description: Objeto `Organization` modificado
@@ -4232,7 +4237,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationEditCustomization"
       security:
-        - "Secret User Key": []
+        - "SecretUsertKey": []
       responses:
         "200":
           description: Objeto `Organization` modificado
@@ -4319,7 +4324,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationEditReceiptsSettings"
       security:
-        - "Secret User Key": []
+        - "SecretUsertKey": []
       responses:
         "200":
           description: Objeto `Organization` modificado
@@ -4379,7 +4384,7 @@ paths:
           schema:
             $ref: "#/components/schemas/DomainField"
       security:
-        - "Secret User Key": []
+        - "SecretUsertKey": []
       responses:
         "200":
           description: Objeto `Organization`
@@ -4464,7 +4469,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationEditDomain"
       security:
-        - "Secret User Key": []
+        - "SecretUsertKey": []
       responses:
         "200":
           description: Objeto `Organization` modificado
@@ -4520,7 +4525,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "Secret User Key": []
+        - "SecretUsertKey": []
       responses:
         "200":
           description: Objeto `Organization`
@@ -4579,7 +4584,7 @@ paths:
           required: true
           description: ID del objeto a eliminar
       security:
-        - "Secret User Key": []
+        - "SecretUsertKey": []
       responses:
         "200":
           description: Objeto `Organization` eliminado correctamente
@@ -4636,7 +4641,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "Secret User Key": []
+        - "SecretUsertKey": []
       responses:
         "200":
           description: Test API Key
@@ -4694,7 +4699,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "Secret User Key": []
+        - "SecretUsertKey": []
       responses:
         "200":
           description: Test API Key
@@ -4753,7 +4758,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "Secret User Key": []
+        - "SecretUsertKey": []
       responses:
         "200":
           description: Live API Key
@@ -4818,8 +4823,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/WebhookCreate"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "201":
           description: Nuevo objeto `Webhook` creado
@@ -4883,8 +4888,8 @@ paths:
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Resultado de la búsqueda
@@ -4937,8 +4942,8 @@ paths:
           required: true
           description: ID del objeto a obtener
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto `Webhook`
@@ -5012,8 +5017,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/WebhookEdit"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto `Webhook` editado correctamente
@@ -5063,8 +5068,8 @@ paths:
           required: true
           description: ID del objeto a eliminar
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto `Webhook` eliminado correctamente
@@ -5086,8 +5091,8 @@ paths:
       summary: Health check (Pulso)
       description: Indica el estatus de disponibilidad de la API.
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: La API está operando con normalidad.
@@ -5156,8 +5161,8 @@ paths:
             description: RFC a validar
             example: BBA830831LJ2
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Resultado de la validación
@@ -5220,8 +5225,8 @@ paths:
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Resultado de la búsqueda
@@ -5285,8 +5290,8 @@ paths:
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Resultado de la búsqueda
@@ -9561,17 +9566,17 @@ components:
         domain:
           $ref: "#/components/schemas/DomainField"
   securitySchemes:
-    "Secret Live Key":
+    "SecretLiveKey":
       type: http
       scheme: bearer
       bearerFormat: sk_live_XXXXXXXXXXXX
       description: Única por organización. Permite crear, obtener y administrar recursos en ambiente Live para una organización en específico.
-    "Secret Test Key":
+    "SecretTestKey":
       type: http
       scheme: bearer
       bearerFormat: sk_test_XXXXXXXXXXXX
       description: Única por organización. Permite crear, obtener y administrar recursos en ambiente Test para una organización en específico.
-    "Secret User Key":
+    "SecretUsertKey":
       type: http
       scheme: bearer
       bearerFormat: sk_user_XXXXXXXXXXXX

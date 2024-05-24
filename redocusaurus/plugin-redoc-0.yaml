@@ -217,8 +217,8 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/CustomerCreate'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Un objeto `Customer` con la misma información ya existía
@@ -312,8 +312,8 @@ paths:
         - $ref: '#/components/parameters/SearchPage'
         - $ref: '#/components/parameters/SearchLimit'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Resultado de la búsqueda
@@ -373,8 +373,8 @@ paths:
           required: true
           description: ID del objeto a obtener
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Objeto `Customer`
@@ -463,8 +463,8 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/CustomerEdit'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Objeto `Customer` editado correctamente
@@ -522,8 +522,8 @@ paths:
           required: true
           description: ID del objeto a eliminar
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Objeto `Customer` eliminado correctamente
@@ -595,7 +595,7 @@ paths:
           required: true
           description: ID del objeto `Customer` a validar
       security:
-        - Secret Live Key: []
+        - SecretLiveKey: []
       responses:
         '200':
           description: Resultado de la validación
@@ -702,8 +702,8 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/ProductCreate'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Nuevo objeto `Product` creado
@@ -778,8 +778,8 @@ paths:
         - $ref: '#/components/parameters/SearchPage'
         - $ref: '#/components/parameters/SearchLimit'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Resultado de la búsqueda
@@ -838,8 +838,8 @@ paths:
           required: true
           description: ID del objeto a obtener
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Objeto `Product`
@@ -916,8 +916,8 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/ProductEdit'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Objeto `Product` editado correctamente
@@ -974,8 +974,8 @@ paths:
           required: true
           description: ID del objeto a eliminar
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Objeto `Product` eliminado correctamente
@@ -1121,8 +1121,8 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/InvoiceCreate'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Nuevo objeto `Invoice` creado
@@ -1311,8 +1311,8 @@ paths:
         - $ref: '#/components/parameters/SearchPage'
         - $ref: '#/components/parameters/SearchLimit'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Resultado de la búsqueda
@@ -1371,8 +1371,8 @@ paths:
           required: true
           description: ID del objeto a obtener
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Objeto `Invoice`
@@ -1380,6 +1380,86 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Invoice'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      operationId: editDraftInvoice
+      tags:
+        - invoice
+      summary: Editar borrador de factura
+      description: |
+        Actualiza la información de una factura con status `draft`, asignando
+        los valores de los parámetros enviados. Los parámetros que no se envíen
+        en la petición no se modificarán.
+
+        En el objeto `invoice` de respuesta, Facturapi asignará automáticamente
+        el campo `is_ready_to_stamp` con el valor `true` si la factura pasa la
+        validación mínima requerida para ser timbrada; de lo contrario, el campo
+        `is_ready_to_stamp` será `false`.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d \
+              -X PUT
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                    "payment_form": "06"
+                  }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const invoice = await facturapi.invoices.updateDraft(
+              '58e93bd8e86eb318b019743d',
+              {
+                payment_form: Facturapi.PaymentForm.DINERO_ELECTRONICO
+              }
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new Facturapi("sk_test_API_KEY");
+            var invoice = await facturapi.Invoice.UpdateDraftAsync(
+              "58e93bd8e86eb318b019743d",
+              new Dictionary<string, object>
+              {
+                ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO
+              }
+            );
+        - lang: PHP
+          source: >
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+
+            $invoice =
+            $facturapi->Invoices->updateDraft("58e93bd8e86eb318b019743d", [
+              "payment_form" => \Facturapi\PaymentForm::EFECTIVO
+            ]);
+      parameters:
+        - in: path
+          name: invoice_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto a editar
+      requestBody:
+        $ref: '#/components/requestBodies/InvoiceEdit'
+      security:
+        - SecretLiveKey: []
+        - SecretTestKey: []
+      responses:
+        '200':
+          description: Objeto `Invoice` editado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceDraft'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1424,6 +1504,14 @@ paths:
         Después de la cancelación la factura ya no tendrá validez, el objeto
         cambiará su `status` a `"canceled"` y seguirá estando disponible para
         futuras consultas.
+
+
+        Si el status de la factura es `draft`, este método la eliminará de la
+        base de datos.
+
+
+        Si el status de la factura es `canceled`, este método regresará un
+        error.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -1506,8 +1594,8 @@ paths:
 
             Puedes usar el ID de Facturapi o el folio fiscal (UUID).
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Solicitud de cancelación exitosa
@@ -1519,6 +1607,99 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthenticated'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  /invoices/{invoice_id}/stamp:
+    post:
+      operationId: stampDraftInvoice
+      tags:
+        - invoice
+      summary: Timbrar borrador de factura
+      description: >
+        Timbra una factura con status `draft` y la envía al SAT para su
+        validación.
+
+
+        Al usar este método, el valor del campo `is_ready_to_stamp` (asignado
+        por Facturapi)
+
+        deberá ser `true`. De otra forma, la llamada regresará un error.
+
+
+        Este método no permite editar la factura, sólo timbrarla. Si necesitas
+        editar información
+
+        en la factura antes de timbrarla, usa el método [Editar Borrador de
+        Factura](#operation/editDraftInvoice).
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/stamp
+            \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -X POST
+        - lang: JavaScript
+          label: Node.js
+          source: >
+            const Facturapi = require('facturapi');
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            const invoice = await
+            facturapi.invoices.stampDraft('58e93bd8e86eb318b019743d');
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var invoice = await
+            facturapi.Invoice.StampDraftAsync("58e93bd8e86eb318b019743d");
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi->Invoices->stampDraft("58e93bd8e86eb318b019743d");
+      parameters:
+        - in: path
+          name: invoice_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto a timbrar
+        - in: query
+          name: async
+          schema:
+            type: boolean
+          required: false
+          description: >
+            Útil para facturas de gran tamaño. Si se envía `false` o no se
+            envía, la llamada esperará a que el SAT responda timbrando la
+            factura.
+
+            Si se envía `true`, la llamada regresará inmediatamente con el
+            objeto `invoice` en status `pending`, y podrá consultarse su cambio
+            de status
+
+            a `valid`` en un momento posterior.
+      security:
+        - SecretLiveKey: []
+        - SecretTestKey: []
+      responses:
+        '200':
+          description: Objeto `Invoice` timbrado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '409':
+          $ref: '#/components/responses/Conflict'
         '500':
           $ref: '#/components/responses/UnexpectedError'
   /invoices/{invoice_id}/cancellation_receipt/{format}:
@@ -1596,8 +1777,8 @@ paths:
           required: true
           description: Formato del archivo de descarga
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Archivo del acuse de recibo de cancelación
@@ -1743,8 +1924,8 @@ paths:
           required: true
           description: Formato del archivo de descarga
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Archivo del comprobante CFDI en el formato solicitado
@@ -1903,8 +2084,8 @@ paths:
                         type: string
                         format: email
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Archivo del comprobante CFDI en el formato solicitado
@@ -2078,7 +2259,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/ReceiptCreate'
       security:
-        - Secret User Key: []
+        - SecretUsertKey: []
       responses:
         '200':
           description: Nuevo objeto `Receipt` creado
@@ -2201,8 +2382,8 @@ paths:
         - $ref: '#/components/parameters/SearchPage'
         - $ref: '#/components/parameters/SearchLimit'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Resultado de la búsqueda
@@ -2261,8 +2442,8 @@ paths:
           required: true
           description: ID del objeto a obtener
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Objeto `Receipt`
@@ -2322,8 +2503,8 @@ paths:
           required: true
           description: ID del recibo a cancelar
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Objeto 'Receipt' cancelado exitosamente
@@ -2404,8 +2585,8 @@ paths:
           required: true
           description: ID del objeto a descargar
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Archivo del recibo digital en formato PDF
@@ -2548,8 +2729,8 @@ paths:
                         type: string
                         format: email
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Archivo del comprobante CFDI en el formato solicitado
@@ -2632,11 +2813,18 @@ paths:
               "folio_number" => 914,
               "series" => "F"
             ]);
+      parameters:
+        - in: path
+          name: receipt_id
+          schema:
+            type: string
+          required: true
+          description: ID del recibo a facturar
       requestBody:
         $ref: '#/components/requestBodies/ReceiptInvoice'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Nuevo objeto `Invoice` creado
@@ -2725,8 +2913,8 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/ReceiptCreateGlobalInvoice'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Nuevo objeto `Invoice` creado
@@ -2859,8 +3047,8 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/RetentionCreate'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Nuevo objeto `Retention` creado
@@ -3000,8 +3188,8 @@ paths:
         - $ref: '#/components/parameters/SearchPage'
         - $ref: '#/components/parameters/SearchLimit'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Resultado de la búsqueda
@@ -3061,8 +3249,8 @@ paths:
           required: true
           description: ID del objeto a obtener
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Objeto `Retention`
@@ -3125,8 +3313,8 @@ paths:
           required: true
           description: ID de la retención a cancelar
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Objeto `Retention` cancelado exitosamente
@@ -3274,8 +3462,8 @@ paths:
           required: true
           description: Formato del archivo de descarga
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Archivo del comprobante CFDI en el formato solicitado
@@ -3436,8 +3624,8 @@ paths:
                         type: string
                         format: email
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Archivo del comprobante en el formato solicitado
@@ -3513,7 +3701,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/OrganizationCreate'
       security:
-        - Secret User Key: []
+        - SecretUsertKey: []
       responses:
         '200':
           description: Nuevo objeto `Organization` creado
@@ -3573,7 +3761,7 @@ paths:
         - $ref: '#/components/parameters/SearchPage'
         - $ref: '#/components/parameters/SearchLimit'
       security:
-        - Secret User Key: []
+        - SecretUsertKey: []
       responses:
         '200':
           description: Resultado de la búsqueda
@@ -3711,7 +3899,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/OrganizationEditLegal'
       security:
-        - Secret User Key: []
+        - SecretUsertKey: []
       responses:
         '200':
           description: Objeto `Organization` modificado
@@ -3815,7 +4003,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/OrganizationUploadCerts'
       security:
-        - Secret User Key: []
+        - SecretUsertKey: []
       responses:
         '200':
           description: Objeto `Organization` modificado
@@ -3889,7 +4077,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - Secret User Key: []
+        - SecretUsertKey: []
       responses:
         '200':
           description: Objeto `Organization` modificado
@@ -3972,7 +4160,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/OrganizationUploadLogo'
       security:
-        - Secret User Key: []
+        - SecretUsertKey: []
       responses:
         '200':
           description: Objeto `Organization` modificado
@@ -4076,7 +4264,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/OrganizationEditCustomization'
       security:
-        - Secret User Key: []
+        - SecretUsertKey: []
       responses:
         '200':
           description: Objeto `Organization` modificado
@@ -4170,7 +4358,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/OrganizationEditReceiptsSettings'
       security:
-        - Secret User Key: []
+        - SecretUsertKey: []
       responses:
         '200':
           description: Objeto `Organization` modificado
@@ -4239,7 +4427,7 @@ paths:
           schema:
             $ref: '#/components/schemas/DomainField'
       security:
-        - Secret User Key: []
+        - SecretUsertKey: []
       responses:
         '200':
           description: Objeto `Organization`
@@ -4326,7 +4514,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/OrganizationEditDomain'
       security:
-        - Secret User Key: []
+        - SecretUsertKey: []
       responses:
         '200':
           description: Objeto `Organization` modificado
@@ -4385,7 +4573,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - Secret User Key: []
+        - SecretUsertKey: []
       responses:
         '200':
           description: Objeto `Organization`
@@ -4445,7 +4633,7 @@ paths:
           required: true
           description: ID del objeto a eliminar
       security:
-        - Secret User Key: []
+        - SecretUsertKey: []
       responses:
         '200':
           description: Objeto `Organization` eliminado correctamente
@@ -4504,7 +4692,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - Secret User Key: []
+        - SecretUsertKey: []
       responses:
         '200':
           description: Test API Key
@@ -4568,7 +4756,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - Secret User Key: []
+        - SecretUsertKey: []
       responses:
         '200':
           description: Test API Key
@@ -4633,7 +4821,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - Secret User Key: []
+        - SecretUsertKey: []
       responses:
         '200':
           description: Live API Key
@@ -4703,8 +4891,8 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/WebhookCreate'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Un objeto `Webhook` con la misma información ya existía
@@ -4771,8 +4959,8 @@ paths:
         - $ref: '#/components/parameters/SearchPage'
         - $ref: '#/components/parameters/SearchLimit'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Resultado de la búsqueda
@@ -4831,8 +5019,8 @@ paths:
           required: true
           description: ID del objeto a obtener
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Objeto `Webhook`
@@ -4910,8 +5098,8 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/WebhookEdit'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Objeto `Webhook` editado correctamente
@@ -4966,8 +5154,8 @@ paths:
           required: true
           description: ID del objeto a eliminar
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Objeto `Webhook` eliminado correctamente
@@ -4988,8 +5176,8 @@ paths:
       summary: Health check (Pulso)
       description: Indica el estatus de disponibilidad de la API.
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: La API está operando con normalidad.
@@ -5075,8 +5263,8 @@ paths:
             description: RFC a validar
             example: BBA830831LJ2
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Resultado de la validación
@@ -5140,8 +5328,8 @@ paths:
         - $ref: '#/components/parameters/SearchPage'
         - $ref: '#/components/parameters/SearchLimit'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Resultado de la búsqueda
@@ -5205,8 +5393,8 @@ paths:
         - $ref: '#/components/parameters/SearchPage'
         - $ref: '#/components/parameters/SearchLimit'
       security:
-        - Secret Live Key: []
-        - Secret Test Key: []
+        - SecretLiveKey: []
+        - SecretTestKey: []
       responses:
         '200':
           description: Resultado de la búsqueda
@@ -5395,6 +5583,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenericError'
+    Conflict:
+      description: >
+        Conflicto en la petición. La operación que se intenta realizar no puede
+        completarse debido a conflictos en el estado actual del recurso.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
     NotFound:
       description: No se encontró el recurso especificado.
       content:
@@ -5442,6 +5638,16 @@ components:
               - $ref: '#/components/schemas/InvoicePagoInput'
               - $ref: '#/components/schemas/InvoiceNominaInput'
               - $ref: '#/components/schemas/InvoiceTrasladoInput'
+    InvoiceEdit:
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/InvoiceIngresoEditInput'
+              - $ref: '#/components/schemas/InvoiceEgresoEditInput'
+              - $ref: '#/components/schemas/InvoicePagoEditInput'
+              - $ref: '#/components/schemas/InvoiceNominaEditInput'
+              - $ref: '#/components/schemas/InvoiceTrasladoEditInput'
     ReceiptCreate:
       content:
         application/json:
@@ -7747,6 +7953,11 @@ components:
       allOf:
         - $ref: '#/components/schemas/ResourceAutoGeneratedProps'
         - $ref: '#/components/schemas/InvoiceProperties'
+    InvoiceDraft:
+      title: Objeto Invoice
+      allOf:
+        - $ref: '#/components/schemas/ResourceAutoGeneratedProps'
+        - $ref: '#/components/schemas/InvoiceDraftProperties'
     InvoiceSearchResult:
       allOf:
         - $ref: '#/components/schemas/SearchResult'
@@ -7768,6 +7979,8 @@ components:
         status:
           type: string
           enum:
+            - pending
+            - draft
             - valid
             - canceled
           description: |
@@ -7862,6 +8075,26 @@ components:
             Código que representa la forma de pago, de acuerdo al [catálogo del
             SAT](#forma-de-pago).
           example: 6
+        is_ready_to_stamp:
+          type: boolean
+          description: >
+            Este campo es asignado automáticamente por Facturapi. Indica si una
+            factura
+
+            con status `draft` está completa y lista para intentar timbrarse. Si
+            el valor es `true`, puedes
+
+            intentar timbrar la factura con el método [Timbrar
+            Factura]('#/operation/stampInvoice').
+
+            Si el valor es `false`, debes usar el método [Actualizar
+            Factura]('#/operation/updateDraftInvoice')
+
+            para completar los campos faltantes.
+
+
+            En una factura con status diferente a `draft`, este campo siempre
+            será `false`.
         items:
           type: array
           description: Conceptos incluidos en el comprobante
@@ -7911,6 +8144,183 @@ components:
             $ref: '#/components/schemas/NamespaceProperties'
         stamp:
           $ref: '#/components/schemas/Stamp'
+    InvoiceDraftProperties:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - pending
+            - draft
+            - valid
+            - canceled
+          description: |
+            Estado actual de la factura.
+          example: draft
+        cancellation_status:
+          type: string
+          enum:
+            - none
+            - pending
+            - accepted
+            - rejected
+            - expired
+          description: >
+            Estado actual de la solicitud de cancelación, en caso de haberla
+            realizado. Puedes leer más a detalle en la sección de [Cancelar
+            Factura](#operation/deleteInvoice)).
+          example: none
+        verification_url:
+          type: string
+          format: uri
+          description: >-
+            Dirección URL para verificar el estado del CFDI en el portal del
+            SAT. Este link es el mismo que aparece en el código QR, en el PDF de
+            la factura.
+          example: null
+        date:
+          type: string
+          format: date-time
+          example: null
+          description: >-
+            Fecha de timbrado del comprobante en formato ISO8601 (UTC String).
+            Si el estado es `draft`, este campo es nulo.
+        address:
+          allOf:
+            - $ref: '#/components/schemas/CommonAddressProperties'
+            - type: object
+              description: Domicilio de expedición de la factura.
+              properties:
+                state:
+                  type: string
+                  description: Nombre del Estado o Entidad Federativa.
+                  example: Sonora
+        type:
+          type: string
+          enum:
+            - I
+            - E
+            - P
+            - 'N'
+            - T
+          description: >
+            Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`:
+            Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+        customer:
+          $ref: '#/components/schemas/CuustomerInfo'
+        total:
+          type: number
+          description: Monto total facturado.
+          example: 0
+        uuid:
+          type: string
+          format: uuid
+          description: >-
+            Folio fiscal de la factura, asignado por el SAT, en caso de haber
+            sido timbrada.
+          example: 0
+        folio_number:
+          type: integer
+          description: >-
+            Número de folio autoincremental para control interno y sin validez
+            fiscal.
+          example: 914
+        series:
+          type: string
+          description: >-
+            Serie. Caracteres designados por la empresa para control interno y
+            sin validez fiscal. En el PDF se imprime junto al
+            //www.facturapi.io/img/logo.svg
+          example: F
+        external_id:
+          type: string
+          description: >-
+            Identificador que puedes usar para relacionar esta factura con tus
+            registros para después buscar por este número.
+        idempotency_key:
+          type: string
+          description: >-
+            Identificador único que puedes usar para evitar duplicados al
+            reintentar una petición. Puede ser cualquier cadena de texto,
+            mientras sea única para cada documento.
+        payment_form:
+          type: string
+          description: >-
+            Código que representa la forma de pago, de acuerdo al [catálogo del
+            SAT](#forma-de-pago).
+          example: 6
+        items:
+          type: array
+          description: Conceptos incluidos en el comprobante
+          items:
+            $ref: '#/components/schemas/LineItem'
+        related_documents:
+          type: array
+          description: Documentos relacionados con la factura.
+          items:
+            $ref: '#/components/schemas/RelatedDocument'
+        currency:
+          type: string
+          example: MXN
+          description: >-
+            Código de la moneda, acorde al estándar [ISO
+            4217](https://es.wikipedia.org/wiki/ISO_4217).
+        exchange:
+          type: number
+          minimum: 0
+          example: 1
+          description: >-
+            Tipo de cambio conforme a la moneda usada. Representa el número de
+            pesos mexicanos que equivalen a una unidad de la divisa señalada en
+            el atributo `currency`.
+        complements:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/NominaOrCustomComplementProperties'
+          description: Complementos a incluir en la factura.
+        pdf_custom_section:
+          type: string
+          format: html
+          description: >-
+            En caso de que necesites incluir más información en el PDF, este
+            campo te permite insertar código HTML con tu propio contenido.
+        addenda:
+          type: string
+          format: xml
+          description: Código XML con la Addenda que se necesite agregar a la factura.
+        namespaces:
+          type: array
+          description: >-
+            Namespaces a insertar en el nodo raíz de la factura. Requerido en
+            `addenda`.
+          items:
+            $ref: '#/components/schemas/NamespaceProperties'
+        is_ready_to_stamp:
+          type: boolean
+          description: >
+            Este campo es asignado automáticamente por Facturapi. Indica si una
+            factura
+
+            con status `draft` está completa y lista para intentar timbrarse. Si
+            el valor es `true`, puedes
+
+            intentar timbrar la factura con el método [Timbrar
+            Factura]('#/operation/stampInvoice').
+
+            Si el valor es `false`, debes usar el método [Actualizar
+            Factura]('#/operation/updateDraftInvoice')
+
+            para completar los campos faltantes.
+
+
+            En una factura con status diferente a `draft`, este campo siempre
+            será `false`.
+        stamp:
+          allOf:
+            - $ref: '#/components/schemas/Stamp'
+            - type: object
+              example: null
     InvoiceableCommonInput:
       type: object
       properties:
@@ -7998,6 +8408,91 @@ components:
               description: >
                 Mostrar el desglose de ieps en el PDF. Si se desactiva, solo se
                 mostrarán los impuestos relacionados al IVA en el subtotal.    
+    InvoiceableCommonEditInput:
+      type: object
+      properties:
+        folio_number:
+          type: integer
+          description: >-
+            Número de folio asignado por la empresa para control interno. Si se
+            omite, se asignará el valor autoincremental de la organización.
+        series:
+          type: string
+          maxLength: 25
+          nullable: true
+          description: >-
+            Serie. Caracteres designados por la empresa para control interno y
+            sin validez fiscal.
+        pdf_custom_section:
+          type: string
+          nullable: true
+          format: xml
+          description: >
+            En caso de que necesites incluir más información en el PDF, este
+            campo te permite enviar código HTML con tu propio contenido.
+
+
+            Por seguridad, el código que puedes enviar está limitado a las
+            siguientes etiquetas: `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `div`,
+            `p`, `span`, `small`, `br`, `b`, `i`, `ul`, `ol`, `li`, `strong`,
+            `table`, `thead`, `tbody`, `tfoot`, `tr`, `th` y `td`. No se
+            permiten atributos ni estilos.
+        addenda:
+          type: string
+          nullable: true
+          format: xml
+          description: Código XML con la Addenda que se necesite agregar a la factura.
+        namespaces:
+          type: array
+          description: >-
+            Si incluiste el parámetro `complements`, este campo es opcional; en
+            cambio si inclusite el parámetro `addenda`, debes enviar la
+            información necesaria para incluir estos namespaces en el documento
+            XML.
+          items:
+            allOf:
+              - $ref: '#/components/schemas/NamespaceRequiredProperties'
+              - $ref: '#/components/schemas/NamespaceProperties'
+        pdf_options:
+          type: object
+          description: >-
+            Configura qué campos opcionales se queiren mostrar en el PDF. El SAT
+            no obliga a mostrar estos campos, pero pueden activarse según la
+            preferencia del cliente para la factura en curso. Utiliza este campo
+            para peticiones de generación de facturas en las cuales necesites
+            utilizar una configuración distinta al campo pdf_extra de la
+            organización.
+          properties:
+            codes:
+              type: boolean
+              default: true
+              description: >
+                Mostrar códigos de catálogos del SAT junto a sus descripciones.
+                Ejemplo: “KGM Kilogramo”.
+            product_key:
+              type: boolean
+              default: true
+              description: |
+                Mostrar la clave de producto-servicio.
+            round_unit_price:
+              type: boolean
+              default: false
+              description: >
+                Redondear el precio unitario en el PDF a 2 decimales, pero
+                conservar los 6 decimales en el XML.
+            tax_breakdown:
+              type: boolean
+              default: true
+              description: >
+                Mostrar el desglose de impuestos en el PDF. Si se desactiva,
+                sólo se mostratán los impuestos en los totales, pero no en el
+                detalle de cada concepto.
+            ieps_breakdown:
+              type: boolean
+              default: true
+              description: >
+                Mostrar el desglose de ieps en el PDF. Si se desactiva, solo se
+                mostrarán los impuestos relacionados al IVA en el subtotal.    
     InvoiceCommonInputProperties:
       allOf:
         - type: object
@@ -8012,6 +8507,24 @@ components:
                     ID del objeto 'customer' previamente registrado en
                     Facturapi.
                   example: 58e93bd8e86eb318b0197456
+            status:
+              type: string
+              enum:
+                - pending
+                - draft
+              default: pending
+              description: >
+                Estado inicial de la factura. Si se omite, el estado por default
+                es `pending`.
+
+                Si se envía `draft`, la factura se guardará como borrador y no
+                se timbrará ni se
+
+                enviará al SAT. También al enviar `draft`, todos los campos
+                requeridos se vuelven
+
+                opcionales.
+              exacmple: draft
             date:
               type: string
               format: date-time
@@ -8056,6 +8569,74 @@ components:
 
                 Si se deja en blanco, no se tomará en cuenta.
         - $ref: '#/components/schemas/InvoiceableCommonInput'
+    InvoiceCommonEditInputProperties:
+      allOf:
+        - type: object
+          properties:
+            customer:
+              description: Cliente receptor de la factura.
+              oneOf:
+                - $ref: '#/components/schemas/CustomerCreateInput'
+                - type: string
+                  title: customer_id
+                  description: >-
+                    ID del objeto 'customer' previamente registrado en
+                    Facturapi.
+                  example: 58e93bd8e86eb318b0197456
+            status:
+              type: string
+              enum:
+                - draft
+              description: >
+                Estado inicial de la factura. Sólo es posible editar una factura
+                con status `draft`,
+
+                y no es posible cambiar el status al editar, por lo que el único
+                valor permitido es `draft`.
+              exacmple: draft
+            date:
+              type: string
+              format: date-time
+              description: >-
+                Fecha de expedición del comprobante en formato ISO8601 (UTC
+                String). No puede ser anterior a 72 horas en el pasado, ni
+                posterior al presente.
+            address:
+              allOf:
+                - $ref: '#/components/schemas/CommonAddressProperties'
+                - type: object
+                  description: >
+                    Puedes usar este parámetro para especificar el domicilio de
+                    expedición de la factura.
+
+                    Este campo es opcional y si no se envía, la factura se
+                    expedirá con el domicilio de
+
+                    la organización.
+                  required:
+                    - zip
+                  properties:
+                    state:
+                      type: string
+                      description: Nombre del Estado o Entidad Federativa.
+                      example: Sonora
+            external_id:
+              type: string
+              nullable: true
+              description: >-
+                Identificador opcional que puedes usar para relacionar esta
+                factura con tus registros y poder hacer búsquedas usando este
+                identificador. Facturapi no valida que este campo sea único.
+            idempotency_key:
+              type: string
+              nullable: true
+              description: >
+                Identificador único que puedes usar para evitar duplicados al
+                reintentar una petición. Puede ser cualquier cadena de texto,
+                mientras sea única para cada documento.
+
+                Si se deja en blanco, no se tomará en cuenta.
+        - $ref: '#/components/schemas/InvoiceableCommonEditInput'
     InvoiceIngresoInput:
       title: Ingreso
       required:
@@ -8438,6 +9019,384 @@ components:
               items:
                 $ref: '#/components/schemas/RelatedDocumentInput'
         - $ref: '#/components/schemas/InvoiceCommonInputProperties'
+    InvoiceIngresoEditInput:
+      title: Ingreso
+      allOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - I
+                - E
+                - P
+                - 'N'
+                - T
+              description: >
+                Tipo de comprobante. Puede tener los valores `"I"`: Ingreso,
+                `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+            items:
+              type: array
+              maxItems: 5000
+              description: >
+                Conceptos a incluir en la factura.
+
+
+                El número máximo de elementos que puedes incluir en una factura
+                es de 5,000. Si necesitas
+
+                emitir una factura con más de 5,000 conceptos, puedes dividir la
+                transacción en varias facturas.
+              items:
+                $ref: '#/components/schemas/LineItemInput'
+            payment_form:
+              type: string
+              minLength: 2
+              maxLength: 2
+              example: '03'
+              description: >-
+                Código que representa la forma de pago, de acuerdo al [catálogo
+                del SAT](#forma-de-pago).
+            payment_method:
+              type: string
+              enum:
+                - PUE
+                - PPD
+              description: |
+                Código del método de pago según el catálogo del SAT.
+
+                - `PUE`: Pago en Una sola Exhibición
+                - `PPD`: Pago en Parcialidades o Diferido
+            use:
+              type: string
+              example: G01
+              description: >
+                Código de Uso CFDI según el catálogo del SAT. Puedes ver los
+                códigos
+
+                en [esta tabla](#uso-cfdi), o utilizar las constantes incluídas
+                en
+
+                nuestras librerías.
+
+
+                Para factura global debe ingresarse la clave `S01`.
+            currency:
+              type: string
+              example: MXN
+              description: >-
+                Código de la moneda, acorde al estándar [ISO
+                4217](https://es.wikipedia.org/wiki/ISO_4217).
+            exchange:
+              type: number
+              description: >
+                Tipo de cambio conforme a la moneda usada. Representa el número
+                de pesos
+
+                mexicanos (MXN) que equivalen a una unidad de la divisa señalada
+                en el atributo `currency`.
+            conditions:
+              type: string
+              nullable: true
+              minLength: 1
+              maxLength: 1000
+              description: Condiciones de pago
+            related_documents:
+              type: array
+              description: Documentos relacionados con la factura.
+              items:
+                $ref: '#/components/schemas/RelatedDocumentInput'
+            global:
+              type: object
+              nullable: true
+              required:
+                - periodicity
+                - months
+                - year
+              description: |
+                Objeto requerido al crear una factura global.
+              properties:
+                periodicity:
+                  type: string
+                  nullable: true
+                  description: |
+                    Periodicidad que abarca la factura global.
+
+                    - `day`: Diario
+                    - `week`: Semanal
+                    - `fortnight`: Quincenal
+                    - `month`: Mensual
+                    - `two_months`: Bimestral
+                  enum:
+                    - day
+                    - week
+                    - fortnight
+                    - month
+                    - two_months
+                months:
+                  type: string
+                  description: >
+                    Clave que representa el mes o bimestre de la factura.
+                    Consulta
+
+                    los posibles valores en el [catálogo de Meses y
+                    Bimestres](#meses-y-bimestres).
+                  example: '01'
+                year:
+                  type: integer
+                  description: Año de la factura.
+                  example: 2022
+            export:
+              type: string
+              enum:
+                - '01'
+                - '02'
+                - '03'
+                - '04'
+              description: >
+                Indica si el comprobante ampara una operación de exportación.
+
+
+                - `01`: No aplica
+
+                - `02`: Definitiva con clave A1
+
+                - `03`: Temporal
+
+                - `04`: Definitiva con clave distinta a A1 o cuando no existe
+                enajenación en términos del CFF
+            complements:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomComplementInput'
+              description: >
+                Complementos a incluir en la factura. Puedes incluir cualquier
+                complemento en la
+
+                factura si tú mismo construyes el nodo XML del complemento y
+                usas el tipo `custom`.
+
+                Es necesario agregar la información del complemento al PDF por
+                separado usando el
+
+                parámetro `pdf_custom_section`.
+        - $ref: '#/components/schemas/InvoiceCommonEditInputProperties'
+    InvoiceEgresoEditInput:
+      title: Egreso
+      allOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - I
+                - E
+                - P
+                - 'N'
+                - T
+              description: >
+                Tipo de comprobante. Puede tener los valores `"I"`: Ingreso,
+                `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+            payment_form:
+              type: string
+              minLength: 2
+              maxLength: 2
+              example: '03'
+              description: >-
+                Código que representa la forma de pago, de acuerdo al [catálogo
+                del SAT](#forma-de-pago).
+            related_documents:
+              type: array
+              description: Documentos relacionados con la nota de crédito.
+              items:
+                $ref: '#/components/schemas/RelatedDocumentInput'
+            items:
+              type: array
+              maxItems: 5000
+              description: >
+                Conceptos a incluir en la nota de crédito.
+
+
+                El número máximo de elementos que puedes incluir en el
+                comprobante es de 5,000. Si necesitas
+
+                emitir un comprobante con más de 5,000 conceptos, puedes dividir
+                la transacción en varios comprobantes.
+              items:
+                $ref: '#/components/schemas/LineItemEgresoInput'
+            use:
+              type: string
+              example: G01
+              description: >-
+                Código de Uso CFDI según el catálogo del SAT. Puedes ver los
+                códigos en [esta tabla](#uso-cfdi), o utilizar las constantes
+                incluídas en nuestras librerías.
+            currency:
+              type: string
+              example: MXN
+              description: >-
+                Código de la moneda, acorde al estándar [ISO
+                4217](https://es.wikipedia.org/wiki/ISO_4217).
+            exchange:
+              type: number
+              description: >-
+                Tipo de cambio conforme a la moneda usada. Representa el número
+                de pesos mexicanos (MXN) que equivalen a una unidad de la divisa
+                señalada en el atributo `currency`.
+            complements:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomComplementInput'
+              description: >
+                Complementos a incluir en el comprobante. Puedes incluir
+                cualquier
+
+                complemento en el comprobante si tú mismo construyes el nodo XML
+                del
+
+                complemento y usas el tipo `custom`. Es necesario agregar la
+                información
+
+                del complemento al PDF por separado usando el parámetro
+                `pdf_custom_section`.
+        - $ref: '#/components/schemas/InvoiceCommonInputProperties'
+    InvoicePagoEditInput:
+      title: Pago
+      allOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - I
+                - E
+                - P
+                - 'N'
+                - T
+              description: >
+                Tipo de comprobante. Puede tener los valores `"I"`: Ingreso,
+                `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+            related_documents:
+              type: array
+              description: Documentos relacionados con la factura.
+              items:
+                $ref: '#/components/schemas/RelatedDocumentInput'
+            third_party:
+              allOf:
+                - type: object
+                  required:
+                    - legal_name
+                    - tax_id
+                    - tax_system
+                    - zip
+                - $ref: '#/components/schemas/ThirdParty'
+            complements:
+              type: array
+              items:
+                $ref: '#/components/schemas/PagoOrCustomComplementInput'
+              description: Complementos a incluir en la factura.
+        - $ref: '#/components/schemas/InvoiceCommonEditInputProperties'
+    InvoiceNominaEditInput:
+      title: Nómina
+      allOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - I
+                - E
+                - P
+                - 'N'
+                - T
+              description: >
+                Tipo de comprobante. Puede tener los valores `"I"`: Ingreso,
+                `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+            complements:
+              type: array
+              items:
+                $ref: '#/components/schemas/NominaOrCustomComplementInput'
+              description: Complementos a incluir en la factura.
+            related_documents:
+              type: array
+              description: Documentos relacionados con la factura.
+              items:
+                $ref: '#/components/schemas/RelatedDocumentInput'
+        - $ref: '#/components/schemas/InvoiceCommonEditInputProperties'
+    InvoiceTrasladoEditInput:
+      title: Traslado
+      allOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - I
+                - E
+                - P
+                - 'N'
+                - T
+              description: >
+                Tipo de comprobante. Puede tener los valores `"I"`: Ingreso,
+                `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+            items:
+              type: array
+              maxItems: 5000
+              description: >
+                Conceptos a incluir en el comprobante de Traslado.
+
+
+                El número máximo de elementos que puedes incluir en un
+                comprobante es de 5,000. Si necesitas
+
+                emitir un comprobante con más de 5,000 conceptos, puedes dividir
+                la transacción en varios comprobantes.
+              items:
+                $ref: '#/components/schemas/LineItemTrasladoInput'
+            complements:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomComplementInput'
+              description: >
+                Complementos a incluir en el comprobante. Puedes incluir
+                cualquier complemento en
+
+                el comprobante si tú mismo construyes el nodo XML del
+                complemento y usas el tipo
+
+                `custom`. Es necesario agregar la información del complemento al
+                PDF por separado
+
+                usando el parámetro `pdf_custom_section`.
+            use:
+              type: string
+              example: G01
+              description: >
+                Código de Uso CFDI según el catálogo del SAT. Puedes ver los
+                códigos en
+
+                [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en
+                nuestras librerías.
+            currency:
+              type: string
+              example: MXN
+              description: >-
+                Código de la moneda, acorde al estándar [ISO
+                4217](https://es.wikipedia.org/wiki/ISO_4217).
+            exchange:
+              type: number
+              description: >
+                Tipo de cambio conforme a la moneda usada. Representa el número
+                de pesos mexicanos
+
+                (MXN) que equivalen a una unidad de la divisa señalada en el
+                atributo `currency`.
+            related_documents:
+              type: array
+              description: Documentos relacionados con el comprobante.
+              items:
+                $ref: '#/components/schemas/RelatedDocumentInput'
+        - $ref: '#/components/schemas/InvoiceCommonEditInputProperties'
     Receipt:
       title: Objeto Receipt
       allOf:
@@ -9498,21 +10457,21 @@ components:
         domain:
           $ref: '#/components/schemas/DomainField'
   securitySchemes:
-    Secret Live Key:
+    SecretLiveKey:
       type: http
       scheme: bearer
       bearerFormat: sk_live_XXXXXXXXXXXX
       description: >-
         Única por organización. Permite crear, obtener y administrar recursos en
         ambiente Live para una organización en específico.
-    Secret Test Key:
+    SecretTestKey:
       type: http
       scheme: bearer
       bearerFormat: sk_test_XXXXXXXXXXXX
       description: >-
         Única por organización. Permite crear, obtener y administrar recursos en
         ambiente Test para una organización en específico.
-    Secret User Key:
+    SecretUsertKey:
       type: http
       scheme: bearer
       bearerFormat: sk_user_XXXXXXXXXXXX

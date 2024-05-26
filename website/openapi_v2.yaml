@@ -1762,7 +1762,7 @@ paths:
         - lang: PHP
           source: |
             $facturapi = new Facturapi( "sk_test_API_KEY" );
-            $invoice = $facturapi->Invoices->updateDraft("58e93bd8e86eb318b019743d", [
+            $invoice = $facturapi->Invoices->update_draft("58e93bd8e86eb318b019743d", [
               "payment_form" => \Facturapi\PaymentForm::EFECTIVO
             ]);
       parameters:
@@ -1908,10 +1908,10 @@ paths:
           $ref: "#/components/responses/UnexpectedError"
   /invoices/{invoice_id}/copy:
     post:
-      operationId: copyInvoice
+      operationId: copyToDraftInvoice
       tags:
         - invoice
-      summary: Copiar factura
+      summary: Copiar a borrador
       description: |
         Crea una copia en borrador de la factura especificada.
       x-codeSamples:
@@ -1926,16 +1926,16 @@ paths:
           source: |
             const Facturapi = require('facturapi');
             const facturapi = new Facturapi('sk_test_API_KEY');
-            const invoice = await facturapi.invoices.copy('58e93bd8e86eb318b019743d');
+            const invoice = await facturapi.invoices.copy_to_draft('58e93bd8e86eb318b019743d');
         - lang: csharp
           label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
-            var invoice = await facturapi.Invoice.CopyAsync("58e93bd8e86eb318b019743d");
+            var invoice = await facturapi.Invoice.CopyToDraftAsync("58e93bd8e86eb318b019743d");
         - lang: PHP
           source: |
             $facturapi = new Facturapi( "sk_test_API_KEY" );
-            $invoice = $facturapi->Invoices->copy("58e93bd8e86eb318b019743d");
+            $invoice = $facturapi->Invoices->copy_to_draft("58e93bd8e86eb318b019743d");
       parameters:
         - in: path
           name: invoice_id

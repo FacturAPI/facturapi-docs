@@ -4773,7 +4773,310 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/series-group:
+    get:
+      operationId: getSeriesGroup
+      tags:
+        - organization
+      summary: Listado de series
+      description: |
+        Listado de series creadas para la personalización de organización. La cual lleva control de foliaje para cada tipo de factura si está asignada en las personalización de organización.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/series-group \
+              -X GET \
+              -H "Authorization: Bearer sk_user_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_user_API_KEY');
 
+            const seriesList = await facturapi.organizations.getSeries(
+              '5a2a307be93a2f00129ea035'
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var seriesList = await facturapi.Organization.ListSeriesAsync(
+              "5a2a307be93a2f00129ea035"
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_user_API_KEY" );
+            $seriesList = $facturapi->Organizations->getSeries(
+              "5a2a307be93a2f00129ea035"
+            );
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+      security:
+        - "SecretUsertKey": []
+      responses:
+        "200":
+          description: Listado de objetos `Series` creadas previamente 
+          content:
+            application/json:
+              schema:
+                -type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/OrganizationSeriesGroup"
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    
+    post:
+      operationId: createSeriesGroup
+      tags:
+        - organization
+      summary: Crear serie
+      description: |
+        Crea una nueva serie de folios para la organización.
+        Las series son útiles para llevar un control de los folios emitidos para cada tipo de factura.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/series-group \
+              -X POST \
+              -H "Content-Type: application/json" \
+              -d '{
+                    "series": "New",
+                    "next_folio": 1,
+                    "next_folio_test": 1
+                  }'
+              -H "Authorization: Bearer sk_user_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_user_API_KEY');
+
+            const newSeries = await facturapi.organizations.createSeries(
+              '5a2a307be93a2f00129ea035',
+              {
+                series: 'New',
+                next_folio: 1,
+                next_folio_test: 1
+              }
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var newSeries = await facturapi.Organization.CreateSeriesAsync(
+              "5a2a307be93a2f00129ea035",
+              {
+                    "series": "New",
+                    "next_folio": 1,
+                    "next_folio_test": 1
+              }
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_user_API_KEY" );
+            $newSeries = $facturapi->Organizations->createSeries(
+              "5a2a307be93a2f00129ea035",
+              {
+                    "series": "New",
+                    "next_folio": 1,
+                    "next_folio_test": 1
+              }
+            );
+      requestBody:
+        $ref: "#/components/requestBodies/OrganizationSeriesCreate"
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+      security:
+        - "SecretUsertKey": []
+      responses:
+        "200":
+          description: Nuevo objeto de la `Serie` creada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationSeriesGroup"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    
+    /organizations/{organization_id}/series-group/{series_name}:
+    put:
+      operationId: updateSeriesGroup
+      tags:
+        - organization
+      summary: Editar serie
+      description: |
+        Edita el número de foliaje de la serie en ambientes Test y Live de la organización.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/series-group/New \
+              -X PUT \
+              -H "Authorization: Bearer sk_user_API_KEY"
+              -H "Content-Type: application/json" \
+              -d '{
+                  "next_folio": 1,
+                  "next_folio_test": 1
+                }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_user_API_KEY');
+
+            const updatedSeries = await facturapi.organizations.updateSeries(
+              '5a2a307be93a2f00129ea035',
+              'New',
+              {
+                "next_folio": 1,
+                "next_folio_test": 1
+              }
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var updatedSeries = await facturapi.Organization.UpdateSeriesAsync(
+              "5a2a307be93a2f00129ea035",
+              "New",
+              {
+                "next_folio": 1,
+                "next_folio_test": 1
+              }
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_user_API_KEY" );
+            $updatedSeries = $facturapi->Organizations->updateSeries(
+            "5a2a307be93a2f00129ea035",
+              "New",
+              {
+                "next_folio": 1,
+                "next_folio_test": 1
+              }
+            );
+      requestBody:
+        $ref: "#/components/requestBodies/OrganizationSeriesUpdate"
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+        - in: path
+          name: series_name
+          schema:
+            type: string
+          required: true
+          description: Nombre de la serie
+      security:
+        - "SecretUsertKey": []
+      responses:
+        "200":
+          description: Objeto `Serie` editada 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationSeriesGroup"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    delete:
+      operationId: deleteSeriesGroup
+      tags:
+        - organization
+      summary: Eliminar serie
+      description: |
+        Elimina la serie previamente creada
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/series-group/New \
+              -X DELETE \
+              -H "Authorization: Bearer sk_user_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_user_API_KEY');
+
+            const deletedSeries = await facturapi.organizations.deleteSeries(
+              '5a2a307be93a2f00129ea035',
+              'New'
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var deletedSeries = await facturapi.Organization.DeleteSeriesAsync(
+              "5a2a307be93a2f00129ea035",
+              "New"
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_user_API_KEY" );
+            $deletedSeries = $facturapi->Organizations->deleteSeries(
+            "5a2a307be93a2f00129ea035",
+            "New"
+            );
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+        - in: path
+          name: series_name
+          schema:
+            type: string
+          required: true
+          description: Nombre de la serie
+      security:
+        - "SecretUsertKey": []
+      responses:
+        "200":
+          description: Objeto `Serie` eliminado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationSeriesGroup"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+      
   /webhooks:
     post:
       operationId: createWebhook
@@ -5567,6 +5870,16 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/OrganizationCreateInput"
+    OrganizationSeriesCreate:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrganizationSeriesCreateInput"
+    OrganizationSeriesUpdate:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrganizationSeriesUpdateInput"             
     OrganizationEditLegal:
       content:
         application/json:
@@ -9382,6 +9695,22 @@ components:
               example: "2025-05-05T20:55:33.468Z"
               description: Fecha de expiración del certificado.
 
+    OrganizationSeriesGroup:
+      title: Objeto Series
+      type: object
+      properties:
+        series:
+          type: string
+          description: Nombre de la serie.
+          example: "New"
+        next_folio:
+          type: integer
+          description: Número de folio que se asignará a la siguiente factura en ambiente Live (y que se incrementará automáticamente por cada nueva factura).
+          example: 123
+        next_folio_test:
+          type: integer
+          description: Número de folio que se asignará a la siguiente factura en ambiente Test (y que se incrementará automáticamente por cada nueva factura).
+          example: 123
     OrganizationDeleteCerts: 
       type: object
       properties:
@@ -9399,6 +9728,33 @@ components:
           type: string
           maxLength: 100
           description: Nombre comercial de la organización.
+    OrganizationSeriesCreateInput:
+      type: object
+      required:
+        - series
+        - next_folio
+        - next_folio_test
+      properties:
+        series:
+          type: string
+          maxLength: 55
+          description: Nombre de la serie.
+        next_folio:
+          type: integer
+          description: Número de folio que se asignará a la siguiente factura en ambiente Live (y que se incrementará automáticamente por cada nueva factura).
+        next_folio_test:
+          type: integer
+          description: Número de folio que se asignará a la siguiente factura en ambiente Test (y que se incrementará automáticamente por cada nueva factura).
+    OrganizationSeriesUpdateInput:
+      type: object
+      properties:
+        next_folio:
+          type: integer
+          description: Número de folio que se asignará a la siguiente factura en ambiente Live (y que se incrementará automáticamente por cada nueva factura).
+        next_folio_test:
+          type: integer
+          description: Número de folio que se asignará a la siguiente factura en ambiente Test (y que se incrementará automáticamente por cada nueva factura).
+    
     OrganizationLegalInput:
       type: object
       required:

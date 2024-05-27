@@ -1713,7 +1713,7 @@ paths:
         "500":
           $ref: "#/components/responses/UnexpectedError"
     put:
-      operationId: editDraftInvoice
+      operationId: updateDraftInvoice
       tags:
         - invoice
       summary: Editar borrador de factura
@@ -1762,7 +1762,7 @@ paths:
         - lang: PHP
           source: |
             $facturapi = new Facturapi( "sk_test_API_KEY" );
-            $invoice = $facturapi->Invoices->updateDraft("58e93bd8e86eb318b019743d", [
+            $invoice = $facturapi->Invoices->update_draft("58e93bd8e86eb318b019743d", [
               "payment_form" => \Facturapi\PaymentForm::EFECTIVO
             ]);
       parameters:
@@ -1843,7 +1843,7 @@ paths:
         - lang: PHP
           source: |
             $facturapi = new Facturapi( "sk_test_API_KEY" );
-            $facturapi->Invoices->cancel(
+            $canceled_invoice = $facturapi->Invoices->cancel(
               "58e93bd8e86eb318b019743d",
               [
                 "motive" => "02"
@@ -1906,7 +1906,59 @@ paths:
           $ref: "#/components/responses/Conflict"
         "500":
           $ref: "#/components/responses/UnexpectedError"
-  
+  /invoices/{invoice_id}/copy:
+    post:
+      operationId: copyToDraftInvoice
+      tags:
+        - invoice
+      summary: Copiar a borrador
+      description: |
+        Crea una copia en borrador de la factura especificada.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/copy \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -X POST
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const invoice = await facturapi.invoices.copyToDraft('58e93bd8e86eb318b019743d');
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var invoice = await facturapi.Invoice.CopyToDraftAsync("58e93bd8e86eb318b019743d");
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $invoice = $facturapi->Invoices->copy_to_draft("58e93bd8e86eb318b019743d");
+      parameters:
+        - in: path
+          name: invoice_id
+          schema:
+            type: string
+          required: true
+          description: ID de la factura a copiar
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Nuevo objeto `Invoice` con status `draft`.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceDraft"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
   /invoices/{invoice_id}/stamp:
     post:
       operationId: stampDraftInvoice
@@ -1933,16 +1985,16 @@ paths:
           source: |
             const Facturapi = require('facturapi');
             const facturapi = new Facturapi('sk_test_API_KEY');
-            const invoice = await facturapi.invoices.stampDraft('58e93bd8e86eb318b019743d');
+            const stampedInvoice = await facturapi.invoices.stampDraft('58e93bd8e86eb318b019743d');
         - lang: csharp
           label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
-            var invoice = await facturapi.Invoice.StampDraftAsync("58e93bd8e86eb318b019743d");
+            var stampedInvoice = await facturapi.Invoice.StampDraftAsync("58e93bd8e86eb318b019743d");
         - lang: PHP
           source: |
             $facturapi = new Facturapi( "sk_test_API_KEY" );
-            $facturapi->Invoices->stampDraft("58e93bd8e86eb318b019743d");
+            $stamped_invoice = $facturapi->Invoices->stamp_draft("58e93bd8e86eb318b019743d");
       parameters:
         - in: path
           name: invoice_id

@@ -154,7 +154,7 @@ $invoice = $facturapi->Invoices->create([
 <TabItem value="curl" label="cURL">
 
 ```bash
-curl https://www.facturapi.io/v1/invoices \
+curl https://www.facturapi.io/v2/invoices \
   # a) Autentícate con la API Key de la organización emisora
   -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
@@ -274,7 +274,7 @@ $facturapi->Invoices->send_by_email($invoice->id);
 <TabItem value="curl" label="cURL">
 
 ```bash
-curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/email \
+curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/email \
   -H "Authorization: Bearer sk_test_API_KEY"
   -X POST
 ```
@@ -328,7 +328,7 @@ $xml = $facturapi->Invoices->download_xml($invoice->id) // stream containing the
 
 ```bash
 ## Descargar PDF y XML comprimidos en archivo ZIP
-curl https://www.facturapi.io/v1/invoices/58e93bd8e86eb318b019743d/zip \
+curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/zip \
   -H "Authorization: Bearer sk_test_API_KEY"
 ```
 

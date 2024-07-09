@@ -80,8 +80,7 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
               type: 'dropdown',
               label: 'Referencia API',
               items: [
-                { href: '/api', label: 'v2 (CFDI v4.0) ✅' },
-                { href: '/api_v1', label: 'v1 (CFDI v3.3) 🚧' },
+                { href: '/api', label: 'v2 (CFDI v4.0) ✅' }
               ]
             },
             {

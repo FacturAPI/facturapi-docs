@@ -1469,16 +1469,32 @@ paths:
             ]);
       requestBody:
         $ref: "#/components/requestBodies/InvoiceCreate"
+      parameters:
+        - in: query
+          name: async
+          schema:
+            type: boolean
+          required: false
+          description: |
+            Útil para facturas de gran tamaño. Si se envía `false` o no se envía, la llamada esperará a que el SAT responda timbrando la factura.
+            Si se envía `true`, la llamada regresará inmediatamente con el objeto `invoice` en status `pending`, y podrá consultarse su cambio de status
+            a `valid`` en un momento posterior.
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []
       responses:
         "200":
           description: Nuevo objeto `Invoice` creado
+          required: true
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Invoice"
+                type: object
+                discriminator:
+                  propertyName: status
+                  mapping:
+                    pending: "#/components/schemas/Invoice"
+                    draft: "#/components/schemas/InvoiceDraft"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -1487,6 +1503,7 @@ paths:
           $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+    
     get:
       operationId: listInvoices
       tags:
@@ -2313,6 +2330,7 @@ paths:
           required: true
           description: ID del objeto a obtener
       requestBody:
+        required: false
         content:
           application/json:
             schema:
@@ -2337,12 +2355,18 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: Archivo del comprobante CFDI en el formato solicitado
+          description: Objeto genérico de respuesta
+          required: true
           content:
-            application/octet-stream:
+            application/json:
               schema:
-                type: string
-                format: binary
+                type: object
+                required:
+                  - ok
+                properties:
+                  ok:
+                    type: boolean
+                    description: Indica si el correo fue enviado exitosamente
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -2894,6 +2918,7 @@ paths:
           required: true
           description: ID del objeto a obtener
       requestBody:
+        required: false
         content:
           application/json:
             schema:
@@ -2920,12 +2945,18 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: Archivo del comprobante CFDI en el formato solicitado
+          description: Objeto genérico de respuesta
+          required: true
           content:
-            application/octet-stream:
+            application/json:
               schema:
-                type: string
-                format: binary
+                type: object
+                required:
+                  - ok
+                properties:
+                  ok:
+                    type: boolean
+                    description: Indica si el correo fue enviado exitosamente
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -3679,6 +3710,7 @@ paths:
           required: true
           description: ID del objeto a obtener
       requestBody:
+        required: false
         content:
           application/json:
             schema:
@@ -3703,12 +3735,18 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: Archivo del comprobante en el formato solicitado
+          description: Objeto genérico de respuesta
+          required: true
           content:
-            application/octet-stream:
+            application/json:
               schema:
-                type: string
-                format: binary
+                type: object
+                required:
+                  - ok
+                properties:
+                  ok:
+                    type: boolean
+                    description: Indica si el correo fue enviado exitosamente
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -4293,6 +4331,7 @@ paths:
       responses:
         "200":
           description: Objeto `Organization` modificado
+          required: true
           content:
             application/json:
               schema:
@@ -4380,6 +4419,7 @@ paths:
       responses:
         "200":
           description: Objeto `Organization` modificado
+          required: true
           content:
             application/json:
               schema:
@@ -4433,6 +4473,7 @@ paths:
       parameters:
         - in: query
           name: domain
+          required: true
           schema:
             $ref: "#/components/schemas/DomainField"
       security:
@@ -4440,10 +4481,13 @@ paths:
       responses:
         "200":
           description: Objeto `Organization`
+          required: true
           content:
             application/json:
               schema:
                 type: object
+                required:
+                  - available
                 properties:
                   available:
                     type: boolean
@@ -4825,310 +4869,7 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "500":
           $ref: "#/components/responses/UnexpectedError"
-  /organizations/{organization_id}/series-group:
-    get:
-      operationId: getSeriesGroup
-      tags:
-        - organization
-      summary: Listado de series
-      description: |
-        Listado de series creadas para la personalización de organización. La cual lleva control de foliaje para cada tipo de factura si está asignada en las personalización de organización.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/series-group \
-              -X GET \
-              -H "Authorization: Bearer sk_user_API_KEY"
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            const Facturapi = require('facturapi');
-            const facturapi = new Facturapi('sk_user_API_KEY');
 
-            const seriesList = await facturapi.organizations.getSeries(
-              '5a2a307be93a2f00129ea035'
-            );
-        - lang: csharp
-          label: C#
-          source: |
-            var facturapi = new FacturapiClient("sk_user_API_KEY");
-            var seriesList = await facturapi.Organization.ListSeriesAsync(
-              "5a2a307be93a2f00129ea035"
-            );
-        - lang: PHP
-          source: |
-            $facturapi = new Facturapi( "sk_user_API_KEY" );
-            $seriesList = $facturapi->Organizations->getSeries(
-              "5a2a307be93a2f00129ea035"
-            );
-      parameters:
-        - in: path
-          name: organization_id
-          schema:
-            type: string
-          required: true
-          description: ID de la organización
-      security:
-        - "SecretUsertKey": []
-      responses:
-        "200":
-          description: Listado de objetos `Series` creadas previamente 
-          content:
-            application/json:
-              schema:
-                -type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/OrganizationSeriesGroup"
-
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-    
-    post:
-      operationId: createSeriesGroup
-      tags:
-        - organization
-      summary: Crear serie
-      description: |
-        Crea una nueva serie de folios para la organización.
-        Las series son útiles para llevar un control de los folios emitidos para cada tipo de factura.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/series-group \
-              -X POST \
-              -H "Content-Type: application/json" \
-              -d '{
-                    "series": "New",
-                    "next_folio": 1,
-                    "next_folio_test": 1
-                  }'
-              -H "Authorization: Bearer sk_user_API_KEY"
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            const Facturapi = require('facturapi');
-            const facturapi = new Facturapi('sk_user_API_KEY');
-
-            const newSeries = await facturapi.organizations.createSeries(
-              '5a2a307be93a2f00129ea035',
-              {
-                series: 'New',
-                next_folio: 1,
-                next_folio_test: 1
-              }
-            );
-        - lang: csharp
-          label: C#
-          source: |
-            var facturapi = new FacturapiClient("sk_user_API_KEY");
-            var newSeries = await facturapi.Organization.CreateSeriesAsync(
-              "5a2a307be93a2f00129ea035",
-              {
-                    "series": "New",
-                    "next_folio": 1,
-                    "next_folio_test": 1
-              }
-            );
-        - lang: PHP
-          source: |
-            $facturapi = new Facturapi( "sk_user_API_KEY" );
-            $newSeries = $facturapi->Organizations->createSeries(
-              "5a2a307be93a2f00129ea035",
-              {
-                    "series": "New",
-                    "next_folio": 1,
-                    "next_folio_test": 1
-              }
-            );
-      requestBody:
-        $ref: "#/components/requestBodies/OrganizationSeriesCreate"
-      parameters:
-        - in: path
-          name: organization_id
-          schema:
-            type: string
-          required: true
-          description: ID de la organización
-      security:
-        - "SecretUsertKey": []
-      responses:
-        "200":
-          description: Nuevo objeto de la `Serie` creada
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/OrganizationSeriesGroup"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-    
-    /organizations/{organization_id}/series-group/{series_name}:
-    put:
-      operationId: updateSeriesGroup
-      tags:
-        - organization
-      summary: Editar serie
-      description: |
-        Edita el número de foliaje de la serie en ambientes Test y Live de la organización.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/series-group/New \
-              -X PUT \
-              -H "Authorization: Bearer sk_user_API_KEY"
-              -H "Content-Type: application/json" \
-              -d '{
-                  "next_folio": 1,
-                  "next_folio_test": 1
-                }'
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            const Facturapi = require('facturapi');
-            const facturapi = new Facturapi('sk_user_API_KEY');
-
-            const updatedSeries = await facturapi.organizations.updateSeries(
-              '5a2a307be93a2f00129ea035',
-              'New',
-              {
-                "next_folio": 1,
-                "next_folio_test": 1
-              }
-            );
-        - lang: csharp
-          label: C#
-          source: |
-            var facturapi = new FacturapiClient("sk_user_API_KEY");
-            var updatedSeries = await facturapi.Organization.UpdateSeriesAsync(
-              "5a2a307be93a2f00129ea035",
-              "New",
-              {
-                "next_folio": 1,
-                "next_folio_test": 1
-              }
-            );
-        - lang: PHP
-          source: |
-            $facturapi = new Facturapi( "sk_user_API_KEY" );
-            $updatedSeries = $facturapi->Organizations->updateSeries(
-            "5a2a307be93a2f00129ea035",
-              "New",
-              {
-                "next_folio": 1,
-                "next_folio_test": 1
-              }
-            );
-      requestBody:
-        $ref: "#/components/requestBodies/OrganizationSeriesUpdate"
-      parameters:
-        - in: path
-          name: organization_id
-          schema:
-            type: string
-          required: true
-          description: ID de la organización
-        - in: path
-          name: series_name
-          schema:
-            type: string
-          required: true
-          description: Nombre de la serie
-      security:
-        - "SecretUsertKey": []
-      responses:
-        "200":
-          description: Objeto `Serie` editada 
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/OrganizationSeriesGroup"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-    delete:
-      operationId: deleteSeriesGroup
-      tags:
-        - organization
-      summary: Eliminar serie
-      description: |
-        Elimina la serie previamente creada
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/series-group/New \
-              -X DELETE \
-              -H "Authorization: Bearer sk_user_API_KEY"
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            const Facturapi = require('facturapi');
-            const facturapi = new Facturapi('sk_user_API_KEY');
-
-            const deletedSeries = await facturapi.organizations.deleteSeries(
-              '5a2a307be93a2f00129ea035',
-              'New'
-            );
-        - lang: csharp
-          label: C#
-          source: |
-            var facturapi = new FacturapiClient("sk_user_API_KEY");
-            var deletedSeries = await facturapi.Organization.DeleteSeriesAsync(
-              "5a2a307be93a2f00129ea035",
-              "New"
-            );
-        - lang: PHP
-          source: |
-            $facturapi = new Facturapi( "sk_user_API_KEY" );
-            $deletedSeries = $facturapi->Organizations->deleteSeries(
-            "5a2a307be93a2f00129ea035",
-            "New"
-            );
-      parameters:
-        - in: path
-          name: organization_id
-          schema:
-            type: string
-          required: true
-          description: ID de la organización
-        - in: path
-          name: series_name
-          schema:
-            type: string
-          required: true
-          description: Nombre de la serie
-      security:
-        - "SecretUsertKey": []
-      responses:
-        "200":
-          description: Objeto `Serie` eliminado
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/OrganizationSeriesGroup"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-      
   /webhooks:
     post:
       operationId: createWebhook
@@ -5454,7 +5195,6 @@ paths:
           content:
             application/json:
               schema:
-                description: a
                 type: object
                 properties:
                   ok:
@@ -5671,6 +5411,7 @@ x-webhooks:
       tags:
         - events
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -5704,6 +5445,7 @@ x-webhooks:
       tags:
         - events
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -5735,6 +5477,7 @@ x-webhooks:
       description: |
         Notifica acerca de cambios en el campo `cancellation_status` de una factura.
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -5765,6 +5508,7 @@ x-webhooks:
       description: |
         Notifica acerca de la creación de una autofactura a partir de un e-Receipt.
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -5796,6 +5540,7 @@ x-webhooks:
       description: |
         Notifica acerca de cambios en el campo `status` de un recibo.
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -5822,12 +5567,14 @@ components:
   responses:
     BadRequest:
       description: Error en parámetros de la petición
+      required: true
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/GenericError"
     Unauthenticated:
       description: Error de autenticación
+      required: true
       content:
         application/json:
           schema:
@@ -5835,17 +5582,20 @@ components:
     Conflict:
       description: |
         Conflicto en la petición. La operación que se intenta realizar no puede completarse debido a conflictos en el estado actual del recurso.
+      required: true
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/GenericError"
     NotFound:
       description: No se encontró el recurso especificado.
+      required: true
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/GenericError"
     UnexpectedError:
+      required: true
       description: Error inesperado
       content:
         application/json:
@@ -5854,30 +5604,40 @@ components:
 
   requestBodies:
     CustomerCreate:
+      required: true
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/CustomerCreateInput"
     CustomerEdit:
+      required: true
       content:
         application/json:
           schema:
             allOf:
               - $ref: "#/components/schemas/CustomerProperties"
     ProductCreate:
+      required: true
       content:
         application/json:
           schema:
             allOf:
-              - $ref: "#/components/schemas/ProductRequiredProperties"
               - $ref: "#/components/schemas/ProductProperties"
     ProductEdit:
+      required: true
       content:
         application/json:
           schema:
             allOf:
               - $ref: "#/components/schemas/ProductProperties"
     InvoiceCreate:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/InvoiceCreateInput"
+    InvoiceCreatePending:
+      required: true
       content:
         application/json:
           schema:
@@ -5888,6 +5648,7 @@ components:
               - $ref: "#/components/schemas/InvoiceNominaInput"
               - $ref: "#/components/schemas/InvoiceTrasladoInput"
     InvoiceEdit:
+      required: true
       content:
         application/json:
           schema:
@@ -5898,77 +5659,80 @@ components:
               - $ref: "#/components/schemas/InvoiceNominaEditInput"
               - $ref: "#/components/schemas/InvoiceTrasladoEditInput"
     ReceiptCreate:
+      required: true
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ReceiptInput"
     ReceiptInvoice:
+      required: true
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/InvoiceReceiptInput"
     ReceiptCreateGlobalInvoice:
+      required: true
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/GlobalInvoiceInput"
     RetentionCreate:
+      required: true
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/RetentionInput"
     OrganizationCreate:
+      required: true
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/OrganizationCreateInput"
-    OrganizationSeriesCreate:
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/OrganizationSeriesCreateInput"
-    OrganizationSeriesUpdate:
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/OrganizationSeriesUpdateInput"             
     OrganizationEditLegal:
+      required: true
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/OrganizationLegalInput"
     OrganizationUploadCerts:
+      required: true
       content:
         multipart/form-data:
           schema:
             $ref: "#/components/schemas/OrganizationCertsInput"
     OrganizationUploadLogo:
+      required: true
       content:
         multipart/form-data:
           schema:
             $ref: "#/components/schemas/OrganizationLogoInput"
     OrganizationEditCustomization:
+      required: true
       content:
-        multipart/form-data:
+        application/json:
           schema:
             $ref: "#/components/schemas/OrganizationCustomizationInput"
     OrganizationEditReceiptsSettings:
+      required: true
       content:
-        multipart/form-data:
+        application/json:
           schema:
             $ref: "#/components/schemas/OrganizationReceiptsInput"
     OrganizationEditDomain:
+      required: true
       content:
-        multipart/form-data:
+        application/json:
           schema:
             $ref: "#/components/schemas/OrganizationDomainInput"
     WebhookCreate:
+      required: true
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/WebhookCreateInput"
 
     WebhookEdit:
+      required: true
       content:
         application/json:
           schema:
@@ -6072,6 +5836,10 @@ components:
           description: Número de elementos individuales en todas las páginas de resultados
     ResourceAutoGeneratedProps:
       type: object
+      required:
+        - id
+        - created_at
+        - livemode
       properties:
         id:
           type: string
@@ -6390,6 +6158,7 @@ components:
       properties:
         quantity:
           type: number
+          required: false
           default: 1
           description: Cantidad de unidades incluídas del mismo concepto.
           example: 1
@@ -7463,13 +7232,11 @@ components:
     LineItemProductInput:
       title: Product
       allOf:
-        - $ref: "#/components/schemas/ProductRequiredProperties"
         - $ref: "#/components/schemas/ProductProperties"
     
     LineItemProductEgresoInput:
       title: Product
       allOf:
-        - $ref: "#/components/schemas/ProductEgresoRequiredProperties"
         - $ref: "#/components/schemas/ProductEgresoProperties"
 
     LineItemTrasladoProductInput:
@@ -7558,19 +7325,12 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/Product"
-    ProductRequiredProperties:
+    ProductProperties:
       type: object
       required:
         - description
         - product_key
         - price
-    ProductEgresoRequiredProperties:
-      type: object
-      required:
-        - description
-        - price
-    ProductProperties:
-      type: object
       properties:
         description:
           type: string
@@ -7587,6 +7347,7 @@ components:
         tax_included:
           type: boolean
           default: true
+          nullable: true
           description: |
             - `true`: Indica que todos los impuestos aplicables están incluídos en el precio (atributo price) y se desglosarán automáticamente al emitir la factura.
             - `false`: Indica que el atributo price no incluye impuestos, por lo que aquellos impuestos a aplicar se sumarán en el precio final.
@@ -7611,6 +7372,7 @@ components:
         taxes:
           type: array
           default: IVA trasladado 16%
+          nullable: true
           example:
             [{
               "type": "IVA",
@@ -7628,15 +7390,18 @@ components:
         unit_key:
           type: string
           default: H87
+          nullable: true
           description: |
             Clave de unidad de medida, del catálogo del SAT. El valor por default `"H87"` (elemento) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc).
             Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
         unit_name:
           type: string
           default: Elemento
+          nullable: true
           description: Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.
         sku:
           type: string
+          nullable: true
           description: Identificador de uso interno designado por la empresa. Puede tener cualquier valor.
     ProductEgresoProperties:
       type: object
@@ -7647,6 +7412,7 @@ components:
           example: Ukelele
         product_key:
           type: string
+          nullable: true
           default: 84111506
           description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
           example: 84111506
@@ -7656,12 +7422,14 @@ components:
           example: 345.60
         tax_included:
           type: boolean
+          nullable: true
           default: true
           description: |
             - `true`: Indica que todos los impuestos aplicables están incluídos en el precio (atributo price) y se desglosarán automáticamente al emitir la factura.
             - `false`: Indica que el atributo price no incluye impuestos, por lo que aquellos impuestos a aplicar se sumarán en el precio final.
         taxability:
           type: string
+          nullable: true
           default: "02"
           enum:
             - "01"
@@ -7679,26 +7447,33 @@ components:
             - `05`: Sí objeto de impuesto, IVA crédito PODEBI.
         taxes:
           type: array
+          nullable: true
           default: IVA trasladado 16%
           description: Lista de impuestos que deberán aplicarse a este producto. Si el parámetro se omite o es nulo, se guardará con un elemento que representa el IVA trasladado del 16%, que es el impuesto más común. En caso de mandar explícitamente un arreglo vacío, se entiende que el producto está exento de impuestos.
           items:
             $ref: "#/components/schemas/BaseTax"
         local_taxes:
           type: array
+          nullable: true
           description: Arreglo de impuestos locales (estatales o municipales), en caso de haberlos.
           default: []
           items:
             $ref: "#/components/schemas/LocalTax"
         unit_key:
           type: string
+          nullable: true
           default: ACT
           description: |
             Clave de unidad de medida, del catálogo del SAT.
             Puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
         unit_name:
           type: string
+          nullable: true
           default: Actividad
           description: Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.
+      required:
+        - description
+        - price
     PaymentInput:
       title: Payment
       required:
@@ -7915,7 +7690,7 @@ components:
         - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
         - $ref: "#/components/schemas/InvoiceProperties"
     InvoiceDraft:
-      title: Objeto Invoice
+      title: Objeto Invoice con status draft
       allOf:
         - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
         - $ref: "#/components/schemas/InvoiceDraftProperties"
@@ -7941,9 +7716,9 @@ components:
           type: string
           enum:
             - pending
-            - draft
             - valid
             - canceled
+            - draft
           description: |
             Estado actual de la factura.
           example: valid
@@ -8074,9 +7849,9 @@ components:
           type: string
           enum:
             - pending
-            - draft
             - valid
             - canceled
+            - draft
           description: |
             Estado actual de la factura.
           example: draft
@@ -8345,10 +8120,11 @@ components:
                 - draft
               default: pending  
               description: |
-                Estado inicial de la factura. Si se omite, el estado por default es `pending`.
-                Si se envía `draft`, la factura se guardará como borrador y no se timbrará ni se
+                Estado inicial de la factura. Si se envía `draft`, la factura se guardará como borrador y no se timbrará ni se
                 enviará al SAT. También al enviar `draft`, todos los campos requeridos se vuelven
-                opcionales.
+                opcionales. Si se omite, el estado por default es `pending` y una vez timbrada (en la respuesta) este
+                campo se actualizará a `valid`. Para facturas asíncronas, este campo se quedará en `pending` hasta que
+                se timbre la factura.
               exacmple: draft
             date:
               type: string
@@ -8431,6 +8207,109 @@ components:
                 Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
                 Si se deja en blanco, no se tomará en cuenta.
         - $ref: "#/components/schemas/InvoiceableCommonEditInput"
+    InvoiceCreateInput:
+      type: object
+      oneOf:
+        - title: Ingreso
+          discriminator:
+            propertyName: status
+            mapping:
+              pending: "#/components/schemas/InvoiceEgresoInput"
+              draft: "#/components/schemas/InvoiceEgresoEditInput"
+            properties:
+              status:
+                type: string
+                enum:
+                  - pending
+                  - draft
+                default: pending
+                description: |
+                  Estado inicial de la factura. Si se envía `draft`, la factura se guardará como borrador y no se timbrará ni se
+                  enviará al SAT. También al enviar `draft`, todos los campos requeridos se vuelven
+                  opcionales. Si se omite, el estado por default es `pending` y una vez timbrada (en la respuesta) este
+                  campo se actualizará a `valid`. Para facturas asíncronas, este campo se quedará en `pending` hasta que
+                  se timbre la factura.
+                exacmple: draft
+        - title: Egreso
+          discriminator:
+            propertyName: status
+            mapping:
+              pending: "#/components/schemas/InvoiceIngresoInput"
+              draft: "#/components/schemas/InvoiceIngresoEditInput"
+          properties:
+            status:
+                type: string
+                enum:
+                  - pending
+                  - draft
+                default: pending
+                description: |
+                  Estado inicial de la factura. Si se envía `draft`, la factura se guardará como borrador y no se timbrará ni se
+                  enviará al SAT. También al enviar `draft`, todos los campos requeridos se vuelven
+                  opcionales. Si se omite, el estado por default es `pending` y una vez timbrada (en la respuesta) este
+                  campo se actualizará a `valid`. Para facturas asíncronas, este campo se quedará en `pending` hasta que
+                  se timbre la factura.
+                exacmple: draft
+        - title: Pago
+          discriminator:
+            propertyName: status
+            mapping:
+              pending: "#/components/schemas/InvoicePagoInput"
+              draft: "#/components/schemas/InvoicePagoEditInput"
+          properties:
+            status:
+                type: string
+                enum:
+                  - pending
+                  - draft
+                default: pending
+                description: |
+                  Estado inicial de la factura. Si se envía `draft`, la factura se guardará como borrador y no se timbrará ni se
+                  enviará al SAT. También al enviar `draft`, todos los campos requeridos se vuelven
+                  opcionales. Si se omite, el estado por default es `pending` y una vez timbrada (en la respuesta) este
+                  campo se actualizará a `valid`. Para facturas asíncronas, este campo se quedará en `pending` hasta que
+                  se timbre la factura.
+                exacmple: draft
+        - title: Nómina
+          discriminator:
+            propertyName: status
+            mapping:
+              pending: "#/components/schemas/InvoiceNominaInput"
+              draft: "#/components/schemas/InvoiceNominaEditInput"
+          properties:
+            status:
+                type: string
+                enum:
+                  - pending
+                  - draft
+                default: pending
+                description: |
+                  Estado inicial de la factura. Si se envía `draft`, la factura se guardará como borrador y no se timbrará ni se
+                  enviará al SAT. También al enviar `draft`, todos los campos requeridos se vuelven
+                  opcionales. Si se omite, el estado por default es `pending` y una vez timbrada (en la respuesta) este
+                  campo se actualizará a `valid`. Para facturas asíncronas, este campo se quedará en `pending` hasta que
+                  se timbre la factura.
+                exacmple: draft
+        - title: Traslado
+          discriminator:
+            propertyName: status
+            mapping:
+              pending: "#/components/schemas/InvoiceTrasladoInput"
+              draft: "#/components/schemas/InvoiceTrasladoEditInput"
+          properties:
+            status:
+                type: string
+                enum:
+                  - pending
+                  - draft
+                default: pending
+                description: |
+                  Estado inicial de la factura. Si se envía `draft`, la factura se guardará como borrador y no se timbrará ni se
+                  enviará al SAT. También al enviar `draft`, todos los campos requeridos se vuelven
+                  opcionales. Si se omite, el estado por default es `pending` y una vez timbrada (en la respuesta) este
+                  campo se actualizará a `valid`. Para facturas asíncronas, este campo se quedará en `pending` hasta que
+                  se timbre la factura.
+                exacmple: draft
     InvoiceIngresoInput:
       title: Ingreso
       required:
@@ -9747,22 +9626,6 @@ components:
               example: "2025-05-05T20:55:33.468Z"
               description: Fecha de expiración del certificado.
 
-    OrganizationSeriesGroup:
-      title: Objeto Series
-      type: object
-      properties:
-        series:
-          type: string
-          description: Nombre de la serie.
-          example: "New"
-        next_folio:
-          type: integer
-          description: Número de folio que se asignará a la siguiente factura en ambiente Live (y que se incrementará automáticamente por cada nueva factura).
-          example: 123
-        next_folio_test:
-          type: integer
-          description: Número de folio que se asignará a la siguiente factura en ambiente Test (y que se incrementará automáticamente por cada nueva factura).
-          example: 123
     OrganizationDeleteCerts: 
       type: object
       properties:
@@ -9780,33 +9643,6 @@ components:
           type: string
           maxLength: 100
           description: Nombre comercial de la organización.
-    OrganizationSeriesCreateInput:
-      type: object
-      required:
-        - series
-        - next_folio
-        - next_folio_test
-      properties:
-        series:
-          type: string
-          maxLength: 55
-          description: Nombre de la serie.
-        next_folio:
-          type: integer
-          description: Número de folio que se asignará a la siguiente factura en ambiente Live (y que se incrementará automáticamente por cada nueva factura).
-        next_folio_test:
-          type: integer
-          description: Número de folio que se asignará a la siguiente factura en ambiente Test (y que se incrementará automáticamente por cada nueva factura).
-    OrganizationSeriesUpdateInput:
-      type: object
-      properties:
-        next_folio:
-          type: integer
-          description: Número de folio que se asignará a la siguiente factura en ambiente Live (y que se incrementará automáticamente por cada nueva factura).
-        next_folio_test:
-          type: integer
-          description: Número de folio que se asignará a la siguiente factura en ambiente Test (y que se incrementará automáticamente por cada nueva factura).
-    
     OrganizationLegalInput:
       type: object
       required:

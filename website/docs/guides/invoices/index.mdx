@@ -1,17 +1,42 @@
-# CFDI
+# Facturas / CFDI
 
-Existen 6 tipos de CFDI, pueden incluir complementos o relacionarse entre ellos:
+Un Comprobante Fiscal Digital por Internet (CFDI) es un documento electrónico
+que se utiliza para comprobar la realización de una transacción comercial entre dos partes.
+En México, los CFDI son emitidos por contribuyentes autorizados por el Servicio de Administración
+Tributaria (SAT) y deben cumplir con ciertos requisitos para ser válidos, como contar con la
+firma electrónica del emisor y el sello digital del SAT.
+
+Los comprobantes que emite Facturapi cumplen con dichos requisitos y son válidos ante el SAT.
+
 
 ## Tipos de comprobantes
 
-- [Comprobante de Ingreso](/docs/guides/invoices/ingreso)
-- [Comprobante de Egreso](/docs/guides/invoices/egreso)
-- [Comprobante de Pago](/docs/guides/invoices/pago)
-- [Comprobante de Nomina](/docs/guides/invoices/nomina)
-- [Comprobante de Traslado](/docs/guides/invoices/traslado)
-- [Comprobante de Retenciones](/docs/guides/invoices/retencion)
+Ya que los CFDI amparan operaciones comerciales, estos a su vez pueden ser de diferentes tipos,
+dependiendo de la naturaleza de la transacción que se está realizando.
 
-## Otros conceptos
+Existen 6 tipos de facturas o Comprobantes (CFDI):
 
-- [Complementos](/docs/guides/invoices/complementos)
-- [Relacionados](/docs/guides/invoices/relacionados)
+| Tipo de Comprobante | ¿Para qué se usa? | Ejemplos |
+|:------------------- |:----------------- |:-------- |
+| [Comprobante de Ingreso](/docs/guides/invoices/ingreso) | Registrar ingresos por venta de productos o por el cobro de servicios, ya sea de contado o a crédito. | * Una ferretería vende un martillo y recibe el pago en efectivo.<br/>* Una escuela recibe el pago de una colegiatura |
+| [Comprobante de Egreso](/docs/guides/invoices/egreso) | Registrar descuentos o devoluciones. | * Una ferretería recibe un martillo defectuoso y devuelve el dinero.<br/>* Una tienda de ropa aplica un descuento a un cliente por ser frecuente. |
+| [Comprobante de Pago](/docs/guides/invoices/pago) | Registrar pagos a una factura de ingreso en la que se registró una venta a crédito (Pago en Parcialidades o Diferido). | * Una empresa paga una factura de compra a un proveedor.<br/>* Un cliente paga una factura de venta a crédito. |
+| [Comprobante de Nomina](/docs/guides/invoices/nomina) | Registrar el pago de salarios a los empleados de una empresa. | * Una empresa paga el salario quincenal a sus empleados. |
+| [Comprobante de Traslado](/docs/guides/invoices/traslado) | Registrar el traslado de mercancías entre dos partes. | * Una empresa traslada mercancía de una sucursal a otra.<br/>* Una empresa de transporte traslada mercancía de un cliente a otro. |
+| [Comprobante de Retenciones](/docs/guides/invoices/retencion) | Registrar retenciones a proveedores e informar sobre pagos realizados a residentes en el extranjero. | * Una empresa contrata a un consultor independiente del extranjero y le emite un CFDI para informar al SAT y retener impuestos.<br/>* Una empresa importa productos y emite un CFDI al proveedor extranjero para informar al SAT y retener impuestos.<br/>* Una persona gana un premio en una lotería y el organizador le emite un CFDI para informar al SAT y retener impuestos. |
+
+## Complementos
+
+Los CFDI pueden incluir complementos, que son documentos electrónicos adicionales que se adjuntan
+al comprobante para proporcionar más información relacionada con la operación comercial.
+
+Puedes leer más sobre los complementos en la [sección de complementos](/docs/guides/invoices/complementos)
+
+## Relación entre comprobantes
+
+Los CFDI pueden estar relacionados entre sí, lo que significa que un comprobante puede hacer referencia
+a otro comprobante. Por ejemplo, una factura de pago puede estar relacionada con una factura de ingreso
+para indicar que el pago se realizó a una factura de venta a crédito.
+
+Puedes leer más sobre documentos relacionados en la [sección de documentos relacionados](/docs/guides/invoices/relacionados).
+

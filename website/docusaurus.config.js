@@ -44,10 +44,6 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
               route: "/api",
               spec: 'openapi_v2.yaml',
             },
-            {
-              route: "/api_v1",
-              spec: "openapi_v1.yaml",
-            },
           ],
           theme: {
             primaryColor: "#4786FF",
@@ -77,12 +73,10 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
               label: "Documentación",
             },
             {
-              type: 'dropdown',
-              label: 'Referencia API',
-              items: [
-                { href: '/api', label: 'v2 (CFDI v4.0) ✅' }
-              ]
-            },
+              href: '/api', 
+              label: 'Referencia API'
+            }
+              ,
             {
               href: "https://github.com/facturapi",
               label: "GitHub",

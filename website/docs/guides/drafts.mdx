@@ -1,0 +1,250 @@
+---
+sidebar_position: 8
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Borradores de facturas
+
+Los borradores de facturas te permiten guardar una factura con datos
+preeliminares o incompletos, para que puedas enviarla a tu cliente para su
+revisión antes de aplicar el timbrado y enviarla al SAT.
+
+Una vez guardada, puedes descargar el PDF, pero no el XML de un borrador.
+
+## Crear un borrador
+
+Para crear un borrador de factura, simplemente crea una factura usando el
+método [`createInvoice`](/api/#tag/invoice/operation/createInvoice) enviando
+los datos que desees guardar y especificando el campo `status` como `draft`.
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_test_API_KEY');
+
+const invoice = await facturapi.invoices.create({
+  status: 'draft', // Guardar como borrador
+  customer: null, // Cuando guardas un borrador, todos los campos se vuelven opcionales
+  items: [{
+    quantity: 2,
+    product: {
+      description: 'Ukelele',
+      product_key: '60131324',
+      price: 345.60,
+      taxes: [
+        {
+          type: 'IVA',
+          rate: 0.16
+        }
+      ]
+    }
+  }],
+  use: 'G01',
+  payment_form: "28"
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
+{
+  ["status"] = "draft", // Guardar como borrador
+  ["customer"] = null, // Cuando guardas un borrador, todos los campos se vuelven opcionales
+  ["items"] = new Dictionary<string, object>[]
+  {
+    new Dictionary<string, object>
+    {
+      ["quantity"] = 2,
+      ["product"] = new Dictionary<string, object>
+      {
+        ["description"] = "Ukelele",
+        ["product_key"] = "60131324",
+        ["price"] = 345.60,
+        ["taxes"] = new Dictionary<string, object>[]
+        {
+          new Dictionary<string, object>
+          {
+            ["type"] = "IVA",
+            ["rate"] = 0.16
+          }
+        }
+      }
+    }
+  },
+  ["use"] = "G01",
+  ["payment_form"] = "28"
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi( "sk_test_API_KEY" );
+
+$invoice = $facturapi->Invoices->create([
+  "status" => "draft", // Guardar como borrador
+  "customer" => null, // Cuando guardas un borrador, todos los campos se vuelven opcionales
+  "items" => [
+    [
+      "quantity" => 2,
+      "product" => [
+        "description" => "Ukelele",
+        "product_key" => "60131324",
+        "price" => 345.60,
+        "taxes" => [
+          [
+            "type" => "IVA",
+            "rate" => 0.16,
+          ]
+        ]
+      ]
+    ],
+  ],
+  "payment_form" => "28"
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v2/invoices \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "status": "draft", // Guardar como borrador
+    "customer": null, // Cuando guardas un borrador, todos los campos se vuelven opcionales
+    "items": [{
+      "quantity": 2,
+      "product": {
+        "description": "Ukelele",
+        "product_key": "60131324",
+        "price": 345.60,
+        "taxes": [
+          {
+            "type": "IVA",
+            "rate": 0.16
+          }
+        ]
+      }
+    }],
+    "use": "G01",
+    "payment_form": "28"
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+## Editar un borrador
+
+Para editar un borrador puedes usar el método
+[`updateDraftInvoice`](/api/#tag/invoice/operation/updateDraftInvoice) y
+actualizar la factura con los datos que desees cambiar.
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_test_API_KEY');
+
+const invoice = await facturapi.invoices.updateDraft('[INVOICE_ID]', {
+  customer: {
+    legal_name: 'Dunder Mifflin',
+    email: 'email@example.com',
+    tax_id: 'ABC101010111',
+    tax_system: '601',
+    address: {
+      zip: '85900'
+    }
+  }
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+var invoice = await facturapi.Invoice.UpdateDraft(new Dictionary<string, object>
+{
+  ["customer"] = new Dictionary<string, object>
+  {
+    ["legal_name"] = "Dunder Mifflin",
+    ["email"] = "email@example.com",
+    ["tax_id"] = "ABC101010111",
+    ["tax_system"] = "601",
+    ["address"] = new Dictionary<string, object>
+    {
+      ["zip"] = "85900"
+    }
+  }
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi( "sk_test_API_KEY" );
+
+$invoice = $facturapi->Invoices->create([
+  "customer" => [
+    "legal_name" => "Dunder Mifflin",
+    "email" => "email@example.com",
+    "tax_id" => "ABC101010111",
+    "tax_system" => "601",
+    "address" => [
+      "zip" => "85900"
+    ]
+  ]
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v2/invoices \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "customer": {
+      "legal_name": "Dunder Mifflin",
+      "email": "email@example.com",
+      "tax_id": "ABC101010111",
+      "tax_system": "601",
+      "address": {
+        "zip": "85900"
+      }
+    }
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+## Cómo saber si un borrador está listo para timbrar
+
+Para saber si un borrador está listo para timbrar, puedes usar el método
+[`getInvoice`](/api/#tag/invoice/operation/getInvoice) y revisar el campo 
+`is_ready_to_stamp`, que tendrá el valor `true` cuando todos los campos
+requeridos estén completos.
+
+## Timbrar un borrador
+
+Para timbrar un borrador, utiliza el método
+[`stampDraftInvoice`](/api/#tag/invoice/operation/stampDraftInvoice)
+y especifica el ID de la factura. Si la factura no está lista para timbrar,
+recibirás un error como respuesta.

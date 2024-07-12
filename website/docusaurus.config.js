@@ -26,11 +26,7 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
             editUrl:
               "https://github.com/facturapi/facturapi-docs/edit/main/website/",
           },
-          blog: {
-            showReadingTime: true,
-            editUrl:
-              "https://github.com/facturapi/facturapi-docs/edit/main/website/blog/",
-          },
+          blog: false,
           theme: {
             customCss: require.resolve("./src/css/custom.css"),
           },
@@ -57,6 +53,21 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
       ],
     ],
 
+    i18n: {
+      defaultLocale: "es",
+      locales: ["es", "en"],
+      localeConfigs: {
+        es: {
+          label: "Español",
+          htmlLang: "es-MX"
+        },
+        en: {
+          label: "English",
+          htmlLang: "en-US"
+        },
+      },
+    },
+
     themeConfig:
       /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
       ({
@@ -75,8 +86,16 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
             {
               href: '/api', 
               label: 'Referencia API'
-            }
-              ,
+            },
+            {
+              href: "https://dashboard.facturapi.io",
+              label: "Dashboard",
+            },
+            {
+              type: "localeDropdown",
+              position: "right",
+              queryString: '?persistLocale=true',
+            },
             {
               href: "https://github.com/facturapi",
               label: "GitHub",

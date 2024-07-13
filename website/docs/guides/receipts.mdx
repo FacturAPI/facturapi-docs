@@ -90,7 +90,7 @@ $receipt = $facturapi->Receipts->create([
 <TabItem value="curl" label="cURL">
 
 ```bash
-curl https://www.facturapi.io/v1/receipts \
+curl https://www.facturapi.io/v2/receipts \
   -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -170,7 +170,7 @@ $invoice = $facturapi->Receipts->invoice($receipt->id, [
 <TabItem value="curl" label="cURL">
 
 ```bash
-curl https://www.facturapi.io/v1/receipts/5ebd8e56f5687a013ca0df46/invoice \
+curl https://www.facturapi.io/v2/receipts/5ebd8e56f5687a013ca0df46/invoice \
   -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{

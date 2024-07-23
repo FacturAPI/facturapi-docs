@@ -8214,8 +8214,8 @@ components:
           discriminator:
             propertyName: status
             mapping:
-              pending: "#/components/schemas/InvoiceEgresoInput"
-              draft: "#/components/schemas/InvoiceEgresoEditInput"
+              pending: "#/components/schemas/InvoiceIngresoInput"
+              draft: "#/components/schemas/InvoiceIngresoEditInput"
             properties:
               status:
                 type: string
@@ -8234,8 +8234,8 @@ components:
           discriminator:
             propertyName: status
             mapping:
-              pending: "#/components/schemas/InvoiceIngresoInput"
-              draft: "#/components/schemas/InvoiceIngresoEditInput"
+              pending: "#/components/schemas/InvoiceEgresoInput"
+              draft: "#/components/schemas/InvoiceEgresoEditInput"
           properties:
             status:
                 type: string

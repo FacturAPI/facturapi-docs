@@ -1,0 +1,71 @@
+---
+sidebar_position: 5
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Organizations (Multi-RFC)
+
+## Register multiple issuing organizations
+
+You can issue invoices from different tax identification numbers by registering
+new issuing organizations, either from your dashboard or using the API, with
+the Create Organization method, as well as the other methods to configure tax
+data, logo, colors, certificates, etc.
+
+:::info
+Remember that to create and manage organizations, you must authenticate using your User Key,
+which is a secret key associated with your entire account. You can find it in your
+[Integration Center](https://dashboard.facturapi.io/integration).
+:::
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_user_API_KEY');
+const organization = await facturapi.organizations.create({
+  name: 'Skynet'
+});
+// remember to save the organization.id in your own database
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_user_API_KEY");
+var organization = await facturapi.Organization.CreateAsync(new Dictionary<string, object>
+{
+  ["name"] = "Skynet"
+});
+// remember to save the organization.Id in your own database
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi("sk_user_API_KEY");
+$organization = $facturapi->Organizations->create(array(
+    "name" => "Skynet"
+));
+// remember to save the organization.id in your own database
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v1/organizations \
+  -H "Authorization: Bearer sk_user_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+      "name": "Skynet"
+    }'
+```
+
+</TabItem>
+</Tabs>

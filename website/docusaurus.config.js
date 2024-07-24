@@ -37,8 +37,14 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
         {
           specs: [
             {
-              route: "/api",
+              id: "api-es",
+              route: "/api-es",
               spec: 'openapi_v2.yaml',
+            },
+            {
+              id: "api-en",
+              route: "/api-en",
+              spec: 'openapi_v2.en.yaml',
             },
           ],
           theme: {
@@ -81,7 +87,7 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
             {
               type: "doc",
               docId: "intro",
-              label: "Documentación",
+              label: "Guías de uso",
             },
             {
               href: '/api', 

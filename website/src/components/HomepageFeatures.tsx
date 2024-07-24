@@ -6,6 +6,7 @@
  */
 import React from 'react';
 import clsx from 'clsx';
+import { translate } from '@docusaurus/Translate';
 import styles from './HomepageFeatures.module.css';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -13,45 +14,59 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 type FeatureItem = {
   title: string;
   image: string;
-  description: JSX.Element;
+  description: React.ReactNode;
   linkTo?: string;
   linkText?: string;
 };
 
 const getFeatureList = (baseUrl: string): FeatureItem[] => [
   {
-    title: 'Introducción',
+    title: translate({
+      id: "home.intro.title",
+      message: 'Introducción',
+    }),
     image: `${baseUrl}img/home/book.svg`,
-    linkText: 'Comenzar',
+    linkText: translate({
+      id: "home.intro.linkText",
+      message: "Comenzar",
+    }),
     linkTo: '/docs/intro',
-    description: (
-      <>
-        Si es tu primera vez integrando Facturapi, te recomendamos empezar por aquí.
-      </>
-    ),
+    description: translate({
+      id: "home.intro.description",
+      message: "Si es tu primera vez integrando Facturapi, te recomendamos empezar por aquí.",
+    }),
   },
   {
-    title: 'Inicio Rápido',
+    title: translate({
+      id: "home.quickstart.title",
+      message: "Inicio Rápido",
+    }),
     image: `${baseUrl}img/home/rocket.svg`,
-    linkText: 'Ver ejemplos',
+    linkText: translate({
+      id: "home.quickstart.linkText",
+      message: "Ver ejemplos",
+    }),
     linkTo: '/docs/guides/invoices/ingreso',
-    description: (
-      <>
-        Consulta ejemplos simples de los casos de uso más comunes para darte una idea
-        general sobre cómo integrar Facturapi.
-      </>
-    ),
+    description: translate({
+      id: "home.quickstart.description",
+      message: 'Consulta ejemplos de los casos de uso más comunes para darte una idea general sobre cómo integrar Facturapi.',
+    }),
   },
   {
-    title: 'Referencia API',
+    title: translate({
+      id: "home.api.title",
+      message: "Referencia API",
+    }),
     image: `${baseUrl}img/home/api.svg`,
-    linkText: 'Ver referencia',
+    linkText: translate({
+      id: "home.api.linkText",
+      message: "Ver referencia",
+    }),
     linkTo: '/api',
-    description: (
-      <>
-        Consulta todos los métodos disponibles en la API de Facturapi, así como todos los posibles valores que puedes enviar.
-      </>
-    ),
+    description: translate({
+      id: "home.api.description",
+      message: "Consulta todos los métodos disponibles en la API de Facturapi, así como todos los posibles valores que puedes enviar.",
+    }),
   },
 ];
 

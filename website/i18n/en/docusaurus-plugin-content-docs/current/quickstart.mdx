@@ -1,0 +1,340 @@
+---
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Quickstart
+
+### 1. Install the package
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```bash
+npm install facturapi
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```bash
+dotnet add package Facturapi
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```bash
+composer require facturapi/facturapi-php
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+# cURL doesn't require installation
+```
+
+</TabItem>
+</Tabs>
+
+### 2. Create your first invoice
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+// a) Import the package
+const Facturapi = require('facturapi');
+// b) Create an instance of the client, using the secret key
+//    of the issuing organization (https://dashboard.facturapi.io/integration/apikeys)
+const facturapi = new Facturapi('sk_test_API_KEY');
+// c) Create an invoice
+const invoice = await facturapi.invoices.create({
+  customer: {
+    legal_name: 'Dunder Mifflin',
+    email: 'email@example.com',
+    tax_id: 'ABC101010111',
+    tax_system: '601',
+    address: {
+      zip: '85900'
+    }
+  },
+  items: [{
+    quantity: 1,
+    product: {
+      description: 'Ukelele',
+      product_key: '60131324',
+      price: 345.60
+    }
+  }],
+  use: 'G01',
+  payment_form: '28' // Credit card
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+// a) Import the package
+using Facturapi;
+// b) Create an instance of the client, using the secret key
+var facturapi = new FacturapiClient("sk_test_API_KEY");
+// c) Create an invoice
+var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
+{
+  ["customer"] = new Dictionary<string, object>
+  {
+    ["legal_name"] = "Dunder Mifflin",
+    ["email"] = "email@example.com",
+    ["tax_id"] = "ABC101010111",
+    ["tax_system"] = "601",
+    ["address"] = new Dictionary<string, object>
+    {
+      ["zip"] = "85900"
+    }
+  },
+  ["items"] = new Dictionary<string, object>[]
+  {
+    new Dictionary<string, object>
+    {
+      ["quantity"] = 1,
+      ["product"] = new Dictionary<string, object>
+      {
+        ["description"] = "Ukelele",
+        ["product_key"] = "60131324",
+        ["price"] = 345.60
+      }
+    }
+  },
+  ["use"] = "G01",
+  ["payment_form"] = "28" // Credit card
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+// a) Import the package
+use Facturapi\Facturapi;
+//    of the issuing organization (https://dashboard.facturapi.io/integration/apikeys)
+$facturapi = new Facturapi( "sk_test_API_KEY" );
+// c) Create an invoice
+$invoice = $facturapi->Invoices->create([
+  "customer" => [
+    "legal_name" => "Dunder Mifflin",
+    "email" => "email@example.com",
+    "tax_id" => "ABC101010111",
+    "tax_system" => "601",
+    "address" => [
+      "zip" => "85900"
+    ]
+  ],
+  "items" => [
+    [
+      "quantity" => 1,
+      "product" => [
+        "description" => "Ukelele",
+        "product_key" => "60131324",
+        "price" => 345.60
+      ]
+    ],
+  ],
+  "payment_form" => "28" // Credit card
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v2/invoices \
+  # a) Autenticate using the API Key of the issuing organization
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  # b) Create an invoice
+  -d '{
+    "customer": {
+      "legal_name": "Dunder Mifflin",
+      "email": "email@example.com",
+      "tax_id": "ABC101010111",
+      "tax_system": "601",
+      "address": {
+        "zip": "85900"
+      }
+    },
+    "items": [{
+      "quantity": 1,
+      "product": {
+        "description": "Ukelele",
+        "product_key": "60131324",
+        "price": 345.60
+      }
+    }],
+    "use": "G01",
+    "payment_form": "28" // Credit card
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+:::info
+  By default, the product price is considered to have taxes included.
+  Facturapi will break down the product taxes (16% VAT by default) and calculate the unit price.
+  If you need the `price` attribute to be the unit price instead, you must send the `tax_included` parameter with the value `false`.
+:::
+
+<details>
+<summary>Response: Invoice object</summary>
+
+```json
+{
+  "id": "58e93bd8e86eb318b019743d",
+  "created_at": "2017-01-01T14:00:08.000Z",
+  "livemode": false,
+  "status": "valid",
+  "cancellation_status": "none",
+  "verification_url": "https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABC101010111&tt=345.600000&fe=bWApPw==",
+  "customer": {
+    "id": "58e93bd8e86eb318b0197456",
+    "legal_name": "Dunder Mifflin S.A. de C.V.",
+    "tax_id": "ABC101010111",
+    "tax_system": "601",
+    "address": {
+      "zip": "85900",
+      "country": "MEX"
+    }
+  },
+  "total": 345.60,
+  "uuid": "39c85a3f-275b-4341-b259-e8971d9f8a94",
+  "folio_number": 914,
+  "series": "A",
+  "payment_form": "28",
+  "related": [], 
+  "currency": "MXN",
+  "exchange": 1,
+  "items": [{
+    "quantity": 1,
+    "discount": 0,
+    "product": {
+      "description": "Ukelele",
+      "price": 345.60,
+      "tax_included": true,
+      "taxes": [
+        {
+          "type": "IVA",
+          "rate": 0.16
+        }
+      ]
+    }
+  }],
+  "stamp": {
+    "signature": "ZGgQ126+lbo6XxVmeM0Kys1rAllqRaDmaK4yW20B3H5AaVShnItBwKATpxqJuGK1qPmLA2r16B8dAb4UFjR27Xc/+SsNPSwRBYRVKI0AB62jx2Z4uxooiVQBY9Bb6czlgzJb+ftgNvnGwSXzI6QZKpuWRe9LmJvACzqTB3ZdC9QoqaVICDNZ9oaT99txu9ahbJu3ftPhlykXi1SxVTBZ7uUTqsBkc6iEjbSTYpE85bsrhbMw4tDODR7o/PS917whChOFUU0sQenm5sJQMenPcKPyS9JoGQPO/a/4wzxJ2RyWCkw72LNFBbJTsPXcXdOZmEJ06Ixc2Iy24Biz8GEbJg==",
+    "date": "2021-03-30T00:57:48",
+    "sat_cert_number": "20001000000300022323",
+    "sat_signature": "AzYwRdHfDp0BCBaTpT87gtAAE3Q="
+  }
+}
+```
+</details>
+
+### 3. Send the invoice by email
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+await facturapi.invoices.sendByEmail(invoice.id);
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+await facturapi.Invoice.SendByEmailAsync(invoice.Id);
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi->Invoices->send_by_email($invoice->id);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/email \
+  -H "Authorization: Bearer sk_test_API_KEY"
+  -X POST
+```
+
+</TabItem>
+</Tabs>
+
+### 4. Download the XML and PDF files
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const fs = require('fs');
+
+// Download the PDF and XML files, bundled together in a ZIP file
+const zipStream = await facturapi.invoices.downloadZip(invoice.id);
+// Save the downloaded file to disk
+const file = fs.createWriteStream('./factura.zip');
+zipStream.pipe(file);
+// Or send it as a response to your customer (ExpressJS syntax)
+zipStream.pipe(res);
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+// Download the PDF and XML files, bundled together in a ZIP file
+var zipStream = await facturapi.Invoice.DownloadZipAsync(invoice.Id);
+
+// Save the downloaded file to disk
+var file = new System.IO.FileStream("C:\\route\\to\\save\\invoice.zip", FileMode.Create);
+zipStream.CopyTo(file);
+file.Close();
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$zip = $facturapi->Invoices->download_zip($invoice->id) // stream containing the PDF and XML as a ZIP file or
+
+$pdf = $facturapi->Invoices->download_pdf($invoice->id) // stream containing the PDF file or
+
+$xml = $facturapi->Invoices->download_xml($invoice->id) // stream containing the XML file or
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+## Download the ZIP file containing the PDF and XML files
+curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/zip \
+  -H "Authorization: Bearer sk_test_API_KEY"
+```
+
+</TabItem>
+</Tabs>
+
+## Next steps
+
+This was a brief overview of using Facturapi.
+
+We invite you to check our [examples section](/docs/guides/customers),
+as well as the [full API reference](/api), where you can explore all
+the endpoints available in Facturapi.

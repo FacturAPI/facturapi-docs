@@ -1,0 +1,69 @@
+---
+sidebar_position: 7
+---
+
+# Self-Invoicing
+
+Facturapi allows you to have a microsite with your company's logo and colors,
+where your customers can enter their tax information and convert their receipt
+into an invoice.
+
+This implementation is done by creating a [Digital Receipt](/docs/guides/receipts)
+with the sale information. Each created receipt contains a link to the
+self-invoicing microsite in the `self_invoice_url` property, with the following
+format:
+
+
+```
+https://factura.space/<DOMAIN>/<RECEIPT_KEY>
+```
+
+where `<RECEIPT_KEY>` is the auto-generated alphanumeric key of the receipt
+(`key` property), and `<DOMAIN>` is the domain selected by the organization
+in the receipt configuration.
+
+Example:
+
+```
+https://factura.space/facturapi/rx5WApXR
+```
+
+## While developing
+
+To select the domain for your organization, an active subscription in Facturapi
+is required.
+
+During the development stage, and until you choose a domain, the domain for all
+your receipts will be `demo`.
+
+## Selecting the self-invoicing domain
+
+If you have an active subscription, you can select a domain for an organization
+from the [Receipt Settings](https://dashboard.facturapi.io/settings/receipts)
+section in the dashboard or by calling the
+[Choose self-invoicing domain](/api/#operation/editOrganizationDomain) method
+from the API.
+
+Once a domain is chosen, we will automatically assign the `self_invoice_url`
+field to contain a URL address that you can send to your customer to complete
+their tax information and convert their receipt into an invoice.
+
+You can also instruct your customers to visit `https://factura.space/<DOMAIN>`
+and provide them with the separate key from the `key` field, which they can
+enter on the site to access their receipt.
+
+## Expiration date
+
+The receipt can only be invoiced while its `status` attribute has the value
+`open`; that is, while it has not been invoiced or canceled. An open receipt
+can be invoiced at any time through the API. However, the self-invoicing portal
+will not allow invoices to be generated for receipts after their expiration
+date (`expires_at` field), which is calculated at the time of creating the
+receipt based on the `invoicing_period` and `duration_days` fields from
+[receipt settings](/docs/guides/receipts/).
+
+For example, if your invoicing period is monthly and your duration days for
+invoicing are 7, the receipt will expire either 7 days after its issuance date
+or on the last day of the month, whichever comes first. It is important to note
+that the receipt expiration only affects the self-invoicing portal. Receipts
+can be invoiced through the API at any time.

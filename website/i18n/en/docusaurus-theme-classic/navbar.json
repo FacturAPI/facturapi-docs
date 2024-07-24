@@ -1,0 +1,26 @@
+{
+  "title": {
+    "message": "Facturapi",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "Facturapi",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Guías de uso": {
+    "message": "How to use",
+    "description": "Navbar item with label Guías de uso"
+  },
+  "item.label.Referencia API": {
+    "message": "API reference",
+    "description": "Navbar item with label Referencia API"
+  },
+  "item.label.Dashboard": {
+    "message": "Dashboard",
+    "description": "Navbar item with label Dashboard"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}

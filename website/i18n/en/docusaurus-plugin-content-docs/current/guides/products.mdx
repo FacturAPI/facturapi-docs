@@ -1,0 +1,476 @@
+---
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Products
+
+Registering your product or service catalog in Facturapi allows you to store
+all the necessary data for centralized invoicing and reference
+that information in future invoices.
+
+When creating an invoice, you can include the information of your product or service
+in 2 different ways:
+
+1. In the `items` > `product` field, by sending an object with the product or service information.
+2. In the `items` > `product` field, by sending the `id` of a previously registered product.
+
+Both options are valid and we recommend using the one that best suits your
+use case.
+
+## Examples
+
+The following examples show how to register the information of your product or
+service to be used in future invoices.
+
+To learn about all the arguments you can include in the call, check the
+[Create Product method reference](/api/#operation/createProduct).
+
+### Product with 16% VAT and taxes included (default)
+
+By default, it is assumed that the price of a product includes taxes,
+and that the product has a 16% VAT tax.
+
+Facturapi takes care of breaking down the taxes and calculating the unit price.
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const product = await facturapi.products.create({
+  description: 'Ukelele',
+  product_key: '60131324',
+  price: 345.60,
+  sku: 'ABC1234'
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
+{
+  ["description"] = "Ukelele",
+  ["product_key"] = "60131324",
+  ["price"] = 345.60,
+  ["sku"] = "ABC1234"
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new FacturapiClient('API_KEY');
+
+$product = $facturapi->Products->create([
+  "description" => "Ukelele",
+  "product_key" => "4319150114",
+  "price" => 345.60,
+  "sku" => "ABC1234"
+];
+
+$new_product =  $product );
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v1/products \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "description": "Ukelele",
+        "product_key": "60131324",
+        "price": 345.60,
+        "sku": "ABC1234"
+    }'
+```
+
+</TabItem>
+</Tabs>
+
+which is equivalent to:
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const product = await facturapi.products.create({
+  description: 'Ukelele',
+  product_key: '60131324',
+  price: 345.60,
+  sku: 'ABC1234',
+  tax_included: true,
+  taxes: [
+    {
+      type: 'IVA',
+      rate: 0.16
+    }
+  ]
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
+{
+  ["description"] = "Ukelele",
+  ["product_key"] = "60131324",
+  ["price"] = 345.60,
+  ["sku"] = "ABC1234",
+  ["tax_included"] = true,
+  ["taxes"] = new List<Dictionary<string, object>>
+  {
+    new Dictionary<string, object>
+    {
+      ["type"] = "IVA",
+      ["rate"] = 0.16
+    }
+  }
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$product = $facturapi->Products->create([
+  "description" => "Ukelele",
+  "product_key" => "4319150114",
+  "price" => 345.60,
+  "sku" => "ABC1234",
+  "tax_included" => true,
+  "taxes" => [
+    [
+      "type" => "IVA",
+      "rate" => 0.16
+    ]
+  ]
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v1/products \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "description": "Ukelele",
+        "product_key": "60131324",
+        "price": 345.60,
+        "sku": "ABC1234",
+        "tax_included": true,
+        "taxes": [
+          {
+            "type": "IVA",
+            "rate": 0.16
+          }
+        ]
+    }'
+```
+
+</TabItem>
+</Tabs>
+
+The product would be invoiced as:
+
+|                     |        |
+| ------------------- | ------ |
+| **Unit price** | 297.93 |
+| **IVA 16%**         |  47.67 |
+| **Total price**    | 345.60 |
+
+
+### Product with unit price before taxes
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const product = await facturapi.products.create({
+  description: 'Ukelele',
+  product_key: '60131324',
+  price: 345.60,
+  sku: 'ABC1234',
+  tax_included: false,
+  taxes: [
+    {
+      type: 'IVA',
+      rate: 0.16
+    }
+  ]
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
+{
+  ["description"] = "Ukelele",
+  ["product_key"] = "60131324",
+  ["price"] = 345.60,
+  ["sku"] = "ABC1234",
+  ["tax_included"] = false,
+  ["taxes"] = new List<Dictionary<string, object>>
+  {
+    new Dictionary<string, object>
+    {
+      ["type"] = "IVA",
+      ["rate"] = 0.16
+    }
+  }
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new FacturapiClient('API_KEY');
+
+$product = $facturapi->Products->create([
+  "description" => "Ukelele",
+  "product_key" => "4319150114",
+  "price" => 345.60,
+  "sku" => "ABC1234",
+  "tax_included" => false,
+  "taxes" => [
+    [
+      "type" => "IVA",
+      "rate" => 0.16
+    ]
+  ]
+];
+
+$new_product =  $product );
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v1/products \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "description": "Ukelele",
+        "product_key": "60131324",
+        "price": 345.60,
+        "sku": "ABC1234",
+        "tax_included": false,
+        "taxes": [
+          {
+            "type": "IVA",
+            "rate": 0.16
+          }
+        ]
+    }'
+```
+
+</TabItem>
+</Tabs>
+
+The product would be invoiced as:
+
+|                     |        |
+| ------------------- | ------ |
+| **Unit price**      | 345.60 |
+| **IVA 16%**         |  55.30 |
+| **Total price**     | 400.90 |
+
+### Product with rate 0% VAT
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const product = await facturapi.products.create({
+  description: 'Ukelele',
+  product_key: '60131324',
+  price: 345.60,
+  sku: 'ABC1234',
+  tax_included: false,
+  taxes: [
+    {
+      type: 'IVA',
+      rate: 0
+    }
+  ]
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
+{
+  ["description"] = "Ukelele",
+  ["product_key"] = "60131324",
+  ["price"] = 345.60,
+  ["sku"] = "ABC1234",
+  ["tax_included"] = false,
+  ["taxes"] = new List<Dictionary<string, object>>
+  {
+    new Dictionary<string, object>
+    {
+      ["type"] = "IVA",
+      ["rate"] = 0
+    }
+  }
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new FacturapiClient('API_KEY');
+
+$product = $facturapi->Products->create([
+  "description" => "Ukelele",
+  "product_key" => "4319150114",
+  "price" => 345.60,
+  "sku" => "ABC1234",
+  "tax_included" => false,
+  "taxes" => [
+    [
+      "type" => "IVA",
+      "rate" => 0
+    ]
+  ]
+];
+
+$new_product =  $product );
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v1/products \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "description": "Ukelele",
+        "product_key": "60131324",
+        "price": 345.60,
+        "sku": "ABC1234",
+        "tax_included": false,
+        "taxes": [
+          {
+            "type": "IVA",
+            "rate": 0
+          }
+        ]
+    }'
+```
+
+</TabItem>
+</Tabs>
+
+### Product with VAT exemption
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const product = await facturapi.products.create({
+  description: 'Ukelele',
+  product_key: '60131324',
+  price: 345.60,
+  sku: 'ABC1234',
+  tax_included: false,
+  taxes: [
+    {
+      type: 'IVA',
+      factor: 'Exento',
+      rate: 0
+    }
+  ]
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
+{
+  ["description"] = "Ukelele",
+  ["product_key"] = "60131324",
+  ["price"] = 345.60,
+  ["sku"] = "ABC1234",
+  ["tax_included"] = false,
+  ["taxes"] = new List<Dictionary<string, object>>
+  {
+    new Dictionary<string, object>
+    {
+      ["type"] = "IVA",
+      ["factor"] = "Exento",
+      ["rate"] = 0
+    }
+  }
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new FacturapiClient('API_KEY');
+
+$product = $facturapi->Products->create([
+  "description" => "Ukelele",
+  "product_key" => "4319150114",
+  "price" => 345.60,
+  "sku" => "ABC1234",
+  "tax_included" => false,
+  "taxes" => [
+    [
+      "type" => "IVA",
+      "factor" => "Exento",
+      "rate" => 0
+    ]
+  ]
+];
+
+$new_product =  $product );
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v1/products \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "description": "Ukelele",
+        "product_key": "60131324",
+        "price": 345.60,
+        "sku": "ABC1234",
+        "tax_included": false,
+        "taxes": [
+          {
+            "type": "IVA",
+            "factor": "Exento",
+            "rate": 0
+          }
+        ]
+    }'
+```
+
+</TabItem>
+</Tabs>

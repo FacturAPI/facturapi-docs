@@ -1,0 +1,260 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Registering and validating customers
+
+Registering your customers in Facturapi allows you to validate their tax information
+and store it for future invoices.
+
+This step is **optional**, as it is not necessary to have previously registered
+your customer in order to create invoices. However, we recommend doing it whenever
+possible.
+
+Once your customer is registered, you can save the `id` of the created object and use it to
+invoice the same recipient without having to send all their tax information again.
+
+When creating an invoice, you can include the recipient's information in 2 different ways:
+
+1. In the `customer` field, by sending an object with the customer's tax information.
+2. In the `customer` field, by sending the `id` of a previously registered customer.
+
+Both options are valid, and we recommend using the one that best suits your
+use case.
+
+## How to register a customer
+
+In Facturapi, the process of registering the tax information of national and
+foreign customers is not very different from each other, but it is worth analyzing them separately,
+as it is different from what the SAT indicates in its technical standard.
+
+### National customers (Mexico)
+
+The following example shows how to register a national customer, that is, a
+customer (person or company) with a Mexican tax ID (RFC).
+
+To learn about other data you can include, refer to the
+[Create Customer API reference](/api/#operation/createCustomer).
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_test_API_KEY');
+
+const customer = await facturapi.customers.create({
+  legal_name: 'Dunder Mifflin', // Person's name or business legal name
+  tax_id: 'ABC101010111', // RFC
+  tax_system: '601', // Fiscal regime
+  email: 'email@example.com', // Email for sending (optional).
+  address: {
+    zip: '85900', // Postal code
+  }
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, object>
+{
+  ["legal_name"] = "Dunder Mifflin", // Person's name or business legal name
+  ["tax_id"] = "ABC101010111", // RFC
+  ["tax_system"] = "601", // Fiscal regime
+  ["email"] = "email@example.com", // Email for sending (optional).
+  ["address"] = new Dictionary<string, object>
+  {
+    ["zip"] = "85900", // Postal code
+  }
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new FacturapiClient("sk_test_API_KEY");
+
+$customer = $facturapi->Customers->create([
+  "legal_name" => "Dunder Mifflin", // Person's name or business legal name
+  "tax_id" => "ABC101010111", // RFC
+  "tax_system" => "601", // Fiscal regime
+  "email" => "walterwhite@gmail.com", // Email for sending (optional).
+  "address" => [
+    "zip" => "85900", // Postal code
+  ]
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v2/customers \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+      "legal_name": "Dunder Mifflin", // Person's name or business legal name
+      "email": "email@example.com", // Email for sending (optional).
+      "tax_id": "ABC101010111", // RFC
+      "tax_system": "601", // Fiscal regime
+      "address": {
+        "zip": "85900" // Postal code
+      }
+    }'
+```
+
+</TabItem>
+</Tabs>
+
+<details>
+<summary>Respuesta: Customer object</summary>
+
+```json
+{
+  "id": "590ce6c56d04f840aa8438af",
+  "created_at": "2017-05-05T20:55:33.468Z",
+  "organization": "622a33e6f0175a00e01a8e80",
+  "livemode": false,
+  "legal_name": "Dunder Mifflin",
+  "tax_id": "ABC101010111",
+  "tax_system": "601",
+  "email": "email@example.com",
+  "phone": 6474010101,
+  "address": {
+    "street": null,
+    "exterior": null,
+    "interior": null,
+    "neighborhood": null,
+    "city": "Huatabampo",
+    "municipality": "Huatabampo",
+    "zip": 86500,
+    "state": "Sonora",
+    "country": "MEX"
+  }
+}
+```
+
+</details>
+
+### Foreign customers
+
+To register a foreign customer, it is necessary to specify the country of
+origin by sending the [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3)
+of the origin country using the `country` field.
+
+:::caution
+You don't need to use the generic RFC for foreigners from SAT. We will
+take care of it for you wherever necessary, as long as you send a value
+other than `"MEX"` for the `country` field.
+:::
+
+To learn about other data you can include, refer to the
+[Create Customer API reference](/api/#operation/createCustomer).
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('sk_test_API_KEY');
+
+const customer = await facturapi.customers.create({
+  legal_name: 'Vättenfall, A.B.', // Person's name or business legal name
+  tax_id: '198912171234', // Tax identification number (optional)
+  email: 'email@example.com', // Email for sending (optional).
+  address: {
+    country: "SWE", // ISO country code.
+    zip: "17123", // Postal code
+    city: "Stockholm" // City (optional).
+  }
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, object>
+{
+  ["legal_name"] = "Vättenfall, A.B.", // Person's name or business legal name
+  ["tax_id"] = "198912171234", // Tax identification number (optional)
+  ["email"] = "email@example.com", // Email for sending (optional).
+  ["address"] = new Dictionary<string, object>
+  {
+    ["country"] = "SWE", // ISO country code.
+    ["zip"] = "17123", // Postal code
+    ["city"] = "Stockholm" // City (optional).
+  }
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new FacturapiClient("sk_test_API_KEY");
+$customer = $facturapi->Customers->create([
+  "legal_name" => "Vättenfall, A.B.", // Person's name or business legal name
+  "tax_id" => "198912171234", // Tax identification number (optional)
+  "email" => "email@example.com", // Email for sending (optional).
+  "address" => [
+    "country" => "SWE", // ISO country code.
+    "zip" => "17123", // Postal code
+    "city" => "Stockholm" // City (optional).
+  ]
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v1/customers \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+      "legal_name": "Vättenfall, A.B.", // Person's name or business legal name
+      "tax_id": "198912171234", // Tax identification number (optional)
+      "email": "email@example.com", // Email for sending (optional).
+      "address": {
+        "country": "SWE", // ISO country code.
+        "zip": "17123", // Postal code
+        "city": "Stockholm" // City (optional).
+      }
+    }'
+```
+
+</TabItem>
+</Tabs>
+
+<details>
+<summary>Respuesta: Customer object</summary>
+
+```json
+{
+  "id": "62714bc2d1bfa410df1d98eb",
+  "created_at": "2022-05-03T15:35:30.034Z",
+  "organization": "622a33e6f0175a00e01a8e80",
+  "livemode": false,
+  "legal_name": "Vättenfall, A.B.",
+  "tax_id": "198912171234",
+  "email": "email@example.com",
+  "address": {
+    "country": "SWE",
+    "zip": "17123",
+    "city": "Stockholm"
+  },
+}
+```
+
+</details>

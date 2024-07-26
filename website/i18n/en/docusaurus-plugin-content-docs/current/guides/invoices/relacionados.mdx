@@ -1,38 +1,22 @@
 ---
-sidebar_position: 3
-title: Egreso
+sidebar_position: 8
+title: Relationships
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Comprobante de Egreso
+# Relationships between CFDI
 
-El comprobante fiscal de tipo **Egreso**, o **Nota de crédito**, se utiliza para
-registrar fiscalmente salidas de dinero como devoluciones, descuentos y bonificaciones.
-La función principal de este tipo de comprobantes es la deductibilidad ya que se utilizan para corregir o restar montos de comprobantes de ingresos emitidos con anterioridad.
+In addition to the different types of invoices, there is a concept known as "Related CFDI" used when additional information about a transaction needs to be issued.
 
-Para emitor este tipo de comprobante deberás usar el valor "E" en la propiedad `type` al crear la factura.
+## Some Examples of Invoice Relationships
 
-:::info **¿Cuándo relacionar un comprobante de Egreso?**
-Cuando el descuento aplicado se hace sobre una venta que ya fue facturada, el comprobante debe relacionarse
-con uno o varios comprobantes de Ingreso utilizando la clave de relación correspondiente y el UUID de la factura
-de Ingreso.
+To fully understand all the available options when creating an invoice, detailed descriptions of each field, and the most commonly used catalogs, please refer to the [Create Invoice API reference](/api/#operation/createInvoice).
 
-:::info **No es una cancelación**
-Es importante mencionar que un comprobante de Egreso no sirve para cancelar un comprobante de Ingreso.
-:::
+### When giving a discount
 
-## Ejemplos
-
-A continuación se listan algunos casos de uso comunes.
-
-Para conocer a fondo todas las opciones disponibles al crear una factura, descripciiones
-detalladas de cada campo y los catálogos más utilizados consulta la
-[referencia del método Crear Factura](/api/#operation/createInvoice).
-
-### Descuento por una venta ya facturada
-En este ejemplo, se recibió un pago de $3,600.00 pesos por un producto con el 10% descuento que tiene un valor de $4,000.00 pesos, los $400.00 pesos descontados se amparan emitiendo un CFDI de egreso.
+When making a sale with a discount, an outgoing CFDI can be issued to make that discount deductible.
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -64,11 +48,11 @@ const invoice = await facturapi.invoices.create({
       ]
     }
   }],
-  payment_form: "28", // "Tarjeta de débito"
+  payment_form: "28", // "Debit card"
   related_documents: [
     {
-      relationship: "01", // "Nota de crédito de los documentos relacionados"
-      documents: "UUID_DEL_CFDI_DE_INGRESO"
+      relationship: "01", // "Credit note of related documents"
+      uuid: "UUID_DEL_CFDI_DE_INGRESO"
     }
   ]
 });
@@ -113,16 +97,15 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
       }
     }
   },
-  ["payment_form"] = "28", // "Tarjeta de débito",
+  ["payment_form"] = "28", // "Debit card",
   ["related_documents"] = new Dictionary<string, object>[]
   {
     new Dictionary<string, object>
     {
-      ["relationship"] = "01", // "Nota de crédito de los documentos relacionados"
-      ["documents"] = "UUID_DEL_CFDI_DE_INGRESO"
+      ["relationship"] = "01", // "Credit note of related documents"
+      ["uuid"] = "UUID_DEL_CFDI_DE_INGRESO"
     }
   }
-
 });
 ```
 
@@ -157,11 +140,11 @@ $invoice = $facturapi->Invoices->create([
       ]
     ]
   ],
-  "payment_form" => "28", // "Tarjeta de débito",
+  "payment_form" => "28", // "Debit card",
   "related_documents" => [
     [
-      "relationship" => "01", // "Nota de crédito de los documentos relacionados"
-      "documents" => "UUID_DEL_CFDI_DE_INGRESO"
+      "relationship" => "01", // "Credit note of related documents"
+      "uuid" => "UUID_DEL_CFDI_DE_INGRESO"
     ]
   ]
 ]);
@@ -199,11 +182,11 @@ curl https://www.facturapi.io/v2/invoices \
         }
       }
     ],
-    "payment_form": "28", // "Tarjeta de débito"
+    "payment_form": "28", // "Debit card"
     "related_documents": [
       {
-        "relationship": "01", // "Nota de crédito de los documentos relacionados"
-        "documents": "UUID_DEL_CFDI_DE_INGRESO"
+        "relationship": "01", // "Credit note of related documents"
+        "uuid": "UUID_DEL_CFDI_DE_INGRESO"
       }
     ]
   }'
@@ -212,8 +195,9 @@ curl https://www.facturapi.io/v2/invoices \
 </TabItem>
 </Tabs>
 
-### Devolución de mercancía
-Para este escenario, se emite un comprobante de egreso por $5000.00 pesos para anular el monto total de un CFDI de ingreso previo con el mismo monto.
+### Returns
+
+When your customer returns a product that was previously invoiced you must issue an Egress invoice, adding the relation to the original Income invoice.
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -245,11 +229,11 @@ const invoice = await facturapi.invoices.create({
       ]
     }
   }],
-  payment_form: "28", // "Tarjeta de débito"
+  payment_form: "28", // "Debit card"
   related_documents: [
     {
-      relationship: "01", // "Nota de crédito de los documentos relacionados"
-      documents: "UUID_DEL_CFDI_DE_INGRESO"
+      relationship: "01", // "Credit note of related documents"
+      uuid: "UUID_DEL_CFDI_DE_INGRESO"
     }
   ]
 });
@@ -294,13 +278,13 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
       }
     }
   },
-  ["payment_form"] = "28", // "Tarjeta de débito",
+  ["payment_form"] = "28", // "Debit card",
   ["related_documents"] = new Dictionary<string, object>[]
   {
     new Dictionary<string, object>
     {
-      ["relationship"] = "01", // "Nota de crédito de los documentos relacionados"
-      ["documents"] = "UUID_DEL_CFDI_DE_INGRESO"
+      ["relationship"] = "01", // "Credit note of related documents"
+      ["uuid"] = "UUID_DEL_CFDI_DE_INGRESO"
     }
   }
 
@@ -338,11 +322,11 @@ $invoice = $facturapi->Invoices->create([
       ]
     ]
   ],
-  "payment_form" => "28", // "Tarjeta de débito",
+  "payment_form" => "28", // "Debit card",
   "related_documents" => [
     [
-      "relationship" => "01", // "Nota de crédito de los documentos relacionados"
-      "documents" => "UUID_DEL_CFDI_DE_INGRESO"
+      "relationship" => "01", // "Credit note of related documents"
+      "uuid" => "UUID_DEL_CFDI_DE_INGRESO"
     ]
   ]
 ]);
@@ -380,11 +364,11 @@ curl https://www.facturapi.io/v2/invoices \
         }
       }
     ],
-    "payment_form": "28", // "Tarjeta de débito"
+    "payment_form": "28", // "Debit card"
     "related_documents": [
       {
-        "relationship": "01", // "Nota de crédito de los documentos relacionados"
-        "documents": "UUID_DEL_CFDI_DE_INGRESO"
+        "relationship": "01", // "Credit note of related documents"
+        "uuid": "UUID_DEL_CFDI_DE_INGRESO"
       }
     ]
   }'
@@ -393,11 +377,9 @@ curl https://www.facturapi.io/v2/invoices \
 </TabItem>
 </Tabs>
 
-### Bonificación a una venta futura
+### Cancellation of a previous CFDI
 
-Es posible ofrecer bonificaciones a ventas por realizarse de forma anticipada.
-En este ejemplo se emite un CFDI de egreso por $400.00 pesos para amparar un bono
-que será aplicado a una venta por 2,000.00 pesos.
+When an invoice is canceled and a new one is issued, it is possible to relate them to indicate that the new CFDI is the replacement of a previous document.
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -407,7 +389,7 @@ const Facturapi = require('facturapi');
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.create({
-  type: "E",
+  type: "I",
   customer: {
     legal_name: 'Dunder Mifflin',
     email: 'email@example.com',
@@ -419,8 +401,8 @@ const invoice = await facturapi.invoices.create({
   },
   items: [{
     product: {
-      description: 'Bonificación a venta futura',
-      price: 400,
+      description: 'Venta de mercancía',
+      price: 5000,
       taxes: [
         {
           type: 'IVA',
@@ -429,11 +411,18 @@ const invoice = await facturapi.invoices.create({
       ]
     }
   }],
-  payment_form: "23" // "Novación"
+  payment_form: "01", // "Efectivo"
+  related_documents: [
+    {
+      relationship: "04", // "Sustitución de los CFDI previos"
+      uuid: "UUID_DEL_CFDI_PREVIO"
+    }
+  ]
 });
+
 ```
 
-</TabItem>
+</TabItem> 
 <TabItem value="cs" label="C#">
 
 ```csharp
@@ -441,7 +430,7 @@ var facturapi = new FacturapiClient("sk_test_API_KEY");
 
 var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 {
-  ["type"] = "E",
+  ["type"] = "I",
   ["customer"] = new Dictionary<string, object>
   {
     ["legal_name"] = "Dunder Mifflin",
@@ -459,8 +448,8 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
     {
       ["product"] = new Dictionary<string, object>
       {
-        ["description"] = "Bonificación a venta futura",
-        ["price"] = 400,
+        ["description"] = "Venta de mercancía",
+        ["price"] = 5000,
         ["taxes"] = new Dictionary<string, object>[]
         {
           new Dictionary<string, object>
@@ -472,8 +461,17 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
       }
     }
   },
-  ["payment_form"] = "23" // "Novación"
+  ["payment_form"] = "01", // "Efectivo",
+  ["related_documents"] = new Dictionary<string, object>[]
+  {
+    new Dictionary<string, object>
+    {
+      ["relationship"] = "04", // "Sustitución de los CFDI previos"
+      ["uuid"] = "UUID_DEL_CFDI_PREVIO"
+    }
+  }
 });
+
 ```
 
 </TabItem>
@@ -483,7 +481,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 $facturapi = new Facturapi( "sk_test_API_KEY" );
 
 $invoice = $facturapi->Invoices->create([
-  "type" => "E",
+  "type" => "I",
   "customer" => [
     "legal_name" => "Dunder Mifflin",
     "email" => "email@example.com",
@@ -492,23 +490,30 @@ $invoice = $facturapi->Invoices->create([
     "address" => [
       "zip" => "85900"
     ]
-  ],
+  },
   "items" => [
     [
       "product" => [
-        "description" => "Bonificación a venta futura",
-        "price" => 400,
+        "description" => "Venta de mercancía",
+        "price" => 5000,
         "taxes" => [
           [
             "type" => "IVA",
             "rate" => 0.16
           ]
         ]
-      ]
+      }
     ]
   ],
-  "payment_form" => "23" // "Novación"
-]);
+  "payment_form" => "01", // "Efectivo",
+  "related_documents" => [
+    [
+      "relationship" => "04", // "Sustitución de los CFDI previos"
+      "uuid" => "UUID_DEL_CFDI_PREVIO"
+    ]
+  ]
+});
+
 ```
 
 </TabItem>
@@ -519,7 +524,7 @@ curl https://www.facturapi.io/v2/invoices \
   -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "type": "E",
+    "type": "I",
     "customer": {
       "legal_name": "Dunder Mifflin",
       "email": "email@example.com",
@@ -532,8 +537,8 @@ curl https://www.facturapi.io/v2/invoices \
     "items": [
       {
         "product": {
-          "description": "Descuento",
-          "price": 400,
+          "description": "Venta de mercancía",
+          "price": 5000,
           "taxes": [
             {
               "type": "IVA",
@@ -543,7 +548,13 @@ curl https://www.facturapi.io/v2/invoices \
         }
       }
     ],
-    "payment_form": "23" // "Novación"
+    "payment_form": "01", // "Efectivo"
+    "related_documents": [
+      {
+        "relationship": "04", // "Sustitución de los CFDI previos"
+        "uuid": "UUID_DEL_CFDI_PREVIO"
+      }
+    ]
   }'
 ```
 

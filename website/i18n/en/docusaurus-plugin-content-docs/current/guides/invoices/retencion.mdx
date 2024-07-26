@@ -1,0 +1,63 @@
+---
+sidebar_position: 6
+title: Retentions (Retenciones)
+---
+
+# Retention Invoice
+
+The retention invoiceis a different document from a standard invoice, meaning
+it is not an income, expense, or transfer CFDI and therefore has a different
+structure. It consists of general data and can have a complement added to it.
+
+## What is it used for?
+
+The retention invoice is used to inform the SAT (Mexican tax authority) about
+the tax withholdings that have been made to a third party, as well as to report
+payments made to foreign residents. It is also used in transactions such as the
+sale of shares, payment of dividends, royalties for copyright, deductions of
+real interest for mortgage loans, and lottery prize payments, among others.
+
+## Examples of Retentions
+
+Below you will find an example of a simple request to issue a retention invoice:
+
+```
+{
+  "customer": {
+    "legal_name": "John Doe",
+    "tax_id": "XAXX010101000",
+    "tax_system": "601",
+    "email": "john@example.com",
+    "address": {
+      "zip": "83240"
+    }
+  },
+  "cve_retenc": "03",
+  "periodo": {
+    "mes_ini": 3,
+    "mes_fin": 5,
+    "ejerc": 2023
+  },
+  "totales": {
+    "monto_tot_operacion": 1000,
+    "monto_tot_exent": 733.33,
+    "imp_retenidos": [
+      {
+        "monto_ret": 7.41,
+        "tipo_pago_ret": "04",
+        "impuesto": "ISR"
+      },
+      {
+        "monto_ret": 59.26,
+        "tipo_pago_ret": "01",
+        "impuesto": "IVA"
+      }
+    ]
+  }
+}
+
+```
+
+To fully understand all the available options when creating a retention CFDI,
+detailed descriptions of each field and the most commonly used catalogs,
+please refer to the [Create Retention method reference](/api/#operation/createRetention).

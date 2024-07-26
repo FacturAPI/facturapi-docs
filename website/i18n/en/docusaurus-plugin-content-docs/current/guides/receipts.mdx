@@ -5,24 +5,26 @@ sidebar_position: 6
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Recibos electrónicos
+# E-Receipts
 
-Un **e-receipt** es la versión digital de un _ticket_ o _nota de venta_. Es un
-comprobante de pago que puedes darle a tu cliente sin solicitarle sus datos fiscales.
-Dicho comprobante incluye toda la información de la venta con el propósito de que pueda
-facturarse si el cliente lo solicita y también para incluirse dentro de una factura
-global.
+An **e-receipt** is the digital version of a _ticket_ or _sales receipt_. It is a payment
+voucher that you can give to your customer without requesting their tax information.
+This voucher includes all the sales information so that it can be invoiced if the
+customer requests it or alternatively can be included in a global invoice at the end of
+the month.
 
-Al crear un **e-receipt** en Facturapi, tus clientes tendrán acceso a un sitio web a
-donde podrán llenar sus datos fiscales y descargar su facuta (portal de autofactura).
+By creating a **digital receipt** in Facturapi, your customers will have access to a
+website where they can fill in their tax information and download their invoice
+(self-invoice portal).
 
-También puedes crear una factura global al final del mes que incluya todos aquellos
-recibos que no fueron facturados.
+You can also create a global invoice at the end of the month that includes all those
+receipts that were not invoiced (known as global invoice).
 
-## Crear un recibo
+## Create a receipt
 
-Para ver las descripciones de todos los parámetros, consulta la referencia completa del
-método [Crear Recibo](/api/#operation/createReceipt).
+To see the descriptions of all the parameters, consult the complete reference of the
+method [Create Receipt](/api/#operation/createReceipt).
+
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -90,7 +92,7 @@ $receipt = $facturapi->Receipts->create([
 <TabItem value="curl" label="cURL">
 
 ```bash
-curl https://www.facturapi.io/v2/receipts \
+curl https://www.facturapi.io/v1/receipts \
   -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -111,15 +113,15 @@ curl https://www.facturapi.io/v2/receipts \
 </TabItem>
 </Tabs>
 
-## Portal de Autofactura
+## Self-invoice portal
 
-Cuando creas un e-receipt, tienes la opción de enviarlo por correo electrónico a tu cliente.
-En el correo se incluye un enlace a un portal de autofactura donde tu cliente podrá
-llenar sus datos fiscales y descargar su factura.
+When you create an e-receipt, you have the option to send it via email to your customer.
+This email will contain a link to a self-invoice portal where your customer can fill in
+their tax information and download their invoice.
 
-Para más información consulta el artículo de [Autofactura](/docs/guides/self-invoice).
+For more information, see the article on [Self-Invoice](/docs/guides/self-invoice).
 
-## Facturar un recibo
+## Convert an e-receipt into an invoice
 
 Por medio del método [Facturar Recibo](/api/#operation/invoiceReceipt) puedes convertir
 un e-receipt en una factura. Para ello, debes enviar los datos del cliente y otros datos que
@@ -176,7 +178,7 @@ $invoice = $facturapi->Receipts->invoice($receipt->id, [
 <TabItem value="curl" label="cURL">
 
 ```bash
-curl https://www.facturapi.io/v2/receipts/5ebd8e56f5687a013ca0df46/invoice \
+curl https://www.facturapi.io/v1/receipts/5ebd8e56f5687a013ca0df46/invoice \
   -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{

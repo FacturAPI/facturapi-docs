@@ -1,0 +1,18 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.Cómo empezar": {
+    "message": "Getting started",
+    "description": "The label for category Cómo empezar in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Guías": {
+    "message": "Guides",
+    "description": "The label for category Guías in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Facturas / CFDI": {
+    "message": "Invoices / CFDI",
+    "description": "The label for category Facturas / CFDI in sidebar tutorialSidebar"
+  }
+}

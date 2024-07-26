@@ -5,24 +5,24 @@ sidebar_position: 2
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Instalación del SDK
+# SDK Installation
 
-Contamos con librerías oficiales para los siguientes lenguajes:
+We have official libraries for the following languages:
 
 - Node.js
 - C#
 - PHP
 
-Si usas algún otro lenguaje, aún puedes consumir la API usando tu propio cliente HTTP.
+If you are using any other language, you can still consume the API using your own HTTP client.
 
-## Usando una de nuestras librerías oficiales
+## Using one of our official libraries
 
-Empieza por incluir el cliente de Facturapi en las dependencias de tu proyecto.
+Start by including the Facturapi client in your project dependencies.
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
 
-Instala el paquete de [NPM](https://www.npmjs.com/package/facturapi).
+Install the package from [NPM](https://www.npmjs.com/package/facturapi).
 
 ```bash
 $> npm install --save facturapi
@@ -31,9 +31,9 @@ $> npm install --save facturapi
 </TabItem>
 <TabItem value="cs" label="C#">
 
-Instala el
-[paquete de NuGet](https://www.nuget.org/packages/Facturapi)
-desde Visual Studio, o bien, desde la terminal del Package Manager:
+Install the
+[NuGet package](https://www.nuget.org/packages/Facturapi)
+from Visual Studio or from the Package Manager terminal:
 
 ```bash
 dotnet add package Facturapi
@@ -42,7 +42,7 @@ dotnet add package Facturapi
 </TabItem>
 <TabItem value="php" label="PHP">
 
-Importa el [paquete de Packagist](https://packagist.org/packages/facturapi/facturapi-php) usando composer:
+Install the [package from Packagist](https://packagist.org/packages/facturapi/facturapi-php) using composer:
 
 ```bash
 $> composer require "facturapi/facturapi-php"
@@ -51,7 +51,7 @@ $> composer require "facturapi/facturapi-php"
 </TabItem>
 </Tabs>
 
-Importa la librería antes de usarla.
+Import the library before using it in your code.
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -83,12 +83,11 @@ use Facturapi\Facturapi;
 </TabItem>
 <TabItem value="curl" label="cURL">
 
-cURL no requiere de instalar un cliente adicional
+cURL doesn't require any installation
 
 </TabItem>
 </Tabs>
 
-## Usando tu propio cliente HTTP
+## Using your own HTTP client
 
-Si consumes la API directamente usando tu propio cliente HTTP, no requieres
-instalar nada. Puedes avanzar a la siguiente sección.
+If you consume the API directly using your own HTTP client, you don't need to install anything. You can move on to the next section.

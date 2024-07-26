@@ -1,0 +1,65 @@
+---
+sidebar_position: 3
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Authentication
+
+In order to call any API method, you will need to identify yourself
+using one of the 3 [secret keys](/docs/getting-started/concepts/#secret-keys).
+
+Get your secret keys by creating a free account at
+[Facturapi](https://www.facturapi.io/register?utm_source=facturapi-docs&utm_medium=GithubPages).
+
+## Using one of our libraries
+
+Use the secret key when creating the client instance
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const Facturapi = require('facturapi');
+const facturapi = new Facturapi('<SECRET_KEY>');
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("<SECRET_KEY>");
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi( "<SECRET_KEY>" );
+```
+
+</TabItem>
+</Tabs>
+
+## Using your own HTTP client
+
+Facturapi uses the HTTP authentication method
+[Bearer Token](https://swagger.io/docs/specification/authentication/bearer-authentication/).
+
+The token to use is one of the 3 **Secret Keys**, explained in detail
+in the article on [secret keys](/docs/getting-started/concepts/#secret-keys).
+
+
+<Tabs groupId="codeExamples">
+<TabItem value="curl" label="cURL">
+
+Each request must include your secret key in the Authorization header.
+
+```bash
+curl https://www.facturapi.io/v2/<endpoint_method> \
+  -H "Authorization: Bearer <SECRET_KEY>" \
+```
+
+</TabItem>
+</Tabs>

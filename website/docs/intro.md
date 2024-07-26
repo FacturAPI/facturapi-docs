@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Introducción
 
-El servicio web de Facturapi te permite interactuar con comprobantes fiscales digitales (CFDI) de una manera simple, fácil de entender y menos costosa de mantener.
+El servicio web de Facturapi te permite interactuar con comprobantes fiscales digitales (CFDI) de una manera segura, simple y de bajo mantenimiento.
 
 Aspiramos a ser una alternativa moderna frente a los PCCFDI (Proveedor de certificación de Comprobante Fiscal Digital por Internet, antes PAC) tradicionales, que requieren de una gran cantidad de tiempo y experiencia para implementarse.
 
@@ -32,18 +32,18 @@ Lo único que necesitas para empezar a usar Facturapi es una cuenta de usuario y
 
 ## Características soportadas por Facturapi
 
-- **E-receipts**. Emite [recibos digitales facturables](/docs/guides/receipts/) por cada venta que realices.
+- **E-receipts**. Emite [recibos digitales facturables](/docs/guides/receipts/) por cada venta que realices. Sin necesidad de información del cliente. Puedes convertirlos en facturas más adelante si es necesario.
+  - **Autofactura** Permite a tus clientes completar sus datos de facturación por si mismos.
   - **Factura global**. Emite una sola factura por todos los e-receipts que no se facturaron durante un periodo.
-  - **Autofactura** Proporciona un portal para que tus clientes completen los datos de su factura por si mismos.
 - **Factura electrónica**.
   - **CFDI versión 4.0** (vigente desde Enero de 2022).
   - ~~**CFDI versión 3.3**~~ (descontinuada en Marzo de 2023).
   - Todos los tipos de comprobantes (CFDI):
-    - **Ingreso** (Factura)
-    - **Egreso** (Nota de crédito)
-    - **Pago** (Complemento de pago)
-    - **Nómina** (Recibo de nómina)
-    - **Traslado** (Traslado de mercancía)
+    - **Ingreso**. Facturas de venta.
+    - **Egreso**. Notas de crédito.
+    - **Pago** (Complemento de pago). Recibos de pagos realizados a facturas no pagadas.
+    - **Nómina**. Recibo de nómina.
+    - **Traslado**. Traslado de mercancía.
   - Inserta cualquier **complemento** y/o **addenda**.
     - Acreditamiento de IEPS
     - Instituciones Educativas
@@ -76,6 +76,7 @@ Lo único que necesitas para empezar a usar Facturapi es una cuenta de usuario y
     - Nómina
     - Pagos
     - Carta Porte
-- **Comprobante de Retención**. (Incluyendo el complemento de Plataformas Tecnológicas).
-- **Cancelaciones**.
+- **Comprobante de Retención** e información de pagos a residentes en el extranjero.
+- **Cancelaciones**. Cancela facturas y recibe notificaciones de cancelación.
 - **Multi RFC**. Registra múltiples organizaciones bajo una misma cuenta y emite facturas usando distintos RFC.
+- **Borradores de facturas**. Guarda facturas con datos preliminares o incompletos para enviarlas para revisión antes de timbrarlas y enviarlas al SAT.

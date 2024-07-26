@@ -1,38 +1,44 @@
 ---
 sidebar_position: 3
-title: Egreso
+title: Egress (Egreso)
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Comprobante de Egreso
+# Egress invoice
 
-El comprobante fiscal de tipo **Egreso**, o **Nota de crédito**, se utiliza para
-registrar fiscalmente salidas de dinero como devoluciones, descuentos y bonificaciones.
-La función principal de este tipo de comprobantes es la deductibilidad ya que se utilizan para corregir o restar montos de comprobantes de ingresos emitidos con anterioridad.
+The fiscal document of type **Egreso**, or **Credit Note**, is used to record
+money outflows for returns, discounts, and bonuses. The main
+function of this type of document is deductibility, as it is used to correct or
+subtract amounts from previously issued income documents.
 
-Para emitor este tipo de comprobante deberás usar el valor "E" en la propiedad `type` al crear la factura.
+To issue this type of document, you should use the value "E" in the `type`
+property when creating the invoice.
 
-:::info **¿Cuándo relacionar un comprobante de Egreso?**
-Cuando el descuento aplicado se hace sobre una venta que ya fue facturada, el comprobante debe relacionarse
-con uno o varios comprobantes de Ingreso utilizando la clave de relación correspondiente y el UUID de la factura
-de Ingreso.
+:::info **When to relate an Egreso document?**
+When the applied discount is made on a sale that has already been invoiced,
+the document must be related to one or more Ingreso documents using the
+corresponding relationship key and the UUID of the Ingreso invoice.
 
-:::info **No es una cancelación**
-Es importante mencionar que un comprobante de Egreso no sirve para cancelar un comprobante de Ingreso.
+:::info **Not a cancellation**
+It is important to mention that an Egreso document does not serve to cancel an
+Ingreso document.
 :::
 
-## Ejemplos
+## Examples
 
-A continuación se listan algunos casos de uso comunes.
+Below are some common use cases.
 
-Para conocer a fondo todas las opciones disponibles al crear una factura, descripciiones
-detalladas de cada campo y los catálogos más utilizados consulta la
-[referencia del método Crear Factura](/api/#operation/createInvoice).
+To fully understand all the available options when creating an invoice,
+detailed descriptions of each field, and the most commonly used catalogs,
+please refer to the [Create Invoice method reference](/api/#operation/createInvoice).
 
-### Descuento por una venta ya facturada
-En este ejemplo, se recibió un pago de $3,600.00 pesos por un producto con el 10% descuento que tiene un valor de $4,000.00 pesos, los $400.00 pesos descontados se amparan emitiendo un CFDI de egreso.
+#### Discount for an already invoiced sale
+
+In this example, a payment of $3,600.00 pesos was received for a product with a
+10% discount that has a value of $4,000.00 pesos. The discounted amount of
+$400.00 pesos is covered by issuing an egress CFDI.
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -64,10 +70,10 @@ const invoice = await facturapi.invoices.create({
       ]
     }
   }],
-  payment_form: "28", // "Tarjeta de débito"
+  payment_form: "28", // "Debit card"
   related_documents: [
     {
-      relationship: "01", // "Nota de crédito de los documentos relacionados"
+      relationship: "01", // SAT code for "Credit note for the related document"
       documents: "UUID_DEL_CFDI_DE_INGRESO"
     }
   ]
@@ -113,12 +119,12 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
       }
     }
   },
-  ["payment_form"] = "28", // "Tarjeta de débito",
+  ["payment_form"] = "28", // "Debit card",
   ["related_documents"] = new Dictionary<string, object>[]
   {
     new Dictionary<string, object>
     {
-      ["relationship"] = "01", // "Nota de crédito de los documentos relacionados"
+      ["relationship"] = "01", // SAT code for "Credit note for the related document"
       ["documents"] = "UUID_DEL_CFDI_DE_INGRESO"
     }
   }
@@ -157,10 +163,10 @@ $invoice = $facturapi->Invoices->create([
       ]
     ]
   ],
-  "payment_form" => "28", // "Tarjeta de débito",
+  "payment_form" => "28", // "Debit card",
   "related_documents" => [
     [
-      "relationship" => "01", // "Nota de crédito de los documentos relacionados"
+      "relationship" => "01", // SAT code for "Credit note for the related document"
       "documents" => "UUID_DEL_CFDI_DE_INGRESO"
     ]
   ]
@@ -199,10 +205,10 @@ curl https://www.facturapi.io/v2/invoices \
         }
       }
     ],
-    "payment_form": "28", // "Tarjeta de débito"
+    "payment_form": "28", // "Debit card"
     "related_documents": [
       {
-        "relationship": "01", // "Nota de crédito de los documentos relacionados"
+        "relationship": "01", // SAT code for "Credit note for the related document"
         "documents": "UUID_DEL_CFDI_DE_INGRESO"
       }
     ]
@@ -212,8 +218,9 @@ curl https://www.facturapi.io/v2/invoices \
 </TabItem>
 </Tabs>
 
-### Devolución de mercancía
-Para este escenario, se emite un comprobante de egreso por $5000.00 pesos para anular el monto total de un CFDI de ingreso previo con el mismo monto.
+### Merchandise return
+
+For this scenario, an Egress invoice is issued for $5,000.00 pesos to cancel the total amount of a previous income CFDI with the same amount.
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -245,10 +252,10 @@ const invoice = await facturapi.invoices.create({
       ]
     }
   }],
-  payment_form: "28", // "Tarjeta de débito"
+  payment_form: "28", // "Debit card"
   related_documents: [
     {
-      relationship: "01", // "Nota de crédito de los documentos relacionados"
+      relationship: "01", // SAT code for "Credit note for the related document"
       documents: "UUID_DEL_CFDI_DE_INGRESO"
     }
   ]
@@ -294,12 +301,12 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
       }
     }
   },
-  ["payment_form"] = "28", // "Tarjeta de débito",
+  ["payment_form"] = "28", // "Debit card",
   ["related_documents"] = new Dictionary<string, object>[]
   {
     new Dictionary<string, object>
     {
-      ["relationship"] = "01", // "Nota de crédito de los documentos relacionados"
+      ["relationship"] = "01", // SAT code for "Credit note for the related document"
       ["documents"] = "UUID_DEL_CFDI_DE_INGRESO"
     }
   }
@@ -338,10 +345,10 @@ $invoice = $facturapi->Invoices->create([
       ]
     ]
   ],
-  "payment_form" => "28", // "Tarjeta de débito",
+  "payment_form" => "28", // "Debit card",
   "related_documents" => [
     [
-      "relationship" => "01", // "Nota de crédito de los documentos relacionados"
+      "relationship" => "01", // SAT code for "Credit note for the related document"
       "documents" => "UUID_DEL_CFDI_DE_INGRESO"
     ]
   ]
@@ -380,10 +387,10 @@ curl https://www.facturapi.io/v2/invoices \
         }
       }
     ],
-    "payment_form": "28", // "Tarjeta de débito"
+    "payment_form": "28", // "Debit card"
     "related_documents": [
       {
-        "relationship": "01", // "Nota de crédito de los documentos relacionados"
+        "relationship": "01", // SAT code for "Credit note for the related document"
         "documents": "UUID_DEL_CFDI_DE_INGRESO"
       }
     ]
@@ -393,11 +400,11 @@ curl https://www.facturapi.io/v2/invoices \
 </TabItem>
 </Tabs>
 
-### Bonificación a una venta futura
+### Advance Discount on a Future Sale
 
-Es posible ofrecer bonificaciones a ventas por realizarse de forma anticipada.
-En este ejemplo se emite un CFDI de egreso por $400.00 pesos para amparar un bono
-que será aplicado a una venta por 2,000.00 pesos.
+It is possible to offer discounts on future sales. In this example, an expense
+CFDI for $400.00 pesos is issued to cover a bonus that will be applied to a
+sale for $2,000.00 pesos.
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -429,7 +436,7 @@ const invoice = await facturapi.invoices.create({
       ]
     }
   }],
-  payment_form: "23" // "Novación"
+  payment_form: "23" // "Novatión"
 });
 ```
 
@@ -472,7 +479,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
       }
     }
   },
-  ["payment_form"] = "23" // "Novación"
+  ["payment_form"] = "23" // "Novation"
 });
 ```
 
@@ -507,7 +514,7 @@ $invoice = $facturapi->Invoices->create([
       ]
     ]
   ],
-  "payment_form" => "23" // "Novación"
+  "payment_form" => "23" // "Novation"
 ]);
 ```
 
@@ -543,7 +550,7 @@ curl https://www.facturapi.io/v2/invoices \
         }
       }
     ],
-    "payment_form": "23" // "Novación"
+    "payment_form": "23" // "Novation"
   }'
 ```
 

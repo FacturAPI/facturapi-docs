@@ -2445,8 +2445,8 @@ paths:
           required: true
           description: ID of the invoice to update
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: "`Invoice` object updated successfully"
@@ -6722,7 +6722,7 @@ components:
           $ref: "#/components/schemas/NominaAccionesInput"
         horas_extra:
           type: array
-          description: Arreglo de objetos para expresar las horas extra aplicables. Requerido cuando el tipo de percepción es “019” (Horas extras).
+          description: Array of objects to express applicable extra hours. Required when the type of earnings is "019" (Extra hours).
           items:
             $ref: "#/components/schemas/NominaHorasExtraInput"
     NominaPercepcionNestedProperties:
@@ -6732,7 +6732,7 @@ components:
           $ref: "#/components/schemas/NominaAccionesProperties"
         horas_extra:
           type: array
-          description: Arreglo de objetos para expresar las horas extra aplicables. Requerido cuando el tipo de percepción es “019” (Horas extras).
+          description: Array of objects to express applicable extra hours. Required when the type of earnings is "019" (Extra hours).
           items:
             $ref: "#/components/schemas/NominaHorasExtraProperties"
     NominaHorasExtraInput:
@@ -6751,16 +6751,16 @@ components:
       properties:
         dias:
           type: integer
-          description: Número de días en que el trabajador laboró horas extra adicionales a su jornada normal de trabajo.
+          description: Number of days the worker worked extra hours in addition to their normal working day.
         tipo_horas:
           type: string
-          description: Clave del catálogo [Tipo de Horas](#tipo-de-Horas).
+          description: Key from the catalog [Type of Hours](#tipo-de-Horas).
         horas_extra:
           type: integer
-          description: Número de horas extra trabajadas en el periodo.
+          description: Number of extra hours worked in the period.
         importe_pagado:
           type: number
-          description: Importe pagado por las horas extra.
+          description: Amount paid for extra hours.
     NominaAccionesInput:
       title: Accion
       allOf:
@@ -6772,25 +6772,25 @@ components:
     NominaAccionesProperties:
       type: object
       title: Accion
-      description: Objeto para expresar ingresos por acciones o títulos valor que representan bienes. Es requerido cuando existan ingresos por sueldos derivados de adquisición de acciones o títulos.
+      description: Object to express earnings from shares or securities representing goods. It is required when there are earnings from salaries derived from the acquisition of shares or securities.
       properties:
         valor_mercado:
           type: number
-          description: Valor de mercado de las Acciones o Títulos valor al ejercer la opción.
+          description: Market value of the shares or securities when the option is exercised.
         precio_al_otorgarse:
           type: number
-          description: Precio establecido al otorgarse la opción de ingresos en acciones o títulos valor.
+          description: Price established when the option of income in shares or securities is granted.
     NominaReceptorProperties:
       type: object
       title: Receptor
-      description: Información del trabajador.
+      description: Worker information.
       allOf:
         - $ref: "#/components/schemas/NominaReceptorDirectProperties"
         - $ref: "#/components/schemas/NominaReceptorNestedProperties"
     NominaReceptorInput:
       type: object
       title: Receptor
-      description: Información del trabajador.
+      description: Worker information.
       allOf:
         - type: object
           required:
@@ -6807,72 +6807,81 @@ components:
       properties:
         curp:
           type: string
-          description: CURP del trabajador.
+          description: Worker's CURP (Clave Única de Registro de Población) (Unique Population Registry Code).
         num_seguridad_social:
           type: string
-          description: Número de seguridad social.
+          description: Social security number.
         fecha_inicio_rel_laboral:
           type: string
           format: date
-          description: Fecha de inicio de la relación laboral entre el empleador y el empleado.
+          description: |
+            Start date of the employment relationship between the employer and
+            the employee.
         antiguedad:
           oneOf:
             - type: string
             - type: boolean
           default: true
-          description: Antigüedad del empleado en el formato especificado por el SAT. Si se envía un `string`, se espera que éste contenga la antigüedad en el formato que especifica el SAT. Si se envía el valor booleano `false`, este campo no se incluirá en la factura. Si se envía el valor booleano `true` y `fecha_inicio_rel_laboral` existe, este valor se calculará con la diferencia entre la fecha de inicio de relación laboral y la fecha de pago.
+          description: |
+            Employee's seniority in the format specified by the SAT. If a
+            `string` is sent, it is expected to contain the seniority in the
+            format specified by the SAT. If the boolean value `false` is sent,
+            this field will not be included in the invoice. If the boolean
+            value `true` and `fecha_inicio_rel_laboral` exist, this value will
+            be calculated with the difference between the start date of the
+            employment relationship and the payment date.
         tipo_contrato:
           type: string
-          description: Clave del catálogo del SAT [Tipo de Contrato](#tipo-de-contrato).
+          description: Key from the catalog [Type of Contract](#tipo-de-contrato).
         sindicalizado:
           type: boolean
           default: false
-          description: Indica si el trabajador está asociado a un sindicato.
+          description: Indicates if the worker is associated with a union.
         tipo_jornada:
           type: string
-          description: Clave del catálogo del SAT [Tipo de Jornada](#tipo-de-jornada).
+          description: Key from the catalog [Type of Workday](#tipo-de-jornada).
         tipo_regimen:
           type: string
-          description: Clave del catálogo del SAT [Tipo de Régimen](#tipo-de-régimen).
+          description: Key from the catalog [Type of Regime](#régimen-fiscal).
         num_empleado:
           type: string
           minLength: 1
           maxLength: 15
-          description: Número interno de empleado, asignado por el empleador.
+          description: Internal employee number assigned by the employer.
         departamento:
           type: string
-          description: Nombre del departamento o área a la que pertenece el trabajador.
+          description: Name of the department or area to which the worker belongs.
         puesto:
           type: string
-          description: Nombre del puesto asignado al empleado o el nombre de la actividad que realiza.
+          description: Name of the position assigned to the employee or the name of the activity they perform.
         riesgo_puesto:
           type: string
-          description: Clave del catálogo del SAT [Riesgo del Puesto](#riesgo-del-puesto).
+          description: Key from the SAT catalog [Job Risk](#riesgo-del-puesto).
         periodicidad_pago:
           type: string
-          description: Clave del catálogo del SAT [Periodicidad de Pago](#periodicidad-del-pago).
+          description: Key from the SAT catalog [Payment Periodicity](#periodicidad-del-pago).
         banco:
           type: string
-          description: Clave del banco de acuerdo al catálogo del SAT “Bancos” que puedes consultar utilizando nuestra [herramienta de búsqueda](https://dashboard.facturapi.io/catalogs/bank).
+          description: Key from the SAT catalog "Bancos" that you can consult using our [search tool](https://dashboard.facturapi.io/catalogs/bank).
         cuenta_bancaria:
           type: string
           description: |
-            Número de cuenta bancaria (11 caracteres) o número de teléfono celular (10 caracteres) o número de tarjeta (15 ó 16 caracteres) o la CLABE (18 caracteres) o número de monedero electrónico donde se realiza el depósito de nómina.
+            Bank account number (11 characters) or cell phone number (10 characters) or card number (15 or 16 characters) or CLABE (18 characters) or electronic wallet number where the payroll deposit is made.
         salario_base_cot_apor:
           type: number
-          description: Importe de la retribución en efectivo por cuota diaria, gratificaciones, percepciones, alimentación, habitación, primas, comisiones, prestaciones en especie, etc.
+          description: Amount of the cash remuneration for daily quota, bonuses, perceptions, food, housing, premiums, commissions, benefits in kind, etc.
         salario_diario_integrado:
           type: number
-          description: Salario que se integra con los pagos hechos en efectivo por cuota diaria, gratificaciones, percepciones, habitación, primas, comisiones, prestaciones en especie y cualquier otra cantidad o prestación que se entregue al trabajador por su trabajo.
+          description: Salary that is integrated with payments made in cash for daily quota, bonuses, perceptions, housing, premiums, commissions, benefits in kind, and any other amount or benefit that is delivered to the worker for their work.
         clave_ent_fed:
           type: string
-          description: Clave de la entidad federativa en donde el trabajador prestó sus servicios al empleador, que puedes consultar utilizando nuestra [herramienta de búsqueda](https://dashboard.facturapi.io/catalogs/state).
+          description: Key of the federal entity (state) where the worker provided their services to the employer, which you can consult using our [search tool](https://dashboard.facturapi.io/catalogs/state).
     NominaReceptorNestedProperties:
       type: object
       properties:
         sub_contratacion:
           type: array
-          description: Arreglo de objetos para expresar información sobre la empresa que se beneficia del trabajo del empleado, en casos donde el emisor preste servicios de subcontratación.
+          description: Array of objects to express information about the company that benefits from the employee's work, in cases where the issuer provides subcontracting services.
           items:
             $ref: "#/components/schemas/NominaSubContratacionProperties"
     NominaReceptorNestedInput:
@@ -6880,7 +6889,7 @@ components:
       properties:
         sub_contratacion:
           type: array
-          description: Arreglo de objetos para expresar información sobre la empresa que se beneficia del trabajo del empleado, en casos donde el emisor preste servicios de subcontratación.
+          description: Array of objects to express information about the company that benefits from the employee's work, in cases where the issuer provides subcontracting services.
           items:
             allOf:
               - $ref: "#/components/schemas/NominaSubContratacionRequiredProperties"
@@ -6895,33 +6904,33 @@ components:
       properties:
         rfc_labora:
           type: string
-          description: RFC de la persona o empresa que subcontrata, es decir, de la persona o empresa en donde el trabajador prestó directamente sus servicios.
+          description: RFC of the person or company that subcontracted, that is, the person or company where the worker directly provided their services.
         porcentaje_tiempo:
           type: number
           minimum: 0.001
           maximum: 100.000
-          description: Porcentaje de tiempo en que el trabajador prestó sus servicios a la persona o empresa que lo subcontrató.
+          description: Percentage of time the worker provided their services to the person or company that subcontracted them.
     NominaEmisorProperties:
       type: object
       title: Emisor
-      description: Información del emisor, en caso de ser requerida.
+      description: Information of the issuer, if required.
       properties:
         curp:
           type: string
           minLength: 18
           maxLength: 18
-          description: Requerido cuando el empleador es persona física. CURP del empleador.
+          description: Required when the employer is a natural person. CURP of the employer.
         registro_patronal:
           type: string
-          description: Clave de registro patronal asignada por la institución de seguridad social al patrón.
+          description: Employer's registration key assigned by the social security institution to the employer.
         rfc_patron_origen:
           minLength: 12
           maxLength: 13
           type: string
-          description: RFC de la persona que fungió como patrón. Se usa cuando el pago se realiza a través de un tercero.
+          description: RFC of the person who acted as the employer. It is used when the payment is made through a third party.
         entidad_sncf:
           type: object
-          description: Información para que las entidades adheridas al Sistema Nacional de Coordinación Fiscal realicen la identificación del origen de los recursos.
+          description: Information for entities adhered to the National System of Fiscal Coordination to identify the origin of the resources.
           properties:
             origen_recurso:
               type: string
@@ -6930,15 +6939,15 @@ components:
                 - IF
                 - IM
               description: |
-                Clave de origen de recurso.
-
-                - `“IP”`: Ingresos Propios
-                - `“IF”`: Ingresos Federales
-                - `“IM”`: Ingresos mixtos.
+                Key of the origin of the resource.
+                
+                - `“IP”`: Ingresos Propios (Own income)
+                - `“IF”`: Ingresos Federales (Federal income)
+                - `“IM”`: Ingresos mixtos (Mixed income)
             monto_recurso_propio:
               type: number
               description: |
-                Importe de recursos propios. Requerido cuando el origen del recurso es por ingresos mixtos.
+                Amount of own resources. Required when the resource origin is mixed income.
 
     PagoOrCustomComplementProperties:
       title: Complement
@@ -6954,7 +6963,7 @@ components:
           enum:
             - pago
             - custom
-          description: Tipo de complemento.
+          description: Type of complement
 
     PagoOrCustomComplementInput:
       type: object
@@ -6973,7 +6982,7 @@ components:
           enum:
             - nomina
             - custom
-          description: Tipo de complemento.
+          description: Type of complement
     PagoComplementProperties:
       allOf:
         - $ref: "#/components/schemas/NominaOrCustomComplementProperties"
@@ -6991,7 +7000,7 @@ components:
     PagoComplementDataInput:
       type: array
       title: PagoComplementData
-      description: Pagos a incluir en este comprobante. Lo más común es incluir un sólo pago. Un caso en el que se debe de agregar más de uno es cuando el pago se realiza con 2 formas de pago distintas; por ejemplo, cuando se paga una parte con tarjeta y otra en efectivo.
+      description: Payments to include in this document. The most common is to include only one payment. A case in which more than one must be added is when the payment is made with 2 different payment methods; for example, when one part is paid by card and the other in cash.
       items:
         $ref: "#/components/schemas/PaymentInput"
 
@@ -7009,7 +7018,7 @@ components:
           enum:
             - nomina
             - custom
-          description: Tipo de complemento.
+          description: Type of complement
 
     NominaOrCustomComplementInput:
       type: object
@@ -7028,7 +7037,7 @@ components:
           enum:
             - nomina
             - custom
-          description: Tipo de complemento.
+          description: Type of complement
     NominaComplementProperties:
       allOf:
         - $ref: "#/components/schemas/NominaOrCustomComplementProperties"
@@ -7055,54 +7064,54 @@ components:
       properties:
         prefix:
           type: string
-          description: Prefijo o nombre del namespace.
+          description: Prefix or name of the namespace.
           example: iedu
         uri:
           type: string
           format: url
-          description: Dirección URL asociada al namespace.
+          description: URL associated with the namespace.
           example: http://www.sat.gob.mx/iedu
         schema_location:
           type: string
           format: url
           example: http://www.sat.gob.mx/sitio_interet/cfd/iedu/iedu.xsd
-          description: Dirección URL del esquema de validación XSD.
+          description: URL of the XSD validation schema.
 
     CommonAddressProperties:
       type: object
       properties:
         street:
           type: string
-          description: Nombre de la calle
+          description: Street name
           example: Blvd. Atardecer
         exterior:
           type: string
-          description: Número exterior.
+          description: Exterior number.
           example: 142
         interior:
           type: string
-          description: Número interior.
+          description: Interior number.
           example: 4
         neighborhood:
           type: string
-          description: Colonia
+          description: Neighborhood
           example: Centro
         city:
           type: string
-          description: Ciudad
+          description: City
           example: Huatabampo
         municipality:
           type: string
-          description: Municipio o delegación
+          description: Municipality or delegation
           example: Huatabampo
         zip:
           type: string
-          description: Código postal
+          description: Postal code
           example: 86500
 
     # Main resources
     Webhook:
-      title: Objeto Webhook
+      title: Webhook object
       allOf:
         - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
         - $ref: "#/components/schemas/WebhookProperties"
@@ -7120,23 +7129,26 @@ components:
         organization:
           type: string
           description: |
-            Id de la organización la cual se está dando de alta el webhook.
+            ID of the organization for which the webhook is being created.
         livemode:
           type: boolean 
           example: false
-          description: Ambiente en el cual se está dando de alta el webhook.
+          description: Environment in which the webhook is being created.
         enabled_events:
           type: string
           example: ["receipt.cancellation_status"]
-          description: Eventos dados de alta para el webhook.
+          description: Events enabled for the webhook to listen to.
         url:
           type: string
           format: email
-          description: Http ruta para el webhook
-          example: http://webhook_api.com
+          description: Full URL of the webhook listener.
+          example: http://my-website.com/my/webhook
         status:
           type: string
-          description:  Status del webhook
+          description: Status of the webhook.
+          enum:
+            - enabled
+            - disabled
           example: enabled
     WebhookCreateInput:
       title: Webhook
@@ -7148,17 +7160,20 @@ components:
           properties:
             url:
               type: string
-              description: URL del webhook a dar de alta.
+              description: Full URL of the webhook listener.
               example: http://webhook_api.com
             enabled_events:
               type: array
               items:
                 type: string
                 enum: 
+                  - "invoice.global_invoice_created"
+                  - "invoice.status_updated"
+                  - "invoice.cancellation_status_updated"
                   - "receipt.self_invoice_complete"
-                  - "receipt.cancellation_status_updated"
                   - "receipt.status_updated"
-              description: Los eventos que puedes dar de alta para el webhook. 
+                  - "receipt.cancellation_status_updated"
+              description: Events enabled for the webhook to listen to.
               example: ["receipt.self_invoice_complete"]
     WebhookCreateEdit:
       title: Webhook
@@ -7166,11 +7181,10 @@ components:
         - type: object
           required:
             - enabled_events
-            - url
           properties:
             status:
               type: string
-              description: Estatus del webhook
+              description: Status of the webhook.
               enum:
                 - "disabled"
                 - "enabled"
@@ -7180,15 +7194,18 @@ components:
               items:
                 type: string
                 enum: 
+                  - "invoice.global_invoice_created"
+                  - "invoice.status_updated"
+                  - "invoice.cancellation_status_updated"
                   - "receipt.self_invoice_complete"
-                  - "receipt.cancellation_status_updated"
                   - "receipt.status_updated"
-              description: Los eventos que puedes dar de alta para el webhook. 
+                  - "receipt.cancellation_status_updated"
+              description: Events enabled for the webhook to listen to. 
               example: ["receipt.self_invoice_complete"]
 
 
     Customer:
-      title: Objeto Customer
+      title: Customer object
       allOf:
         - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
         - $ref: "#/components/schemas/CustomerProperties"
@@ -7210,15 +7227,15 @@ components:
               allOf:
                 - $ref: "#/components/schemas/CommonAddressProperties"
                 - type: object
-                  description: Domicilio fiscal.
+                  description: Fiscal address.
                   properties:
                     state:
                       type: string
-                      description: Si el país es México ("MEX"), contiene el nombre del Estado o Entidad Federativa. Para extranjeros contiene el código de Estado de acuerdo al estándar [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que puedes consultar en nuestro [Catálogo de Estados](https://dashboard.facturapi.io/catalogs/state).
+                      description: If the country is Mexico ("MEX"), it contains the name of the State or Federative Entity. For foreigners, it contains the State code according to the standard [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), which you can consult in our [State Catalog](https://dashboard.facturapi.io/catalogs/state).
                       example: Sonora
                     country:
                       type: string
-                      description: Código de país acorde al estándar [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), del [Catálogo de Países](https://dashboard.facturapi.io/catalogs/country).
+                      description: Country code according to the standard [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), from the [Country Catalog](https://dashboard.facturapi.io/catalogs/country).
                       example: MEX
                       default: MEX
     CustomerCommonProperties:
@@ -7227,26 +7244,28 @@ components:
         legal_name:
           type: string
           description: |
-            Nombre Fiscal o Razón Social del cliente. *sin* el régimen societario (ej.: S.A. de C.V.).
+            Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
           example: Dunder Mifflin
         tax_id:
           type: string
           example: ABC101010111
-          description: En clientes de México contiene el RFC del cliente. Para extranjeros es opcional y representa el número de registro de identificacón tributaria, es decir, el equivalente al RFC en el país del cliente.
+          description: |
+            In Mexican clients, it contains the customer's RFC. For foreigners, it is optional and represents the tax identification number, that is, the equivalent to the RFC in the customer's country.
         tax_system:
           type: string
           example: "601"
           maxLength: 3
           minLength: 3
-          description: Requerido para clientes nacionales. Clave del régimen fiscal del cliente, del catálogo de [Regímenes Fiscales](#r%C3%A9gimen-fiscal).
+          description: |
+            Required for national clients. Key of the customer's tax regime, from the [Tax Regime Catalog](#tax-regime).
         email:
           type: string
           format: email
-          description: Dirección de correo electrónico al cual enviar las facturas generadas.
+          description: Email address to which to send the generated invoices.
           example: email@example.com
         phone:
           type: string
-          description: Teléfono del cliente.
+          description: Customer's phone number.
           example: 6474010101
     CustomerCreateInput:
       title: Customer
@@ -7263,17 +7282,17 @@ components:
               allOf:
                 - $ref: "#/components/schemas/CommonAddressProperties"
                 - type: object
-                  description: Domicilio fiscal.
+                  description: Fiscal address.
                   required:
                     - zip
                   properties:
                     state:
                       type: string
-                      description: Si el país es México ("MEX"), contiene el nombre del Estado o Entidad Federativa. Para extranjeros contiene el código de Estado de acuerdo al estándar [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que puedes consultar en nuestro [Catálogo de Estados](https://dashboard.facturapi.io/catalogs/state).
+                      description: If the country is Mexico ("MEX"), it contains the name of the State or Federative Entity. For foreigners, it contains the State code according to the standard [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), which you can consult in our [State Catalog](https://dashboard.facturapi.io/catalogs/state).
                       example: Sonora
                     country:
                       type: string
-                      description: Código de país acorde al estándar [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), del [Catálogo de Países](https://dashboard.facturapi.io/catalogs/country).
+                      description: Country code according to the standard [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), from the [Country Catalog](https://dashboard.facturapi.io/catalogs/country).
                       example: MEX
                       default: MEX
 
@@ -7295,25 +7314,27 @@ components:
       properties:
         description:
           type: string
-          description: Descripción del bien o servicio como aparecerá en la factura.
+          description: Description of the good or service as it will appear on the invoice.
           example: Ukelele
         product_key:
           type: string
-          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
+          description: Key from the SAT catalog of products/services. We provide a more convenient way to find it using our [key search tool](https://dashboard.facturapi.io/catalogs/productKey).
           example: 60131324
         unit_key:
           type: string
           default: H87
           description: |
-            Clave de unidad de medida, del catálogo del SAT. El valor por default `"H87"` (elemento) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc).
-            Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, te proporcionamos una manera conveniente de encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
+            Unit of measure key, from the SAT catalog. The default value `"H87"` (element) is the key to represent a piece or sales unit (pencil, notebook, television, etc).
+
+            If the unit of your product is kilograms, liters, hours, or any other unit, we provide a convenient way to find the key using our [key search tool](https://dashboard.facturapi.io/catalogs/unit).
         unit_name:
           type: string
           default: Elemento
-          description: Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.
+          description: |
+            Name of the unit of measure that expresses the quantity. It must be related to the unit key `unit_key`.
         sku:
           type: string
-          description: Identificador de uso interno designado por la empresa. Puede tener cualquier valor.
+          description: Internal identifier designated by the company. It can have any value.
 
     LineItemProduct:
       allOf:
@@ -7322,7 +7343,7 @@ components:
             id:
               nullable: true
               type: string
-              description: ID del producto base. Sólo presente si se utilizó como base un objeto `Product` guardado previamente.
+              description: ID of the base product. Only present if a previously saved `Product` object was used as a base.
               example: 58e93bd8e86eb318b0197454
         - $ref: "#/components/schemas/ProductProperties"
     Parts:
@@ -7330,28 +7351,28 @@ components:
       properties:
         description:
           type: string
-          description: Descripción del producto o servicio.
+          description: Description of the product or service.
         product_key:
           type: string
-          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra herramienta de búsqueda de claves.
+          description: Key from the SAT catalog of products/services. We provide a more convenient way to find it using our [key search tool](https://dashboard.facturapi.io/catalogs/productKey).
         quantity:
           type: number
-          description: Cantidad
+          description: Quantity of the product or service. It must be greater than 0.
           example: 1
         sku:
           type: string
-          description: Identificador de uso interno designado por la empresa. Puede tener cualquier valor.
+          description: Internal identifier designated by the company. It can have any value.
         unit_price:
           type: number
-          description: Precio unitario
+          description: Unit price. This value will represent the price with or without VAT, depending on the value of `tax_included`.
         unit_name:
           type: string
-          description: Nombre de la unidad de medida que expresa la cantidad.
+          description: Name of the unit of measure used to express the quantity. It must be related to the unit key `unit_key`.
         customs_keys:
           type: array
           items:
             type: string
-          description: Números de customs entryo (pedimento) aduanal asociados a esta parte.
+          description: Customs entry number (pedimento aduanal) associated with this part.
     PartInput:
       allOf:
         - type: object
@@ -7360,7 +7381,7 @@ components:
             - product_key
         - $ref: "#/components/schemas/Parts"
     Product:
-      title: Objeto Product
+      title: Product object
       allOf:
         - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
         - $ref: "#/components/schemas/ProductProperties"
@@ -7382,27 +7403,28 @@ components:
       properties:
         description:
           type: string
-          description: Descripción del bien o servicio como aparecerá en la factura.
+          description: Description of the good or service as it will appear on the invoice.
           example: Ukelele
         product_key:
           type: string
-          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
+          description: Key from the SAT catalog of products/services. We provide a more convenient way to find it using our [key search tool](https://dashboard.facturapi.io/catalogs/productKey).
           example: 60131324
         price:
           type: number
-          description: Precio por unidad del bien o servicio. Este valor representará el precio con IVA incluído o sin él, dependiendo del valor de `tax_included`.
+          description: |
+            Price per unit of the good or service. This value will represent the price with or without VAT, depending on the value of `tax_included`.
           example: 345.60
         tax_included:
           type: boolean
           default: true
           nullable: true
           description: |
-            - `true`: Indica que todos los impuestos aplicables están incluídos en el precio (atributo price) y se desglosarán automáticamente al emitir la factura.
-            - `false`: Indica que el atributo price no incluye impuestos, por lo que aquellos impuestos a aplicar se sumarán en el precio final.
+            - `true`: Indicates that all applicable taxes are included in the price (price attribute) and will be automatically broken down when the invoice is issued.
+            - `false`: Indicates that the price attribute does not include taxes, so those taxes to be applied will be added to the final price.
         taxability:
           type: string
           default: |
-            '01' si el array `taxes` está vacío; '02' si el array `taxes` tiene por lo menos un elemento.
+            `"01"` if the `taxes` array is empty; `"02"` if the `taxes` array has at least one element.
           enum:
             - "01"
             - "02"
@@ -7410,28 +7432,29 @@ components:
             - "04"
             - "05"
           description: |
-            Código que representa si el bien o servicio es objeto de impuesto o no. Este atributo corresponde al campo "ObjetoImp" en el CFDI.
+            Code that represents whether the good or service is subject to tax or not. This attribute corresponds to the "ObjetoImp" field in the CFDI.
 
-            - `01`: No objeto de impuesto.
-            - `02`: Sí objeto de impuesto.
-            - `03`: Sí objeto de impuesto, pero no obligado a desglose.
-            - `04`: Sí objeto de impuesto, y no causa impuesto.
-            - `05`: Sí objeto de impuesto, IVA crédito PODEBI.
+            - `01`: Not subject to tax.
+            - `02`: Subject to tax.
+            - `03`: Subject to tax, but not required to break down.
+            - `04`: Subject to tax, but does not cause tax.
+            - `05`: Subject to tax, VAT credit PODEBI.
         taxes:
           type: array
-          default: IVA trasladado 16%
+          default: IVA (VAT) transferred 16%
           nullable: true
           example:
             [{
               "type": "IVA",
               "rate": 0.16
             }]
-          description: Lista de impuestos que deberán aplicarse a este producto. Si el parámetro se omite o es nulo, se guardará con un elemento que representa el IVA trasladado del 16%, que es el impuesto más común. En caso de mandar explícitamente un arreglo vacío, se entiende que el producto está exento de impuestos.
+          description: |
+            List of taxes that must be applied to this product. If the parameter is omitted or null, it will be saved with an element representing the transferred IVA (VAT) of 16%, which is the most common tax. If an empty array is explicitly sent, it is understood that the product is exempt from taxes.
           items:
             $ref: "#/components/schemas/BaseTax"
         local_taxes:
           type: array
-          description: Arreglo de impuestos locales (estatales o municipales), en caso de haberlos.
+          description: Array of local taxes (state or municipal), if any.
           default: []
           items:
             $ref: "#/components/schemas/LocalTax"
@@ -7440,41 +7463,51 @@ components:
           default: H87
           nullable: true
           description: |
-            Clave de unidad de medida, del catálogo del SAT. El valor por default `"H87"` (elemento) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc).
-            Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
+            Key of the unit of measure, from the SAT catalog. The default value `"H87"` (element) is the key to represent a piece or sales unit (pencil, notebook, television, etc).
+
+            If the unit of your product is kilograms, liters, hours, or any other unit, we provide a convenient way to find the key using our [key search tool](https://dashboard.facturapi.io/catalogs/unit).
         unit_name:
           type: string
           default: Elemento
           nullable: true
-          description: Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.
+          description: Name of the unit of measure used to express the quantity. It must be related to the unit key `unit_key`.
         sku:
           type: string
           nullable: true
-          description: Identificador de uso interno designado por la empresa. Puede tener cualquier valor.
+          description: Internal identifier designated by the company. It can have any value.
     ProductEgresoProperties:
       type: object
       properties:
         description:
           type: string
-          description: Resumen de la operación en una sola descripción. Deben mencionarse cada uno de los productos que contempla el descuento, devolución o bonificación aplicada y que contienen las facturas relacionadas. Si el egreso está basado en un pocentaje (como al aplicar un 30% de descuento), dicho porcentaje debe incluirse en la descripción junto al nombre del producto que corresponda.
+          description: |
+            Description of the operation in a single description. Each of the
+            products that contemplate the discount, return, or bonus applied
+            and that the related invoices contain must be mentioned. If the
+            expense is based on a percentage (such as applying a 30% discount),
+            that percentage must be included in the description along with the
+            name of the corresponding product.
           example: Ukelele
         product_key:
           type: string
           nullable: true
           default: 84111506
-          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
+          description: |
+            Key from the SAT catalog of products/services. We provide a more
+            convenient way to find it using our [key search tool](https://dashboard.facturapi.io/catalogs/productKey).
           example: 84111506
         price:
           type: number
-          description: Suma total de la cantidad devuelta, descontada o bonificada.
+          description: |
+            Total amount of the quantity returned, discounted, or bonified.
           example: 345.60
         tax_included:
           type: boolean
           nullable: true
           default: true
           description: |
-            - `true`: Indica que todos los impuestos aplicables están incluídos en el precio (atributo price) y se desglosarán automáticamente al emitir la factura.
-            - `false`: Indica que el atributo price no incluye impuestos, por lo que aquellos impuestos a aplicar se sumarán en el precio final.
+            - `true`: Indicates that all applicable taxes are included in the price (price attribute) and will be automatically broken down when the invoice is issued.
+            - `false`: Indicates that the price attribute does not include taxes, so those taxes to be applied will be added to the final price.
         taxability:
           type: string
           nullable: true
@@ -7486,24 +7519,25 @@ components:
             - "04"
             - "05"
           description: |
-            Código que representa si el bien o servicio es objeto de impuesto o no. Este atributo corresponde al campo "ObjetoImp" en el CFDI.
+            Code that represents whether the good or service is subject to tax or not. This attribute corresponds to the "ObjetoImp" field in the CFDI.
 
-            - `01`: No objeto de impuesto.
-            - `02`: Sí objeto de impuesto.
-            - `03`: Sí objeto de impuesto, pero no obligado a desglose.
-            - `04`: Sí objeto de impuesto, y no causa impuesto.
-            - `05`: Sí objeto de impuesto, IVA crédito PODEBI.
+            - `01`: Not subject to tax.
+            - `02`: Subject to tax.
+            - `03`: Subject to tax, but not required to break down.
+            - `04`: Subject to tax, but does not cause tax.
+            - `05`: Subject to tax, VAT credit PODEBI.
         taxes:
           type: array
           nullable: true
-          default: IVA trasladado 16%
-          description: Lista de impuestos que deberán aplicarse a este producto. Si el parámetro se omite o es nulo, se guardará con un elemento que representa el IVA trasladado del 16%, que es el impuesto más común. En caso de mandar explícitamente un arreglo vacío, se entiende que el producto está exento de impuestos.
+          default: IVA (VAT) transferred 16%
+          description: |
+            List of taxes that must be applied to this product. If the parameter is omitted or null, it will be saved with an element representing the transferred IVA (VAT) of 16%, which is the most common tax. If an empty array is explicitly sent, it is understood that the product is exempt from taxes.
           items:
             $ref: "#/components/schemas/BaseTax"
         local_taxes:
           type: array
           nullable: true
-          description: Arreglo de impuestos locales (estatales o municipales), en caso de haberlos.
+          description: Array of local taxes (state or municipal), if any.
           default: []
           items:
             $ref: "#/components/schemas/LocalTax"
@@ -7512,13 +7546,13 @@ components:
           nullable: true
           default: ACT
           description: |
-            Clave de unidad de medida, del catálogo del SAT.
-            Puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
+            Key of the unit of measure, from the SAT catalog. The default value `"ACT"` (activity) is the key to represent a generic activity.
+            Check out all the available keys in our [unit search tool](https://dashboard.facturapi.io/catalogs/unit).
         unit_name:
           type: string
           nullable: true
           default: Actividad
-          description: Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.
+          description: Name of the unit of measure used to express the quantity. It must be related to the unit key `unit_key`.
       required:
         - description
         - price
@@ -7532,10 +7566,11 @@ components:
         payment_form:
           type: string
           example: "03"
-          description: Código de la forma de pago según el [catálogo del SAT](#forma-de-pago). También puedes utilizar la constante `PaymentForm` incluída en nuestras librerías.
+          description: Payment method code according to the [SAT catalog](#payment-method). You can also use the `PaymentForm` constant included in our libraries.
         related_documents:
           type: array
-          description: Arreglo que incluye un elemento por cada comprobante de ingreso relacionado a este pago. Lo más común es que el pago esté relacionado a un sólo comprobante de ingreso. Un caso en el que se agrega más de un elemento es cuando se recibe (por ejemplo) un sólo depósito que ampara el pago de 2 facturas relacionadas. En lugar de expedir un comprobante de recepción de pago por cada factura, debes expedir sólo uno relacionando los 2 comprobantes.
+          description: |
+            Array that includes an element for each related income document to this payment. The most common is that the payment is related to only one income document. A case in which more than one element is added is when a single deposit is received that covers the payment of 2 related invoices. Instead of issuing a payment receipt for each invoice, you must issue only one relating the 2 documents.
           items:
             type: object
             required:
@@ -7548,18 +7583,20 @@ components:
               uuid:
                 type: string
                 format: uuid
-                description: Folio fiscal ó UUID del comprobante de ingreso relacionado.
+                description: |
+                  Fiscal folio or UUID of the related income document.
               amount:
                 type: number
                 description: |
-                  Cantidad del pago correspondiente al comprobante relacionado,
-                  usando el método de pago indicado en este elemento del arreglo
-                  de pagos. Este valor debe ser expresado en la moneda definida
-                  en `related_documents[].currency`.
+                  Amount of the payment corresponding to the related document,
+                  using the payment method indicated in this element of the
+                  payment array. This value must be expressed in the currency
+                  defined in `related_documents[].currency`.
               taxes:
                 type: array
                 description: |
-                  Arreglo con impuestos del documento relacionado que aplican al pago realizado.
+                  Array with taxes of the related document that apply to the
+                  payment made.
                 items:
                   type: object
                   required:
@@ -7570,7 +7607,7 @@ components:
                     base:
                       type: number
                       description: |
-                        Base utilizada para el cálculo del impuestos.
+                        Base amount used for the tax calculation.
                     type:
                       type: string
                       enum:
@@ -7578,12 +7615,15 @@ components:
                         - ISR
                         - IEPS
                       description: |
-                        Tipo de impuesto.
+                        Type of tax.
                     rate:
                       type: number
                       example: 0.16
                       description: |
-                        Tasa o cuota del impuesto
+                        Rate of the tax. If the tax is a rate, this value
+                        must be expressed as a decimal fraction percentage. If
+                        the tax is a fixed amount, this value represents the
+                        amount of the tax.
                     factor:
                       type: string
                       default: Tasa
@@ -7591,15 +7631,20 @@ components:
                         - Tasa
                         - Cuota   
                         - Exento
-                      description: Tipo factor.
+                      description: |
+                        Factor type.
+
+                        - `Tasa`: Rate
+                        - `Cuota`: Fixed amount
+                        - `Exento`: Exempt
                     withholding:
                       type: boolean
                       default: false
-                      description: Indica si el impuesto es una retención (`true`) o un traslado (`false`).
+                      description: Indicates if the tax is a withholding (`true`) or a transfer (`false`).
               taxability:
                 type: string
                 default: |
-                  '01' si el array `taxes` está vacío; '02' si el array `taxes` tiene por lo menos un elemento.
+                  "01" if the `taxes` array is empty; "02" if the `taxes` array has at least one element.
                 enum:
                   - "01"
                   - "02"
@@ -7607,103 +7652,121 @@ components:
                   - "04"
                   - "05"
                 description: |
-                  Código que representa si el bien o servicio es objeto de impuesto o no. Este atributo corresponde al campo "ObjetoImp" en el CFDI.
+                  Code representing whether the good or service is subject to tax or not. This attribute corresponds to the "ObjetoImp" field in the CFDI.
 
-                  - `01`: No objeto de impuesto.
-                  - `02`: Sí objeto de impuesto.
-                  - `03`: Sí objeto de impuesto, pero no obligado a desglose.
-                  - `04`: Sí objeto de impuesto, y no causa impuesto.
-                  - `05`: Sí objeto de impuesto, IVA crédito PODEBI.
-
+                  - `01`: Not subject to tax.
+                  - `02`: Subject to tax.
+                  - `03`: Subject to tax, but not required to break down.
+                  - `04`: Subject to tax, but does not cause tax.
+                  - `05`: Subject to tax, VAT credit PODEBI.
               installment:
                 type: integer
-                description: Número de parcialidad del pago.
+                description: |
+                  Installment number of the payment.
               last_balance:
                 type: number
-                description: Cantidad que estaba pendiente por pagar antes de recibir este pago. Este valor se expresa en la moneda definida en `payments[].related[].currency`.
+                description: |
+                  Amount that was pending before receiving this payment. This value must be expressed in the currency defined in `related_documents[].currency`.
               currency:
                 type: string
                 minLength: 3
                 maxLength: 3
                 default: MXN
-                description: Si la moneda utilizada en la factura relacionada no es moneda nacional (MXN), debe especificarse su valor acorde al estándar [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
+                description: |
+                  Code of the currency used in the related document. If the currency used in the related document is not the national currency (MXN), its value must be specified according to the standard [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
               exchange:
                 type: number
                 description: |
-                  Obligatorio cuando la moneda del documento relacionado es distinta a la moneda de pago. Tipo de cambio entre las dos monedas al momento del pago. Ejemplo: La factura de iingreso relacionada se registra en USD, mientras que el pago actual se realiza en MXN, este atributo debería registrarse como `0.45` (USD/MXN).
+                  Required when the currency of the related document is different
+                  from the payment currency. Exchange rate between the two
+                  currencies at the time of payment. Example: The related income
+                  invoice is registered in USD, while the current payment is made
+                  in MXN, this attribute should be registered as `0.45` (USD/MXN).
               folio_number:
                 type: integer
-                description: Opcionalmente se puede incluir el número de folio del documento relacionado.
+                description: |
+                  Optional. You can include the folio number of the related document.
               series:
                 type: string
-                description: Opcionalmente se puede incluir la serie del documento relacionado.
+                description: |
+                  Optional. You can include the series of the related document.
         currency:
           type: string
           minLength: 3
           maxLength: 3
           default: MXN
-          description: Código de la moneda, acorde al estándar [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
+          description: |
+            Code of the currency used in the payment. If the currency used in the payment is not the national currency (MXN), its value must be specified according to the standard [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
         exchange:
           type: number
           default: 1
-          description: Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos que equivalen a una unidad de la divisa señalada en el atributo `currency`.
+          description: |
+            Exchange rate of the currency used in the payment. It represents
+            the number of Mexican pesos equivalent to one unit of the currency
+            indicated in the `currency` attribute.
         date:
           type: string
           format: date-time
           default: now
-          description: Fecha en que se recibió el pago. Sólo es necesario incluirla si el pago se efectuó en una fecha anterior a la emisión de este comprobante. No se permiten fechas futuras.
+          description: Date on which the payment was received. It is only necessary to include it if the payment was made on a date prior to the issuance of this document. Future dates are not allowed.
         numOperacion:
           type: string
-          description: Número de cheque, de autorización, de referencia, clave de rastreo SPEI, línea de captura o algún número de referencia que permita identificar la operación correspondiente al pago efectuado.
+          description: |
+            Number of the check, authorization, reference, SPEI tracking key, capture line, or any reference number that allows identifying the operation corresponding to the payment made.
         rfcEmisorCtaOrd:
           type: string
-          description: RFC de la entidad emisora de la cuenta de origen, es decir, la operadora, banco, institución financiera, emisor de monedero electrónico, etc.
+          description: RFC of the entity issuing the source account, that is, the operator, bank, financial institution, issuer of electronic wallet, etc.
         nomBancoOrdExt:
           type: string
-          description: Nombre del banco ordenante.
+          description: Name of the ordering bank.
         ctaOrdenante:
           type: string
-          description: Número de cuenta con la que se realizó el pago.
+          description: Bank account number used to make the payment.
         rfcEmisorCtaBen:
           type: string
-          description: RFC de la entidad de la cuenta operadora destino, es decir, la operadora, banco, institución financiera, emisor de monedero electrónico, etc.
+          description: RFC of the entity of the destination operating account, that is, the operator, bank, financial institution, issuer of electronic wallet, etc.
         ctaBeneficiario:
           type: string
-          description: Número de cuenta donde se recibió el pago.
+          description: Bank account number where the payment was received.
         tipoCadPago:
           type: string
           enum:
             - 01
           description: |
-            Clave del tipo de cadena de pago que genera la entidad receptora del pago.
-            Si existe este campo, es obligatorio registrar los campos `certPago`, `cadPago` y `selloPago`.
+            Key of the type of payment chain generated by the receiving entity of the payment.
+            If this field exists, it is mandatory to register the `certPago`, `cadPago`, and `selloPago` fields.
         certPago:
           type: string
           format: base64
-          description: Certificado que corresponde al pago, como una cadena de texto en formato base 64.
+          description: |
+            Certificate that corresponds to the payment, expressed as a text string in base 64 format.
         cadPago:
           type: string
-          description: Cadena original del comprobante de pago generado por la entidad emisora de la cuenta beneficiaria.
+          description: |
+            Original string (cadena original) of the payment receipt generated by the entity issuing the beneficiary account.
         selloPago:
           type: string
           format: base64
-          description: Sello digital que se asocie al pago expresado como una cadena de texto en formato base 64.
+          description: |
+            Digital seal associated with the payment expressed as a text string in base 64 format.
     CuustomerInfo:
       type: object
-      description: Objeto con información parcial del cliente receptor del comprobante. Para obtener el objeto `Customer` completo, deberás consultarlo con el método de [Obtener Cliente]('#/operation/getCustomer').
+      description: |
+        Object with partial information of the customer receiving the document. To obtain the complete `Customer` object, you must consult it with the [Retrieve Customer]('#/operation/getCustomer') method.
       properties:
         id:
           type: string
-          description: ID del objeto `customer` relacionado a la factura, en caso de no haber sido eliminado
+          description: ID of the `customer` object related to the invoice, in case it has not been deleted.
           example: 58e93bd8e86eb318b0197456
         legal_name:
           type: string
           description: |
-            Nombre Fiscal o Razón Social del cliente, *sin* incluir el régimen societario (ej.: S.A. de C.V.).
+            Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
           example: Dunder Mifflin
         tax_id:
           type: string
-          description: RFC del cliente.
+          description: |
+            In Mexican clients, it contains the customer's RFC. For foreigners, it is optional and represents the tax identification number, that is, the equivalent to the RFC in the customer's country.
           example: ABC101010111
         address:
           type: object
@@ -7711,7 +7774,8 @@ components:
             country:
               type: string
               format: ISO 3166-1 alpha-3
-              description: Código de País acorde al estándar ISO 3166-1 alpha-3, del Catálogo de Países.
+              # description: Código de País acorde al estándar ISO 3166-1 alpha-3, del Catálogo de Países.
+              description: Country code according to the standard [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3).
               example: MEX
     RelatedDocumentInput:
       allOf:
@@ -7725,20 +7789,21 @@ components:
       properties:
         relationship:
           type: string
-          description: Clave de relación del catálogo del SAT (que puedes consultar en [esta tabla](#relacion-entre-facturas)). Es requerido cuando se envíe el parámetro `related`.
+          description: |
+            Relationship key from the SAT catalog (which you can consult in [this table](#relacion-entre-facturas)). It is required when the `related_documents` parameter is sent.
         documents:
           type: array
           default: []
           items:
             type: string
-          description: Folios fiscales (UUID) de facturas relacionadas.
+          description: Fiscal folios (UUID) of related invoices.
     Invoice:
-      title: Objeto Invoice
+      title: Invoice object
       allOf:
         - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
         - $ref: "#/components/schemas/InvoiceProperties"
     InvoiceDraft:
-      title: Objeto Invoice con status draft
+      title: Invoice object with draft status
       allOf:
         - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
         - $ref: "#/components/schemas/InvoiceDraftProperties"
@@ -7768,7 +7833,7 @@ components:
             - canceled
             - draft
           description: |
-            Estado actual de la factura.
+            Current status of the invoice.
           example: valid
         cancellation_status:
           type: string
@@ -7779,27 +7844,28 @@ components:
             - rejected
             - expired
           description: |
-            Estado actual de la solicitud de cancelación, en caso de haberla realizado. Puedes leer más a detalle en la sección de [Cancelar Factura](#operation/deleteInvoice)).
+            Current status of the cancellation request, if it has been made. You can read more in the [Cancel Invoice](#operation/deleteInvoice) section.
           example: none
         verification_url:
           type: string
           format: uri
-          description: Dirección URL para verificar el estado del CFDI en el portal del SAT. Este link es el mismo que aparece en el código QR, en el PDF de la factura.
+          description: URL to verify the status of the CFDI on the SAT portal. This link is the same as the one that appears in the QR code on the invoice PDF.
           example: https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABC101010111&tt=345.600000&fe=bWApPw==
         date:
           type: string
           format: date-time
           default: now
-          description: Fecha de expedición del comprobante en formato ISO8601 (UTC String).
+          description: |
+            Date of issuance of the invoice in ISO8601 format (UTC String).
         address:
           allOf:
             - $ref: "#/components/schemas/CommonAddressProperties"
             - type: object
-              description: Domicilio de expedición de la factura.
+              description: Address where the invoice was issued.
               properties:
                 state:
                   type: string
-                  description: Nombre del Estado o Entidad Federativa.
+                  description: If the country is Mexico ("MEX"), it contains the name of the State or Federative Entity. For foreigners, it contains the State code according to the standard [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), which you can consult in our [State Catalog](https://dashboard.facturapi.io/catalogs/state).
                   example: Sonora
         type:
           type: string
@@ -7810,82 +7876,82 @@ components:
             - N
             - T
           description: |
-            Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+            Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
         customer:
           $ref: "#/components/schemas/CuustomerInfo"
         total:
           type: number
-          description: Monto total facturado.
+          description: Total amount invoiced.
           example: 10944.82
         uuid:
           type: string
           format: uuid
-          description: Folio fiscal de la factura, asignado por el SAT.
+          description: Fiscal folio of the invoice, assigned by the SAT.
           example: 39c85a3f-275b-4341-b259-e8971d9f8a94
         folio_number:
           type: integer
-          description: Número de folio autoincremental para control interno y sin validez fiscal.
+          description: Autoincremental folio number for internal control and without fiscal relevance.
           example: 914
         series:
           type: string
-          description: Serie. Caracteres designados por la empresa para control interno y sin validez fiscal. En el PDF se imprime junto al //www.facturapi.io/img/logo.svg
+          description: Series. Alphanumeric characters designated by the company for internal control and without fiscal relevance. In the PDF, it is printed next to the folio number.
           example: F
         external_id:
           type: string
-          description: Identificador que puedes usar para relacionar esta factura con tus registros para después buscar por este número.
+          description: Identifier that you can use to relate this invoice to your records to later search by this number.
         idempotency_key:
           type: string
-          description: Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
+          description: Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
         payment_form:
           type: string
-          description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
+          description: Payment form code according to the [Payment Form catalog](#payment-form).
           example: 06
         is_ready_to_stamp:
           type: boolean
           description: |
-            Este campo es asignado automáticamente por Facturapi. Indica si una factura
-            con status `draft` está completa y lista para intentar timbrarse. Si el valor es `true`, puedes
-            intentar timbrar la factura con el método [Timbrar Factura]('#/operation/stampInvoice').
-            Si el valor es `false`, debes usar el método [Actualizar Factura]('#/operation/updateDraftInvoice')
-            para completar los campos faltantes.
-
-            En una factura con status diferente a `draft`, este campo siempre será `false`.
+            This field is automatically assigned by Facturapi. It indicates if an invoice
+            with status `draft` is complete and ready to be stamped. If the value is `true`, you can
+            try to stamp the invoice with the [Stamp Invoice]('#/operation/stampInvoice') method.
+            If the value is `false`, you must use the [Update Invoice]('#/operation/updateDraftInvoice')
+            method to complete the missing fields.
+            
+            In an invoice with a status other than `draft`, this field will always be `false`.
         items:
           type: array
-          description: Conceptos incluidos en el comprobante
+          description: Concepts included in the document.
           items:
             $ref: "#/components/schemas/LineItem"
         related_documents:
           type: array
-          description: Documentos relacionados con la factura.
+          description: Documents related to the invoice.
           items:
             $ref: "#/components/schemas/RelatedDocument"
         currency:
           type: string
           example: MXN
-          description: Código de la moneda, acorde al estándar [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
+          description: Currency code, according to the standard [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
         exchange:
           type: number
           minimum: 0
           example: 1
-          description: Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos que equivalen a una unidad de la divisa señalada en el atributo `currency`.
+          description: Exchange rate for the currency used. It represents the number of Mexican pesos (MXN) equivalent to one unit of the currency indicated in the `currency` attribute.
         complements:
           type: array
           default: []
           items:
             $ref: "#/components/schemas/NominaOrCustomComplementProperties"
-          description: Complementos a incluir en la factura.
+          description: Complements to include in the invoice.
         pdf_custom_section:
           type: string
           format: html
-          description: En caso de que necesites incluir más información en el PDF, este campo te permite insertar código HTML con tu propio contenido.
+          description: In case you need to include more information in the PDF, this field allows you to insert HTML code with your own content.
         addenda:
           type: string
           format: xml
-          description: Código XML con la Addenda que se necesite agregar a la factura.
+          description: XML code with the Addenda that needs to be added to the invoice.
         namespaces:
           type: array
-          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda`.
+          description: Namespaces to insert in the root node of the invoice. Required for `addenda`.
           items:
             $ref: "#/components/schemas/NamespaceProperties"
         stamp:
@@ -7901,7 +7967,7 @@ components:
             - canceled
             - draft
           description: |
-            Estado actual de la factura.
+            Current status of the invoice.
           example: draft
         cancellation_status:
           type: string
@@ -7912,27 +7978,28 @@ components:
             - rejected
             - expired
           description: |
-            Estado actual de la solicitud de cancelación, en caso de haberla realizado. Puedes leer más a detalle en la sección de [Cancelar Factura](#operation/deleteInvoice)).
+            Current status of the cancellation request, if it has been made. You can read more in the [Cancel Invoice](#operation/deleteInvoice) section.
           example: none
         verification_url:
           type: string
           format: uri
-          description: Dirección URL para verificar el estado del CFDI en el portal del SAT. Este link es el mismo que aparece en el código QR, en el PDF de la factura.
+          description: URL to verify the status of the CFDI on the SAT portal. This link is the same as the one that appears in the QR code on the invoice PDF.
           example: null
         date:
           type: string
           format: date-time
           example: null
-          description: Fecha de timbrado del comprobante en formato ISO8601 (UTC String). Si el estado es `draft`, este campo es nulo.
+          description: |
+            Date of issuance of the invoice in ISO8601 format (UTC String). If the status is `draft`, this field is null.
         address:
           allOf:
             - $ref: "#/components/schemas/CommonAddressProperties"
             - type: object
-              description: Domicilio de expedición de la factura.
+              description: Address where the invoice was issued.
               properties:
                 state:
                   type: string
-                  description: Nombre del Estado o Entidad Federativa.
+                  description: If the country is Mexico ("MEX"), it contains the name of the State or Federative Entity. For foreigners, it contains the State code according to the standard [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), which you can consult in our [State Catalog](https://dashboard.facturapi.io/catalogs/state).
                   example: Sonora
         type:
           type: string
@@ -7943,84 +8010,84 @@ components:
             - N
             - T
           description: |
-            Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+            Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
         customer:
           $ref: "#/components/schemas/CuustomerInfo"
         total:
           type: number
-          description: Monto total facturado.
+          description: Total amount invoiced.
           example: 0
         uuid:
           type: string
           format: uuid
-          description: Folio fiscal de la factura, asignado por el SAT, en caso de haber sido timbrada.
+          description: Fiscal folio of the invoice, assigned by the SAT. If the invoice has not been stamped, this field is null.
           example: 0
         folio_number:
           type: integer
-          description: Número de folio autoincremental para control interno y sin validez fiscal.
+          description: Autoincremental folio number for internal control and without fiscal relevance.
           example: 914
         series:
           type: string
-          description: Serie. Caracteres designados por la empresa para control interno y sin validez fiscal. En el PDF se imprime junto al //www.facturapi.io/img/logo.svg
+          description: Series. Alphanumeric characters designated by the company for internal control and without fiscal relevance. In the PDF, it is printed next to the folio number.
           example: F
         external_id:
           type: string
-          description: Identificador que puedes usar para relacionar esta factura con tus registros para después buscar por este número.
+          description: Identifier that you can use to relate this invoice to your records to later search by this number.
         idempotency_key:
           type: string
-          description: Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
+          description: Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
         payment_form:
           type: string
-          description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
+          description: Payment form code according to the [Payment Form catalog](#forma-de-pago).
           example: 06
         items:
           type: array
-          description: Conceptos incluidos en el comprobante
+          description: Concepts included in the document.
           items:
             $ref: "#/components/schemas/LineItem"
         related_documents:
           type: array
-          description: Documentos relacionados con la factura.
+          description: Documents related to the invoice.
           items:
             $ref: "#/components/schemas/RelatedDocument"
         currency:
           type: string
           example: MXN
-          description: Código de la moneda, acorde al estándar [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
+          description: Currency code, according to the standard [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
         exchange:
           type: number
           minimum: 0
           example: 1
-          description: Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos que equivalen a una unidad de la divisa señalada en el atributo `currency`.
+          description: Exchange rate for the currency used. It represents the number of Mexican pesos (MXN) equivalent to one unit of the currency indicated in the `currency` attribute.
         complements:
           type: array
           default: []
           items:
             $ref: "#/components/schemas/NominaOrCustomComplementProperties"
-          description: Complementos a incluir en la factura.
+          description: Complements to include in the invoice.
         pdf_custom_section:
           type: string
           format: html
-          description: En caso de que necesites incluir más información en el PDF, este campo te permite insertar código HTML con tu propio contenido.
+          description: In case you need to include more information in the PDF, this field allows you to insert HTML code with your own content.
         addenda:
           type: string
           format: xml
-          description: Código XML con la Addenda que se necesite agregar a la factura.
+          description: XML code with the Addenda that needs to be added to the invoice.
         namespaces:
           type: array
-          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda`.
+          description: Namespaces to insert in the root node of the invoice. Required for `addenda`.
           items:
             $ref: "#/components/schemas/NamespaceProperties"
         is_ready_to_stamp:
           type: boolean
           description: |
-            Este campo es asignado automáticamente por Facturapi. Indica si una factura
-            con status `draft` está completa y lista para intentar timbrarse. Si el valor es `true`, puedes
-            intentar timbrar la factura con el método [Timbrar Factura]('#/operation/stampInvoice').
-            Si el valor es `false`, debes usar el método [Actualizar Factura]('#/operation/updateDraftInvoice')
-            para completar los campos faltantes.
+            This field is automatically assigned by Facturapi. It indicates if an invoice
+            with status `draft` is complete and ready to be stamped. If the value is `true`, you can
+            try to stamp the invoice with the [Stamp Invoice]('#/operation/stampInvoice') method.
+            If the value is `false`, you must use the [Update Invoice]('#/operation/updateDraftInvoice')
+            method to complete the missing fields.
 
-            En una factura con status diferente a `draft`, este campo siempre será `false`.
+            In an invoice with a status other than `draft`, this field will always be `false`.
         stamp:
           allOf:
             - $ref: "#/components/schemas/Stamp"
@@ -8033,133 +8100,139 @@ components:
         folio_number:
           type: integer
           default: autoincremental
-          description: Número de folio asignado por la empresa para control interno. Si se omite, se asignará el valor autoincremental de la organización.
+          description: |
+            Number of folio assigned by the company for internal control. If omitted, the autoincremental value of the organization will be assigned.
         series:
           type: string
           maxLength: 25
           nullable: true
-          description: Serie. Caracteres designados por la empresa para control interno y sin validez fiscal.
+          description: Series. Aplanumeric characters designated by the company for internal control and without fiscal relevance.
         pdf_custom_section:
           type: string
           nullable: true
           format: xml
           description: |
-            En caso de que necesites incluir más información en el PDF, este campo te permite enviar código HTML con tu propio contenido.
+            In case you need to include more information in the PDF, this field allows you to insert HTML code with your own content.
 
-            Por seguridad, el código que puedes enviar está limitado a las siguientes etiquetas: `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `div`, `p`, `span`, `small`, `br`, `b`, `i`, `ul`, `ol`, `li`, `strong`, `table`, `thead`, `tbody`, `tfoot`, `tr`, `th` y `td`. No se permiten atributos ni estilos.
+            For security reasons, the code you can send is limited to the following tags: `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `div`, `p`, `span`, `small`, `br`, `b`, `i`, `ul`, `ol`, `li`, `strong`, `table`, `thead`, `tbody`, `tfoot`, `tr`, `th`, and `td`. Attributes and styles are not allowed.
         addenda:
           type: string
           nullable: true
           format: xml
-          description: Código XML con la Addenda que se necesite agregar a la factura.
+          description: XML code with the Addenda that needs to be added to the invoice.
         namespaces:
           type: array
           default: []
-          description: Si incluiste el parámetro `complements`, este campo es opcional; en cambio si inclusite el parámetro `addenda`, debes enviar la información necesaria para incluir estos namespaces en el documento XML.
+          description: |
+            If you included the `complements` parameter, this field is optional; however, if you included the `addenda` parameter, you must send the necessary information to include these namespaces in the XML document.
           items:
             allOf:
               - $ref: "#/components/schemas/NamespaceRequiredProperties"
               - $ref: "#/components/schemas/NamespaceProperties"
         pdf_options:
           type: object
-          description: Configura qué campos opcionales se queiren mostrar en el PDF. El SAT no obliga a mostrar estos campos, pero pueden activarse según la preferencia del cliente para la factura en curso. Utiliza este campo para peticiones de generación de facturas en las cuales necesites utilizar una configuración distinta al campo pdf_extra de la organización.
+          description: |
+            Configure which optional fields you want to show in the PDF. The SAT does not require showing these fields, but they can be activated according to the customer's preference for the current invoice. Use this field for invoice generation requests in which you need to use a different configuration than the pdf_extra field of the organization.
           properties:
             codes:
               type: boolean
               default: true
               description: |
-                Mostrar códigos de catálogos del SAT junto a sus descripciones. Ejemplo: “KGM Kilogramo”.
+                Show SAT catalog codes next to their descriptions. Example: "KGM Kilogramo".
             product_key:
               type: boolean
               default: true
               description: |
-                Mostrar la clave de producto-servicio.
+                Show the product/service key.
             round_unit_price:
               type: boolean
               default: false
               description: |
-                Redondear el precio unitario en el PDF a 2 decimales, pero conservar los 6 decimales en el XML.
+                Round the unit price in the PDF to 2 decimals, but keep the 6 decimals in the XML.
             tax_breakdown:
               type: boolean
               default: true
               description: |
-                Mostrar el desglose de impuestos en el PDF. Si se desactiva, sólo se mostratán los impuestos en los totales, pero no en el detalle de cada concepto.
+                Show the tax breakdown in the PDF. If disabled, only the taxes will be shown in the totals, but not in the detail of each concept.
             ieps_breakdown:
               type: boolean
               default: true
               description: |
-                Mostrar el desglose de ieps en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.    
+                Show the IEPS breakdown in the PDF. If disabled, only the taxes related to the IVA (VAT) will be shown in the subtotal.
     InvoiceableCommonEditInput:
       type: object
       properties:
         folio_number:
           type: integer
-          description: Número de folio asignado por la empresa para control interno. Si se omite, se asignará el valor autoincremental de la organización.
+          description: |
+            Folio number assigned by the company for internal control. If omitted, the autoincremental value of the organization will be assigned. This field does not have any fiscal relevance.
         series:
           type: string
           maxLength: 25
           nullable: true
-          description: Serie. Caracteres designados por la empresa para control interno y sin validez fiscal.
+          description: Series. Alphanumeric characters designated by the company for internal control and without fiscal relevance.
         pdf_custom_section:
           type: string
           nullable: true
           format: xml
           description: |
-            En caso de que necesites incluir más información en el PDF, este campo te permite enviar código HTML con tu propio contenido.
+            In case you need to include more information in the PDF, this field allows you to insert HTML code with your own content.
 
-            Por seguridad, el código que puedes enviar está limitado a las siguientes etiquetas: `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `div`, `p`, `span`, `small`, `br`, `b`, `i`, `ul`, `ol`, `li`, `strong`, `table`, `thead`, `tbody`, `tfoot`, `tr`, `th` y `td`. No se permiten atributos ni estilos.
+            For security reasons, the code you can send is limited to the following tags: `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `div`, `p`, `span`, `small`, `br`, `b`, `i`, `ul`, `ol`, `li`, `strong`, `table`, `thead`, `tbody`, `tfoot`, `tr`, `th`, and `td`. Attributes and styles are not allowed.
         addenda:
           type: string
           nullable: true
           format: xml
-          description: Código XML con la Addenda que se necesite agregar a la factura.
+          description: XML code with the Addendum to add to the invoice.
         namespaces:
           type: array
-          description: Si incluiste el parámetro `complements`, este campo es opcional; en cambio si inclusite el parámetro `addenda`, debes enviar la información necesaria para incluir estos namespaces en el documento XML.
+          description: |
+            If you included the `complements` parameter, this field is optional; however, if you included the `addenda` parameter, you must send the necessary information to include these namespaces in the XML document.
           items:
             allOf:
               - $ref: "#/components/schemas/NamespaceRequiredProperties"
               - $ref: "#/components/schemas/NamespaceProperties"
         pdf_options:
           type: object
-          description: Configura qué campos opcionales se queiren mostrar en el PDF. El SAT no obliga a mostrar estos campos, pero pueden activarse según la preferencia del cliente para la factura en curso. Utiliza este campo para peticiones de generación de facturas en las cuales necesites utilizar una configuración distinta al campo pdf_extra de la organización.
+          description: |
+            Configure which optional fields you want to show in the PDF. The SAT does not require showing these fields, but they can be activated according to the customer's preference for the current invoice. Use this field for invoice generation requests in which you need to use a different configuration than the pdf_extra field of the organization.
           properties:
             codes:
               type: boolean
               default: true
               description: |
-                Mostrar códigos de catálogos del SAT junto a sus descripciones. Ejemplo: “KGM Kilogramo”.
+                Show SAT catalog codes next to their descriptions. Example: "KGM Kilogramo".
             product_key:
               type: boolean
               default: true
               description: |
-                Mostrar la clave de producto-servicio.
+                Show the product/service key.
             round_unit_price:
               type: boolean
               default: false
               description: |
-                Redondear el precio unitario en el PDF a 2 decimales, pero conservar los 6 decimales en el XML.
+                Round the unit price in the PDF to 2 decimals, but keep the 6 decimals in the XML.
             tax_breakdown:
               type: boolean
               default: true
               description: |
-                Mostrar el desglose de impuestos en el PDF. Si se desactiva, sólo se mostratán los impuestos en los totales, pero no en el detalle de cada concepto.
+                Show the tax breakdown in the PDF. If disabled, only the taxes will be shown in the totals, but not in the detail of each concept.
             ieps_breakdown:
               type: boolean
               default: true
               description: |
-                Mostrar el desglose de ieps en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.    
+                Show the IEPS breakdown in the PDF. If disabled, only the taxes related to the IVA (VAT) will be shown in the subtotal.
     InvoiceCommonInputProperties:
       allOf:
         - type: object
           properties:
             customer:
-              description: Cliente receptor de la factura.
+              description: Customer receiving the invoice.
               oneOf:
                 - $ref: "#/components/schemas/CustomerCreateInput"
                 - type: string
                   title: customer_id
-                  description: ID del objeto 'customer' previamente registrado en Facturapi.
+                  description: ID of the `customer` object previously registered in Facturapi.
                   example: 58e93bd8e86eb318b0197456
             status:
               type: string
@@ -8168,198 +8241,137 @@ components:
                 - draft
               default: pending  
               description: |
-                Estado inicial de la factura. Si se envía `draft`, la factura se guardará como borrador y no se timbrará ni se
-                enviará al SAT. También al enviar `draft`, todos los campos requeridos se vuelven
-                opcionales. Si se omite, el estado por default es `pending` y una vez timbrada (en la respuesta) este
-                campo se actualizará a `valid`. Para facturas asíncronas, este campo se quedará en `pending` hasta que
-                se timbre la factura.
+                Initial status of the invoice.
+                
+                If `draft` is sent, the invoice will
+                be saved as a draft and will not be stamped or sent to the SAT.
+                Also, when sending `draft`, all required fields become optional.
+
+                If omitted, the default status is `pending` and once stamped (in
+                the response) this field will be updated to `valid`. For
+                asynchronous invoices, this field will remain `pending` until the
+                invoice is stamped.
               exacmple: draft
             date:
               type: string
               format: date-time
               default: now
-              description: Fecha de expedición del comprobante en formato ISO8601 (UTC String). No puede ser anterior a 72 horas en el pasado, ni posterior al presente.
+              description: |
+                Date of issuance of the invoice in ISO8601 format (UTC String). It cannot be earlier than 72 hours in the past, nor later than the present.
             address:
               allOf:
                 - $ref: "#/components/schemas/CommonAddressProperties"
                 - type: object
                   description: |
-                    Puedes usar este parámetro para especificar el domicilio de expedición de la factura.
-                    Este campo es opcional y si no se envía, la factura se expedirá con el domicilio de
-                    la organización.
+                    You can use this parameter to specify the address where the invoice was issued.
+                    This field is optional and if not sent, the invoice will be issued with the address of the organization.
                   required:
                     - zip
                   properties:
                     state:
                       type: string
-                      description: Nombre del Estado o Entidad Federativa.
+                      description: If the country is Mexico ("MEX"), this field should contain the name of the State or Federative Entity. For foreigners, it should contain the State code according to the standard [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), which you can consult in our [State Catalog](https://dashboard.facturapi.io/catalogs/state).
                       example: Sonora
             external_id:
               type: string
               nullable: true
-              description: Identificador opcional que puedes usar para relacionar esta factura con tus registros y poder hacer búsquedas usando este identificador. Facturapi no valida que este campo sea único.
+              description: |
+                Optional identifier that you can use to relate this invoice to your records and later search by this number. Facturapi does not validate that this field is unique.
             idempotency_key:
               type: string
               nullable: true
               description: |
-                Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
-                Si se deja en blanco, no se tomará en cuenta.
+                Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
+
+                If left blank, it will not be taken into account.
         - $ref: "#/components/schemas/InvoiceableCommonInput"
     InvoiceCommonEditInputProperties:
       allOf:
         - type: object
           properties:
             customer:
-              description: Cliente receptor de la factura.
+              description: Customer receiving the invoice.
               oneOf:
                 - $ref: "#/components/schemas/CustomerCreateInput"
                 - type: string
                   title: customer_id
-                  description: ID del objeto 'customer' previamente registrado en Facturapi.
+                  description: ID of the `Customer` object previously registered in Facturapi.
                   example: 58e93bd8e86eb318b0197456
             status:
               type: string
               enum:
                 - draft
               description: |
-                Estado inicial de la factura. Sólo es posible editar una factura con status `draft`,
-                y no es posible cambiar el status al editar, por lo que el único valor permitido es `draft`.
+                Initial status of the invoice. It is only possible to edit an invoice with status `draft`,
+                and it is not possible to change the status when editing, so the only allowed value is `draft`.
               exacmple: draft
             date:
               type: string
               format: date-time
-              description: Fecha de expedición del comprobante en formato ISO8601 (UTC String). No puede ser anterior a 72 horas en el pasado, ni posterior al presente.
+              description: |
+                Date of issuance of the invoice in ISO8601 format (UTC String). It cannot be earlier than 72 hours in the past, nor later than the present.
             address:
               allOf:
                 - $ref: "#/components/schemas/CommonAddressProperties"
                 - type: object
                   description: |
-                    Puedes usar este parámetro para especificar el domicilio de expedición de la factura.
-                    Este campo es opcional y si no se envía, la factura se expedirá con el domicilio de
-                    la organización.
+                    You can use this parameter to specify the address where the invoice was issued.
+                    This field is optional and if not sent, the invoice will be issued with the address of the organization.
                   required:
                     - zip
                   properties:
                     state:
                       type: string
-                      description: Nombre del Estado o Entidad Federativa.
+                      description: If the country is Mexico ("MEX"), this field should contain the name of the State or Federative Entity. For foreigners, it should contain the State code according to the standard [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), which you can consult in our [State Catalog](https://dashboard.facturapi.io/catalogs/state).
                       example: Sonora
             external_id:
               type: string
               nullable: true
-              description: Identificador opcional que puedes usar para relacionar esta factura con tus registros y poder hacer búsquedas usando este identificador. Facturapi no valida que este campo sea único.
+              description: |
+                Optional identifier that you can use to relate this invoice to your records and later search by this number. Facturapi does not validate that this field is unique.
             idempotency_key:
               type: string
               nullable: true
               description: |
-                Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
-                Si se deja en blanco, no se tomará en cuenta.
+                Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
+
+                If left blank, it will not be taken into account.
         - $ref: "#/components/schemas/InvoiceableCommonEditInput"
     InvoiceCreateInput:
       type: object
       oneOf:
-        - title: Ingreso
+        - title: Income
           discriminator:
             propertyName: status
             mapping:
               pending: "#/components/schemas/InvoiceIngresoInput"
               draft: "#/components/schemas/InvoiceIngresoEditInput"
-            properties:
-              status:
-                type: string
-                enum:
-                  - pending
-                  - draft
-                default: pending
-                description: |
-                  Estado inicial de la factura. Si se envía `draft`, la factura se guardará como borrador y no se timbrará ni se
-                  enviará al SAT. También al enviar `draft`, todos los campos requeridos se vuelven
-                  opcionales. Si se omite, el estado por default es `pending` y una vez timbrada (en la respuesta) este
-                  campo se actualizará a `valid`. Para facturas asíncronas, este campo se quedará en `pending` hasta que
-                  se timbre la factura.
-                exacmple: draft
-        - title: Egreso
+        - title: Egress
           discriminator:
             propertyName: status
             mapping:
               pending: "#/components/schemas/InvoiceEgresoInput"
               draft: "#/components/schemas/InvoiceEgresoEditInput"
-          properties:
-            status:
-                type: string
-                enum:
-                  - pending
-                  - draft
-                default: pending
-                description: |
-                  Estado inicial de la factura. Si se envía `draft`, la factura se guardará como borrador y no se timbrará ni se
-                  enviará al SAT. También al enviar `draft`, todos los campos requeridos se vuelven
-                  opcionales. Si se omite, el estado por default es `pending` y una vez timbrada (en la respuesta) este
-                  campo se actualizará a `valid`. Para facturas asíncronas, este campo se quedará en `pending` hasta que
-                  se timbre la factura.
-                exacmple: draft
-        - title: Pago
+        - title: Payment
           discriminator:
             propertyName: status
             mapping:
               pending: "#/components/schemas/InvoicePagoInput"
               draft: "#/components/schemas/InvoicePagoEditInput"
-          properties:
-            status:
-                type: string
-                enum:
-                  - pending
-                  - draft
-                default: pending
-                description: |
-                  Estado inicial de la factura. Si se envía `draft`, la factura se guardará como borrador y no se timbrará ni se
-                  enviará al SAT. También al enviar `draft`, todos los campos requeridos se vuelven
-                  opcionales. Si se omite, el estado por default es `pending` y una vez timbrada (en la respuesta) este
-                  campo se actualizará a `valid`. Para facturas asíncronas, este campo se quedará en `pending` hasta que
-                  se timbre la factura.
-                exacmple: draft
-        - title: Nómina
+        - title: Payroll
           discriminator:
             propertyName: status
             mapping:
               pending: "#/components/schemas/InvoiceNominaInput"
               draft: "#/components/schemas/InvoiceNominaEditInput"
-          properties:
-            status:
-                type: string
-                enum:
-                  - pending
-                  - draft
-                default: pending
-                description: |
-                  Estado inicial de la factura. Si se envía `draft`, la factura se guardará como borrador y no se timbrará ni se
-                  enviará al SAT. También al enviar `draft`, todos los campos requeridos se vuelven
-                  opcionales. Si se omite, el estado por default es `pending` y una vez timbrada (en la respuesta) este
-                  campo se actualizará a `valid`. Para facturas asíncronas, este campo se quedará en `pending` hasta que
-                  se timbre la factura.
-                exacmple: draft
-        - title: Traslado
+        - title: Transfer
           discriminator:
             propertyName: status
             mapping:
               pending: "#/components/schemas/InvoiceTrasladoInput"
               draft: "#/components/schemas/InvoiceTrasladoEditInput"
-          properties:
-            status:
-                type: string
-                enum:
-                  - pending
-                  - draft
-                default: pending
-                description: |
-                  Estado inicial de la factura. Si se envía `draft`, la factura se guardará como borrador y no se timbrará ni se
-                  enviará al SAT. También al enviar `draft`, todos los campos requeridos se vuelven
-                  opcionales. Si se omite, el estado por default es `pending` y una vez timbrada (en la respuesta) este
-                  campo se actualizará a `valid`. Para facturas asíncronas, este campo se quedará en `pending` hasta que
-                  se timbre la factura.
-                exacmple: draft
     InvoiceIngresoInput:
-      title: Ingreso
+      title: Income
       required:
         - customer
         - items
@@ -8373,15 +8385,16 @@ components:
               enum:
                 - I
               default: I
-              description: Tipo de comprobante. El valor default es `“I”` (Ingreso).
+              description: |
+                Type of document. The default value is `“I”` (Income).
             items:
               type: array
               maxItems: 5000
               description: |
-                Conceptos a incluir en la factura.
+                Concepts to include in the invoice.
 
-                El número máximo de elementos que puedes incluir en una factura es de 5,000. Si necesitas
-                emitir una factura con más de 5,000 conceptos, puedes dividir la transacción en varias facturas.
+                The maximum number of elements that you can include in an invoice is 5,000. If you need
+                to issue an invoice with more than 5,000 concepts, you can divide the transaction into several invoices.
               items:
                 $ref: "#/components/schemas/LineItemInput"
             payment_form:
@@ -8397,38 +8410,38 @@ components:
                 - PUE
                 - PPD
               description: |
-                Código del método de pago según el catálogo del SAT.
+                Code of the payment method according to the SAT catalog.
 
-                - `PUE`: Pago en Una sola Exhibición
-                - `PPD`: Pago en Parcialidades o Diferido
+                - `PUE`: Payment in One Installment (paid in full at the time of the transaction)
+                - `PPD`: Payment in Installments or Deferred (partial or deferred payment)
             use:
               type: string
               default: G01
               description: |
-                Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos
-                en [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en
-                nuestras librerías.
-
-                Para factura global debe ingresarse la clave `S01`.
+                Code of Use of CFDI according to the SAT catalog. You can see the codes in [this table](#uso-cfdi), or use the constants included in our libraries.
+                
+                For global invoices you must use the code `S01`.
             currency:
               type: string
               default: MXN
-              description: Código de la moneda, acorde al estándar [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
+              description: Currency code, according to the standard [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
             exchange:
               type: number
               default: 1
               description: |
-                Tipo de cambio conforme a la moneda usada. Representa el número de pesos
-                mexicanos (MXN) que equivalen a una unidad de la divisa señalada en el atributo `currency`.
+                Exchange rate according to the currency used. It represents the
+                number of Mexican pesos (MXN) equivalent to one unit of the
+                currency indicated in the `currency` attribute.
             conditions:
               type: string
               nullable: true
               minLength: 1
               maxLength: 1000
-              description: Condiciones de pago
+              description: Payment conditions. Free text field usually used to specify payment terms, such as the due date.
+              example: "Fecha límite de pago: 28/feb/2025"
             related_documents:
               type: array
-              description: Documentos relacionados con la factura.
+              description: Documents related to the invoice.
               default: []
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
@@ -8440,19 +8453,19 @@ components:
                 - months
                 - year
               description: |
-                Objeto requerido al crear una factura global.
+                Required object when creating a global invoice.
               properties:
                 periodicity:
                   type: string
                   nullable: true
                   description: |
-                    Periodicidad que abarca la factura global.
+                    Periodicity the global invoice covers.
 
-                    - `day`: Diario
-                    - `week`: Semanal
-                    - `fortnight`: Quincenal
-                    - `month`: Mensual
-                    - `two_months`: Bimestral
+                    - `day`: Daily
+                    - `week`: Weekly
+                    - `fortnight`: Every half month (quincena)
+                    - `month`: Monthly
+                    - `two_months`: Once every two months
                   enum:
                     - day
                     - week
@@ -8462,12 +8475,12 @@ components:
                 months:
                   type: string
                   description: |
-                    Clave que representa el mes o bimestre de la factura. Consulta
-                    los posibles valores en el [catálogo de Meses y Bimestres](#meses-y-bimestres).
+                    Key representing the month or bimester of the invoice. Consult
+                    the possible values in the [Months and Bimesters catalog](#meses-y-bimestres).
                   example: "01"
                 year:
                   type: integer
-                  description: Año de la factura.
+                  description: Year of the invoice.
                   example: 2022
             export:
               type: string
@@ -8478,25 +8491,25 @@ components:
                 - "03"
                 - "04"
               description: |
-                Indica si el comprobante ampara una operación de exportación.
+                Indicates if the invoice covers an export operation.
 
-                - `01`: No aplica
-                - `02`: Definitiva con clave A1
-                - `03`: Temporal
-                - `04`: Definitiva con clave distinta a A1 o cuando no existe enajenación en términos del CFF
+                - `01`: Not applicable
+                - `02`: Definitive with key A1
+                - `03`: Temporary
+                - `04`: Definitive with key different from A1 or when there is no sale in terms of the CFF
             complements:
               type: array
               default: []
               items:
                 $ref: "#/components/schemas/CustomComplementInput"
               description: |
-                Complementos a incluir en la factura. Puedes incluir cualquier complemento en la
-                factura si tú mismo construyes el nodo XML del complemento y usas el tipo `custom`.
-                Es necesario agregar la información del complemento al PDF por separado usando el
-                parámetro `pdf_custom_section`.
+                Complements to include in the invoice. You can include any complement in the
+                invoice if you build the XML node of the complement yourself and use the `custom` type.
+                It is necessary to add the complement information to the PDF separately using the
+                `pdf_custom_section` parameter.
         - $ref: "#/components/schemas/InvoiceCommonInputProperties"
     InvoiceEgresoInput:
-      title: Egreso
+      title: Egress
       allOf:
         - type: object
           required:
@@ -8514,10 +8527,11 @@ components:
               minLength: 2
               maxLength: 2
               example: "03"
-              description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
+              description: Payment form code according to the [Payment Form catalog](#forma-de-pago).
             related_documents:
               type: array
-              description: Documentos relacionados con la nota de crédito.
+              description: |
+                Documents related to the credit note.
               default: []
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
@@ -8525,37 +8539,41 @@ components:
               type: array
               maxItems: 5000
               description: |
-                Conceptos a incluir en la nota de crédito.
+                Concepts to include in the credit note.
 
-                El número máximo de elementos que puedes incluir en el comprobante es de 5,000. Si necesitas
-                emitir un comprobante con más de 5,000 conceptos, puedes dividir la transacción en varios comprobantes.
+                The maximum number of elements that you can include in a document is 5,000. If you need
+                to issue a document with more than 5,000 concepts, you can divide the transaction into several documents.
               items:
                 $ref: "#/components/schemas/LineItemEgresoInput"
             use:
               type: string
               default: G01
-              description: Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en nuestras librerías.
+              description: |
+                Code of Use of CFDI according to the SAT catalog. You can see the codes in [this table](#uso-cfdi), or use the constants included in our libraries.
             currency:
               type: string
               default: MXN
-              description: Código de la moneda, acorde al estándar [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
+              description: Currency code, according to the standard [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
             exchange:
               type: number
               default: 1
-              description: Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos (MXN) que equivalen a una unidad de la divisa señalada en el atributo `currency`.
+              description: |
+                Exchange rate according to the currency used. It represents the
+                number of Mexican pesos (MXN) equivalent to one unit of the
+                currency indicated in the `currency` attribute.
             complements:
               type: array
               default: []
               items:
                 $ref: "#/components/schemas/CustomComplementInput"
               description: |
-                Complementos a incluir en el comprobante. Puedes incluir cualquier
-                complemento en el comprobante si tú mismo construyes el nodo XML del
-                complemento y usas el tipo `custom`. Es necesario agregar la información
-                del complemento al PDF por separado usando el parámetro `pdf_custom_section`.
+                Complements to include in the credit note. You can include any complement in the
+                credit note if you build the XML node of the complement yourself and use the `custom` type.
+                It is necessary to add the complement information to the PDF separately using the
+                `pdf_custom_section` parameter.
         - $ref: "#/components/schemas/InvoiceCommonInputProperties"
     InvoicePagoInput:
-      title: Pago
+      title: Payment
       allOf:
         - type: object
           required:
@@ -8569,7 +8587,7 @@ components:
                 - P
             related_documents:
               type: array
-              description: Documentos relacionados con la factura.
+              description: Documents related to the invoice.
               default: []
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
@@ -8587,10 +8605,10 @@ components:
               default: []
               items:
                 $ref: "#/components/schemas/PagoOrCustomComplementInput"
-              description: Complementos a incluir en la factura.
+              description: Complements to include in the invoice.
         - $ref: "#/components/schemas/InvoiceCommonInputProperties"
     InvoiceNominaInput:
-      title: Nómina
+      title: Payroll
       allOf:
         - type: object
           required:
@@ -8607,16 +8625,16 @@ components:
               default: []
               items:
                 $ref: "#/components/schemas/NominaOrCustomComplementInput"
-              description: Complementos a incluir en la factura.
+              description: Complements to include in the invoice.
             related_documents:
               type: array
-              description: Documentos relacionados con la factura.
+              description: Documents related to the invoice.
               default: []
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
         - $ref: "#/components/schemas/InvoiceCommonInputProperties"
     InvoiceTrasladoInput:
-      title: Traslado
+      title: Transfer
       allOf:
         - type: object
           required:
@@ -8632,10 +8650,10 @@ components:
               type: array
               maxItems: 5000
               description: |
-                Conceptos a incluir en el comprobante de Traslado.
+                Concepts to include in the Transfer invoice.
 
-                El número máximo de elementos que puedes incluir en un comprobante es de 5,000. Si necesitas
-                emitir un comprobante con más de 5,000 conceptos, puedes dividir la transacción en varios comprobantes.
+                The maximum number of elements that you can include in an invoice is 5,000. If you need
+                to issue an invoice with more than 5,000 concepts, you can divide the transaction into several invoices.
               items:
                 $ref: "#/components/schemas/LineItemTrasladoInput"
             complements:
@@ -8644,35 +8662,35 @@ components:
               items:
                 $ref: "#/components/schemas/CustomComplementInput"
               description: |
-                Complementos a incluir en el comprobante. Puedes incluir cualquier complemento en
-                el comprobante si tú mismo construyes el nodo XML del complemento y usas el tipo
-                `custom`. Es necesario agregar la información del complemento al PDF por separado
-                usando el parámetro `pdf_custom_section`.
+                Complements to include in the invoice. You can include any complement in the
+                invoice if you build the XML node of the complement yourself and use the `custom` type.
+                It is necessary to add the complement information to the PDF separately using the
+                `pdf_custom_section` parameter.
             use:
               type: string
               default: G01
               description: |
-                Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en
-                [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en nuestras librerías.
+                Code of Use of CFDI according to the SAT catalog. You can see the codes in [this table](#uso-cfdi), or use the constants included in our libraries.
             currency:
               type: string
               default: MXN
-              description: Código de la moneda, acorde al estándar [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
+              description: Currency code, according to the standard [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
             exchange:
               type: number
               default: 1
               description: |
-                Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos
-                (MXN) que equivalen a una unidad de la divisa señalada en el atributo `currency`.
+                Exchange rate according to the currency used. It represents the
+                number of Mexican pesos (MXN) equivalent to one unit of the
+                currency indicated in the `currency` attribute.
             related_documents:
               type: array
-              description: Documentos relacionados con el comprobante.
+              description: Documents related to the invoice.
               default: []
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
         - $ref: "#/components/schemas/InvoiceCommonInputProperties"
     InvoiceIngresoEditInput:
-      title: Ingreso
+      title: Income
       allOf:
         - type: object
           properties:
@@ -8685,15 +8703,15 @@ components:
                 - N
                 - T
               description: |
-                Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+                Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
             items:
               type: array
               maxItems: 5000
               description: |
-                Conceptos a incluir en la factura.
+                Concepts to include in the invoice.
 
-                El número máximo de elementos que puedes incluir en una factura es de 5,000. Si necesitas
-                emitir una factura con más de 5,000 conceptos, puedes dividir la transacción en varias facturas.
+                The maximum number of elements that you can include in an invoice is 5,000. If you need
+                to issue an invoice with more than 5,000 concepts, you can divide the transaction into several invoices.
               items:
                 $ref: "#/components/schemas/LineItemInput"
             payment_form:
@@ -8701,44 +8719,42 @@ components:
               minLength: 2
               maxLength: 2
               example: "03"
-              description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
+              description: Payment form code according to the [Payment Form catalog](#forma-de-pago).
             payment_method:
               type: string
               enum:
                 - PUE
                 - PPD
               description: |
-                Código del método de pago según el catálogo del SAT.
+                Code of the payment method according to the SAT catalog.
 
-                - `PUE`: Pago en Una sola Exhibición
-                - `PPD`: Pago en Parcialidades o Diferido
+                - `PUE`: Payment in One Installment (paid in full at the time of the transaction)
+                - `PPD`: Payment in Installments or Deferred (partial or deferred payment)
             use:
               type: string
               example: G01
               description: |
-                Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos
-                en [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en
-                nuestras librerías.
-
-                Para factura global debe ingresarse la clave `S01`.
+                Code of Use of CFDI according to the SAT catalog. You can see the codes in [this table](#uso-cfdi), or use the constants included in our libraries.
+                
+                For global invoices you must use the code `S01`.
             currency:
               type: string
               example: MXN
-              description: Código de la moneda, acorde al estándar [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
+              description: Currency code, according to the standard [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
             exchange:
               type: number
               description: |
-                Tipo de cambio conforme a la moneda usada. Representa el número de pesos
-                mexicanos (MXN) que equivalen a una unidad de la divisa señalada en el atributo `currency`.
+                Echange rate for the currency used. It represents the number of pesos mexicanos (MXN) equivalent to one unit of the currency indicated in the `currency`.
             conditions:
               type: string
               nullable: true
               minLength: 1
               maxLength: 1000
-              description: Condiciones de pago
+              description: Payment conditions. Free text field usually used to specify payment terms, such as the due date.
+              example: "Fecha límite de pago: 28/feb/2025"
             related_documents:
               type: array
-              description: Documentos relacionados con la factura.
+              description: Documents related to the invoice.
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
             global:
@@ -8749,19 +8765,19 @@ components:
                 - months
                 - year
               description: |
-                Objeto requerido al crear una factura global.
+                Object required when creating a global invoice.
               properties:
                 periodicity:
                   type: string
                   nullable: true
                   description: |
-                    Periodicidad que abarca la factura global.
+                    Periodicity the global invoice covers.
 
-                    - `day`: Diario
-                    - `week`: Semanal
-                    - `fortnight`: Quincenal
-                    - `month`: Mensual
-                    - `two_months`: Bimestral
+                    - `day`: Daily
+                    - `week`: Weekly
+                    - `fortnight`: Every half month (quincena)
+                    - `month`: Monthly
+                    - `two_months`: Once every two months
                   enum:
                     - day
                     - week
@@ -8771,12 +8787,12 @@ components:
                 months:
                   type: string
                   description: |
-                    Clave que representa el mes o bimestre de la factura. Consulta
-                    los posibles valores en el [catálogo de Meses y Bimestres](#meses-y-bimestres).
+                    Key representing the month or bimester of the invoice. Consult
+                    the possible values in the [Months and Bimesters catalog](#meses-y-bimestres).
                   example: "01"
                 year:
                   type: integer
-                  description: Año de la factura.
+                  description: Year of the invoice.
                   example: 2022
             export:
               type: string
@@ -8786,24 +8802,24 @@ components:
                 - "03"
                 - "04"
               description: |
-                Indica si el comprobante ampara una operación de exportación.
+                Indicates if the invoice covers an export operation.
 
-                - `01`: No aplica
-                - `02`: Definitiva con clave A1
-                - `03`: Temporal
-                - `04`: Definitiva con clave distinta a A1 o cuando no existe enajenación en términos del CFF
+                - `01`: Not applicable
+                - `02`: Definitive with key A1
+                - `03`: Temporary
+                - `04`: Definitive with key different from A1 or when there is no sale in terms of the CFF
             complements:
               type: array
               items:
                 $ref: "#/components/schemas/CustomComplementInput"
               description: |
-                Complementos a incluir en la factura. Puedes incluir cualquier complemento en la
-                factura si tú mismo construyes el nodo XML del complemento y usas el tipo `custom`.
-                Es necesario agregar la información del complemento al PDF por separado usando el
-                parámetro `pdf_custom_section`.
+                Complements to include in the invoice. You can include any complement in the
+                invoice if you build the XML node of the complement yourself and use the `custom` type.
+                It is necessary to add the complement information to the PDF separately using the
+                `pdf_custom_section` parameter.
         - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
     InvoiceEgresoEditInput:
-      title: Egreso
+      title: Egress
       allOf:
         - type: object
           properties:
@@ -8816,51 +8832,54 @@ components:
                 - N
                 - T
               description: |
-                Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+                Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
             payment_form:
               type: string
               minLength: 2
               maxLength: 2
               example: "03"
-              description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
+              description: Payment form code according to the [Payment Form catalog](#forma-de-pago).
             related_documents:
               type: array
-              description: Documentos relacionados con la nota de crédito.
+              description: |
+                Documents related to the credit note.
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
             items:
               type: array
               maxItems: 5000
               description: |
-                Conceptos a incluir en la nota de crédito.
-
-                El número máximo de elementos que puedes incluir en el comprobante es de 5,000. Si necesitas
-                emitir un comprobante con más de 5,000 conceptos, puedes dividir la transacción en varios comprobantes.
+                Concepts to include in the credit note.
+                
+                The maximum number of elements that you can include in a document is 5,000. If you need
+                to issue a document with more than 5,000 concepts, you can divide the transaction into several documents.
               items:
                 $ref: "#/components/schemas/LineItemEgresoInput"
             use:
               type: string
               example: G01
-              description: Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en nuestras librerías.
+              description: |
+                Code of Use of CFDI according to the SAT catalog. You can see the codes in [this table](#uso-cfdi), or use the constants included in our libraries.
             currency:
               type: string
               example: MXN
-              description: Código de la moneda, acorde al estándar [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
+              description: Currency code, according to the standard [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
             exchange:
               type: number
-              description: Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos (MXN) que equivalen a una unidad de la divisa señalada en el atributo `currency`.
+              description: |
+                Exchange rate according to the currency used. It represents the number of pesos mexicanos (MXN) equivalent to one unit of the currency indicated in the `currency`.
             complements:
               type: array
               items:
                 $ref: "#/components/schemas/CustomComplementInput"
               description: |
-                Complementos a incluir en el comprobante. Puedes incluir cualquier
-                complemento en el comprobante si tú mismo construyes el nodo XML del
-                complemento y usas el tipo `custom`. Es necesario agregar la información
-                del complemento al PDF por separado usando el parámetro `pdf_custom_section`.
+                Complements to include in the credit note. You can include any complement in the
+                credit note if you build the XML node of the complement yourself and use the `custom` type.
+                It is necessary to add the complement information to the PDF separately using the
+                `pdf_custom_section` parameter.
         - $ref: "#/components/schemas/InvoiceCommonInputProperties"
     InvoicePagoEditInput:
-      title: Pago
+      title: Payment
       allOf:
         - type: object
           properties:
@@ -8873,10 +8892,10 @@ components:
                 - N
                 - T
               description: |
-                Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+                Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
             related_documents:
               type: array
-              description: Documentos relacionados con la factura.
+              description: Documents related to the invoice.
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
             third_party:
@@ -8892,10 +8911,10 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/PagoOrCustomComplementInput"
-              description: Complementos a incluir en la factura.
+              description: Complements to include in the invoice.
         - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
     InvoiceNominaEditInput:
-      title: Nómina
+      title: Payroll
       allOf:
         - type: object
           properties:
@@ -8908,20 +8927,20 @@ components:
                 - N
                 - T
               description: |
-                Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+                Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
             complements:
               type: array
               items:
                 $ref: "#/components/schemas/NominaOrCustomComplementInput"
-              description: Complementos a incluir en la factura.
+              description: Complements to include in the invoice.
             related_documents:
               type: array
-              description: Documentos relacionados con la factura.
+              description: Documents related to the invoice.
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
         - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
     InvoiceTrasladoEditInput:
-      title: Traslado
+      title: Transfer
       allOf:
         - type: object
           properties:
@@ -8934,15 +8953,15 @@ components:
                 - N
                 - T
               description: |
-                Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+                Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
             items:
               type: array
               maxItems: 5000
               description: |
-                Conceptos a incluir en el comprobante de Traslado.
+                Concepts to include in the Transfer invoice.
 
-                El número máximo de elementos que puedes incluir en un comprobante es de 5,000. Si necesitas
-                emitir un comprobante con más de 5,000 conceptos, puedes dividir la transacción en varios comprobantes.
+                The maximum number of elements that you can include in an invoice is 5,000. If you need
+                to issue an invoice with more than 5,000 concepts, you can divide the transaction into several invoices.
               items:
                 $ref: "#/components/schemas/LineItemTrasladoInput"
             complements:
@@ -8950,34 +8969,32 @@ components:
               items:
                 $ref: "#/components/schemas/CustomComplementInput"
               description: |
-                Complementos a incluir en el comprobante. Puedes incluir cualquier complemento en
-                el comprobante si tú mismo construyes el nodo XML del complemento y usas el tipo
-                `custom`. Es necesario agregar la información del complemento al PDF por separado
-                usando el parámetro `pdf_custom_section`.
+                Complements to include in the invoice. You can include any complement in the
+                invoice if you build the XML node of the complement yourself and use the `custom` type.
+                It is necessary to add the complement information to the PDF separately using the
+                `pdf_custom_section` parameter.
             use:
               type: string
               example: G01
               description: |
-                Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en
-                [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en nuestras librerías.
+                Code of Use of CFDI according to the SAT catalog. You can see the codes in [this table](#uso-cfdi), or use the constants included in our libraries.
             currency:
               type: string
               example: MXN
-              description: Código de la moneda, acorde al estándar [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
+              description: Currency code, according to the standard [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
             exchange:
               type: number
               description: |
-                Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos
-                (MXN) que equivalen a una unidad de la divisa señalada en el atributo `currency`.
+                Exchange rate for the currency used. It represents the number of pesos mexicanos (MXN) equivalent to one unit of the currency indicated in the `currency` attribute.
             related_documents:
               type: array
-              description: Documentos relacionados con el comprobante.
+              description: Documents related to the invoice.
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
         - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
 
     Receipt:
-      title: Objeto Receipt
+      title: Receipt object
       allOf:
         - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
         - $ref: "#/components/schemas/ReceiptProperties"
@@ -8989,15 +9006,17 @@ components:
               type: string
               format: date-time
               example: 2021-09-10T15:21:23.456Z
-              description: Fecha de emisión del recibo.
+              description: |
+                Date of issuance of the receipt in ISO8601 format (UTC String).
             expires_at:
               type: string
               format: date-time
               example: 2021-09-17T15:21:23.456Z
               description: |
-                Fecha de expiración en formato ISO8601 (UTC String).
-                Es la fecha límite para que el cliente pueda facturar su recibo en el portal de autofactura.
-                Se calcula automáticamente a partir de las configuraciones de recibo de la organización.
+                Expiration date in ISO8601 format (UTC String).
+
+                It is the deadline for the customer to invoice their receipt on the autofactura portal.
+                It is calculated automatically from the organization's receipt settings.
             status:
               type: string
               enum:
@@ -9011,31 +9030,38 @@ components:
               format: url
               example: https://factura.space/empresa-demo/r9YqYarL
               description: |
-                Dirección URL para realizar autofactura. Incluye el `key` del recibo.
-                Puedes usarla para generar un botón o un QR de facturación para tus clientes.
+                URL to the self-invoice portal. It includes the `key` of the receipt.
+
+                You can use it to generate a button or a QR code for your customers to invoice their receipts.
             total:
               type: number
               example: 356.78
-              description: Monto total de la operación
+              description: Total amount of the operation
             invoice:
               type: string
               example: 614496b471d422de4b6cfcc4
-              description: ID de la factura asociada, en caso de estar facturado.
+              description: ID of the associated invoice, if invoiced.
             key:
               type: string
               example: r9YqYarL
-              description: Autogenerado. Identificador único alfanumérico corto, útil para acceder a la autofactura desde tu micrositio en factura.space
+              description: |
+                Auto-generated. Short alphanumeric unique identifier, useful for accessing the self-invoice from your microsite on factura.space.
             items:
               type: array
-              description: Conceptos incluidos en el recibo
+              description: |
+                Sale items included in the receipt.
               items:
                 $ref: "#/components/schemas/LineItem"
             external_id:
               type: string
-              description: Identificador que puedes usar para relacionar este recibo con tus registros para después buscar por este número.
+              description: |
+                Optional identifier that you can use to relate this receipt to your records and later search by this number. Facturapi does not validate that this field is unique.
             idempotency_key:
               type: string
-              description: Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
+              description: |
+                Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
+
+                If left blank, it will not be taken into account.
         - $ref: "#/components/schemas/ReceiptEditableProperties"
     ReceiptInput:
       allOf:
@@ -9048,10 +9074,10 @@ components:
               type: array
               maxItems: 5000
               description: |
-                Conceptos a incluir en el recibo.
+                Concepts to include in the receipt.
 
-                El número máximo de elementos que puedes incluir en un recxibo es de 5,000. Si necesitas
-                emitir una recibo con más de 5,000 conceptos, prueba dividir la transacción en varios recibos.
+                The maximum number of elements that you can include in a receipt is 5,000. If you need
+                to issue a receipt with more than 5,000 concepts, you can divide the transaction into several receipts.
               items:
                 $ref: "#/components/schemas/LineItemInput"
           
@@ -9062,8 +9088,9 @@ components:
               type: string
               nullable: true
               description: |
-                Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
-                Si se deja en blanco, no se tomará en cuenta.
+                Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
+
+                If left blank, it will not be taken into account.
     ReceiptEditableProperties:
       type: object
       properties:
@@ -9071,31 +9098,35 @@ components:
           type: string
           format: date-time
           example: 2021-09-10T15:21:23.456Z
-          description: Fecha de emisión del recibo. Por defecto se utiliza la fecha actual.
+          description: |
+            Date of issuance of the receipt in ISO8601 format (UTC String).
         payment_form:
           type: string
           example: "03"
-          description: Código que representa la forma de pago, según el [catálogo del SAT](#forma-de-pago).
+          description: Payment form code according to the [Payment Form catalog](#forma-de-pago).
         folio_number:
           type: integer
           example: 120
-          description: Autoincremental. Número de folio del recibo para control interno y sin validez fiscal.
+          description: |
+            Autoincremental. Number of the receipt for internal control and without fiscal relevance.
         currency:
           type: string
           example: MXN
-          description: Código de la moneda, acorde al estándar [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
+          description: Currency code, according to the standard [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
         exchange:
           type: number
           minimum: 0
           example: 1
-          description: Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos que equivalen a una unidad de la divisa señalada en el atributo `currency`.
+          description: |
+            Exchange rate according to the currency used. It represents the number of Mexican pesos (MXN) equivalent to one unit of the currency indicated in the `currency` attribute.
         branch:
           type: string
-          description: Nombre de la sucursal donde se expidió el recibo.
+          description: Name of the branch where the receipt was issued.
         external_id:
           type: string
           nullable: true
-          description: Identificador opcional que puedes usar para relacionar este recibo con tus registros y poder hacer búsquedas usando este identificador. Facturapi no valida que este campo sea único.
+          description: |
+            Optional identifier that you can use to relate this receipt to your records and later search by this number. Facturapi does not validate that this field is unique.
     ReceiptSearchResult:
       allOf:
         - $ref: "#/components/schemas/SearchResult"
@@ -9113,23 +9144,25 @@ components:
         - type: object
           properties:
             customer:
-              description: Cliente receptor de la factura.
+              description: |
+                Customer receiving the invoice. You can send the customer object directly or the ID of a previously registered customer in Facturapi.
               oneOf:
                 - $ref: "#/components/schemas/CustomerCreateInput"
                 - type: string
                   title: customer_id
-                  description: ID del objeto 'customer' previamente registrado en Facturapi.
+                  description: ID of the 'customer' object previously registered in Facturapi.
                   example: 58e93bd8e86eb318b0197456
             use:
               type: string
               default: G01
-              description: Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en [esta tabla](#uso-cfdi), o utilizar las constantes incluídas en nuestras librerías.
+              description: |
+                Code of Use of CFDI according to the SAT catalog. You can see the codes in [this table](#uso-cfdi), or use the constants included in our libraries.
             conditions:
               type: string
               nullable: true
               minLength: 1
               maxLength: 1000
-              description: Condiciones de pago
+              description: Payment conditions. Free text field usually used to specify payment terms, such as the due date.
         - $ref: "#/components/schemas/InvoiceableCommonInput"
     GlobalInvoiceInput:
       type: object
@@ -9139,26 +9172,27 @@ components:
         from:
           type: string
           format: date
-          default: Inicio del último periodo
+          default: Start of the last period
           example: 2022-01-01T00:00:00.000
           description: |
-            Fecha inicial de los recibos que se incluirán en la factura global.
-            Por default, este valor es el inicio del último periodo (día, semana,
-            quincena o mes), según el valor de "Periodicidad" (`periodicity`)
-            en la configuración de recibos de tu organización. Este valor es requerido cuando se envíe el campo `receipts`.
+            Initial date of the receipts that will be included in the global invoice.
+            By default, this value is the start of the last period (day, week,
+            fortnight, or month), according to the value of "Periodicity" (`periodicity`)
+            in the receipts configuration of your organization. This value is required when the `receipts` field is sent.
         to:
           type: string
           format: date
-          default: Fin del último periodo
+          default: End of the last period
           example: 2022-31-01T23:59:59.999
           description: |
-            Fecha final de los recibos que se incluirán en la factura global.
-            Por default, este valor es el fin del último periodo (día, semana,
-            quincena o mes), según el valor de "Periodicidad" (`periodicity`)
-            en la configuración de recibos de tu organización. Este valor es requerido cuando se envíe el campo `receipts`.
+            End date of the receipts that will be included in the global invoice.
+            By default, this value is the end of the last period (day, week,
+            fortnight, or month), according to the value of "Periodicity" (`periodicity`)
+            in the receipts configuration of your organization. This value is required when the `receipts` field is sent.
         periodicity:
           type: string
-          default: Propiedad `periodicity` de la configuración de recibos de la organización.
+          # default: Propiedad `periodicity` de la configuración de recibos de la organización.
+          default: "`periodicity` property from the organization's receipt configuration."
           enum:
             - day
             - week
@@ -9166,53 +9200,56 @@ components:
             - month
             - two_months
           description: |
-            Periodicidad que corresponde al rango de fechas utilizado.
-            Si se omite, se tomará la configuración de recibos de la organización. 
-            Si omites enviar los campos `from` y `to`, las fechas que se asignarán por default dependerán del valor de periodicity.
+            Periodicity that corresponds to the range of dates used.
+            If omitted, the organization's receipt configuration will be used.
+            If you omit sending the `from` and `to` fields, the default dates will depend on the value of `periodicity`.
         months:
           type: string
-          default: Mes contenido en el rango de fechas utilizado.
+          default: Month contained in the range of dates used.
           description: |
-            Clave que representa el mes o bimestre de la factura. Consulta
-            los posibles valores en el [catálogo de Meses y Bimestres](#meses-y-bimestres).
+            Key representing the month or bimester of the invoice. Consult
+            the possible values in the [Months and Bimesters catalog](#meses-y-bimestres).
           example: "01"
         folio_number:
           type: integer
           default: autoincremental
           description: |
-            Número de folio asignado por la empresa para control interno.
-            Si se omite, se asignará el valor autoincremental de la organización.
+            Number of the folio assigned by the company for internal control.
+            If omitted, the incremental value of the organization will be assigned.
         series:
           type: string
           maxLength: 25
           nullable: true
-          description: Serie. Caracteres designados por la empresa para control interno y sin validez fiscal.
+          description: Series. Alphanumeric characters designated by the company for internal control and without fiscal validity.
+          example: "F"
         date:
           type: string
           format: date
-          default: Valor del atributo `to`
+          default: Value of the `to` field
           example: 2022-01-01T00:00:00.000
           description: |
-            Fecha de emisión de la factura.
+            Date of issuance of the invoice. By default, it takes the value of the `to` field.
         payment_form:
           type: string
           minLength: 2
           maxLength: 2
           example: "02"
           description: |
-            description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago). Si se incluye, los recibos se agruparán y se crearán la factura global por la forma de pago.
+            Payment form code according to the [Payment Form catalog](#forma-de-pago).
+
+            If included, the receipts will be grouped and the global invoice will be created by the payment form.
         receipts:
           type: array
           description: |
-            Recibos a incluir en la factura global. Si se incluye este parámetro, los parámetros `from` y `to` serán requeridos y tendrán que cumplir con el campo `periodicity`.
+            Receipts to include in the global invoice. If this parameter is included, the `from` and `to` parameters will be required and must comply with the `periodicity` field.
           items:
             type: string
             format: hex
             length: 24
-            description: ID de un recibo previamente registrado en Facturapi.
+            description: ID of a receipt previously registered in Facturapi.
             example: 614496b471d422de4b6cfcc4
     Retention:
-      title: Objeto Retention
+      title: Retention object
       allOf:
         - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
         - $ref: "#/components/schemas/RetentionReadOnlyProperties"
@@ -9226,23 +9263,24 @@ components:
             - valid
             - canceled
           description: |
-            Estado actual de la retención.
+            Current status of the document.
           example: valid
         verification_url:
           type: string
           format: uri
-          description: Dirección URL para verificar el estado de la retención en el portal del SAT. Este link es el mismo que aparece en el código QR, en el PDF de la retención.
+          description: URL to verify the status of the retention on the SAT portal. This link is the same as the one that appears in the QR code on the retention PDF.
           example: https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABC101010111&tt=345.600000&fe=bWApPw==
         type:
           type: string
           enum:
             - Retención
           example: Retención
-          description: Tipo de comprobante.
+          description: Type of document.
         uuid:
           type: string
           format: uuid
-          description: Folio fiscal de la retención, asignado por el SAT.
+          description: |
+            Fiscal folio of the retention, assigned by the SAT.
           example: 39c85a3f-275b-4341-b259-e8971d9f8a94
         stamp:
           $ref: "#/components/schemas/Stamp"
@@ -9254,76 +9292,82 @@ components:
         cve_retenc:
           type: string
           example: 01
-          description: Clave de la retención o información de pagos de acuerdo al catálogo del SAT.
+          description: |
+            Key of the retention or payment information according to the SAT catalog.
         fecha_exp:
           type: string
           format: date-time
           example: "2021-09-15T06:03:23.000Z"
-          description: Fecha de expedición del comprobante en formato ISO8601 (UTC String).
+          description: Date of issuance of the document in ISO8601 format (UTC String).
         desc_retenc:
           type: string
-          description: Si la clave de la retención es “25” (Otro tipo de retenciones), este campo se usa para registrar la descripción de la retención.
+          description: |
+            If the retention key is "25" (Other types of retentions), this field is used to register the description of the retention.
         folio_int:
           type: string
-          description: Identificador alfanumérico para control interno de la empresa y sin relevancia fiscal.
+          description: Alphanumeric identifier for internal control of the company and without fiscal relevance.
         periodo:
           type: object
-          description: Información sobre el periodo de la retención.
+          description: Information about the retention period.
           properties:
             mes_ini:
               type: integer
               minimum: 1
               maximum: 12
-              description: Mes inicial del periodo de la retención.
+              description: Initial month of the retention period.
             mes_fin:
               type: integer
               minimum: 1
               maximum: 12
-              description: Mes final del periodo de la retención.
+              description: Final month of the retention period.
             ejerc:
               type: integer
-              description: Año o ejercicio fiscal en que se realizó la retención.
+              description: Fiscal year in which the retention was made.
         totales:
           type: object
-          description: Información sobre el total de retenciones efectuadas en el periodo correspondiente.
+          description: Information about the total of retentions made in the corresponding period.
           properties:
             monto_tot_operacion:
               type: number
               minimum: 0
-              description: Monto total de la operación, con precisión de hasta 6 decimales.
+              description: Total amount of the operation, with precision of up to 6 decimals.
             monto_tot_grav:
               type: number
               minimum: 0
-              description: Monto total gravado.
+              description: Total amount taxed.
             monto_tot_exent:
               type: number
               minimum: 0
-              description: Monto total exento.
+              description: Total amount exempt.
             monto_tot_ret:
               type: number
               minimum: 0
-              description: Suma de los montos de impuestos retenidos.
+              description: Sum of the amounts of taxes withheld.
             imp_retenidos:
               type: array
-              description: Colección de impuestos retenidos.
+              description: Collection of withheld taxes.
               items:
                 type: object
                 properties:
                   base:
                     type: number
                     minimum: 0
-                    description: Base del impuesto retenido.
+                    description: Base amount on which the tax was calculated.
                   impuesto:
                     type: string
                     enum:
                       - IVA
                       - ISR
                     example: IVA
-                    description: Clave del tipo de impuesto retenido, del catálogo del SAT.
+                    description: |
+                      Key of the type of tax withheld, from the SAT catalog.
+
+                      - `IVA`: Value Added Tax
+                      - `ISR`: Income Tax
                   monto:
                     type: number
                     minimum: 0
-                    description: Importe del impuesto retenido
+                    description: Amount of the tax withheld.
                   tipo_pago_ret:
                     type: string
                     enum:
@@ -9332,38 +9376,42 @@ components:
                       - 03
                       - 04
                     description: |
-                      - `01`: Pago definitivo IVA
-                      - `02`: Pago definitivo IEPS
-                      - `03`: Pago definitivo ISR Plataformas
-                      - `04`: Pago provisional ISR
+                      Key of the type of payment according to the SAT catalog.
+
+                      - `01`: Definitive IVA (VAT) payment
+                      - `02`: Definitive IEPS payment
+                      - `03`: Definitive ISR Platforms payment
+                      - `04`: Provisional ISR payment
         external_id:
           type: string
-          description: Identificador opcional que puedes usar para relacionar esta retención con tus registros y poder hacer búsquedas usando este identificador. Facturapi no valida que este campo sea único.
+          description: |
+            Optional identifier that you can use to relate this retention to your records and later search by this number. Facturapi does not validate that this field is unique.
         idempotency_key:
           type: string
           nullable: true
           description: |
-            Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
-            Si se deja en blanco, no se tomará en cuenta.
+            Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
+
+            If left blank, it will not be taken into account.
         complements:
           type: array
           default: []
           items:
             $ref: "#/components/schemas/CustomComplementData"
           description: |
-            Arreglo de complementos a incluir en la factura. Cada elemento contiene
-            un `string` con el código XML del complemento.
+            Array of complements to include in the retention. Each element contains a `string` with the XML code of the complement.
         pdf_custom_section:
           type: string
           format: html
-          description: En caso de que necesites incluir más información en el PDF, este campo te permite insertar código HTML con tu propio contenido.
+          description: |
+            In case you need to include more information in the PDF, this field allows you to insert HTML code with your own content.
         addenda:
           type: string
           format: xml
-          description: Código XML con la Addenda que se necesite agregar a la factura.
+          description: XML code with the Addenda that needs to be added to the invoice.
         namespaces:
           type: array
-          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda`.
+          description: Namespaces to insert in the root node of the invoice. Required for `addenda`.
           items:
             $ref: "#/components/schemas/NamespaceProperties"
     RetentionSearchResult:
@@ -9384,32 +9432,33 @@ components:
         - totales
       properties:
         customer:
-          description: Cliente receptor de la factura.
+          description: Customer receiving the invoice.
           oneOf:
             - $ref: "#/components/schemas/CustomerCreateInput"
             - type: string
               title: customer_id
-              description: ID del objeto 'customer' previamente registrado en Facturapi.
+              description: ID of the 'customer' object previously registered in Facturapi.
               example: 58e93bd8e86eb318b0197456
         cve_retenc:
           type: string
           example: 26
-          description: Clave de la retención o información de pagos de acuerdo al [catálogo del SAT](#clave-de-retencion).
+          description: Key of the retention or payment information according to the [SAT catalog](#clave-de-retencion).
         fecha_exp:
           type: string
           format: date-time
           example: "2021-09-15T06:03:23.000Z"
-          description: Fecha de expedición del comprobante en formato ISO8601 (UTC String).
+          description: Date of issuance of the document in ISO8601 format (UTC String).
         desc_retenc:
           type: string
-          description: Si la clave de la retención es “25” (Otro tipo de retenciones), este campo se usa para registrar la descripción de la retención.
+          description: |
+            If the retention key is "25" (Other types of retentions), this field is used to register the description of the retention.
         folio_int:
           type: string
           example: R123
-          description: Identificador alfanumérico para control interno de la empresa y sin relevancia fiscal.
+          description: Alphanumeric identifier for internal control of the company and without fiscal relevance.
         periodo:
           type: object
-          description: Información sobre el periodo de la retención.
+          description: Information about the retention period.
           required:
             - mes_ini
             - mes_fin
@@ -9420,20 +9469,20 @@ components:
               minimum: 1
               maximum: 12
               example: 9
-              description: Mes inicial del periodo de la retención.
+              description: Initial month of the retention period.
             mes_fin:
               type: integer
               minimum: 1
               maximum: 12
               example: 9
-              description: Mes final del periodo de la retención.
+              description: Final month of the retention period.
             ejerc:
               type: integer
               example: 2021
-              description: Año o ejercicio fiscal en que se realizó la retención.
+              description: Fiscal year in which the retention was made.
         totales:
           type: object
-          description: Información sobre el total de retenciones efectuadas en el periodo correspondiente.
+          description: Information about the total of retentions made in the corresponding period.
           required:
             - monto_tot_operacion
             - monto_tot_exent
@@ -9442,22 +9491,22 @@ components:
             monto_tot_operacion:
               type: number
               minimum: 0
-              description: Monto total de la operación, con precisión de hasta 6 decimales.
+              description: Total amount of the operation, with precision of up to 6 decimals.
             monto_tot_grav:
               type: number
               minimum: 0
-              description: Monto total gravado.
+              description: Total amount taxed.
             monto_tot_exent:
               type: number
               minimum: 0
-              description: Monto total exento.
+              description: Total amount exempt.
             monto_tot_ret:
               type: number
               minimum: 0
-              description: Suma de los montos de impuestos retenidos.
+              description: Sum of the amounts of taxes withheld.
             imp_retenidos:
               type: array
-              description: Colección de impuestos retenidos.
+              description: Collection of withheld taxes.
               required:
                 - monto_ret
               items:
@@ -9469,18 +9518,22 @@ components:
                   base_ret:
                     type: number
                     minimum: 0
-                    description: Base del impuesto retenido.
+                    description: Base amount on which the tax was calculated.
                   impuesto:
                     type: string
                     enum:
                       - IVA
                       - ISR
                     example: IVA
-                    description: Clave del tipo de impuesto retenido, del catálogo del SAT.
+                    description: |
+                      Key of the type of tax withheld, from the SAT catalog.
+
+                      - `IVA`: Value Added Tax
+                      - `ISR`: Income Tax
                   monto_ret:
                     type: number
                     minimum: 0
-                    description: Importe del impuesto retenido
+                    description: Amount of the tax withheld.
                   tipo_pago_ret:
                     type: string
                     enum:
@@ -9489,37 +9542,39 @@ components:
                       - 03
                       - 04
                     description: |
-                      - `01`: Pago definitivo IVA
-                      - `02`: Pago definitivo IEPS
-                      - `03`: Pago definitivo ISR Plataformas
-                      - `04`: Pago provisional ISR
+                      Key of the type of payment according to the SAT catalog.
+
+                      - `01`: Definitive IVA (VAT) payment
+                      - `02`: Definitive IEPS payment
+                      - `03`: Definitive ISR Platforms payment
+                      - `04`: Provisional ISR payment
         external_id:
           type: string
-          description: Identificador opcional que puedes usar para relacionar esta retención con tus registros y poder hacer búsquedas usando este identificador. Facturapi no valida que este campo sea único.
+          description: |
+            Optional identifier that you can use to relate this retention to your records and later search by this number. Facturapi does not validate that this field is unique.
         idempotency_key:
           type: string
           description: |
-            Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
+            Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
         complements:
           type: array
           default: []
           items:
             $ref: "#/components/schemas/CustomComplementData"
           description: |
-            Arreglo de complementos a incluir en la factura. Cada elemento del arreglo deberá contener
-            un `string` con el código XML de tu complemento tal cual como quieres que se inserte en el
-            XML del CFDI. Sólo se permite un nodo XML raíz por elemento del arreglo.
+            Array of complements to include in the retention. Each element contains a `string` with the XML code of the complement, as you want it to be inserted in the XML of the CFDI. Only one root XML node is allowed per element.
         pdf_custom_section:
           type: string
           format: html
-          description: En caso de que necesites incluir más información en el PDF, este campo te permite insertar código HTML con tu propio contenido.
+          description: |
+            In case you need to include more information in the PDF, this field allows you to insert HTML code with your own content.
         addenda:
           type: string
           format: xml
-          description: Código XML con la Addenda que se necesite agregar a la factura.
+          description: XML code with the Addenda that needs to be added to the invoice.
         namespaces:
           type: array
-          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda`.
+          description: Namespaces to insert in the root node of the invoice. Required for `addenda`.
           items:
             allOf:
               - $ref: "#/components/schemas/NamespaceRequiredProperties"
@@ -9529,11 +9584,11 @@ components:
       allOf:
         - $ref: "#/components/schemas/CommonAddressProperties"
         - type: object
-          description: Domicilio fiscal de la organización emisora.
+          description: Fiscal address of the issuing organization.
           properties:
             state:
               type: string
-              description: Nombre del Estado o Entidad Federativa.
+              description: Name of the State or Federative Entity.
               example: Sonora
     OrganizationSearchResult:
       allOf:
@@ -9545,24 +9600,24 @@ components:
               items:
                 $ref: "#/components/schemas/Organization"
     Organization:
-      title: Objeto Organization
+      title: Organization object
       type: object
       properties:
         id:
           type: string
-          description: ID del objeto
+          description: ID of the organization, assigned by Facturapi.
           example: "5a2a307be93a2f00129ea035"
         created_at:
           type: string
           format: date-time
-          description: Fecha de registro
+          description: Date and time of creation of the organization.
           example: "2017-05-05T20:55:33.468Z"
         is_production_ready:
           type: boolean
-          description: Indica si la organización tiene información necesaria para facturar en ambiente Live.
+          description: Indicates if the organization has the necessary information to issue invoices in the Live environment.
         pending_steps:
           type: array
-          description: Lista de pasos que se necesitan completar para que esta organización pueda emitir facturas válidas en ambiente Live.
+          description: List of steps that need to be completed for this organization to issue valid invoices in the Live environment.
           items:
             type: object
             properties:
@@ -9572,107 +9627,110 @@ components:
                   - legal
                   - logo
                   - certificate
-                description: Código que representa el tiop de paso que se requiere completar
+                description: |
+                  Code that represents the type of step that needs to be completed.
               description:
                 type: string
-                description: Texto que describe el paso que se requiere completar y que puedes usar para mostrárselo al usuario.
+                description: Text that describes the step that needs to be completed and that you can use to show it to the user.
         legal:
           type: object
-          description: Datos fiscales de la empresa.
+          description: Fiscal information of the organization.
           properties:
             name:
               type: string
-              description: Nombre comercial de la organización.
+              description: Commercial name of the organization.
             legal_name:
               type: string
               description: |
-                Nombre Fiscal o Razón Social de la organización, *sin* el régimen societario (ej.: S.A. de C.V.).
+                Fiscal or Legal Name of the organization, *without* the corporate regime (e.g.: S.A. de C.V.).
             tax_system:
               type: string
               example: "601"
               maxLength: 3
               minLength: 3
-              description: Código de Régimen Fiscal, del [catálogo del SAT](#tipo-de-régimen).
+              description: Fiscal Regime Code, from the [SAT catalog](#régimen-fiscal).
             website:
               type: string
-              description: Sitio web de la organización, que se utilizará al enviar la factura por correo electrónico.
+              description: Website of the organization, which will be referenced when sending the invoice by email.
             phone:
               type: string
-              description: Teléfono de la organización, que aparecerá en el PDF de la factura.
+              description: Phone number of the organization, which will appear in the invoice PDF.
             address:
               allOf:
                 - type: object
-                  description: Domicilio fiscal de la organización.
+                  description: Fiscal address of the organization.
                 - $ref: "#/components/schemas/OrganizationAddress"
         customization:
           type: object
           description: |
-            Configuración de personalización de la organización, que se utilizarán para reflejar el branding y
-            las preferencias de PDFs de la organización. Estos datos se pueden actualizar en cualquier momento.
+            Organization customization settings, which will be used to reflect the branding and PDF preferences of the organization. This data can be updated at any time.
           properties:
             has_logo:
               type: boolean
-              description: Indica si la organización ya tiene un logotipo cargado.
+              description: Indicates if the organization already has a logo uploaded.
             color:
               type: string
               format: hex
               example: BADA55
-              description: Color distintivo de la marca en representación Hexadecimal RGB de 6 caracteres.
+              description: |
+                Distinctive color of the brand in Hexadecimal RGB representation of 6 characters.
             next_folio_number:
               type: integer
               example: 123
-              description: Número de folio que se asignará a la siguiente factura en ambiente Live (y que se incrementará automáticamente por cada nueva factura).
+              description: Folio number that will be assigned to the next invoice in the Live environment (and that will be automatically incremented for each new invoice).
             next_folio_number_test:
               type: integer
               example: 123
-              description: Número de folio que se asignará a la siguiente factura en ambiente Test (y que se incrementará automáticamente por cada nueva factura).
+              description: |
+                Folio number that will be assigned to the next invoice in the Test environment (and that will be automatically incremented for each new invoice).
             pdf_extra:
               type: object
-              description: Configura qué campos opcionales se queiren mostrar en el PDF. El SAT no obliga a mostrar estos campos, pero pueden activarse según la preferencia de la organización.
+              description: |
+                Configure which optional fields you want to show in the PDF. The SAT does not require these fields to be shown, but they can be activated according to the organization's preference.
               properties:
                 codes:
                   type: boolean
                   default: true
                   description: |
-                    Mostrar códigos de catálogos del SAT junto a sus descripciones. Ejemplo: “KGM Kilogramo”.
+                    Show SAT catalog codes next to their descriptions. Example: "KGM Kilogramo".
                 product_key:
                   type: boolean
                   default: true
                   description: |
-                    Mostrar la clave de producto-servicio.
+                    Show the product-service key.
                 round_unit_price:
                   type: boolean
                   default: false
                   description: |
-                    Redondear el precio unitario en el PDF a 2 decimales, pero conservar los 6 decimales en el XML.
+                    Round the unit price in the PDF to 2 decimals, but keep the 6 decimals in the XML.
                 tax_breakdown:
                   type: boolean
                   default: true
                   description: |
-                    Mostrar el desglose de impuestos en el PDF. Si se desactiva, sólo se mostratán los impuestos en los totales, pero no en el detalle de cada concepto.
+                    Show the tax breakdown in the PDF. If disabled, only the taxes will be shown in the totals, but not in the detail of each concept.
                 ieps_breakdown:
                   type: boolean
                   default: true
                   description: |
-                    Mostrar el desglose de ieps en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.    
+                    Show the breakdown of IEPS in the PDF. If disabled, only the taxes related to IVA (VAT) will be shown in the subtotal.
         certificate:
           type: object
           description: |
-            Información últil sobre el certificado de sello digital (CSD) de la organización, que se utilizará para firmar las facturas.
+            Useful information about the organization's Digital Stamp Certificate (CSD), which will be used to sign the invoices.
           properties:
             has_certificates:
               type: boolean
-              description: Indica si la organización ya tiene el Certificado de Sello Digital (CSD) cargado.
+              description: Indicates if the organization already has the Digital Stamp Certificate (CSD) uploaded.
             updated_at:
               type: string
               format: date-time
               example: "2023-05-05T20:55:33.468Z"
-              description: Fecha de la última actualización del certificado.
+              description: Date of the last update of the certificate.
             expires_at:
               type: string
               format: date-time
               example: "2025-05-05T20:55:33.468Z"
-              description: Fecha de expiración del certificado.
+              description: Expiration date of the certificate.
 
     OrganizationDeleteCerts: 
       type: object
@@ -9680,7 +9738,7 @@ components:
         updated_at:
           type: string
           format: date-time
-          description: Fecha de eliminación del certificado CSD.
+          description: Date of deletion of the CSD certificate.
 
     OrganizationCreateInput:
       type: object
@@ -9690,7 +9748,7 @@ components:
         name:
           type: string
           maxLength: 100
-          description: Nombre comercial de la organización.
+          description: Commercial name of the organization.
     OrganizationLegalInput:
       type: object
       required:
@@ -9702,31 +9760,32 @@ components:
         name:
           type: string
           maxLength: 100
-          description: Nombre comercial de la organización.
+          description: Commercial name of the organization.
         legal_name:
           type: string
           maxLength: 100
           description: |
-            Nombre Fiscal o Razón Social de la organización, *sin* el régimen societario (ej.: S.A. de C.V.).
+            Fiscal or Legal Name of the organization, *without* the corporate regime (e.g.: S.A. de C.V.).
         tax_system:
           type: string
           maxLength: 3
           minLength: 3
           example: "601"
-          description: Código del Régimen Fiscal, del [catálogo del SAT](#régimen-fiscal).
+          description: Fiscal Regime Code, from the [SAT catalog](#régimen-fiscal).
         website:
           type: string
-          description: Sitio web de la organización, que aparecerá en el PDF y correos de facturas y recibos.
+          description: Website of the organization, which will be referenced when sending the invoice by email.
         support_email:
           type: string
-          description: Dirección de correo electrónico para aclaraciones. Aparecerá en el PDF y correos de facturas y recibos.
+          description: |
+            Email address for clarifications. It will appear in the invoice PDF and emails.
         phone:
           type: string
-          description: Teléfono de la organización, que aparecerá en el PDF y correos de facturas y recibos.
+          description: Phone number of the organization, which will appear in the invoice PDF and emails.
         address:
           allOf:
             - type: object
-              description: Domicilio fiscal de la organización emisora.
+              description: Fiscal address of the issuing organization.
               required:
                 - zip
                 - street
@@ -9742,14 +9801,14 @@ components:
         cerFile:
           type: string
           format: binary
-          description: Contenido binario del archivo con extensión `.cer` del certificado CSD.
+          description: Binary content of the file with extension `.cer` of the CSD certificate.
         keyFile:
           type: string
           format: binary
-          description: Contenido binario del archivo con extensión `.key` del certificado CSD.
+          description: Binary content of the file with extension `.key` of the CSD certificate.
         password:
           type: string
-          description: Contraseña de la llave del certificado.
+          description: Password of the certificate key.
     OrganizationLogoInput:
       type: object
       required:
@@ -9759,8 +9818,10 @@ components:
           type: string
           format: binary
           description: |
-            Contenido binario del archivo con la imagen que se usará como
-            logotipo. Formatos soportados:
+            Binary content of the file with the image to be used as a logo.
+
+            Supported formats:
+
             - jpg
             - png
             - svg
@@ -9771,45 +9832,47 @@ components:
           type: string
           format: hex
           example: BADA55
-          description: Color distintivo de la marca en representación Hexadecimal RGB de 6 caracteres.
+          description: |
+            Distinctive color of the brand in Hexadecimal RGB representation of 6 characters.
         next_folio_number:
           type: integer
           example: 123
-          description: Número de folio que se asignará a la siguiente factura en ambiente Live (y que se incrementará automáticamente por cada nueva factura).
+          description: Folio number that will be assigned to the next invoice created in this organization in the Live environment. It will be automatically incremented for each new invoice.
         next_folio_number_test:
           type: integer
           example: 123
-          description: Número de folio que se asignará a la siguiente factura en ambiente Test (y que se incrementará automáticamente por cada nueva factura).
+          description: |
+            Folio number that will be assigned to the next invoice created in this organization in the Test environment. It will be automatically incremented for each new invoice.
         pdf_extra:
           type: object
-          description: Configura qué campos opcionales se queiren mostrar en el PDF. El SAT no obliga a mostrar estos campos, pero pueden activarse según la preferencia de la organización.
+          description: |
+            Configure which optional fields you want to show in the PDF. The SAT does not require these fields to be shown, but they can be activated according to the organization's preference.
           properties:
             codes:
               type: boolean
               default: true
               description: |
-                Mostrar códigos de catálogos del SAT junto a sus descripciones. Ejemplo: “KGM Kilogramo”.
+                Show SAT catalog codes next to their descriptions. Example: "KGM Kilogramo".
             product_key:
               type: boolean
               default: true
               description: |
-                Mostrar la clave de producto-servicio.
+                Show the product-service key.
             round_unit_price:
               type: boolean
               default: false
               description: |
-                Redondear el precio unitario en el PDF a 2 decimales, pero conservar los 6 decimales en el XML.
+                Round the unit price in the PDF to 2 decimals, but keep the 6 decimals in the XML.
             tax_breakdown:
               type: boolean
               default: true
               description: |
-                Mostrar el desglose de impuestos en el PDF. Si se desactiva, sólo se mostratán los impuestos en los totales, pero no en el detalle de cada concepto.
-                        ieps_breakdown:
+                Show the tax breakdown in the PDF. If disabled, only the taxes will be shown in the totals, but not in the detail of each concept.
             ieps_breakdown:  
               type: boolean
               default: true
               description: |
-                Mostrar el desglose de ieps en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.   
+                Show the breakdown of IEPS in the PDF. If disabled, only the taxes related to IVA (VAT) will be shown in the subtotal.
     OrganizationReceiptsInput:
       type: object
       properties:
@@ -9823,33 +9886,32 @@ components:
             - month
             - two_months
           description: |
-            Periodicidad con la que la empresa decide realizar una factura global
-            (al público en general) por todos los recibos no facturados. Este
-            valor se utiliza como default al crear una factura global.
+            Periodicity with which the company decides to issue a global invoice
+            (to the general public) for all the receipts not invoiced. This value is used as the default when creating a global invoice.
         duration_days:
           type: integer
           default: 7
           description: |
-            Días máximos para facturar por medio del portal de autofactura
-            después de emitido el recibo y antes del último día del periodo
-            definido por el atributo `periodicity`. El valor `0` desactiva esta
-            opción, haciendo que los recibos expiren siempre el último día del
-            periodo.
+            Maximum number of days to invoice through the self-invoicing portal
+            after the receipt is issued and before the last day of the period
+            defined by the `periodicity` attribute. The value `0` deactivates this
+            option, making the receipts always expire on the last day of the period.
         next_folio_number:
           type: integer
-          description: Número de folio que se asignará al siguiente recibo creado en esta organización en ambiente Live.
+          description: Folio number that will be assigned to the next receipt created in this organization in the Live environment.
         next_folio_number_test:
           type: integer
-          description: Número de folio que se asignará al siguiente recibo creado en esta organización en ambiente Test.
+          description: |
+            Folio number that will be assigned to the next receipt created in this organization in the Test environment.
     DomainField:
       type: string
       maxLength: 50
       minLength: 4
       pattern: ^[a-z][a-z0-9-_]{2,48}[a-z0-9]$
       description: |
-        Nombre del dominio. Se permiten caracteres alfanuméricos, sólo minúsculas,
-        guión (-) y guión bajo (_). Debe empezar con una letra y
-        terminar en letra o número.
+        Domain name. Alphanumeric characters are allowed, only lowercase,
+        hyphen (-) and underscore (_). It must start with a letter and
+        end in a letter or number.
     OrganizationDomainInput:
       type: object
       required:
@@ -9862,14 +9924,17 @@ components:
       type: http
       scheme: bearer
       bearerFormat: sk_live_XXXXXXXXXXXX
-      description: Única por organización. Permite crear, obtener y administrar recursos en ambiente Live para una organización en específico.
+      description: |
+        Unique per organization. Allows you to create, retrieve, and manage resources in the Live environment for a specific organization.
     "SecretTestKey":
       type: http
       scheme: bearer
       bearerFormat: sk_test_XXXXXXXXXXXX
-      description: Única por organización. Permite crear, obtener y administrar recursos en ambiente Test para una organización en específico.
+      description: |
+        Unique per organization. Allows you to create, retrieve, and manage resources in the Test environment for a specific organization.
     "SecretUsertKey":
       type: http
       scheme: bearer
       bearerFormat: sk_user_XXXXXXXXXXXX
-      description: Única por cuenta. Permite crear y configurar organizaciones pertenecientes a la cuenta del usuario.
+      description: |
+        Unique per account. Allows you to create and configure organizations belonging to the user's account

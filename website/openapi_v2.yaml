@@ -2413,8 +2413,8 @@ paths:
           required: true
           description: ID del objeto invoice a actualizar
       security:
-        - "Secret Live Key": []
-        - "Secret Test Key": []
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         "200":
           description: Objeto `Invoice` actualizado
@@ -4889,7 +4889,7 @@ paths:
               -H "Content-Type: application/json" \
               -d '{
                     "enabled_events": ["receipt.self_invoice_complete"],
-                    "url": "http://webhook_api.com"
+                    "url": "http://my-webstite.com"/my/webhook
                   }'
         - lang: JavaScript
           label: Node.js
@@ -4898,7 +4898,7 @@ paths:
             const facturapi = new Facturapi('sk_test_API_KEY');
             const customer = await facturapi.webhooks.create({
                     "enabled_events": ["receipt.self_invoice_complete"],
-                    "url": "http://webhook_api.com"
+                    "url": "http://my-webstite.com"/my/webhook
                   });
         - lang: csharp
           label: C#
@@ -4907,14 +4907,14 @@ paths:
             var customer = await facturapi.Webhook.CreateAsync(new Dictionary<string, object>
             {
               ["enabled_events"] = new Dictionary<string, object>["receipt.self_invoice_complete"],
-              ["url"] = "http://webhook_api.com"
+              ["url"] = "http://my-webstite.com"/my/webhook
             });
         - lang: PHP
           source: |
             $facturapi = new Facturapi( "sk_test_API_KEY" );
             $customer = $facturapi->Webhooks->create([
               "enabled_events" => ["receipt.self_invoice_complete"],
-              "url" => "http://webhook_api.com"
+              "url" => "http://my-webstite.com"/my/webhook
             ]);
       requestBody:
         $ref: "#/components/requestBodies/WebhookCreate"
@@ -6785,7 +6785,7 @@ components:
           description: Clave del catálogo del SAT [Tipo de Jornada](#tipo-de-jornada).
         tipo_regimen:
           type: string
-          description: Clave del catálogo del SAT [Tipo de Régimen](#tipo-de-régimen).
+          description: Clave del catálogo del SAT [Tipo de Régimen](#régimen-fiscal).
         num_empleado:
           type: string
           minLength: 1
@@ -7085,10 +7085,13 @@ components:
           type: string
           format: email
           description: Http ruta para el webhook
-          example: http://webhook_api.com
+          example: http://my-webstite.com/my/webhook
         status:
           type: string
           description:  Status del webhook
+          enum:
+            - enabled
+            - disabled
           example: enabled
     WebhookCreateInput:
       title: Webhook
@@ -7100,17 +7103,20 @@ components:
           properties:
             url:
               type: string
-              description: URL del webhook a dar de alta.
-              example: http://webhook_api.com
+              description: URL del webhook a dar de alta para recibir notificaciones.
+              example: http://my-webstite.com/my/webhook
             enabled_events:
               type: array
               items:
                 type: string
-                enum: 
+                enum:
+                  - "invoice.global_invoice_created"
+                  - "invoice.status_updated"
+                  - "invoice.cancellation_status_updated"
                   - "receipt.self_invoice_complete"
-                  - "receipt.cancellation_status_updated"
                   - "receipt.status_updated"
-              description: Los eventos que puedes dar de alta para el webhook. 
+                  - "receipt.cancellation_status_updated"
+              description: Los eventos a los que el webhook se suscribirá.
               example: ["receipt.self_invoice_complete"]
     WebhookCreateEdit:
       title: Webhook
@@ -7118,7 +7124,6 @@ components:
         - type: object
           required:
             - enabled_events
-            - url
           properties:
             status:
               type: string
@@ -7131,11 +7136,14 @@ components:
               type: array
               items:
                 type: string
-                enum: 
+                enum:
+                  - "invoice.global_invoice_created"
+                  - "invoice.status_updated"
+                  - "invoice.cancellation_status_updated"
                   - "receipt.self_invoice_complete"
                   - "receipt.cancellation_status_updated"
                   - "receipt.status_updated"
-              description: Los eventos que puedes dar de alta para el webhook. 
+              description: Los eventos a los que el webhook se suscribirá.
               example: ["receipt.self_invoice_complete"]
 
 
@@ -7251,14 +7259,14 @@ components:
           example: Ukelele
         product_key:
           type: string
-          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
+          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/catalogs/productKey).
           example: 60131324
         unit_key:
           type: string
           default: H87
           description: |
             Clave de unidad de medida, del catálogo del SAT. El valor por default `"H87"` (elemento) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc).
-            Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, te proporcionamos una manera conveniente de encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
+            Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, te proporcionamos una manera conveniente de encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/catalogs/unit).
         unit_name:
           type: string
           default: Elemento
@@ -7338,7 +7346,7 @@ components:
           example: Ukelele
         product_key:
           type: string
-          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
+          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/catalogs/productKey).
           example: 60131324
         price:
           type: number
@@ -7393,7 +7401,7 @@ components:
           nullable: true
           description: |
             Clave de unidad de medida, del catálogo del SAT. El valor por default `"H87"` (elemento) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc).
-            Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
+            Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/catalogs/unit).
         unit_name:
           type: string
           default: Elemento
@@ -7414,7 +7422,7 @@ components:
           type: string
           nullable: true
           default: 84111506
-          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
+          description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/catalogs/productKey).
           example: 84111506
         price:
           type: number
@@ -7465,7 +7473,7 @@ components:
           default: ACT
           description: |
             Clave de unidad de medida, del catálogo del SAT.
-            Puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/tools/keys).
+            Puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/catalogs/unit).
         unit_name:
           type: string
           nullable: true
@@ -7572,7 +7580,7 @@ components:
                 description: Número de parcialidad del pago.
               last_balance:
                 type: number
-                description: Cantidad que estaba pendiente por pagar antes de recibir este pago. Este valor se expresa en la moneda definida en `payments[].related[].currency`.
+                description: Cantidad que estaba pendiente por pagar antes de recibir este pago. Este valor se expresa en la moneda definida en `related_documents[].currency`.
               currency:
                 type: string
                 minLength: 3
@@ -7677,7 +7685,7 @@ components:
       properties:
         relationship:
           type: string
-          description: Clave de relación del catálogo del SAT que puedes consultar en [esta tabla](#relacion-entre-facturas). Es requerido cuando se envíe el parámetro `related`.
+          description: Clave de relación del catálogo del SAT que puedes consultar en [esta tabla](#relacion-entre-facturas). Es requerido cuando se envíe el parámetro `related_documents`.
         documents:
           type: array
           default: []
@@ -7780,7 +7788,7 @@ components:
           example: 914
         series:
           type: string
-          description: Serie. Caracteres designados por la empresa para control interno y sin validez fiscal. En el PDF se imprime junto al //www.facturapi.io/img/logo.svg
+          description: Serie. Caracteres designados por la empresa para control interno y sin validez fiscal. En el PDF se imprime junto al número de folio.
           example: F
         external_id:
           type: string
@@ -7913,7 +7921,7 @@ components:
           example: 914
         series:
           type: string
-          description: Serie. Caracteres designados por la empresa para control interno y sin validez fiscal. En el PDF se imprime junto al //www.facturapi.io/img/logo.svg
+          description: Serie. Caracteres designados por la empresa para control interno y sin validez fiscal. En el PDF se imprime junto al número de folio.
           example: F
         external_id:
           type: string
@@ -8040,7 +8048,7 @@ components:
               type: boolean
               default: true
               description: |
-                Mostrar el desglose de ieps en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.    
+                Mostrar el desglose de IEPS en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.    
     InvoiceableCommonEditInput:
       type: object
       properties:
@@ -8100,7 +8108,7 @@ components:
               type: boolean
               default: true
               description: |
-                Mostrar el desglose de ieps en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.    
+                Mostrar el desglose de IEPS en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.    
     InvoiceCommonInputProperties:
       allOf:
         - type: object
@@ -9544,7 +9552,7 @@ components:
               example: "601"
               maxLength: 3
               minLength: 3
-              description: Código de Régimen Fiscal, del [catálogo del SAT](#tipo-de-régimen).
+              description: Código de Régimen Fiscal, del [catálogo del SAT](#régimen-fiscal).
             website:
               type: string
               description: Sitio web de la organización, que se utilizará al enviar la factura por correo electrónico.
@@ -9606,7 +9614,7 @@ components:
                   type: boolean
                   default: true
                   description: |
-                    Mostrar el desglose de ieps en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.    
+                    Mostrar el desglose de IEPS en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.    
         certificate:
           type: object
           description: |
@@ -9756,12 +9764,11 @@ components:
               default: true
               description: |
                 Mostrar el desglose de impuestos en el PDF. Si se desactiva, sólo se mostratán los impuestos en los totales, pero no en el detalle de cada concepto.
-                        ieps_breakdown:
             ieps_breakdown:  
               type: boolean
               default: true
               description: |
-                Mostrar el desglose de ieps en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.   
+                Mostrar el desglose de IEPS en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.   
     OrganizationReceiptsInput:
       type: object
       properties:

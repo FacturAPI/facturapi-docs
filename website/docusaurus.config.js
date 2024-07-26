@@ -87,7 +87,7 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
             {
               type: "doc",
               docId: "intro",
-              label: "Guías de uso",
+              label: "Tutoriales",
             },
             {
               href: '/api', 

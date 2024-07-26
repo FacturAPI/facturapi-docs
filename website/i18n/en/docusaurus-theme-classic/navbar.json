@@ -7,9 +7,9 @@
     "message": "Facturapi",
     "description": "The alt text of navbar logo"
   },
-  "item.label.Guías de uso": {
-    "message": "How to use",
-    "description": "Navbar item with label Guías de uso"
+  "item.label.Tutoriales": {
+    "message": "Tutorials",
+    "description": "Navbar item with label Tutoriales"
   },
   "item.label.Referencia API": {
     "message": "API reference",

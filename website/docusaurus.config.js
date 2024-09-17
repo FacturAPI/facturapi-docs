@@ -81,7 +81,7 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
           title: "Facturapi",
           logo: {
             alt: "Facturapi",
-            src: "img/logo.svg",
+            src: "img/facturapilogo.svg",
           },
           items: [
             {

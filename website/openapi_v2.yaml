@@ -1146,7 +1146,12 @@ paths:
           name: q
           schema:
             type: string
-          description: Consulta.  Texto a buscar en la descripción del producto o SKU.
+          description: Consulta. Texto a buscar en la descripción del producto o SKU.
+        - in: query
+          name: sku
+          schema:
+            type: string
+          description: SKU del producto.
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:

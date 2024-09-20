@@ -1172,6 +1172,11 @@ paths:
           schema:
             type: string
           description: Free text field. Search word matches with `description` or `sku` fields.
+        - in: query
+          name: sku
+          schema:
+            type: string
+          description: Search word matches specifically with `sku` field.
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:
@@ -4979,10 +4984,10 @@ paths:
       operationId: createSeriesGroup
       tags:
         - organization
-      summary: Crear serie
+      summary: Create Series
       description: |
-        Crea una nueva serie de folios para la organización.
-        Las series son útiles para llevar un control de los folios emitidos para cada tipo de factura.
+        Create a new folio series for the organization.
+        Series are useful for keeping track of the forms issued for each type of invoice
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -5046,7 +5051,7 @@ paths:
         - "SecretUsertKey": []
       responses:
         "200":
-          description: Nuevo objeto de la `Serie` creada
+          description: New created object `s`
           content:
             application/json:
               schema:
@@ -5063,9 +5068,9 @@ paths:
       operationId: updateSeriesGroup
       tags:
         - organization
-      summary: Editar serie
+      summary: Update Series
       description: |
-        Edita el número de foliaje de la serie en ambientes Test y Live de la organización.
+        Edit the folio number of the series in the Test and Live environments of the organization.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -5129,12 +5134,12 @@ paths:
           schema:
             type: string
           required: true
-          description: Nombre de la serie
+          description: Series name
       security:
         - "SecretUsertKey": []
       responses:
         "200":
-          description: Objeto `Serie` editada 
+          description: Updated Objet `Series`
           content:
             application/json:
               schema:
@@ -5149,9 +5154,9 @@ paths:
       operationId: deleteSeriesGroup
       tags:
         - organization
-      summary: Eliminar serie
+      summary: Delete serie
       description: |
-        Elimina la serie previamente creada
+        Delete the series
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -5190,18 +5195,18 @@ paths:
           schema:
             type: string
           required: true
-          description: ID de la organización
+          description: Organization Id
         - in: path
           name: series_name
           schema:
             type: string
           required: true
-          description: Nombre de la serie
+          description: Series Name
       security:
         - "SecretUsertKey": []
       responses:
         "200":
-          description: Objeto `Serie` eliminado
+          description: Deleted Objet `Series`
           content:
             application/json:
               schema:
@@ -10241,37 +10246,37 @@ components:
         series:
           type: string
           maxLength: 55
-          description: Nombre de la serie.
+          description: Series name
         next_folio:
           type: integer
-          description: Número de folio que se asignará a la siguiente factura en ambiente Live (y que se incrementará automáticamente por cada nueva factura).
+          description: Folio number that will be assigned to the next invoice in the Live environment (and will automatically increase with each new invoice).
         next_folio_test:
           type: integer
-          description: Número de folio que se asignará a la siguiente factura en ambiente Test (y que se incrementará automáticamente por cada nueva factura).
+          description: Folio number that will be assigned to the next invoice in the Test environment (and will automatically increase with each new invoice).
     OrganizationSeriesUpdateInput:
       type: object
       properties:
         next_folio:
           type: integer
-          description: Número de folio que se asignará a la siguiente factura en ambiente Live (y que se incrementará automáticamente por cada nueva factura).
+          description: Folio number that will be assigned to the next invoice in the Live environment (and will automatically increase with each new invoice).
         next_folio_test:
           type: integer
-          description: Número de folio que se asignará a la siguiente factura en ambiente Test (y que se incrementará automáticamente por cada nueva factura).
+          description: Folio number that will be assigned to the next invoice in the Test environment (and will automatically increase with each new invoice).
     OrganizationSeriesGroup:
       title: Objeto Series
       type: object
       properties:
         series:
           type: string
-          description: Nombre de la serie.
+          description: Series Name.
           example: "New"
         next_folio:
           type: integer
-          description: Número de folio que se asignará a la siguiente factura en ambiente Live (y que se incrementará automáticamente por cada nueva factura).
+          description: Folio number that will be assigned to the next invoice in the Live environment (and will automatically increase with each new invoice).
           example: 123
         next_folio_test:
           type: integer
-          description: Número de folio que se asignará a la siguiente factura en ambiente Test (y que se incrementará automáticamente por cada nueva factura).
+          description: Folio number that will be assigned to the next invoice in the Test environment (and will automatically increase with each new invoice).
           example: 123
   securitySchemes:
     "SecretLiveKey":

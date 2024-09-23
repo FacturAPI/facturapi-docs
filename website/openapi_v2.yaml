@@ -4814,6 +4814,76 @@ paths:
         "500":
           $ref: "#/components/responses/UnexpectedError"
   /organizations/{organization_id}/apikeys/live:
+    get:
+      operationId: listLiveApiKeys
+      tags:
+        - organization
+      summary: Listar Live API Keys
+      description: |
+        Listar llaves secretas de ambiente Live de la organización.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/apikeys/live \
+              -H "Authorization: Bearer sk_user_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_user_API_KEY');
+
+            const listLiveApiKeys = await facturapi.organizations.listLiveApiKeys(
+              '5a2a307be93a2f00129ea035'
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var listLiveApiKeys = await facturapi.Organization.ListLiveApiKeysAsync(
+              "5a2a307be93a2f00129ea035"
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_user_API_KEY" );
+            $list_live_api_keys = $facturapi->Organizations->listLiveApiKeys(
+              "5a2a307be93a2f00129ea035"
+            );
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+      security:
+        - "SecretUsertKey": []
+      responses:
+        "200":
+          description: Live API Key
+          content:
+            application/json:
+              schema:
+                -type: array
+                items: 
+                  -type: object
+                  properties: 
+                    first_12:
+                      type: string
+                      description: "Primeros 12 caracteres de la llave secreta"
+                    created_at:
+                      type: string
+                      format: date-time
+                      description: "Fecha de creación de la llave secreta"
+                    id:
+                      type: string
+                      description: "ID de la llave secreta"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
     put:
       operationId: renewLiveApiKey
       tags:
@@ -4868,6 +4938,88 @@ paths:
               schema:
                 type: string
                 example: sk_live_API_KEY
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/apikeys/live/{id}:
+    delete:
+      operationId: deleteLiveApiKey
+      tags:
+        - organization
+      summary: Revocar Live API Key
+      description: |
+        Revocar Live Api Key de tu organización.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/apikeys/live/66f2ec798ca5a9b80c97db71 \
+              -X DELETE \
+              -H "Authorization: Bearer sk_user_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_user_API_KEY');
+
+            const hasDeleted = await facturapi.organizations.deleteLiveApiKey(
+              '5a2a307be93a2f00129ea035',
+              '66f2ec798ca5a9b80c97db71'
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var hasDeleted = await facturapi.Organization.DeleteLiveApiKeyAsync(
+              "5a2a307be93a2f00129ea035",
+              "66f2ec798ca5a9b80c97db71"
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_user_API_KEY" );
+            $has_deleted = $facturapi->Organizations->deleteLiveApiKey(
+              "5a2a307be93a2f00129ea035",
+              "66f2ec798ca5a9b80c97db71"
+            );
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID de la llave secreta a eliminar
+      security:
+        - "SecretUsertKey": []
+      responses:
+        "200":
+          description: Live API Key
+          content:
+            application/json:
+              schema:
+                -type: array
+                items: 
+                  -type: object
+                  properties: 
+                    first_12:
+                      type: string
+                      description: "Primeros 12 caracteres de la llave secreta"
+                    created_at:
+                      type: string
+                      format: date-time
+                      description: "Fecha de creación de la llave secreta"
+                    id:
+                      type: string
+                      description: "ID de la llave secreta"
+
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":

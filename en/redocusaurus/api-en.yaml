@@ -5783,6 +5783,113 @@ paths:
           $ref: '#/components/responses/Unauthenticated'
         '500':
           $ref: '#/components/responses/UnexpectedError'
+  /webhooks/validate-signature:
+    post:
+      operationId: validateWebhookSignature
+      tags:
+        - webhooks
+      summary: Validate Webhook Signature
+      description: >
+        Validate the signature of a webhook event. This endpoint is used to
+        verify the authenticity of the webhook event.  
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/webhooks/validate-signature \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                    "secret": "wh_sec...",
+                    "payload": "Object Response",
+                    "facturapi-signature": "Signature_FROM_HEADER"
+                  }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const customer = await facturapi.webhooks.validateSignature({
+                    secret: "wh_sec...",
+                    payload: "Object Response",
+                    'facturapi-signature': "Signature_FROM_HEADER"
+                  });
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var customer = await facturapi.Webhook.ValidateSignatureAsync(new
+            Dictionary<string, object>
+
+            {
+              ["secret"] = "wh_sec...",
+              ["payload"] = new Dictionary<string>["Object Response"],
+              ["facturapi-signature"] = "Signature_FROM_HEADER"
+            });
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $customer = $facturapi->Webhooks->validateSignature([
+              "secret" => "wh_sec...",
+              "payload" => "Object Response",
+              "facturapi-signature" => "Signature_FROM_HEADER"
+            ]);
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                secret:
+                  type: string
+                  description: Secret key of the webhook
+                  required: true
+                payload:
+                  type: object
+                  description: Object response of webhook
+                  required: true
+                facturapi-signature:
+                  type: string
+                  description: Signature from header
+                  required: true
+      security:
+        - SecretLiveKey: []
+        - SecretTestKey: []
+      responses:
+        '200':
+          description: Objeto del webhook validado de acuerdo al evento
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/EventBase'
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        description: Tipo de evento
+                        example: invoice.status_updated
+                        enum:
+                          - invoice.status_updated
+                      data:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                            description: Tipo de objeto asociado al evento
+                            enum:
+                              - invoice
+                          object:
+                            $ref: '#/components/schemas/Invoice'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
   /check:
     get:
       tags:

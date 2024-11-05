@@ -9166,6 +9166,12 @@ components:
               default: []
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
+            payment_related_ids: 
+              type: array
+              items: 
+                type: string
+              description: This field will contain the ids of the invoices that were paid with this document, as long as they  were created or imported to the same organization's Facturapi account.
+              default: []
             third_party:
               allOf:
                 - type: object

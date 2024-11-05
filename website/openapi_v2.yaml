@@ -9106,6 +9106,12 @@ components:
               default: []
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
+            payment_related_ids:
+              type: array
+              items:
+                type: string
+              description: Id de facturapi de las facturas que fueron pagadas con este documento.
+              default: []
             third_party:
               allOf:
                 - type: object

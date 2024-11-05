@@ -7842,6 +7842,10 @@ components:
           type: string
           description: Customer's phone number.
           example: 6474010101
+        default_invoice_use:
+          type: string
+          description: Default CFDI use for the customer.
+          example: G01
     CustomerCreateInput:
       title: Customer
       allOf:

@@ -3886,6 +3886,56 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/UnexpectedError'
+  /organizations/me:
+    get:
+      operationId: meOrganization
+      tags:
+        - organization
+      summary: Organization detail
+      description: |
+        Returns the detail of a organization registered under your account.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/organizations/me \
+              -H "Authorization: Bearer sk_user_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            const organizationResults = await facturapi.organizations.me();
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var searchResult = await facturapi.Organization.MeAsync();
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+
+            $organizations = $facturapi->Organizations->me()
+      security:
+        - SecretLiveKey: []
+        - SecretTestKey: []
+      responses:
+        '200':
+          description: The `Organization` object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
   /organizations/{organization_id}/legal:
     put:
       operationId: editOrganizationLegal
@@ -8084,6 +8134,10 @@ components:
           type: string
           description: Customer's phone number.
           example: 6474010101
+        default_invoice_use:
+          type: string
+          description: Default CFDI use for the customer.
+          example: G01
     CustomerCreateInput:
       title: Customer
       allOf:
@@ -9776,6 +9830,15 @@ components:
               default: []
               items:
                 $ref: '#/components/schemas/RelatedDocumentInput'
+            payment_related_ids:
+              type: array
+              items:
+                type: string
+              description: >-
+                This field will contain the ids of the invoices that were paid
+                with this document, as long as they  were created or imported to
+                the same organization's Facturapi account.
+              default: []
             third_party:
               allOf:
                 - type: object

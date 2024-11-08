@@ -5810,10 +5810,14 @@ paths:
       operationId: validateWebhookSignature
       tags:
         - webhooks
-      summary: Validar response de webhook
+      summary: Validar evento de webhook
       description: >
-        Valida la firma de un webhook recibido. Utiliza esta operación para
-        verificar la autenticidad de un webhook recibido.
+        Valida la firma de un evento recibido mediante un Webhook.
+
+        Utiliza esta operación para verificar la autenticidad e integridad de
+
+        un evento recibido, comparando la firma recibida con la generada por
+        Facturapi.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -5824,7 +5828,7 @@ paths:
               -d '{
                     "secret": "wh_sec...",
                     "payload": "Object Response",
-                    "facturapi-signature": "Signature_FROM_HEADER"
+                    "signature": "Signature_FROM_HEADER"
                   }'
         - lang: JavaScript
           label: Node.js
@@ -5834,7 +5838,7 @@ paths:
             const customer = await facturapi.webhooks.validateSignature({
                     secret: "wh_sec...",
                     payload: "Object Response",
-                    'facturapi-signature': "Signature_FROM_HEADER"
+                    signature: "Signature_FROM_HEADER"
                   });
         - lang: csharp
           label: C#
@@ -5847,7 +5851,7 @@ paths:
             {
               ["secret"] = "wh_sec...",
               ["payload"] = new Dictionary<string>["Object Response"],
-              ["facturapi-signature"] = "Signature_FROM_HEADER"
+              ["signature"] = "Signature_FROM_HEADER"
             });
         - lang: PHP
           source: |
@@ -5855,7 +5859,7 @@ paths:
             $customer = $facturapi->Webhooks->validateSignature([
               "secret" => "wh_sec...",
               "payload" => "Object Response",
-              "facturapi-signature" => "Signature_FROM_HEADER"
+              "signature" => "Signature_FROM_HEADER"
             ]);
       requestBody:
         content:
@@ -5865,15 +5869,19 @@ paths:
               properties:
                 secret:
                   type: string
-                  description: Llave secreta del webhook
+                  description: >-
+                    Llave secreta del webhook. Se obtiene al crear un webhook o
+                    desde el dashboard de Facturapi.
                   required: true
                 payload:
                   type: object
-                  description: Objeto de respuesta del webhook
+                  description: Objeto ApiEvent recibido mediante el webhook
                   required: true
-                facturapi-signature:
+                signature:
                   type: string
-                  description: Firma del webhook
+                  description: >-
+                    Firma del webhook recibida en el header
+                    `Facturapi-Signature`
                   required: true
       security:
         - SecretLiveKey: []

@@ -5914,7 +5914,7 @@ paths:
         - SecretTestKey: []
       responses:
         '200':
-          description: Objeto del webhook validado de acuerdo al evento
+          description: Event object successfully validated
           content:
             application/json:
               schema:
@@ -5924,7 +5924,7 @@ paths:
                     properties:
                       type:
                         type: string
-                        description: Tipo de evento
+                        description: Type of event
                         example: invoice.status_updated
                         enum:
                           - invoice.status_updated
@@ -5933,7 +5933,7 @@ paths:
                         properties:
                           type:
                             type: string
-                            description: Tipo de objeto asociado al evento
+                            description: Type of object affected by the event
                             enum:
                               - invoice
                           object:

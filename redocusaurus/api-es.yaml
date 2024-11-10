@@ -5888,7 +5888,7 @@ paths:
         - SecretTestKey: []
       responses:
         '200':
-          description: Objeto del webhook validado de acuerdo al evento
+          description: Objeto del evento validado
           content:
             application/json:
               schema:

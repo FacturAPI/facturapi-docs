@@ -8961,6 +8961,14 @@ components:
             $ref: '#/components/schemas/NamespaceProperties'
         stamp:
           $ref: '#/components/schemas/Stamp'
+        payment_related_ids:
+          type: array
+          items:
+            type: string
+          description: >-
+            Si esta factura tiene un método de pago PPD y es de tipo I, este
+            campo contendrá los id de pagos relacionados a esta factura.
+          default: []
     InvoiceDraftProperties:
       type: object
       properties:
@@ -9865,14 +9873,6 @@ components:
               default: []
               items:
                 $ref: '#/components/schemas/RelatedDocumentInput'
-            payment_related_ids:
-              type: array
-              items:
-                type: string
-              description: >-
-                Id de facturapi de las facturas que fueron pagadas con este
-                documento.
-              default: []
             third_party:
               allOf:
                 - type: object

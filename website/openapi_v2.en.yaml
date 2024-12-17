@@ -8063,6 +8063,9 @@ components:
             - "03"
             - "04"
             - "05"
+            - "06"
+            - "07"
+            - "08"
           description: |
             Code that represents whether the good or service is subject to tax or not. This attribute corresponds to the "ObjetoImp" field in the CFDI.
 
@@ -8071,6 +8074,9 @@ components:
             - `03`: Subject to tax, but not required to break down.
             - `04`: Subject to tax, but does not cause tax.
             - `05`: Subject to tax, VAT credit PODEBI.
+            - `06`: Subect to tax IVA, but not IVA transferred.
+            - `07`: Not Subject to tax IVA, but required IEPS breakdown.
+            - `08`: Not Subject to tax IVA, and not required IEPS breakdown.
         taxes:
           type: array
           default: IVA (VAT) transferred 16%

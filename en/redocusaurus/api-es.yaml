@@ -8320,6 +8320,9 @@ components:
             - '03'
             - '04'
             - '05'
+            - '06'
+            - '07'
+            - '08'
           description: >
             Código que representa si el bien o servicio es objeto de impuesto o
             no. Este atributo corresponde al campo "ObjetoImp" en el CFDI.
@@ -8334,6 +8337,12 @@ components:
             - `04`: Sí objeto de impuesto, y no causa impuesto.
 
             - `05`: Sí objeto de impuesto, IVA crédito PODEBI.
+
+            - `06`: Sí objeto de impuesto, no IVA trasladado.
+
+            - `07`: No traslado de IVA, pero desglose de IEPS.
+
+            - `08`: No traslado de IVA sin desglose de IEPS.
         taxes:
           type: array
           default: IVA trasladado 16%

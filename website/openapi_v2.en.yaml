@@ -1853,7 +1853,7 @@ paths:
         - The call is successful and returns an `invoice` object with the property `status: "canceled"`.
         - The call is successful, but the cancellation requires confirmation from your client, in which case the response will be the `invoice` object with the properties `status: "valid"` and `cancellation_status: "pending"`.
 
-        In the third scenario, the value of `cancellation_status` will be automatically updated by Facturapi when your client accepts, rejects, or lets the request expire, so that when you query an invoice (using [Get Invoice](#operation/getInvoice)), the `cancellation_status` property will reflect the most recent status of the request.
+        In the third scenario, the value of `cancellation_status` will be automatically updated by Facturapi when your client accepts, rejects, or lets the request expire, so that when you query an invoice (using [Get Invoice](#tag/invoice/operation/getInvoice)), the `cancellation_status` property will reflect the most recent status of the request.
 
         Check the possible values of `cancellation_status` below.
 
@@ -2015,10 +2015,10 @@ paths:
 
         When using this method, the value of the `is_ready_to_stamp` field (assigned by Facturapi)
         must be `true`. Otherwise, the call will return an error. To get the value of `is_ready_to_stamp`,
-        use the [Get Invoice](#operation/getInvoice) method.
+        use the [Get Invoice](#tag/invoice/operation/getInvoice) method.
 
         This method does not allow editing the invoice, only stamping it. If you need to edit
-        information in the invoice before stamping it, use the [Edit Draft Invoice](#operation/editDraftInvoice) method.
+        information in the invoice before stamping it, use the [Edit Draft Invoice](#tag/invoice/operation/editDraftInvoice) method.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -3806,8 +3806,8 @@ paths:
         
         After creating the organization and before being able to issue invoices
         with the organization, you will need to finish setting it up by calling
-        the [Update legal data](#operation/editOrganizationLegal) and
-        [Upload certificates (CSD)](#operation/uploadOrganizationCertificate) methods.
+        the [Update legal data](#tag/organization/operation/editOrganizationLegal) and
+        [Upload certificates (CSD)](#tag/organization/operation/uploadOrganizationCertificate) methods.
 
         Remember that the stamps of your subscription can be consumed by any of
         the organizations registered under your account.
@@ -8482,7 +8482,7 @@ components:
             - rejected
             - expired
           description: |
-            Current status of the cancellation request, if it has been made. You can read more in the [Cancel Invoice](#operation/deleteInvoice) section.
+            Current status of the cancellation request, if it has been made. You can read more in the [Cancel Invoice](#tag/invoice/operation/deleteInvoice) section.
           example: none
         verification_url:
           type: string
@@ -8622,7 +8622,7 @@ components:
             - rejected
             - expired
           description: |
-            Current status of the cancellation request, if it has been made. You can read more in the [Cancel Invoice](#operation/deleteInvoice) section.
+            Current status of the cancellation request, if it has been made. You can read more in the [Cancel Invoice](#tag/invoice/operation/deleteInvoice) section.
           example: none
         verification_url:
           type: string

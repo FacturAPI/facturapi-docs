@@ -1495,8 +1495,8 @@ paths:
         In the third scenario, the value of `cancellation_status` will be
         automatically updated by Facturapi when your client accepts, rejects, or
         lets the request expire, so that when you query an invoice (using [Get
-        Invoice](#operation/getInvoice)), the `cancellation_status` property
-        will reflect the most recent status of the request.
+        Invoice](#tag/invoice/operation/getInvoice)), the `cancellation_status`
+        property will reflect the most recent status of the request.
 
 
         Check the possible values of `cancellation_status` below.
@@ -1697,14 +1697,14 @@ paths:
         must be `true`. Otherwise, the call will return an error. To get the
         value of `is_ready_to_stamp`,
 
-        use the [Get Invoice](#operation/getInvoice) method.
+        use the [Get Invoice](#tag/invoice/operation/getInvoice) method.
 
 
         This method does not allow editing the invoice, only stamping it. If you
         need to edit
 
         information in the invoice before stamping it, use the [Edit Draft
-        Invoice](#operation/editDraftInvoice) method.
+        Invoice](#tag/invoice/operation/editDraftInvoice) method.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -3763,9 +3763,11 @@ paths:
 
         with the organization, you will need to finish setting it up by calling
 
-        the [Update legal data](#operation/editOrganizationLegal) and
+        the [Update legal
+        data](#tag/organization/operation/editOrganizationLegal) and
 
-        [Upload certificates (CSD)](#operation/uploadOrganizationCertificate)
+        [Upload certificates
+        (CSD)](#tag/organization/operation/uploadOrganizationCertificate)
         methods.
 
 
@@ -8870,8 +8872,8 @@ components:
             - expired
           description: >
             Current status of the cancellation request, if it has been made. You
-            can read more in the [Cancel Invoice](#operation/deleteInvoice)
-            section.
+            can read more in the [Cancel
+            Invoice](#tag/invoice/operation/deleteInvoice) section.
           example: none
         verification_url:
           type: string
@@ -9078,8 +9080,8 @@ components:
             - expired
           description: >
             Current status of the cancellation request, if it has been made. You
-            can read more in the [Cancel Invoice](#operation/deleteInvoice)
-            section.
+            can read more in the [Cancel
+            Invoice](#tag/invoice/operation/deleteInvoice) section.
           example: none
         verification_url:
           type: string

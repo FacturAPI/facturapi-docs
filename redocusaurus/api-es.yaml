@@ -1521,8 +1521,9 @@ paths:
         En el tercer escenario, el valor de `cancellation_status` será
         actualizado automáticamente por Facturapi cuando tu cliente acepte,
         rechace o deje expirar la solicitud, de tal manera que al consultar una
-        factura (usando [Obtener Factura](#operation/getInvoice)), la propiedad
-        `cancellation_status` reflejará el estado más reciente de la soliitud.
+        factura (usando [Obtener Factura](#tag/invoice/operation/getInvoice)),
+        la propiedad `cancellation_status` reflejará el estado más reciente de
+        la soliitud.
 
 
         Consulta los valores posibles de `cancellation_status` más abajo.
@@ -1720,7 +1721,7 @@ paths:
         editar información
 
         en la factura antes de timbrarla, usa el método [Editar Borrador de
-        Factura](#operation/editDraftInvoice).
+        Factura](#tag/invoice/operation/editDraftInvoice).
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -3765,10 +3766,11 @@ paths:
 
         la organización, deberás de terminar de configurarla llamando a los
 
-        métodos de [Actualizar datos fiscales](#operation/editOrganizationLegal)
-        y
+        métodos de [Actualizar datos
+        fiscales](#tag/organization/operation/editOrganizationLegal) y
 
-        [Subir certificados (CSD)](#operation/uploadOrganizationCertificate)
+        [Subir certificados
+        (CSD)](#tag/organization/operation/uploadOrganizationCertificate)
 
 
         Recuerda que los folios de tu suscripción podrán ser consumidos por
@@ -8824,7 +8826,7 @@ components:
           description: >
             Estado actual de la solicitud de cancelación, en caso de haberla
             realizado. Puedes leer más a detalle en la sección de [Cancelar
-            Factura](#operation/deleteInvoice)).
+            Factura](#tag/invoice/operation/deleteInvoice)).
           example: none
         verification_url:
           type: string
@@ -9025,7 +9027,7 @@ components:
           description: >
             Estado actual de la solicitud de cancelación, en caso de haberla
             realizado. Puedes leer más a detalle en la sección de [Cancelar
-            Factura](#operation/deleteInvoice)).
+            Factura](#tag/invoice/operation/deleteInvoice)).
           example: none
         verification_url:
           type: string

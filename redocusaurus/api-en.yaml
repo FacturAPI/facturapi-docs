@@ -8985,13 +8985,36 @@ components:
           description: Documents related to the invoice.
           items:
             $ref: '#/components/schemas/RelatedDocument'
-        payment_related_ids:
+        received_payment_ids:
           type: array
           items:
             type: string
-          description: >-
-            If this invoice has a payment method PPD and type I, this field will
-            have the related payment id of this invoice.
+          description: >
+            On invoices with type I (Income) and payment method PPD, this field
+            lists the
+
+            object IDs of the payment invoices whose related documents array
+            includes the UUID
+
+            of this invoice. This field is filled in by Facturapi the moment the
+            payment invoice
+
+            (type P) is created or imported, as long as it belongs to the same
+            organization.
+          default: []
+        target_invoice_ids:
+          type: array
+          items:
+            type: string
+          description: >
+            On invoices with type P (Payment), this array lists the object IDs
+            of the invoices listed in
+
+            the related documents array. This field is filled in by Facturapi as
+            long as the
+
+            related invoice is also registered in Facturapi and belongs to the
+            same organization.
           default: []
         currency:
           type: string

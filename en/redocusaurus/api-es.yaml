@@ -8931,6 +8931,37 @@ components:
           description: Documentos relacionados con la factura.
           items:
             $ref: '#/components/schemas/RelatedDocument'
+        received_payment_ids:
+          type: array
+          items:
+            type: string
+          description: >
+            En facturas con tipo I (Ingreso) y método de pago PPD, este campo
+            lista los
+
+            IDs de los comprobantes de pago cuyo arreglo de documentos
+            relacionados incluye el UUID
+
+            de esta factura. Este campo es llenado por Facturapi en el momento
+            en que se crea o importa
+
+            el comprobante de pago (tipo P), siempre y cuando pertenezca a la
+            misma organización.
+          default: []
+        target_invoice_ids:
+          type: array
+          items:
+            type: string
+          description: >
+            En facturas con tipo P (Pago), este arreglo lista los IDs de los
+            comprobantes de ingreso
+
+            listados en el arreglo de documentos relacionados. Este campo es
+            llenado por Facturapi siempre
+
+            y cuando el comprobante relacionado también esté registrado en
+            Facturapi y pertenezca a la misma organización.
+          default: []
         currency:
           type: string
           example: MXN
@@ -8970,14 +9001,6 @@ components:
             $ref: '#/components/schemas/NamespaceProperties'
         stamp:
           $ref: '#/components/schemas/Stamp'
-        payment_related_ids:
-          type: array
-          items:
-            type: string
-          description: >-
-            Si esta factura tiene un método de pago PPD y es de tipo I, este
-            campo contendrá los id de pagos relacionados a esta factura.
-          default: []
     InvoiceDraftProperties:
       type: object
       properties:

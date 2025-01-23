@@ -6,8 +6,8 @@ sidebar_position: 7
 
 Currently, FacturAPI supports the issuance of all types of CFDI as well as all
 SAT add-ons or complements. You can see how to create different types of CFDI
-documents in the [Create Invoice](/api#operation/createInvoice) and
-[Create Retention](/api#operation/createRetention) references.
+documents in the [Create Invoice](/api#tag/invoice/operation/createInvoice) and
+[Create Retention](/api#tag/retention/operation/createRetention) references.
 
 :::note
 You can insert any complement by adding the corresponding XML in the

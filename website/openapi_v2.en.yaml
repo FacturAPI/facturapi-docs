@@ -675,6 +675,19 @@ paths:
             ]);
       requestBody:
         $ref: "#/components/requestBodies/CustomerCreate"
+      parameters:
+        - in: query
+          name: createEditLink
+          schema:
+            type: boolean
+          required: false
+          default: false
+          description: |
+            If set to `true`, the response will include a link you can share with the customer to
+            allow them to edit their information. This link will be available from the `edit_link` field,
+            will be valid for 7 days and can only be used once.
+            Additionally, setting this parameter to `true` will skip the validation of the customer's fiscal data,
+            allowing you to create customers with incomplete information.
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []
@@ -898,6 +911,18 @@ paths:
             type: string
           required: true
           description: ID of the object to edit
+        - in: query
+          name: createEditLink
+          schema:
+            type: boolean
+          required: false
+          default: false
+          description: |
+            If set to `true`, the response will include a link you can share with the customer to
+            allow them to edit their information. This link will be available from the `edit_link` field,
+            will be valid for 7 days and can only be used once.
+            Setting this parameter to `true` while editing a customer will **not** skip the validation
+            of the customer's fiscal data.
       requestBody:
         $ref: "#/components/requestBodies/CustomerEdit"
       security:
@@ -1507,6 +1532,7 @@ paths:
           schema:
             type: boolean
           required: false
+          default: false
           description: |
             Useful for large invoices. If sent `false` or not sent, the call will wait for the SAT to respond by stamping the invoice.
             If sent `true`, the call will return immediately with the `invoice` object in status `pending`, and its status can be checked
@@ -7851,6 +7877,23 @@ components:
         - $ref: "#/components/schemas/CustomerCommonProperties"
         - type: object
           properties:
+            edit_link:
+              type: string
+              description: Link to a hosted page where the customer can edit their information once.
+              example: https://auto.facturapi.io/tax-info/abcdWXYZ1234
+              nullable: true
+            edit_link_expires_at:
+              type: string
+              format: date-time
+              description: Expiration date of the edit link.
+              example: 2022-12-31T23:59:59Z
+              nullable: true              
+            sat_validated_at:
+              type: string
+              format: date-time
+              description: Date when the customer's tax information was validated by the SAT.
+              example: 2022-12-31T23:59:59Z
+              nullable: true
             address:
               allOf:
                 - $ref: "#/components/schemas/CommonAddressProperties"

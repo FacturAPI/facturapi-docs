@@ -102,7 +102,7 @@ tags:
       (CFDI use)
       
       Key | Description (Spanish) | Description (English) | Allowed Fiscal Regimes
-      :-----:| ----------- | -----------
+      :-----:|:----------- |:----------- |:-----------
       "G01" | Adquisición de mercancías. | Purchase of goods | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
       "G02" | Devoluciones, descuentos y bonificaciones. | Returns, discounts and bonuses | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
       "G03" | Gastos en general. | General expenses | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
@@ -122,11 +122,11 @@ tags:
       "D06" | Aportaciones voluntarias al SAR. | Voluntary contributions to the SAR. | 605, 606, 608, 611, 612, 614, 607, 615, 625
       "D07" | Primas por seguros de gastos médicos. | Premiums for medical expenses insurance. | 605, 606, 608, 611, 612, 614, 607, 615, 625
       "D08" | Gastos de transportación escolar obligatoria. | Mandatory school transportation expenses. | 605, 606, 608, 611, 612, 614, 607, 615, 625
-      "D09" | Depósitos en cuentas para el ahorro, primas que tengan como base planes de pensiones. | 605, 606, 608, 611, 612, 614, 607, 615, 625
-      "D10" | Pagos por servicios educativos (colegiaturas). | 605, 606, 608, 611, 612, 614, 607, 615, 625
-      "S01" | Sin efectos fiscales.  | 601, 603, 605, 606, 608, 610, 611, 612, 614, 616, 620, 621, 622, 623, 624, 607, 615, 625, 626
-      "CP01" | Pagos |  601, 603, 605, 606, 608, 610, 611, 612, 614, 616, 620, 621, 622, 623, 624, 607, 615, 625, 626
-      "CN01" | Nómina | 605
+      "D09" | Depósitos en cuentas para el ahorro, primas que tengan como base planes de pensiones. | Deposits in savings accounts, premiums based on pension plans. | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "D10" | Pagos por servicios educativos (colegiaturas). | Payments for educational services (tuition). | 605, 606, 608, 611, 612, 614, 607, 615, 625
+      "S01" | Sin efectos fiscales. | Without fiscal effects | 601, 603, 605, 606, 608, 610, 611, 612, 614, 616, 620, 621, 622, 623, 624, 607, 615, 625, 626
+      "CP01" | Pagos | Payments | 601, 603, 605, 606, 608, 610, 611, 612, 614, 616, 620, 621, 622, 623, 624, 607, 615, 625, 626
+      "CN01" | Nómina | Payroll | 605
 
       ### Relación entre facturas
 

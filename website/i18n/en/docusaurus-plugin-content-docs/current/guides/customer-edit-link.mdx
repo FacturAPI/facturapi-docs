@@ -1,0 +1,213 @@
+---
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Customer edit links
+
+Facturapi allows you to create a temporary link for your customers to fill in
+and save their tax information by themselves. Once saved, their tax information
+will be available in the Customer object you used to create the link.
+
+A tax information edit link has the following format:
+
+```
+https://auto.facturapi.io/tax-info/<EDIT_SECRET_KEY>
+```
+
+The web portal where your customers will fill in their tax information will
+have the logo and colors of the organization that created the link.
+
+The link will last for 7 days, with the possibility of renewal by generating a
+new link at any time, overwriting the previous one.
+
+## Create an edit link for a new customer
+
+To create a tax information edit link for a new customer, simply create a
+Customer object passing the query parameter `createEditLink` as `true`.
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const newCustomer = facturapi.customers.create({
+  email: 'email@example.com'
+}, {
+  createEditLink: true
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var newCustomer = facturapi.Customer.CreateAsync(new Dictionary<string, object>
+{
+  ["email"] = "email@example.com"
+}, new Dictionary<string, object>
+{
+  ["createEditLink"] = true
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$newCustomer = $facturapi->Customers->create([
+  "email" => "email@example.com"
+], [
+  "createEditLink" => true
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v2/customers?createEditLink=true \
+  -H "Authorization Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "email": "email@example.com"
+    }'
+```
+
+</TabItem>
+</Tabs>
+
+When creating a new customer with the query parameter `createEditLink` as
+`true`, all fields of the Customer object become optional.
+
+The response object will include the following fields:
+
+- `edit_link`: The temporary link for the customer to edit their tax
+  information.
+- `edit_link_expires_at`: The expiration date of the link. 7 days after the
+  link creation.
+
+```json
+{
+  "id": "67bf1239b15b44fb9269e6a8",
+  // ...rest of the customer object
+  "edit_link": "https://auto.facturapi.io/tax-info/EDIT_SECRET_KEY",
+  "edit_link_expires_at": "2025-02-26T23:59:59Z"
+}
+```
+
+Once the customer has filled in their tax information, you can retrieve the
+updated Customer object to access the new information.
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const customer = await facturapi.customers.retrieve('67bf1239b15b44fb9269e6a8');
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var customer = await facturapi.Customer.RetrieveAsync("67bf1239b15b44fb9269e6a8");
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$customer = $facturapi->Customers->retrieve("67bf1239b15b44fb9269e6a8");
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v2/customers/67bf1239b15b44fb
+  -H "Authorization Bearer sk_test_API_KEY"
+```
+
+</TabItem>
+</Tabs>
+
+Response: Updated customer object with the new tax information.
+
+```json
+{
+  "id": "67bf1239b15b44fb9269e6a8",
+  "legal_name": "Dunder Mifflin",
+  "tax_id": "ABC101010111",
+  "tax_system": "601",
+  "email": "email@example.com",
+  "address": {
+    "country": "MEX",
+    "state": "Sonora",
+    "city": "Huatabampo",
+    "zip": "85900"
+  }
+}
+```
+
+## Create an edit link for an existing customer
+
+If you already have a created customer and want to generate an edit link for
+them to update their tax information, simply update the customer passing the
+query parameter `createEditLink` as `true`.
+
+This is also useful when you want to renew the link for an existing customer,
+revoking the old link.
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const customer = await facturapi.customers.update('67bf1239b15b44fb9269e6a8', {}, {
+  createEditLink: true
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var customer = await facturapi.Customer.UpdateAsync("67bf1239b15b44fb9269e6a8", new Dictionary<string, object>(), new Dictionary<string, object>
+{
+  ["createEditLink"] = true
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$customer = $facturapi->Customers->update("67bf1239b15b44fb9269e6a8", [], [
+  "createEditLink" => true
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v2/customers/67bf1239b15b44fb9269e6a8?createEditLink=true \
+  -H "Authorization Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -X PUT
+```
+
+</TabItem>
+</Tabs>
+
+The response object will include the link in the `edit_link` field and the
+expiration date in `edit_link_expires_at`.
+
+```json
+{
+  "id": "67bf1239b15b44fb9269e6a8",
+  // ...rest of the customer object
+  "edit_link": "https://auto.facturapi.io/tax-info/EDIT_SECRET_KEY",
+  "edit_link_expires_at": "2025-02-26T23:59:59Z"
+}
+```

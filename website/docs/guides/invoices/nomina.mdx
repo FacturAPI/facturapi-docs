@@ -56,12 +56,12 @@ const invoice = await facturapi.invoices.create({
         fecha_final_pago: '2023-09-03T06:00:00.000Z',
         num_dias_pagados: 7,
         emisor: {
-          curp: "DCBA531412HSACAP01",
+          curp: "XEXX010101HNEXXXA4",
           registro_patronal: "A7025105103",
-          rfc_patron_origen: "DCBA531412AP0"
+          rfc_patron_origen: "URE180429TM6"
         },
         receptor: {
-          curp: "ABCD990714HSRABS06",
+          curp: "XEXX010101HNEXXXA4",
           tipo_contrato: "01",
           tipo_regimen: "02",
           num_empleado: "021",
@@ -77,12 +77,12 @@ const invoice = await facturapi.invoices.create({
           antiguedad: true
         },
         percepciones: {
-          percepcion: {
+          percepcion: [{
             tipo_percepcion: "001",
             clave: "5400-001",
             importe_gravado: 1522.08,
             importe_exento: 0
-          }
+          }]
         },
         deducciones: [
           {
@@ -146,13 +146,13 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
         ["num_dias_pagados"] = 7,
         ["emisor"] = new Dictionary<string, object>
         {
-          ["curp"] = "DCBA531412HSACAP01",
+          ["curp"] = "XEXX010101HNEXXXA4",
           ["registro_patronal"] = "A7025105103",
-          ["rfc_patron_origen"] = "DCBA531412AP0"
+          ["rfc_patron_origen"] = "URE180429TM6"
         },
         ["receptor"] = new Dictionary<string, object>
         {
-          ["curp"] = "ABCD990714HSRABS06",
+          ["curp"] = "XEXX010101HNEXXXA4",
           ["tipo_contrato"] = "01",
           ["tipo_regimen"] = "02",
           ["num_empleado"] = "021",
@@ -169,7 +169,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
         },
         ["percepciones"] = new Dictionary<string, object>
         {
-          ["percepcion"] = new Dictionary<string, object>
+          ["percepcion"] = new List<Dictionary<string, object>>
           {
             ["tipo_percepcion"] = "001",
             ["clave"] = "5400-001",
@@ -237,12 +237,12 @@ $invoice = $facturapi->Invoices->create([
         "fecha_final_pago" => "2023-09-03T06:00:00.000Z",
         "num_dias_pagados" => 7,
         "emisor" => [
-          "curp" => "DCBA531412HSACAP01",
+          "curp" => "XEXX010101HNEXXXA4",
           "registro_patronal" => "A7025105103",
-          "rfc_patron_origen" => "DCBA531412AP0"
+          "rfc_patron_origen" => "URE180429TM6"
         ],
         "receptor" => [
-          "curp" => "ABCD990714HSRABS06",
+          "curp" => "XEXX010101HNEXXXA4",
           "tipo_contrato" => "01",
           "tipo_regimen" => "02",
           "num_empleado" => "021",
@@ -321,12 +321,12 @@ curl https://www.facturapi.io/v2/invoices \
           "fecha_final_pago": "2023-09-03T06:00:00.000Z",
           "num_dias_pagados": 7,
           "emisor": {
-            "curp": "DCBA531412HSACAP01",
+            "curp": "XEXX010101HNEXXXA4",
             "registro_patronal": "A7025105103",
-            "rfc_patron_origen": "DCBA531412AP0"
+            "rfc_patron_origen": "URE180429TM6"
           },
           "receptor": {
-            "curp": "ABCD990714HSRABS06",
+            "curp": "XEXX010101HNEXXXA4",
             "tipo_contrato": "01",
             "tipo_regimen": "02",
             "num_empleado": "021",
@@ -342,12 +342,12 @@ curl https://www.facturapi.io/v2/invoices \
             "antiguedad": true
           },
           "percepciones": {
-            "percepcion": {
+            "percepcion": [{
               "tipo_percepcion": "001",
               "clave": "5400-001",
               "importe_gravado": 1522.08,
               "importe_exento": 0
-            }
+            }]
           },
           "deducciones": [
             {

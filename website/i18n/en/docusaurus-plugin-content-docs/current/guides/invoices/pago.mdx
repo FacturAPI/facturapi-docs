@@ -43,7 +43,7 @@ const invoice = await facturapi.invoices.create({
   complements: [
     {
       type: 'pago',
-      data: {
+      data: [{
         payment_form: '28', // Tarjeta de Crédito
         related_documents: [
           {
@@ -60,7 +60,7 @@ const invoice = await facturapi.invoices.create({
             ]
           }
         ]
-      }
+      }]
     }
   ]
 });
@@ -91,7 +91,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
     new Dictionary<string, object>
     {
       ["type"] = "pago",
-      ["data"] = new Dictionary<string, object>
+      ["data"] = new Dictionary<string, object>[]
       {
         ["payment_form"] = "28", // Tarjeta de Crédito
         ["related_documents"] = new Dictionary<string, object>[]
@@ -183,7 +183,7 @@ curl https://www.facturapi.io/v2/invoices \
     "complements": [
       {
         "type": "pago",
-        "data": {
+        "data": [{
           "payment_form": "28",
           "related_documents": [
             {
@@ -200,7 +200,7 @@ curl https://www.facturapi.io/v2/invoices \
               ]
             }
           ]
-        }
+        }]
       }
     ]
   }'
@@ -234,7 +234,7 @@ const invoice = await facturapi.invoices.create({
   complements: [
     {
       type: 'pago',
-      data: {
+      data: [{
         payment_form: '28', // Tarjeta de Crédito
         related_documents: [
           {
@@ -251,7 +251,7 @@ const invoice = await facturapi.invoices.create({
             ]
           }
         ]
-      }
+      }]
     }
   ]
 });
@@ -282,7 +282,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
     new Dictionary<string, object>
     {
       ["type"] = "pago",
-      ["data"] = new Dictionary<string, object>
+      ["data"] = new Dictionary<string, object>[]
       {
         ["payment_form"] = "28", // Tarjeta de Crédito
         ["related_documents"] = new Dictionary<string, object>[]
@@ -374,7 +374,7 @@ curl https://www.facturapi.io/v2/invoices \
     "complements": [
       {
         "type": "pago",
-        "data": {
+        "data": [{
           "payment_form": "28", // Tarjeta de Crédito
           "related_documents": [
             {
@@ -391,7 +391,7 @@ curl https://www.facturapi.io/v2/invoices \
               ]
             }
           ]
-        }
+        }]
       }
     ]
   }'

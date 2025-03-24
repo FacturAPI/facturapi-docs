@@ -1,0 +1,8 @@
+{
+  "label": "Billing Configuration",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Issue CFDI without leaving Stripe"
+  }
+}

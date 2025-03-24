@@ -1,0 +1,9 @@
+{
+  "label": "Configuración de Facturación",
+  "position": 5,
+  "description": "Configuración de Folios, Fechas, Impuestos y Descuentos",
+  "link": {
+    "type": "generated-index",
+    "description": "Emite CFDI sin salir de Stripe"
+  }
+}

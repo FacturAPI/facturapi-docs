@@ -8070,6 +8070,7 @@ components:
                   - invoice.global_invoice_created
                   - invoice.status_updated
                   - invoice.cancellation_status_updated
+                  - invoice.created_from_dashboard
                   - receipt.self_invoice_complete
                   - receipt.cancellation_status_updated
                   - receipt.status_updated

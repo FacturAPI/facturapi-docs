@@ -7824,6 +7824,7 @@ components:
                   - "invoice.global_invoice_created"
                   - "invoice.status_updated"
                   - "invoice.cancellation_status_updated"
+                  - "invoice.created_from_dashboard"
                   - "receipt.self_invoice_complete"
                   - "receipt.status_updated"
                   - "receipt.cancellation_status_updated"

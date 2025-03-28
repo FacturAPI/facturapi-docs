@@ -1,0 +1,8 @@
+{
+  "label": "Autofactura",
+  "position": 9,
+  "link": {
+    "type": "generated-index",
+    "description": "Emite CFDI sin salir de Stripe"
+  }
+}

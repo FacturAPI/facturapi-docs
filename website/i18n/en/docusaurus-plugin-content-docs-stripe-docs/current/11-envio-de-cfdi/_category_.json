@@ -1,0 +1,8 @@
+{
+  "label": "Invoice Delivery",
+  "position": 11,
+  "link": {
+    "type": "generated-index",
+    "description": "Send CFDI invoices directly from Stripe"
+  }
+}

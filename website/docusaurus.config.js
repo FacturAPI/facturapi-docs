@@ -62,6 +62,19 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
       ],
     ],
 
+    plugins: [
+      [
+        "@docusaurus/plugin-content-docs",
+        {
+          id: "stripe-docs",
+          path: "docs-stripe",
+          routeBasePath: "stripe-app",
+          sidebarPath: require.resolve("./sidebarsStripe.js"),
+          editUrl: "https://github.com/facturapi/facturapi-docs/edit/main/website/"
+        },
+      ],
+    ],
+
     i18n: {
       defaultLocale: "es",
       locales: ["es", "en"],
@@ -91,6 +104,12 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
               type: "doc",
               docId: "intro",
               label: "Tutoriales",
+            },
+            {
+              type: "doc",
+              docId: "intro",
+              label: "Stripe app",
+              docsPluginId: "stripe-docs"
             },
             {
               href: '/api', 

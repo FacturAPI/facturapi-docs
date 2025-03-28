@@ -11,6 +11,10 @@
     "message": "Tutorials",
     "description": "Navbar item with label Tutoriales"
   },
+  "item.label.Stripe app": {
+    "message": "Stripe app",
+    "description": "Navbar item with label Stripe app"
+  },
   "item.label.Referencia API": {
     "message": "API reference",
     "description": "Navbar item with label Referencia API"

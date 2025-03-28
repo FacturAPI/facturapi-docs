@@ -1,0 +1,8 @@
+{
+  "label": "Clientes",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Información útil para administrar la información de tus clientes"
+  }
+}

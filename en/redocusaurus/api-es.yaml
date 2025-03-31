@@ -6268,6 +6268,38 @@ x-webhooks:
                             - invoice
                         object:
                           $ref: '#/components/schemas/Invoice'
+  Creación de factura desde dashboard:
+    post:
+      summary: Creación de factura desde dashboard
+      description: |
+        Notifica cuandos se crea una factura desde dashboard de Facturapi.
+      tags:
+        - events
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/EventBase'
+                - type: object
+                  properties:
+                    type:
+                      type: string
+                      description: Tipo de evento
+                      example: invoice.created_from_dashboard
+                      enum:
+                        - invoice.created_from_dashboard
+                    data:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: Tipo de objeto asociado al evento
+                          enum:
+                            - invoice
+                        object:
+                          $ref: '#/components/schemas/Invoice'
   Estatus de cancelación actualizado:
     post:
       tags:
@@ -8041,6 +8073,7 @@ components:
                 enum:
                   - invoice.global_invoice_created
                   - invoice.status_updated
+                  - invoice.created_from_dashboard
                   - invoice.cancellation_status_updated
                   - receipt.self_invoice_complete
                   - receipt.status_updated

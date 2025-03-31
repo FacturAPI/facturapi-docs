@@ -6159,6 +6159,39 @@ x-webhooks:
                             - invoice
                         object:
                           $ref: "#/components/schemas/Invoice"
+  "Invoice created from dashboard":
+    post:
+      summary: Invoice created from dashboard
+      description: |
+        Notifies when an invoice was created from Facturapi Dashboard.
+      tags:
+        - events
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/EventBase"
+                - type: object
+                  properties:
+                    type:
+                      type: string
+                      description: Type of event
+                      exacmple: "invoice.created_from_dashboard"
+                      enum:
+                        - invoice.created_from_dashboard
+                    data:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: Type of object associated with the event
+                          enum:
+                            - invoice
+                        object:
+                          $ref: "#/components/schemas/Invoice"
+ 
   "Cancellation status updated":
     post:
       tags:

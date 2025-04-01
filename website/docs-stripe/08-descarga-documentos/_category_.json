@@ -1,0 +1,8 @@
+{
+  "label": "Descarga de archivos",
+  "position": 8,
+  "link": {
+    "type": "generated-index",
+    "description": "Emite CFDI sin salir de Stripe"
+  }
+}

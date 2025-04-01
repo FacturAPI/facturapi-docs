@@ -1,0 +1,86 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for the current version"
+  },
+  "sidebar.stripeSidebar.category.Instalación": {
+    "message": "Installation",
+    "description": "The label for the Installation category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Instalación.link.generated-index.description": {
+    "message": "Learn how to install and set up the Facturapi app in Stripe.",
+    "description": "The generated-index page description for the Installation category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Clientes": {
+    "message": "Customers",
+    "description": "The label for the Customers category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Clientes.link.generated-index.description": {
+    "message": "Manage customer profiles and related invoicing settings.",
+    "description": "The generated-index page description for the Customers category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Organización Emisora": {
+    "message": "Issuing Organization",
+    "description": "The label for the Issuing Organization category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Configuración de Facturación": {
+    "message": "Billing Configuration",
+    "description": "The label for the Billing Configuration category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Organización Emisora.link.generated-index.description": {
+    "message": "Configure your issuing organization's tax and invoicing details.",
+    "description": "The generated-index page description for the Issuing Organization category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Emisión de CFDI": {
+    "message": "CFDI Issuance",
+    "description": "The label for the CFDI Issuance category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Emisión de CFDI.link.generated-index.description": {
+    "message": "Generate CFDI invoices seamlessly within Stripe.",
+    "description": "The generated-index page description for the CFDI Issuance category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Envío de facturas": {
+    "message": "Invoice Delivery",
+    "description": "The label for the Invoice Delivery category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Solución de Problemas": {
+    "message": "Troubleshooting",
+    "description": "The label for the Troubleshooting category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Envío de facturas.link.generated-index.description": {
+    "message": "Send invoices to customers directly from Stripe.",
+    "description": "The generated-index page description for the Invoice Delivery category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Cancelación de CFDI": {
+    "message": "CFDI Cancellation",
+    "description": "The label for the CFDI Cancellation category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Cancelación de CFDI.link.generated-index.description": {
+    "message": "Learn how to cancel CFDI invoices according to SAT regulations.",
+    "description": "The generated-index page description for the CFDI Cancellation category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Descarga de archivos": {
+    "message": "File Download",
+    "description": "The label for the File Download category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Descarga de archivos.link.generated-index.description": {
+    "message": "Download issued invoices and related tax documents.",
+    "description": "The generated-index page description for the File Download category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Autofactura": {
+    "message": "Self-Invoicing",
+    "description": "The label for the Self-Invoicing category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Autofactura.link.generated-index.description": {
+    "message": "Enable self-invoicing for customers directly from Stripe.",
+    "description": "The generated-index page description for the Self-Invoicing category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Emisión automatizada": {
+    "message": "Automated Issuance",
+    "description": "The label for the Automated Issuance category in the tutorial sidebar"
+  },
+  "sidebar.stripeSidebar.category.Emisión automatizada.link.generated-index.description": {
+    "message": "Automate CFDI issuance to streamline invoicing processes.",
+    "description": "The generated-index page description for the Automated Issuance category in the tutorial sidebar"
+  }
+}

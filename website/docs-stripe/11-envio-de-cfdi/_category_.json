@@ -1,0 +1,8 @@
+{
+  "label": "Envío de facturas",
+  "position": 11,
+  "link": {
+    "type": "generated-index",
+    "description": "Emite CFDI sin salir de Stripe"
+  }
+}

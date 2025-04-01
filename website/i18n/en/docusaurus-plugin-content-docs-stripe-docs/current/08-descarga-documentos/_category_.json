@@ -1,0 +1,8 @@
+{
+  "label": "File Download",
+  "position": 8,
+  "link": {
+    "type": "generated-index",
+    "description": "Download CFDI files directly from Stripe"
+  }
+}

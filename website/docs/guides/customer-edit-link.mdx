@@ -206,3 +206,49 @@ El objeto de respuesta incluirá el enlace en el campo `edit_link` y la fecha de
   "edit_link_expires_at": "2025-02-26T23:59:59Z"
 }
 ```
+
+## Enviar un enlace de edición por correo electrónico
+
+Si deseas enviar el enlace de edición por correo electrónico al cliente, puedes
+hacerlo utilizando el método `sendEditLinkByEmail`.
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+await facturapi.customers.sendEditLinkByEmail('67bf1239b15b44fb9269e6a8', {
+  email: 'email@example.com' // Opcional, si no se proporciona, se usará el correo electrónico del cliente
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+await facturapi.Customer.SendEditLinkByEmailAsync("67bf1239b15b44fb9269e6a8", new Dictionary<string, object>
+{
+  ["email"] = "email@example.com" // Opcional, si no se proporciona, se usará el correo electrónico del cliente
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$customer = $facturapi->Customers->sendEditLinkByEmail("67bf1239b15b44fb9269e6a8", [
+  "email" => "email@example.com" // Opcional, si no se proporciona, se usará el correo electrónico del cliente
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v2/customers/67bf1239b15b44fb9269e6a8/email-edit-link \
+  -H "Authorization Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -X POST
+```
+
+</TabItem>
+</Tabs>

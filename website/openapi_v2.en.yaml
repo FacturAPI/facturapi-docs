@@ -8863,6 +8863,11 @@ components:
               default: true
               description: |
                 Show the IEPS breakdown in the PDF. If disabled, only the taxes related to the IVA (VAT) will be shown in the subtotal.
+            render_carta_porte:
+              type: boolean
+              default: false
+              description: |
+                Render the Carta Porte 3.1 Complement in the pdf.
     InvoiceableCommonEditInput:
       type: object
       properties:
@@ -8926,6 +8931,11 @@ components:
               default: true
               description: |
                 Show the IEPS breakdown in the PDF. If disabled, only the taxes related to the IVA (VAT) will be shown in the subtotal.
+            render_carta_porte:
+              type: boolean
+              default: false
+              description: |
+                Render the Carta Porte 3.1 Complement in the pdf.
     InvoiceCommonInputProperties:
       allOf:
         - type: object
@@ -10417,6 +10427,11 @@ components:
                   default: true
                   description: |
                     Show the breakdown of IEPS in the PDF. If disabled, only the taxes related to IVA (VAT) will be shown in the subtotal.
+                render_carta_porte:
+                  type: boolean
+                  default: false
+                  description: |
+                    Render the Carta Porte 3.1 Complement in the pdf.
         certificate:
           type: object
           description: |
@@ -10577,6 +10592,11 @@ components:
               default: true
               description: |
                 Show the breakdown of IEPS in the PDF. If disabled, only the taxes related to IVA (VAT) will be shown in the subtotal.
+            render_carta_porte:
+              type: boolean
+              default: false
+              description: |
+                Render the Carta Porte 3.1 Complement in the pdf.                
     OrganizationReceiptsInput:
       type: object
       properties:

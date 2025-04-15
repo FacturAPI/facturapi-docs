@@ -574,6 +574,101 @@ paths:
           $ref: '#/components/responses/Unauthenticated'
         '500':
           $ref: '#/components/responses/UnexpectedError'
+  /customers/{customer_id}/email-edit-link:
+    post:
+      operationId: sendEditLinkByEmail
+      tags:
+        - customer
+      summary: Enviar enlace de edición por correo electrónico
+      description: >
+        Envía un enlace para que el cliente pueda editar su información fiscal.
+
+
+        Este enlace estará disponible en el campo `edit_link`, será válido por 7
+        días y sólo se podrá usar una vez.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            https://www.facturapi.io/v2/customers/590ce6c56d04f840aa8438af/email-edit-link
+            \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -X POST
+              -d '{
+                "email": "email@example.com"
+              }'
+        - lang: JavaScript
+          label: Node.js
+          source: >
+            const Facturapi = require('facturapi');
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+
+            await
+            facturapi.customers.sendEditLinkByEmail('67bf1239b15b44fb9269e6a8',
+            {
+              email: 'email@example.com' // Opcional, si no se proporciona, se usará el correo electrónico del cliente
+            });
+        - lang: csharp
+          label: C#
+          source: >
+            await
+            facturapi.Customer.SendEditLinkByEmailAsync("67bf1239b15b44fb9269e6a8",
+            new Dictionary<string, object>
+
+            {
+              ["email"] = "email@example.com" // Opcional, si no se proporciona, se usará el correo electrónico del cliente
+            });
+        - lang: PHP
+          label: PHP
+          source: >
+            $customer =
+            $facturapi->Customers->sendEditLinkByEmail("67bf1239b15b44fb9269e6a8",
+            [
+              "email" => "email@example.com" // Opcional, si no se proporciona, se usará el correo electrónico del cliente
+            ]);
+      parameters:
+        - in: path
+          name: customer_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto `Customer` a editar
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: >-
+                    Correo electrónico del cliente. Si no se proporciona, se
+                    usará el correo electrónico del cliente.
+      security:
+        - SecretLiveKey: []
+        - SecretTestKey: []
+      responses:
+        '200':
+          description: Enlace de edición enviado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    description: Indica si el enlace se envió correctamente
+                    example: true
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
   /customers/{customer_id}/tax-info-validation:
     get:
       operationId: validateCustomerTaxInfo

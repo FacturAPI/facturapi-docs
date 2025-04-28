@@ -681,7 +681,6 @@ paths:
           schema:
             type: boolean
           required: false
-          default: false
           description: |
             If set to `true`, the response will include a link you can share with the customer to
             allow them to edit their information. This link will be available from the `edit_link` field,
@@ -916,7 +915,6 @@ paths:
           schema:
             type: boolean
           required: false
-          default: false
           description: |
             If set to `true`, the response will include a link you can share with the customer to
             allow them to edit their information. This link will be available from the `edit_link` field,
@@ -1532,7 +1530,6 @@ paths:
           schema:
             type: boolean
           required: false
-          default: false
           description: |
             Useful for large invoices. If sent `false` or not sent, the call will wait for the SAT to respond by stamping the invoice.
             If sent `true`, the call will return immediately with the `invoice` object in status `pending`, and its status can be checked
@@ -1543,7 +1540,6 @@ paths:
       responses:
         "200":
           description: "`Invoice` object"
-          required: true
           content:
             application/json:
               schema:
@@ -2419,7 +2415,6 @@ paths:
       responses:
         "200":
           description: Email sent successfully
-          required: true
           content:
             application/json:
               schema:
@@ -3011,7 +3006,6 @@ paths:
       responses:
         "200":
           description: Generic response object
-          required: true
           content:
             application/json:
               schema:
@@ -3803,7 +3797,6 @@ paths:
       responses:
         "200":
           description: Generic response indicating if the email was sent successfully
-          required: true
           content:
             application/json:
               schema:
@@ -4447,7 +4440,6 @@ paths:
       responses:
         "200":
           description: Modified `Organization` object
-          required: true
           content:
             application/json:
               schema:
@@ -4535,7 +4527,6 @@ paths:
       responses:
         "200":
           description: Modified `Organization` object
-          required: true
           content:
             application/json:
               schema:
@@ -4599,7 +4590,6 @@ paths:
         "200":
           description: |
             Response indicating if the domain is available.
-          required: true
           content:
             application/json:
               schema:
@@ -5196,7 +5186,7 @@ paths:
           content:
             application/json:
               schema:
-                -type: object
+                type: object
                 properties:
                   data:
                     type: array
@@ -5293,7 +5283,7 @@ paths:
         "500":
           $ref: "#/components/responses/UnexpectedError"
     
-    /organizations/{organization_id}/series-group/{series_name}:
+  /organizations/{organization_id}/series-group/{series_name}:
     put:
       operationId: updateSeriesGroup
       tags:
@@ -5822,15 +5812,12 @@ paths:
                 secret:
                   type: string
                   description: Secret key of the webhook, found in the webhook settings or upon creation.
-                  required: true
                 payload:
                   type: object
                   description: Event object received through a webhook.
-                  required: true
                 signature:
                   type: string
                   description: Signature from the header "Facturapi-Signature".
-                  required: true
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []
@@ -6112,7 +6099,7 @@ x-webhooks:
                     type:
                       type: string
                       description: Type of event
-                      exacmple: "invoice.global_invoice_created"
+                      example: "invoice.global_invoice_created"
                       enum:
                         - invoice.global_invoice_created
                     data:
@@ -6146,7 +6133,7 @@ x-webhooks:
                     type:
                       type: string
                       description: Type of event
-                      exacmple: "invoice.status_updated"
+                      example: "invoice.status_updated"
                       enum:
                         - invoice.status_updated
                     data:
@@ -6178,7 +6165,7 @@ x-webhooks:
                     type:
                       type: string
                       description: Type of event
-                      exacmple: "invoice.created_from_dashboard"
+                      example: "invoice.created_from_dashboard"
                       enum:
                         - invoice.created_from_dashboard
                     data:
@@ -6242,7 +6229,7 @@ x-webhooks:
                     type:
                       type: string
                       description: Type of event
-                      exacmple: "receipt.self_invoice_complete"
+                      example: "receipt.self_invoice_complete"
                       enum:
                         - receipt.self_invoice_complete
                     data:
@@ -6290,14 +6277,12 @@ components:
   responses:
     BadRequest:
       description: Error in some of the request parameters
-      required: true
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/GenericError"
     Unauthenticated:
       description: Authentication error
-      required: true
       content:
         application/json:
           schema:
@@ -6305,20 +6290,17 @@ components:
     Conflict:
       description: |
         Conflict in the request. The operation that is being attempted cannot be completed due to conflicts in the current state of the resource.
-      required: true
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/GenericError"
     NotFound:
       description: Resource not found
-      required: true
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/GenericError"
     UnexpectedError:
-      required: true
       description: Unexpected error
       content:
         application/json:
@@ -6503,20 +6485,20 @@ components:
         id:
           type: string
           description: ID of the event
-          exacmple: 61f81a81bd4661b11b9b404e
+          example: 61f81a81bd4661b11b9b404e
         created_at:
           type: string
           format: date-time
           description: Creation date and time of the event
-          exacmple: 2022-03-30T00:00:00Z
+          example: 2022-03-30T00:00:00Z
         livemode:
           type: boolean
           description: Indicates if the event was generated in Test mode (false) or Live mode (true).
-          exacmple: false
+          example: false
         organization:
           type: string
           description: ID of the organization this event is related to
-          exacmple: 61f81a7fbd4661b11b9b3f27
+          example: 61f81a7fbd4661b11b9b3f27
     DateRange:
       type: object
       properties:
@@ -6891,7 +6873,6 @@ components:
       properties:
         quantity:
           type: number
-          required: false
           default: 1
           description: Quantity of units included in the same concept.
           example: 1
@@ -7109,8 +7090,7 @@ components:
           description: Final date of the payment period.
         num_dias_pagados:
           type: number
-          minimum: 0
-          exclusiveMinimum: true
+          exclusiveMinimum: 0
           description: Number of days paid. It can be an integer or a fraction.
     NominaComplementDataNestedInput:
       type: object
@@ -7905,19 +7885,16 @@ components:
           type: string
           description: Link to a hosted page where the customer can edit their information once.
           example: https://auto.facturapi.io/tax-info/abcdWXYZ1234
-          nullable: true
         edit_link_expires_at:
           type: string
           format: date-time
           description: Expiration date of the edit link.
           example: 2022-12-31T23:59:59Z
-          nullable: true              
         sat_validated_at:
           type: string
           format: date-time
           description: Date when the customer's tax information was validated by the SAT.
           example: 2022-12-31T23:59:59Z
-          nullable: true
     CustomerSearchResult:
       allOf:
         - $ref: "#/components/schemas/SearchResult"
@@ -8054,7 +8031,6 @@ components:
         - type: object
           properties:
             id:
-              nullable: true
               type: string
               description: ID of the base product. Only present if a previously saved `Product` object was used as a base.
               example: 58e93bd8e86eb318b0197454
@@ -8130,7 +8106,6 @@ components:
         tax_included:
           type: boolean
           default: true
-          nullable: true
           description: |
             - `true`: Indicates that all applicable taxes are included in the price (price attribute) and will be automatically broken down when the invoice is issued.
             - `false`: Indicates that the price attribute does not include taxes, so those taxes to be applied will be added to the final price.
@@ -8161,7 +8136,6 @@ components:
         taxes:
           type: array
           default: IVA (VAT) transferred 16%
-          nullable: true
           example:
             [{
               "type": "IVA",
@@ -8180,7 +8154,6 @@ components:
         unit_key:
           type: string
           default: H87
-          nullable: true
           description: |
             Key of the unit of measure, from the SAT catalog. The default value `"H87"` (element) is the key to represent a piece or sales unit (pencil, notebook, television, etc).
 
@@ -8188,11 +8161,9 @@ components:
         unit_name:
           type: string
           default: Elemento
-          nullable: true
           description: Name of the unit of measure used to express the quantity. It must be related to the unit key `unit_key`.
         sku:
           type: string
-          nullable: true
           description: Internal identifier designated by the company. It can have any value.
     ProductEgresoProperties:
       type: object
@@ -8209,7 +8180,6 @@ components:
           example: Ukelele
         product_key:
           type: string
-          nullable: true
           default: 84111506
           description: |
             Key from the SAT catalog of products/services. We provide a more
@@ -8222,14 +8192,12 @@ components:
           example: 345.60
         tax_included:
           type: boolean
-          nullable: true
           default: true
           description: |
             - `true`: Indicates that all applicable taxes are included in the price (price attribute) and will be automatically broken down when the invoice is issued.
             - `false`: Indicates that the price attribute does not include taxes, so those taxes to be applied will be added to the final price.
         taxability:
           type: string
-          nullable: true
           default: "02"
           enum:
             - "01"
@@ -8247,7 +8215,6 @@ components:
             - `05`: Subject to tax, VAT credit PODEBI.
         taxes:
           type: array
-          nullable: true
           default: IVA (VAT) transferred 16%
           description: |
             List of taxes that must be applied to this product. If the parameter is omitted or null, it will be saved with an element representing the transferred IVA (VAT) of 16%, which is the most common tax. If an empty array is explicitly sent, it is understood that the product is exempt from taxes.
@@ -8255,21 +8222,18 @@ components:
             $ref: "#/components/schemas/BaseTax"
         local_taxes:
           type: array
-          nullable: true
           description: Array of local taxes (state or municipal), if any.
           default: []
           items:
             $ref: "#/components/schemas/LocalTax"
         unit_key:
           type: string
-          nullable: true
           default: ACT
           description: |
             Key of the unit of measure, from the SAT catalog. The default value `"ACT"` (activity) is the key to represent a generic activity.
             Check out all the available keys in our [unit search tool](https://dashboard.facturapi.io/catalogs/unit).
         unit_name:
           type: string
-          nullable: true
           default: Actividad
           description: Name of the unit of measure used to express the quantity. It must be related to the unit key `unit_key`.
       required:
@@ -8843,11 +8807,9 @@ components:
         series:
           type: string
           maxLength: 25
-          nullable: true
           description: Series. Aplanumeric characters designated by the company for internal control and without fiscal relevance.
         pdf_custom_section:
           type: string
-          nullable: true
           format: xml
           description: |
             In case you need to include more information in the PDF, this field allows you to insert HTML code with your own content.
@@ -8855,7 +8817,6 @@ components:
             For security reasons, the code you can send is limited to the following tags: `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `div`, `p`, `span`, `small`, `br`, `b`, `i`, `ul`, `ol`, `li`, `strong`, `table`, `thead`, `tbody`, `tfoot`, `tr`, `th`, and `td`. Attributes and styles are not allowed.
         addenda:
           type: string
-          nullable: true
           format: xml
           description: XML code with the Addenda that needs to be added to the invoice.
         namespaces:
@@ -8907,11 +8868,9 @@ components:
         series:
           type: string
           maxLength: 25
-          nullable: true
           description: Series. Alphanumeric characters designated by the company for internal control and without fiscal relevance.
         pdf_custom_section:
           type: string
-          nullable: true
           format: xml
           description: |
             In case you need to include more information in the PDF, this field allows you to insert HTML code with your own content.
@@ -8919,7 +8878,6 @@ components:
             For security reasons, the code you can send is limited to the following tags: `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `div`, `p`, `span`, `small`, `br`, `b`, `i`, `ul`, `ol`, `li`, `strong`, `table`, `thead`, `tbody`, `tfoot`, `tr`, `th`, and `td`. Attributes and styles are not allowed.
         addenda:
           type: string
-          nullable: true
           format: xml
           description: XML code with the Addendum to add to the invoice.
         namespaces:
@@ -8989,7 +8947,7 @@ components:
                 the response) this field will be updated to `valid`. For
                 asynchronous invoices, this field will remain `pending` until the
                 invoice is stamped.
-              exacmple: draft
+              example: draft
             date:
               type: string
               format: date-time
@@ -9012,12 +8970,10 @@ components:
                       example: Sonora
             external_id:
               type: string
-              nullable: true
               description: |
                 Optional identifier that you can use to relate this invoice to your records and later search by this number. Facturapi does not validate that this field is unique.
             idempotency_key:
               type: string
-              nullable: true
               description: |
                 Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
 
@@ -9042,7 +8998,7 @@ components:
               description: |
                 Initial status of the invoice. It is only possible to edit an invoice with status `draft`,
                 and it is not possible to change the status when editing, so the only allowed value is `draft`.
-              exacmple: draft
+              example: draft
             date:
               type: string
               format: date-time
@@ -9064,12 +9020,10 @@ components:
                       example: Sonora
             external_id:
               type: string
-              nullable: true
               description: |
                 Optional identifier that you can use to relate this invoice to your records and later search by this number. Facturapi does not validate that this field is unique.
             idempotency_key:
               type: string
-              nullable: true
               description: |
                 Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
 
@@ -9172,7 +9126,6 @@ components:
                 currency indicated in the `currency` attribute.
             conditions:
               type: string
-              nullable: true
               minLength: 1
               maxLength: 1000
               description: Payment conditions. Free text field usually used to specify payment terms, such as the due date.
@@ -9185,7 +9138,6 @@ components:
                 $ref: "#/components/schemas/RelatedDocumentInput"
             global:
               type: object
-              nullable: true
               required:
                 - periodicity
                 - months
@@ -9195,7 +9147,6 @@ components:
               properties:
                 periodicity:
                   type: string
-                  nullable: true
                   description: |
                     Periodicity the global invoice covers.
 
@@ -9485,7 +9436,6 @@ components:
                 Echange rate for the currency used. It represents the number of pesos mexicanos (MXN) equivalent to one unit of the currency indicated in the `currency`.
             conditions:
               type: string
-              nullable: true
               minLength: 1
               maxLength: 1000
               description: Payment conditions. Free text field usually used to specify payment terms, such as the due date.
@@ -9497,7 +9447,6 @@ components:
                 $ref: "#/components/schemas/RelatedDocumentInput"
             global:
               type: object
-              nullable: true
               required:
                 - periodicity
                 - months
@@ -9507,7 +9456,6 @@ components:
               properties:
                 periodicity:
                   type: string
-                  nullable: true
                   description: |
                     Periodicity the global invoice covers.
 
@@ -9824,7 +9772,6 @@ components:
           properties:
             idempotency_key:
               type: string
-              nullable: true
               description: |
                 Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
 
@@ -9862,7 +9809,6 @@ components:
           description: Name of the branch where the receipt was issued.
         external_id:
           type: string
-          nullable: true
           description: |
             Optional identifier that you can use to relate this receipt to your records and later search by this number. Facturapi does not validate that this field is unique.
     ReceiptSearchResult:
@@ -9897,7 +9843,6 @@ components:
                 Code of Use of CFDI according to the SAT catalog. You can see the codes in [this table](#uso-cfdi), or use the constants included in our libraries.
             conditions:
               type: string
-              nullable: true
               minLength: 1
               maxLength: 1000
               description: Payment conditions. Free text field usually used to specify payment terms, such as the due date.
@@ -9957,7 +9902,6 @@ components:
         series:
           type: string
           maxLength: 25
-          nullable: true
           description: Series. Alphanumeric characters designated by the company for internal control and without fiscal validity.
           example: "F"
         date:
@@ -9983,7 +9927,8 @@ components:
           items:
             type: string
             format: hex
-            length: 24
+            minLength: 24
+            maxLength: 24
             description: ID of a receipt previously registered in Facturapi.
             example: 614496b471d422de4b6cfcc4
     Retention:
@@ -10126,7 +10071,6 @@ components:
             Optional identifier that you can use to relate this retention to your records and later search by this number. Facturapi does not validate that this field is unique.
         idempotency_key:
           type: string
-          nullable: true
           description: |
             Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
 

@@ -31,3 +31,4 @@ When enabled, the following automatic actions can be configured:
 
 - **Generate CFDIs for unpaid invoices**  
   For unpaid invoices, the app automatically issues a type I CFDI (income) with payment method PPD (payment in installments or deferred). When the payment is received, a type P CFDI (payment receipt) is issued automatically.
+ 

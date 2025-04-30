@@ -1,6 +1,6 @@
-## Configuración de automatización
+# Configuración de automatización
 
-### 🔑 Cómo acceder a la configuración
+## 🔑 Cómo acceder a la configuración
 
 Una vez instalada la app de Facturapi, sigue estos pasos para acceder a la configuración:
 
@@ -11,7 +11,7 @@ Una vez instalada la app de Facturapi, sigue estos pasos para acceder a la confi
 
 ---
 
-### ⚙️ Activar automatización
+## ⚙️ Activar automatización
 
 La app permite habilitar la automatización para generar CFDIs de forma automática a partir de eventos comunes como nuevas facturas, pagos, notas de crédito y reembolsos.
 

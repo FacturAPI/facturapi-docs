@@ -31,3 +31,4 @@ Al activar esta opción, se habilitan las siguientes acciones automáticas:
 
 - **Generar CFDIs para facturas no pagadas**  
   En facturas no pagadas, se genera automáticamente un CFDI tipo I (ingreso) con método de pago PPD (Pago en Parcialidades o Diferido), y al registrarse el pago, se emite el CFDI tipo P (complemento de pago).
+ 

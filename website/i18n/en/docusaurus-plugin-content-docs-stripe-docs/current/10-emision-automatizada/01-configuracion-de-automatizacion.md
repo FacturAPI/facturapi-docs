@@ -1,6 +1,6 @@
 # Automatic CFDI Issuance
 
-### 🔑 How to access the app settings
+## 🔑 How to access the app settings
 
 Once the Facturapi app is installed, follow these steps to access its configuration:
 
@@ -11,7 +11,7 @@ Once the Facturapi app is installed, follow these steps to access its configurat
 
 ---
 
-### ⚙️ Enable automation
+## ⚙️ Enable automation
 
 The app allows you to automatically generate CFDIs based on common events like new invoices, payments, credit notes, and refunds.
 

@@ -8827,6 +8827,11 @@ components:
               default: true
               description: |
                 Mostrar el desglose de IEPS en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.    
+            render_carta_porte:
+              type: boolean
+              default: false
+              description: |
+                Renderizar el complemento de Carta Porte 3.1 en el PDF sólo si el complemento de carta porte está incluido en la factura.                
     InvoiceableCommonEditInput:
       type: object
       properties:
@@ -8883,7 +8888,12 @@ components:
               type: boolean
               default: true
               description: |
-                Mostrar el desglose de IEPS en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.    
+                Mostrar el desglose de IEPS en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.   
+            render_carta_porte:
+              type: boolean
+              default: false
+              description: |
+                Renderizar el complemento de Carta Porte 3.1 en el PDF sólo si el complemento de carta porte está incluido en la factura.
     InvoiceCommonInputProperties:
       allOf:
         - type: object
@@ -10376,7 +10386,12 @@ components:
                   type: boolean
                   default: true
                   description: |
-                    Mostrar el desglose de IEPS en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.    
+                    Mostrar el desglose de IEPS en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal. 
+                render_carta_porte:
+                  type: boolean
+                  default: false
+                  description: |
+                    Renderizar el complemento de Carta Porte 3.1 en el PDF sólo si el complemento de carta porte está incluido en la factura.   
         certificate:
           type: object
           description: |
@@ -10531,6 +10546,11 @@ components:
               default: true
               description: |
                 Mostrar el desglose de IEPS en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.   
+            render_carta_porte:
+              type: boolean
+              default: false
+              description: |
+                Renderizar el complemento de Carta Porte 3.1 en el PDF sólo si el complemento de carta porte está incluido en la factura.    
     OrganizationReceiptsInput:
       type: object
       properties:

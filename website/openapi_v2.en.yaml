@@ -8088,6 +8088,7 @@ components:
       required:
         - description
         - product_key
+        - unit_key
         - price
       properties:
         description:

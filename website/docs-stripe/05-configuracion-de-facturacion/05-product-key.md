@@ -22,6 +22,7 @@ Puedes asignar estas claves de dos formas dentro de la app:
 - Si ya conoces las claves, puedes ingresarlas directamente. También puedes usar el buscador integrado para elegirlas fácilmente.
 - El catálogo está basado en el listado oficial del SAT y está disponible dentro de la app para facilitar la selección.
 
-## **Casos de uso**
-- Negocios que venden múltiples productos o servicios y necesitan especificar claves distintas para cada uno.
-- Empresas que requieren mayor precisión y control sobre la información fiscal en sus CFDI.
+## Casos de uso
+
+- **Claves predeterminadas**: Ideales para negocios que venden un solo tipo de producto o servicio y no requieren diferenciación fiscal entre ellos. Esta opción simplifica la configuración y el mantenimiento.
+- **Claves específicas por producto**: Recomendadas para negocios que manejan distintos productos o servicios y necesitan asignar claves fiscales distintas para cada uno, asegurando una generación precisa del CFDI.

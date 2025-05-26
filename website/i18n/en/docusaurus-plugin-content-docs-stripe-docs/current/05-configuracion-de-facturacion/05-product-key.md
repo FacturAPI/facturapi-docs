@@ -22,6 +22,7 @@ You can assign these keys in two ways within the app:
 - If you already know the codes, you can type them in directly. Otherwise, use the integrated search tool.
 - The catalog is based on the official SAT listings and is available within the app for easy lookup.
 
-## **Use cases**  
-- Businesses selling different types of products or services that require specific keys for each.
-- Companies that need precise tax reporting and compliance in their CFDI generation.
+## Use cases
+
+- **Default keys**: Ideal for businesses that sell a single type of product or service and don't need to differentiate between them for tax purposes. This simplifies setup and maintenance.
+- **Product-specific keys**: Recommended for businesses offering multiple types of products or services that need to assign distinct tax classifications per item, ensuring accurate CFDI generation.

@@ -1,14 +1,17 @@
 # Send Documents via Email
 
-For now, email delivery can be done from the Facturapi dashboard by selecting the document to send in the [invoices section](https://dashboard.facturapi.io/invoices) and clicking **"Send via email"**.
+For now, email delivery can be done from the Facturapi dashboard by going to the [invoices section](https://dashboard.facturapi.io/invoices), selecting the document you want to send, and clicking **"Send by email"**.
 
-It is also possible to access the document from the **Facturapi App panel in Stripe**, by selecting an invoice and clicking **"View in Facturapi"**.
+You can also access the document from the **Facturapi App panel in Stripe** by selecting an invoice and clicking **"View in Facturapi"**.
 
-:::caution 🚧 Feature in Development
+:::caution 🚧 Feature in progress
 
 This feature is still under development.  
-We are working to enable document automation.  
+We are working to enable document issuance automation.
 
 Stay tuned for updates.
 
 :::
+
+You can also enable **automatic email delivery** when invoices are created by turning on the automation setting here:  
+👉 [Configure automations](https://dashboard.stripe.com/settings/apps/io.facturapi.stripe-app.internal)

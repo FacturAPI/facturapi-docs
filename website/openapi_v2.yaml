@@ -4580,6 +4580,93 @@ paths:
           $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/self-invoice:
+    put:
+      operationId: editOrganizationSelfInvoiceSettings
+      tags:
+        - organization
+      summary: Editar config. autofactura
+      description: |
+        Actualiza la configuración del portal de autofactura de la organización.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/receipts \
+              -X PUT \
+              -H "Authorization: Bearer sk_user_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                    "allowed_cfdi_uses": ["G01", "G03"],
+                    "apply_resico_isr": false,
+                    "support_email": "support@dundermifflin.com"
+                }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_user_API_KEY');
+
+            const organization = await facturapi.organizations.updateSelfInvoiceSettings(
+              '5a2a307be93a2f00129ea035',
+              {
+                allowed_cfdi_uses: ["G01", "G03"],
+                apply_resico_isr: false,
+                support_email: "support@dundermifflin.com"
+              }
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+
+            var organization = await facturapi.Organization.UpdateSelfInvoiceSettingsAsync(
+              "5a2a307be93a2f00129ea035",
+              new Dictionary<string, object>
+              {
+                ["allowed_cfdi_uses"] = new List<string> { "G01", "G03" },
+                ["apply_resico_isr"] = false,
+                ["support_email"] = "support@dundermifflin.com"
+              }
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_user_API_KEY");
+
+            $organization = $facturapi->Organizations->updateSelfInvoiceSettings(
+              "5a2a307be93a2f00129ea035",
+              [
+                "allowed_cfdi_uses" => ["G01", "G03"],
+                "apply_resico_isr" => false,
+                "support_email" => "support@dundermifflin.com"
+              ]
+            );
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+      requestBody:
+        $ref: "#/components/requestBodies/OrganizationEditSelfInvoiceSettings"
+      security:
+        - "SecretUsertKey": []
+      responses:
+        "200":
+          description: Objeto `Organization` modificado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Organization"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
   /organizations/domain-check:
     get:
       operationId: checkDomainAvailability
@@ -6450,6 +6537,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/OrganizationReceiptsInput"
+    OrganizationEditSelfInvoiceSettings:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrganizationSelfInvoiceInput"
     OrganizationEditDomain:
       required: true
       content:
@@ -10285,6 +10378,15 @@ components:
           type: string
           description: ID del objeto
           example: "5a2a307be93a2f00129ea035"
+        logo_url:
+          type: string
+          format: uri
+          description: URL del logotipo de la organización.
+          example: "https://storage.googleapis.com/cdn.facturapi.io/organization/6c100efa5c6f5d7db0379ca643476a4183526007/logo.jpg"
+        timezone:
+          type: string
+          description: Zona horaria de la organización, en formato IANA.
+          example: "America/Mexico_City"
         created_at:
           type: string
           format: date-time
@@ -10368,6 +10470,11 @@ components:
                   default: true
                   description: |
                     Mostrar códigos de catálogos del SAT junto a sus descripciones. Ejemplo: “KGM Kilogramo”.
+                address_codes:
+                  type: boolean
+                  default: true
+                  description: |
+                    Mostrar los códigos estandarizados de estado y de país en el PDF. Ejemplo: "SON" en lugar de "Sonora" y "MEX" en lugar de "México".
                 product_key:
                   type: boolean
                   default: true
@@ -10392,13 +10499,18 @@ components:
                   type: boolean
                   default: false
                   description: |
-                    Renderizar el complemento de Carta Porte 3.1 en el PDF sólo si el complemento de carta porte está incluido en la factura.   
+                    Renderizar el complemento de Carta Porte 3.1 en el PDF sólo si el complemento de carta porte está incluido en la factura.
+                repeat_signature:
+                  type: boolean
+                  default: false
+                  description: |
+                    Repetir la firma electrónica en cada página del PDF. Si se desactiva, la firma electrónica sólo se mostrará una vez.
         certificate:
           type: object
           description: |
             Información últil sobre el certificado de sello digital (CSD) de la organización, que se utilizará para firmar las facturas.
           properties:
-            has_certificates:
+            has_certificate:
               type: boolean
               description: Indica si la organización ya tiene el Certificado de Sello Digital (CSD) cargado.
             updated_at:
@@ -10411,6 +10523,94 @@ components:
               format: date-time
               example: "2025-05-05T20:55:33.468Z"
               description: Fecha de expiración del certificado.
+            serial_number:
+              type: string
+              example: "30001000000300000101"
+              description: Número de serie del certificado CSD.
+        fiel:
+          type: object
+          description: Información sobre el certificado FIEL de la organización, que se utiliza para firmar retenciones.
+          properties:
+            has_certificate:
+              type: boolean
+              description: Indica si la organización ya tiene el Certificado FIEL cargado.
+            updated_at:
+              type: string
+              format: date-time
+              example: "2023-05-05T20:55:33.468Z"
+              description: Fecha de la última actualización del certificado FIEL.
+            expires_at:
+              type: string
+              format: date-time
+              example: "2025-05-05T20:55:33.468Z"
+              description: Fecha de expiración del certificado FIEL.
+            serial_number:
+              type: string
+              example: "30001000000300000101"
+              description: Número de serie del certificado FIEL.
+        receipts:
+          type: object
+          description: |
+            Configuración para recibos y la emisión de facturas globales a partir de recibos.
+          properties:
+            periodicity:
+              type: string
+              default: month
+              enum:
+                - day
+                - week
+                - fortnight
+                - month
+                - two_months
+              description: |
+                Periodicidad con la que la empresa decide emitir una factura global
+                (al público en general) por todos los recibos que no se hayan facturado.
+                Este valor se utiliza como el default al crear una factura global.
+            duration_days:
+              type: integer
+              default: 7
+              description: |
+                Número máximo de días para facturar a través del portal de autofactura
+                después de que se emite el recibo y antes del último día del periodo.
+            next_folio_number:
+              type: integer
+              example: 123
+              description: |
+                Número de folio que se asignará al siguiente recibo en ambiente Live.
+                Se incrementará automáticamente por cada nuevo recibo.
+            next_folio_number_test:
+              type: integer
+              example: 123
+              description: |
+                Número de folio que se asignará al siguiente recibo en ambiente Test.
+                Se incrementará automáticamente por cada nuevo recibo.
+        self_invoice:
+          type: object
+          description: |
+            Configuraciones para el portal de autofactura, que permite a los clientes facturar sus recibos a través de un micrositio.
+          properties:
+            allowed_cfdi_uses:
+              type: array
+              description: |
+                Lista de usos CFDI permitidos para la autofactura. Si este campo está vacío, se permitirán todos los usos CFDI.
+              items:
+                type: string
+                example: G01
+                description: |
+                  Código de uso CFDI según el [catálogo de Uso CFDI](#uso-cfdi).
+            apply_resico_isr:
+              type: boolean
+              description: |
+                Indica si la organización aplica el ISR bajo el régimen RESICO. Si es verdadero, el ISR se calculará de acuerdo con el régimen RESICO.
+                Si es falso, el ISR se calculará de acuerdo con el régimen general.
+            support_email:
+              type: string
+              description: |
+                Dirección de correo electrónico para aclaraciones. Aparecerá en el portal de autofacturación.
+            support_email_verified:
+              type: boolean
+              description: |
+                Indica si el correo electrónico de soporte ha sido verificado. Si es falso, el correo electrónico utilizado en el portal de autofacturación será el correo electrónico principal de la cuenta.
 
     OrganizationDeleteCerts: 
       type: object
@@ -10583,6 +10783,28 @@ components:
         next_folio_number_test:
           type: integer
           description: Número de folio que se asignará al siguiente recibo creado en esta organización en ambiente Test.
+    OrganizationSelfInvoiceInput:
+      type: object
+      properties:
+        allowed_cfdi_uses:
+          type: array
+          description: |
+            Lista de usos CFDI permitidos para la autofactura. Si este campo está vacío, se permitirán todos los usos CFDI.
+          items:
+            type: string
+            example: G01
+            description: |
+              Código de uso CFDI según el [catálogo de Uso CFDI](#uso-cfdi).
+        apply_resico_isr:
+          type: boolean
+          description: |
+            Indica si la organización aplica el ISR bajo el régimen RESICO. Si es verdadero, el ISR se calculará de acuerdo con el régimen RESICO.
+            Si es falso, el ISR se calculará de acuerdo con el régimen general.
+        support_email:
+          type: string
+          description: |
+            Dirección de correo electrónico para aclaraciones. Aparecerá en el portal de autofacturación.
+            Al modificarlo se enviará un correo de verificación a la nueva dirección.
     DomainField:
       type: string
       maxLength: 50

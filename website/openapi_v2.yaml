@@ -2623,7 +2623,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/ReceiptCreate"
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Nuevo objeto `Receipt` creado
@@ -3907,7 +3907,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationCreate"
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Nuevo objeto `Organization` creado
@@ -3963,7 +3963,7 @@ paths:
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Resultado de la búsqueda
@@ -4149,7 +4149,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationEditLegal"
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Objeto `Organization` modificado
@@ -4241,7 +4241,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationUploadCerts"
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Objeto `Organization` modificado
@@ -4300,7 +4300,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Objeto `Organization` modificado
@@ -4381,7 +4381,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationUploadLogo"
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Objeto `Organization` modificado
@@ -4477,7 +4477,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationEditCustomization"
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Objeto `Organization` modificado
@@ -4564,7 +4564,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationEditReceiptsSettings"
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Objeto `Organization` modificado
@@ -4592,7 +4592,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/receipts \
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/self-invoice \
               -X PUT \
               -H "Authorization: Bearer sk_user_API_KEY" \
               -H "Content-Type: application/json" \
@@ -4651,7 +4651,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationEditSelfInvoiceSettings"
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Objeto `Organization` modificado
@@ -4712,7 +4712,7 @@ paths:
           schema:
             $ref: "#/components/schemas/DomainField"
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Información de disponibilidad de dominio
@@ -4799,7 +4799,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationEditDomain"
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Objeto `Organization` modificado
@@ -4855,7 +4855,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Objeto `Organization`
@@ -4914,7 +4914,7 @@ paths:
           required: true
           description: ID del objeto a eliminar
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Objeto `Organization` eliminado correctamente
@@ -4971,7 +4971,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Test API Key
@@ -5029,7 +5029,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Test API Key
@@ -5088,7 +5088,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Live API Key
@@ -5160,7 +5160,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Live API Key
@@ -5229,7 +5229,7 @@ paths:
           required: true
           description: ID de la llave secreta a eliminar
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Live API Key
@@ -5302,7 +5302,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Listado de objetos `Series` creadas previamente 
@@ -5391,7 +5391,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Nuevo objeto de la `Serie` creada
@@ -5479,7 +5479,7 @@ paths:
           required: true
           description: Nombre de la serie
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Objeto `Serie` editada 
@@ -5546,7 +5546,7 @@ paths:
           required: true
           description: Nombre de la serie
       security:
-        - "SecretUsertKey": []
+        - "SecretUserKey": []
       responses:
         "200":
           description: Objeto `Serie` eliminado
@@ -10874,7 +10874,7 @@ components:
       scheme: bearer
       bearerFormat: sk_test_XXXXXXXXXXXX
       description: Única por organización. Permite crear, obtener y administrar recursos en ambiente Test para una organización en específico.
-    "SecretUsertKey":
+    "SecretUserKey":
       type: http
       scheme: bearer
       bearerFormat: sk_user_XXXXXXXXXXXX

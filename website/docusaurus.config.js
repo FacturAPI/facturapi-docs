@@ -16,6 +16,7 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
     projectName: "facturapi-docs", // Usually your repo name.
     trailingSlash: true,
     future: {
+      v4: true,
       experimental_faster: true
     },
 

@@ -2388,7 +2388,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/ReceiptCreate'
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: New `Receipt` object created
@@ -3845,7 +3845,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/OrganizationCreate'
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: New `Organization` object created
@@ -3905,7 +3905,7 @@ paths:
         - $ref: '#/components/parameters/SearchPage'
         - $ref: '#/components/parameters/SearchLimit'
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: Search results
@@ -4097,7 +4097,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/OrganizationEditLegal'
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: Modified `Organization` object
@@ -4211,7 +4211,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/OrganizationUploadCerts'
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: Modified `Organization` object
@@ -4282,7 +4282,7 @@ paths:
           required: true
           description: ID of the organization to delete certificates
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: Modified `Organization` object
@@ -4367,7 +4367,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/OrganizationUploadLogo'
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: Modified `Organization` object
@@ -4471,7 +4471,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/OrganizationEditCustomization'
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: Modified `Organization` object
@@ -4565,7 +4565,103 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/OrganizationEditReceiptsSettings'
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
+      responses:
+        '200':
+          description: Modified `Organization` object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  /organizations/{organization_id}/self-invoice:
+    put:
+      operationId: editOrganizationSelfInvoiceSettings
+      tags:
+        - organization
+      summary: Edit self-invoice settings
+      description: |
+        Update the self-invoice settings of the organization.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/self-invoice
+            \
+              -X PUT \
+              -H "Authorization: Bearer sk_user_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                    "allowed_cfdi_uses": ["G01", "G03"],
+                    "apply_resico_isr": false,
+                    "support_email": "support@dundermifflin.com"
+                }'
+        - lang: JavaScript
+          label: Node.js
+          source: >
+            const Facturapi = require('facturapi');
+
+            const facturapi = new Facturapi('sk_user_API_KEY');
+
+
+            const organization = await
+            facturapi.organizations.updateSelfInvoiceSettings(
+              '5a2a307be93a2f00129ea035',
+              {
+                allowed_cfdi_uses: ["G01", "G03"],
+                apply_resico_isr: false,
+                support_email: "support@dundermifflin.com"
+              }
+            );
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+
+
+            var organization = await
+            facturapi.Organization.UpdateSelfInvoiceSettingsAsync(
+              "5a2a307be93a2f00129ea035",
+              new Dictionary<string, object>
+              {
+                ["allowed_cfdi_uses"] = new List<string> { "G01", "G03" },
+                ["apply_resico_isr"] = false,
+                ["support_email"] = "support@dundermifflin.com"
+              }
+            );
+        - lang: PHP
+          source: >
+            $facturapi = new Facturapi("sk_user_API_KEY");
+
+
+            $organization =
+            $facturapi->Organizations->updateSelfInvoiceSettings(
+              "5a2a307be93a2f00129ea035",
+              [
+                "allowed_cfdi_uses" => ["G01", "G03"],
+                "apply_resico_isr" => false,
+                "support_email" => "support@dundermifflin.com"
+              ]
+            );
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID of the organization
+      requestBody:
+        $ref: '#/components/requestBodies/OrganizationEditSelfInvoiceSettings'
+      security:
+        - SecretUserKey: []
       responses:
         '200':
           description: Modified `Organization` object
@@ -4635,7 +4731,7 @@ paths:
           schema:
             $ref: '#/components/schemas/DomainField'
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: |
@@ -4731,7 +4827,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/OrganizationEditDomain'
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: Modified `Organization` object
@@ -4791,7 +4887,7 @@ paths:
           required: true
           description: ID of the organization
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: '`Organization` object'
@@ -4851,7 +4947,7 @@ paths:
           required: true
           description: ID of the organization
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: '`Organization` object deleted'
@@ -4911,7 +5007,7 @@ paths:
           required: true
           description: ID of the organization
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: Test API Key
@@ -4975,7 +5071,7 @@ paths:
           required: true
           description: ID of the organization
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: Test API Key
@@ -5041,7 +5137,7 @@ paths:
           required: true
           description: Organization ID
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: Live API Key
@@ -5117,7 +5213,7 @@ paths:
           required: true
           description: ID of the organization
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: Live API Key
@@ -5187,7 +5283,7 @@ paths:
           required: true
           description: ID of the Live API Key
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: Live API Key revoked
@@ -5263,7 +5359,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: Listado de objetos `Series` creadas previamente
@@ -5354,7 +5450,7 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: New created object `s`
@@ -5444,7 +5540,7 @@ paths:
           required: true
           description: Series name
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: Updated Objet `Series`
@@ -5513,7 +5609,7 @@ paths:
           required: true
           description: Series Name
       security:
-        - SecretUsertKey: []
+        - SecretUserKey: []
       responses:
         '200':
           description: Deleted Objet `Series`
@@ -6562,6 +6658,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/OrganizationReceiptsInput'
+    OrganizationEditSelfInvoiceSettings:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OrganizationSelfInvoiceInput'
     OrganizationEditDomain:
       required: true
       content:
@@ -11138,6 +11240,16 @@ components:
           format: date-time
           description: Date and time of creation of the organization.
           example: '2017-05-05T20:55:33.468Z'
+        logo_url:
+          type: string
+          format: uri
+          description: URL of the organization's logo.
+          example: >-
+            https://storage.googleapis.com/cdn.facturapi.io/organization/6c100efa5c6f5d7db0379ca643476a4183526007/logo.jpg
+        timezone:
+          type: string
+          description: Time zone of the organization, in IANA format.
+          example: America/Mexico_City
         is_production_ready:
           type: boolean
           description: >-
@@ -11242,6 +11354,12 @@ components:
                   description: >
                     Show SAT catalog codes next to their descriptions. Example:
                     "KGM Kilogramo".
+                address_codes:
+                  type: boolean
+                  default: true
+                  description: >
+                    Show standardized state and country codes in the PDF.
+                    Example: "SON" for Sonora, "MX" for Mexico.
                 product_key:
                   type: boolean
                   default: true
@@ -11271,13 +11389,18 @@ components:
                   default: false
                   description: |
                     Render the Carta Porte 3.1 Complement in the pdf.
+                repeat_signature:
+                  type: boolean
+                  default: false
+                  description: |
+                    Repeat the digital signature on each page of the PDF.
         certificate:
           type: object
           description: >
             Useful information about the organization's Digital Stamp
             Certificate (CSD), which will be used to sign the invoices.
           properties:
-            has_certificates:
+            has_certificate:
               type: boolean
               description: >-
                 Indicates if the organization already has the Digital Stamp
@@ -11292,6 +11415,114 @@ components:
               format: date-time
               example: '2025-05-05T20:55:33.468Z'
               description: Expiration date of the certificate.
+            serial_number:
+              type: string
+              example: '20001000000300000000'
+              description: Serial number of the certificate.
+        fiel:
+          type: object
+          description: >
+            Useful information about the organization's FIEL certificate, which
+            will be used to sign the retentions.
+          properties:
+            has_certificate:
+              type: boolean
+              description: >-
+                Indicates if the organization already has the FIEL certificate
+                uploaded.
+            updated_at:
+              type: string
+              format: date-time
+              example: '2023-05-05T20:55:33.468Z'
+              description: Date of the last update of the FIEL certificate.
+            expires_at:
+              type: string
+              format: date-time
+              example: '2025-05-05T20:55:33.468Z'
+              description: Expiration date of the FIEL certificate.
+            serial_number:
+              type: string
+              example: '20001000000300000000'
+              description: Serial number of the FIEL certificate.
+        receipts:
+          type: object
+          description: >
+            Settings for receipts and the issuance of global invoices from
+            receipts.
+          properties:
+            periodicity:
+              type: string
+              default: month
+              enum:
+                - day
+                - week
+                - fortnight
+                - month
+                - two_months
+              description: >
+                Periodicity with which the company decides to issue a global
+                invoice
+
+                (to the general public) for all the receipts not invoiced. This
+                value is used as the default when creating a global invoice.
+            duration_days:
+              type: integer
+              default: 7
+              description: >
+                Maximum number of days to invoice through the self-invoicing
+                portal
+
+                after the receipt is issued and before the last day of the
+                period.
+            next_folio_number:
+              type: integer
+              example: 123
+              description: >-
+                Folio number that will be assigned to the next receipt. It will
+                be automatically incremented for each new receipt.
+            next_folio_number_test:
+              type: integer
+              example: 123
+              description: >
+                Folio number that will be assigned to the next receipt in the
+                Test environment.
+
+                It will be automatically incremented for each new receipt.
+        self_invoice:
+          type: object
+          description: >
+            Settings for the self-invoicing portal, which allows customers to
+            invoice their receipts through a microsite.
+          properties:
+            allowed_cfdi_uses:
+              type: array
+              description: >
+                List of CFDI uses allowed for self-invoicing. If this field is
+                empty, all CFDI uses will be allowed.
+              items:
+                type: string
+                example: G01
+                description: CFDI use code according to the [CFDI Use catalog](#uso-cfdi).
+            apply_resico_isr:
+              type: boolean
+              description: >
+                Indicates if the organization applies the ISR under the RESICO
+                regime. If true, the ISR will be calculated according to the
+                RESICO regime.
+
+                If false, the ISR will be calculated according to the general
+                regime.
+            support_email:
+              type: string
+              description: >-
+                Email address for clarifications. It will appear in the
+                self-invoice portal.
+            support_email_verified:
+              type: boolean
+              description: >-
+                Indicates if the support email has been verified. If false, the
+                email used in the self-invoice portal will be the main account's
+                email.
     OrganizationDeleteCerts:
       type: object
       properties:
@@ -11501,6 +11732,35 @@ components:
           description: >
             Folio number that will be assigned to the next receipt created in
             this organization in the Test environment.
+    OrganizationSelfInvoiceInput:
+      type: object
+      properties:
+        allowed_cfdi_uses:
+          type: array
+          description: >
+            List of CFDI uses allowed for self-invoicing. If this field is
+            empty, all CFDI uses will be allowed.
+          items:
+            type: string
+            example: G01
+            description: |
+              CFDI use code according to the [CFDI Use catalog](#uso-cfdi).
+        apply_resico_isr:
+          type: boolean
+          description: >
+            Indicates if the organization applies the ISR under the RESICO
+            regime. If true, the ISR will be calculated according to the RESICO
+            regime.
+
+            If false, the ISR will be calculated according to the general
+            regime.
+        support_email:
+          type: string
+          description: >
+            Email address for clarifications. It will appear in the self-invoice
+            portal.
+
+            If the email is not verified, the main account's email will be used.
     DomainField:
       type: string
       maxLength: 50
@@ -11586,7 +11846,7 @@ components:
       description: >
         Unique per organization. Allows you to create, retrieve, and manage
         resources in the Test environment for a specific organization.
-    SecretUsertKey:
+    SecretUserKey:
       type: http
       scheme: bearer
       bearerFormat: sk_user_XXXXXXXXXXXX

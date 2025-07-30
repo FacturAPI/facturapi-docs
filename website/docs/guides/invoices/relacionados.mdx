@@ -51,7 +51,7 @@ const invoice = await facturapi.invoices.create({
   related_documents: [
     {
       relationship: "01", // "Nota de crédito de los documentos relacionados"
-      uuid: "UUID_DEL_CFDI_DE_INGRESO"
+      documents: ["UUID_DEL_CFDI_DE_INGRESO"]
     }
   ]
 });
@@ -102,7 +102,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
     new Dictionary<string, object>
     {
       ["relationship"] = "01", // "Nota de crédito de los documentos relacionados"
-      ["uuid"] = "UUID_DEL_CFDI_DE_INGRESO"
+      ["documents"] = new string[] { "UUID_DEL_CFDI_DE_INGRESO" }
     }
   }
 
@@ -144,7 +144,7 @@ $invoice = $facturapi->Invoices->create([
   "related_documents" => [
     [
       "relationship" => "01", // "Nota de crédito de los documentos relacionados"
-      "uuid" => "UUID_DEL_CFDI_DE_INGRESO"
+      "documents" => ["UUID_DEL_CFDI_DE_INGRESO"]
     ]
   ]
 ]);
@@ -186,7 +186,7 @@ curl https://www.facturapi.io/v2/invoices \
     "related_documents": [
       {
         "relationship": "01", // "Nota de crédito de los documentos relacionados"
-        "uuid": "UUID_DEL_CFDI_DE_INGRESO"
+        "documents": ["UUID_DEL_CFDI_DE_INGRESO"]
       }
     ]
   }'
@@ -232,7 +232,7 @@ const invoice = await facturapi.invoices.create({
   related_documents: [
     {
       relationship: "01", // "Nota de crédito de los documentos relacionados"
-      uuid: "UUID_DEL_CFDI_DE_INGRESO"
+      documents: ["UUID_DEL_CFDI_DE_INGRESO"]
     }
   ]
 });
@@ -283,7 +283,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
     new Dictionary<string, object>
     {
       ["relationship"] = "01", // "Nota de crédito de los documentos relacionados"
-      ["uuid"] = "UUID_DEL_CFDI_DE_INGRESO"
+      ["documents"] = new string[] { "UUID_DEL_CFDI_DE_INGRESO" }
     }
   }
 
@@ -325,7 +325,7 @@ $invoice = $facturapi->Invoices->create([
   "related_documents" => [
     [
       "relationship" => "01", // "Nota de crédito de los documentos relacionados"
-      "uuid" => "UUID_DEL_CFDI_DE_INGRESO"
+      "documents" => ["UUID_DEL_CFDI_DE_INGRESO"]
     ]
   ]
 ]);
@@ -367,7 +367,7 @@ curl https://www.facturapi.io/v2/invoices \
     "related_documents": [
       {
         "relationship": "01", // "Nota de crédito de los documentos relacionados"
-        "uuid": "UUID_DEL_CFDI_DE_INGRESO"
+        "documents": ["UUID_DEL_CFDI_DE_INGRESO"]
       }
     ]
   }'
@@ -413,7 +413,7 @@ const invoice = await facturapi.invoices.create({
   related_documents: [
     {
       relationship: "04", // "Sustitución de los CFDI previos"
-      uuid: "UUID_DEL_CFDI_PREVIO"
+      documents: ["UUID_DEL_CFDI_PREVIO"]
     }
   ]
 });
@@ -465,7 +465,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
     new Dictionary<string, object>
     {
       ["relationship"] = "04", // "Sustitución de los CFDI previos"
-      ["uuid"] = "UUID_DEL_CFDI_PREVIO"
+      ["documents"] = new string[] { "UUID_DEL_CFDI_PREVIO" }
     }
   }
 });
@@ -488,7 +488,7 @@ $invoice = $facturapi->Invoices->create([
     "address" => [
       "zip" => "85900"
     ]
-  },
+  ],
   "items" => [
     [
       "product" => [
@@ -500,17 +500,17 @@ $invoice = $facturapi->Invoices->create([
             "rate" => 0.16
           ]
         ]
-      }
+      ]
     ]
   ],
   "payment_form" => "01", // "Efectivo",
   "related_documents" => [
     [
       "relationship" => "04", // "Sustitución de los CFDI previos"
-      "uuid" => "UUID_DEL_CFDI_PREVIO"
+      "documents" => ["UUID_DEL_CFDI_PREVIO"]
     ]
   ]
-});
+]);
 
 ```
 
@@ -550,7 +550,7 @@ curl https://www.facturapi.io/v2/invoices \
     "related_documents": [
       {
         "relationship": "04", // "Sustitución de los CFDI previos"
-        "uuid": "UUID_DEL_CFDI_PREVIO"
+        "documents": ["UUID_DEL_CFDI_PREVIO"]
       }
     ]
   }'

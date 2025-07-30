@@ -490,7 +490,7 @@ $invoice = $facturapi->Invoices->create([
     "address" => [
       "zip" => "85900"
     ]
-  },
+  ],
   "items" => [
     [
       "product" => [
@@ -502,17 +502,17 @@ $invoice = $facturapi->Invoices->create([
             "rate" => 0.16
           ]
         ]
-      }
+      ]
     ]
   ],
   "payment_form" => "01", // "Efectivo",
   "related_documents" => [
     [
       "relationship" => "04", // "Sustitución de los CFDI previos"
-      "documents" => ["UUID_DEL_CFDI_PREVIO"
+      "documents" => ["UUID_DEL_CFDI_PREVIO"]
     ]
   ]
-});
+]);
 
 ```
 

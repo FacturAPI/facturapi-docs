@@ -1,8 +1,8 @@
 # Send Documents via Email
 
-You can send documents by email from your Facturapi dashboard by going to the [invoices section](https://dashboard.facturapi.io/invoices), selecting the document you want to send, and clicking **"Send by email"**.
+To send a CFDI by email, select the corresponding document, open the Facturapi App panel in Stripe, expand the CFDI details, click on the three dots, and choose the “Send by email” option.
 
-You can also access the document from the **Facturapi App panel in Stripe** by selecting an invoice and clicking **"View in Facturapi"**.
+You can send it to the email address your customer has on file, or manually enter a different one.
 
-If you prefer, you can enable **automatic email delivery** when invoices are created by turning on the automation here:  
+Additionally, you can enable **automatic email delivery** when invoices are created by turning on the automation here:  
 👉 [Configure automations](https://dashboard.stripe.com/settings/apps/io.facturapi.stripe-app.internal)

@@ -2690,6 +2690,29 @@ paths:
           example: "02"
           description: |
             Code representing the payment form, according to the [SAT catalog](#forma-de-pago). If included, the receipts will be grouped and listed according to the payment form.
+        - in: query
+          name: date[gte]
+          schema:
+            type: string
+            format: date-time
+            example: "2017-01-01T00:00:00.000Z"
+          description: |
+            Start date to filter receipts by their `date` property (inclusive).
+        - in: query
+          name: date[lte]
+          schema:
+            type: string
+            format: date-time
+            example: "2020-01-01T00:00:00.000Z"
+          description: |
+            End date to filter receipts by their `date` property (inclusive).
+        - in: query
+          name: invoice
+          schema:
+            type: string
+          description: |
+            ID of the invoice associated with the receipt.
+          example: "58e93bd8e86eb318b019743d"
         - $ref: "#/components/parameters/SearchDate"
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"

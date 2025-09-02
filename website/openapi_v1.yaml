@@ -3269,8 +3269,8 @@ paths:
             $organization = $facturapi->Organizations->uploadCertificate(
               "5a2a307be93a2f00129ea035",
               [
-                "cerFile" => "/path/to/CSD.cer",
-                "keyFile" => "/path/to/CSD.key",
+                "cer" => "/path/to/CSD.cer",
+                "key" => "/path/to/CSD.key",
                 "password" => "mYp455w0rD1553cUr3!"
               ]
             );
@@ -6681,15 +6681,15 @@ components:
     OrganizationCertsInput:
       type: object
       required:
-        - cerFile
-        - keyFile
+        - cer
+        - key
         - password
       properties:
-        cerFile:
+        cer:
           type: string
           format: binary
           description: Contenido binario del archivo con extensión `.cer` del certificado CSD.
-        keyFile:
+        key:
           type: string
           format: binary
           description: Contenido binario del archivo con extensión `.key` del certificado CSD.

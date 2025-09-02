@@ -2604,6 +2604,27 @@ paths:
             Código que representa la forma de pago, de acuerdo al [catálogo del
             SAT](#forma-de-pago). Si se incluye, los recibos se agruparán y se
             listarán de acuerdo a la forma de pago.
+        - in: query
+          name: date[gte]
+          schema:
+            type: string
+            format: date-time
+            example: '2017-01-01T00:00:00.000Z'
+          description: Fecha de creación mayor o igual a la especificada.
+        - in: query
+          name: date[lte]
+          schema:
+            type: string
+            format: date-time
+            example: '2020-01-01T00:00:00.000Z'
+          description: Fecha de creación menor o igual a la especificada.
+        - in: query
+          name: invoice
+          schema:
+            type: string
+          description: |
+            ID de la factura relacionada al recibo.
+          example: 58e93bd8e86eb318b019743d
         - $ref: '#/components/parameters/SearchDate'
         - $ref: '#/components/parameters/SearchPage'
         - $ref: '#/components/parameters/SearchLimit'

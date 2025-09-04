@@ -1824,7 +1824,7 @@ paths:
           source: |
             const Facturapi = require('facturapi');
             const facturapi = new Facturapi('sk_test_API_KEY');
-            const pdfBuffer = await facturapi.invoices.previewPdf({
+            const pdfStream = await facturapi.invoices.previewPdf({
               customer: {
                 legal_name: 'Dunder Mifflin',
                 email: 'email@example.com',
@@ -1846,11 +1846,15 @@ paths:
               folio_number: 914,
               series: 'F'
             });
+            // Save PDF stream to a file
+            const fs = require('fs');
+            const file = fs.createWriteStream('invoice_preview.pdf');
+            pdfStream.pipe(file);
         - lang: csharp
           label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
-            var pdfBytes = await facturapi.Invoice.PreviewPdfAsync(new Dictionary<string, object>
+            var pdfStream = await facturapi.Invoice.PreviewPdfAsync(new Dictionary<string, object>
             {
               ["customer"] = new Dictionary<string, object>
               {
@@ -1879,6 +1883,10 @@ paths:
               ["folio_number"] = 914,
               ["series"] = "F"
             });
+            // Save PDF stream to a file
+            var file = new System.IO.FileStream("invoice_preview.pdf", System.IO.FileMode.Create, System.IO.FileAccess.Write);
+            pdfStream.CopyTo(file);
+            file.Close();
         - lang: PHP
           source: |
             $facturapi = new Facturapi( "sk_test_API_KEY" );

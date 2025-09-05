@@ -1858,13 +1858,13 @@ paths:
                   "product" => [
                     "description" => "Ukelele",
                     "product_key" => "60131324",
-                    "price" => 420.69,
+                    "price" => 345.60,
                     "sku" => "ABC4567"
                   ]
                 ]
               ],
               "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
-              "folio_number" => 581,
+              "folio_number" => 914,
               "series" => "F"
             ]);
       requestBody:

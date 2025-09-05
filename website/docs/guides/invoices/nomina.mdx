@@ -31,7 +31,7 @@ En este escenario se emite un CFDI que comprueba el servicio que ha prestado un 
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.create({

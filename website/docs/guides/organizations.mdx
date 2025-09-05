@@ -35,7 +35,7 @@ curl https://www.facturapi.io/v2/organizations \
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_user_API_KEY');
 const organization = await facturapi.organizations.create({
   name: 'Skynet'

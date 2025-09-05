@@ -288,7 +288,7 @@ curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/email \
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const fs = require('fs');
+import fs from 'fs';
 
 // Descarga PDF y XML comprimidos en archivo ZIP
 const zipStream = await facturapi.invoices.downloadZip(invoice.id);

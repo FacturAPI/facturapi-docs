@@ -2205,7 +2205,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const fs = require('fs');
+            import fs from 'fs';
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -2856,7 +2856,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const fs = require('fs');
+            import fs from 'fs';
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -3611,7 +3611,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const fs = require('fs');
+            import fs from 'fs';
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -4177,7 +4177,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const fs = require('fs');
+            import fs from 'fs';
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
@@ -4325,7 +4325,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const fs = require('fs');
+            import fs from 'fs';
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 

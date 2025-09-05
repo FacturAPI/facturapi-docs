@@ -19,7 +19,7 @@ To create an invoice draft, simply create an invoice using the [`createInvoice`]
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.create({
@@ -151,7 +151,7 @@ and update the invoice with the data you want to change.
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.updateDraft('[INVOICE_ID]', {

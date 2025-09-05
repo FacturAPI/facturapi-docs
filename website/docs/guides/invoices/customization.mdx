@@ -47,7 +47,7 @@ El siguiente ejemplo muestra el envío de `pdf_custom_section` dentro del reques
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.create({

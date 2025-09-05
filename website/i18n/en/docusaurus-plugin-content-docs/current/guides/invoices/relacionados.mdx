@@ -22,7 +22,7 @@ When making a sale with a discount, an outgoing CFDI can be issued to make that 
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.create({
@@ -203,7 +203,7 @@ When your customer returns a product that was previously invoiced you must issue
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.create({
@@ -385,7 +385,7 @@ When an invoice is canceled and a new one is issued, it is possible to relate th
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.create({

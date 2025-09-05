@@ -47,7 +47,7 @@ composer require facturapi/facturapi-php
 
 ```javascript
 // a) Import the package
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 // b) Create an instance of the client, using the secret key
 //    of the issuing organization (https://dashboard.facturapi.io/integration/apikeys)
 const facturapi = new Facturapi('sk_test_API_KEY');
@@ -284,7 +284,7 @@ curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/email \
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const fs = require('fs');
+import fs from 'fs';
 
 // Download the PDF and XML files, bundled together in a ZIP file
 const zipStream = await facturapi.invoices.downloadZip(invoice.id);

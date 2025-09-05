@@ -26,7 +26,7 @@ In this example, a single payment is received to fully settle a pending invoice 
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.create({
@@ -217,7 +217,7 @@ In this example, $100 MXN is received as payment for the second installment of a
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.create({

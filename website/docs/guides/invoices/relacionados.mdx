@@ -21,7 +21,7 @@ En el momento de realizar una venta con descuento, se puede emitir un CFDI de eg
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.create({
@@ -202,7 +202,7 @@ Existen escenarios donde se emitió una factura, para estos casos se debe emitir
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.create({
@@ -383,7 +383,7 @@ Cuando una factura es cancelada y se emite una nueva, es posible relacionarla pa
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const invoice = await facturapi.invoices.create({

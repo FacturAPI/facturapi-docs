@@ -39,7 +39,7 @@ En este ejemplo un negocio emite una factura de traslado para amparar el movimie
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const document = await facturapi.invoices.create({

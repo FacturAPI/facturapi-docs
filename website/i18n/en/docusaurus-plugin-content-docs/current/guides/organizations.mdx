@@ -24,7 +24,7 @@ which is a secret key associated with your entire account. You can find it in yo
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_user_API_KEY');
 const organization = await facturapi.organizations.create({
   name: 'Skynet'

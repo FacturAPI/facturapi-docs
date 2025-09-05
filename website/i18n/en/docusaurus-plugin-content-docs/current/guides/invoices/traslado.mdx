@@ -44,7 +44,7 @@ In this example, a business issues a transfer invoice to cover the movement of
 <TabItem value="js" label="Node.js" default>
 
 ```javascript
-const Facturapi = require('facturapi');
+import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const document = await facturapi.invoices.create({

@@ -147,7 +147,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
             const customer = await facturapi.customers.create({
               legal_name: 'Dunder Mifflin',
@@ -255,7 +255,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
             const searchResult = await facturapi.customers.list({
               q: 'Dunder',
@@ -341,7 +341,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -410,7 +410,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
             const customer = await facturapi.customers.update(
               '590ce6c56d04f840aa8438af',
@@ -510,7 +510,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -585,7 +585,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -684,7 +684,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
             const product = await facturapi.products.create({
               description: 'Ukelele',
@@ -755,7 +755,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
             const searchResult = await facturapi.products.list({
               q: 'ukelele',
@@ -836,7 +836,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -901,7 +901,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
             const product = await facturapi.products.update(
               '590e22c26d04f840aa8438b2',
@@ -974,7 +974,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -1055,7 +1055,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
             const invoice = await facturapi.invoices.create({
               customer: {
@@ -1214,7 +1214,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             // All invoices from the organization
@@ -1376,7 +1376,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -1452,7 +1452,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
             const invoice = await facturapi.invoices.updateDraft(
               '58e93bd8e86eb318b019743d',
@@ -1561,7 +1561,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
             const invoice = await facturapi.invoices.cancel(
               '58e93bd8e86eb318b019743d',
@@ -1675,7 +1675,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -1753,7 +1753,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -1841,7 +1841,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -1945,9 +1945,9 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const fs = require('fs');
+            import fs from 'fs';
 
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -2096,7 +2096,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             // Send to the email registered by the client
@@ -2252,7 +2252,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -2330,7 +2330,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             const receipt = await facturapi.receipts.create({
@@ -2430,7 +2430,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             // All receipts of the organization
@@ -2568,7 +2568,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -2629,7 +2629,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -2686,9 +2686,9 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const fs = require('fs');
+            import fs from 'fs';
 
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -2785,7 +2785,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             # Send to a different email than the one registered by the customer
@@ -2933,7 +2933,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -3024,7 +3024,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             const invoice = await facturapi.receipts.createGlobalInvoice({
@@ -3124,7 +3124,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
             const retention = await facturapi.retentions.create({
               customer: '58e93bd8e86eb318b0197456',
@@ -3251,7 +3251,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             // All retentions of the organization
@@ -3381,7 +3381,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -3445,7 +3445,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -3521,9 +3521,9 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const fs = require('fs');
+            import fs from 'fs';
 
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -3672,7 +3672,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             // Send to the customer's email
@@ -3843,7 +3843,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
             const organization = await facturapi.organizations.create({
               name: 'Skynet'
@@ -3901,7 +3901,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             const organizationResults = await facturapi.organizations.list();
@@ -3961,7 +3961,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             const organizationResults = await facturapi.organizations.me();
@@ -4040,7 +4040,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
             const organization = await facturapi.organizations.updateLegal(
               '5a2a307be93a2f00129ea035',
@@ -4175,9 +4175,9 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const fs = require('fs');
+            import fs from 'fs';
 
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_user_API_KEY');
 
@@ -4274,7 +4274,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_user_API_KEY');
 
@@ -4352,8 +4352,8 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const fs = require('fs');
-            const Facturapi = require('facturapi');
+            import fs from 'fs';
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
             const fileStream = fs.createReadStream('/path/to/your/logo.jpg');
@@ -4435,7 +4435,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_user_API_KEY');
 
@@ -4536,7 +4536,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_user_API_KEY');
 
@@ -4630,7 +4630,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_user_API_KEY');
 
@@ -4720,7 +4720,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_user_API_KEY');
 
@@ -4813,7 +4813,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
             const organization = await facturapi.organizations.updateDomain(
@@ -4884,7 +4884,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
             const organization = await facturapi.organizations.retrieve(
               '5a2a307be93a2f00129ea035'
@@ -4944,7 +4944,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
             const organization = await facturapi.organizations.del(
               '5a2a307be93a2f00129ea035'
@@ -5003,7 +5003,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
             const apiKeys = await facturapi.organizations.getTestApiKey(
@@ -5065,7 +5065,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
             const newTestApiKey = await facturapi.organizations.renewTestApiKey(
@@ -5128,7 +5128,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_user_API_KEY');
 
@@ -5207,7 +5207,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
             const newLiveApiKey = await facturapi.organizations.renewLiveApiKey(
@@ -5271,7 +5271,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
             const hasDeleted = await facturapi.organizations.deleteLiveApiKey(
               '5a2a307be93a2f00129ea035',
@@ -5355,7 +5355,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
             const seriesList = await facturapi.organizations.getSeries(
@@ -5429,7 +5429,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
             const newSeries = await facturapi.organizations.createSeries(
@@ -5513,7 +5513,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
             const updatedSeries = await facturapi.organizations.updateSeries(
@@ -5596,7 +5596,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
             const deletedSeries = await facturapi.organizations.deleteSeries(
@@ -5675,7 +5675,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
             const customer = await facturapi.webhooks.create({
                     "enabled_events": ["receipt.self_invoice_complete"],
@@ -5744,7 +5744,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
             const searchResult = await facturapi.webhooks.list({
               limit: 0,
@@ -5806,7 +5806,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -5871,7 +5871,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
             const customer = await facturapi.webhooks.update(
               '590ce6c56d04f840aa8438af',
@@ -5944,7 +5944,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -6012,7 +6012,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
             const customer = await facturapi.webhooks.validateSignature({
                     secret: "wh_sec...",
@@ -6158,7 +6158,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: >
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
 
             const facturapi = new Facturapi('sk_test_API_KEY');
 
@@ -6219,7 +6219,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             const searchResult = await facturapi.catalogs.searchProducts({
@@ -6286,7 +6286,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             const searchResult = await facturapi.catalogs.searchUnits({

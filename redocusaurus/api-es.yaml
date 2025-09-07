@@ -1484,6 +1484,167 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/UnexpectedError'
+  /invoices/preview/pdf:
+    post:
+      operationId: previewInvoicePdf
+      tags:
+        - invoice
+      summary: Vista previa de factura en PDF
+      description: >-
+        Genera una vista previa en PDF de una factura sin timbrar ni guardar en
+        la organización.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/preview/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "customer": {
+                  "legal_name": "Dunder Mifflin",
+                  "email": "email@example.com",
+                  "tax_id": "ABC101010111",
+                  "tax_system": "601",
+                  "address": {
+                    "zip": "85900"
+                  }
+                },
+                "items": [{
+                  "quantity": 2,
+                  "product": {
+                    "description": "Ukelele",
+                    "product_key": "60131324",
+                    "price": 345.60
+                  }
+                }],
+                "payment_form": "06",
+                "folio_number": 914,
+                "series": "F"
+              }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const pdfStream = await facturapi.invoices.previewPdf({
+              customer: {
+                legal_name: 'Dunder Mifflin',
+                email: 'email@example.com',
+                tax_id: 'ABC101010111',
+                tax_system: '601',
+                address: {
+                  zip: '85900'
+                }
+              },
+              items: [{
+                quantity: 2,
+                product: {
+                  description: 'Ukelele',
+                  product_key: '60131324',
+                  price: 345.60
+                }
+              }],
+              payment_form: Facturapi.PaymentForm.DINERO_ELECTRONICO,
+              folio_number: 914,
+              series: 'F'
+            });
+            // Save PDF stream to a file
+            const fs = require('fs');
+            const file = fs.createWriteStream('invoice_preview.pdf');
+            pdfStream.pipe(file);
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var pdfStream = await facturapi.Invoice.PreviewPdfAsync(new
+            Dictionary<string, object>
+
+            {
+              ["customer"] = new Dictionary<string, object>
+              {
+                ["legal_name"] = "Dunder Mifflin",
+                ["email"] = "email@example.com",
+                ["tax_id"] = "ABC101010111",
+                ["tax_system"] = "601",
+                ["address"] = new Dictionary<string, object>
+                {
+                  ["zip"] = "85900"
+                }
+              },
+              ["items"] = new Dictionary<string, object>[]
+              {
+                new Dictionary<string, object>
+                {
+                  ["product"] = new Dictionary<string, object>
+                  {
+                    ["description"] = "Ukelele",
+                    ["product_key"] = "60131324",
+                    ["price"] = 345.60
+                  }
+                }
+              },
+              ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO,
+              ["folio_number"] = 914,
+              ["series"] = "F"
+            });
+
+            // Save PDF stream to a file
+
+            var file = new System.IO.FileStream("invoice_preview.pdf",
+            System.IO.FileMode.Create, System.IO.FileAccess.Write);
+
+            pdfStream.CopyTo(file);
+
+            file.Close();
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $pdfBytes = $facturapi->Invoices->preview_pdf([
+              "customer" => [
+                "legal_name" => "Dunder Mifflin",
+                "email" => "email@example.com",
+                "tax_id" => "ABC101010111",
+                "tax_system" => "601",
+                "address" => [
+                  "zip" => "85900"
+                ]
+              ],
+              "items" => [
+                [
+                  "quantity" => 2,
+                  "product" => [
+                    "description" => "Ukelele",
+                    "product_key" => "60131324",
+                    "price" => 345.60,
+                    "sku" => "ABC4567"
+                  ]
+                ]
+              ],
+              "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
+              "folio_number" => 914,
+              "series" => "F"
+            ]);
+      requestBody:
+        $ref: '#/components/requestBodies/InvoiceCreate'
+      security:
+        - SecretLiveKey: []
+        - SecretTestKey: []
+      responses:
+        '200':
+          description: El archivo PDF de la factura
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
   /invoices/{invoice_id}:
     get:
       operationId: getInvoice

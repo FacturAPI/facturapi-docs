@@ -260,3 +260,113 @@ curl https://www.facturapi.io/v1/customers \
 ```
 
 </details>
+
+## Crear cliente con enlace de edición
+
+Según convenga a tu flujo, puedes crear un cliente proporcionando únicamente el correo electrónico y el parámetro `createEditLink: true`. Esto genera un enlace que puedes enviar al cliente para que él mismo complete sus datos fiscales.
+
+<Tabs groupId="editLinkExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const customer = await facturapi.customers.create({
+  email: "cliente@ejemplo.com"
+}, {
+  createEditLink: true
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, object>
+{
+  ["email"] = "cliente@ejemplo.com"
+}, new Dictionary<string, object>
+{
+  ["createEditLink"] = true
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$customer = $facturapi->Customers->create([
+  "email" => "cliente@ejemplo.com"
+], [
+  "createEditLink" => true
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v2/customers \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+      "email": "cliente@ejemplo.com"
+    }' \
+  -G --data-urlencode 'createEditLink=true'
+```
+
+</TabItem>
+</Tabs>
+
+El objeto de respuesta incluirá el campo `edit_link`, que es el enlace que puedes enviar por correo electrónico al cliente:
+
+```json
+{
+  "id": "62714bc2d1bfa410df1d98eb",
+  "email": "cliente@ejemplo.com",
+  "edit_link": "https://auto.facturapi.io/tax-info/abcd1234"
+}
+```
+
+Puedes enviar este enlace al cliente usando tu propio sistema de correo, para que él mismo complete sus datos fiscales directamente en Facturapi.
+
+<Tabs groupId="sendEditLinkExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+await facturapi.customers.sendEditLinkByEmail("62714bc2d1bfa410df1d98eb", {
+  email: "cliente@ejemplo.com" // Opcional, si no se incluye se usará el email del cliente
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+await facturapi.Customer.SendEditLinkByEmailAsync("62714bc2d1bfa410df1d98eb", new Dictionary<string, object>
+{
+  ["email"] = "cliente@ejemplo.com" // Opcional, si no se incluye se usará el email del cliente
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi->Customers->sendEditLinkByEmail("62714bc2d1bfa410df1d98eb", [
+  "email" => "cliente@ejemplo.com" // Opcional, si no se incluye se usará el email del cliente
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl -X POST https://www.facturapi.io/v2/customers/62714bc2d1bfa410df1d98eb/email-edit-link \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+      "email": "cliente@ejemplo.com" // Opcional, si no se incluye se usará el email del cliente
+    }'
+```
+
+</TabItem>
+</Tabs>

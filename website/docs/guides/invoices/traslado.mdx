@@ -32,7 +32,7 @@ detalladas de cada campo y los catálogos más utilizados consulta la
 
 ### Transporte de bienes entre dos puntos
 
-En este ejemplo un negocio emite una factura de traslado para amparar el movimiento de 2,250 litros de gas LP entre dos sucursales.
+En este ejemplo un negocio emite una factura de traslado para amparar el movimiento de 2,250 litros de gas LP entre dos sucursales. Se anexa un ejemplo extra de carta porte (Beta)
 
 <Tabs groupId="codeExamples">
 
@@ -68,8 +68,229 @@ const document = await facturapi.invoices.create({
   ],
   complements: [
     {
-      type: 'custom',
-      data: '<cartaporte31:CartaPorte Version=\"3.1\" IdCCP=\"CCCa01c6-61bf-4058-b874-c285dad794fe\" TranspInternac=\"Sí\" EntradaSalidaMerc=\"Salida\" PaisOrigenDestino=\"USA\" ViaEntradaSalida=\"01\" TotalDistRec=\"160.0\"><cartaporte31:Ubicaciones><cartaporte31:Ubicacion TipoUbicacion=\"Origen\" IDUbicacion=\"OR000000\" RFCRemitenteDestinatario=\"XEXX010101000\" NumRegIdTrib=\"01010101\" NombreRemitenteDestinatario=\"INTERNATIONAL CUSTOMER\" FechaHoraSalidaLlegada=\"2024-12-17T05:00:00\"><cartaporte31:Domicilio Calle=\"Carretera Dolores Hidalgo A San Luis De La Paz\" NumeroExterior=\"SINNUMERO\" Municipio=\"014\" Estado=\"GUA\" Pais=\"USA\" CodigoPostal=\"N/A\" /></cartaporte31:Ubicacion><cartaporte31:Ubicacion DistanciaRecorrida=\"160.0\" TipoUbicacion=\"Destino\" IDUbicacion=\"DE000001\" RFCRemitenteDestinatario=\"XEXX010101000\" NumRegIdTrib=\"01010101\" NombreRemitenteDestinatario=\"INTERNATIONAL CUSTOMER\" FechaHoraSalidaLlegada=\"2024-12-18T09:00:00\"><cartaporte31:Domicilio Calle=\"1400 W Hi Line Rd\" Municipio=\"015\" Estado=\"SLP\" Pais=\"USA\" CodigoPostal=\"N/A\" /></cartaporte31:Ubicacion></cartaporte31:Ubicaciones><cartaporte31:Mercancias PesoBrutoTotal=\"1.0\" UnidadPeso=\"XBX\" NumTotalMercancias=\"1\"><cartaporte31:Mercancia BienesTransp=\"52161512\" Descripcion=\"Altoparlantes\" Cantidad=\"1\" ClaveUnidad=\"H87\" PesoEnKg=\"1.0\"></cartaporte31:Mercancia><cartaporte31:Autotransporte PermSCT=\"TPXX00\" NumPermisoSCT=\"Permiso no contemplado en el catálogo\"><cartaporte31:IdentificacionVehicular ConfigVehicular=\"VL\" PesoBrutoVehicular=\"1\" PlacaVM=\"JHY7766\" AnioModeloVM=\"2021\" /><cartaporte31:Seguros AseguraRespCivil=\"No Cuenta\" PolizaRespCivil=\"No Cuenta\" /></cartaporte31:Autotransporte></cartaporte31:Mercancias><cartaporte31:FiguraTransporte><cartaporte31:TiposFigura TipoFigura=\"01\" NombreFigura=\"JESUS CORTES LUNA\" RFCFigura=\"XEXX010101000\" NumLicencia=\"DSADSADSA\" /></cartaporte31:FiguraTransporte></cartaporte31:CartaPorte>'
+      type: 'carta_porte',
+      data: {
+        IdCCP: 'CCC9CADE-7CC8-4E99-BA0A-0C229FC248E5',
+        TranspInternac: 'Sí',
+        EntradaSalidaMerc: 'Entrada',
+        PaisOrigenDestino: 'MEX',
+        ViaEntradaSalida: '04',
+        TotalDistRec: 233,
+        RegistroISTMO: 'Sí',
+        UbicacionPoloOrigen: '04',
+        UbicacionPoloDestino: '06',
+        RegimenesAduaneros: {
+          RegimenAduaneroCCP: [ { RegimenAduanero: 'IMD' } ]
+        },
+        Ubicaciones: [
+          {
+            TipoUbicacion: 'Origen',
+            RFCRemitenteDestinatario: 'LAVM8805193FA',
+            NombreRemitenteDestinatario: 'GRUPO GM TRANSPORT  S.A. DE C.V. DE R.L.',
+            NumEstacion: 'Q0736',
+            NombreEstacion: 'SANTO NINO',
+            FechaHoraSalidaLlegada: '2021-11-03T06:15:23',
+            TipoEstacion: '01',
+            Domicilio: {
+              Calle: '241 SEVILLA AVE',
+              NumeroExterior: '123',
+              NumeroInterior: '123',
+              Colonia: '0552',
+              Localidad: '07',
+              Municipio: '030',
+              Estado: 'SON',
+              Pais: 'MEX',
+              CodigoPostal: '83214'
+            }
+          },
+          {
+            TipoUbicacion: 'Destino',
+            RFCRemitenteDestinatario: 'LAVM8805193FA',
+            NombreRemitenteDestinatario: 'WH MANAGEMENT MEXICO',
+            NumEstacion: 'TI032',
+            NombreEstacion: 'NAVOLATO',
+            FechaHoraSalidaLlegada: '2021-11-03T06:15:23',
+            DistanciaRecorrida: 100,
+            TipoEstacion: '03',
+            Domicilio: {
+              Calle: 'LA ESCONDIDA',
+              Colonia: '1741',
+              Localidad: '02',
+              Municipio: '002',
+              Estado: 'BCN',
+              Pais: 'MEX',
+              CodigoPostal: '21325'
+            }
+          },
+          {
+            TipoUbicacion: 'Destino',
+            RFCRemitenteDestinatario: 'LAVM8805193FA',
+            NombreRemitenteDestinatario: 'WH MANAGEMENT MEXICO',
+            NumEstacion: 'S0165',
+            NombreEstacion: 'HUAMANTLA',
+            FechaHoraSalidaLlegada: '2021-11-03T06:15:23',
+            DistanciaRecorrida: 50,
+            TipoEstacion: '03',
+            Domicilio: {
+              Calle: 'LA ESCONDIDA',
+              Colonia: '1741',
+              Localidad: '02',
+              Municipio: '002',
+              Estado: 'BCN',
+              Pais: 'MEX',
+              CodigoPostal: '21325'
+            }
+          },
+          {
+            TipoUbicacion: 'Destino',
+            RFCRemitenteDestinatario: 'LAVM8805193FA',
+            NombreRemitenteDestinatario: 'WH MANAGEMENT MEXICO',
+            NumEstacion: 'S0165',
+            NombreEstacion: 'HUAMANTLA',
+            FechaHoraSalidaLlegada: '2021-11-03T06:15:23',
+            DistanciaRecorrida: 50,
+            TipoEstacion: '03',
+            Domicilio: {
+              Calle: 'LA ESCONDIDA',
+              Colonia: '1741',
+              Localidad: '02',
+              Municipio: '002',
+              Estado: 'BCN',
+              Pais: 'MEX',
+              CodigoPostal: '21325'
+            }
+          },
+          {
+            TipoUbicacion: 'Destino',
+            RFCRemitenteDestinatario: 'LAVM8805193FA',
+            NombreRemitenteDestinatario: 'WH MANAGEMENT MEXICO',
+            NumEstacion: 'Q0708',
+            NombreEstacion: 'TEMORIS',
+            FechaHoraSalidaLlegada: '2021-11-03T06:15:23',
+            DistanciaRecorrida: 30,
+            TipoEstacion: '03',
+            Domicilio: {
+              Calle: 'LA ESCONDIDA',
+              Colonia: '1741',
+              Localidad: '02',
+              Municipio: '002',
+              Estado: 'BCN',
+              Pais: 'MEX',
+              CodigoPostal: '21325'
+            }
+          },
+          {
+            TipoUbicacion: 'Destino',
+            RFCRemitenteDestinatario: 'LAVM8805193FA',
+            NombreRemitenteDestinatario: 'WH MANAGEMENT MEXICO',
+            NumEstacion: 'A0830',
+            NombreEstacion: 'CEDRO',
+            FechaHoraSalidaLlegada: '2021-11-03T06:15:23',
+            DistanciaRecorrida: 3,
+            TipoEstacion: '03',
+            Domicilio: {
+              Calle: 'LA ESCONDIDA',
+              Colonia: '1741',
+              Localidad: '02',
+              Municipio: '002',
+              Estado: 'BCN',
+              Pais: 'MEX',
+              CodigoPostal: '21325'
+            }
+          }
+        ],
+        Mercancias: {
+          PesoBrutoTotal: 16200,
+          UnidadPeso: 'X44',
+          PesoNetoTotal: 7000,
+          NumTotalMercancias: 2,
+          CargoPorTasacion: 2100.00,
+          Mercancia: [
+            {
+              BienesTransp: '25101505',
+              Descripcion: 'Minivan roja',
+              Cantidad: 1.003,
+              ClaveUnidad: 'XVN',
+              Unidad: 'Vehiculo',
+              PesoEnKg: 16000,
+              ValorMercancia: 900000.00,
+              Moneda: 'MXN',
+              FraccionArancelaria: '0102399900',
+              TipoMateria: '04',
+              DocumentacionAduanera: [
+                {
+                  TipoDocumento: '01',
+                  NumPedimento: '23  01  3173  3999999',
+                  RFCImpo: 'PPD101129EA3'
+                }
+              ]
+            },
+            {
+              BienesTransp: '25101505',
+              Descripcion: 'Minivan roja',
+              Cantidad: 1.003,
+              ClaveUnidad: 'XVN',
+              Unidad: 'Vehiculo',
+              PesoEnKg: 200,
+              ValorMercancia: 900000.00,
+              Moneda: 'MXN',
+              FraccionArancelaria: '0102399900',
+              TipoMateria: '04',
+              DocumentacionAduanera: [
+                {
+                  TipoDocumento: '01',
+                  NumPedimento: '23  01  3173  3999999',
+                  RFCImpo: 'PPD101129EA3'
+                }
+              ],
+              GuiasIdentificacion: [
+                {
+                  NumeroGuiaIdentificacion: 'ABC232uewqj',
+                  DescripGuiaIdentificacion: 'Guia 1',
+                  PesoGuiaIdentificacion: 254435
+                },
+                {
+                  NumeroGuiaIdentificacion: '347308lkuh',
+                  DescripGuiaIdentificacion: 'Guia 2',
+                  PesoGuiaIdentificacion: 654645
+                }
+              ]
+            }
+          ],
+          TransporteFerroviario: {
+            TipoDeServicio: 'TS01',
+            TipoDeTrafico: 'TT02',
+            NombreAseg: 'Qualitas Ferroviarias Inventado SA DE CV',
+            NumPolizaSeguro: '123456789012345678901234567890',
+            DerechosDePaso: [
+              { TipoDerechoDePaso: 'CDP001', KilometrajePagado: 123.45 },
+              { TipoDerechoDePaso: 'CDP001', KilometrajePagado: 123.45 }
+            ],
+            Carro: [
+              { TipoCarro: 'TC06', MatriculaCarro: 'ABC123', GuiaCarro: '123456789012345', ToneladasNetasCarro: 3 },
+              { TipoCarro: 'TC06', MatriculaCarro: 'ABC123', GuiaCarro: '123456789012345', ToneladasNetasCarro: 3 },
+              { TipoCarro: 'TC06', MatriculaCarro: 'ABC123', GuiaCarro: '123456789012345', ToneladasNetasCarro: 1 }
+            ]
+          }
+        },
+        FiguraTransporte: [
+          {
+            TipoFigura: '01',
+            RFCFigura: 'LAVM8805193FA',
+            NumLicencia: '1BC45C96A73',
+            NombreFigura: 'EXTRA TRAYECTO OPERADOR',
+            Domicilio: {
+              Calle: 'LA ESCONDIDA',
+              Colonia: '1741',
+              Localidad: '02',
+              Municipio: '002',
+              Estado: 'BCN',
+              Pais: 'MEX',
+              CodigoPostal: '21325'
+            }
+          }
+        ]
+      }
     }
   ]
 });
@@ -118,8 +339,232 @@ var document = await facturapi.Invoice.CreateAsync(new Dictionary<string, object
   {
     new Dictionary<string, object>
     {
-      ["type"] = "custom",
-      ["data"] = "<cartaporte31:CartaPorte Version=\"3.1\" IdCCP=\"CCCa01c6-61bf-4058-b874-c285dad794fe\" TranspInternac=\"Sí\" EntradaSalidaMerc=\"Salida\" PaisOrigenDestino=\"USA\" ViaEntradaSalida=\"01\" TotalDistRec=\"160.0\"><cartaporte31:Ubicaciones><cartaporte31:Ubicacion TipoUbicacion=\"Origen\" IDUbicacion=\"OR000000\" RFCRemitenteDestinatario=\"XEXX010101000\" NumRegIdTrib=\"01010101\" NombreRemitenteDestinatario=\"INTERNATIONAL CUSTOMER\" FechaHoraSalidaLlegada=\"2024-12-17T05:00:00\"><cartaporte31:Domicilio Calle=\"Carretera Dolores Hidalgo A San Luis De La Paz\" NumeroExterior=\"SINNUMERO\" Municipio=\"014\" Estado=\"GUA\" Pais=\"USA\" CodigoPostal=\"N/A\" /></cartaporte31:Ubicacion><cartaporte31:Ubicacion DistanciaRecorrida=\"160.0\" TipoUbicacion=\"Destino\" IDUbicacion=\"DE000001\" RFCRemitenteDestinatario=\"XEXX010101000\" NumRegIdTrib=\"01010101\" NombreRemitenteDestinatario=\"INTERNATIONAL CUSTOMER\" FechaHoraSalidaLlegada=\"2024-12-18T09:00:00\"><cartaporte31:Domicilio Calle=\"1400 W Hi Line Rd\" Municipio=\"015\" Estado=\"SLP\" Pais=\"USA\" CodigoPostal=\"N/A\" /></cartaporte31:Ubicacion></cartaporte31:Ubicaciones><cartaporte31:Mercancias PesoBrutoTotal=\"1.0\" UnidadPeso=\"XBX\" NumTotalMercancias=\"1\"><cartaporte31:Mercancia BienesTransp=\"52161512\" Descripcion=\"Altoparlantes\" Cantidad=\"1\" ClaveUnidad=\"H87\" PesoEnKg=\"1.0\"></cartaporte31:Mercancia><cartaporte31:Autotransporte PermSCT=\"TPXX00\" NumPermisoSCT=\"Permiso no contemplado en el catálogo\"><cartaporte31:IdentificacionVehicular ConfigVehicular=\"VL\" PesoBrutoVehicular=\"1\" PlacaVM=\"JHY7766\" AnioModeloVM=\"2021\" /><cartaporte31:Seguros AseguraRespCivil=\"No Cuenta\" PolizaRespCivil=\"No Cuenta\" /></cartaporte31:Autotransporte></cartaporte31:Mercancias><cartaporte31:FiguraTransporte><cartaporte31:TiposFigura TipoFigura=\"01\" NombreFigura=\"JESUS CORTES LUNA\" RFCFigura=\"XEXX010101000\" NumLicencia=\"DSADSADSA\" /></cartaporte31:FiguraTransporte></cartaporte31:CartaPorte>"
+      ["type"] = "carta_porte",
+      ["data"] = new Dictionary<string, object>
+      {
+        ["IdCCP"] = "CCC9CADE-7CC8-4E99-BA0A-0C229FC248E5",
+        ["TranspInternac"] = "Sí",
+        ["EntradaSalidaMerc"] = "Entrada",
+        ["PaisOrigenDestino"] = "MEX",
+        ["ViaEntradaSalida"] = "04",
+        ["TotalDistRec"] = 233,
+        ["RegistroISTMO"] = "Sí",
+        ["UbicacionPoloOrigen"] = "04",
+        ["UbicacionPoloDestino"] = "06",
+        ["RegimenesAduaneros"] = new Dictionary<string, object>{
+          ["RegimenAduaneroCCP"] = new object[]{
+            new Dictionary<string, object>{ ["RegimenAduanero"] = "IMD" }
+          }
+        },
+        ["Ubicaciones"] = new object[] {
+          new Dictionary<string, object>{
+            ["TipoUbicacion"] = "Origen",
+            ["RFCRemitenteDestinatario"] = "LAVM8805193FA",
+            ["NombreRemitenteDestinatario"] = "GRUPO GM TRANSPORT  S.A. DE C.V. DE R.L.",
+            ["NumEstacion"] = "Q0736",
+            ["NombreEstacion"] = "SANTO NINO",
+            ["FechaHoraSalidaLlegada"] = "2021-11-03T06:15:23",
+            ["TipoEstacion"] = "01",
+            ["Domicilio"] = new Dictionary<string, object>{
+              ["Calle"] = "241 SEVILLA AVE",
+              ["NumeroExterior"] = "123",
+              ["NumeroInterior"] = "123",
+              ["Colonia"] = "0552",
+              ["Localidad"] = "07",
+              ["Municipio"] = "030",
+              ["Estado"] = "SON",
+              ["Pais"] = "MEX",
+              ["CodigoPostal"] = "83214"
+            }
+          },
+          new Dictionary<string, object>{
+            ["TipoUbicacion"] = "Destino",
+            ["RFCRemitenteDestinatario"] = "LAVM8805193FA",
+            ["NombreRemitenteDestinatario"] = "WH MANAGEMENT MEXICO",
+            ["NumEstacion"] = "TI032",
+            ["NombreEstacion"] = "NAVOLATO",
+            ["FechaHoraSalidaLlegada"] = "2021-11-03T06:15:23",
+            ["DistanciaRecorrida"] = 100,
+            ["TipoEstacion"] = "03",
+            ["Domicilio"] = new Dictionary<string, object>{
+              ["Calle"] = "LA ESCONDIDA",
+              ["Colonia"] = "1741",
+              ["Localidad"] = "02",
+              ["Municipio"] = "002",
+              ["Estado"] = "BCN",
+              ["Pais"] = "MEX",
+              ["CodigoPostal"] = "21325"
+            }
+          },
+          new Dictionary<string, object>{
+            ["TipoUbicacion"] = "Destino",
+            ["RFCRemitenteDestinatario"] = "LAVM8805193FA",
+            ["NombreRemitenteDestinatario"] = "WH MANAGEMENT MEXICO",
+            ["NumEstacion"] = "S0165",
+            ["NombreEstacion"] = "HUAMANTLA",
+            ["FechaHoraSalidaLlegada"] = "2021-11-03T06:15:23",
+            ["DistanciaRecorrida"] = 50,
+            ["TipoEstacion"] = "03",
+            ["Domicilio"] = new Dictionary<string, object>{
+              ["Calle"] = "LA ESCONDIDA",
+              ["Colonia"] = "1741",
+              ["Localidad"] = "02",
+              ["Municipio"] = "002",
+              ["Estado"] = "BCN",
+              ["Pais"] = "MEX",
+              ["CodigoPostal"] = "21325"
+            }
+          },
+          new Dictionary<string, object>{
+            ["TipoUbicacion"] = "Destino",
+            ["RFCRemitenteDestinatario"] = "LAVM8805193FA",
+            ["NombreRemitenteDestinatario"] = "WH MANAGEMENT MEXICO",
+            ["NumEstacion"] = "S0165",
+            ["NombreEstacion"] = "HUAMANTLA",
+            ["FechaHoraSalidaLlegada"] = "2021-11-03T06:15:23",
+            ["DistanciaRecorrida"] = 50,
+            ["TipoEstacion"] = "03",
+            ["Domicilio"] = new Dictionary<string, object>{
+              ["Calle"] = "LA ESCONDIDA",
+              ["Colonia"] = "1741",
+              ["Localidad"] = "02",
+              ["Municipio"] = "002",
+              ["Estado"] = "BCN",
+              ["Pais"] = "MEX",
+              ["CodigoPostal"] = "21325"
+            }
+          },
+          new Dictionary<string, object>{
+            ["TipoUbicacion"] = "Destino",
+            ["RFCRemitenteDestinatario"] = "LAVM8805193FA",
+            ["NombreRemitenteDestinatario"] = "WH MANAGEMENT MEXICO",
+            ["NumEstacion"] = "Q0708",
+            ["NombreEstacion"] = "TEMORIS",
+            ["FechaHoraSalidaLlegada"] = "2021-11-03T06:15:23",
+            ["DistanciaRecorrida"] = 30,
+            ["TipoEstacion"] = "03",
+            ["Domicilio"] = new Dictionary<string, object>{
+              ["Calle"] = "LA ESCONDIDA",
+              ["Colonia"] = "1741",
+              ["Localidad"] = "02",
+              ["Municipio"] = "002",
+              ["Estado"] = "BCN",
+              ["Pais"] = "MEX",
+              ["CodigoPostal"] = "21325"
+            }
+          },
+          new Dictionary<string, object>{
+            ["TipoUbicacion"] = "Destino",
+            ["RFCRemitenteDestinatario"] = "LAVM8805193FA",
+            ["NombreRemitenteDestinatario"] = "WH MANAGEMENT MEXICO",
+            ["NumEstacion"] = "A0830",
+            ["NombreEstacion"] = "CEDRO",
+            ["FechaHoraSalidaLlegada"] = "2021-11-03T06:15:23",
+            ["DistanciaRecorrida"] = 3,
+            ["TipoEstacion"] = "03",
+            ["Domicilio"] = new Dictionary<string, object>{
+              ["Calle"] = "LA ESCONDIDA",
+              ["Colonia"] = "1741",
+              ["Localidad"] = "02",
+              ["Municipio"] = "002",
+              ["Estado"] = "BCN",
+              ["Pais"] = "MEX",
+              ["CodigoPostal"] = "21325"
+            }
+          }
+        },
+        ["Mercancias"] = new Dictionary<string, object>{
+          ["PesoBrutoTotal"] = 16200,
+          ["UnidadPeso"] = "X44",
+          ["PesoNetoTotal"] = 7000,
+          ["NumTotalMercancias"] = 2,
+          ["CargoPorTasacion"] = 2100.00,
+          ["Mercancia"] = new object[]{
+            new Dictionary<string, object>{
+              ["BienesTransp"] = "25101505",
+              ["Descripcion"] = "Minivan roja",
+              ["Cantidad"] = 1.003,
+              ["ClaveUnidad"] = "XVN",
+              ["Unidad"] = "Vehiculo",
+              ["PesoEnKg"] = 16000,
+              ["ValorMercancia"] = 900000.00,
+              ["Moneda"] = "MXN",
+              ["FraccionArancelaria"] = "0102399900",
+              ["TipoMateria"] = "04",
+              ["DocumentacionAduanera"] = new object[]{
+                new Dictionary<string, object>{
+                  ["TipoDocumento"] = "01",
+                  ["NumPedimento"] = "23  01  3173  3999999",
+                  ["RFCImpo"] = "PPD101129EA3"
+                }
+              }
+            },
+            new Dictionary<string, object>{
+              ["BienesTransp"] = "25101505",
+              ["Descripcion"] = "Minivan roja",
+              ["Cantidad"] = 1.003,
+              ["ClaveUnidad"] = "XVN",
+              ["Unidad"] = "Vehiculo",
+              ["PesoEnKg"] = 200,
+              ["ValorMercancia"] = 900000.00,
+              ["Moneda"] = "MXN",
+              ["FraccionArancelaria"] = "0102399900",
+              ["TipoMateria"] = "04",
+              ["DocumentacionAduanera"] = new object[]{
+                new Dictionary<string, object>{
+                  ["TipoDocumento"] = "01",
+                  ["NumPedimento"] = "23  01  3173  3999999",
+                  ["RFCImpo"] = "PPD101129EA3"
+                }
+              },
+              ["GuiasIdentificacion"] = new object[]{
+                new Dictionary<string, object>{
+                  ["NumeroGuiaIdentificacion"] = "ABC232uewqj",
+                  ["DescripGuiaIdentificacion"] = "Guia 1",
+                  ["PesoGuiaIdentificacion"] = 254435
+                },
+                new Dictionary<string, object>{
+                  ["NumeroGuiaIdentificacion"] = "347308lkuh",
+                  ["DescripGuiaIdentificacion"] = "Guia 2",
+                  ["PesoGuiaIdentificacion"] = 654645
+                }
+              ]
+            }
+          },
+          ["TransporteFerroviario"] = new Dictionary<string, object>{
+            ["TipoDeServicio"] = "TS01",
+            ["TipoDeTrafico"] = "TT02",
+            ["NombreAseg"] = "Qualitas Ferroviarias Inventado SA DE CV",
+            ["NumPolizaSeguro"] = "123456789012345678901234567890",
+            ["DerechosDePaso"] = new object[]{
+              new Dictionary<string, object>{ ["TipoDerechoDePaso"] = "CDP001", ["KilometrajePagado"] = 123.45 },
+              new Dictionary<string, object>{ ["TipoDerechoDePaso"] = "CDP001", ["KilometrajePagado"] = 123.45 }
+            },
+            ["Carro"] = new object[]{
+              new Dictionary<string, object>{ ["TipoCarro"] = "TC06", ["MatriculaCarro"] = "ABC123", ["GuiaCarro"] = "123456789012345", ["ToneladasNetasCarro"] = 3 },
+              new Dictionary<string, object>{ ["TipoCarro"] = "TC06", ["MatriculaCarro"] = "ABC123", ["GuiaCarro"] = "123456789012345", ["ToneladasNetasCarro"] = 3 },
+              new Dictionary<string, object>{ ["TipoCarro"] = "TC06", ["MatriculaCarro"] = "ABC123", ["GuiaCarro"] = "123456789012345", ["ToneladasNetasCarro"] = 1 }
+            }
+          }
+        },
+        ["FiguraTransporte"] = new object[]{
+          new Dictionary<string, object>{
+            ["TipoFigura"] = "01",
+            ["RFCFigura"] = "LAVM8805193FA",
+            ["NumLicencia"] = "1BC45C96A73",
+            ["NombreFigura"] = "EXTRA TRAYECTO OPERADOR",
+            ["Domicilio"] = new Dictionary<string, object>{
+              ["Calle"] = "LA ESCONDIDA",
+              ["Colonia"] = "1741",
+              ["Localidad"] = "02",
+              ["Municipio"] = "002",
+              ["Estado"] = "BCN",
+              ["Pais"] = "MEX",
+              ["CodigoPostal"] = "21325"
+            }
+          }
+        }
+      }
     }
   }});
 ```
@@ -157,8 +602,229 @@ $document = $facturapi->invoices->create([
   ],
   'complements' => [
     [
-      'type' => 'custom',
-      'data' => '<cartaporte31:CartaPorte Version=\"3.1\" IdCCP=\"CCCa01c6-61bf-4058-b874-c285dad794fe\" TranspInternac=\"Sí\" EntradaSalidaMerc=\"Salida\" PaisOrigenDestino=\"USA\" ViaEntradaSalida=\"01\" TotalDistRec=\"160.0\"><cartaporte31:Ubicaciones><cartaporte31:Ubicacion TipoUbicacion=\"Origen\" IDUbicacion=\"OR000000\" RFCRemitenteDestinatario=\"XEXX010101000\" NumRegIdTrib=\"01010101\" NombreRemitenteDestinatario=\"INTERNATIONAL CUSTOMER\" FechaHoraSalidaLlegada=\"2024-12-17T05:00:00\"><cartaporte31:Domicilio Calle=\"Carretera Dolores Hidalgo A San Luis De La Paz\" NumeroExterior=\"SINNUMERO\" Municipio=\"014\" Estado=\"GUA\" Pais=\"USA\" CodigoPostal=\"N/A\" /></cartaporte31:Ubicacion><cartaporte31:Ubicacion DistanciaRecorrida=\"160.0\" TipoUbicacion=\"Destino\" IDUbicacion=\"DE000001\" RFCRemitenteDestinatario=\"XEXX010101000\" NumRegIdTrib=\"01010101\" NombreRemitenteDestinatario=\"INTERNATIONAL CUSTOMER\" FechaHoraSalidaLlegada=\"2024-12-18T09:00:00\"><cartaporte31:Domicilio Calle=\"1400 W Hi Line Rd\" Municipio=\"015\" Estado=\"SLP\" Pais=\"USA\" CodigoPostal=\"N/A\" /></cartaporte31:Ubicacion></cartaporte31:Ubicaciones><cartaporte31:Mercancias PesoBrutoTotal=\"1.0\" UnidadPeso=\"XBX\" NumTotalMercancias=\"1\"><cartaporte31:Mercancia BienesTransp=\"52161512\" Descripcion=\"Altoparlantes\" Cantidad=\"1\" ClaveUnidad=\"H87\" PesoEnKg=\"1.0\"></cartaporte31:Mercancia><cartaporte31:Autotransporte PermSCT=\"TPXX00\" NumPermisoSCT=\"Permiso no contemplado en el catálogo\"><cartaporte31:IdentificacionVehicular ConfigVehicular=\"VL\" PesoBrutoVehicular=\"1\" PlacaVM=\"JHY7766\" AnioModeloVM=\"2021\" /><cartaporte31:Seguros AseguraRespCivil=\"No Cuenta\" PolizaRespCivil=\"No Cuenta\" /></cartaporte31:Autotransporte></cartaporte31:Mercancias><cartaporte31:FiguraTransporte><cartaporte31:TiposFigura TipoFigura=\"01\" NombreFigura=\"JESUS CORTES LUNA\" RFCFigura=\"XEXX010101000\" NumLicencia=\"DSADSADSA\" /></cartaporte31:FiguraTransporte></cartaporte31:CartaPorte>'
+      'type' => 'carta_porte',
+      'data' => [
+        'IdCCP' => 'CCC9CADE-7CC8-4E99-BA0A-0C229FC248E5',
+        'TranspInternac' => 'Sí',
+        'EntradaSalidaMerc' => 'Entrada',
+        'PaisOrigenDestino' => 'MEX',
+        'ViaEntradaSalida' => '04',
+        'TotalDistRec' => 233,
+        'RegistroISTMO' => 'Sí',
+        'UbicacionPoloOrigen' => '04',
+        'UbicacionPoloDestino' => '06',
+        'RegimenesAduaneros' => [
+          'RegimenAduaneroCCP' => [ ['RegimenAduanero' => 'IMD'] ]
+        ],
+        'Ubicaciones' => [
+          [
+            'TipoUbicacion' => 'Origen',
+            'RFCRemitenteDestinatario' => 'LAVM8805193FA',
+            'NombreRemitenteDestinatario' => 'GRUPO GM TRANSPORT  S.A. DE C.V. DE R.L.',
+            'NumEstacion' => 'Q0736',
+            'NombreEstacion' => 'SANTO NINO',
+            'FechaHoraSalidaLlegada' => '2021-11-03T06:15:23',
+            'TipoEstacion' => '01',
+            'Domicilio' => [
+              'Calle' => '241 SEVILLA AVE',
+              'NumeroExterior' => '123',
+              'NumeroInterior' => '123',
+              'Colonia' => '0552',
+              'Localidad' => '07',
+              'Municipio' => '030',
+              'Estado' => 'SON',
+              'Pais' => 'MEX',
+              'CodigoPostal' => '83214'
+            ]
+          ],
+          [
+            'TipoUbicacion' => 'Destino',
+            'RFCRemitenteDestinatario' => 'LAVM8805193FA',
+            'NombreRemitenteDestinatario' => 'WH MANAGEMENT MEXICO',
+            'NumEstacion' => 'TI032',
+            'NombreEstacion' => 'NAVOLATO',
+            'FechaHoraSalidaLlegada' => '2021-11-03T06:15:23',
+            'DistanciaRecorrida' => 100,
+            'TipoEstacion' => '03',
+            'Domicilio' => [
+              'Calle' => 'LA ESCONDIDA',
+              'Colonia' => '1741',
+              'Localidad' => '02',
+              'Municipio' => '002',
+              'Estado' => 'BCN',
+              'Pais' => 'MEX',
+              'CodigoPostal' => '21325'
+            ]
+          ],
+          [
+            'TipoUbicacion' => 'Destino',
+            'RFCRemitenteDestinatario' => 'LAVM8805193FA',
+            'NombreRemitenteDestinatario' => 'WH MANAGEMENT MEXICO',
+            'NumEstacion' => 'S0165',
+            'NombreEstacion' => 'HUAMANTLA',
+            'FechaHoraSalidaLlegada' => '2021-11-03T06:15:23',
+            'DistanciaRecorrida' => 50,
+            'TipoEstacion' => '03',
+            'Domicilio' => [
+              'Calle' => 'LA ESCONDIDA',
+              'Colonia' => '1741',
+              'Localidad' => '02',
+              'Municipio' => '002',
+              'Estado' => 'BCN',
+              'Pais' => 'MEX',
+              'CodigoPostal' => '21325'
+            ]
+          ],
+          [
+            'TipoUbicacion' => 'Destino',
+            'RFCRemitenteDestinatario' => 'LAVM8805193FA',
+            'NombreRemitenteDestinatario' => 'WH MANAGEMENT MEXICO',
+            'NumEstacion' => 'S0165',
+            'NombreEstacion' => 'HUAMANTLA',
+            'FechaHoraSalidaLlegada' => '2021-11-03T06:15:23',
+            'DistanciaRecorrida' => 50,
+            'TipoEstacion' => '03',
+            'Domicilio' => [
+              'Calle' => 'LA ESCONDIDA',
+              'Colonia' => '1741',
+              'Localidad' => '02',
+              'Municipio' => '002',
+              'Estado' => 'BCN',
+              'Pais' => 'MEX',
+              'CodigoPostal' => '21325'
+            ]
+          ],
+          [
+            'TipoUbicacion' => 'Destino',
+            'RFCRemitenteDestinatario' => 'LAVM8805193FA',
+            'NombreRemitenteDestinatario' => 'WH MANAGEMENT MEXICO',
+            'NumEstacion' => 'Q0708',
+            'NombreEstacion' => 'TEMORIS',
+            'FechaHoraSalidaLlegada' => '2021-11-03T06:15:23',
+            'DistanciaRecorrida' => 30,
+            'TipoEstacion' => '03',
+            'Domicilio' => [
+              'Calle' => 'LA ESCONDIDA',
+              'Colonia' => '1741',
+              'Localidad' => '02',
+              'Municipio' => '002',
+              'Estado' => 'BCN',
+              'Pais' => 'MEX',
+              'CodigoPostal' => '21325'
+            ]
+          ],
+          [
+            'TipoUbicacion' => 'Destino',
+            'RFCRemitenteDestinatario' => 'LAVM8805193FA',
+            'NombreRemitenteDestinatario' => 'WH MANAGEMENT MEXICO',
+            'NumEstacion' => 'A0830',
+            'NombreEstacion' => 'CEDRO',
+            'FechaHoraSalidaLlegada' => '2021-11-03T06:15:23',
+            'DistanciaRecorrida' => 3,
+            'TipoEstacion' => '03',
+            'Domicilio' => [
+              'Calle' => 'LA ESCONDIDA',
+              'Colonia' => '1741',
+              'Localidad' => '02',
+              'Municipio' => '002',
+              'Estado' => 'BCN',
+              'Pais' => 'MEX',
+              'CodigoPostal' => '21325'
+            ]
+          ]
+        ],
+        'Mercancias' => [
+          'PesoBrutoTotal' => 16200,
+          'UnidadPeso' => 'X44',
+          'PesoNetoTotal' => 7000,
+          'NumTotalMercancias' => 2,
+          'CargoPorTasacion' => 2100.00,
+          'Mercancia' => [
+            [
+              'BienesTransp' => '25101505',
+              'Descripcion' => 'Minivan roja',
+              'Cantidad' => 1.003,
+              'ClaveUnidad' => 'XVN',
+              'Unidad' => 'Vehiculo',
+              'PesoEnKg' => 16000,
+              'ValorMercancia' => 900000.00,
+              'Moneda' => 'MXN',
+              'FraccionArancelaria' => '0102399900',
+              'TipoMateria' => '04',
+              'DocumentacionAduanera' => [
+                [
+                  'TipoDocumento' => '01',
+                  'NumPedimento' => '23  01  3173  3999999',
+                  'RFCImpo' => 'PPD101129EA3'
+                ]
+              ]
+            ],
+            [
+              'BienesTransp' => '25101505',
+              'Descripcion' => 'Minivan roja',
+              'Cantidad' => 1.003,
+              'ClaveUnidad' => 'XVN',
+              'Unidad' => 'Vehiculo',
+              'PesoEnKg' => 200,
+              'ValorMercancia' => 900000.00,
+              'Moneda' => 'MXN',
+              'FraccionArancelaria' => '0102399900',
+              'TipoMateria' => '04',
+              'DocumentacionAduanera' => [
+                [
+                  'TipoDocumento' => '01',
+                  'NumPedimento' => '23  01  3173  3999999',
+                  'RFCImpo' => 'PPD101129EA3'
+                ]
+              ],
+              'GuiasIdentificacion' => [
+                [
+                  'NumeroGuiaIdentificacion' => 'ABC232uewqj',
+                  'DescripGuiaIdentificacion' => 'Guia 1',
+                  'PesoGuiaIdentificacion' => 254435
+                ],
+                [
+                  'NumeroGuiaIdentificacion' => '347308lkuh',
+                  'DescripGuiaIdentificacion' => 'Guia 2',
+                  'PesoGuiaIdentificacion' => 654645
+                ]
+              ]
+            ]
+          ],
+          'TransporteFerroviario' => [
+            'TipoDeServicio' => 'TS01',
+            'TipoDeTrafico' => 'TT02',
+            'NombreAseg' => 'Qualitas Ferroviarias Inventado SA DE CV',
+            'NumPolizaSeguro' => '123456789012345678901234567890',
+            'DerechosDePaso' => [
+              [ 'TipoDerechoDePaso' => 'CDP001', 'KilometrajePagado' => 123.45 ],
+              [ 'TipoDerechoDePaso' => 'CDP001', 'KilometrajePagado' => 123.45 ]
+            ],
+            'Carro' => [
+              [ 'TipoCarro' => 'TC06', 'MatriculaCarro' => 'ABC123', 'GuiaCarro' => '123456789012345', 'ToneladasNetasCarro' => 3 ],
+              [ 'TipoCarro' => 'TC06', 'MatriculaCarro' => 'ABC123', 'GuiaCarro' => '123456789012345', 'ToneladasNetasCarro' => 3 ],
+              [ 'TipoCarro' => 'TC06', 'MatriculaCarro' => 'ABC123', 'GuiaCarro' => '123456789012345', 'ToneladasNetasCarro' => 1 ]
+            ]
+          ]
+        ],
+        'FiguraTransporte' => [
+          [
+            'TipoFigura' => '01',
+            'RFCFigura' => 'LAVM8805193FA',
+            'NumLicencia' => '1BC45C96A73',
+            'NombreFigura' => 'EXTRA TRAYECTO OPERADOR',
+            'Domicilio' => [
+              'Calle' => 'LA ESCONDIDA',
+              'Colonia' => '1741',
+              'Localidad' => '02',
+              'Municipio' => '002',
+              'Estado' => 'BCN',
+              'Pais' => 'MEX',
+              'CodigoPostal' => '21325'
+            ]
+          ]
+        ]
+      ]
       
     ],
   ]
@@ -199,8 +865,229 @@ curl https://www.facturapi.io/v2/invoices \
     ],
     "complements": [
       {
-        "type": "custom",
-        "data": "<cartaporte31:CartaPorte Version=\"3.1\" IdCCP=\"CCCa01c6-61bf-4058-b874-c285dad794fe\" TranspInternac=\"Sí\" EntradaSalidaMerc=\"Salida\" PaisOrigenDestino=\"USA\" ViaEntradaSalida=\"01\" TotalDistRec=\"160.0\"><cartaporte31:Ubicaciones><cartaporte31:Ubicacion TipoUbicacion=\"Origen\" IDUbicacion=\"OR000000\" RFCRemitenteDestinatario=\"XEXX010101000\" NumRegIdTrib=\"01010101\" NombreRemitenteDestinatario=\"INTERNATIONAL CUSTOMER\" FechaHoraSalidaLlegada=\"2024-12-17T05:00:00\"><cartaporte31:Domicilio Calle=\"Carretera Dolores Hidalgo A San Luis De La Paz\" NumeroExterior=\"SINNUMERO\" Municipio=\"014\" Estado=\"GUA\" Pais=\"USA\" CodigoPostal=\"N/A\" /></cartaporte31:Ubicacion><cartaporte31:Ubicacion DistanciaRecorrida=\"160.0\" TipoUbicacion=\"Destino\" IDUbicacion=\"DE000001\" RFCRemitenteDestinatario=\"XEXX010101000\" NumRegIdTrib=\"01010101\" NombreRemitenteDestinatario=\"INTERNATIONAL CUSTOMER\" FechaHoraSalidaLlegada=\"2024-12-18T09:00:00\"><cartaporte31:Domicilio Calle=\"1400 W Hi Line Rd\" Municipio=\"015\" Estado=\"SLP\" Pais=\"USA\" CodigoPostal=\"N/A\" /></cartaporte31:Ubicacion></cartaporte31:Ubicaciones><cartaporte31:Mercancias PesoBrutoTotal=\"1.0\" UnidadPeso=\"XBX\" NumTotalMercancias=\"1\"><cartaporte31:Mercancia BienesTransp=\"52161512\" Descripcion=\"Altoparlantes\" Cantidad=\"1\" ClaveUnidad=\"H87\" PesoEnKg=\"1.0\"></cartaporte31:Mercancia><cartaporte31:Autotransporte PermSCT=\"TPXX00\" NumPermisoSCT=\"Permiso no contemplado en el catálogo\"><cartaporte31:IdentificacionVehicular ConfigVehicular=\"VL\" PesoBrutoVehicular=\"1\" PlacaVM=\"JHY7766\" AnioModeloVM=\"2021\" /><cartaporte31:Seguros AseguraRespCivil=\"No Cuenta\" PolizaRespCivil=\"No Cuenta\" /></cartaporte31:Autotransporte></cartaporte31:Mercancias><cartaporte31:FiguraTransporte><cartaporte31:TiposFigura TipoFigura=\"01\" NombreFigura=\"JESUS CORTES LUNA\" RFCFigura=\"XEXX010101000\" NumLicencia=\"DSADSADSA\" /></cartaporte31:FiguraTransporte></cartaporte31:CartaPorte>"
+        "type": "carta_porte",
+        "data": {
+          "IdCCP": "CCC9CADE-7CC8-4E99-BA0A-0C229FC248E5",
+          "TranspInternac": "Sí",
+          "EntradaSalidaMerc": "Entrada",
+          "PaisOrigenDestino": "MEX",
+          "ViaEntradaSalida": "04",
+          "TotalDistRec": 233,
+          "RegistroISTMO": "Sí",
+          "UbicacionPoloOrigen": "04",
+          "UbicacionPoloDestino": "06",
+          "RegimenesAduaneros": {
+            "RegimenAduaneroCCP": [ { "RegimenAduanero": "IMD" } ]
+          },
+          "Ubicaciones": [
+            {
+              "TipoUbicacion": "Origen",
+              "RFCRemitenteDestinatario": "LAVM8805193FA",
+              "NombreRemitenteDestinatario": "GRUPO GM TRANSPORT  S.A. DE C.V. DE R.L.",
+              "NumEstacion": "Q0736",
+              "NombreEstacion": "SANTO NINO",
+              "FechaHoraSalidaLlegada": "2021-11-03T06:15:23",
+              "TipoEstacion": "01",
+              "Domicilio": {
+                "Calle": "241 SEVILLA AVE",
+                "NumeroExterior": "123",
+                "NumeroInterior": "123",
+                "Colonia": "0552",
+                "Localidad": "07",
+                "Municipio": "030",
+                "Estado": "SON",
+                "Pais": "MEX",
+                "CodigoPostal": "83214"
+              }
+            },
+            {
+              "TipoUbicacion": "Destino",
+              "RFCRemitenteDestinatario": "LAVM8805193FA",
+              "NombreRemitenteDestinatario": "WH MANAGEMENT MEXICO",
+              "NumEstacion": "TI032",
+              "NombreEstacion": "NAVOLATO",
+              "FechaHoraSalidaLlegada": "2021-11-03T06:15:23",
+              "DistanciaRecorrida": 100,
+              "TipoEstacion": "03",
+              "Domicilio": {
+                "Calle": "LA ESCONDIDA",
+                "Colonia": "1741",
+                "Localidad": "02",
+                "Municipio": "002",
+                "Estado": "BCN",
+                "Pais": "MEX",
+                "CodigoPostal": "21325"
+              }
+            },
+            {
+              "TipoUbicacion": "Destino",
+              "RFCRemitenteDestinatario": "LAVM8805193FA",
+              "NombreRemitenteDestinatario": "WH MANAGEMENT MEXICO",
+              "NumEstacion": "S0165",
+              "NombreEstacion": "HUAMANTLA",
+              "FechaHoraSalidaLlegada": "2021-11-03T06:15:23",
+              "DistanciaRecorrida": 50,
+              "TipoEstacion": "03",
+              "Domicilio": {
+                "Calle": "LA ESCONDIDA",
+                "Colonia": "1741",
+                "Localidad": "02",
+                "Municipio": "002",
+                "Estado": "BCN",
+                "Pais": "MEX",
+                "CodigoPostal": "21325"
+              }
+            },
+            {
+              "TipoUbicacion": "Destino",
+              "RFCRemitenteDestinatario": "LAVM8805193FA",
+              "NombreRemitenteDestinatario": "WH MANAGEMENT MEXICO",
+              "NumEstacion": "S0165",
+              "NombreEstacion": "HUAMANTLA",
+              "FechaHoraSalidaLlegada": "2021-11-03T06:15:23",
+              "DistanciaRecorrida": 50,
+              "TipoEstacion": "03",
+              "Domicilio": {
+                "Calle": "LA ESCONDIDA",
+                "Colonia": "1741",
+                "Localidad": "02",
+                "Municipio": "002",
+                "Estado": "BCN",
+                "Pais": "MEX",
+                "CodigoPostal": "21325"
+              }
+            },
+            {
+              "TipoUbicacion": "Destino",
+              "RFCRemitenteDestinatario": "LAVM8805193FA",
+              "NombreRemitenteDestinatario": "WH MANAGEMENT MEXICO",
+              "NumEstacion": "Q0708",
+              "NombreEstacion": "TEMORIS",
+              "FechaHoraSalidaLlegada": "2021-11-03T06:15:23",
+              "DistanciaRecorrida": 30,
+              "TipoEstacion": "03",
+              "Domicilio": {
+                "Calle": "LA ESCONDIDA",
+                "Colonia": "1741",
+                "Localidad": "02",
+                "Municipio": "002",
+                "Estado": "BCN",
+                "Pais": "MEX",
+                "CodigoPostal": "21325"
+              }
+            },
+            {
+              "TipoUbicacion": "Destino",
+              "RFCRemitenteDestinatario": "LAVM8805193FA",
+              "NombreRemitenteDestinatario": "WH MANAGEMENT MEXICO",
+              "NumEstacion": "A0830",
+              "NombreEstacion": "CEDRO",
+              "FechaHoraSalidaLlegada": "2021-11-03T06:15:23",
+              "DistanciaRecorrida": 3,
+              "TipoEstacion": "03",
+              "Domicilio": {
+                "Calle": "LA ESCONDIDA",
+                "Colonia": "1741",
+                "Localidad": "02",
+                "Municipio": "002",
+                "Estado": "BCN",
+                "Pais": "MEX",
+                "CodigoPostal": "21325"
+              }
+            }
+          ],
+          "Mercancias": {
+            "PesoBrutoTotal": 16200,
+            "UnidadPeso": "X44",
+            "PesoNetoTotal": 7000,
+            "NumTotalMercancias": 2,
+            "CargoPorTasacion": 2100.00,
+            "Mercancia": [
+              {
+                "BienesTransp": "25101505",
+                "Descripcion": "Minivan roja",
+                "Cantidad": 1.003,
+                "ClaveUnidad": "XVN",
+                "Unidad": "Vehiculo",
+                "PesoEnKg": 16000,
+                "ValorMercancia": 900000.00,
+                "Moneda": "MXN",
+                "FraccionArancelaria": "0102399900",
+                "TipoMateria": "04",
+                "DocumentacionAduanera": [
+                  {
+                    "TipoDocumento": "01",
+                    "NumPedimento": "23  01  3173  3999999",
+                    "RFCImpo": "PPD101129EA3"
+                  }
+                ]
+              },
+              {
+                "BienesTransp": "25101505",
+                "Descripcion": "Minivan roja",
+                "Cantidad": 1.003,
+                "ClaveUnidad": "XVN",
+                "Unidad": "Vehiculo",
+                "PesoEnKg": 200,
+                "ValorMercancia": 900000.00,
+                "Moneda": "MXN",
+                "FraccionArancelaria": "0102399900",
+                "TipoMateria": "04",
+                "DocumentacionAduanera": [
+                  {
+                    "TipoDocumento": "01",
+                    "NumPedimento": "23  01  3173  3999999",
+                    "RFCImpo": "PPD101129EA3"
+                  }
+                ],
+                "GuiasIdentificacion": [
+                  {
+                    "NumeroGuiaIdentificacion": "ABC232uewqj",
+                    "DescripGuiaIdentificacion": "Guia 1",
+                    "PesoGuiaIdentificacion": 254435
+                  },
+                  {
+                    "NumeroGuiaIdentificacion": "347308lkuh",
+                    "DescripGuiaIdentificacion": "Guia 2",
+                    "PesoGuiaIdentificacion": 654645
+                  }
+                ]
+              }
+            ],
+            "TransporteFerroviario": {
+              "TipoDeServicio": "TS01",
+              "TipoDeTrafico": "TT02",
+              "NombreAseg": "Qualitas Ferroviarias Inventado SA DE CV",
+              "NumPolizaSeguro": "123456789012345678901234567890",
+              "DerechosDePaso": [
+                { "TipoDerechoDePaso": "CDP001", "KilometrajePagado": 123.45 },
+                { "TipoDerechoDePaso": "CDP001", "KilometrajePagado": 123.45 }
+              ],
+              "Carro": [
+                { "TipoCarro": "TC06", "MatriculaCarro": "ABC123", "GuiaCarro": "123456789012345", "ToneladasNetasCarro": 3 },
+                { "TipoCarro": "TC06", "MatriculaCarro": "ABC123", "GuiaCarro": "123456789012345", "ToneladasNetasCarro": 3 },
+                { "TipoCarro": "TC06", "MatriculaCarro": "ABC123", "GuiaCarro": "123456789012345", "ToneladasNetasCarro": 1 }
+              ]
+            }
+          },
+          "FiguraTransporte": [
+            {
+              "TipoFigura": "01",
+              "RFCFigura": "LAVM8805193FA",
+              "NumLicencia": "1BC45C96A73",
+              "NombreFigura": "EXTRA TRAYECTO OPERADOR",
+              "Domicilio": {
+                "Calle": "LA ESCONDIDA",
+                "Colonia": "1741",
+                "Localidad": "02",
+                "Municipio": "002",
+                "Estado": "BCN",
+                "Pais": "MEX",
+                "CodigoPostal": "21325"
+              }
+            }
+          ]
+        }
       }
     ]}'
 ```

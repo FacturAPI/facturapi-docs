@@ -8068,6 +8068,736 @@ components:
           properties:
             data:
               $ref: "#/components/schemas/NominaComplementDataInput"
+    # Carta Porte Complement
+    CartaPorteProperties:
+      allOf:
+        - $ref: "#/components/schemas/CartaPorteOrCustomComplementProperties"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/CartaPorteDataProperties"
+    CartaPorteInput:
+      allOf:
+        - $ref: "#/components/schemas/CartaPorteOrCustomComplementInput"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/CartaPorteDataInput"
+    CartaPorteOrCustomComplementProperties:
+      title: Complement
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          carta_porte: "#/components/schemas/CartaPorteProperties"
+          custom: "#/components/schemas/CustomComplementProperties"
+      properties:
+        type:
+          type: string
+          enum:
+            - carta_porte
+            - custom
+          description: Type of complement
+    CartaPorteOrCustomComplementInput:
+      title: Complement
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          carta_porte: "#/components/schemas/CartaPorteInput"
+          custom: "#/components/schemas/CustomComplementInput"
+      required:
+        - type
+        - data
+      properties:
+        type:
+          type: string
+          enum:
+            - carta_porte
+            - custom
+          description: Type of complement
+    CartaPorteDataProperties:
+      type: object
+      title: CartaPorte
+      description: Carta Porte complement version 3.1. (Beta)
+      required:
+        - IdCCP
+        - TranspInternac
+        - Ubicaciones
+        - Mercancias
+      properties:
+        IdCCP:
+          type: string
+          description: Unique Carta Porte identifier.
+        TranspInternac:
+          type: string
+          description: Indicates if the transport is international.
+        EntradaSalidaMerc:
+          type: string
+          description: Goods entry or exit.
+        PaisOrigenDestino:
+          type: string
+          description: Origin or destination country.
+        ViaEntradaSalida:
+          type: string
+          description: Entry or exit way.
+        TotalDistRec:
+          type: number
+          description: Total distance traveled.
+        RegistroISTMO:
+          type: string
+          description: ISTMO program registry.
+        UbicacionPoloOrigen:
+          type: string
+          description: Origin pole.
+        UbicacionPoloDestino:
+          type: string
+          description: Destination pole.
+        RegimenesAduaneros:
+          type: object
+          description: Customs regimes object.
+        Ubicaciones:
+          type: array
+          description: Locations array.
+          items:
+            type: object
+            description: Origin/destination location.
+            required:
+              - TipoUbicacion
+              - RFCRemitenteDestinatario
+              - FechaHoraSalidaLlegada
+            properties:
+              TipoUbicacion:
+                type: string
+                description: >-
+                  Required attribute to specify whether the location type corresponds to the origin
+                  or destination for transporting goods/merchandise across the different means of transport.
+                  Allowed values: "Origen" | "Destino".
+              IDUbicacion:
+                type: string
+                description: >-
+                  Conditional attribute to record a key identifying the exit or entry point of the goods/merchandise.
+                  Format: "OR" or "DE" followed by 6 numeric digits (regex (OR|DE)[0-9]{6}).
+              RFCRemitenteDestinatario:
+                type: string
+                description: >-
+                  Required attribute to record the RFC (tax ID) of the sender or receiver of the goods/merchandise.
+              NombreRemitenteDestinatario:
+                type: string
+                description: >-
+                  Optional attribute to record the name of the sender or receiver of the goods/merchandise
+                  (length 1 to 254 characters).
+              NumRegIdTrib:
+                type: string
+                description: >-
+                  Conditional attribute for the foreign tax identification or registry number of the sender or
+                  receiver when they are non-residents (length 6 to 40 characters).
+              ResidenciaFiscal:
+                type: string
+                description: >-
+                  Conditional attribute to record the country key of fiscal residence of the sender or receiver
+                  according to catalog c_Pais (ISO 3166-1).
+              NumEstacion:
+                type: string
+                description: >-
+                  Conditional attribute for the station key of origin or destination according to the c_Estaciones
+                  catalog of the Carta Porte complement and the transport type.
+              NombreEstacion:
+                type: string
+                description: >-
+                  Conditional attribute for the name of the station of origin or destination per the c_Estaciones catalog
+                  (length 1 to 50 characters).
+              NavegacionTrafico:
+                type: string
+                description: >-
+                  Conditional attribute to indicate the type of maritime port of origin or destination.
+                  Allowed values: "Altura" | "Cabotaje".
+              FechaHoraSalidaLlegada:
+                type: string
+                description: >-
+                  Required attribute to record the estimated departure or arrival date-time in the format
+                  YYYY-MM-DDThh:mm:ss.
+              TipoEstacion:
+                type: string
+                description: >-
+                  Conditional attribute to record the station type through which the goods/merchandise pass per
+                  catalog c_TipoEstacion.
+              DistanciaRecorrida:
+                type: number
+                description: >-
+                  Conditional attribute to record in kilometers the distance traveled between the origin location and
+                  the partial or final destination.
+              Domicilio:
+                $ref: "#/components/schemas/CartaPorteDomicilio"
+        Mercancias:
+          $ref: "#/components/schemas/CartaPorteMercancias"
+        FiguraTransporte:
+          type: array
+          description: Transport figures.
+          items:
+            type: object
+            description: Transport figure (operator, owner, lessor, notified party, etc.).
+            required:
+              - TipoFigura
+              - NombreFigura
+            properties:
+              TipoFigura:
+                type: string
+                description: >-
+                  Required. Code identifying the type of transport figure (operator, owner, lessor, notified)
+                  per the corresponding catalog (c_TipoFigura).
+              RFCFigura:
+                type: string
+                description: RFC (tax ID) of the operator/owner/lessor or intervening figure.
+              NumLicencia:
+                type: string
+                description: License number of the operator when TipoFigura corresponds to operator.
+              NombreFigura:
+                type: string
+                description: Legal name of the transport figure (required).
+              NumRegIdTribFigura:
+                type: string
+                description: Foreign tax registration number of the figure when applicable.
+              ResidenciaFiscalFigura:
+                type: string
+                description: Country code of fiscal residence (c_Pais) when the figure is foreign.
+              PartesTransporte:
+                type: array
+                description: Optional array with the transport parts related to the figure.
+                items:
+                  type: object
+                  required:
+                    - ParteTransporte
+                  properties:
+                    ParteTransporte:
+                      type: string
+                      description: Code of the transport part per catalog c_ParteTransporte.
+              Domicilio:
+                $ref: "#/components/schemas/CartaPorteDomicilio"
+                description: Address associated to the transport figure.
+    CartaPorteDataInput:
+      allOf:
+        - $ref: "#/components/schemas/CartaPorteDataProperties"
+    CartaPorteCantidadTransporta:
+      type: object
+      required:
+        - Cantidad
+        - IDOrigen
+        - IDDestino
+      properties:
+        Cantidad:
+          type: number
+        IDOrigen:
+          type: string
+        IDDestino:
+          type: string
+        CvesTransporte:
+          type: string
+          description: Transportation key.
+    CartaPorteDetalleMercancia:
+      type: object
+      required:
+        - UnidadPesoMerc
+        - PesoBruto
+        - PesoNeto
+        - PesoTara
+      properties:
+        UnidadPesoMerc:
+          type: string
+          description: Weight unit key for the merchandise per SAT catalog.
+        PesoBruto:
+          type: number
+          description: Gross weight including packaging and tare.
+        PesoNeto:
+          type: number
+          description: Net weight excluding packaging and tare.
+        PesoTara:
+          type: number
+          description: Tare weight (containers, packaging) for the merchandise.
+        NumPiezas:
+          type: number
+          description: Number of pieces comprising this merchandise detail.
+    CartaPorteDocumentacionAduanera:
+      type: object
+      properties:
+        TipoDocumento:
+          type: string
+          description: Customs document type (pedimento, guide, bill of lading, etc.).
+        NumPedimento:
+          type: string
+          description: Import/export pedimento number.
+        IdentDocAduanero:
+          type: string
+          description: Alternate identifier for the customs document.
+        RFCImpo:
+          type: string
+          description: RFC of the importer when applicable.
+    CartaPorteGuiaIdentificacion:
+      type: object
+      properties:
+        NumeroGuiaIdentificacion:
+          type: string
+          description: Identification guide number linked to the merchandise.
+        DescripGuiaIdentificacion:
+          type: string
+          description: Detailed description of the identification guide.
+        PesoGuiaIdentificacion:
+          type: number
+          description: Weight covered by the identification guide.
+    CartaPorteMercancia:
+      type: object
+      required:
+        - BienesTransp
+        - Descripcion
+        - Cantidad
+        - ClaveUnidad
+        - PesoEnKg
+      properties:
+        BienesTransp:
+          type: string
+        ClaveSTCC:
+          type: string
+        Descripcion:
+          type: string
+        Cantidad:
+          type: number
+        ClaveUnidad:
+          type: string
+        Unidad:
+          type: string
+        Dimensiones:
+          type: string
+        MaterialPeligroso:
+          type: string
+        CveMaterialPeligroso:
+          type: string
+        Embalaje:
+          type: string
+        DescripEmbalaje:
+          type: string
+        SectorCOFEPRIS:
+          type: string
+        NombreIngredienteActivo:
+          type: string
+        NomQuimico:
+          type: string
+        DenominacionGenericaProd:
+          type: string
+        DenominacionDistintivaProd:
+          type: string
+        Fabricante:
+          type: string
+        FechaCaducidad:
+          type: string
+        LoteMedicamento:
+          type: string
+        FormaFarmaceutica:
+          type: string
+        CondicionesEspTransp:
+          type: string
+        RegistroSanitarioFolioAutorizacion:
+          type: string
+        PermisoImportacion:
+          type: string
+        FolioImpoVUCEM:
+          type: string
+        NumCAS:
+          type: string
+        RazonSocialEmpImp:
+          type: string
+        NumRegSanPlagCOFEPRIS:
+          type: string
+        DatosFabricante:
+          type: string
+        DatosFormulador:
+          type: string
+        DatosMaquilador:
+          type: string
+        UsoAutorizado:
+          type: string
+        PesoEnKg:
+          type: number
+        ValorMercancia:
+          type: number
+        Moneda:
+          type: string
+        FraccionArancelaria:
+          type: string
+        UUIDComercioExt:
+          type: string
+        TipoMateria:
+          type: string
+        DescripcionMateria:
+          type: string
+        DocumentacionAduanera:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartaPorteDocumentacionAduanera"
+        GuiasIdentificacion:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartaPorteGuiaIdentificacion"
+        CantidadTransporta:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartaPorteCantidadTransporta"
+        DetalleMercancia:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartaPorteDetalleMercancia"
+    CartaPorteIdentificacionVehicular:
+      type: object
+      properties:
+        ConfigVehicular:
+          type: string
+          description: Vehicle configuration code (c_ConfigAutotransporte).
+        PesoBrutoVehicular:
+          type: number
+          description: Maximum allowed gross vehicular weight.
+        PlacaVM:
+          type: string
+          description: License plate of the motor vehicle.
+        AnioModeloVM:
+          type: string
+          description: Model year of the motor vehicle.
+    CartaPorteSeguros:
+      type: object
+      properties:
+        AseguraRespCivil:
+          type: string
+          description: Civil liability insurer name.
+        PolizaRespCivil:
+          type: string
+          description: Civil liability policy number.
+        AseguraMedAmbiente:
+          type: string
+          description: Environmental damage insurer.
+        PolizaMedAmbiente:
+          type: string
+          description: Environmental policy number.
+        AseguraCarga:
+          type: string
+          description: Cargo insurer name.
+        PolizaCarga:
+          type: string
+          description: Cargo insurance policy number.
+        PrimaSeguro:
+          type: number
+          description: Total insurance premium.
+    CartaPorteRemolque:
+      type: object
+      properties:
+        SubTipoRem:
+          type: string
+          description: Trailer subtype code (c_SubTipoRem).
+        Placa:
+          type: string
+          description: Trailer license plate.
+    CartaPorteAutotransporte:
+      type: object
+      properties:
+        PermSCT:
+          type: string
+          description: SCT permit key for motor transport.
+        NumPermisoSCT:
+          type: string
+          description: SCT permit number.
+        IdentificacionVehicular:
+          $ref: "#/components/schemas/CartaPorteIdentificacionVehicular"
+          description: Identification data of the primary vehicle.
+        Seguros:
+          $ref: "#/components/schemas/CartaPorteSeguros"
+          description: Applicable insurance information.
+        Remolques:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartaPorteRemolque"
+          description: List of attached trailers.
+    CartaPorteContenedorMaritimo:
+      type: object
+      properties:
+        TipoContenedor:
+          type: string
+          description: Maritime container type (ISO / SAT catalog).
+        MatriculaContenedor:
+          type: string
+          description: Container registration/identifier.
+        NumPrecinto:
+          type: string
+          description: Seal or security lock number.
+        IdCCPRelacionado:
+          type: string
+          description: Related CCP identifier when reusing data.
+        PlacaVMCCP:
+          type: string
+          description: Motor vehicle plate associated (in transshipment cases).
+        FechaCertificacionCCP:
+          type: string
+          description: CCP certification date of the container.
+        RemolquesCCP:
+          type: array
+          items:
+            type: object
+            properties:
+              SubTipoRemCCP:
+                type: string
+                description: Related trailer subtype (CCP context).
+              PlacaCCP:
+                type: string
+                description: Related trailer plate (CCP context).
+    CartaPorteTransporteMaritimo:
+      type: object
+      required:
+        - PermSCT
+        - NumPermisoSCT
+      properties:
+        PermSCT:
+          type: string
+          description: SCT permit key for the vessel.
+        NumPermisoSCT:
+          type: string
+          description: SCT permit number for the vessel.
+        NombreAseg:
+          type: string
+          description: Maritime insurer name.
+        NumPolizaSeguro:
+          type: string
+          description: Maritime insurance policy number.
+        TipoEmbarcacion:
+          type: string
+          description: Vessel type (c_TipoEmbarcacion).
+        Matricula:
+          type: string
+          description: Vessel registration (matrícula).
+        NumeroOMI:
+          type: string
+          description: IMO number of the vessel.
+        AnioEmbarcacion:
+          type: string
+          description: Year the vessel was built.
+        NombreEmbarc:
+          type: string
+          description: Proper name of the vessel.
+        NacionalidadEmbarc:
+          type: string
+          description: Flag or nationality of the vessel.
+        UnidadesDeArqBruto:
+          type: number
+          description: Gross tonnage units.
+        TipoCarga:
+          type: string
+          description: Cargo type (bulk, containers, liquid, etc.).
+        Eslora:
+          type: number
+          description: Length overall (LOA).
+        Manga:
+          type: number
+          description: Maximum beam width.
+        Calado:
+          type: number
+          description: Maximum draft.
+        Puntal:
+          type: number
+          description: Depth/height of the hull (puntal).
+        LineaNaviera:
+          type: string
+          description: Shipping line name.
+        NombreAgenteNaviero:
+          type: string
+          description: Name of shipping agent.
+        NumAutorizacionNaviero:
+          type: string
+          description: Shipping agent authorization number.
+        NumViaje:
+          type: string
+          description: Voyage number.
+        NumConocEmbarc:
+          type: string
+          description: Bill of lading number.
+        PermisoTempNavegacion:
+          type: string
+          description: Temporary navigation permit.
+        Contenedor:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartaPorteContenedorMaritimo"
+          description: List of containers associated with the voyage.
+    CartaPorteTransporteAereo:
+      type: object
+      properties:
+        PermSCT:
+          type: string
+          description: SCT permit key for air transport.
+        NumPermisoSCT:
+          type: string
+          description: SCT permit number.
+        MatriculaAeronave:
+          type: string
+          description: Aircraft registration.
+        NombreAseg:
+          type: string
+          description: Air transport insurer name.
+        NumPolizaSeguro:
+          type: string
+          description: Aircraft insurance policy number.
+        NumeroGuia:
+          type: string
+          description: Air waybill number.
+        LugarContrato:
+          type: string
+          description: Place where the transport contract was executed.
+        CodigoTransportista:
+          type: string
+          description: Air carrier code.
+        RFCEmbarcador:
+          type: string
+          description: RFC of the shipper.
+        NumRegIdTribEmbarc:
+          type: string
+          description: Foreign tax registration of the shipper.
+        ResidenciaFiscalEmbarc:
+          type: string
+          description: Tax residence country of the shipper.
+        NombreEmbarcador:
+          type: string
+          description: Name or corporate name of the shipper.
+    CartaPorteDerechosDePaso:
+      type: object
+      properties:
+        TipoDerechoDePaso:
+          type: string
+          description: Type of rail right-of-way.
+        KilometrajePagado:
+          type: number
+          description: Paid/covered mileage for the right-of-way.
+    CartaPorteContenedorFerroviario:
+      type: object
+      properties:
+        TipoContenedor:
+          type: string
+          description: Rail container type.
+        PesoContenedorVacio:
+          type: number
+          description: Empty container weight.
+        PesoNetoMercancia:
+          type: number
+          description: Net weight of contained merchandise.
+    CartaPorteCarroFerroviario:
+      type: object
+      properties:
+        TipoCarro:
+          type: string
+          description: Railcar type.
+        MatriculaCarro:
+          type: string
+          description: Railcar identifier/registration.
+        GuiaCarro:
+          type: string
+          description: Guide number associated with the railcar.
+        ToneladasNetasCarro:
+          type: number
+          description: Net tons transported in the railcar.
+        Contenedor:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartaPorteContenedorFerroviario"
+          description: Containers associated with the railcar.
+    CartaPorteTransporteFerroviario:
+      type: object
+      properties:
+        TipoDeServicio:
+          type: string
+          description: Type of rail service (regular, intermodal, etc.).
+        TipoDeTrafico:
+          type: string
+          description: Traffic type (national, international, etc.).
+        NombreAseg:
+          type: string
+          description: Rail insurer name.
+        NumPolizaSeguro:
+          type: string
+          description: Rail insurance policy number.
+        DerechosDePaso:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartaPorteDerechosDePaso"
+          description: List of applied rights-of-way.
+        Carro:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartaPorteCarroFerroviario"
+          description: List of railcars involved.
+    CartaPorteDomicilio:
+      type: object
+      description: Address object associated to the location in the Carta Porte complement.
+      required:
+        - Estado
+        - Pais
+        - CodigoPostal
+      properties:
+        Calle:
+          type: string
+        NumeroExterior:
+          type: string
+        NumeroInterior:
+          type: string
+        Colonia:
+          type: string
+        Localidad:
+          type: string
+        Referencia:
+          type: string
+        Municipio:
+          type: string
+        Estado:
+          type: string
+        Pais:
+          type: string
+        CodigoPostal:
+          type: string
+    CartaPorteMercancias:
+      type: object
+      required:
+        - PesoBrutoTotal
+        - UnidadPeso
+        - NumTotalMercancias
+        - Mercancia
+      properties:
+        PesoBrutoTotal:
+          type: number
+          description: Sum of gross weights of all merchandise items.
+        UnidadPeso:
+          type: string
+          description: Standard weight unit key (c_ClaveUnidadPeso).
+        PesoNetoTotal:
+          type: number
+          description: Sum of net weights from each DetalleMercancia.
+        NumTotalMercancias:
+          type: number
+          description: Total number of merchandise nodes.
+        CargoPorTasacion:
+          type: number
+          description: Appraisal charge amount (air transport context).
+        LogisticaInversaRecoleccionDevolucion:
+          type: string
+          description: Indicates reverse logistics, collection or return applicability.
+        Mercancia:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartaPorteMercancia"
+          description: Required array of transported merchandise.
+        Autotransporte:
+          $ref: "#/components/schemas/CartaPorteAutotransporte"
+          description: Federal motor transport details.
+        TransporteMaritimo:
+          $ref: "#/components/schemas/CartaPorteTransporteMaritimo"
+          description: Maritime vessel transport details.
+        TransporteAereo:
+          $ref: "#/components/schemas/CartaPorteTransporteAereo"
+          description: Air transport details.
+        TransporteFerroviario:
+          $ref: "#/components/schemas/CartaPorteTransporteFerroviario"
+          description: Rail transport details.
     NamespaceRequiredProperties:
       type: object
       required:
@@ -8092,7 +8822,6 @@ components:
           format: url
           example: http://www.sat.gob.mx/sitio_interet/cfd/iedu/iedu.xsd
           description: URL of the XSD validation schema.
-
     CommonAddressProperties:
       type: object
       properties:
@@ -8124,7 +8853,6 @@ components:
           type: string
           description: Postal code
           example: 86500
-
     # Main resources
     Webhook:
       title: Webhook object
@@ -9550,7 +10278,7 @@ components:
               type: array
               default: []
               items:
-                $ref: "#/components/schemas/CustomComplementInput"
+                $ref: "#/components/schemas/CartaPorteOrCustomComplementInput"
               description: |
                 Complements to include in the invoice. You can include any complement in the
                 invoice if you build the XML node of the complement yourself and use the `custom` type.
@@ -9709,7 +10437,7 @@ components:
               type: array
               default: []
               items:
-                $ref: "#/components/schemas/CustomComplementInput"
+                $ref: "#/components/schemas/CartaPorteOrCustomComplementInput"
               description: |
                 Complements to include in the invoice. You can include any complement in the
                 invoice if you build the XML node of the complement yourself and use the `custom` type.

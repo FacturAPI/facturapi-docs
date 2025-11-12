@@ -12,7 +12,7 @@ Puedes insertar cualquier complemento agregando el XML correspondiente en el nod
 
 :::
 
-A continuación encontrarás un ejemplo de cómo insertar un complemento a una factura, en este caso se trata de un CFDI de traslado con complemento Carta Porte:
+A continuación encontrarás un ejemplo de cómo insertar un complemento a una factura, en este caso se trata de un CFDI de traslado con complemento Carta Porte (Beta):
 
 ```
 {

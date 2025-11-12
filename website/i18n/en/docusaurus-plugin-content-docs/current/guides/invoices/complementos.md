@@ -15,7 +15,7 @@ You can insert any complement by adding the corresponding XML in the
 :::
 
 Below you will find an example of how to insert an add-on to an invoice, in this
-case, it is a Traslado (Transfer) CFDI with a Carta Porte complement:
+case, it is a Traslado (Transfer) CFDI with a Carta Porte complement (Beta):
 
 ```
 {

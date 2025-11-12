@@ -8052,7 +8052,7 @@ components:
     CartaPorteDataProperties:
       type: object
       title: CartaPorte
-      description: Complemento Carta Porte versión 3.1.
+      description: Complemento Carta Porte versión 3.1. (Beta)
       required:
         - IdCCP
         - TranspInternac

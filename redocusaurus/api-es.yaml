@@ -8318,6 +8318,832 @@ components:
           properties:
             data:
               $ref: '#/components/schemas/NominaComplementDataInput'
+    CartaPorteProperties:
+      allOf:
+        - $ref: '#/components/schemas/CartaPorteOrCustomComplementProperties'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/CartaPorteDataProperties'
+    CartaPorteInput:
+      allOf:
+        - $ref: '#/components/schemas/CartaPorteOrCustomComplementInput'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/CartaPorteDataInput'
+    CartaPorteOrCustomComplementProperties:
+      title: Complement
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          carta_porte: '#/components/schemas/CartaPorteProperties'
+          custom: '#/components/schemas/CustomComplementProperties'
+      properties:
+        type:
+          type: string
+          enum:
+            - carta_porte
+            - custom
+          description: Tipo de complemento.
+    CartaPorteOrCustomComplementInput:
+      title: Complement
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          carta_porte: '#/components/schemas/CartaPorteInput'
+          custom: '#/components/schemas/CustomComplementInput'
+      required:
+        - type
+        - data
+      properties:
+        type:
+          type: string
+          enum:
+            - carta_porte
+            - custom
+          description: Tipo de complemento.
+    CartaPorteDataProperties:
+      type: object
+      title: CartaPorte
+      description: Complemento Carta Porte versión 3.1. (Beta)
+      required:
+        - IdCCP
+        - TranspInternac
+        - Ubicaciones
+        - Mercancias
+      properties:
+        IdCCP:
+          type: string
+          description: Identificador único de la Carta Porte.
+        TranspInternac:
+          type: string
+          description: Indica si el transporte es internacional.
+        EntradaSalidaMerc:
+          type: string
+          description: Entrada o salida de mercancías.
+        PaisOrigenDestino:
+          type: string
+          description: País de origen o destino.
+        ViaEntradaSalida:
+          type: string
+          description: Vía de entrada o salida.
+        TotalDistRec:
+          type: number
+          description: Distancia total recorrida.
+        RegistroISTMO:
+          type: string
+          description: Registro del programa ISTMO.
+        UbicacionPoloOrigen:
+          type: string
+          description: Polo origen.
+        UbicacionPoloDestino:
+          type: string
+          description: Polo destino.
+        RegimenesAduaneros:
+          type: object
+          description: Objeto con los regímenes aduaneros aplicables.
+        Ubicaciones:
+          type: array
+          description: Arreglo de ubicaciones.
+          items:
+            type: object
+            description: Ubicación origen/destino.
+            required:
+              - TipoUbicacion
+              - RFCRemitenteDestinatario
+              - FechaHoraSalidaLlegada
+            properties:
+              TipoUbicacion:
+                type: string
+                description: >-
+                  Atributo requerido para precisar si el tipo de ubicación
+                  corresponde al origen o destino de las ubicaciones para el
+                  traslado de los bienes y/o mercancías en los distintos medios
+                  de transporte. Valores: "Origen" | "Destino".
+              IDUbicacion:
+                type: string
+                description: >-
+                  Atributo condicional para registrar una clave que identifique
+                  el punto de salida o entrada de los bienes y/o mercancías.
+                  Formato: "OR" o "DE" seguido de 6 dígitos numéricos (expresión
+                  regular (OR|DE)[0-9]{6}).
+              RFCRemitenteDestinatario:
+                type: string
+                description: >-
+                  Atributo requerido para registrar el RFC del remitente o
+                  destinatario de los bienes y/o mercancías que se trasladan.
+              NombreRemitenteDestinatario:
+                type: string
+                description: >-
+                  Atributo opcional para registrar el nombre del remitente o
+                  destinatario de los bienes y/o mercancías (longitud 1 a 254
+                  caracteres).
+              NumRegIdTrib:
+                type: string
+                description: >-
+                  Atributo condicional para el número de identificación o
+                  registro fiscal del país de residencia del remitente o
+                  destinatario cuando se trate de residentes en el extranjero
+                  (longitud 6 a 40 caracteres).
+              ResidenciaFiscal:
+                type: string
+                description: >-
+                  Atributo condicional para registrar la clave del país de
+                  residencia fiscal conforme al catálogo c_Pais (ISO 3166-1).
+              NumEstacion:
+                type: string
+                description: >-
+                  Atributo condicional para la clave de la estación de origen o
+                  destino conforme al catálogo c_Estaciones del complemento
+                  Carta Porte y al tipo de transporte.
+              NombreEstacion:
+                type: string
+                description: >-
+                  Atributo condicional para el nombre de la estación de origen o
+                  destino conforme al catálogo c_Estaciones (longitud 1 a 50
+                  caracteres).
+              NavegacionTrafico:
+                type: string
+                description: >-
+                  Atributo condicional para registrar el tipo de puerto de
+                  origen o destino en transporte marítimo. Valores: "Altura" |
+                  "Cabotaje".
+              FechaHoraSalidaLlegada:
+                type: string
+                description: >-
+                  Atributo requerido para registrar la fecha y hora estimada de
+                  salida o llegada en formato AAAA-MM-DDThh:mm:ss.
+              TipoEstacion:
+                type: string
+                description: >-
+                  Atributo condicional para registrar el tipo de estación por la
+                  que pasan las mercancías conforme al catálogo c_TipoEstacion.
+              DistanciaRecorrida:
+                type: number
+                description: >-
+                  Atributo condicional para registrar en kilómetros la distancia
+                  recorrida entre la ubicación de origen y la de destino parcial
+                  o final.
+              Domicilio:
+                $ref: '#/components/schemas/CartaPorteDomicilio'
+        Mercancias:
+          $ref: '#/components/schemas/CartaPorteMercancias'
+        FiguraTransporte:
+          type: array
+          description: Figuras de transporte.
+          items:
+            type: object
+            description: >-
+              Figura de transporte (operador, propietario, arrendatario,
+              notificado, etc.).
+            required:
+              - TipoFigura
+              - NombreFigura
+            properties:
+              TipoFigura:
+                type: string
+                description: >-
+                  Atributo requerido. Clave que identifica el tipo de figura de
+                  transporte conforme al catálogo correspondiente (operador,
+                  propietario, arrendatario, notificado). Debe coincidir con
+                  c_TipoFigura.
+              RFCFigura:
+                type: string
+                description: >-
+                  RFC del operador/propietario/arrendatario o figura
+                  interveniente.
+              NumLicencia:
+                type: string
+                description: >-
+                  Número de licencia del operador cuando TipoFigura corresponde
+                  a operador.
+              NombreFigura:
+                type: string
+                description: Nombre o razón social de la figura de transporte (requerido).
+              NumRegIdTribFigura:
+                type: string
+                description: >-
+                  Número de registro fiscal en el extranjero de la figura cuando
+                  aplica.
+              ResidenciaFiscalFigura:
+                type: string
+                description: >-
+                  Clave del país de residencia fiscal de la figura (c_Pais)
+                  cuando es extranjero.
+              PartesTransporte:
+                type: array
+                description: >-
+                  Arreglo opcional con las partes del transporte que se
+                  relacionan a la figura.
+                items:
+                  type: object
+                  required:
+                    - ParteTransporte
+                  properties:
+                    ParteTransporte:
+                      type: string
+                      description: >-
+                        Clave de la parte del transporte conforme al catálogo
+                        c_ParteTransporte.
+              Domicilio:
+                $ref: '#/components/schemas/CartaPorteDomicilio'
+                description: Domicilio asociado a la figura del transporte.
+    CartaPorteDataInput:
+      allOf:
+        - $ref: '#/components/schemas/CartaPorteDataProperties'
+    CartaPorteCantidadTransporta:
+      type: object
+      required:
+        - Cantidad
+        - IDOrigen
+        - IDDestino
+      properties:
+        Cantidad:
+          type: number
+        IDOrigen:
+          type: string
+        IDDestino:
+          type: string
+        CvesTransporte:
+          type: string
+          description: Clave del medio de transporte.
+    CartaPorteDetalleMercancia:
+      type: object
+      required:
+        - UnidadPesoMerc
+        - PesoBruto
+        - PesoNeto
+        - PesoTara
+      properties:
+        UnidadPesoMerc:
+          type: string
+          description: >-
+            Clave de la unidad de peso de la mercancía conforme al catálogo
+            correspondiente.
+        PesoBruto:
+          type: number
+          description: Peso bruto de la mercancía incluyendo embalajes y tare.
+        PesoNeto:
+          type: number
+          description: Peso neto de la mercancía sin incluir embalajes ni tara.
+        PesoTara:
+          type: number
+          description: Peso de la tara (contenedores, embalajes) asociado a la mercancía.
+        NumPiezas:
+          type: number
+          description: Número de piezas que conforman la mercancía detallada.
+    CartaPorteDocumentacionAduanera:
+      type: object
+      properties:
+        TipoDocumento:
+          type: string
+          description: >-
+            Tipo de documento aduanero (pedimento, guía, conocimiento)
+            relacionado.
+        NumPedimento:
+          type: string
+          description: Número de pedimento de importación/exportación.
+        IdentDocAduanero:
+          type: string
+          description: Identificador alterno del documento aduanero.
+        RFCImpo:
+          type: string
+      description: RFC del importador cuando aplica.
+    CartaPorteGuiaIdentificacion:
+      type: object
+      properties:
+        NumeroGuiaIdentificacion:
+          type: string
+          description: Número de la guía de identificación asociada a la mercancía.
+        DescripGuiaIdentificacion:
+          type: string
+          description: Descripción detallada de la guía de identificación.
+        PesoGuiaIdentificacion:
+          type: number
+          description: Peso amparado por la guía de identificación.
+    CartaPorteMercancia:
+      type: object
+      required:
+        - BienesTransp
+        - Descripcion
+        - Cantidad
+        - ClaveUnidad
+        - PesoEnKg
+      properties:
+        BienesTransp:
+          type: string
+          description: >-
+            Clave del bien o producto transportado
+            (catCartaPorte:c_BienesTransp).
+        ClaveSTCC:
+          type: string
+          description: Clave STCC para transporte ferroviario cuando corresponda.
+        Descripcion:
+          type: string
+          description: Descripción comercial del bien transportado.
+        Cantidad:
+          type: number
+          description: Cantidad total de unidades del bien.
+        ClaveUnidad:
+          type: string
+          description: Clave de unidad (c_ClaveUnidad) aplicable a la cantidad.
+        Unidad:
+          type: string
+          description: Texto descriptivo de la unidad de medida.
+        Dimensiones:
+          type: string
+          description: >-
+            Dimensiones físicas de la mercancía (largo x ancho x alto) si
+            aplica.
+        MaterialPeligroso:
+          type: string
+          description: Indicador de si la mercancía es material peligroso ("Sí" / "No").
+        CveMaterialPeligroso:
+          type: string
+          description: >-
+            Clave del material peligroso (c_MaterialPeligroso) cuando
+            MaterialPeligroso es Sí.
+        Embalaje:
+          type: string
+          description: Clave del tipo de embalaje utilizado (c_TipoEmbalaje).
+        DescripEmbalaje:
+          type: string
+          description: Descripción adicional del embalaje.
+        SectorCOFEPRIS:
+          type: string
+          description: Sector regulado por COFEPRIS al que pertenece el producto.
+        NombreIngredienteActivo:
+          type: string
+          description: Nombre del ingrediente activo (productos regulados).
+        NomQuimico:
+          type: string
+          description: Nombre químico del producto cuando aplica.
+        DenominacionGenericaProd:
+          type: string
+          description: Denominación genérica del producto farmacéutico.
+        DenominacionDistintivaProd:
+          type: string
+          description: Denominación distintiva (marca) del producto farmacéutico.
+        Fabricante:
+          type: string
+          description: Nombre o razón social del fabricante.
+        FechaCaducidad:
+          type: string
+          description: Fecha de caducidad del producto (AAAAMMDD o formato aplicable).
+        LoteMedicamento:
+          type: string
+          description: Número de lote del medicamento.
+        FormaFarmaceutica:
+          type: string
+          description: Forma farmacéutica (tableta, cápsula, solución, etc.).
+        CondicionesEspTransp:
+          type: string
+          description: Condiciones especiales de transporte (refrigeración, frágil, etc.).
+        RegistroSanitarioFolioAutorizacion:
+          type: string
+          description: Registro sanitario o folio de autorización.
+        PermisoImportacion:
+          type: string
+          description: Número de permiso de importación.
+        FolioImpoVUCEM:
+          type: string
+          description: Folio VUCEM de importación.
+        NumCAS:
+          type: string
+          description: Número CAS para sustancias químicas.
+        RazonSocialEmpImp:
+          type: string
+          description: Razón social de la empresa importadora.
+        NumRegSanPlagCOFEPRIS:
+          type: string
+          description: Número de registro sanitario o plaguicida COFEPRIS.
+        DatosFabricante:
+          type: string
+          description: Información adicional del fabricante.
+        DatosFormulador:
+          type: string
+          description: Información del formulador del producto.
+        DatosMaquilador:
+          type: string
+          description: Información del maquilador (si aplica).
+        UsoAutorizado:
+          type: string
+          description: Uso autorizado del producto.
+        PesoEnKg:
+          type: number
+          description: >-
+            Peso en kilogramos de la mercancía (puede ser peso neto o bruto
+            según contexto).
+        ValorMercancia:
+          type: number
+          description: Valor monetario de la mercancía.
+        Moneda:
+          type: string
+          description: Clave de moneda (c_Moneda) del valor de la mercancía.
+        FraccionArancelaria:
+          type: string
+          description: Fracción arancelaria aplicable (c_FraccionArancelaria).
+        UUIDComercioExt:
+          type: string
+          description: UUID asociado al complemento de Comercio Exterior relacionado.
+        TipoMateria:
+          type: string
+          description: Tipo de materia prima (si aplica para minerales, sustancias, etc.).
+        DescripcionMateria:
+          type: string
+          description: Descripción de la materia prima.
+        DocumentacionAduanera:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartaPorteDocumentacionAduanera'
+          description: Documentos aduaneros asociados a la mercancía.
+        GuiasIdentificacion:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartaPorteGuiaIdentificacion'
+          description: Guías de identificación asociadas.
+        CantidadTransporta:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartaPorteCantidadTransporta'
+          description: Detalle de cantidades transportadas por origen/destino.
+        DetalleMercancia:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartaPorteDetalleMercancia'
+          description: Detalle de pesos y piezas de la mercancía.
+    CartaPorteIdentificacionVehicular:
+      type: object
+      properties:
+        ConfigVehicular:
+          type: string
+          description: >-
+            Configuración vehicular (catCartaPorte:c_ConfigAutotransporte) del
+            vehículo primario.
+        PesoBrutoVehicular:
+          type: number
+          description: Peso bruto vehicular máximo permitido.
+        PlacaVM:
+          type: string
+          description: Placa del vehículo motor.
+        AnioModeloVM:
+          type: string
+          description: Año modelo del vehículo motor.
+    CartaPorteSeguros:
+      type: object
+      properties:
+        AseguraRespCivil:
+          type: string
+          description: Nombre de la aseguradora de responsabilidad civil.
+        PolizaRespCivil:
+          type: string
+          description: Número de póliza de responsabilidad civil.
+        AseguraMedAmbiente:
+          type: string
+          description: Aseguradora contra daños al medio ambiente.
+        PolizaMedAmbiente:
+          type: string
+          description: Número de póliza de medio ambiente.
+        AseguraCarga:
+          type: string
+          description: Aseguradora de la carga.
+        PolizaCarga:
+          type: string
+          description: Número de póliza de la carga.
+        PrimaSeguro:
+          type: number
+          description: Prima total de los seguros contratados.
+    CartaPorteRemolque:
+      type: object
+      properties:
+        SubTipoRem:
+          type: string
+          description: Subtipo de remolque (catCartaPorte:c_SubTipoRem).
+        Placa:
+          type: string
+          description: Placa del remolque.
+    CartaPorteAutotransporte:
+      type: object
+      properties:
+        PermSCT:
+          type: string
+          description: Clave del permiso SCT del autotransporte.
+        NumPermisoSCT:
+          type: string
+          description: Número del permiso SCT.
+        IdentificacionVehicular:
+          $ref: '#/components/schemas/CartaPorteIdentificacionVehicular'
+          description: Datos de identificación del vehículo principal.
+        Seguros:
+          $ref: '#/components/schemas/CartaPorteSeguros'
+          description: Información de seguros aplicables.
+        Remolques:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartaPorteRemolque'
+          description: Lista de remolques acoplados.
+    CartaPorteContenedorMaritimo:
+      type: object
+      properties:
+        TipoContenedor:
+          type: string
+          description: Tipo de contenedor marítimo (ISO / catálogo SAT).
+        MatriculaContenedor:
+          type: string
+          description: Matrícula o número identificador del contenedor.
+        NumPrecinto:
+          type: string
+          description: Número de precinto o sello de seguridad.
+        IdCCPRelacionado:
+          type: string
+          description: Identificador CCP relacionado cuando se reutiliza información.
+        PlacaVMCCP:
+          type: string
+          description: Placa del vehículo motor asociado (si aplica en transbordo).
+        FechaCertificacionCCP:
+          type: string
+          description: Fecha de certificación CCP del contenedor.
+        RemolquesCCP:
+          type: array
+          items:
+            type: object
+            properties:
+              SubTipoRemCCP:
+                type: string
+                description: Subtipo de remolque relacionado (CCP).
+              PlacaCCP:
+                type: string
+                description: Placa del remolque relacionado (CCP).
+    CartaPorteTransporteMaritimo:
+      type: object
+      required:
+        - PermSCT
+        - NumPermisoSCT
+      properties:
+        PermSCT:
+          type: string
+          description: Clave del permiso SCT de la embarcación.
+        NumPermisoSCT:
+          type: string
+          description: Número de permiso SCT de la embarcación.
+        NombreAseg:
+          type: string
+          description: Nombre de la aseguradora marítima.
+        NumPolizaSeguro:
+          type: string
+          description: Número de póliza de seguro marítimo.
+        TipoEmbarcacion:
+          type: string
+          description: Tipo de embarcación (catCartaPorte:c_TipoEmbarcacion).
+        Matricula:
+          type: string
+          description: Matrícula de la embarcación.
+        NumeroOMI:
+          type: string
+          description: Número OMI (IMO number) de la embarcación.
+        AnioEmbarcacion:
+          type: string
+          description: Año de construcción de la embarcación.
+        NombreEmbarc:
+          type: string
+          description: Nombre propio de la embarcación.
+        NacionalidadEmbarc:
+          type: string
+          description: Nacionalidad o bandera de la embarcación.
+        UnidadesDeArqBruto:
+          type: number
+          description: Toneladas de arqueo bruto.
+        TipoCarga:
+          type: string
+          description: Tipo de carga (granel, contenedores, líquidos, etc.).
+        Eslora:
+          type: number
+          description: Longitud total de la embarcación (eslora).
+        Manga:
+          type: number
+          description: Ancho máximo de la embarcación (manga).
+        Calado:
+          type: number
+          description: Calado máximo.
+        Puntal:
+          type: number
+          description: Altura del puntal.
+        LineaNaviera:
+          type: string
+          description: Nombre de la línea naviera.
+        NombreAgenteNaviero:
+          type: string
+          description: Nombre del agente naviero.
+        NumAutorizacionNaviero:
+          type: string
+          description: Número de autorización del agente naviero.
+        NumViaje:
+          type: string
+          description: Número de viaje o rotación.
+        NumConocEmbarc:
+          type: string
+          description: Número de conocimiento de embarque.
+        PermisoTempNavegacion:
+          type: string
+          description: Permiso temporal de navegación.
+        Contenedor:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartaPorteContenedorMaritimo'
+          description: Lista de contenedores asociados al embarque.
+    CartaPorteTransporteAereo:
+      type: object
+      properties:
+        PermSCT:
+          type: string
+          description: Clave del permiso SCT para transporte aéreo.
+        NumPermisoSCT:
+          type: string
+          description: Número de permiso SCT.
+        MatriculaAeronave:
+          type: string
+          description: Matrícula de la aeronave.
+        NombreAseg:
+          type: string
+          description: Nombre de la aseguradora aérea.
+        NumPolizaSeguro:
+          type: string
+          description: Número de póliza de seguro de la aeronave.
+        NumeroGuia:
+          type: string
+          description: Número de guía aérea (Air Waybill).
+        LugarContrato:
+          type: string
+          description: Lugar donde se celebró el contrato de transporte.
+        CodigoTransportista:
+          type: string
+          description: Código del transportista aéreo.
+        RFCEmbarcador:
+          type: string
+          description: RFC del embarcador.
+        NumRegIdTribEmbarc:
+          type: string
+          description: Número de registro tributario extranjero del embarcador.
+        ResidenciaFiscalEmbarc:
+          type: string
+          description: País de residencia fiscal del embarcador.
+        NombreEmbarcador:
+          type: string
+          description: Nombre o razón social del embarcador.
+    CartaPorteDerechosDePaso:
+      type: object
+      properties:
+        TipoDerechoDePaso:
+          type: string
+          description: Tipo de derecho de paso ferroviario.
+        KilometrajePagado:
+          type: number
+          description: Kilometraje cubierto/pagado en el derecho de paso.
+    CartaPorteContenedorFerroviario:
+      type: object
+      properties:
+        TipoContenedor:
+          type: string
+          description: Tipo de contenedor ferroviario.
+        PesoContenedorVacio:
+          type: number
+          description: Peso del contenedor vacío.
+        PesoNetoMercancia:
+          type: number
+          description: Peso neto de la mercancía contenida.
+    CartaPorteCarroFerroviario:
+      type: object
+      properties:
+        TipoCarro:
+          type: string
+          description: Tipo de carro ferroviario.
+        MatriculaCarro:
+          type: string
+          description: Matrícula o número identificador del carro.
+        GuiaCarro:
+          type: string
+          description: Número de guía asociado al carro.
+        ToneladasNetasCarro:
+          type: number
+          description: Toneladas netas transportadas en el carro.
+        Contenedor:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartaPorteContenedorFerroviario'
+          description: Contenedores asociados al carro.
+    CartaPorteTransporteFerroviario:
+      type: object
+      properties:
+        TipoDeServicio:
+          type: string
+          description: Tipo de servicio ferroviario (regular, intermodal, etc.).
+        TipoDeTrafico:
+          type: string
+          description: Tipo de tráfico (nacional, internacional, etc.).
+        NombreAseg:
+          type: string
+          description: Nombre de la aseguradora ferroviaria.
+        NumPolizaSeguro:
+          type: string
+          description: Número de póliza de seguro ferroviario.
+        DerechosDePaso:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartaPorteDerechosDePaso'
+          description: Lista de derechos de paso aplicados.
+        Carro:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartaPorteCarroFerroviario'
+          description: Lista de carros ferroviarios involucrados.
+    CartaPorteDomicilio:
+      type: object
+      description: Domicilio relacionado a la ubicación en el complemento Carta Porte.
+      required:
+        - Estado
+        - Pais
+        - CodigoPostal
+      properties:
+        Calle:
+          type: string
+          description: Calle del domicilio de origen y/o destino (requerida en XSD).
+        NumeroExterior:
+          type: string
+          description: Número exterior donde se ubica el domicilio.
+        NumeroInterior:
+          type: string
+          description: Número interior del domicilio, si existe.
+        Colonia:
+          type: string
+          description: Colonia o dato análogo del domicilio.
+        Localidad:
+          type: string
+          description: Ciudad, población o distrito del domicilio.
+        Referencia:
+          type: string
+          description: Referencia geográfica adicional (ej. coordenadas GPS).
+        Municipio:
+          type: string
+          description: Municipio, delegación, alcaldía o análogo del domicilio.
+        Estado:
+          type: string
+          description: >-
+            Clave de estado, entidad o región (ISO 3166-2 conforme catálogo
+            SAT).
+        Pais:
+          type: string
+          description: Clave del país (catálogo c_Pais, ISO 3166-1).
+        CodigoPostal:
+          type: string
+          description: Código postal del domicilio.
+    CartaPorteMercancias:
+      type: object
+      required:
+        - PesoBrutoTotal
+        - UnidadPeso
+        - NumTotalMercancias
+        - Mercancia
+      properties:
+        PesoBrutoTotal:
+          type: number
+          description: Suma del peso bruto total de las mercancías (aéreo y ferroviario).
+        UnidadPeso:
+          type: string
+          description: >-
+            Clave de unidad de medida estandarizada del peso
+            (catCartaPorte:c_ClaveUnidadPeso).
+        PesoNetoTotal:
+          type: number
+          description: Suma de los valores PesoNeto de cada DetalleMercancia.
+        NumTotalMercancias:
+          type: number
+          description: Número total de mercancías (cantidad de nodos Mercancia).
+        CargoPorTasacion:
+          type: number
+          description: Importe pagado por la tasación de las mercancías (vía aérea).
+        LogisticaInversaRecoleccionDevolucion:
+          type: string
+          description: Indica si aplica logística inversa, recolección o devolución.
+        Mercancia:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartaPorteMercancia'
+          description: Arreglo requerido con las mercancías transportadas.
+        Autotransporte:
+          $ref: '#/components/schemas/CartaPorteAutotransporte'
+          description: Datos del autotransporte de carga federal.
+        TransporteMaritimo:
+          $ref: '#/components/schemas/CartaPorteTransporteMaritimo'
+          description: Datos de la embarcación para transporte marítimo.
+        TransporteAereo:
+          $ref: '#/components/schemas/CartaPorteTransporteAereo'
+          description: Datos del transporte aéreo utilizado.
+        TransporteFerroviario:
+          $ref: '#/components/schemas/CartaPorteTransporteFerroviario'
+          description: Datos del transporte ferroviario utilizado.
     NamespaceRequiredProperties:
       type: object
       required:
@@ -10238,7 +11064,7 @@ components:
               type: array
               default: []
               items:
-                $ref: '#/components/schemas/CustomComplementInput'
+                $ref: '#/components/schemas/CartaPorteOrCustomComplementInput'
               description: >
                 Complementos a incluir en la factura. Puedes incluir cualquier
                 complemento en la
@@ -10423,7 +11249,7 @@ components:
               type: array
               default: []
               items:
-                $ref: '#/components/schemas/CustomComplementInput'
+                $ref: '#/components/schemas/CartaPorteOrCustomComplementInput'
               description: >
                 Complementos a incluir en el comprobante. Puedes incluir
                 cualquier complemento en

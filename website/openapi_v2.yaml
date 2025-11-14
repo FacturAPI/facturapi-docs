@@ -518,6 +518,286 @@ tags:
       | "Sentencia favorable" | Los contribuyentes EFOS “definitivos” que se inconforman e interponen algún medio de defensa, el cual concluye a su favor, son clasificados en la lista de “sentencia favorable”.
       | "EFOS de información suprimida" | En esta categoría, se encuentran los EFOS “presuntos” y “definitivos” que presentaron algún medio de defensa (amparo, juicio de nulidad) y, por lo tanto, un juez ordenó suprimir sus datos de la lista, sin ser eliminados.
 
+  - name: carta_porte_keys
+    x-displayName: Catálogos Carta Porte
+    description: |
+      Catálogos específicos del complemento Carta Porte 3.1. Útiles para validar y construir correctamente los valores del complemento.
+
+      Cada tabla incluye: Clave | Descripción (Español oficial)
+
+      ### Régimenes Aduaneros (c_RegimenAduanero)
+
+      Clave | Descripción
+      :-----:| -----------
+      IMD | Importación definitiva
+      EXD | Exportación definitiva
+      ITR | Tránsito interno de mercancías
+      ITE | Tránsito interno de mercancías para exportación
+      ETR | Tránsito externo de mercancías
+      ETE | Tránsito externo de mercancías para exportación
+      DFI | Depósito fiscal
+      RFE | Recinto fiscalizado estratégico
+      RFS | Recinto fiscalizado
+      TRA | Tránsito aduanero
+
+      ### Medio de Transporte (c_MedioTransporte)
+
+      Clave | Descripción
+      :-----:| -----------
+      01 | Autotransporte
+      02 | Transporte Marítimo
+      03 | Transporte Aéreo
+      04 | Transporte Ferroviario
+      05 | Otro
+
+      ### Tipo de Estación (c_TipoEstacion)
+
+      Clave | Descripción
+      :-----:| -----------
+      01 | Origen Nacional
+      02 | Intermedia
+      03 | Destino Final Nacional
+
+      ### Permisos SCT (c_PermisoSCT)
+
+      Clave | Descripción
+      :-----:| -----------
+      TPAF01 | Autotransporte Federal de carga general
+      TPAF02 | Transporte privado de carga
+      TPAF03 | Autotransporte Federal de Carga Especializada de materiales y residuos peligrosos
+      TPAF04 | Transporte de automóviles sin rodar en vehículo tipo góndola
+      TPAF05 | Transporte de carga de gran peso y/o volumen de hasta 90 toneladas
+      TPAF06 | Transporte de carga especializada de gran peso y/o volumen de más 90 toneladas
+      TPAF07 | Transporte Privado de materiales y residuos peligrosos
+      TPAF08 | Autotransporte internacional de carga de largo recorrido
+      TPAF09 | Autotransporte internacional de carga especializada de materiales y residuos peligrosos de largo recorrido
+      TPAF10 | Autotransporte Federal de Carga General cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos
+      TPAF11 | Autotransporte Federal de Carga Especializada cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos
+      TPAF12 | Servicio auxiliar de arrastre en las vías generales de comunicación
+      TPAF13 | Servicio auxiliar de arrastre, arrastre y salvamento, y depósito de vehículos
+      TPAF14 | Servicio de paquetería y mensajería en las vías generales de comunicación
+      TPAF15 | Transporte especial para tránsito de grúas industriales hasta 90 toneladas
+      TPAF16 | Servicio federal para empresas arrendadoras servicio público federal
+      TPAF17 | Empresas trasladistas de vehículos nuevos
+      TPAF18 | Empresas fabricantes o distribuidoras de vehículos nuevos
+      TPAF19 | Autorización para circular con tractocamión doblemente articulado
+      TPAF20 | Autotransporte Federal de Carga Especializada de fondos y valores
+      TPTM01 | Permiso temporal para navegación de cabotaje
+      TPTA01 | Concesión/ autorización servicio regular nacional/internacional (empresas mexicanas)
+      TPTA02 | Permiso servicio aéreo regular empresas extranjeras
+      TPTA03 | Permiso servicio no regular de fletamento nacional/internacional
+      TPTA04 | Permiso servicio no regular de taxi aéreo nacional/internacional
+      TPXX00 | Permiso no contemplado en el catálogo
+
+      ### Sector COFEPRIS (c_SectorCOFEPRIS)
+
+      Clave | Descripción
+      :-----:| -----------
+      01 | Medicamento
+      02 | Precursores y químicos de uso dual
+      03 | Psicotrópicos y estupefacientes
+      04 | Sustancias tóxicas
+      05 | Plaguicidas y fertilizantes
+
+      ### Forma Farmacéutica (c_FormaFarmacéutica)
+
+      Clave | Descripción
+      :-----:| -----------
+      01 | Tableta
+      02 | Cápsulas
+      03 | Comprimidos
+      04 | Grageas
+      05 | Suspensión
+      06 | Solución
+      07 | Emulsión
+      08 | Jarabe
+      09 | Inyectable
+      10 | Crema
+      11 | Ungüento
+      12 | Aerosol
+      13 | Gas medicinal
+      14 | Gel
+      15 | Implante
+      16 | Óvulo
+      17 | Parche
+      18 | Pasta
+      19 | Polvo
+      20 | Supositorio
+
+      ### Condiciones Especiales (c_CondicionesEspeciales)
+
+      Clave | Descripción
+      :-----:| -----------
+      01 | Congelados
+      02 | Refrigerados
+      03 | Temperatura controlada
+      04 | Temperatura ambiente
+
+      ### Tipo de Materia (c_TipoMateria)
+
+      Clave | Descripción
+      :-----:| -----------
+      01 | Materia prima
+      02 | Materia procesada
+      03 | Materia terminada (producto terminado)
+      04 | Materia para la industria manufacturera
+      05 | Otra
+
+      ### Tipo de Documento de Aduana (c_TipoDocumentoAduanero)
+
+      Clave | Descripción
+      :-----:| -----------
+      01 | Pedimento
+      02 | Autorización de importación temporal
+      03 | Autorización de importación temporal de embarcaciones
+      04 | Autorización de importación temporal de mercancías para mantenimiento/reparación
+      05 | Autorización para importación de vehículos especializados
+      06 | Aviso de exportación temporal
+      07 | Aviso traslado (IMMEX/RFE/Operador Económico Autorizado)
+      08 | Aviso traslado autopartes franja fronteriza
+      09 | Constancia importación/retorno/transferencia contenedores
+      10 | Constancia de transferencia de mercancías
+      11 | Autorización de donación de mercancías (extranjero)
+      12 | Cuaderno ATA
+      13 | Listas de intercambio
+      14 | Permiso de Importación Temporal
+      15 | Permiso importación temporal casa rodante
+      16 | Permiso importación temporal embarcaciones
+      17 | Solicitud donación (emergencias/desastres)
+      18 | Aviso de consolidado
+      19 | Aviso de cruce de mercancias
+      20 | Otro
+
+      ### Tipo de Transporte (c_ParteTransporte)
+
+      Clave | Descripción
+      :-----:| -----------
+      PT01 | Camión unitario
+      PT02 | Camión
+      PT03 | Tractocamión
+      PT04 | Remolque
+      PT05 | Semirremolque
+      PT06 | Vehículo ligero de carga
+      PT07 | Grúa
+      PT08 | Aeronave
+      PT09 | Barco o buque
+      PT10 | Carro o vagón
+      PT11 | Contenedor
+      PT12 | Locomotora
+
+      ### Figuras de Transporte (c_FiguraTransporte)
+
+      Clave | Descripción
+      :-----:| -----------
+      01 | Operador
+      02 | Propietario
+      03 | Arrendador
+      04 | Notificado
+      05 | Integrante de Coordinados
+
+      ### Registro ISTMO (c_RegistroISTMO)
+
+      Clave | Descripción
+      :-----:| -----------
+      01 | Coatzacoalcos I
+      02 | Coatzacoalcos II
+      03 | Texistepec
+      04 | San Juan Evangelista
+      05 | Salina Cruz
+      06 | San Blas Atempa
+
+      ### Clave de Tipo de Carga (c_ClaveTipoCarga)
+
+      Clave | Descripción
+      :-----:| -----------
+      CGS | Carga General Suelta
+      CGC | Carga General Contenerizada
+      GMN | Gran Mineral
+      GAG | Granel Agrícola
+      OFL | Otros Fluidos
+      PYD | Petróleo y Derivados
+
+      ### Configuración Marítima (c_ConfiguracionMaritima)
+
+      Clave | Descripción
+      :-----:| -----------
+      B01 | Abastecedor
+      B02 | Barcaza
+      B03 | Granelero
+      B04 | Porta Contenedor
+      B05 | Draga
+      B06 | Pesquero
+      B07 | Carga General
+      B08 | Quimiqueros
+      B09 | Transbordadores
+      B10 | Carga RoRo
+      B11 | Investigación
+      B12 | Tanquero
+      B13 | Gasero
+      B14 | Remolcador
+      B15 | Extraordinaria especialización
+
+      ### Tipo de Tráfico Ferroviario (c_TraficoFerroviario)
+
+      Clave | Descripción
+      :-----:| -----------
+      TT01 | Tráfico local
+      TT02 | Tráfico interlineal remitido
+      TT03 | Tráfico interlineal recibido
+      TT04 | Tráfico interlineal en tránsito
+
+      ### Tipo de Contenedor (c_TipoContenedor)
+
+      Clave | Descripción
+      :-----:| -----------
+      TC01 | Contenedor de 6.1 Mts de longitud
+      TC02 | Contenedor de 12.2 Mts de longitud
+      TC03 | Contenedor de 13.7 Mts de longitud
+      TC04 | Contenedor de 14.6 Mts de longitud
+      TC05 | Contenedor de 16.1 Mts de longitud
+
+      ### Tipo de Contenedor Marítimo (c_TipoContenedorMaritimo)
+
+      Clave | Descripción
+      :-----:| -----------
+      CM001 | Contenedores refrigerados de 20FT
+      CM002 | Contenedores refrigerados de 40FT
+      CM003 | Contenedores estándar de 8FT
+      CM004 | Contenedores estándar de 10FT
+      CM005 | Contenedores estándar de 20FT
+      CM006 | Contenedores estándar de 40FT
+      CM007 | Contenedores Open Side
+      CM008 | Contenedor Isotanque
+      CM009 | Contenedor flat racks
+      CM010 | Buque tanque
+      CM011 | Ferri
+      CM012 | Ferri – Turístico y vacíos
+
+      ### Tipo de Carro Ferroviario (c_TipoCarroFerroviario)
+
+      Clave | Descripción
+      :-----:| -----------
+      TC01 | Furgón
+      TC02 | Góndola
+      TC03 | Tolva
+      TC04 | Tanque
+      TC05 | Plataforma Intermodal
+      TC06 | Plataforma de Uso General
+      TC07 | Plataforma Automotriz
+      TC08 | Locomotora
+      TC09 | Carro Especial
+      TC10 | Pasajeros
+      TC11 | Mantenimiento de Vía
+
+      ### Tipo de Servicio Ferroviario (c_TipoServicioFerroviario)
+
+      Clave | Descripción
+      :-----:| -----------
+      TS01 | Carros Ferroviarios
+      TS02 | Carros Ferroviarios intermodal
+      TS03 | Tren unitario de carros ferroviarios
+      TS04 | Tren unitario Intermodal
+    
   - name: customer_model
     x-displayName: Objeto Customer
     description: |
@@ -556,6 +836,7 @@ x-tagGroups:
     tags:
       - tools
       - sat_keys
+      - carta_porte_keys
   - name: Webhooks
     tags:
       - events

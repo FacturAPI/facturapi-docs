@@ -545,6 +545,284 @@ tags:
       | "Sentencia favorable" (Favorable sentence) | Taxpayers EFOS "definitive" who are dissatisfied and file some means of defense, which concludes in their favor, are classified in the list of "favorable judgment".
       | "EFOS de información suprimida" (Redacted information EFOS) | In this category, the EFOS "presumed" and "definitive" are found that presented some means of defense (amparo, nullity trial) and, therefore, a judge ordered to suppress their data from the list, without being eliminated.
 
+  - name: carta_porte_keys
+    x-displayName: Carta Porte catalogs
+    description: |
+      Specific catalogs for the Carta Porte 3.1 complement. Useful to validate and build complement values. Each table lists the Key, the original Spanish description used officially and an English translation for reference.
+
+      ### Customs Regimes (c_RegimenAduanero)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      IMD | Importación definitiva | Definitive import
+      EXD | Exportación definitiva | Definitive export
+      ITR | Tránsito interno de mercancías | Internal transit of goods
+      ITE | Tránsito interno de mercancías para exportación | Internal transit of goods for export
+      ETR | Tránsito externo de mercancías | External transit of goods
+      ETE | Tránsito externo de mercancías para exportación | External transit of goods for export
+      DFI | Depósito fiscal | Fiscal warehouse
+      RFE | Recinto fiscalizado estratégico | Strategic fiscal enclosure
+      RFS | Recinto fiscalizado | Fiscal enclosure
+      TRA | Tránsito aduanero | Customs transit
+
+      ### Transport Mode (c_MedioTransporte)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      01 | Autotransporte | Road transport
+      02 | Transporte Marítimo | Maritime transport
+      03 | Transporte Aéreo | Air transport
+      04 | Transporte Ferroviario | Rail transport
+      05 | Otro | Other
+
+      ### Station Type (c_TipoEstacion)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      01 | Origen Nacional | National origin
+      02 | Intermedia | Intermediate
+      03 | Destino Final Nacional | National final destination
+
+      ### SCT Permits (c_PermisoSCT)
+
+      Key | Description (Spanish) | Description (English)
+      :----:|:---------------------|:---------------------
+      TPAF01 | Autotransporte Federal de carga general. | Federal motor transport of general cargo.
+      TPAF02 | Transporte privado de carga. | Private cargo transport.
+      TPAF03 | Autotransporte Federal de Carga Especializada de materiales y residuos peligrosos. | Federal specialized transport of hazardous materials and waste.
+      TPAF04 | Transporte de automóviles sin rodar en vehículo tipo góndola. | Transport of automobiles (not driven) on gondola-type vehicle.
+      TPAF05 | Transporte de carga de gran peso y/o volumen de hasta 90 toneladas. | Heavy and/or oversized cargo transport up to 90 tons.
+      TPAF06 | Transporte de carga especializada de gran peso y/o volumen de más 90 toneladas. | Specialized heavy and/or oversized cargo transport over 90 tons.
+      TPAF07 | Transporte Privado de materiales y residuos peligrosos. | Private transport of hazardous materials and waste.
+      TPAF08 | Autotransporte internacional de carga de largo recorrido. | International long‑haul cargo transport.
+      TPAF09 | Autotransporte internacional de carga especializada de materiales y residuos peligrosos de largo recorrido. | International long‑haul specialized hazardous materials transport.
+      TPAF10 | Autotransporte Federal de Carga General cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos. | Federal general cargo transport within US border zone.
+      TPAF11 | Autotransporte Federal de Carga Especializada cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos. | Federal specialized cargo transport within US border zone.
+      TPAF12 | Servicio auxiliar de arrastre en las vías generales de comunicación. | Auxiliary towing service on federal roads.
+      TPAF13 | Servicio auxiliar de servicios de arrastre, arrastre y salvamento, y depósito de vehículos en las vías generales de comunicación. | Auxiliary towing, recovery and vehicle storage service.
+      TPAF14 | Servicio de paquetería y mensajería en las vías generales de comunicación. | Parcel and courier service.
+      TPAF15 | Transporte especial para el tránsito de grúas industriales con peso máximo de 90 toneladas. | Special transit for industrial cranes up to 90 tons.
+      TPAF16 | Servicio federal para empresas arrendadoras servicio público federal. | Federal public service for rental companies.
+      TPAF17 | Empresas trasladistas de vehículos nuevos. | New vehicle relocation companies.
+      TPAF18 | Empresas fabricantes o distribuidoras de vehículos nuevos. | New vehicle manufacturers or distributors.
+      TPAF19 | Autorización expresa para circular ... tractocamión doblemente articulado. | Express authorization for double‑articulated tractor‑trailers.
+      TPAF20 | Autotransporte Federal de Carga Especializada de fondos y valores. | Federal specialized transport of funds and valuables.
+      TPTM01 | Permiso temporal para navegación de cabotaje | Temporary cabotage navigation permit.
+      TPTA01 | Concesión/ autorización servicio regular nacional/internacional empresas mexicanas | Regular national/international air service concession (Mexican companies).
+      TPTA02 | Permiso servicio aéreo regular empresas extranjeras | Regular air service permit (foreign companies).
+      TPTA03 | Permiso servicio nacional e internacional no regular de fletamento | Charter (non‑regular) national/international air service permit.
+      TPTA04 | Permiso servicio nacional e internacional no regular de taxi aéreo | Non‑regular national/international air taxi permit.
+      TPXX00 | Permiso no contemplado en el catálogo. | Permit not listed in catalog.
+
+      ### COFEPRIS Sector (c_SectorCOFEPRIS)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      01 | Medicamento | Medicine
+      02 | Precursores y químicos de uso dual | Precursors and dual‑use chemicals
+      03 | Psicotrópicos y estupefacientes | Psychotropic and narcotic substances
+      04 | Sustancias tóxicas | Toxic substances
+      05 | Plaguicidas y fertilizantes | Pesticides and fertilizers
+
+      ### Pharmaceutical Form (c_FormaFarmacéutica)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      01 | Tableta | Tablet
+      02 | Cápsulas | Capsules
+      03 | Comprimidos | Compressed tablets
+      04 | Grageas | Sugar‑coated pills
+      05 | Suspensión | Suspension
+      06 | Solución | Solution
+      07 | Emulsión | Emulsion
+      08 | Jarabe | Syrup
+      09 | Inyectable | Injectable
+      10 | Crema | Cream
+      11 | Ungüento | Ointment
+      12 | Aerosol | Aerosol
+      13 | Gas medicinal | Medicinal gas
+      14 | Gel | Gel
+      15 | Implante | Implant
+      16 | Óvulo | Ovule
+      17 | Parche | Patch
+      18 | Pasta | Paste
+      19 | Polvo | Powder
+      20 | Supositorio | Suppository
+
+      ### Special Conditions (c_CondicionesEspeciales)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      01 | Congelados | Frozen
+      02 | Refrigerados | Refrigerated
+      03 | Temperatura controlada | Controlled temperature
+      04 | Temperatura ambiente | Room temperature
+
+      ### Material Type (c_TipoMateria)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      01 | Materia prima | Raw material
+      02 | Materia procesada | Processed material
+      03 | Materia terminada (producto terminado) | Finished material (final product)
+      04 | Materia para la industria manufacturera | Material for manufacturing industry
+      05 | Otra | Other
+
+      ### Customs Document Type (c_TipoDocumentoAduanero)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      01 | Pedimento | Customs entry (Pedimento)
+      02 | Autorización de importación temporal | Temporary import authorization
+      03 | Autorización de importación temporal de embarcaciones | Temporary vessel import authorization
+      04 | Autorización de importación temporal mercancías p/ mantenimiento y reparación | Temp. import auth. for goods for maintenance/repair
+      05 | Autorización importación vehículos especializados | Import auth. specialized transformed vehicles
+      06 | Aviso de exportación temporal | Temporary export notice
+      07 | Aviso traslado mercancías IMMEX/RFE/Operador Autorizado | Goods transfer notice IMMEX/RFE/Authorized Operator
+      08 | Aviso traslado autopartes franja fronteriza | Auto parts transfer notice (border region)
+      09 | Constancia importación temporal/retorno/transferencia contenedores | Constancy temp import/return/transfer of containers
+      10 | Constancia de transferencia de mercancías | Goods transfer constancy
+      11 | Autorización donación mercancías Fisco Federal extranjero | Donation authorization (goods abroad) to Federal Treasury
+      12 | Cuaderno ATA | ATA carnet
+      13 | Listas de intercambio | Exchange lists
+      14 | Permiso de Importación Temporal | Temporary import permit
+      15 | Permiso importación temporal casa rodante | Temporary import permit (RV)
+      16 | Permiso importación temporal embarcaciones | Temporary import permit (vessels)
+      17 | Solicitud donación mercancías emergencias/desastres | Donation request (emergencies/disasters)
+      18 | Aviso de consolidado | Consolidated notice
+      19 | Aviso de cruce de mercancias | Goods crossing notice
+      20 | Otro | Other
+
+      ### Transport Part Type (c_ParteTransporte)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      PT01 | Camión unitario | Single unit truck
+      PT02 | Camión | Truck
+      PT03 | Tractocamión | Tractor truck
+      PT04 | Remolque | Trailer
+      PT05 | Semirremolque | Semi‑trailer
+      PT06 | Vehículo ligero de carga | Light cargo vehicle
+      PT07 | Grúa | Crane
+      PT08 | Aeronave | Aircraft
+      PT09 | Barco o buque | Ship or vessel
+      PT10 | Carro o vagón | Railcar or wagon
+      PT11 | Contenedor | Container
+      PT12 | Locomotora | Locomotive
+
+      ### Transport Figure (c_FiguraTransporte)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      01 | Operador | Operator
+      02 | Propietario | Owner
+      03 | Arrendador | Lessor
+      04 | Notificado | Notified party
+      05 | Integrante de Coordinados | Coordinated group member
+
+      ### ISTMO Registry (c_RegistroISTMO)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      01 | Coatzacoalcos I | Coatzacoalcos I
+      02 | Coatzacoalcos II | Coatzacoalcos II
+      03 | Texistepec | Texistepec
+      04 | San Juan Evangelista | San Juan Evangelista
+      05 | Salina Cruz | Salina Cruz
+      06 | San Blas Atempa | San Blas Atempa
+
+      ### Cargo Type Key (c_ClaveTipoCarga)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      CGS | Carga General Suelta | General loose cargo
+      CGC | Carga General Contenerizada | General containerized cargo
+      GMN | Gran Mineral | Bulk mineral
+      GAG | Granel Agrícola | Agricultural bulk
+      OFL | Otros Fluidos | Other fluids
+      PYD | Petróleo y Derivados | Oil and derivatives
+
+      ### Maritime Configuration (c_ConfiguracionMaritima)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      B01 | Abastecedor | Supplier vessel
+      B02 | Barcaza | Barge
+      B03 | Granelero | Bulk carrier
+      B04 | Porta Contenedor | Container ship
+      B05 | Draga | Dredger
+      B06 | Pesquero | Fishing vessel
+      B07 | Carga General | General cargo
+      B08 | Quimiqueros | Chemical tanker
+      B09 | Transbordadores | Ferry
+      B10 | Carga RoRo | Ro-Ro cargo
+      B11 | Investigación | Research vessel
+      B12 | Tanquero | Tanker
+      B13 | Gasero | Gas carrier
+      B14 | Remolcador | Tug
+      B15 | Extraordinaria especialización | Extraordinary specialization
+
+      ### Rail Traffic Type (c_TraficoFerroviario)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      TT01 | Tráfico local | Local traffic
+      TT02 | Tráfico interlineal remitido | Forwarded interline traffic
+      TT03 | Tráfico interlineal recibido | Received interline traffic
+      TT04 | Tráfico interlineal en tránsito | Interline traffic in transit
+
+      ### Container Type (c_TipoContenedor)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      TC01 | Contenedor de 6.1 Mts de longitud | 20' container (6.1 m length)
+      TC02 | Contenedor de 12.2 Mts de longitud | 40' container (12.2 m length)
+      TC03 | Contenedor de 13.7 Mts de longitud | 45' container (13.7 m length)
+      TC04 | Contenedor de 14.6 Mts de longitud | 48' container (14.6 m length)
+      TC05 | Contenedor de 16.1 Mts de longitud | 53' container (16.1 m length)
+
+      ### Maritime Container Type (c_TipoContenedorMaritimo)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      CM001 | Contenedores refrigerados de 20FT | 20FT refrigerated containers
+      CM002 | Contenedores refrigerados de 40FT | 40FT refrigerated containers
+      CM003 | Contenedores estándar de 8FT | 8FT standard containers
+      CM004 | Contenedores estándar de 10FT | 10FT standard containers
+      CM005 | Contenedores estándar de 20FT | 20FT standard containers
+      CM006 | Contenedores estándar de 40FT | 40FT standard containers
+      CM007 | Contenedores Open Side | Open side containers
+      CM008 | Contenedor Isotanque | ISO tank container
+      CM009 | Contenedor flat racks | Flat rack container
+      CM010 | Buque tanque | Tanker ship
+      CM011 | Ferri | Ferry
+      CM012 | Ferri – Turístico y vacíos | Tourist / empty ferry
+
+      ### Rail Car Type (c_TipoCarroFerroviario)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      TC01 | Furgón | Boxcar
+      TC02 | Góndola | Gondola
+      TC03 | Tolva | Hopper
+      TC04 | Tanque | Tank car
+      TC05 | Plataforma Intermodal | Intermodal platform car
+      TC06 | Plataforma de Uso General | General purpose flatcar
+      TC07 | Plataforma Automotriz | Automotive platform car
+      TC08 | Locomotora | Locomotive
+      TC09 | Carro Especial | Special car
+      TC10 | Pasajeros | Passenger car
+      TC11 | Mantenimiento de Vía | Track maintenance equipment
+
+      ### Rail Service Type (c_TipoServicioFerroviario)
+
+      Key | Description (Spanish) | Description (English)
+      :--:|:----------------------|:---------------------
+      TS01 | Carros Ferroviarios | Rail cars
+      TS02 | Carros Ferroviarios intermodal | Intermodal rail cars
+      TS03 | Tren unitario de carros ferroviarios | Unit train (rail cars)
+      TS04 | Tren unitario Intermodal | Unit train (intermodal)
+
   - name: customer_model
     x-displayName: Customer object
     description: |
@@ -583,6 +861,7 @@ x-tagGroups:
     tags:
       - tools
       - sat_keys
+      - carta_porte_keys
   - name: Webhooks
     tags:
       - events

@@ -32,7 +32,7 @@
   During development, you can use the Facturapi API in the Test environment, and the invoices you issue will not be sent to the SAT (Mexican Tax Authority) and will not have fiscal validity.
   
   The secret key you use to authenticate will determine both the environment in which the invoice will be created (Test or Live), as well as the organization to use as the issuer of your invoice or as the owner of the resource you request to create.
-"/><link data-rh=true rel=icon href=/img/favicon.ico /><link data-rh=true rel=canonical href=https://docs.facturapi.io/api-en/ /><link data-rh=true rel=alternate href=https://docs.facturapi.io/api-en/ hreflang=es-MX /><link data-rh=true rel=alternate href=https://docs.facturapi.io/en/api-en/ hreflang=en-US /><link data-rh=true rel=alternate href=https://docs.facturapi.io/api-en/ hreflang=x-default /><link rel=stylesheet href=/assets/css/styles.153d3d9a.css /><script src=/assets/js/runtime~main.830b7540.js defer></script><script src=/assets/js/main.68fd52ad.js defer></script></head><body class=navigation-with-keyboard><svg style="display: none;"><defs>
+"/><link data-rh=true rel=icon href=/img/favicon.ico /><link data-rh=true rel=canonical href=https://docs.facturapi.io/api-en/ /><link data-rh=true rel=alternate href=https://docs.facturapi.io/api-en/ hreflang=es-MX /><link data-rh=true rel=alternate href=https://docs.facturapi.io/en/api-en/ hreflang=en-US /><link data-rh=true rel=alternate href=https://docs.facturapi.io/api-en/ hreflang=x-default /><link rel=stylesheet href=/assets/css/styles.153d3d9a.css /><script src=/assets/js/runtime~main.35c088fa.js defer></script><script src=/assets/js/main.1acee591.js defer></script></head><body class=navigation-with-keyboard><svg style="display: none;"><defs>
 <symbol id=theme-svg-external-link viewBox="0 0 24 24"><path fill=currentColor d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
 </defs></svg>
 <script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||"light"),document.documentElement.setAttribute("data-theme-choice",t||"light")}(),function(){try{for(var[t,e]of new URLSearchParams(window.location.search).entries())if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id=__docusaurus><link rel=preload as=image href=/img/facturapilogo.svg /><link rel=preload as=image href=https://www.facturapi.io/img/logo.svg /><div role=region aria-label="Saltar al contenido principal"><a class=skipToContent_fXgn href=#__docusaurus_skipToContent_fallback>Saltar al contenido principal</a></div><nav aria-label=Principal class="theme-layout-navbar navbar navbar--fixed-top"><div class=navbar__inner><div class="theme-layout-navbar-left navbar__items"><button aria-label="Alternar barra lateral" aria-expanded=false class="navbar__toggle clean-btn" type=button><svg width=30 height=30 viewBox="0 0 30 30" aria-hidden=true><path stroke=currentColor stroke-linecap=round stroke-miterlimit=10 stroke-width=2 d="M4 7h22M4 15h22M4 23h22"/></svg></button><a class=navbar__brand href=/><div class=navbar__logo><img src=/img/facturapilogo.svg alt=Facturapi class="themedComponent_mlkZ themedComponent--light_NVdE"/><img src=/img/facturapilogo.svg alt=Facturapi class="themedComponent_mlkZ themedComponent--dark_xIcU"/></div><b class="navbar__title text--truncate">Facturapi</b></a><a class="navbar__item navbar__link" href=/docs/intro/>Tutoriales</a><a class="navbar__item navbar__link" href=/stripe-app/intro/>Stripe app</a><a class="navbar__item navbar__link" href=/api/>Referencia API</a><a href=https://dashboard.facturapi.io target=_blank rel="noopener noreferrer" class="navbar__item navbar__link">Dashboard<svg width=13.5 height=13.5 aria-label="(opens in new tab)" class=iconExternalLink_nPIU><use href=#theme-svg-external-link /></svg></a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><div class="navbar__item dropdown dropdown--hoverable dropdown--right"><a href=# aria-haspopup=true aria-expanded=false role=button class=navbar__link><svg viewBox="0 0 24 24" width=20 height=20 aria-hidden=true class=iconLanguage_nlXk><path fill=currentColor d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>Español</a><ul class=dropdown__menu><li><a href="/api-en/?persistLocale=true" target=_self rel="noopener noreferrer" class="dropdown__link dropdown__link--active" lang=es-MX>Español</a><li><a href="/en/api-en/?persistLocale=true" target=_self rel="noopener noreferrer" class=dropdown__link lang=en-US>English</a></ul></div><a href=https://github.com/facturapi target=_blank rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width=13.5 height=13.5 aria-label="(opens in new tab)" class=iconExternalLink_nPIU><use href=#theme-svg-external-link /></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type=button disabled title="system mode" aria-label="Cambiar entre modo oscuro y claro (actualmente system mode)"><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill=currentColor d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"/></svg><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill=currentColor d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"/></svg><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill=currentColor d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"/></svg></button></div><div class=navbarSearchContainer_Bca1></div></div></div><div role=presentation class=navbar-sidebar__backdrop></div></nav><div id=__docusaurus_skipToContent_fallback class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class=redocusaurus-styles><style>html:not([data-theme='dark']) .gnAKQH{width:calc(100% - 40%);padding:0 40px;}/*!sc*/
@@ -914,7 +914,7 @@ html([data-theme='dark']) .dtIcLQ{background:#263238;position:absolute;top:0;bot
 @media print,screen and (max-width: 75rem){html([data-theme='dark']) .dtIcLQ{display:none;}}/*!sc*/
 html([data-theme='dark']) data-styled.g135[id="sc-evkzZa"]{content:"dtIcLQ,"}/*!sc*/
 </style></div><div class="redocusaurus redocusaurus-has-logo"><div class="sc-Pgsbw gzjBfG redoc-wrap"><div class="sc-fstJre isoHgk menu-content" style="top:0px;height:calc(100vh - 0px)"><div class="sc-jkvfRO eWuUlW"><a href=https://www.facturapi.io class="sc-eXVaYZ cirrIW"><img src=https://www.facturapi.io/img/logo.svg alt=Facturapi class="sc-eKrodz CTYsp"/></a></div><div class="sc-eknHtZ ghzOpX scrollbar-container undefined"><ul role=menu class="sc-zOxLx kzxgrR"><li tabindex=0 depth=0 data-item-id=group/Resources role=menuitem class="sc-cgHfjM kRAbpP"><label class="sc-fpikKz PEEcD -depth0"><span width="calc(100% - 38px)" title=Resources class="sc-gWaSiO rjQNO">Resources</span></label><ul class="sc-zOxLx kzxgrR"><li tabindex=0 depth=1 data-item-id=tag/customer role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title=Customers class="sc-gWaSiO rjQNO">Customers</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id=tag/customer/operation/createCustomer role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Create Customer</span></label><li tabindex=0 depth=2 data-item-id=tag/customer/operation/listCustomers role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">List customers</span></label><li tabindex=0 depth=2 data-item-id=tag/customer/operation/getCustomer role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Retrieve customer by ID</span></label><li tabindex=0 depth=2 data-item-id=tag/customer/operation/editCustomer role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Edit Customer</span></label><li tabindex=0 depth=2 data-item-id=tag/customer/operation/deleteCustomer role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Delete Customer</span></label><li tabindex=0 depth=2 data-item-id=tag/customer/operation/sendEditLinkByEmail role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Send edit link by email</span></label><li tabindex=0 depth=2 data-item-id=tag/customer/operation/validateCustomerTaxInfo role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Validate Customer Tax Info</span></label></ul><li tabindex=0 depth=1 data-item-id=tag/product role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title=Products class="sc-gWaSiO rjQNO">Products</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id=tag/product/operation/createProduct role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Create Product</span></label><li tabindex=0 depth=2 data-item-id=tag/product/operation/listProducts role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">List products</span></label><li tabindex=0 depth=2 data-item-id=tag/product/operation/getProduct role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Retrieve product by ID</span></label><li tabindex=0 depth=2 data-item-id=tag/product/operation/editProduct role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Edit product</span></label><li tabindex=0 depth=2 data-item-id=tag/product/operation/deleteProduct role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Delete Product</span></label></ul><li tabindex=0 depth=1 data-item-id=tag/invoice role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title=Invoices class="sc-gWaSiO rjQNO">Invoices</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id=tag/invoice/operation/createInvoice role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Create invoice (CFDI 4.0)</span></label><li tabindex=0 depth=2 data-item-id=tag/invoice/operation/listInvoices role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">List invoices</span></label><li tabindex=0 depth=2 data-item-id=tag/invoice/operation/previewInvoicePdf role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Preview invoice PDF</span></label><li tabindex=0 depth=2 data-item-id=tag/invoice/operation/getInvoice role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Retrieve invoice by ID</span></label><li tabindex=0 depth=2 data-item-id=tag/invoice/operation/updateDraftInvoice role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Edit draft invoice</span></label><li tabindex=0 depth=2 data-item-id=tag/invoice/operation/cancelInvoice role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Cancel invoice</span></label><li tabindex=0 depth=2 data-item-id=tag/invoice/operation/copyToDraftInvoice role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Copy to draft</span></label><li tabindex=0 depth=2 data-item-id=tag/invoice/operation/stampDraftInvoice role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Stamp draft invoice</span></label><li tabindex=0 depth=2 data-item-id=tag/invoice/operation/downloadCancellationReceiptXml role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Cancellation receipt</span></label><li tabindex=0 depth=2 data-item-id=tag/invoice/operation/downloadInvoice role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Download invoice</span></label><li tabindex=0 depth=2 data-item-id=tag/invoice/operation/sendInvoiceByEmail role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Send invoice by email</span></label><li tabindex=0 depth=2 data-item-id=tag/invoice/operation/updateInvoiceStatus role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Update invoice status
-</span></label></ul><li tabindex=0 depth=1 data-item-id=tag/receipt role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title=E-Receipts class="sc-gWaSiO rjQNO">E-Receipts</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id=tag/receipt/operation/createReceipt role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Create e-receipt</span></label><li tabindex=0 depth=2 data-item-id=tag/receipt/operation/listReceipts role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">List e-recipts</span></label><li tabindex=0 depth=2 data-item-id=tag/receipt/operation/getReceipt role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Retrieve e-receipt by ID</span></label><li tabindex=0 depth=2 data-item-id=tag/receipt/operation/cancelReceipt role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Cancel e-receipt</span></label><li tabindex=0 depth=2 data-item-id=tag/receipt/operation/downloadReceiptPdf role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Download PDF</span></label><li tabindex=0 depth=2 data-item-id=tag/receipt/operation/sendReceiptByEmail role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Send e-receipt by email</span></label><li tabindex=0 depth=2 data-item-id=tag/receipt/operation/invoiceReceipt role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Convert e-receipt to invoice</span></label><li tabindex=0 depth=2 data-item-id=tag/receipt/operation/createGlobalInvoice role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Create global invoice</span></label></ul><li tabindex=0 depth=1 data-item-id=tag/retention role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title=Retentions class="sc-gWaSiO rjQNO">Retentions</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id=tag/retention/operation/createRetention role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Create retention</span></label><li tabindex=0 depth=2 data-item-id=tag/retention/operation/listRetentions role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">List retentions</span></label><li tabindex=0 depth=2 data-item-id=tag/retention/operation/getRetention role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Retrieve retention by ID</span></label><li tabindex=0 depth=2 data-item-id=tag/retention/operation/cancelRetention role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Cancel retention</span></label><li tabindex=0 depth=2 data-item-id=tag/retention/operation/downloadRetention role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Download retention</span></label><li tabindex=0 depth=2 data-item-id=tag/retention/operation/sendRetentionByEmail role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Send retention by email</span></label></ul><li tabindex=0 depth=1 data-item-id=tag/organization role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title=Organizations class="sc-gWaSiO rjQNO">Organizations</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id=tag/organization/operation/createOrganization role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Create organization</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/listOrganizations role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">List organizations</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/meOrganization role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Organization detail</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/editOrganizationLegal role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Edit legal data</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/uploadOrganizationCertificate role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Upload certificates (CSD)</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/deleteOrganizationCertificate role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Delete certificates (CSD)</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/uploadOrganizationLogo role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Upload logo</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/editOrganizationCustomization role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Edit customization</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/editOrganizationReceiptsSettings role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Edit receipts settings</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/editOrganizationSelfInvoiceSettings role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Edit self-invoice settings</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/checkDomainAvailability role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Check domain availability</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/editOrganizationDomain role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Choose self-invoice domain</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/getOrganization role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Retrieve organization by ID</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/deleteOrganization role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Delete organization</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/getTestApiKey role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Retrieve Test API Key</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/renewTestApiKey role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Renew Test API Key</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/listLiveApiKeys role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">List Live API Keys</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/renewLiveApiKey role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Renew Live API Key</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/deleteLiveApiKey role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Revoke Live API Key</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/getSeriesGroup role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Listado de series</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/createSeriesGroup role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Create Series</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/updateSeriesGroup role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Update Series</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/deleteSeriesGroup role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Delete serie</span></label></ul></ul><li tabindex=0 depth=0 data-item-id=group/Tools role=menuitem class="sc-cgHfjM kRAbpP"><label class="sc-fpikKz PEEcD -depth0"><span width="calc(100% - 38px)" title=Tools class="sc-gWaSiO rjQNO">Tools</span></label><ul class="sc-zOxLx kzxgrR"><li tabindex=0 depth=1 data-item-id=tag/tools role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title=Tools class="sc-gWaSiO rjQNO">Tools</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id=tag/tools/paths/~1check/get role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Health check</span></label><li tabindex=0 depth=2 data-item-id=tag/tools/paths/~1tools~1tax_id_validation/get role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Validate RFC (tax_id)</span></label></ul><li tabindex=0 depth=1 data-item-id=tag/sat_keys role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title="Keys from SAT's catálogos" class="sc-gWaSiO rjQNO">Keys from SAT's catálogos</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id=tag/sat_keys/paths/~1catalogs~1products/get role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Product/Service Key</span></label><li tabindex=0 depth=2 data-item-id=tag/sat_keys/paths/~1catalogs~1units/get role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Units of Measure</span></label></ul></ul><li tabindex=0 depth=0 data-item-id=group/Webhooks role=menuitem class="sc-cgHfjM kRAbpP"><label class="sc-fpikKz PEEcD -depth0"><span width="calc(100% - 38px)" title=Webhooks class="sc-gWaSiO rjQNO">Webhooks</span></label><ul class="sc-zOxLx kzxgrR"><li tabindex=0 depth=1 data-item-id=tag/events role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title=Events class="sc-gWaSiO rjQNO">Events</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id="tag/events/paths/Global invoice created/post" role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=hook class="sc-jxYSNo jDaxvO operation-type hook">Event</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Global invoice created</span></label><li tabindex=0 depth=2 data-item-id="tag/events/paths/Invoice status updated/post" role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=hook class="sc-jxYSNo jDaxvO operation-type hook">Event</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Invoice status updated</span></label><li tabindex=0 depth=2 data-item-id="tag/events/paths/Invoice created from dashboard/post" role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=hook class="sc-jxYSNo jDaxvO operation-type hook">Event</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Invoice created from dashboard</span></label><li tabindex=0 depth=2 data-item-id="tag/events/paths/Cancellation status updated/post" role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=hook class="sc-jxYSNo jDaxvO operation-type hook">Event</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Cancellation status updated</span></label><li tabindex=0 depth=2 data-item-id="tag/events/paths/Self-invoice completed/post" role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=hook class="sc-jxYSNo jDaxvO operation-type hook">Event</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Self-invoice completed</span></label><li tabindex=0 depth=2 data-item-id="tag/events/paths/Receipt status updated/post" role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=hook class="sc-jxYSNo jDaxvO operation-type hook">Event</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Receipt status updated</span></label></ul><li tabindex=0 depth=1 data-item-id=tag/webhooks role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title=Webhooks class="sc-gWaSiO rjQNO">Webhooks</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id=tag/webhooks/operation/createWebhook role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Create webhook</span></label><li tabindex=0 depth=2 data-item-id=tag/webhooks/operation/listWebhooks role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">List webhooks</span></label><li tabindex=0 depth=2 data-item-id=tag/webhooks/operation/getWebhook role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Retrieve webhook by ID</span></label><li tabindex=0 depth=2 data-item-id=tag/webhooks/operation/editWebhook role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Edit webhook</span></label><li tabindex=0 depth=2 data-item-id=tag/webhooks/operation/deleteWebhook role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Delete Webhook</span></label><li tabindex=0 depth=2 data-item-id=tag/webhooks/operation/validateWebhookSignature role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Validate Webhook Signature</span></label></ul></ul><li tabindex=0 depth=0 data-item-id=group/Models role=menuitem class="sc-cgHfjM kRAbpP"><label class="sc-fpikKz PEEcD -depth0"><span width="calc(100% - 38px)" title=Models class="sc-gWaSiO rjQNO">Models</span></label><ul class="sc-zOxLx kzxgrR"><li tabindex=0 depth=1 data-item-id=tag/customer_model role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title="Customer object" class="sc-gWaSiO rjQNO">Customer object</span></label><li tabindex=0 depth=1 data-item-id=tag/product_model role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title="Product object" class="sc-gWaSiO rjQNO">Product object</span></label><li tabindex=0 depth=1 data-item-id=tag/invoice_model role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title="Invoice object" class="sc-gWaSiO rjQNO">Invoice object</span></label><li tabindex=0 depth=1 data-item-id=tag/receipt_model role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title="Receipt object" class="sc-gWaSiO rjQNO">Receipt object</span></label><li tabindex=0 depth=1 data-item-id=tag/retention_model role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title="Retention object" class="sc-gWaSiO rjQNO">Retention object</span></label><li tabindex=0 depth=1 data-item-id=tag/organization_model role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title="Organization object" class="sc-gWaSiO rjQNO">Organization object</span></label></ul></ul><div class="sc-kSaXSp hSanMh"><a target=_blank rel="noopener noreferrer" href=https://redocly.com/redoc/>API docs by Redocly</a></div></div></div><div class="sc-jOlHRD jAUwjH"><div class="sc-cZnrqW jCJoRV"><svg class="" style="transform:translate(2px, -4px) rotate(180deg);transition:transform 0.2s ease" viewBox="0 0 926.23699 573.74994" version=1.1 x=0px y=0px width=15 height=15><g transform=translate(904.92214,-879.1482)><path d="
+</span></label></ul><li tabindex=0 depth=1 data-item-id=tag/receipt role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title=E-Receipts class="sc-gWaSiO rjQNO">E-Receipts</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id=tag/receipt/operation/createReceipt role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Create e-receipt</span></label><li tabindex=0 depth=2 data-item-id=tag/receipt/operation/listReceipts role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">List e-recipts</span></label><li tabindex=0 depth=2 data-item-id=tag/receipt/operation/getReceipt role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Retrieve e-receipt by ID</span></label><li tabindex=0 depth=2 data-item-id=tag/receipt/operation/cancelReceipt role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Cancel e-receipt</span></label><li tabindex=0 depth=2 data-item-id=tag/receipt/operation/downloadReceiptPdf role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Download PDF</span></label><li tabindex=0 depth=2 data-item-id=tag/receipt/operation/sendReceiptByEmail role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Send e-receipt by email</span></label><li tabindex=0 depth=2 data-item-id=tag/receipt/operation/invoiceReceipt role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Convert e-receipt to invoice</span></label><li tabindex=0 depth=2 data-item-id=tag/receipt/operation/createGlobalInvoice role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Create global invoice</span></label></ul><li tabindex=0 depth=1 data-item-id=tag/retention role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title=Retentions class="sc-gWaSiO rjQNO">Retentions</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id=tag/retention/operation/createRetention role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Create retention</span></label><li tabindex=0 depth=2 data-item-id=tag/retention/operation/listRetentions role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">List retentions</span></label><li tabindex=0 depth=2 data-item-id=tag/retention/operation/getRetention role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Retrieve retention by ID</span></label><li tabindex=0 depth=2 data-item-id=tag/retention/operation/cancelRetention role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Cancel retention</span></label><li tabindex=0 depth=2 data-item-id=tag/retention/operation/downloadRetention role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Download retention</span></label><li tabindex=0 depth=2 data-item-id=tag/retention/operation/sendRetentionByEmail role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Send retention by email</span></label></ul><li tabindex=0 depth=1 data-item-id=tag/organization role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title=Organizations class="sc-gWaSiO rjQNO">Organizations</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id=tag/organization/operation/createOrganization role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Create organization</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/listOrganizations role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">List organizations</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/meOrganization role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Organization detail</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/editOrganizationLegal role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Edit legal data</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/uploadOrganizationCertificate role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Upload certificates (CSD)</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/deleteOrganizationCertificate role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Delete certificates (CSD)</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/uploadOrganizationLogo role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Upload logo</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/editOrganizationCustomization role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Edit customization</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/editOrganizationReceiptsSettings role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Edit receipts settings</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/editOrganizationSelfInvoiceSettings role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Edit self-invoice settings</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/checkDomainAvailability role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Check domain availability</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/editOrganizationDomain role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Choose self-invoice domain</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/getOrganization role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Retrieve organization by ID</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/deleteOrganization role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Delete organization</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/getTestApiKey role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Retrieve Test API Key</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/renewTestApiKey role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Renew Test API Key</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/listLiveApiKeys role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">List Live API Keys</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/renewLiveApiKey role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Renew Live API Key</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/deleteLiveApiKey role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Revoke Live API Key</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/getSeriesGroup role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Listado de series</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/createSeriesGroup role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Create Series</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/updateSeriesGroup role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Update Series</span></label><li tabindex=0 depth=2 data-item-id=tag/organization/operation/deleteSeriesGroup role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Delete serie</span></label></ul></ul><li tabindex=0 depth=0 data-item-id=group/Tools role=menuitem class="sc-cgHfjM kRAbpP"><label class="sc-fpikKz PEEcD -depth0"><span width="calc(100% - 38px)" title=Tools class="sc-gWaSiO rjQNO">Tools</span></label><ul class="sc-zOxLx kzxgrR"><li tabindex=0 depth=1 data-item-id=tag/tools role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title=Tools class="sc-gWaSiO rjQNO">Tools</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id=tag/tools/paths/~1check/get role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Health check</span></label><li tabindex=0 depth=2 data-item-id=tag/tools/paths/~1tools~1tax_id_validation/get role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Validate RFC (tax_id)</span></label></ul><li tabindex=0 depth=1 data-item-id=tag/sat_keys role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title="Keys from SAT's catálogos" class="sc-gWaSiO rjQNO">Keys from SAT's catálogos</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id=tag/sat_keys/paths/~1catalogs~1products/get role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Product/Service Key</span></label><li tabindex=0 depth=2 data-item-id=tag/sat_keys/paths/~1catalogs~1units/get role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Units of Measure</span></label></ul><li tabindex=0 depth=1 data-item-id=tag/carta_porte_keys role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title="Carta Porte catalogs" class="sc-gWaSiO rjQNO">Carta Porte catalogs</span></label></ul><li tabindex=0 depth=0 data-item-id=group/Webhooks role=menuitem class="sc-cgHfjM kRAbpP"><label class="sc-fpikKz PEEcD -depth0"><span width="calc(100% - 38px)" title=Webhooks class="sc-gWaSiO rjQNO">Webhooks</span></label><ul class="sc-zOxLx kzxgrR"><li tabindex=0 depth=1 data-item-id=tag/events role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title=Events class="sc-gWaSiO rjQNO">Events</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id="tag/events/paths/Global invoice created/post" role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=hook class="sc-jxYSNo jDaxvO operation-type hook">Event</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Global invoice created</span></label><li tabindex=0 depth=2 data-item-id="tag/events/paths/Invoice status updated/post" role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=hook class="sc-jxYSNo jDaxvO operation-type hook">Event</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Invoice status updated</span></label><li tabindex=0 depth=2 data-item-id="tag/events/paths/Invoice created from dashboard/post" role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=hook class="sc-jxYSNo jDaxvO operation-type hook">Event</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Invoice created from dashboard</span></label><li tabindex=0 depth=2 data-item-id="tag/events/paths/Cancellation status updated/post" role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=hook class="sc-jxYSNo jDaxvO operation-type hook">Event</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Cancellation status updated</span></label><li tabindex=0 depth=2 data-item-id="tag/events/paths/Self-invoice completed/post" role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=hook class="sc-jxYSNo jDaxvO operation-type hook">Event</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Self-invoice completed</span></label><li tabindex=0 depth=2 data-item-id="tag/events/paths/Receipt status updated/post" role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=hook class="sc-jxYSNo jDaxvO operation-type hook">Event</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Receipt status updated</span></label></ul><li tabindex=0 depth=1 data-item-id=tag/webhooks role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title=Webhooks class="sc-gWaSiO rjQNO">Webhooks</span><svg class="sc-dntSTA kdyvlj" version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></label><ul class="sc-zOxLx fCihMM"><li tabindex=0 depth=2 data-item-id=tag/webhooks/operation/createWebhook role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Create webhook</span></label><li tabindex=0 depth=2 data-item-id=tag/webhooks/operation/listWebhooks role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">List webhooks</span></label><li tabindex=0 depth=2 data-item-id=tag/webhooks/operation/getWebhook role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=get class="sc-jxYSNo jDaxvO operation-type get">get</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Retrieve webhook by ID</span></label><li tabindex=0 depth=2 data-item-id=tag/webhooks/operation/editWebhook role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=put class="sc-jxYSNo jDaxvO operation-type put">put</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Edit webhook</span></label><li tabindex=0 depth=2 data-item-id=tag/webhooks/operation/deleteWebhook role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=delete class="sc-jxYSNo jDaxvO operation-type delete">del</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Delete Webhook</span></label><li tabindex=0 depth=2 data-item-id=tag/webhooks/operation/validateWebhookSignature role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz icjNGG -depth2"><span type=post class="sc-jxYSNo jDaxvO operation-type post">post</span><span tabindex=0 width="calc(100% - 38px)" class="sc-gWaSiO rjQNO">Validate Webhook Signature</span></label></ul></ul><li tabindex=0 depth=0 data-item-id=group/Models role=menuitem class="sc-cgHfjM kRAbpP"><label class="sc-fpikKz PEEcD -depth0"><span width="calc(100% - 38px)" title=Models class="sc-gWaSiO rjQNO">Models</span></label><ul class="sc-zOxLx kzxgrR"><li tabindex=0 depth=1 data-item-id=tag/customer_model role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title="Customer object" class="sc-gWaSiO rjQNO">Customer object</span></label><li tabindex=0 depth=1 data-item-id=tag/product_model role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title="Product object" class="sc-gWaSiO rjQNO">Product object</span></label><li tabindex=0 depth=1 data-item-id=tag/invoice_model role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title="Invoice object" class="sc-gWaSiO rjQNO">Invoice object</span></label><li tabindex=0 depth=1 data-item-id=tag/receipt_model role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title="Receipt object" class="sc-gWaSiO rjQNO">Receipt object</span></label><li tabindex=0 depth=1 data-item-id=tag/retention_model role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title="Retention object" class="sc-gWaSiO rjQNO">Retention object</span></label><li tabindex=0 depth=1 data-item-id=tag/organization_model role=menuitem class="sc-cgHfjM fVjXkt"><label class="sc-fpikKz jhWxjW -depth1"><span width="calc(100% - 38px)" title="Organization object" class="sc-gWaSiO rjQNO">Organization object</span></label></ul></ul><div class="sc-kSaXSp hSanMh"><a target=_blank rel="noopener noreferrer" href=https://redocly.com/redoc/>API docs by Redocly</a></div></div></div><div class="sc-jOlHRD jAUwjH"><div class="sc-cZnrqW jCJoRV"><svg class="" style="transform:translate(2px, -4px) rotate(180deg);transition:transform 0.2s ease" viewBox="0 0 926.23699 573.74994" version=1.1 x=0px y=0px width=15 height=15><g transform=translate(904.92214,-879.1482)><path d="
           m -673.67664,1221.6502 -231.2455,-231.24803 55.6165,
           -55.627 c 30.5891,-30.59485 56.1806,-55.627 56.8701,-55.627 0.6894,
           0 79.8637,78.60862 175.9427,174.68583 l 174.6892,174.6858 174.6892,
@@ -6871,7 +6871,2169 @@ the query to the SAT.</p>
 " class="sc-eVqvcJ sc-fszimp sc-etsjJW gvxaTx inaFuw eEseFw"><p>Unexpected error</p>
 </div></button></div></div></div><div class="sc-jwTyAe sc-hjsuWn jWvbKW iYdCsk"><div class="sc-eZSpzM jjnszm"><button class="sc-buTqWO eKrlPF"><span type=get class="sc-fQLpxn efooBA http-verb get">get</span><span class="sc-jvKoal bsHghU">/catalogs/units</span><svg class="sc-dntSTA gmfplF" style=margin-right:-25px version=1.1 viewBox="0 0 24 24" x=0 xmlns=http://www.w3.org/2000/svg y=0 aria-hidden=true><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "/></svg></button><div aria-hidden=true class="sc-ecJghI hWnktr"><div class="sc-iyBeIh icOxsG"><div html="" class="sc-eVqvcJ sc-fszimp gvxaTx jVaPtQ"></div><div tabindex=0 role=button><div class="sc-xKhEK ivrkiD"><span>https://www.facturapi.io/v2</span>/catalogs/units</div></div></div></div></div><div><h3 class="sc-lgpSej fLgLn"> <!-- -->Request samples<!-- --> </h3><div class="sc-cOpnSz cGPQsW" data-rttabs=true><ul class=react-tabs__tab-list role=tablist><li class="react-tabs__tab react-tabs__tab--selected" role=tab id=tab_R_4kqklaqh_0 aria-selected=true aria-disabled=false aria-controls=panel_R_4kqklaqh_0 tabindex=0 data-rttab=true>cURL<li class=react-tabs__tab role=tab id=tab_R_4kqklaqh_1 aria-selected=false aria-disabled=false aria-controls=panel_R_4kqklaqh_1 data-rttab=true>Node.js<li class=react-tabs__tab role=tab id=tab_R_4kqklaqh_2 aria-selected=false aria-disabled=false aria-controls=panel_R_4kqklaqh_2 data-rttab=true>C#<li class=react-tabs__tab role=tab id=tab_R_4kqklaqh_3 aria-selected=false aria-disabled=false aria-controls=panel_R_4kqklaqh_3 data-rttab=true>PHP</ul><div class="react-tabs__tab-panel react-tabs__tab-panel--selected" role=tabpanel id=panel_R_4kqklaqh_0 aria-labelledby=tab_R_4kqklaqh_0><div class="sc-cdmAjP czEHtk"><div class="sc-bbbBoY dbQncs"><button><div class="sc-fYmhhH iNCOCX">Copy</div></button></div><pre class="sc-eVqvcJ sc-jytpVa gvxaTx hHJkRO"><span class="token function">curl</span> https://www.facturapi.io/v2/catalogs/units?q<span class="token operator">=</span>pulgada <span class="token punctuation">\</span>
   <span class="token parameter variable">-H</span> <span class="token string">"Authorization: Bearer sk_test_API_KEY"</span> 
-</pre></div></div><div class=react-tabs__tab-panel role=tabpanel id=panel_R_4kqklaqh_1 aria-labelledby=tab_R_4kqklaqh_1></div><div class=react-tabs__tab-panel role=tabpanel id=panel_R_4kqklaqh_2 aria-labelledby=tab_R_4kqklaqh_2></div><div class=react-tabs__tab-panel role=tabpanel id=panel_R_4kqklaqh_3 aria-labelledby=tab_R_4kqklaqh_3></div></div></div><div><h3 class="sc-lgpSej fLgLn"> <!-- -->Response samples<!-- --> </h3><div class="sc-cOpnSz cGPQsW" data-rttabs=true><ul class=react-tabs__tab-list role=tablist><li class="tab-success react-tabs__tab--selected" role=tab id=tab_R_4sqklaqh_0 aria-selected=true aria-disabled=false aria-controls=panel_R_4sqklaqh_0 tabindex=0 data-rttab=true>200<li class=tab-error role=tab id=tab_R_4sqklaqh_1 aria-selected=false aria-disabled=false aria-controls=panel_R_4sqklaqh_1 data-rttab=true>400<li class=tab-error role=tab id=tab_R_4sqklaqh_2 aria-selected=false aria-disabled=false aria-controls=panel_R_4sqklaqh_2 data-rttab=true>401<li class=tab-error role=tab id=tab_R_4sqklaqh_3 aria-selected=false aria-disabled=false aria-controls=panel_R_4sqklaqh_3 data-rttab=true>404<li class=tab-error role=tab id=tab_R_4sqklaqh_4 aria-selected=false aria-disabled=false aria-controls=panel_R_4sqklaqh_4 data-rttab=true>500</ul><div class="react-tabs__tab-panel react-tabs__tab-panel--selected" role=tabpanel id=panel_R_4sqklaqh_0 aria-labelledby=tab_R_4sqklaqh_0><div><div class="sc-bSFBcf iLdyBp"><span class="sc-gahYZc hyJbET">Content type</span><div class="sc-bAehkN hOlTOX">application/json</div></div><div class="sc-blIAwI eKKwxo"><div class="sc-dClGHI dcTGxi"><div class="sc-bbbBoY dbQncs"><button><div class="sc-fYmhhH iNCOCX">Copy</div></button><button> Expand all </button><button> Collapse all </button></div><div class="sc-eVqvcJ gvxaTx sc-fhfEft jHJMfI"><div class=redoc-json><code><button class=collapser aria-label=collapse></button><span class="token punctuation">{</span><span class=ellipsis></span><ul class="obj collapsible"><li><div class="hoverable "><span class="property token string">"page"</span>: <span class="token number">1</span><span class="token punctuation">,</span></div><li><div class="hoverable "><span class="property token string">"total_pages"</span>: <span class="token number">1</span><span class="token punctuation">,</span></div><li><div class="hoverable "><span class="property token string">"total_results"</span>: <span class="token number">1</span><span class="token punctuation">,</span></div><li><div class="hoverable "><span class="property token string">"data"</span>: <button class=collapser aria-label=collapse></button><span class="token punctuation">[</span><span class=ellipsis></span><ul class="array collapsible"><li><div class="hoverable collapsed"><button class=collapser aria-label=expand></button><span class="token punctuation">{</span><span class=ellipsis></span><ul class="obj collapsible"><li><div class="hoverable collapsed"><span class="property token string">"key"</span>: <span class="token string">"INH"</span><span class="token punctuation">,</span></div><li><div class="hoverable collapsed"><span class="property token string">"description"</span>: <span class="token string">"Pulgada"</span><span class="token punctuation">,</span></div><li><div class="hoverable collapsed"><span class="property token string">"score"</span>: <span class="token number">0.9</span></div></ul><span class="token punctuation">}</span></div></ul><span class="token punctuation">]</span></div></ul><span class="token punctuation">}</span></code></div></div></div></div></div></div><div class=react-tabs__tab-panel role=tabpanel id=panel_R_4sqklaqh_1 aria-labelledby=tab_R_4sqklaqh_1></div><div class=react-tabs__tab-panel role=tabpanel id=panel_R_4sqklaqh_2 aria-labelledby=tab_R_4sqklaqh_2></div><div class=react-tabs__tab-panel role=tabpanel id=panel_R_4sqklaqh_3 aria-labelledby=tab_R_4sqklaqh_3></div><div class=react-tabs__tab-panel role=tabpanel id=panel_R_4sqklaqh_4 aria-labelledby=tab_R_4sqklaqh_4></div></div></div></div></div></div><div id=tag/events data-section-id=tag/events class="sc-dTvVRJ ipMzWx"><div class="sc-jJLAfE jhaFXr"><div class="sc-ggWZvA gnAKQH"><h2 class="sc-kNOymR frnRAi"><a class="sc-kcLKEh jFZnBC" href=#tag/events aria-label=tag/events></a>Events</h2></div></div><div class="sc-ggWZvA iiUMDz"><div class="sc-eVqvcJ sc-fszimp gvxaTx jdXUCy redoc-markdown " html='<p>Events occur when Facturapi performs an operation asynchronously, outside the lifecycle of an API request.</p>
+</pre></div></div><div class=react-tabs__tab-panel role=tabpanel id=panel_R_4kqklaqh_1 aria-labelledby=tab_R_4kqklaqh_1></div><div class=react-tabs__tab-panel role=tabpanel id=panel_R_4kqklaqh_2 aria-labelledby=tab_R_4kqklaqh_2></div><div class=react-tabs__tab-panel role=tabpanel id=panel_R_4kqklaqh_3 aria-labelledby=tab_R_4kqklaqh_3></div></div></div><div><h3 class="sc-lgpSej fLgLn"> <!-- -->Response samples<!-- --> </h3><div class="sc-cOpnSz cGPQsW" data-rttabs=true><ul class=react-tabs__tab-list role=tablist><li class="tab-success react-tabs__tab--selected" role=tab id=tab_R_4sqklaqh_0 aria-selected=true aria-disabled=false aria-controls=panel_R_4sqklaqh_0 tabindex=0 data-rttab=true>200<li class=tab-error role=tab id=tab_R_4sqklaqh_1 aria-selected=false aria-disabled=false aria-controls=panel_R_4sqklaqh_1 data-rttab=true>400<li class=tab-error role=tab id=tab_R_4sqklaqh_2 aria-selected=false aria-disabled=false aria-controls=panel_R_4sqklaqh_2 data-rttab=true>401<li class=tab-error role=tab id=tab_R_4sqklaqh_3 aria-selected=false aria-disabled=false aria-controls=panel_R_4sqklaqh_3 data-rttab=true>404<li class=tab-error role=tab id=tab_R_4sqklaqh_4 aria-selected=false aria-disabled=false aria-controls=panel_R_4sqklaqh_4 data-rttab=true>500</ul><div class="react-tabs__tab-panel react-tabs__tab-panel--selected" role=tabpanel id=panel_R_4sqklaqh_0 aria-labelledby=tab_R_4sqklaqh_0><div><div class="sc-bSFBcf iLdyBp"><span class="sc-gahYZc hyJbET">Content type</span><div class="sc-bAehkN hOlTOX">application/json</div></div><div class="sc-blIAwI eKKwxo"><div class="sc-dClGHI dcTGxi"><div class="sc-bbbBoY dbQncs"><button><div class="sc-fYmhhH iNCOCX">Copy</div></button><button> Expand all </button><button> Collapse all </button></div><div class="sc-eVqvcJ gvxaTx sc-fhfEft jHJMfI"><div class=redoc-json><code><button class=collapser aria-label=collapse></button><span class="token punctuation">{</span><span class=ellipsis></span><ul class="obj collapsible"><li><div class="hoverable "><span class="property token string">"page"</span>: <span class="token number">1</span><span class="token punctuation">,</span></div><li><div class="hoverable "><span class="property token string">"total_pages"</span>: <span class="token number">1</span><span class="token punctuation">,</span></div><li><div class="hoverable "><span class="property token string">"total_results"</span>: <span class="token number">1</span><span class="token punctuation">,</span></div><li><div class="hoverable "><span class="property token string">"data"</span>: <button class=collapser aria-label=collapse></button><span class="token punctuation">[</span><span class=ellipsis></span><ul class="array collapsible"><li><div class="hoverable collapsed"><button class=collapser aria-label=expand></button><span class="token punctuation">{</span><span class=ellipsis></span><ul class="obj collapsible"><li><div class="hoverable collapsed"><span class="property token string">"key"</span>: <span class="token string">"INH"</span><span class="token punctuation">,</span></div><li><div class="hoverable collapsed"><span class="property token string">"description"</span>: <span class="token string">"Pulgada"</span><span class="token punctuation">,</span></div><li><div class="hoverable collapsed"><span class="property token string">"score"</span>: <span class="token number">0.9</span></div></ul><span class="token punctuation">}</span></div></ul><span class="token punctuation">]</span></div></ul><span class="token punctuation">}</span></code></div></div></div></div></div></div><div class=react-tabs__tab-panel role=tabpanel id=panel_R_4sqklaqh_1 aria-labelledby=tab_R_4sqklaqh_1></div><div class=react-tabs__tab-panel role=tabpanel id=panel_R_4sqklaqh_2 aria-labelledby=tab_R_4sqklaqh_2></div><div class=react-tabs__tab-panel role=tabpanel id=panel_R_4sqklaqh_3 aria-labelledby=tab_R_4sqklaqh_3></div><div class=react-tabs__tab-panel role=tabpanel id=panel_R_4sqklaqh_4 aria-labelledby=tab_R_4sqklaqh_4></div></div></div></div></div></div><div id=tag/carta_porte_keys data-section-id=tag/carta_porte_keys class="sc-dTvVRJ ipMzWx"><div class="sc-jJLAfE jhaFXr"><div class="sc-ggWZvA gnAKQH"><h2 class="sc-kNOymR frnRAi"><a class="sc-kcLKEh jFZnBC" href=#tag/carta_porte_keys aria-label=tag/carta_porte_keys></a>Carta Porte catalogs</h2></div></div><div class="sc-ggWZvA iiUMDz"><div class="sc-eVqvcJ sc-fszimp gvxaTx jdXUCy redoc-markdown " html='<p>Specific catalogs for the Carta Porte 3.1 complement. Useful to validate and build complement values. Each table lists the Key, the original Spanish description used officially and an English translation for reference.</p>
+<h3 id="customs-regimes-c_regimenaduanero">Customs Regimes (c_RegimenAduanero)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">IMD</td>
+<td align="left">Importación definitiva</td>
+<td align="left">Definitive import</td>
+</tr>
+<tr>
+<td align="center">EXD</td>
+<td align="left">Exportación definitiva</td>
+<td align="left">Definitive export</td>
+</tr>
+<tr>
+<td align="center">ITR</td>
+<td align="left">Tránsito interno de mercancías</td>
+<td align="left">Internal transit of goods</td>
+</tr>
+<tr>
+<td align="center">ITE</td>
+<td align="left">Tránsito interno de mercancías para exportación</td>
+<td align="left">Internal transit of goods for export</td>
+</tr>
+<tr>
+<td align="center">ETR</td>
+<td align="left">Tránsito externo de mercancías</td>
+<td align="left">External transit of goods</td>
+</tr>
+<tr>
+<td align="center">ETE</td>
+<td align="left">Tránsito externo de mercancías para exportación</td>
+<td align="left">External transit of goods for export</td>
+</tr>
+<tr>
+<td align="center">DFI</td>
+<td align="left">Depósito fiscal</td>
+<td align="left">Fiscal warehouse</td>
+</tr>
+<tr>
+<td align="center">RFE</td>
+<td align="left">Recinto fiscalizado estratégico</td>
+<td align="left">Strategic fiscal enclosure</td>
+</tr>
+<tr>
+<td align="center">RFS</td>
+<td align="left">Recinto fiscalizado</td>
+<td align="left">Fiscal enclosure</td>
+</tr>
+<tr>
+<td align="center">TRA</td>
+<td align="left">Tránsito aduanero</td>
+<td align="left">Customs transit</td>
+</tr>
+</tbody></table>
+<h3 id="transport-mode-c_mediotransporte">Transport Mode (c_MedioTransporte)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">01</td>
+<td align="left">Autotransporte</td>
+<td align="left">Road transport</td>
+</tr>
+<tr>
+<td align="center">02</td>
+<td align="left">Transporte Marítimo</td>
+<td align="left">Maritime transport</td>
+</tr>
+<tr>
+<td align="center">03</td>
+<td align="left">Transporte Aéreo</td>
+<td align="left">Air transport</td>
+</tr>
+<tr>
+<td align="center">04</td>
+<td align="left">Transporte Ferroviario</td>
+<td align="left">Rail transport</td>
+</tr>
+<tr>
+<td align="center">05</td>
+<td align="left">Otro</td>
+<td align="left">Other</td>
+</tr>
+</tbody></table>
+<h3 id="station-type-c_tipoestacion">Station Type (c_TipoEstacion)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">01</td>
+<td align="left">Origen Nacional</td>
+<td align="left">National origin</td>
+</tr>
+<tr>
+<td align="center">02</td>
+<td align="left">Intermedia</td>
+<td align="left">Intermediate</td>
+</tr>
+<tr>
+<td align="center">03</td>
+<td align="left">Destino Final Nacional</td>
+<td align="left">National final destination</td>
+</tr>
+</tbody></table>
+<h3 id="sct-permits-c_permisosct">SCT Permits (c_PermisoSCT)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">TPAF01</td>
+<td align="left">Autotransporte Federal de carga general.</td>
+<td align="left">Federal motor transport of general cargo.</td>
+</tr>
+<tr>
+<td align="center">TPAF02</td>
+<td align="left">Transporte privado de carga.</td>
+<td align="left">Private cargo transport.</td>
+</tr>
+<tr>
+<td align="center">TPAF03</td>
+<td align="left">Autotransporte Federal de Carga Especializada de materiales y residuos peligrosos.</td>
+<td align="left">Federal specialized transport of hazardous materials and waste.</td>
+</tr>
+<tr>
+<td align="center">TPAF04</td>
+<td align="left">Transporte de automóviles sin rodar en vehículo tipo góndola.</td>
+<td align="left">Transport of automobiles (not driven) on gondola-type vehicle.</td>
+</tr>
+<tr>
+<td align="center">TPAF05</td>
+<td align="left">Transporte de carga de gran peso y/o volumen de hasta 90 toneladas.</td>
+<td align="left">Heavy and/or oversized cargo transport up to 90 tons.</td>
+</tr>
+<tr>
+<td align="center">TPAF06</td>
+<td align="left">Transporte de carga especializada de gran peso y/o volumen de más 90 toneladas.</td>
+<td align="left">Specialized heavy and/or oversized cargo transport over 90 tons.</td>
+</tr>
+<tr>
+<td align="center">TPAF07</td>
+<td align="left">Transporte Privado de materiales y residuos peligrosos.</td>
+<td align="left">Private transport of hazardous materials and waste.</td>
+</tr>
+<tr>
+<td align="center">TPAF08</td>
+<td align="left">Autotransporte internacional de carga de largo recorrido.</td>
+<td align="left">International long‑haul cargo transport.</td>
+</tr>
+<tr>
+<td align="center">TPAF09</td>
+<td align="left">Autotransporte internacional de carga especializada de materiales y residuos peligrosos de largo recorrido.</td>
+<td align="left">International long‑haul specialized hazardous materials transport.</td>
+</tr>
+<tr>
+<td align="center">TPAF10</td>
+<td align="left">Autotransporte Federal de Carga General cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos.</td>
+<td align="left">Federal general cargo transport within US border zone.</td>
+</tr>
+<tr>
+<td align="center">TPAF11</td>
+<td align="left">Autotransporte Federal de Carga Especializada cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos.</td>
+<td align="left">Federal specialized cargo transport within US border zone.</td>
+</tr>
+<tr>
+<td align="center">TPAF12</td>
+<td align="left">Servicio auxiliar de arrastre en las vías generales de comunicación.</td>
+<td align="left">Auxiliary towing service on federal roads.</td>
+</tr>
+<tr>
+<td align="center">TPAF13</td>
+<td align="left">Servicio auxiliar de servicios de arrastre, arrastre y salvamento, y depósito de vehículos en las vías generales de comunicación.</td>
+<td align="left">Auxiliary towing, recovery and vehicle storage service.</td>
+</tr>
+<tr>
+<td align="center">TPAF14</td>
+<td align="left">Servicio de paquetería y mensajería en las vías generales de comunicación.</td>
+<td align="left">Parcel and courier service.</td>
+</tr>
+<tr>
+<td align="center">TPAF15</td>
+<td align="left">Transporte especial para el tránsito de grúas industriales con peso máximo de 90 toneladas.</td>
+<td align="left">Special transit for industrial cranes up to 90 tons.</td>
+</tr>
+<tr>
+<td align="center">TPAF16</td>
+<td align="left">Servicio federal para empresas arrendadoras servicio público federal.</td>
+<td align="left">Federal public service for rental companies.</td>
+</tr>
+<tr>
+<td align="center">TPAF17</td>
+<td align="left">Empresas trasladistas de vehículos nuevos.</td>
+<td align="left">New vehicle relocation companies.</td>
+</tr>
+<tr>
+<td align="center">TPAF18</td>
+<td align="left">Empresas fabricantes o distribuidoras de vehículos nuevos.</td>
+<td align="left">New vehicle manufacturers or distributors.</td>
+</tr>
+<tr>
+<td align="center">TPAF19</td>
+<td align="left">Autorización expresa para circular ... tractocamión doblemente articulado.</td>
+<td align="left">Express authorization for double‑articulated tractor‑trailers.</td>
+</tr>
+<tr>
+<td align="center">TPAF20</td>
+<td align="left">Autotransporte Federal de Carga Especializada de fondos y valores.</td>
+<td align="left">Federal specialized transport of funds and valuables.</td>
+</tr>
+<tr>
+<td align="center">TPTM01</td>
+<td align="left">Permiso temporal para navegación de cabotaje</td>
+<td align="left">Temporary cabotage navigation permit.</td>
+</tr>
+<tr>
+<td align="center">TPTA01</td>
+<td align="left">Concesión/ autorización servicio regular nacional/internacional empresas mexicanas</td>
+<td align="left">Regular national/international air service concession (Mexican companies).</td>
+</tr>
+<tr>
+<td align="center">TPTA02</td>
+<td align="left">Permiso servicio aéreo regular empresas extranjeras</td>
+<td align="left">Regular air service permit (foreign companies).</td>
+</tr>
+<tr>
+<td align="center">TPTA03</td>
+<td align="left">Permiso servicio nacional e internacional no regular de fletamento</td>
+<td align="left">Charter (non‑regular) national/international air service permit.</td>
+</tr>
+<tr>
+<td align="center">TPTA04</td>
+<td align="left">Permiso servicio nacional e internacional no regular de taxi aéreo</td>
+<td align="left">Non‑regular national/international air taxi permit.</td>
+</tr>
+<tr>
+<td align="center">TPXX00</td>
+<td align="left">Permiso no contemplado en el catálogo.</td>
+<td align="left">Permit not listed in catalog.</td>
+</tr>
+</tbody></table>
+<h3 id="cofepris-sector-c_sectorcofepris">COFEPRIS Sector (c_SectorCOFEPRIS)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">01</td>
+<td align="left">Medicamento</td>
+<td align="left">Medicine</td>
+</tr>
+<tr>
+<td align="center">02</td>
+<td align="left">Precursores y químicos de uso dual</td>
+<td align="left">Precursors and dual‑use chemicals</td>
+</tr>
+<tr>
+<td align="center">03</td>
+<td align="left">Psicotrópicos y estupefacientes</td>
+<td align="left">Psychotropic and narcotic substances</td>
+</tr>
+<tr>
+<td align="center">04</td>
+<td align="left">Sustancias tóxicas</td>
+<td align="left">Toxic substances</td>
+</tr>
+<tr>
+<td align="center">05</td>
+<td align="left">Plaguicidas y fertilizantes</td>
+<td align="left">Pesticides and fertilizers</td>
+</tr>
+</tbody></table>
+<h3 id="pharmaceutical-form-c_formafarmacéutica">Pharmaceutical Form (c_FormaFarmacéutica)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">01</td>
+<td align="left">Tableta</td>
+<td align="left">Tablet</td>
+</tr>
+<tr>
+<td align="center">02</td>
+<td align="left">Cápsulas</td>
+<td align="left">Capsules</td>
+</tr>
+<tr>
+<td align="center">03</td>
+<td align="left">Comprimidos</td>
+<td align="left">Compressed tablets</td>
+</tr>
+<tr>
+<td align="center">04</td>
+<td align="left">Grageas</td>
+<td align="left">Sugar‑coated pills</td>
+</tr>
+<tr>
+<td align="center">05</td>
+<td align="left">Suspensión</td>
+<td align="left">Suspension</td>
+</tr>
+<tr>
+<td align="center">06</td>
+<td align="left">Solución</td>
+<td align="left">Solution</td>
+</tr>
+<tr>
+<td align="center">07</td>
+<td align="left">Emulsión</td>
+<td align="left">Emulsion</td>
+</tr>
+<tr>
+<td align="center">08</td>
+<td align="left">Jarabe</td>
+<td align="left">Syrup</td>
+</tr>
+<tr>
+<td align="center">09</td>
+<td align="left">Inyectable</td>
+<td align="left">Injectable</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="left">Crema</td>
+<td align="left">Cream</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="left">Ungüento</td>
+<td align="left">Ointment</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="left">Aerosol</td>
+<td align="left">Aerosol</td>
+</tr>
+<tr>
+<td align="center">13</td>
+<td align="left">Gas medicinal</td>
+<td align="left">Medicinal gas</td>
+</tr>
+<tr>
+<td align="center">14</td>
+<td align="left">Gel</td>
+<td align="left">Gel</td>
+</tr>
+<tr>
+<td align="center">15</td>
+<td align="left">Implante</td>
+<td align="left">Implant</td>
+</tr>
+<tr>
+<td align="center">16</td>
+<td align="left">Óvulo</td>
+<td align="left">Ovule</td>
+</tr>
+<tr>
+<td align="center">17</td>
+<td align="left">Parche</td>
+<td align="left">Patch</td>
+</tr>
+<tr>
+<td align="center">18</td>
+<td align="left">Pasta</td>
+<td align="left">Paste</td>
+</tr>
+<tr>
+<td align="center">19</td>
+<td align="left">Polvo</td>
+<td align="left">Powder</td>
+</tr>
+<tr>
+<td align="center">20</td>
+<td align="left">Supositorio</td>
+<td align="left">Suppository</td>
+</tr>
+</tbody></table>
+<h3 id="special-conditions-c_condicionesespeciales">Special Conditions (c_CondicionesEspeciales)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">01</td>
+<td align="left">Congelados</td>
+<td align="left">Frozen</td>
+</tr>
+<tr>
+<td align="center">02</td>
+<td align="left">Refrigerados</td>
+<td align="left">Refrigerated</td>
+</tr>
+<tr>
+<td align="center">03</td>
+<td align="left">Temperatura controlada</td>
+<td align="left">Controlled temperature</td>
+</tr>
+<tr>
+<td align="center">04</td>
+<td align="left">Temperatura ambiente</td>
+<td align="left">Room temperature</td>
+</tr>
+</tbody></table>
+<h3 id="material-type-c_tipomateria">Material Type (c_TipoMateria)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">01</td>
+<td align="left">Materia prima</td>
+<td align="left">Raw material</td>
+</tr>
+<tr>
+<td align="center">02</td>
+<td align="left">Materia procesada</td>
+<td align="left">Processed material</td>
+</tr>
+<tr>
+<td align="center">03</td>
+<td align="left">Materia terminada (producto terminado)</td>
+<td align="left">Finished material (final product)</td>
+</tr>
+<tr>
+<td align="center">04</td>
+<td align="left">Materia para la industria manufacturera</td>
+<td align="left">Material for manufacturing industry</td>
+</tr>
+<tr>
+<td align="center">05</td>
+<td align="left">Otra</td>
+<td align="left">Other</td>
+</tr>
+</tbody></table>
+<h3 id="customs-document-type-c_tipodocumentoaduanero">Customs Document Type (c_TipoDocumentoAduanero)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">01</td>
+<td align="left">Pedimento</td>
+<td align="left">Customs entry (Pedimento)</td>
+</tr>
+<tr>
+<td align="center">02</td>
+<td align="left">Autorización de importación temporal</td>
+<td align="left">Temporary import authorization</td>
+</tr>
+<tr>
+<td align="center">03</td>
+<td align="left">Autorización de importación temporal de embarcaciones</td>
+<td align="left">Temporary vessel import authorization</td>
+</tr>
+<tr>
+<td align="center">04</td>
+<td align="left">Autorización de importación temporal mercancías p/ mantenimiento y reparación</td>
+<td align="left">Temp. import auth. for goods for maintenance/repair</td>
+</tr>
+<tr>
+<td align="center">05</td>
+<td align="left">Autorización importación vehículos especializados</td>
+<td align="left">Import auth. specialized transformed vehicles</td>
+</tr>
+<tr>
+<td align="center">06</td>
+<td align="left">Aviso de exportación temporal</td>
+<td align="left">Temporary export notice</td>
+</tr>
+<tr>
+<td align="center">07</td>
+<td align="left">Aviso traslado mercancías IMMEX/RFE/Operador Autorizado</td>
+<td align="left">Goods transfer notice IMMEX/RFE/Authorized Operator</td>
+</tr>
+<tr>
+<td align="center">08</td>
+<td align="left">Aviso traslado autopartes franja fronteriza</td>
+<td align="left">Auto parts transfer notice (border region)</td>
+</tr>
+<tr>
+<td align="center">09</td>
+<td align="left">Constancia importación temporal/retorno/transferencia contenedores</td>
+<td align="left">Constancy temp import/return/transfer of containers</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="left">Constancia de transferencia de mercancías</td>
+<td align="left">Goods transfer constancy</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="left">Autorización donación mercancías Fisco Federal extranjero</td>
+<td align="left">Donation authorization (goods abroad) to Federal Treasury</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="left">Cuaderno ATA</td>
+<td align="left">ATA carnet</td>
+</tr>
+<tr>
+<td align="center">13</td>
+<td align="left">Listas de intercambio</td>
+<td align="left">Exchange lists</td>
+</tr>
+<tr>
+<td align="center">14</td>
+<td align="left">Permiso de Importación Temporal</td>
+<td align="left">Temporary import permit</td>
+</tr>
+<tr>
+<td align="center">15</td>
+<td align="left">Permiso importación temporal casa rodante</td>
+<td align="left">Temporary import permit (RV)</td>
+</tr>
+<tr>
+<td align="center">16</td>
+<td align="left">Permiso importación temporal embarcaciones</td>
+<td align="left">Temporary import permit (vessels)</td>
+</tr>
+<tr>
+<td align="center">17</td>
+<td align="left">Solicitud donación mercancías emergencias/desastres</td>
+<td align="left">Donation request (emergencies/disasters)</td>
+</tr>
+<tr>
+<td align="center">18</td>
+<td align="left">Aviso de consolidado</td>
+<td align="left">Consolidated notice</td>
+</tr>
+<tr>
+<td align="center">19</td>
+<td align="left">Aviso de cruce de mercancias</td>
+<td align="left">Goods crossing notice</td>
+</tr>
+<tr>
+<td align="center">20</td>
+<td align="left">Otro</td>
+<td align="left">Other</td>
+</tr>
+</tbody></table>
+<h3 id="transport-part-type-c_partetransporte">Transport Part Type (c_ParteTransporte)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">PT01</td>
+<td align="left">Camión unitario</td>
+<td align="left">Single unit truck</td>
+</tr>
+<tr>
+<td align="center">PT02</td>
+<td align="left">Camión</td>
+<td align="left">Truck</td>
+</tr>
+<tr>
+<td align="center">PT03</td>
+<td align="left">Tractocamión</td>
+<td align="left">Tractor truck</td>
+</tr>
+<tr>
+<td align="center">PT04</td>
+<td align="left">Remolque</td>
+<td align="left">Trailer</td>
+</tr>
+<tr>
+<td align="center">PT05</td>
+<td align="left">Semirremolque</td>
+<td align="left">Semi‑trailer</td>
+</tr>
+<tr>
+<td align="center">PT06</td>
+<td align="left">Vehículo ligero de carga</td>
+<td align="left">Light cargo vehicle</td>
+</tr>
+<tr>
+<td align="center">PT07</td>
+<td align="left">Grúa</td>
+<td align="left">Crane</td>
+</tr>
+<tr>
+<td align="center">PT08</td>
+<td align="left">Aeronave</td>
+<td align="left">Aircraft</td>
+</tr>
+<tr>
+<td align="center">PT09</td>
+<td align="left">Barco o buque</td>
+<td align="left">Ship or vessel</td>
+</tr>
+<tr>
+<td align="center">PT10</td>
+<td align="left">Carro o vagón</td>
+<td align="left">Railcar or wagon</td>
+</tr>
+<tr>
+<td align="center">PT11</td>
+<td align="left">Contenedor</td>
+<td align="left">Container</td>
+</tr>
+<tr>
+<td align="center">PT12</td>
+<td align="left">Locomotora</td>
+<td align="left">Locomotive</td>
+</tr>
+</tbody></table>
+<h3 id="transport-figure-c_figuratransporte">Transport Figure (c_FiguraTransporte)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">01</td>
+<td align="left">Operador</td>
+<td align="left">Operator</td>
+</tr>
+<tr>
+<td align="center">02</td>
+<td align="left">Propietario</td>
+<td align="left">Owner</td>
+</tr>
+<tr>
+<td align="center">03</td>
+<td align="left">Arrendador</td>
+<td align="left">Lessor</td>
+</tr>
+<tr>
+<td align="center">04</td>
+<td align="left">Notificado</td>
+<td align="left">Notified party</td>
+</tr>
+<tr>
+<td align="center">05</td>
+<td align="left">Integrante de Coordinados</td>
+<td align="left">Coordinated group member</td>
+</tr>
+</tbody></table>
+<h3 id="istmo-registry-c_registroistmo">ISTMO Registry (c_RegistroISTMO)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">01</td>
+<td align="left">Coatzacoalcos I</td>
+<td align="left">Coatzacoalcos I</td>
+</tr>
+<tr>
+<td align="center">02</td>
+<td align="left">Coatzacoalcos II</td>
+<td align="left">Coatzacoalcos II</td>
+</tr>
+<tr>
+<td align="center">03</td>
+<td align="left">Texistepec</td>
+<td align="left">Texistepec</td>
+</tr>
+<tr>
+<td align="center">04</td>
+<td align="left">San Juan Evangelista</td>
+<td align="left">San Juan Evangelista</td>
+</tr>
+<tr>
+<td align="center">05</td>
+<td align="left">Salina Cruz</td>
+<td align="left">Salina Cruz</td>
+</tr>
+<tr>
+<td align="center">06</td>
+<td align="left">San Blas Atempa</td>
+<td align="left">San Blas Atempa</td>
+</tr>
+</tbody></table>
+<h3 id="cargo-type-key-c_clavetipocarga">Cargo Type Key (c_ClaveTipoCarga)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">CGS</td>
+<td align="left">Carga General Suelta</td>
+<td align="left">General loose cargo</td>
+</tr>
+<tr>
+<td align="center">CGC</td>
+<td align="left">Carga General Contenerizada</td>
+<td align="left">General containerized cargo</td>
+</tr>
+<tr>
+<td align="center">GMN</td>
+<td align="left">Gran Mineral</td>
+<td align="left">Bulk mineral</td>
+</tr>
+<tr>
+<td align="center">GAG</td>
+<td align="left">Granel Agrícola</td>
+<td align="left">Agricultural bulk</td>
+</tr>
+<tr>
+<td align="center">OFL</td>
+<td align="left">Otros Fluidos</td>
+<td align="left">Other fluids</td>
+</tr>
+<tr>
+<td align="center">PYD</td>
+<td align="left">Petróleo y Derivados</td>
+<td align="left">Oil and derivatives</td>
+</tr>
+</tbody></table>
+<h3 id="maritime-configuration-c_configuracionmaritima">Maritime Configuration (c_ConfiguracionMaritima)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">B01</td>
+<td align="left">Abastecedor</td>
+<td align="left">Supplier vessel</td>
+</tr>
+<tr>
+<td align="center">B02</td>
+<td align="left">Barcaza</td>
+<td align="left">Barge</td>
+</tr>
+<tr>
+<td align="center">B03</td>
+<td align="left">Granelero</td>
+<td align="left">Bulk carrier</td>
+</tr>
+<tr>
+<td align="center">B04</td>
+<td align="left">Porta Contenedor</td>
+<td align="left">Container ship</td>
+</tr>
+<tr>
+<td align="center">B05</td>
+<td align="left">Draga</td>
+<td align="left">Dredger</td>
+</tr>
+<tr>
+<td align="center">B06</td>
+<td align="left">Pesquero</td>
+<td align="left">Fishing vessel</td>
+</tr>
+<tr>
+<td align="center">B07</td>
+<td align="left">Carga General</td>
+<td align="left">General cargo</td>
+</tr>
+<tr>
+<td align="center">B08</td>
+<td align="left">Quimiqueros</td>
+<td align="left">Chemical tanker</td>
+</tr>
+<tr>
+<td align="center">B09</td>
+<td align="left">Transbordadores</td>
+<td align="left">Ferry</td>
+</tr>
+<tr>
+<td align="center">B10</td>
+<td align="left">Carga RoRo</td>
+<td align="left">Ro-Ro cargo</td>
+</tr>
+<tr>
+<td align="center">B11</td>
+<td align="left">Investigación</td>
+<td align="left">Research vessel</td>
+</tr>
+<tr>
+<td align="center">B12</td>
+<td align="left">Tanquero</td>
+<td align="left">Tanker</td>
+</tr>
+<tr>
+<td align="center">B13</td>
+<td align="left">Gasero</td>
+<td align="left">Gas carrier</td>
+</tr>
+<tr>
+<td align="center">B14</td>
+<td align="left">Remolcador</td>
+<td align="left">Tug</td>
+</tr>
+<tr>
+<td align="center">B15</td>
+<td align="left">Extraordinaria especialización</td>
+<td align="left">Extraordinary specialization</td>
+</tr>
+</tbody></table>
+<h3 id="rail-traffic-type-c_traficoferroviario">Rail Traffic Type (c_TraficoFerroviario)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">TT01</td>
+<td align="left">Tráfico local</td>
+<td align="left">Local traffic</td>
+</tr>
+<tr>
+<td align="center">TT02</td>
+<td align="left">Tráfico interlineal remitido</td>
+<td align="left">Forwarded interline traffic</td>
+</tr>
+<tr>
+<td align="center">TT03</td>
+<td align="left">Tráfico interlineal recibido</td>
+<td align="left">Received interline traffic</td>
+</tr>
+<tr>
+<td align="center">TT04</td>
+<td align="left">Tráfico interlineal en tránsito</td>
+<td align="left">Interline traffic in transit</td>
+</tr>
+</tbody></table>
+<h3 id="container-type-c_tipocontenedor">Container Type (c_TipoContenedor)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">TC01</td>
+<td align="left">Contenedor de 6.1 Mts de longitud</td>
+<td align="left">20&amp;#39; container (6.1 m length)</td>
+</tr>
+<tr>
+<td align="center">TC02</td>
+<td align="left">Contenedor de 12.2 Mts de longitud</td>
+<td align="left">40&amp;#39; container (12.2 m length)</td>
+</tr>
+<tr>
+<td align="center">TC03</td>
+<td align="left">Contenedor de 13.7 Mts de longitud</td>
+<td align="left">45&amp;#39; container (13.7 m length)</td>
+</tr>
+<tr>
+<td align="center">TC04</td>
+<td align="left">Contenedor de 14.6 Mts de longitud</td>
+<td align="left">48&amp;#39; container (14.6 m length)</td>
+</tr>
+<tr>
+<td align="center">TC05</td>
+<td align="left">Contenedor de 16.1 Mts de longitud</td>
+<td align="left">53&amp;#39; container (16.1 m length)</td>
+</tr>
+</tbody></table>
+<h3 id="maritime-container-type-c_tipocontenedormaritimo">Maritime Container Type (c_TipoContenedorMaritimo)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">CM001</td>
+<td align="left">Contenedores refrigerados de 20FT</td>
+<td align="left">20FT refrigerated containers</td>
+</tr>
+<tr>
+<td align="center">CM002</td>
+<td align="left">Contenedores refrigerados de 40FT</td>
+<td align="left">40FT refrigerated containers</td>
+</tr>
+<tr>
+<td align="center">CM003</td>
+<td align="left">Contenedores estándar de 8FT</td>
+<td align="left">8FT standard containers</td>
+</tr>
+<tr>
+<td align="center">CM004</td>
+<td align="left">Contenedores estándar de 10FT</td>
+<td align="left">10FT standard containers</td>
+</tr>
+<tr>
+<td align="center">CM005</td>
+<td align="left">Contenedores estándar de 20FT</td>
+<td align="left">20FT standard containers</td>
+</tr>
+<tr>
+<td align="center">CM006</td>
+<td align="left">Contenedores estándar de 40FT</td>
+<td align="left">40FT standard containers</td>
+</tr>
+<tr>
+<td align="center">CM007</td>
+<td align="left">Contenedores Open Side</td>
+<td align="left">Open side containers</td>
+</tr>
+<tr>
+<td align="center">CM008</td>
+<td align="left">Contenedor Isotanque</td>
+<td align="left">ISO tank container</td>
+</tr>
+<tr>
+<td align="center">CM009</td>
+<td align="left">Contenedor flat racks</td>
+<td align="left">Flat rack container</td>
+</tr>
+<tr>
+<td align="center">CM010</td>
+<td align="left">Buque tanque</td>
+<td align="left">Tanker ship</td>
+</tr>
+<tr>
+<td align="center">CM011</td>
+<td align="left">Ferri</td>
+<td align="left">Ferry</td>
+</tr>
+<tr>
+<td align="center">CM012</td>
+<td align="left">Ferri – Turístico y vacíos</td>
+<td align="left">Tourist / empty ferry</td>
+</tr>
+</tbody></table>
+<h3 id="rail-car-type-c_tipocarroferroviario">Rail Car Type (c_TipoCarroFerroviario)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">TC01</td>
+<td align="left">Furgón</td>
+<td align="left">Boxcar</td>
+</tr>
+<tr>
+<td align="center">TC02</td>
+<td align="left">Góndola</td>
+<td align="left">Gondola</td>
+</tr>
+<tr>
+<td align="center">TC03</td>
+<td align="left">Tolva</td>
+<td align="left">Hopper</td>
+</tr>
+<tr>
+<td align="center">TC04</td>
+<td align="left">Tanque</td>
+<td align="left">Tank car</td>
+</tr>
+<tr>
+<td align="center">TC05</td>
+<td align="left">Plataforma Intermodal</td>
+<td align="left">Intermodal platform car</td>
+</tr>
+<tr>
+<td align="center">TC06</td>
+<td align="left">Plataforma de Uso General</td>
+<td align="left">General purpose flatcar</td>
+</tr>
+<tr>
+<td align="center">TC07</td>
+<td align="left">Plataforma Automotriz</td>
+<td align="left">Automotive platform car</td>
+</tr>
+<tr>
+<td align="center">TC08</td>
+<td align="left">Locomotora</td>
+<td align="left">Locomotive</td>
+</tr>
+<tr>
+<td align="center">TC09</td>
+<td align="left">Carro Especial</td>
+<td align="left">Special car</td>
+</tr>
+<tr>
+<td align="center">TC10</td>
+<td align="left">Pasajeros</td>
+<td align="left">Passenger car</td>
+</tr>
+<tr>
+<td align="center">TC11</td>
+<td align="left">Mantenimiento de Vía</td>
+<td align="left">Track maintenance equipment</td>
+</tr>
+</tbody></table>
+<h3 id="rail-service-type-c_tiposervicioferroviario">Rail Service Type (c_TipoServicioFerroviario)</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Key</th>
+<th align="left">Description (Spanish)</th>
+<th align="left">Description (English)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">TS01</td>
+<td align="left">Carros Ferroviarios</td>
+<td align="left">Rail cars</td>
+</tr>
+<tr>
+<td align="center">TS02</td>
+<td align="left">Carros Ferroviarios intermodal</td>
+<td align="left">Intermodal rail cars</td>
+</tr>
+<tr>
+<td align="center">TS03</td>
+<td align="left">Tren unitario de carros ferroviarios</td>
+<td align="left">Unit train (rail cars)</td>
+</tr>
+<tr>
+<td align="center">TS04</td>
+<td align="left">Tren unitario Intermodal</td>
+<td align="left">Unit train (intermodal)</td>
+</tr>
+</tbody></table>
+'><p>Specific catalogs for the Carta Porte 3.1 complement. Useful to validate and build complement values. Each table lists the Key, the original Spanish description used officially and an English translation for reference.</p>
+<h3 id=customs-regimes-c_regimenaduanero>Customs Regimes (c_RegimenAduanero)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>IMD</td>
+<td align=left>Importación definitiva</td>
+<td align=left>Definitive import</td>
+</tr>
+<tr>
+<td align=center>EXD</td>
+<td align=left>Exportación definitiva</td>
+<td align=left>Definitive export</td>
+</tr>
+<tr>
+<td align=center>ITR</td>
+<td align=left>Tránsito interno de mercancías</td>
+<td align=left>Internal transit of goods</td>
+</tr>
+<tr>
+<td align=center>ITE</td>
+<td align=left>Tránsito interno de mercancías para exportación</td>
+<td align=left>Internal transit of goods for export</td>
+</tr>
+<tr>
+<td align=center>ETR</td>
+<td align=left>Tránsito externo de mercancías</td>
+<td align=left>External transit of goods</td>
+</tr>
+<tr>
+<td align=center>ETE</td>
+<td align=left>Tránsito externo de mercancías para exportación</td>
+<td align=left>External transit of goods for export</td>
+</tr>
+<tr>
+<td align=center>DFI</td>
+<td align=left>Depósito fiscal</td>
+<td align=left>Fiscal warehouse</td>
+</tr>
+<tr>
+<td align=center>RFE</td>
+<td align=left>Recinto fiscalizado estratégico</td>
+<td align=left>Strategic fiscal enclosure</td>
+</tr>
+<tr>
+<td align=center>RFS</td>
+<td align=left>Recinto fiscalizado</td>
+<td align=left>Fiscal enclosure</td>
+</tr>
+<tr>
+<td align=center>TRA</td>
+<td align=left>Tránsito aduanero</td>
+<td align=left>Customs transit</td>
+</tr>
+</table>
+<h3 id=transport-mode-c_mediotransporte>Transport Mode (c_MedioTransporte)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>01</td>
+<td align=left>Autotransporte</td>
+<td align=left>Road transport</td>
+</tr>
+<tr>
+<td align=center>02</td>
+<td align=left>Transporte Marítimo</td>
+<td align=left>Maritime transport</td>
+</tr>
+<tr>
+<td align=center>03</td>
+<td align=left>Transporte Aéreo</td>
+<td align=left>Air transport</td>
+</tr>
+<tr>
+<td align=center>04</td>
+<td align=left>Transporte Ferroviario</td>
+<td align=left>Rail transport</td>
+</tr>
+<tr>
+<td align=center>05</td>
+<td align=left>Otro</td>
+<td align=left>Other</td>
+</tr>
+</table>
+<h3 id=station-type-c_tipoestacion>Station Type (c_TipoEstacion)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>01</td>
+<td align=left>Origen Nacional</td>
+<td align=left>National origin</td>
+</tr>
+<tr>
+<td align=center>02</td>
+<td align=left>Intermedia</td>
+<td align=left>Intermediate</td>
+</tr>
+<tr>
+<td align=center>03</td>
+<td align=left>Destino Final Nacional</td>
+<td align=left>National final destination</td>
+</tr>
+</table>
+<h3 id=sct-permits-c_permisosct>SCT Permits (c_PermisoSCT)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>TPAF01</td>
+<td align=left>Autotransporte Federal de carga general.</td>
+<td align=left>Federal motor transport of general cargo.</td>
+</tr>
+<tr>
+<td align=center>TPAF02</td>
+<td align=left>Transporte privado de carga.</td>
+<td align=left>Private cargo transport.</td>
+</tr>
+<tr>
+<td align=center>TPAF03</td>
+<td align=left>Autotransporte Federal de Carga Especializada de materiales y residuos peligrosos.</td>
+<td align=left>Federal specialized transport of hazardous materials and waste.</td>
+</tr>
+<tr>
+<td align=center>TPAF04</td>
+<td align=left>Transporte de automóviles sin rodar en vehículo tipo góndola.</td>
+<td align=left>Transport of automobiles (not driven) on gondola-type vehicle.</td>
+</tr>
+<tr>
+<td align=center>TPAF05</td>
+<td align=left>Transporte de carga de gran peso y/o volumen de hasta 90 toneladas.</td>
+<td align=left>Heavy and/or oversized cargo transport up to 90 tons.</td>
+</tr>
+<tr>
+<td align=center>TPAF06</td>
+<td align=left>Transporte de carga especializada de gran peso y/o volumen de más 90 toneladas.</td>
+<td align=left>Specialized heavy and/or oversized cargo transport over 90 tons.</td>
+</tr>
+<tr>
+<td align=center>TPAF07</td>
+<td align=left>Transporte Privado de materiales y residuos peligrosos.</td>
+<td align=left>Private transport of hazardous materials and waste.</td>
+</tr>
+<tr>
+<td align=center>TPAF08</td>
+<td align=left>Autotransporte internacional de carga de largo recorrido.</td>
+<td align=left>International long‑haul cargo transport.</td>
+</tr>
+<tr>
+<td align=center>TPAF09</td>
+<td align=left>Autotransporte internacional de carga especializada de materiales y residuos peligrosos de largo recorrido.</td>
+<td align=left>International long‑haul specialized hazardous materials transport.</td>
+</tr>
+<tr>
+<td align=center>TPAF10</td>
+<td align=left>Autotransporte Federal de Carga General cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos.</td>
+<td align=left>Federal general cargo transport within US border zone.</td>
+</tr>
+<tr>
+<td align=center>TPAF11</td>
+<td align=left>Autotransporte Federal de Carga Especializada cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos.</td>
+<td align=left>Federal specialized cargo transport within US border zone.</td>
+</tr>
+<tr>
+<td align=center>TPAF12</td>
+<td align=left>Servicio auxiliar de arrastre en las vías generales de comunicación.</td>
+<td align=left>Auxiliary towing service on federal roads.</td>
+</tr>
+<tr>
+<td align=center>TPAF13</td>
+<td align=left>Servicio auxiliar de servicios de arrastre, arrastre y salvamento, y depósito de vehículos en las vías generales de comunicación.</td>
+<td align=left>Auxiliary towing, recovery and vehicle storage service.</td>
+</tr>
+<tr>
+<td align=center>TPAF14</td>
+<td align=left>Servicio de paquetería y mensajería en las vías generales de comunicación.</td>
+<td align=left>Parcel and courier service.</td>
+</tr>
+<tr>
+<td align=center>TPAF15</td>
+<td align=left>Transporte especial para el tránsito de grúas industriales con peso máximo de 90 toneladas.</td>
+<td align=left>Special transit for industrial cranes up to 90 tons.</td>
+</tr>
+<tr>
+<td align=center>TPAF16</td>
+<td align=left>Servicio federal para empresas arrendadoras servicio público federal.</td>
+<td align=left>Federal public service for rental companies.</td>
+</tr>
+<tr>
+<td align=center>TPAF17</td>
+<td align=left>Empresas trasladistas de vehículos nuevos.</td>
+<td align=left>New vehicle relocation companies.</td>
+</tr>
+<tr>
+<td align=center>TPAF18</td>
+<td align=left>Empresas fabricantes o distribuidoras de vehículos nuevos.</td>
+<td align=left>New vehicle manufacturers or distributors.</td>
+</tr>
+<tr>
+<td align=center>TPAF19</td>
+<td align=left>Autorización expresa para circular ... tractocamión doblemente articulado.</td>
+<td align=left>Express authorization for double‑articulated tractor‑trailers.</td>
+</tr>
+<tr>
+<td align=center>TPAF20</td>
+<td align=left>Autotransporte Federal de Carga Especializada de fondos y valores.</td>
+<td align=left>Federal specialized transport of funds and valuables.</td>
+</tr>
+<tr>
+<td align=center>TPTM01</td>
+<td align=left>Permiso temporal para navegación de cabotaje</td>
+<td align=left>Temporary cabotage navigation permit.</td>
+</tr>
+<tr>
+<td align=center>TPTA01</td>
+<td align=left>Concesión/ autorización servicio regular nacional/internacional empresas mexicanas</td>
+<td align=left>Regular national/international air service concession (Mexican companies).</td>
+</tr>
+<tr>
+<td align=center>TPTA02</td>
+<td align=left>Permiso servicio aéreo regular empresas extranjeras</td>
+<td align=left>Regular air service permit (foreign companies).</td>
+</tr>
+<tr>
+<td align=center>TPTA03</td>
+<td align=left>Permiso servicio nacional e internacional no regular de fletamento</td>
+<td align=left>Charter (non‑regular) national/international air service permit.</td>
+</tr>
+<tr>
+<td align=center>TPTA04</td>
+<td align=left>Permiso servicio nacional e internacional no regular de taxi aéreo</td>
+<td align=left>Non‑regular national/international air taxi permit.</td>
+</tr>
+<tr>
+<td align=center>TPXX00</td>
+<td align=left>Permiso no contemplado en el catálogo.</td>
+<td align=left>Permit not listed in catalog.</td>
+</tr>
+</table>
+<h3 id=cofepris-sector-c_sectorcofepris>COFEPRIS Sector (c_SectorCOFEPRIS)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>01</td>
+<td align=left>Medicamento</td>
+<td align=left>Medicine</td>
+</tr>
+<tr>
+<td align=center>02</td>
+<td align=left>Precursores y químicos de uso dual</td>
+<td align=left>Precursors and dual‑use chemicals</td>
+</tr>
+<tr>
+<td align=center>03</td>
+<td align=left>Psicotrópicos y estupefacientes</td>
+<td align=left>Psychotropic and narcotic substances</td>
+</tr>
+<tr>
+<td align=center>04</td>
+<td align=left>Sustancias tóxicas</td>
+<td align=left>Toxic substances</td>
+</tr>
+<tr>
+<td align=center>05</td>
+<td align=left>Plaguicidas y fertilizantes</td>
+<td align=left>Pesticides and fertilizers</td>
+</tr>
+</table>
+<h3 id=pharmaceutical-form-c_formafarmacéutica>Pharmaceutical Form (c_FormaFarmacéutica)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>01</td>
+<td align=left>Tableta</td>
+<td align=left>Tablet</td>
+</tr>
+<tr>
+<td align=center>02</td>
+<td align=left>Cápsulas</td>
+<td align=left>Capsules</td>
+</tr>
+<tr>
+<td align=center>03</td>
+<td align=left>Comprimidos</td>
+<td align=left>Compressed tablets</td>
+</tr>
+<tr>
+<td align=center>04</td>
+<td align=left>Grageas</td>
+<td align=left>Sugar‑coated pills</td>
+</tr>
+<tr>
+<td align=center>05</td>
+<td align=left>Suspensión</td>
+<td align=left>Suspension</td>
+</tr>
+<tr>
+<td align=center>06</td>
+<td align=left>Solución</td>
+<td align=left>Solution</td>
+</tr>
+<tr>
+<td align=center>07</td>
+<td align=left>Emulsión</td>
+<td align=left>Emulsion</td>
+</tr>
+<tr>
+<td align=center>08</td>
+<td align=left>Jarabe</td>
+<td align=left>Syrup</td>
+</tr>
+<tr>
+<td align=center>09</td>
+<td align=left>Inyectable</td>
+<td align=left>Injectable</td>
+</tr>
+<tr>
+<td align=center>10</td>
+<td align=left>Crema</td>
+<td align=left>Cream</td>
+</tr>
+<tr>
+<td align=center>11</td>
+<td align=left>Ungüento</td>
+<td align=left>Ointment</td>
+</tr>
+<tr>
+<td align=center>12</td>
+<td align=left>Aerosol</td>
+<td align=left>Aerosol</td>
+</tr>
+<tr>
+<td align=center>13</td>
+<td align=left>Gas medicinal</td>
+<td align=left>Medicinal gas</td>
+</tr>
+<tr>
+<td align=center>14</td>
+<td align=left>Gel</td>
+<td align=left>Gel</td>
+</tr>
+<tr>
+<td align=center>15</td>
+<td align=left>Implante</td>
+<td align=left>Implant</td>
+</tr>
+<tr>
+<td align=center>16</td>
+<td align=left>Óvulo</td>
+<td align=left>Ovule</td>
+</tr>
+<tr>
+<td align=center>17</td>
+<td align=left>Parche</td>
+<td align=left>Patch</td>
+</tr>
+<tr>
+<td align=center>18</td>
+<td align=left>Pasta</td>
+<td align=left>Paste</td>
+</tr>
+<tr>
+<td align=center>19</td>
+<td align=left>Polvo</td>
+<td align=left>Powder</td>
+</tr>
+<tr>
+<td align=center>20</td>
+<td align=left>Supositorio</td>
+<td align=left>Suppository</td>
+</tr>
+</table>
+<h3 id=special-conditions-c_condicionesespeciales>Special Conditions (c_CondicionesEspeciales)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>01</td>
+<td align=left>Congelados</td>
+<td align=left>Frozen</td>
+</tr>
+<tr>
+<td align=center>02</td>
+<td align=left>Refrigerados</td>
+<td align=left>Refrigerated</td>
+</tr>
+<tr>
+<td align=center>03</td>
+<td align=left>Temperatura controlada</td>
+<td align=left>Controlled temperature</td>
+</tr>
+<tr>
+<td align=center>04</td>
+<td align=left>Temperatura ambiente</td>
+<td align=left>Room temperature</td>
+</tr>
+</table>
+<h3 id=material-type-c_tipomateria>Material Type (c_TipoMateria)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>01</td>
+<td align=left>Materia prima</td>
+<td align=left>Raw material</td>
+</tr>
+<tr>
+<td align=center>02</td>
+<td align=left>Materia procesada</td>
+<td align=left>Processed material</td>
+</tr>
+<tr>
+<td align=center>03</td>
+<td align=left>Materia terminada (producto terminado)</td>
+<td align=left>Finished material (final product)</td>
+</tr>
+<tr>
+<td align=center>04</td>
+<td align=left>Materia para la industria manufacturera</td>
+<td align=left>Material for manufacturing industry</td>
+</tr>
+<tr>
+<td align=center>05</td>
+<td align=left>Otra</td>
+<td align=left>Other</td>
+</tr>
+</table>
+<h3 id=customs-document-type-c_tipodocumentoaduanero>Customs Document Type (c_TipoDocumentoAduanero)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>01</td>
+<td align=left>Pedimento</td>
+<td align=left>Customs entry (Pedimento)</td>
+</tr>
+<tr>
+<td align=center>02</td>
+<td align=left>Autorización de importación temporal</td>
+<td align=left>Temporary import authorization</td>
+</tr>
+<tr>
+<td align=center>03</td>
+<td align=left>Autorización de importación temporal de embarcaciones</td>
+<td align=left>Temporary vessel import authorization</td>
+</tr>
+<tr>
+<td align=center>04</td>
+<td align=left>Autorización de importación temporal mercancías p/ mantenimiento y reparación</td>
+<td align=left>Temp. import auth. for goods for maintenance/repair</td>
+</tr>
+<tr>
+<td align=center>05</td>
+<td align=left>Autorización importación vehículos especializados</td>
+<td align=left>Import auth. specialized transformed vehicles</td>
+</tr>
+<tr>
+<td align=center>06</td>
+<td align=left>Aviso de exportación temporal</td>
+<td align=left>Temporary export notice</td>
+</tr>
+<tr>
+<td align=center>07</td>
+<td align=left>Aviso traslado mercancías IMMEX/RFE/Operador Autorizado</td>
+<td align=left>Goods transfer notice IMMEX/RFE/Authorized Operator</td>
+</tr>
+<tr>
+<td align=center>08</td>
+<td align=left>Aviso traslado autopartes franja fronteriza</td>
+<td align=left>Auto parts transfer notice (border region)</td>
+</tr>
+<tr>
+<td align=center>09</td>
+<td align=left>Constancia importación temporal/retorno/transferencia contenedores</td>
+<td align=left>Constancy temp import/return/transfer of containers</td>
+</tr>
+<tr>
+<td align=center>10</td>
+<td align=left>Constancia de transferencia de mercancías</td>
+<td align=left>Goods transfer constancy</td>
+</tr>
+<tr>
+<td align=center>11</td>
+<td align=left>Autorización donación mercancías Fisco Federal extranjero</td>
+<td align=left>Donation authorization (goods abroad) to Federal Treasury</td>
+</tr>
+<tr>
+<td align=center>12</td>
+<td align=left>Cuaderno ATA</td>
+<td align=left>ATA carnet</td>
+</tr>
+<tr>
+<td align=center>13</td>
+<td align=left>Listas de intercambio</td>
+<td align=left>Exchange lists</td>
+</tr>
+<tr>
+<td align=center>14</td>
+<td align=left>Permiso de Importación Temporal</td>
+<td align=left>Temporary import permit</td>
+</tr>
+<tr>
+<td align=center>15</td>
+<td align=left>Permiso importación temporal casa rodante</td>
+<td align=left>Temporary import permit (RV)</td>
+</tr>
+<tr>
+<td align=center>16</td>
+<td align=left>Permiso importación temporal embarcaciones</td>
+<td align=left>Temporary import permit (vessels)</td>
+</tr>
+<tr>
+<td align=center>17</td>
+<td align=left>Solicitud donación mercancías emergencias/desastres</td>
+<td align=left>Donation request (emergencies/disasters)</td>
+</tr>
+<tr>
+<td align=center>18</td>
+<td align=left>Aviso de consolidado</td>
+<td align=left>Consolidated notice</td>
+</tr>
+<tr>
+<td align=center>19</td>
+<td align=left>Aviso de cruce de mercancias</td>
+<td align=left>Goods crossing notice</td>
+</tr>
+<tr>
+<td align=center>20</td>
+<td align=left>Otro</td>
+<td align=left>Other</td>
+</tr>
+</table>
+<h3 id=transport-part-type-c_partetransporte>Transport Part Type (c_ParteTransporte)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>PT01</td>
+<td align=left>Camión unitario</td>
+<td align=left>Single unit truck</td>
+</tr>
+<tr>
+<td align=center>PT02</td>
+<td align=left>Camión</td>
+<td align=left>Truck</td>
+</tr>
+<tr>
+<td align=center>PT03</td>
+<td align=left>Tractocamión</td>
+<td align=left>Tractor truck</td>
+</tr>
+<tr>
+<td align=center>PT04</td>
+<td align=left>Remolque</td>
+<td align=left>Trailer</td>
+</tr>
+<tr>
+<td align=center>PT05</td>
+<td align=left>Semirremolque</td>
+<td align=left>Semi‑trailer</td>
+</tr>
+<tr>
+<td align=center>PT06</td>
+<td align=left>Vehículo ligero de carga</td>
+<td align=left>Light cargo vehicle</td>
+</tr>
+<tr>
+<td align=center>PT07</td>
+<td align=left>Grúa</td>
+<td align=left>Crane</td>
+</tr>
+<tr>
+<td align=center>PT08</td>
+<td align=left>Aeronave</td>
+<td align=left>Aircraft</td>
+</tr>
+<tr>
+<td align=center>PT09</td>
+<td align=left>Barco o buque</td>
+<td align=left>Ship or vessel</td>
+</tr>
+<tr>
+<td align=center>PT10</td>
+<td align=left>Carro o vagón</td>
+<td align=left>Railcar or wagon</td>
+</tr>
+<tr>
+<td align=center>PT11</td>
+<td align=left>Contenedor</td>
+<td align=left>Container</td>
+</tr>
+<tr>
+<td align=center>PT12</td>
+<td align=left>Locomotora</td>
+<td align=left>Locomotive</td>
+</tr>
+</table>
+<h3 id=transport-figure-c_figuratransporte>Transport Figure (c_FiguraTransporte)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>01</td>
+<td align=left>Operador</td>
+<td align=left>Operator</td>
+</tr>
+<tr>
+<td align=center>02</td>
+<td align=left>Propietario</td>
+<td align=left>Owner</td>
+</tr>
+<tr>
+<td align=center>03</td>
+<td align=left>Arrendador</td>
+<td align=left>Lessor</td>
+</tr>
+<tr>
+<td align=center>04</td>
+<td align=left>Notificado</td>
+<td align=left>Notified party</td>
+</tr>
+<tr>
+<td align=center>05</td>
+<td align=left>Integrante de Coordinados</td>
+<td align=left>Coordinated group member</td>
+</tr>
+</table>
+<h3 id=istmo-registry-c_registroistmo>ISTMO Registry (c_RegistroISTMO)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>01</td>
+<td align=left>Coatzacoalcos I</td>
+<td align=left>Coatzacoalcos I</td>
+</tr>
+<tr>
+<td align=center>02</td>
+<td align=left>Coatzacoalcos II</td>
+<td align=left>Coatzacoalcos II</td>
+</tr>
+<tr>
+<td align=center>03</td>
+<td align=left>Texistepec</td>
+<td align=left>Texistepec</td>
+</tr>
+<tr>
+<td align=center>04</td>
+<td align=left>San Juan Evangelista</td>
+<td align=left>San Juan Evangelista</td>
+</tr>
+<tr>
+<td align=center>05</td>
+<td align=left>Salina Cruz</td>
+<td align=left>Salina Cruz</td>
+</tr>
+<tr>
+<td align=center>06</td>
+<td align=left>San Blas Atempa</td>
+<td align=left>San Blas Atempa</td>
+</tr>
+</table>
+<h3 id=cargo-type-key-c_clavetipocarga>Cargo Type Key (c_ClaveTipoCarga)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>CGS</td>
+<td align=left>Carga General Suelta</td>
+<td align=left>General loose cargo</td>
+</tr>
+<tr>
+<td align=center>CGC</td>
+<td align=left>Carga General Contenerizada</td>
+<td align=left>General containerized cargo</td>
+</tr>
+<tr>
+<td align=center>GMN</td>
+<td align=left>Gran Mineral</td>
+<td align=left>Bulk mineral</td>
+</tr>
+<tr>
+<td align=center>GAG</td>
+<td align=left>Granel Agrícola</td>
+<td align=left>Agricultural bulk</td>
+</tr>
+<tr>
+<td align=center>OFL</td>
+<td align=left>Otros Fluidos</td>
+<td align=left>Other fluids</td>
+</tr>
+<tr>
+<td align=center>PYD</td>
+<td align=left>Petróleo y Derivados</td>
+<td align=left>Oil and derivatives</td>
+</tr>
+</table>
+<h3 id=maritime-configuration-c_configuracionmaritima>Maritime Configuration (c_ConfiguracionMaritima)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>B01</td>
+<td align=left>Abastecedor</td>
+<td align=left>Supplier vessel</td>
+</tr>
+<tr>
+<td align=center>B02</td>
+<td align=left>Barcaza</td>
+<td align=left>Barge</td>
+</tr>
+<tr>
+<td align=center>B03</td>
+<td align=left>Granelero</td>
+<td align=left>Bulk carrier</td>
+</tr>
+<tr>
+<td align=center>B04</td>
+<td align=left>Porta Contenedor</td>
+<td align=left>Container ship</td>
+</tr>
+<tr>
+<td align=center>B05</td>
+<td align=left>Draga</td>
+<td align=left>Dredger</td>
+</tr>
+<tr>
+<td align=center>B06</td>
+<td align=left>Pesquero</td>
+<td align=left>Fishing vessel</td>
+</tr>
+<tr>
+<td align=center>B07</td>
+<td align=left>Carga General</td>
+<td align=left>General cargo</td>
+</tr>
+<tr>
+<td align=center>B08</td>
+<td align=left>Quimiqueros</td>
+<td align=left>Chemical tanker</td>
+</tr>
+<tr>
+<td align=center>B09</td>
+<td align=left>Transbordadores</td>
+<td align=left>Ferry</td>
+</tr>
+<tr>
+<td align=center>B10</td>
+<td align=left>Carga RoRo</td>
+<td align=left>Ro-Ro cargo</td>
+</tr>
+<tr>
+<td align=center>B11</td>
+<td align=left>Investigación</td>
+<td align=left>Research vessel</td>
+</tr>
+<tr>
+<td align=center>B12</td>
+<td align=left>Tanquero</td>
+<td align=left>Tanker</td>
+</tr>
+<tr>
+<td align=center>B13</td>
+<td align=left>Gasero</td>
+<td align=left>Gas carrier</td>
+</tr>
+<tr>
+<td align=center>B14</td>
+<td align=left>Remolcador</td>
+<td align=left>Tug</td>
+</tr>
+<tr>
+<td align=center>B15</td>
+<td align=left>Extraordinaria especialización</td>
+<td align=left>Extraordinary specialization</td>
+</tr>
+</table>
+<h3 id=rail-traffic-type-c_traficoferroviario>Rail Traffic Type (c_TraficoFerroviario)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>TT01</td>
+<td align=left>Tráfico local</td>
+<td align=left>Local traffic</td>
+</tr>
+<tr>
+<td align=center>TT02</td>
+<td align=left>Tráfico interlineal remitido</td>
+<td align=left>Forwarded interline traffic</td>
+</tr>
+<tr>
+<td align=center>TT03</td>
+<td align=left>Tráfico interlineal recibido</td>
+<td align=left>Received interline traffic</td>
+</tr>
+<tr>
+<td align=center>TT04</td>
+<td align=left>Tráfico interlineal en tránsito</td>
+<td align=left>Interline traffic in transit</td>
+</tr>
+</table>
+<h3 id=container-type-c_tipocontenedor>Container Type (c_TipoContenedor)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>TC01</td>
+<td align=left>Contenedor de 6.1 Mts de longitud</td>
+<td align=left>20' container (6.1 m length)</td>
+</tr>
+<tr>
+<td align=center>TC02</td>
+<td align=left>Contenedor de 12.2 Mts de longitud</td>
+<td align=left>40' container (12.2 m length)</td>
+</tr>
+<tr>
+<td align=center>TC03</td>
+<td align=left>Contenedor de 13.7 Mts de longitud</td>
+<td align=left>45' container (13.7 m length)</td>
+</tr>
+<tr>
+<td align=center>TC04</td>
+<td align=left>Contenedor de 14.6 Mts de longitud</td>
+<td align=left>48' container (14.6 m length)</td>
+</tr>
+<tr>
+<td align=center>TC05</td>
+<td align=left>Contenedor de 16.1 Mts de longitud</td>
+<td align=left>53' container (16.1 m length)</td>
+</tr>
+</table>
+<h3 id=maritime-container-type-c_tipocontenedormaritimo>Maritime Container Type (c_TipoContenedorMaritimo)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>CM001</td>
+<td align=left>Contenedores refrigerados de 20FT</td>
+<td align=left>20FT refrigerated containers</td>
+</tr>
+<tr>
+<td align=center>CM002</td>
+<td align=left>Contenedores refrigerados de 40FT</td>
+<td align=left>40FT refrigerated containers</td>
+</tr>
+<tr>
+<td align=center>CM003</td>
+<td align=left>Contenedores estándar de 8FT</td>
+<td align=left>8FT standard containers</td>
+</tr>
+<tr>
+<td align=center>CM004</td>
+<td align=left>Contenedores estándar de 10FT</td>
+<td align=left>10FT standard containers</td>
+</tr>
+<tr>
+<td align=center>CM005</td>
+<td align=left>Contenedores estándar de 20FT</td>
+<td align=left>20FT standard containers</td>
+</tr>
+<tr>
+<td align=center>CM006</td>
+<td align=left>Contenedores estándar de 40FT</td>
+<td align=left>40FT standard containers</td>
+</tr>
+<tr>
+<td align=center>CM007</td>
+<td align=left>Contenedores Open Side</td>
+<td align=left>Open side containers</td>
+</tr>
+<tr>
+<td align=center>CM008</td>
+<td align=left>Contenedor Isotanque</td>
+<td align=left>ISO tank container</td>
+</tr>
+<tr>
+<td align=center>CM009</td>
+<td align=left>Contenedor flat racks</td>
+<td align=left>Flat rack container</td>
+</tr>
+<tr>
+<td align=center>CM010</td>
+<td align=left>Buque tanque</td>
+<td align=left>Tanker ship</td>
+</tr>
+<tr>
+<td align=center>CM011</td>
+<td align=left>Ferri</td>
+<td align=left>Ferry</td>
+</tr>
+<tr>
+<td align=center>CM012</td>
+<td align=left>Ferri – Turístico y vacíos</td>
+<td align=left>Tourist / empty ferry</td>
+</tr>
+</table>
+<h3 id=rail-car-type-c_tipocarroferroviario>Rail Car Type (c_TipoCarroFerroviario)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>TC01</td>
+<td align=left>Furgón</td>
+<td align=left>Boxcar</td>
+</tr>
+<tr>
+<td align=center>TC02</td>
+<td align=left>Góndola</td>
+<td align=left>Gondola</td>
+</tr>
+<tr>
+<td align=center>TC03</td>
+<td align=left>Tolva</td>
+<td align=left>Hopper</td>
+</tr>
+<tr>
+<td align=center>TC04</td>
+<td align=left>Tanque</td>
+<td align=left>Tank car</td>
+</tr>
+<tr>
+<td align=center>TC05</td>
+<td align=left>Plataforma Intermodal</td>
+<td align=left>Intermodal platform car</td>
+</tr>
+<tr>
+<td align=center>TC06</td>
+<td align=left>Plataforma de Uso General</td>
+<td align=left>General purpose flatcar</td>
+</tr>
+<tr>
+<td align=center>TC07</td>
+<td align=left>Plataforma Automotriz</td>
+<td align=left>Automotive platform car</td>
+</tr>
+<tr>
+<td align=center>TC08</td>
+<td align=left>Locomotora</td>
+<td align=left>Locomotive</td>
+</tr>
+<tr>
+<td align=center>TC09</td>
+<td align=left>Carro Especial</td>
+<td align=left>Special car</td>
+</tr>
+<tr>
+<td align=center>TC10</td>
+<td align=left>Pasajeros</td>
+<td align=left>Passenger car</td>
+</tr>
+<tr>
+<td align=center>TC11</td>
+<td align=left>Mantenimiento de Vía</td>
+<td align=left>Track maintenance equipment</td>
+</tr>
+</table>
+<h3 id=rail-service-type-c_tiposervicioferroviario>Rail Service Type (c_TipoServicioFerroviario)</h3>
+<table>
+<thead>
+<tr>
+<th align=center>Key</th>
+<th align=left>Description (Spanish)</th>
+<th align=left>Description (English)</th>
+</tr>
+</thead>
+<tr>
+<td align=center>TS01</td>
+<td align=left>Carros Ferroviarios</td>
+<td align=left>Rail cars</td>
+</tr>
+<tr>
+<td align=center>TS02</td>
+<td align=left>Carros Ferroviarios intermodal</td>
+<td align=left>Intermodal rail cars</td>
+</tr>
+<tr>
+<td align=center>TS03</td>
+<td align=left>Tren unitario de carros ferroviarios</td>
+<td align=left>Unit train (rail cars)</td>
+</tr>
+<tr>
+<td align=center>TS04</td>
+<td align=left>Tren unitario Intermodal</td>
+<td align=left>Unit train (intermodal)</td>
+</tr>
+</table>
+</div></div></div><div id=tag/events data-section-id=tag/events class="sc-dTvVRJ ipMzWx"><div class="sc-jJLAfE jhaFXr"><div class="sc-ggWZvA gnAKQH"><h2 class="sc-kNOymR frnRAi"><a class="sc-kcLKEh jFZnBC" href=#tag/events aria-label=tag/events></a>Events</h2></div></div><div class="sc-ggWZvA iiUMDz"><div class="sc-eVqvcJ sc-fszimp gvxaTx jdXUCy redoc-markdown " html='<p>Events occur when Facturapi performs an operation asynchronously, outside the lifecycle of an API request.</p>
 <p>To receive these events on your server, you can register a listening URL by creating a Webhook from your dashboard: <a href="https://dashboard.facturapi.io/integration/webhooks">https://dashboard.facturapi.io/integration/webhooks</a></p>
 '><p>Events occur when Facturapi performs an operation asynchronously, outside the lifecycle of an API request.</p>
 <p>To receive these events on your server, you can register a listening URL by creating a Webhook from your dashboard: <a href=https://dashboard.facturapi.io/integration/webhooks>https://dashboard.facturapi.io/integration/webhooks</a></p>

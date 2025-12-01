@@ -31,7 +31,7 @@ A continuación encontrarás un ejemplo de cómo insertar un complemento a una f
         "quantity": 2496,
         "product": {
           "description": "Gas licuado de petróleo",
-          "product_key": "15111510",
+          "product_key": "25101505",
           "unit_key": "LTR",
           "unit_name": "Litro",
           "price": 0,

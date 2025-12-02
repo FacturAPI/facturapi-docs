@@ -8383,8 +8383,8 @@ components:
       discriminator:
         propertyName: type
         mapping:
-          carta_porte: "#/components/schemas/CartaPorteInput"
           custom: "#/components/schemas/CustomComplementInput"
+          carta_porte: "#/components/schemas/CartaPorteInput"
       required:
         - type
         - data

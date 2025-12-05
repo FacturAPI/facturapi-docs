@@ -2043,6 +2043,50 @@ paths:
               - PUE  
               - PPD
           description: Método de pago. Búsqueda exacta por método de pago. 
+        - in: query
+          name: folio_number
+          schema:
+            type: integer
+            minimum: 1
+          description: Filtrar por folio de la factura. Coincidencia exacta.
+        - in: query
+          name: series
+          schema:
+            type: string
+            maxLength: 25
+          description: Filtrar por serie de la factura. Coincidencia exacta.
+        - in: query
+          name: external_id
+          schema:
+            type: string
+            maxLength: 100
+          description: Filtrar por identificador externo. Coincidencia exacta.
+        - in: query
+          name: issuer_type
+          schema:
+            $ref: '#/components/schemas/IssuingType'
+          description: Filtrar por tipo de emisión.
+        - in: query
+          name: cancellation_status
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/CancellationStatus'
+          description: Filtrar por uno o más estados de cancelación.
+        - in: query
+          name: uuid
+          schema:
+            type: string
+            format: uuid
+          description: Filtrar por el UUID del CFDI. Coincidencia exacta.
+        - in: query
+          name: payment_status
+          schema:
+            type: string
+            enum:
+              - paid
+              - unpaid
+          description: Filtrar por estado de pago. Coincidencia exacta.
         - $ref: "#/components/parameters/SearchDate"
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"

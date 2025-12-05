@@ -2071,6 +2071,50 @@ paths:
               - PUE
               - PPD
           description: Payment method. Exact match.
+        - in: query
+          name: folio_number
+          schema:
+            type: integer
+            minimum: 1
+          description: Filter by invoice folio number. Exact match.
+        - in: query
+          name: series
+          schema:
+            type: string
+            maxLength: 25
+          description: Filter by invoice series. Exact match.
+        - in: query
+          name: external_id
+          schema:
+            type: string
+            maxLength: 100
+          description: Filter by external identifier. Exact match.
+        - in: query
+          name: issuer_type
+          schema:
+            $ref: '#/components/schemas/IssuingType'
+          description: Filter by issuing type.
+        - in: query
+          name: cancellation_status
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/CancellationStatus'
+          description: Filter by one or more cancellation statuses.
+        - in: query
+          name: uuid
+          schema:
+            type: string
+            format: uuid
+          description: Filter by the CFDI UUID. Exact match.
+        - in: query
+          name: payment_status
+          schema:
+            type: string
+            enum:
+              - paid
+              - unpaid
+          description: Filter by payment status. Exact match.
         - $ref: "#/components/parameters/SearchDate"
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"

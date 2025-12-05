@@ -874,8 +874,369 @@ x-tagGroups:
       - receipt_model
       - retention_model
       - organization_model
+schemas:
+    SearchKeyDescriptionResult:
+      type: object
+      properties:
+        page:
+          type: integer
+        total_pages:
+          type: integer
+        total_results:
+          type: integer
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              description:
+                type: string
 
 paths:
+  /catalogs/cartaporte/3.1/air-transport-codes:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search air transport codes
+      description: |
+        Returns airline codes catalog entries that match the query. Intended for Carta Porte complement.
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key`, `airline_name` or `icao_designator`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+          required: false
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+          required: false
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                  total_pages:
+                    type: integer
+                  total_results:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                        description:
+                          type: string
+
+  /catalogs/cartaporte/31/transport-configs:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search auto transport configurations
+      description: Returns transport configuration entries (e.g., truck/semitrailer setups).
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key` or `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+
+  /catalogs/cartaporte/31/rights-of-passage:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search rights of passage
+      description: Returns rail rights of passage matching the query.
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key`, `right_of_passage` or `concessionaire`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+
+  /catalogs/cartaporte/31/customs-documents:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search customs documents
+      description: Returns customs document types for Carta Porte.
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key` or `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+
+  /catalogs/cartaporte/31/packaging-types:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search packaging types
+      description: Returns packaging types for goods in Carta Porte.
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key` or `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+
+  /catalogs/cartaporte/31/trailer-types:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search trailer types
+      description: Returns trailer/semitrailer types (Clave de Remolque).
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key` or `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+
+  /catalogs/cartaporte/31/hazardous-materials:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search hazardous materials
+      description: Returns hazardous materials catalog entries.
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key`, `description` or `class_division`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+
+  /catalogs/cartaporte/31/naval-authorizations:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search naval authorizations
+      description: Returns naval authorization codes (key only).
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                  total_pages:
+                    type: integer
+                  total_results:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+
+  /catalogs/cartaporte/31/port-stations:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search port stations
+      description: Returns airport/sea/land station entries.
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key`, `description` or `iata_designator`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+
+  /catalogs/cartaporte/31/marine-containers:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search marine containers
+      description: Returns marine container types.
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key` or `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
   /customers:
     post:
       operationId: createCustomer

@@ -909,6 +909,16 @@ paths:
               "page" => 0,
               "limit" => 10
             ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchAirTransportCodes(new Dictionary<string, object>
+            {
+              ["q"] = "AMX",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
       parameters:
         - in: query
           name: q
@@ -983,6 +993,16 @@ paths:
               "page" => 0,
               "limit" => 10
             ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchTransportConfigs(new Dictionary<string, object>
+            {
+              ["q"] = "CC",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
       parameters:
         - in: query
           name: q
@@ -1039,6 +1059,16 @@ paths:
               "page" => 0,
               "limit" => 10
             ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchRightsOfPassage(new Dictionary<string, object>
+            {
+              ["q"] = "MX-001",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
       parameters:
         - in: query
           name: q
@@ -1095,6 +1125,16 @@ paths:
               "page" => 0,
               "limit" => 10
             ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchCustomsDocuments(new Dictionary<string, object>
+            {
+              ["q"] = "PEDIMENTO",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
       parameters:
         - in: query
           name: q
@@ -1151,6 +1191,16 @@ paths:
               "page" => 0,
               "limit" => 10
             ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchPackagingTypes(new Dictionary<string, object>
+            {
+              ["q"] = "BOX",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
       parameters:
         - in: query
           name: q
@@ -1207,6 +1257,16 @@ paths:
               "page" => 0,
               "limit" => 10
             ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchTrailerTypes(new Dictionary<string, object>
+            {
+              ["q"] = "TRL",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
       parameters:
         - in: query
           name: q
@@ -1263,6 +1323,16 @@ paths:
               "page" => 0,
               "limit" => 10
             ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchHazardousMaterials(new Dictionary<string, object>
+            {
+              ["q"] = "UN1203",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
       parameters:
         - in: query
           name: q
@@ -1319,6 +1389,16 @@ paths:
               "page" => 0,
               "limit" => 10
             ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchNavalAuthorizations(new Dictionary<string, object>
+            {
+              ["q"] = "Z-01",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
       parameters:
         - in: query
           name: q
@@ -1389,6 +1469,16 @@ paths:
               "page" => 0,
               "limit" => 10
             ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchPortStations(new Dictionary<string, object>
+            {
+              ["q"] = "MEX",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
       parameters:
         - in: query
           name: q
@@ -1445,6 +1535,16 @@ paths:
               "page" => 0,
               "limit" => 10
             ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchMarineContainers(new Dictionary<string, object>
+            {
+              ["q"] = "20DC",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
       parameters:
         - in: query
           name: q

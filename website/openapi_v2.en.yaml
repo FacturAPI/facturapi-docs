@@ -874,25 +874,7 @@ x-tagGroups:
       - receipt_model
       - retention_model
       - organization_model
-schemas:
-    SearchKeyDescriptionResult:
-      type: object
-      properties:
-        page:
-          type: integer
-        total_pages:
-          type: integer
-        total_results:
-          type: integer
-        data:
-          type: array
-          items:
-            type: object
-            properties:
-              key:
-                type: string
-              description:
-                type: string
+ 
 
 paths:
   /catalogs/cartaporte/3.1/air-transport-codes:
@@ -918,6 +900,15 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchAirTransportCodes({ q: 'AMX', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchAirTransportCodes([
+              "q" => "AMX",
+              "page" => 0,
+              "limit" => 10
+            ]);
       parameters:
         - in: query
           name: q
@@ -983,6 +974,15 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchTransportConfigs({ q: 'CC', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchTransportConfigs([
+              "q" => "CC",
+              "page" => 0,
+              "limit" => 10
+            ]);
       parameters:
         - in: query
           name: q
@@ -1030,6 +1030,15 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchRightsOfPassage({ q: 'MX-001', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchRightsOfPassage([
+              "q" => "MX-001",
+              "page" => 0,
+              "limit" => 10
+            ]);
       parameters:
         - in: query
           name: q
@@ -1077,6 +1086,15 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchCustomsDocuments({ q: 'PEDIMENTO', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchCustomsDocuments([
+              "q" => "PEDIMENTO",
+              "page" => 0,
+              "limit" => 10
+            ]);
       parameters:
         - in: query
           name: q
@@ -1124,6 +1142,15 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchPackagingTypes({ q: 'BOX', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchPackagingTypes([
+              "q" => "BOX",
+              "page" => 0,
+              "limit" => 10
+            ]);
       parameters:
         - in: query
           name: q
@@ -1171,6 +1198,15 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchTrailerTypes({ q: 'TRL', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchTrailerTypes([
+              "q" => "TRL",
+              "page" => 0,
+              "limit" => 10
+            ]);
       parameters:
         - in: query
           name: q
@@ -1218,6 +1254,15 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchHazardousMaterials({ q: 'UN1203', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchHazardousMaterials([
+              "q" => "UN1203",
+              "page" => 0,
+              "limit" => 10
+            ]);
       parameters:
         - in: query
           name: q
@@ -1265,6 +1310,15 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchNavalAuthorizations({ q: 'Z-01', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchNavalAuthorizations([
+              "q" => "Z-01",
+              "page" => 0,
+              "limit" => 10
+            ]);
       parameters:
         - in: query
           name: q
@@ -1326,6 +1380,15 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchPortStations({ q: 'MEX', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchPortStations([
+              "q" => "MEX",
+              "page" => 0,
+              "limit" => 10
+            ]);
       parameters:
         - in: query
           name: q
@@ -1373,6 +1436,15 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchMarineContainers({ q: '20DC', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchMarineContainers([
+              "q" => "20DC",
+              "page" => 0,
+              "limit" => 10
+            ]);
       parameters:
         - in: query
           name: q
@@ -7862,6 +7934,23 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/UnitCatalogResult"
+
+    SearchKeyDescriptionResult:
+      allOf:
+        - $ref: "#/components/schemas/SearchResult"
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  key:
+                    type: string
+                    description: Key from the catalog
+                  description:
+                    type: string
+                    description: Description of the catalog entry
 
     
     LocalTax:

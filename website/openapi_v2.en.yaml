@@ -874,8 +874,701 @@ x-tagGroups:
       - receipt_model
       - retention_model
       - organization_model
+ 
 
 paths:
+  /catalogs/cartaporte/3.1/air-transport-codes:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search air transport codes
+      description: |
+        Returns airline codes catalog entries that match the query. Intended for Carta Porte complement.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/air-transport-codes" \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=AMX" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.cartaPorteCatalogs.searchAirTransportCodes({ q: 'AMX', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchAirTransportCodes([
+              "q" => "AMX",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchAirTransportCodes(new Dictionary<string, object>
+            {
+              ["q"] = "AMX",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key`, `airline_name` or `icao_designator`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+          required: false
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+          required: false
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                  total_pages:
+                    type: integer
+                  total_results:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                        description:
+                          type: string
+
+  /catalogs/cartaporte/31/transport-configs:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search auto transport configurations
+      description: Returns transport configuration entries (e.g., truck/semitrailer setups).
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/transport-configs" \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=CC" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.cartaPorteCatalogs.searchTransportConfigs({ q: 'CC', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchTransportConfigs([
+              "q" => "CC",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchTransportConfigs(new Dictionary<string, object>
+            {
+              ["q"] = "CC",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key` or `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+
+  /catalogs/cartaporte/31/rights-of-passage:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search rights of passage
+      description: Returns rail rights of passage matching the query.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/rights-of-passage" \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=MX-001" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.cartaPorteCatalogs.searchRightsOfPassage({ q: 'MX-001', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchRightsOfPassage([
+              "q" => "MX-001",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchRightsOfPassage(new Dictionary<string, object>
+            {
+              ["q"] = "MX-001",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key`, `right_of_passage` or `concessionaire`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+
+  /catalogs/cartaporte/31/customs-documents:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search customs documents
+      description: Returns customs document types for Carta Porte.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/customs-documents" \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=PEDIMENTO" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.cartaPorteCatalogs.searchCustomsDocuments({ q: 'PEDIMENTO', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchCustomsDocuments([
+              "q" => "PEDIMENTO",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchCustomsDocuments(new Dictionary<string, object>
+            {
+              ["q"] = "PEDIMENTO",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key` or `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+
+  /catalogs/cartaporte/31/packaging-types:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search packaging types
+      description: Returns packaging types for goods in Carta Porte.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/packaging-types" \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=CAJA" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.cartaPorteCatalogs.searchPackagingTypes({ q: 'BOX', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchPackagingTypes([
+              "q" => "BOX",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchPackagingTypes(new Dictionary<string, object>
+            {
+              ["q"] = "BOX",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key` or `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+
+  /catalogs/cartaporte/31/trailer-types:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search trailer types
+      description: Returns trailer/semitrailer types (Clave de Remolque).
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/trailer-types" \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=TRL" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.cartaPorteCatalogs.searchTrailerTypes({ q: 'TRL', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchTrailerTypes([
+              "q" => "TRL",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchTrailerTypes(new Dictionary<string, object>
+            {
+              ["q"] = "TRL",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key` or `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+
+  /catalogs/cartaporte/31/hazardous-materials:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search hazardous materials
+      description: Returns hazardous materials catalog entries.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/hazardous-materials" \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=UN1203" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.cartaPorteCatalogs.searchHazardousMaterials({ q: 'UN1203', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchHazardousMaterials([
+              "q" => "UN1203",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchHazardousMaterials(new Dictionary<string, object>
+            {
+              ["q"] = "UN1203",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key`, `description` or `class_division`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+
+  /catalogs/cartaporte/31/naval-authorizations:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search naval authorizations
+      description: Returns naval authorization codes (key only).
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/naval-authorizations" \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=Z-01" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.cartaPorteCatalogs.searchNavalAuthorizations({ q: 'Z-01', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchNavalAuthorizations([
+              "q" => "Z-01",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchNavalAuthorizations(new Dictionary<string, object>
+            {
+              ["q"] = "Z-01",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                  total_pages:
+                    type: integer
+                  total_results:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+
+  /catalogs/cartaporte/31/port-stations:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search port stations
+      description: Returns airport/sea/land station entries.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/port-stations" \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=MEX" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.cartaPorteCatalogs.searchPortStations({ q: 'MEX', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchPortStations([
+              "q" => "MEX",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchPortStations(new Dictionary<string, object>
+            {
+              ["q"] = "MEX",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key`, `description` or `iata_designator`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+
+  /catalogs/cartaporte/31/marine-containers:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Search marine containers
+      description: Returns marine container types.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/marine-containers" \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=20DC" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.cartaPorteCatalogs.searchMarineContainers({ q: '20DC', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchMarineContainers([
+              "q" => "20DC",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.CartaporteCatalog.SearchMarineContainers(new Dictionary<string, object>
+            {
+              ["q"] = "20DC",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key` or `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
   /customers:
     post:
       operationId: createCustomer
@@ -7385,6 +8078,23 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/UnitCatalogResult"
+
+    SearchKeyDescriptionResult:
+      allOf:
+        - $ref: "#/components/schemas/SearchResult"
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  key:
+                    type: string
+                    description: Key from the catalog
+                  description:
+                    type: string
+                    description: Description of the catalog entry
 
     
     LocalTax:

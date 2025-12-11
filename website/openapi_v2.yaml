@@ -6156,7 +6156,7 @@ paths:
           label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
-            var searchResult = await facturapi.Webhooks.ListAsync(new Dictionary<string, object>
+            var searchResult = await facturapi.Webhook.ListAsync(new Dictionary<string, object>
             {
               ["page"] = 1
               ["limit"] = 0,
@@ -6207,12 +6207,12 @@ paths:
           source: |
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
-            const customer = await facturapi.Webhooks.retrieve('590ce6c56d04f840aa8438af');
+            const customer = await facturapi.webhooks.retrieve('590ce6c56d04f840aa8438af');
         - lang: csharp
           label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
-            var customer = await facturapi.Webhooks.RetrieveAsync("590ce6c56d04f840aa8438af");
+            var customer = await facturapi.Webhook.RetrieveAsync("590ce6c56d04f840aa8438af");
         - lang: PHP
           source: |
             $facturapi = new Facturapi( "sk_test_API_KEY" );
@@ -6274,7 +6274,7 @@ paths:
           label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
-            var customer = await facturapi.Webhooks.UpdateAsync(
+            var customer = await facturapi.Webhook.UpdateAsync(
               "590ce6c56d04f840aa8438af",
               new Dictionary<string, object>
               {
@@ -6338,7 +6338,7 @@ paths:
           label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
-            var customer = await facturapi.Webhooks.DeleteAsync("590ce6c56d04f840aa8438af");
+            var customer = await facturapi.Webhook.DeleteAsync("590ce6c56d04f840aa8438af");
         - lang: PHP
           source: |
             $facturapi = new Facturapi( "sk_test_API_KEY" );

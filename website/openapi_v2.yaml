@@ -6531,7 +6531,7 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             
-            var customer = await facturapi.Tools.ValidateTaxIdAsync("BBA830831LJ2");
+            var customer = await facturapi.Tool.ValidateTaxIdAsync("BBA830831LJ2");
         - lang: PHP
           source: |
             $facturapi = new Facturapi( "sk_test_API_KEY" );
@@ -7147,6 +7147,21 @@ components:
           type: string
           title: Descripción del error
           description: Indica qué salió mal y puede incluir una sugerencia sobre cómo solucionar el error.
+    IssuingType:
+      type: string
+      description: Indica si la factura fue emitida por tu organización o recibida de un tercero.
+      enum:
+        - issuing
+        - receiving
+    CancellationStatus:
+      type: string
+      description: Estado de la solicitud de cancelación de la factura.
+      enum:
+        - none
+        - accepted
+        - pending
+        - rejected
+        - expired
 
     # Common base objects
     SearchResult:

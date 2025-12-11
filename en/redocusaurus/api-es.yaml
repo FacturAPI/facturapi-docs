@@ -653,6 +653,1012 @@ x-tagGroups:
       - retention_model
       - organization_model
 paths:
+  /catalogs/cartaporte/3.1/air-transport-codes:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Buscar códigos de transporte aéreo
+      description: >
+        Devuelve entradas del catálogo de aerolíneas que coinciden con la
+        consulta. Usado para el complemento Carta Porte.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/air-transport-codes"
+            \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=AMX" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: >
+            import Facturapi from 'facturapi'
+
+            const facturapi = new Facturapi('sk_test_API_KEY')
+
+            const result = await
+            facturapi.cartaPorteCatalogs.searchAirTransportCodes({ q: 'AMX',
+            page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchAirTransportCodes([
+              "q" => "AMX",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var result = await
+            facturapi.CartaporteCatalog.SearchAirTransportCodes(new
+            Dictionary<string, object>
+
+            {
+              ["q"] = "AMX",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefijo para buscar en `key`, `airline_name` o `icao_designator`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Búsqueda exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          description: Error en parámetros de la petición
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Error de autenticación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: No se encontró el recurso especificado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '500':
+          description: Error inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /catalogs/cartaporte/31/transport-configs:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Buscar configuraciones de autotransporte
+      description: Devuelve configuraciones de transporte (p. ej., camión/semirremolque).
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            "https://www.facturapi.io/v2/catalogs/cartaporte/31/transport-configs"
+            \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=CC" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: >
+            import Facturapi from 'facturapi'
+
+            const facturapi = new Facturapi('sk_test_API_KEY')
+
+            const result = await
+            facturapi.cartaPorteCatalogs.searchTransportConfigs({ q: 'CC', page:
+            0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchTransportConfigs([
+              "q" => "CC",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var result = await
+            facturapi.CartaporteCatalog.SearchTransportConfigs(new
+            Dictionary<string, object>
+
+            {
+              ["q"] = "CC",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefijo para buscar en `key` o `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Búsqueda exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          description: Error en parámetros de la petición
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Error de autenticación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: No se encontró el recurso especificado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '500':
+          description: Error inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /catalogs/cartaporte/31/rights-of-passage:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Buscar derechos de paso
+      description: Devuelve derechos de paso ferroviarios que coinciden con la consulta.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            "https://www.facturapi.io/v2/catalogs/cartaporte/31/rights-of-passage"
+            \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=MX-001" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: >
+            import Facturapi from 'facturapi'
+
+            const facturapi = new Facturapi('sk_test_API_KEY')
+
+            const result = await
+            facturapi.cartaPorteCatalogs.searchRightsOfPassage({ q: 'MX-001',
+            page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchRightsOfPassage([
+              "q" => "MX-001",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var result = await
+            facturapi.CartaporteCatalog.SearchRightsOfPassage(new
+            Dictionary<string, object>
+
+            {
+              ["q"] = "MX-001",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefijo para buscar en `key`, `right_of_passage` o `concessionaire`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Búsqueda exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          description: Error en parámetros de la petición
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Error de autenticación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: No se encontró el recurso especificado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '500':
+          description: Error inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /catalogs/cartaporte/31/customs-documents:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Buscar documentos aduaneros
+      description: Devuelve tipos de documentos aduaneros.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            "https://www.facturapi.io/v2/catalogs/cartaporte/31/customs-documents"
+            \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=PEDIMENTO" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: >
+            import Facturapi from 'facturapi'
+
+            const facturapi = new Facturapi('sk_test_API_KEY')
+
+            const result = await
+            facturapi.cartaPorteCatalogs.searchCustomsDocuments({ q:
+            'PEDIMENTO', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchCustomsDocuments([
+              "q" => "PEDIMENTO",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var result = await
+            facturapi.CartaporteCatalog.SearchCustomsDocuments(new
+            Dictionary<string, object>
+
+            {
+              ["q"] = "PEDIMENTO",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefijo para buscar en `key` o `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Búsqueda exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          description: Error en parámetros de la petición
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Error de autenticación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: No se encontró el recurso especificado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '500':
+          description: Error inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /catalogs/cartaporte/31/packaging-types:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Buscar tipos de empaque
+      description: Devuelve tipos de empaque para mercancías.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            "https://www.facturapi.io/v2/catalogs/cartaporte/31/packaging-types"
+            \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=CAJA" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: >
+            import Facturapi from 'facturapi'
+
+            const facturapi = new Facturapi('sk_test_API_KEY')
+
+            const result = await
+            facturapi.cartaPorteCatalogs.searchPackagingTypes({ q: 'CAJA', page:
+            0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchPackagingTypes([
+              "q" => "CAJA",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var result = await
+            facturapi.CartaporteCatalog.SearchPackagingTypes(new
+            Dictionary<string, object>
+
+            {
+              ["q"] = "CAJA",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefijo para buscar en `key` o `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Búsqueda exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          description: Error en parámetros de la petición
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Error de autenticación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: No se encontró el recurso especificado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '500':
+          description: Error inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /catalogs/cartaporte/31/trailer-types:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Buscar tipos de remolque
+      description: Devuelve tipos de remolque/semirremolque.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            "https://www.facturapi.io/v2/catalogs/cartaporte/31/trailer-types" \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=TRL" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: >
+            import Facturapi from 'facturapi'
+
+            const facturapi = new Facturapi('sk_test_API_KEY')
+
+            const result = await
+            facturapi.cartaPorteCatalogs.searchTrailerTypes({ q: 'TRL', page: 0,
+            limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchTrailerTypes([
+              "q" => "TRL",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var result = await
+            facturapi.CartaporteCatalog.SearchTrailerTypes(new
+            Dictionary<string, object>
+
+            {
+              ["q"] = "TRL",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefijo para buscar en `key` o `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Búsqueda exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          description: Error en parámetros de la petición
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Error de autenticación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: No se encontró el recurso especificado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '500':
+          description: Error inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /catalogs/cartaporte/31/hazardous-materials:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Buscar materiales peligrosos
+      description: Devuelve entradas del catálogo de materiales peligrosos.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            "https://www.facturapi.io/v2/catalogs/cartaporte/31/hazardous-materials"
+            \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=UN1203" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: >
+            import Facturapi from 'facturapi'
+
+            const facturapi = new Facturapi('sk_test_API_KEY')
+
+            const result = await
+            facturapi.cartaPorteCatalogs.searchHazardousMaterials({ q: 'UN1203',
+            page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchHazardousMaterials([
+              "q" => "UN1203",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var result = await
+            facturapi.CartaporteCatalog.SearchHazardousMaterials(new
+            Dictionary<string, object>
+
+            {
+              ["q"] = "UN1203",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefijo para buscar en `key`, `description` o `class_division`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Búsqueda exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          description: Error en parámetros de la petición
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Error de autenticación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: No se encontró el recurso especificado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '500':
+          description: Error inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /catalogs/cartaporte/31/naval-authorizations:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Buscar autorizaciones navales
+      description: Devuelve códigos de autorización naval (solo `key`).
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            "https://www.facturapi.io/v2/catalogs/cartaporte/31/naval-authorizations"
+            \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=Z-01" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: >
+            import Facturapi from 'facturapi'
+
+            const facturapi = new Facturapi('sk_test_API_KEY')
+
+            const result = await
+            facturapi.cartaPorteCatalogs.searchNavalAuthorizations({ q: 'Z-01',
+            page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: >
+            $facturapi = new Facturapi("sk_test_API_KEY");
+
+            $result =
+            $facturapi->CartaPorteCatalogs->searchNavalAuthorizations([
+              "q" => "Z-01",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var result = await
+            facturapi.CartaporteCatalog.SearchNavalAuthorizations(new
+            Dictionary<string, object>
+
+            {
+              ["q"] = "Z-01",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefijo para buscar en `key`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Búsqueda exitosa
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                  total_pages:
+                    type: integer
+                  total_results:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+        '400':
+          description: Error en parámetros de la petición
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Error de autenticación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: No se encontró el recurso especificado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '500':
+          description: Error inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /catalogs/cartaporte/31/port-stations:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Buscar estaciones/puertos
+      description: Devuelve entradas de estaciones aéreas/marítimas/terrestres.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            "https://www.facturapi.io/v2/catalogs/cartaporte/31/port-stations" \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=MEX" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: >
+            import Facturapi from 'facturapi'
+
+            const facturapi = new Facturapi('sk_test_API_KEY')
+
+            const result = await
+            facturapi.cartaPorteCatalogs.searchPortStations({ q: 'MEX', page: 0,
+            limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchPortStations([
+              "q" => "MEX",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var result = await
+            facturapi.CartaporteCatalog.SearchPortStations(new
+            Dictionary<string, object>
+
+            {
+              ["q"] = "MEX",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefijo para buscar en `key`, `description` o `iata_designator`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Búsqueda exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          description: Error en parámetros de la petición
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Error de autenticación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: No se encontró el recurso especificado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '500':
+          description: Error inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /catalogs/cartaporte/31/marine-containers:
+    get:
+      tags:
+        - carta_porte_keys
+      summary: Buscar contenedores marítimos
+      description: Devuelve tipos de contenedores marítimos.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            "https://www.facturapi.io/v2/catalogs/cartaporte/31/marine-containers"
+            \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=20DC" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: >
+            import Facturapi from 'facturapi'
+
+            const facturapi = new Facturapi('sk_test_API_KEY')
+
+            const result = await
+            facturapi.cartaPorteCatalogs.searchMarineContainers({ q: '20DC',
+            page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->CartaPorteCatalogs->searchMarineContainers([
+              "q" => "20DC",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var result = await
+            facturapi.CartaporteCatalog.SearchMarineContainers(new
+            Dictionary<string, object>
+
+            {
+              ["q"] = "20DC",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefijo para buscar en `key` o `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Búsqueda exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          description: Error en parámetros de la petición
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Error de autenticación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: No se encontró el recurso especificado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '500':
+          description: Error inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
   /customers:
     post:
       operationId: createCustomer
@@ -7542,6 +8548,35 @@ components:
         Número del 1 al 100 que representa la cantidad máxima de resultados a
         regresar con motivos de paginación.
   schemas:
+    SearchKeyDescriptionResult:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: Número de página actual (base 0).
+        total_pages:
+          type: integer
+          description: Total de páginas disponibles.
+        total_results:
+          type: integer
+          description: Total de resultados encontrados.
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              description:
+                type: string
+    ErrorMessage:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: Descripción del error y posible sugerencia.
     EventBase:
       type: object
       properties:

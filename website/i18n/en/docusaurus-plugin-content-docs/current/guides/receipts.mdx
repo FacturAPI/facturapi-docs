@@ -25,6 +25,8 @@ receipts that were not invoiced (known as global invoice).
 To see the descriptions of all the parameters, consult the complete reference of the
 method [Create Receipt](/api/#tag/receipt/operation/createReceipt).
 
+Optionally, you can associate a customer to the receipt by sending the `customer` field
+(either the ID of an existing customer or the customer object to create it).
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -92,7 +94,7 @@ $receipt = $facturapi->Receipts->create([
 <TabItem value="curl" label="cURL">
 
 ```bash
-curl https://www.facturapi.io/v1/receipts \
+curl https://www.facturapi.io/v2/receipts \
   -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -112,6 +114,21 @@ curl https://www.facturapi.io/v1/receipts \
 
 </TabItem>
 </Tabs>
+
+## Assign a customer to an existing receipt
+
+You can assign a customer (or create it from payload) to an existing receipt with
+[Assign customer to receipt](/api/#tag/receipt/operation/assignReceiptCustomer).
+
+```bash
+curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -X PUT \
+  -d '{
+        "customer": "58e93bd8e86eb318b0197456"
+      }'
+```
 
 ## Self-invoice portal
 
@@ -178,7 +195,7 @@ $invoice = $facturapi->Receipts->invoice($receipt->id, [
 <TabItem value="curl" label="cURL">
 
 ```bash
-curl https://www.facturapi.io/v1/receipts/5ebd8e56f5687a013ca0df46/invoice \
+curl https://www.facturapi.io/v2/receipts/5ebd8e56f5687a013ca0df46/invoice \
   -H "Authorization: Bearer sk_test_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{

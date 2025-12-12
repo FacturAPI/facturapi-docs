@@ -24,6 +24,9 @@ recibos que no fueron facturados.
 Para ver las descripciones de todos los parámetros, consulta la referencia completa del
 método [Crear Recibo](/api/#tag/receipt/operation/createReceipt).
 
+Opcionalmente, puedes asociar un cliente al recibo enviando el campo `customer` (ya sea
+el ID de un cliente existente o el objeto del cliente para crearlo).
+
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
 
@@ -110,6 +113,21 @@ curl https://www.facturapi.io/v2/receipts \
 
 </TabItem>
 </Tabs>
+
+## Asignar un cliente a un recibo existente
+
+Puedes asignar un cliente (o crearlo desde payload) a un recibo existente con el método
+[Asignar cliente a recibo](/api/#tag/receipt/operation/assignReceiptCustomer).
+
+```bash
+curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -X PUT \
+  -d '{
+        "customer": "58e93bd8e86eb318b0197456"
+      }'
+```
 
 ## Portal de Autofactura
 

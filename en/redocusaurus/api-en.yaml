@@ -7412,7 +7412,7 @@ paths:
           source: >
             var facturapi = new FacturapiClient("sk_test_API_KEY");
 
-            var searchResult = await facturapi.Webhooks.ListAsync(new
+            var searchResult = await facturapi.Webhook.ListAsync(new
             Dictionary<string, object>
 
             {
@@ -7468,14 +7468,14 @@ paths:
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             const customer = await
-            facturapi.Webhooks.retrieve('590ce6c56d04f840aa8438af');
+            facturapi.webhooks.retrieve('590ce6c56d04f840aa8438af');
         - lang: csharp
           label: C#
           source: >
             var facturapi = new FacturapiClient("sk_test_API_KEY");
 
             var customer = await
-            facturapi.Webhooks.RetrieveAsync("590ce6c56d04f840aa8438af");
+            facturapi.Webhook.RetrieveAsync("590ce6c56d04f840aa8438af");
         - lang: PHP
           source: >
             $facturapi = new Facturapi( "sk_test_API_KEY" );
@@ -7541,7 +7541,7 @@ paths:
           label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
-            var customer = await facturapi.Webhooks.UpdateAsync(
+            var customer = await facturapi.Webhook.UpdateAsync(
               "590ce6c56d04f840aa8438af",
               new Dictionary<string, object>
               {
@@ -7613,7 +7613,7 @@ paths:
             var facturapi = new FacturapiClient("sk_test_API_KEY");
 
             var customer = await
-            facturapi.Webhooks.DeleteAsync("590ce6c56d04f840aa8438af");
+            facturapi.Webhook.DeleteAsync("590ce6c56d04f840aa8438af");
         - lang: PHP
           source: |
             $facturapi = new Facturapi( "sk_test_API_KEY" );
@@ -7829,7 +7829,7 @@ paths:
 
 
             var customer = await
-            facturapi.Tools.ValidateTaxIdAsync("BBA830831LJ2");
+            facturapi.Tool.ValidateTaxIdAsync("BBA830831LJ2");
         - lang: PHP
           source: |
             $facturapi = new Facturapi( "sk_test_API_KEY" );
@@ -8453,6 +8453,23 @@ components:
           description: >-
             Indicates what went wrong and may include a suggestion on how to fix
             the error.
+    IssuingType:
+      type: string
+      description: >-
+        Indicates whether the invoice was issued by your organization or
+        received from a third party.
+      enum:
+        - issuing
+        - receiving
+    CancellationStatus:
+      type: string
+      description: Status of the invoice cancellation request.
+      enum:
+        - none
+        - accepted
+        - pending
+        - rejected
+        - expired
     SearchResult:
       type: object
       properties:

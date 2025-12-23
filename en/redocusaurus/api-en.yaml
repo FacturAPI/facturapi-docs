@@ -4154,6 +4154,15 @@ paths:
             Search. Text to search in the description of the receipt's items or
             the SKU.
         - in: query
+          name: customer
+          schema:
+            type: string
+            minLength: 24
+            maxLength: 24
+          description: |
+            ID of the customer associated to the receipt.
+          example: 58e93bd8e86eb318b0197456
+        - in: query
           name: payment_form
           schema:
             type: string
@@ -4265,6 +4274,153 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthenticated'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      operationId: assignReceiptCustomer
+      tags:
+        - receipt
+      summary: Assign customer to receipt
+      description: >
+        Assign an existing customer (by ID) to a receipt, or create a new one by
+        sending the customer object.
+
+
+        If the receipt has a registered transaction, the transaction's
+        `counterparty` will also be updated.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -X PUT \
+              -d '{
+                    "customer": "58e93bd8e86eb318b0197456"
+                  }'
+        - lang: JavaScript
+          label: Node.js
+          source: >
+            import Facturapi from 'facturapi'
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+
+            // Assign an existing customer by ID
+
+            const receipt = await facturapi.receipts.assignCustomer(
+              '58e93bd8e86eb318b019743d',
+              { customer: '58e93bd8e86eb318b0197456' }
+            );
+
+
+            // Or create the customer from payload and assign it to the receipt
+
+            const receiptWithNewCustomer = await
+            facturapi.receipts.assignCustomer(
+              '58e93bd8e86eb318b019743d',
+              {
+                customer: {
+                  legal_name: 'Dunder Mifflin',
+                  tax_id: 'XAXX010101000',
+                  tax_system: '616',
+                  email: 'billing@dundermifflin.com',
+                  address: { zip: '01234', country: 'MEX' }
+                }
+              }
+            );
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+
+            // Assign an existing customer by ID
+
+            var receipt = await facturapi.Receipt.AssignCustomerAsync(
+              "58e93bd8e86eb318b019743d",
+              new Dictionary<string, object>
+              {
+                ["customer"] = "58e93bd8e86eb318b0197456"
+              }
+            );
+
+
+            // Or create the customer from payload and assign it to the receipt
+
+            var receiptWithNewCustomer = await
+            facturapi.Receipt.AssignCustomerAsync(
+              "58e93bd8e86eb318b019743d",
+              new Dictionary<string, object>
+              {
+                ["customer"] = new Dictionary<string, object>
+                {
+                  ["legal_name"] = "Dunder Mifflin",
+                  ["tax_id"] = "XAXX010101000",
+                  ["tax_system"] = "616",
+                  ["email"] = "billing@dundermifflin.com",
+                  ["address"] = new Dictionary<string, object>
+                  {
+                    ["zip"] = "01234",
+                    ["country"] = "MEX"
+                  }
+                }
+              }
+            );
+        - lang: PHP
+          source: >
+            $facturapi = new Facturapi( "sk_test_API_KEY" );
+
+
+            // Assign an existing customer by ID
+
+            $receipt =
+            $facturapi->Receipts->assign_customer("58e93bd8e86eb318b019743d", [
+              "customer" => "58e93bd8e86eb318b0197456"
+            ]);
+
+
+            // Or create the customer from payload and assign it to the receipt
+
+            $receiptWithNewCustomer =
+            $facturapi->Receipts->assign_customer("58e93bd8e86eb318b019743d", [
+              "customer" => [
+                "legal_name" => "Dunder Mifflin",
+                "tax_id" => "XAXX010101000",
+                "tax_system" => "616",
+                "email" => "billing@dundermifflin.com",
+                "address" => [
+                  "zip" => "01234",
+                  "country" => "MEX"
+                ]
+              ]
+            ]);
+      parameters:
+        - in: path
+          name: receipt_id
+          schema:
+            type: string
+          required: true
+          description: ID of the receipt to update
+      requestBody:
+        $ref: '#/components/requestBodies/ReceiptAssignCustomer'
+      security:
+        - SecretLiveKey: []
+        - SecretTestKey: []
+      responses:
+        '200':
+          description: Updated `Receipt` object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/UnexpectedError'
     delete:
@@ -8284,6 +8440,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ReceiptInput'
+    ReceiptAssignCustomer:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ReceiptAssignCustomerInput'
     ReceiptInvoice:
       required: true
       content:
@@ -13037,6 +13199,10 @@ components:
               type: string
               example: 614496b471d422de4b6cfcc4
               description: ID of the associated invoice, if invoiced.
+            customer:
+              type: string
+              example: 58e93bd8e86eb318b0197456
+              description: ID of the customer associated to the receipt, if assigned.
             key:
               type: string
               example: r9YqYarL
@@ -13072,6 +13238,16 @@ components:
             - items
             - payment_form
           properties:
+            customer:
+              description: >
+                Customer associated to the receipt. You can send the ID of an
+                existing customer or a customer object to create it.
+              oneOf:
+                - type: string
+                  minLength: 24
+                  maxLength: 24
+                  example: 58e93bd8e86eb318b0197456
+                - $ref: '#/components/schemas/CustomerCreateInput'
             items:
               type: array
               maxItems: 5000
@@ -13142,6 +13318,21 @@ components:
             Optional identifier that you can use to relate this receipt to your
             records and later search by this number. Facturapi does not validate
             that this field is unique.
+    ReceiptAssignCustomerInput:
+      type: object
+      required:
+        - customer
+      properties:
+        customer:
+          description: >
+            Customer to assign to the receipt. You can send the ID of an
+            existing customer or a customer object to create it.
+          oneOf:
+            - type: string
+              minLength: 24
+              maxLength: 24
+              example: 58e93bd8e86eb318b0197456
+            - $ref: '#/components/schemas/CustomerCreateInput'
     ReceiptSearchResult:
       allOf:
         - $ref: '#/components/schemas/SearchResult'

@@ -8615,6 +8615,26 @@ components:
           description: >-
             Indicates what went wrong and may include a suggestion on how to fix
             the error.
+        status:
+          type: integer
+          format: int32
+          title: HTTP status code
+          description: HTTP status code for this error response.
+          example: 400
+        ok:
+          type: boolean
+          description: >-
+            Indicates if the request was successful. Always `false` for error
+            responses.
+          example: false
+        code:
+          description: Optional error code.
+          oneOf:
+            - type: string
+            - type: integer
+        path:
+          type: string
+          description: Optional path to the field related to the error.
     IssuingType:
       type: string
       description: >-

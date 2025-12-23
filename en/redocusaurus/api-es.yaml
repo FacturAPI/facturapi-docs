@@ -8793,6 +8793,26 @@ components:
           description: >-
             Indica qué salió mal y puede incluir una sugerencia sobre cómo
             solucionar el error.
+        status:
+          type: integer
+          format: int32
+          title: Código de estado HTTP
+          description: Código de estado HTTP de esta respuesta de error.
+          example: 400
+        ok:
+          type: boolean
+          description: >-
+            Indica si la petición fue exitosa. Siempre `false` en respuestas de
+            error.
+          example: false
+        code:
+          description: Código de error opcional.
+          oneOf:
+            - type: string
+            - type: integer
+        path:
+          type: string
+          description: Ruta opcional del campo relacionado con el error.
     IssuingType:
       type: string
       description: >-

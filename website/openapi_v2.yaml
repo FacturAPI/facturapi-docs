@@ -5121,16 +5121,25 @@ paths:
           source: |
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
-            const canceledRetention = await facturapi.retentions.cancel('6062d9fb226600001cd22f71');
+                const canceledRetention = await facturapi.retentions.cancel('6062d9fb226600001cd22f71', {
+                  motive: '01',
+                  substitution: 'UUID_O_ID_DE_RETENCION'
+                });
         - lang: csharp
           label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
-            var canceledRetention = await facturapi.Retention.CancelAsync("6062d9fb226600001cd22f71");
+                var canceledRetention = await facturapi.Retention.CancelAsync("6062d9fb226600001cd22f71", new {
+                    motive = "01",
+                    substitution = "UUID_O_ID_DE_RETENCION"
+                });
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
-            $canceledRetention = $facturapi->Retentions->cancel("6062d9fb226600001cd22f71");
+                $facturapi = new Facturapi( "sk_test_API_KEY" );
+                $canceledRetention = $facturapi->Retentions->cancel("6062d9fb226600001cd22f71", [
+                  "motive" => "01",
+                  "substitution" => "UUID_O_ID_DE_RETENCION"
+                ]);
       parameters:
         - in: path
           name: retention_id
@@ -5138,6 +5147,36 @@ paths:
             type: string
           required: true
           description: ID de la retención a cancelar
+        - in: query
+          name: motive
+          required: true
+          schema:
+            type: string
+            enum:
+              - "01"
+              - "02"
+              - "03"
+              - "04"
+          description: |
+            Clave que representa el motivo de la cancelación de la retención
+            - `01`: **Comprobante emitido con errores con relación**. Cuando la
+              retención contiene algún error en las cantidades, claves o cualquier otro dato y ya
+              se ha emitido el comprobante que la sustituye, el cual deberá indicarse por medio
+              del atributo `substitution`.
+            - `02`: **Comprobante emitido con errores sin relación**. Cuando la
+              retención contiene algún error en las cantidades, claves o cualquier otro dato y no
+              se requiere relacionar con otra retención.
+            - `03`: **No se llevó a cabo la operación**. Cuando la operación o transacción no se concretó.
+            - `04`: **Operación nominativa relacionada en la retención global**. Cuando se requiere cancelar
+              una retención al público en general porque el cliente solicita su comprobante.
+        - in: query
+          name: substitution
+          required: false
+          schema:
+            type: string
+          description: |
+            ID de la retención que sustituye a la retención que se está cancelando
+            Puedes usar el ID de Facturapi o el folio fiscal (UUID).
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []

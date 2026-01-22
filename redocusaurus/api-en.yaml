@@ -5251,7 +5251,8 @@ paths:
         - lang: Bash
           label: cURL
           source: >
-            curl https://www.facturapi.io/v2/retentions/6062d9fb226600001cd22f71
+            curl
+            "https://www.facturapi.io/v2/retentions/6062d9fb226600001cd22f71?motive=01&substitution=UUID_O_ID_DE_RETENCION"
             \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -X DELETE
@@ -5263,20 +5264,29 @@ paths:
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             const canceledRetention = await
-            facturapi.retentions.cancel('6062d9fb226600001cd22f71');
+            facturapi.retentions.cancel('6062d9fb226600001cd22f71', {
+              motive: '01',
+              substitution: 'UUID_O_ID_DE_RETENCION'
+            });
         - lang: csharp
           label: C#
           source: >
             var facturapi = new FacturapiClient("sk_test_API_KEY");
 
             var canceledRetention = await
-            facturapi.Retention.CancelAsync("6062d9fb226600001cd22f71");
+            facturapi.Retention.CancelAsync("6062d9fb226600001cd22f71", new {
+                motive = "01",
+                substitution = "UUID_O_ID_DE_RETENCION"
+            });
         - lang: PHP
           source: >
             $facturapi = new Facturapi( "sk_test_API_KEY" );
 
             $canceledRetention =
-            $facturapi->Retentions->cancel("6062d9fb226600001cd22f71");
+            $facturapi->Retentions->cancel("6062d9fb226600001cd22f71", [
+              "motive" => "01",
+              "substitution" => "UUID_O_ID_DE_RETENCION"
+            ]);
       parameters:
         - in: path
           name: retention_id
@@ -5284,6 +5294,42 @@ paths:
             type: string
           required: true
           description: ID of the retention to cancel
+        - in: query
+          name: motive
+          required: true
+          schema:
+            type: string
+            enum:
+              - '01'
+              - '02'
+              - '03'
+              - '04'
+          description: >
+            Code representing the reason for the retention cancellation
+
+            - `01`: **Document issued with errors and replacement**. When the
+            retention contains an error in amounts, codes, or any other data and
+            the replacement document has already been issued, which must be
+            indicated using the `substitution` attribute.
+
+            - `02`: **Document issued with errors without replacement**. When
+            the retention contains an error in amounts, codes, or any other data
+            and does not need to be related to another retention.
+
+            - `03`: **The operation did not take place**. When the operation or
+            transaction was not completed.
+
+            - `04`: **Nominative operation related in the global retention**.
+            When it is necessary to cancel a general public retention because
+            the client requests their document.
+        - in: query
+          name: substitution
+          required: false
+          schema:
+            type: string
+          description: |
+            ID of the retention that replaces the one being canceled.
+            You can use the Facturapi ID or the fiscal folio (UUID).
       security:
         - SecretLiveKey: []
         - SecretTestKey: []

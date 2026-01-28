@@ -12,6 +12,7 @@ Los impuestos se manejan de manera diferente dependiendo del tipo de pago en **S
 Cuando se convierte una **factura de Stripe** en una **factura de Facturapi**, **NO** se usarán los impuestos predeterminados, sino que se tomarán directamente de los **items de la factura** en Stripe.
 
 - **Los impuestos se mapearán según su nombre en Stripe**:
+  - `"IVA"` → **IVA** 
   - `"IEPS"` → **IEPS**
   - `"IVA Exento"` → **IVA Exento**
   - **Cualquier otro nombre** → **IVA**

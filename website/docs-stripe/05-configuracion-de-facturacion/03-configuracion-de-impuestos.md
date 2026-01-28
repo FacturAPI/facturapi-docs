@@ -13,7 +13,6 @@ Cuando se convierte una **factura de Stripe** en una **factura de Facturapi**, *
 
 - **Los impuestos se mapearán según su nombre en Stripe**:
   - `"IEPS"` → **IEPS**
-  - `"ISR"` → **ISR**
   - `"IVA Exento"` → **IVA Exento**
   - **Cualquier otro nombre** → **IVA**
   - **Si el item de la factura no tiene impuestos, no se agregarán impuestos en la factura de Facturapi**.

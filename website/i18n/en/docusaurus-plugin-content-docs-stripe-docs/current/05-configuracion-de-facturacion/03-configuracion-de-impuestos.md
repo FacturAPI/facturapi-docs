@@ -12,6 +12,7 @@ Taxes are handled differently depending on the type of payment in **Stripe**.
 When converting a **Stripe invoice** into a **Facturapi invoice**, the **default taxes will NOT be used**. Instead, taxes will be taken directly from the **invoice items** in Stripe.
 
 - **Taxes will be mapped according to their name in Stripe**:  
+  - `"IVA"` → **VAT** 
   - `"IEPS"` → **IEPS**  
   - `"IVA Exento"` → **Exempt VAT**  
   - **Any other name** → **VAT**  

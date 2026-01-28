@@ -13,7 +13,6 @@ When converting a **Stripe invoice** into a **Facturapi invoice**, the **default
 
 - **Taxes will be mapped according to their name in Stripe**:  
   - `"IEPS"` → **IEPS**  
-  - `"ISR"` → **ISR**  
   - `"IVA Exento"` → **Exempt VAT**  
   - **Any other name** → **VAT**  
   - **If the invoice item has no taxes, no taxes will be added to the Facturapi invoice.**  

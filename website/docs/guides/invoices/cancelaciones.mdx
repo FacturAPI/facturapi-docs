@@ -3,6 +3,9 @@ sidebar_position: 10
 title: Cancelaciones
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Cancelaciones de CFDI
 
 Esta guía explica cómo funciona la cancelación de facturas en Facturapi, qué significa cada estado y qué debes esperar después de solicitar la cancelación.
@@ -31,11 +34,80 @@ Notas:
 
 ## Flujo de cancelación y estados
 
+Para cancelar una factura, utiliza `cancelInvoice` con el Motivo de cancelación:
+
+<Tabs groupId="codeExamples">
+<TabItem value="curl" label="cURL" default>
+
+```bash
+curl "https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d?motive=02" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -X DELETE
+```
+
+</TabItem>
+<TabItem value="js" label="Node.js">
+
+```javascript
+import Facturapi from 'facturapi';
+const facturapi = new Facturapi('sk_test_API_KEY');
+
+const invoice = await facturapi.invoices.cancel(
+  '58e93bd8e86eb318b019743d',
+  { motive: '02' }
+);
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+from facturapi import Facturapi
+
+facturapi = Facturapi('sk_test_API_KEY')
+invoice = facturapi.invoices.cancel('58e93bd8e86eb318b019743d', {
+    'motive': '02'
+})
+```
+
+</TabItem>
+</Tabs>
+
 Después de llamar a `cancelInvoice`, puede ocurrir:
 
 - Respuesta exitosa con `status: "canceled"` y `cancellation_status: "accepted"` (cancelación finalizada).
+
+```json
+{
+  "id": "58e93bd8e86eb318b019743d",
+  "status": "canceled",
+  "cancellation_status": "accepted",
+  "uuid": "39c85a3f-275b-4341-b259-e8971d9f8a94"
+}
+```
+
 - Respuesta exitosa con `status: "valid"` y `cancellation_status: "pending"` (requiere aceptación del receptor).
+
+```json
+{
+  "id": "58e93bd8e86eb318b019743d",
+  "status": "valid",
+  "cancellation_status": "pending",
+  "uuid": "39c85a3f-275b-4341-b259-e8971d9f8a94"
+}
+```
+
 - Respuesta exitosa con `status: "valid"` y `cancellation_status: "verifying"` (el SAT recibió la solicitud y la está validando).
+
+```json
+{
+  "id": "58e93bd8e86eb318b019743d",
+  "status": "valid",
+  "cancellation_status": "verifying",
+  "uuid": "39c85a3f-275b-4341-b259-e8971d9f8a94"
+}
+```
+
 - Error con la explicación de por qué no se pudo cancelar.
 
 Significado de `cancellation_status`:
@@ -59,6 +131,46 @@ Facturapi consulta periódicamente el SAT y actualiza `cancellation_status`. Pue
 ## Acuse de cancelación y verificación
 
 Cuando la cancelación es aceptada, puedes descargar el acuse en XML o PDF desde el endpoint de [Cancellation receipt](/api/#tag/invoice/operation/downloadCancellationReceiptXml). También puedes validar el CFDI con `verification_url`.
+
+<Tabs groupId="receiptExamples">
+<TabItem value="curl" label="cURL" default>
+
+```bash
+# Acuse en XML
+curl "https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/xml" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -X GET
+
+# Acuse en PDF
+curl "https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/pdf" \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -X GET
+```
+
+</TabItem>
+<TabItem value="js" label="Node.js">
+
+```javascript
+import Facturapi from 'facturapi';
+const facturapi = new Facturapi('sk_test_API_KEY');
+
+await facturapi.invoices.downloadCancellationReceiptXml('58e93bd8e86eb318b019743d');
+await facturapi.invoices.downloadCancellationReceiptPdf('58e93bd8e86eb318b019743d');
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+from facturapi import Facturapi
+
+facturapi = Facturapi('sk_test_API_KEY')
+facturapi.invoices.download_cancellation_receipt_xml('58e93bd8e86eb318b019743d')
+facturapi.invoices.download_cancellation_receipt_pdf('58e93bd8e86eb318b019743d')
+```
+
+</TabItem>
+</Tabs>
 
 ## Errores comunes
 

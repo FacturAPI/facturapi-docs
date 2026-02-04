@@ -3167,27 +3167,34 @@ paths:
         - invoice
       summary: Cancel invoice
       description: >
-        Creates a cancellation request to the SAT for the specified invoice.
+        Creates a cancellation request to the SAT for the specified invoice,
+        using the **SAT's new cancellation scheme (effective since 2022)**.
 
 
-        When using this method, 3 possible results can occur:
+        When using this method, the following results can occur:
 
 
         - The call returns an error with the explanation of why the cancellation
         could not be completed.
 
         - The call is successful and returns an `invoice` object with the
-        property `status: "canceled"`.
+        property `status: "canceled"` (the cancellation has already been
+        accepted by the SAT).
 
         - The call is successful, but the cancellation requires confirmation
         from your client, in which case the response will be the `invoice`
         object with the properties `status: "valid"` and `cancellation_status:
         "pending"`.
 
+        - The call is successful, but the SAT replies that the request was
+        received and is being validated, in which case the response will be
+        `status: "valid"` and `cancellation_status: "verifying"`.
 
-        In the third scenario, the value of `cancellation_status` will be
-        automatically updated by Facturapi when your client accepts, rejects, or
-        lets the request expire, so that when you query an invoice (using [Get
+
+        In the `pending` or `verifying` scenarios, the value of
+        `cancellation_status` will be automatically updated by Facturapi when
+        the SAT or your client accepts, rejects, or lets the request expire, so
+        that when you query an invoice (using [Get
         Invoice](#tag/invoice/operation/getInvoice)), the `cancellation_status`
         property will reflect the most recent status of the request.
 
@@ -3204,7 +3211,7 @@ paths:
         the database.
 
 
-        If the status of the invoice is `canceled`, this method will return an
+        If the status of the invoice is not `valid`, this method will return an
         error.
       x-codeSamples:
         - lang: Bash
@@ -11717,13 +11724,16 @@ components:
           type: string
           enum:
             - none
+            - verifying
             - pending
             - accepted
             - rejected
             - expired
           description: >
-            Current status of the cancellation request, if it has been made. You
-            can read more in the [Cancel
+            Current status of the cancellation request, if it has been made.
+            `verifying` means the SAT has received the request and is validating
+            it; Facturapi will keep checking until it changes to a final status.
+            You can read more in the [Cancel
             Invoice](#tag/invoice/operation/deleteInvoice) section.
           example: none
         verification_url:
@@ -11925,13 +11935,16 @@ components:
           type: string
           enum:
             - none
+            - verifying
             - pending
             - accepted
             - rejected
             - expired
           description: >
-            Current status of the cancellation request, if it has been made. You
-            can read more in the [Cancel
+            Current status of the cancellation request, if it has been made.
+            `verifying` means the SAT has received the request and is validating
+            it; Facturapi will keep checking until it changes to a final status.
+            You can read more in the [Cancel
             Invoice](#tag/invoice/operation/deleteInvoice) section.
           example: none
         verification_url:

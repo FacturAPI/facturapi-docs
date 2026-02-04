@@ -1517,7 +1517,7 @@ paths:
         - invoice
       summary: Cancelar factura
       description: |
-        Realiza una solicitud de cancelación de factura ante el SAT, soportando el esquema de cancelación 2022.
+        Realiza una solicitud de cancelación de factura ante el SAT, soportando el **nuevo esquema de cancelación del SAT (vigente desde 2022)**.
 
         Al usar este método pueden ocurrir los siguientes resultados:
 

@@ -1,0 +1,67 @@
+---
+sidebar_position: 10
+title: Cancellations (Cancelaciones)
+---
+
+# CFDI cancellations
+
+This guide explains how invoice cancellations work in Facturapi, what each status means, and what to expect after requesting a cancellation.
+
+## Requirements and rules
+
+- You can only cancel invoices with `status: "valid"`.
+- If the invoice is `draft`, the cancel method deletes it.
+- If the invoice is already `canceled` or has a cancellation in progress (`cancellation_status: "pending"` or `"verifying"`), the method will return an error.
+
+## Cancellation motives (SAT) and substitution
+
+The SAT defines **cancellation motives**, and Facturapi exposes them via the `motive` parameter. Cancellations use the **SAT's new cancellation scheme (effective since 2022)**.
+
+- `01`: **Invoice issued with errors with relation**. Requires `substitution` with the UUID (or Facturapi ID) of the replacing invoice.
+- `02`: **Invoice issued with errors without relation**.
+- `03`: **Operation not carried out**.
+- `04`: **Nominative operation related to a global invoice**.
+
+The SAT expects the motive to match the use case; otherwise the cancellation may fail.
+
+Notes:
+
+- If you choose motive `01`, you must send `substitution`, and the replacement invoice must exist.
+- If the SAT considers your CFDI non-cancellable (by status or relationships), the request will be rejected even if the motive is valid.
+
+## Cancellation flow and statuses
+
+After calling `cancelInvoice`, you may get:
+
+- Success with `status: "canceled"` and `cancellation_status: "accepted"` (finalized).
+- Success with `status: "valid"` and `cancellation_status: "pending"` (requires receiver approval).
+- Success with `status: "valid"` and `cancellation_status: "verifying"` (SAT received the request and is validating it).
+- An error explaining why the cancellation could not be completed.
+
+Meaning of `cancellation_status`:
+
+| Status | Meaning | What to do |
+|:--|:--|:--|
+| `none` | No request registered by the SAT. | You can request cancellation if needed. |
+| `verifying` | SAT received the request and is validating it. | Wait for automatic updates or fetch the invoice. |
+| `pending` | Receiver approval is required. | Wait for acceptance/rejection or expiration. |
+| `accepted` | Cancellation was accepted. | Invoice moves to `status: "canceled"`. |
+| `rejected` | Cancellation was rejected. | Review the motive and retry if applicable. |
+| `expired` | Receiver did not respond in time. | You may retry cancellation if applicable. |
+
+## Automatic status updates
+
+Facturapi periodically checks the SAT and updates `cancellation_status`. You can:
+
+- Fetch the invoice using [Get Invoice](/api/#tag/invoice/operation/getInvoice).
+- Subscribe to the `invoice.cancellation_status_updated` webhook to receive changes when the status leaves `pending` or `verifying`.
+
+## Cancellation receipt and verification
+
+When the cancellation is accepted, you can download the cancellation receipt in XML or PDF from the [Cancellation receipt](/api/#tag/invoice/operation/downloadCancellationReceiptXml) endpoint. You can also validate the CFDI using `verification_url`.
+
+## Common errors
+
+- `409 Conflict`: the invoice is not `valid` or already has a cancellation in progress.
+- `400 Bad Request`: invalid motive or missing `substitution` when required by SAT rules.
+- `404 Not Found`: the folio or UUID does not exist in the SAT.

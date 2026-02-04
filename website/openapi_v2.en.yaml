@@ -3116,7 +3116,7 @@ paths:
         - invoice
       summary: Cancel invoice
       description: |
-        Creates a cancellation request to the SAT for the specified invoice.
+        Creates a cancellation request to the SAT for the specified invoice, using the **SAT's new cancellation scheme (effective since 2022)**.
 
         When using this method, the following results can occur:
 

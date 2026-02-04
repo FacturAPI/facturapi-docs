@@ -1517,19 +1517,24 @@ paths:
         - invoice
       summary: Cancelar factura
       description: |
-        Realiza una solicitud de cancelación de factura ante el SAT, soportando el esquema de cancelación 2022.
+        Realiza una solicitud de cancelación de factura ante el SAT, soportando el **nuevo esquema de cancelación del SAT (vigente desde 2022)**.
 
-        Al usar este método pueden ocurrir 3 posibles resultados:
+        Al usar este método pueden ocurrir los siguientes resultados:
 
         - Que la llamada regrese un error con la explicación de por qué no se pudo cancelar.
-        - Que la llamada sea satisfactoria y regrese un objeto `invoice` con la propiedad `status: "canceled"`.
-        - Que la llamada sea satisfactoria, pero que la cancelación requiera de confirmación de parte de tu cliente, en cuyo caso se obtendrá como respuesta el objeto `invoice` con las propiedades `status: "valid"` y `cancellation_status: "pending"`.
+        - Que la llamada sea satisfactoria y regrese un objeto `invoice` con la propiedad `status: "canceled"` (la cancelación ya fue aceptada por el SAT).
+        - Que la llamada sea satisfactoria, pero la cancelación requiera confirmación de tu cliente, en cuyo caso se obtendrá como respuesta el objeto `invoice` con las propiedades `status: "valid"` y `cancellation_status: "pending"`.
+        - Que la llamada sea satisfactoria, pero el SAT responda que la solicitud fue recibida y está en validación, en cuyo caso se obtendrá `status: "valid"` y `cancellation_status: "verifying"`.
 
-        En el tercer escenario, el valor de `cancellation_status` será actualizado automáticamente por Facturapi cuando tu cliente acepte, rechace o deje expirar la solicitud, de tal manera que al consultar una factura (usando [Obtener Factura](#tag/invoice/operation/getInvoice)), la propiedad `cancellation_status` reflejará el estado más reciente de la soliitud.
+        En los escenarios con `pending` o `verifying`, el valor de `cancellation_status` será actualizado automáticamente por Facturapi cuando el SAT o tu cliente acepten, rechacen o dejen expirar la solicitud. Al consultar una factura (usando [Obtener Factura](#tag/invoice/operation/getInvoice)), la propiedad `cancellation_status` reflejará el estado más reciente de la solicitud.
 
         Consulta los valores posibles de `cancellation_status` más abajo.
 
         Después de la cancelación la factura ya no tendrá validez, el objeto cambiará su `status` a `"canceled"` y seguirá estando disponible para futuras consultas.
+
+        Si el estatus de la factura es `draft`, este método la elimina.
+
+        Si el estatus de la factura no es `valid`, este método regresará un error.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -5734,12 +5739,13 @@ components:
           type: string
           enum:
             - none
+            - verifying
             - pending
             - accepted
             - rejected
             - expired
           description: |
-            Estado actual de la solicitud de cancelación, en caso de haberla realizado. Puedes leer más a detalle en la sección de [Cancelar Factura](#tag/invoice/operation/deleteInvoice)).
+            Estado actual de la solicitud de cancelación, en caso de haberla realizado. `verifying` indica que el SAT recibió la solicitud y está validándola; Facturapi seguirá consultando hasta que cambie a un estado final. Puedes leer más a detalle en la sección de [Cancelar Factura](#tag/invoice/operation/deleteInvoice)).
           example: none
         verification_url:
           type: string

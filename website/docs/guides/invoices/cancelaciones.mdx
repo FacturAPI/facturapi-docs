@@ -71,6 +71,20 @@ invoice = facturapi.invoices.cancel('58e93bd8e86eb318b019743d', {
 ```
 
 </TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_test_API_KEY");
+var invoice = await facturapi.Invoice.CancelAsync(
+  "58e93bd8e86eb318b019743d",
+  new Dictionary<string, object>
+  {
+    ["motive"] = "02"
+  }
+);
+```
+
+</TabItem>
 </Tabs>
 
 Después de llamar a `cancelInvoice`, puede ocurrir:
@@ -139,12 +153,14 @@ Cuando la cancelación es aceptada, puedes descargar el acuse en XML o PDF desde
 # Acuse en XML
 curl "https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/xml" \
   -H "Authorization: Bearer sk_test_API_KEY" \
-  -X GET
+  -X GET \
+  -o "acuse_cancelacion.xml"
 
 # Acuse en PDF
 curl "https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/pdf" \
   -H "Authorization: Bearer sk_test_API_KEY" \
-  -X GET
+  -X GET \
+  -o "acuse_cancelacion.pdf"
 ```
 
 </TabItem>
@@ -152,10 +168,14 @@ curl "https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation
 
 ```javascript
 import Facturapi from 'facturapi';
+import fs from 'node:fs';
 const facturapi = new Facturapi('sk_test_API_KEY');
 
-await facturapi.invoices.downloadCancellationReceiptXml('58e93bd8e86eb318b019743d');
-await facturapi.invoices.downloadCancellationReceiptPdf('58e93bd8e86eb318b019743d');
+const xmlStream = await facturapi.invoices.downloadCancellationReceiptXml('58e93bd8e86eb318b019743d');
+xmlStream.pipe(fs.createWriteStream('acuse_cancelacion.xml'));
+
+const pdfStream = await facturapi.invoices.downloadCancellationReceiptPdf('58e93bd8e86eb318b019743d');
+pdfStream.pipe(fs.createWriteStream('acuse_cancelacion.pdf'));
 ```
 
 </TabItem>
@@ -165,8 +185,29 @@ await facturapi.invoices.downloadCancellationReceiptPdf('58e93bd8e86eb318b019743
 from facturapi import Facturapi
 
 facturapi = Facturapi('sk_test_API_KEY')
-facturapi.invoices.download_cancellation_receipt_xml('58e93bd8e86eb318b019743d')
-facturapi.invoices.download_cancellation_receipt_pdf('58e93bd8e86eb318b019743d')
+xml_stream = facturapi.invoices.download_cancellation_receipt_xml('58e93bd8e86eb318b019743d')
+with open('acuse_cancelacion.xml', 'wb') as file:
+    file.write(xml_stream.read())
+
+pdf_stream = facturapi.invoices.download_cancellation_receipt_pdf('58e93bd8e86eb318b019743d')
+with open('acuse_cancelacion.pdf', 'wb') as file:
+    file.write(pdf_stream.read())
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_test_API_KEY");
+var xmlStream = await facturapi.Invoice.DownloadCancellationReceiptXmlAsync("58e93bd8e86eb318b019743d");
+var xmlFile = new System.IO.FileStream("C:\\route\\to\\save\\acuse_cancelacion.xml", FileMode.Create);
+xmlStream.CopyTo(xmlFile);
+xmlFile.Close();
+
+var pdfStream = await facturapi.Invoice.DownloadCancellationReceiptPdfAsync("58e93bd8e86eb318b019743d");
+var pdfFile = new System.IO.FileStream("C:\\route\\to\\save\\acuse_cancelacion.pdf", FileMode.Create);
+pdfStream.CopyTo(pdfFile);
+pdfFile.Close();
 ```
 
 </TabItem>

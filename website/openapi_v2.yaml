@@ -9767,33 +9767,28 @@ components:
           minimum: 0
           description: Total en USD.
         Emisor:
+          description: Objeto con información del emisor del complemento. Requerido cuando el domicilio y CURP del emisor no se toman de la organización que emite el complemento.
           oneOf:
             - $ref: "#/components/schemas/ComercioExteriorEmisor"
-            - type: string
-              title: emisor_id
-              description: ID del emisor previamente registrado en Facturapi.
+            - type: boolean
+              default: true
+              description: Cuando es `true`, se utiliza el domicilio y CURP del emisor de la organización que emite el complemento. Por default es `true`.
         Propietario:
           type: array
           items:
             oneOf:
               - $ref: "#/components/schemas/ComercioExteriorPropietario"
-              - type: string
-                title: propietario_id
-                description: ID de un propietario previamente registrado en Facturapi.
+              - $ref: "#/components/schemas/CustomerComercioExterior"
         Receptor:
           oneOf:
             - $ref: "#/components/schemas/ComercioExteriorReceptor"
-            - type: string
-              title: receptor_id
-              description: ID del receptor previamente registrado en Facturapi.
+            - $ref: "#/components/schemas/CustomerComercioExterior"
         Destinatario:
           type: array
           items:
             oneOf:
               - $ref: "#/components/schemas/ComercioExteriorDestinatario"
-              - type: string
-                title: destinatario_id
-                description: ID de un destinatario previamente registrado en Facturapi.
+              - $ref: "#/components/schemas/CustomerComercioExterior"
         Mercancias:
           $ref: "#/components/schemas/ComercioExteriorMercancias"
     ComercioExteriorDataInput:
@@ -11195,7 +11190,7 @@ components:
           type: string
           format: base64
           description: Sello digital que se asocie al pago expresado como una cadena de texto en formato base 64.
-    CuustomerInfo:
+    CustomerInfo:
       type: object
       description: Objeto con información parcial del cliente receptor del comprobante. Para obtener el objeto `Customer` completo, deberás consultarlo con el método de [Obtener Cliente]('#/operation/getCustomer').
       properties:
@@ -11220,6 +11215,14 @@ components:
               format: ISO 3166-1 alpha-3
               description: Código de País acorde al estándar ISO 3166-1 alpha-3, del Catálogo de Países.
               example: MEX
+    CustomerComercioExterior:
+      type: object
+      description: Objeto con información parcial del cliente receptor del comprobante. Para obtener el objeto `Customer` completo, deberás consultarlo con el método de [Obtener Cliente]('#/operation/getCustomer').
+      properties:
+        id:
+          type: string
+          description: ID del objeto `customer` relacionado a la factura, en caso de no haber sido eliminado
+          example: 58e93bd8e86eb318b0197456
     RelatedDocumentInput:
       allOf:
         - type: object
@@ -11319,7 +11322,7 @@ components:
           description: |
             Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
         customer:
-          $ref: "#/components/schemas/CuustomerInfo"
+          $ref: "#/components/schemas/CustomerInfo"
         total:
           type: number
           description: Monto total facturado.
@@ -11471,7 +11474,7 @@ components:
           description: |
             Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
         customer:
-          $ref: "#/components/schemas/CuustomerInfo"
+          $ref: "#/components/schemas/CustomerInfo"
         total:
           type: number
           description: Monto total facturado.
@@ -12792,7 +12795,7 @@ components:
         stamp:
           $ref: "#/components/schemas/Stamp"
         customer:
-          $ref: "#/components/schemas/CuustomerInfo"
+          $ref: "#/components/schemas/CustomerInfo"
     RetentionProperties:
       type: object
       properties:

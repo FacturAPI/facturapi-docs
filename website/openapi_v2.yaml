@@ -9497,6 +9497,20 @@ components:
           properties:
             data:
               $ref: "#/components/schemas/CartaPorteDataInput"
+    ComercioExteriorProperties:
+      allOf:
+        - $ref: "#/components/schemas/CartaPorteOrCustomComplementProperties"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/ComercioExteriorDataProperties"
+    ComercioExteriorInput:
+      allOf:
+        - $ref: "#/components/schemas/CartaPorteOrCustomComplementInput"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/ComercioExteriorDataInput"
     CartaPorteOrCustomComplementProperties:
       title: Complement
       type: object
@@ -9504,12 +9518,14 @@ components:
         propertyName: type
         mapping:
           carta_porte: "#/components/schemas/CartaPorteProperties"
+          comercio_exterior: "#/components/schemas/ComercioExteriorProperties"
           custom: "#/components/schemas/CustomComplementProperties"
       properties:
         type:
           type: string
           enum:
             - carta_porte
+            - comercio_exterior
             - custom
           description: Tipo de complemento.
     CartaPorteOrCustomComplementInput:
@@ -9520,6 +9536,7 @@ components:
         mapping:
           custom: "#/components/schemas/CustomComplementInput"
           carta_porte: "#/components/schemas/CartaPorteInput"
+          comercio_exterior: "#/components/schemas/ComercioExteriorInput"
       required:
         - type
         - data
@@ -9528,6 +9545,7 @@ components:
           type: string
           enum:
             - carta_porte
+            - comercio_exterior
             - custom
           description: Tipo de complemento.
     CartaPorteDataProperties:
@@ -9695,6 +9713,240 @@ components:
     CartaPorteDataInput:
       allOf:
         - $ref: "#/components/schemas/CartaPorteDataProperties"
+    ComercioExteriorDataProperties:
+      type: object
+      title: ComercioExterior
+      description: Complemento Comercio Exterior versión 2.0.
+      required:
+        - ClaveDePedimento
+        - CertificadoOrigen
+        - TipoCambioUSD
+        - TotalUSD
+        - Mercancias
+      properties:
+        Version:
+          type: string
+          default: "2.0"
+          enum:
+            - "2.0"
+        MotivoTraslado:
+          type: string
+          description: Clave del catálogo c_MotivoTraslado.
+        ClaveDePedimento:
+          type: string
+          description: Clave del pedimento (catálogo c_ClavePedimento).
+        CertificadoOrigen:
+          type: integer
+          enum:
+            - 0
+            - 1
+          description: Indica si existe certificado de origen.
+        NumCertificadoOrigen:
+          type: string
+          minLength: 6
+          maxLength: 40
+          description: Número de certificado de origen.
+        NumeroExportadorConfiable:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: Número de exportador confiable.
+        Incoterm:
+          type: string
+          description: Clave del INCOTERM (catálogo c_INCOTERM).
+        Observaciones:
+          type: string
+          minLength: 1
+          maxLength: 300
+        TipoCambioUSD:
+          type: number
+          minimum: 0
+          description: Tipo de cambio USD.
+        TotalUSD:
+          type: number
+          minimum: 0
+          description: Total en USD.
+        Emisor:
+          oneOf:
+            - $ref: "#/components/schemas/ComercioExteriorEmisor"
+            - type: string
+              title: emisor_id
+              description: ID del emisor previamente registrado en Facturapi.
+        Propietario:
+          type: array
+          items:
+            oneOf:
+              - $ref: "#/components/schemas/ComercioExteriorPropietario"
+              - type: string
+                title: propietario_id
+                description: ID de un propietario previamente registrado en Facturapi.
+        Receptor:
+          oneOf:
+            - $ref: "#/components/schemas/ComercioExteriorReceptor"
+            - type: string
+              title: receptor_id
+              description: ID del receptor previamente registrado en Facturapi.
+        Destinatario:
+          type: array
+          items:
+            oneOf:
+              - $ref: "#/components/schemas/ComercioExteriorDestinatario"
+              - type: string
+                title: destinatario_id
+                description: ID de un destinatario previamente registrado en Facturapi.
+        Mercancias:
+          $ref: "#/components/schemas/ComercioExteriorMercancias"
+    ComercioExteriorDataInput:
+      allOf:
+        - $ref: "#/components/schemas/ComercioExteriorDataProperties"
+    ComercioExteriorDomicilio:
+      type: object
+      required:
+        - Calle
+        - Estado
+        - Pais
+        - CodigoPostal
+      properties:
+        Calle:
+          type: string
+          maxLength: 100
+        NumeroExterior:
+          type: string
+          maxLength: 20
+        NumeroInterior:
+          type: string
+          maxLength: 20
+        Colonia:
+          type: string
+        Localidad:
+          type: string
+        Referencia:
+          type: string
+          maxLength: 150
+        Municipio:
+          type: string
+        Estado:
+          type: string
+          minLength: 1
+          maxLength: 30
+        Pais:
+          type: string
+          description: Clave del catálogo c_Pais.
+        CodigoPostal:
+          type: string
+          minLength: 1
+          maxLength: 12
+    ComercioExteriorEmisor:
+      type: object
+      required:
+        - Domicilio
+      properties:
+        Domicilio:
+          $ref: "#/components/schemas/ComercioExteriorDomicilio"
+        Curp:
+          type: string
+          minLength: 18
+          maxLength: 18
+    ComercioExteriorPropietario:
+      type: object
+      required:
+        - NumRegIdTrib
+        - ResidenciaFiscal
+      properties:
+        NumRegIdTrib:
+          type: string
+          minLength: 6
+          maxLength: 40
+        ResidenciaFiscal:
+          type: string
+          description: Clave del catálogo c_Pais.
+    ComercioExteriorReceptor:
+      type: object
+      properties:
+        Domicilio:
+          $ref: "#/components/schemas/ComercioExteriorDomicilio"
+        NumRegIdTrib:
+          type: string
+          minLength: 6
+          maxLength: 40
+    ComercioExteriorDestinatario:
+      type: object
+      required:
+        - Domicilio
+      properties:
+        Domicilio:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/ComercioExteriorDomicilio"
+        NumRegIdTrib:
+          type: string
+          minLength: 6
+          maxLength: 40
+        Nombre:
+          type: string
+          minLength: 1
+          maxLength: 300
+    ComercioExteriorDescripcionesEspecificas:
+      type: object
+      required:
+        - Marca
+      properties:
+        Marca:
+          type: string
+          minLength: 1
+          maxLength: 35
+        Modelo:
+          type: string
+          minLength: 1
+          maxLength: 80
+        SubModelo:
+          type: string
+          minLength: 1
+          maxLength: 50
+        NumeroSerie:
+          type: string
+          minLength: 1
+          maxLength: 40
+    ComercioExteriorMercancia:
+      type: object
+      required:
+        - NoIdentificacion
+        - ValorDolares
+      properties:
+        DescripcionesEspecificas:
+          type: array
+          items:
+            $ref: "#/components/schemas/ComercioExteriorDescripcionesEspecificas"
+        NoIdentificacion:
+          type: string
+          minLength: 1
+          maxLength: 100
+        FraccionArancelaria:
+          type: string
+          description: Clave del catálogo c_FraccionArancelaria.
+        CantidadAduana:
+          type: number
+          minimum: 0.001
+        UnidadAduana:
+          type: string
+          description: Clave del catálogo c_UnidadAduana.
+        ValorUnitarioAduana:
+          type: number
+          minimum: 0
+        ValorDolares:
+          type: number
+          minimum: 0
+    ComercioExteriorMercancias:
+      type: object
+      required:
+        - Mercancia
+      properties:
+        Mercancia:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/ComercioExteriorMercancia"
     # Carta Porte Mercancias detallado
     CartaPorteCantidadTransporta:
       type: object

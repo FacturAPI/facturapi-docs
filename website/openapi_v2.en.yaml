@@ -10910,6 +10910,12 @@ components:
           type: string
           description: Payment form code according to the [Payment Form catalog](#payment-form).
           example: 06
+        total_payment_amount:
+          type: number
+          description: Total amount of the Payment complement when the invoice is type P.
+        total_payment_amount_converted:
+          type: number
+          description: Total amount paid converted from the payment currency to Mexican Pesos.
         is_ready_to_stamp:
           type: boolean
           description: |

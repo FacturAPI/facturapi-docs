@@ -602,6 +602,118 @@ tags:
       TS03 | Tren unitario de carros ferroviarios
 
       TS04 | Tren unitario Intermodal
+  - name: comercio_exterior_keys
+    x-displayName: Catálogos Comercio Exterior
+    description: >
+      Catálogos específicos del complemento Comercio Exterior 2.0. Útiles para
+      validar y construir correctamente los valores del complemento.
+
+
+      Cada tabla incluye: Clave | Descripción (Español oficial)
+
+
+      ### Motivo de traslado (c_MotivoTraslado)
+
+
+      Clave | Descripción
+
+      :-----:| -----------
+
+      01 | Envío de mercancías facturadas con anterioridad
+
+      02 | Reubicación de mercancías propias
+
+      03 | Envío de mercancías objeto de contrato de consignación
+
+      04 | Envío de mercancías para posterior enajenación
+
+      05 | Envío de mercancías propiedad de terceros
+
+      99 | Otros
+
+
+      ### Incoterm (c_INCOTERM)
+
+
+      Clave | Descripción
+
+      :-----:| -----------
+
+      CFR | Coste y flete (puerto de destino convenido).
+
+      CIF | Coste, seguro y flete (puerto de destino convenido).
+
+      CPT | Transporte pagado hasta (el lugar de destino convenido).
+
+      CIP | Transporte y seguro pagados hasta (lugar de destino convenido).
+
+      DAP | Entregada en lugar.
+
+      DDP | Entregada derechos pagados (lugar de destino convenido).
+
+      DPU | Entregada y descargada en lugar acordado.
+
+      EXW | En fabrica (lugar convenido).
+
+      FCA | Franco transportista (lugar designado).
+
+      FAS | Franco al costado del buque (puerto de carga convenido).
+
+      FOB | Franco a bordo (puerto de carga convenido).
+
+
+      ### Unidad de Aduana (c_UnidadAduana)
+
+
+      Clave | Descripción
+
+      :-----:| -----------
+
+      01 | KILO
+
+      02 | GRAMO
+
+      03 | METRO LINEAL
+
+      04 | METRO CUADRADO
+
+      05 | METRO CUBICO
+
+      06 | PIEZA
+
+      07 | CABEZA
+
+      08 | LITRO
+
+      09 | PAR
+
+      10 | KILOWATT
+
+      11 | MILLAR
+
+      12 | JUEGO
+
+      13 | KILOWATT/HORA
+
+      14 | TONELADA
+
+      15 | BARRIL
+
+      16 | GRAMO NETO
+
+      17 | DECENAS
+
+      18 | CIENTOS
+
+      19 | DOCENAS
+
+      20 | CAJA
+
+      21 | BOTELLA
+
+      22 | CARAT
+
+      99 | SERVICIO
   - name: customer_model
     x-displayName: Objeto Customer
     description: |
@@ -640,6 +752,7 @@ x-tagGroups:
       - tools
       - sat_keys
       - carta_porte_keys
+      - comercio_exterior_keys
   - name: Webhooks
     tags:
       - events
@@ -754,7 +867,108 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
-  /catalogs/cartaporte/31/transport-configs:
+  /catalogs/comercioexterior/2.0/tariff-fractions:
+    get:
+      tags:
+        - comercio_exterior_keys
+      summary: Buscar fracciones arancelarias
+      description: Devuelve fracciones arancelarias que coinciden con la consulta.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            "https://www.facturapi.io/v2/catalogs/comercioexterior/2.0/tariff-fractions"
+            \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=0101" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: >
+            import Facturapi from 'facturapi'
+
+            const facturapi = new Facturapi('sk_test_API_KEY')
+
+            const result = await
+            facturapi.comercioExteriorCatalogs.searchTariffFractions({ q:
+            '0101', page: 0, limit: 10 })
+        - lang: PHP
+          label: PHP
+          source: >
+            $facturapi = new Facturapi("sk_test_API_KEY");
+
+            $result =
+            $facturapi->ComercioExteriorCatalogs->searchTariffFractions([
+              "q" => "0101",
+              "page" => 0,
+              "limit" => 10
+            ]);
+        - lang: csharp
+          label: C#
+          source: >
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+
+            var result = await
+            facturapi.ComercioExteriorCatalog.SearchTariffFractions(new
+            Dictionary<string, object>
+
+            {
+              ["q"] = "0101",
+              ["page"] = 0,
+              ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefijo para buscar en `key` o `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Búsqueda exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          description: Error en parámetros de la petición
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Error de autenticación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: No se encontró el recurso especificado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '500':
+          description: Error inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /catalogs/cartaporte/3.1/transport-configs:
     get:
       tags:
         - carta_porte_keys
@@ -765,7 +979,7 @@ paths:
           label: cURL
           source: >
             curl
-            "https://www.facturapi.io/v2/catalogs/cartaporte/31/transport-configs"
+            "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/transport-configs"
             \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
@@ -853,7 +1067,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
-  /catalogs/cartaporte/31/rights-of-passage:
+  /catalogs/cartaporte/3.1/rights-of-passage:
     get:
       tags:
         - carta_porte_keys
@@ -864,7 +1078,7 @@ paths:
           label: cURL
           source: >
             curl
-            "https://www.facturapi.io/v2/catalogs/cartaporte/31/rights-of-passage"
+            "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/rights-of-passage"
             \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
@@ -952,7 +1166,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
-  /catalogs/cartaporte/31/customs-documents:
+  /catalogs/cartaporte/3.1/customs-documents:
     get:
       tags:
         - carta_porte_keys
@@ -963,7 +1177,7 @@ paths:
           label: cURL
           source: >
             curl
-            "https://www.facturapi.io/v2/catalogs/cartaporte/31/customs-documents"
+            "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/customs-documents"
             \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
@@ -1051,7 +1265,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
-  /catalogs/cartaporte/31/packaging-types:
+  /catalogs/cartaporte/3.1/packaging-types:
     get:
       tags:
         - carta_porte_keys
@@ -1062,7 +1276,7 @@ paths:
           label: cURL
           source: >
             curl
-            "https://www.facturapi.io/v2/catalogs/cartaporte/31/packaging-types"
+            "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/packaging-types"
             \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
@@ -1150,7 +1364,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
-  /catalogs/cartaporte/31/trailer-types:
+  /catalogs/cartaporte/3.1/trailer-types:
     get:
       tags:
         - carta_porte_keys
@@ -1161,7 +1375,8 @@ paths:
           label: cURL
           source: >
             curl
-            "https://www.facturapi.io/v2/catalogs/cartaporte/31/trailer-types" \
+            "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/trailer-types"
+            \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -d "q=TRL" \
@@ -1248,7 +1463,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
-  /catalogs/cartaporte/31/hazardous-materials:
+  /catalogs/cartaporte/3.1/hazardous-materials:
     get:
       tags:
         - carta_porte_keys
@@ -1259,7 +1474,7 @@ paths:
           label: cURL
           source: >
             curl
-            "https://www.facturapi.io/v2/catalogs/cartaporte/31/hazardous-materials"
+            "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/hazardous-materials"
             \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
@@ -1347,7 +1562,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
-  /catalogs/cartaporte/31/naval-authorizations:
+  /catalogs/cartaporte/3.1/naval-authorizations:
     get:
       tags:
         - carta_porte_keys
@@ -1358,7 +1573,7 @@ paths:
           label: cURL
           source: >
             curl
-            "https://www.facturapi.io/v2/catalogs/cartaporte/31/naval-authorizations"
+            "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/naval-authorizations"
             \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
@@ -1462,7 +1677,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
-  /catalogs/cartaporte/31/port-stations:
+  /catalogs/cartaporte/3.1/port-stations:
     get:
       tags:
         - carta_porte_keys
@@ -1473,7 +1688,8 @@ paths:
           label: cURL
           source: >
             curl
-            "https://www.facturapi.io/v2/catalogs/cartaporte/31/port-stations" \
+            "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/port-stations"
+            \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -d "q=MEX" \
@@ -1560,7 +1776,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
-  /catalogs/cartaporte/31/marine-containers:
+  /catalogs/cartaporte/3.1/marine-containers:
     get:
       tags:
         - carta_porte_keys
@@ -1571,7 +1787,7 @@ paths:
           label: cURL
           source: >
             curl
-            "https://www.facturapi.io/v2/catalogs/cartaporte/31/marine-containers"
+            "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/marine-containers"
             \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \

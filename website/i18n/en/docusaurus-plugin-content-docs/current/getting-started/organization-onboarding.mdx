@@ -1,0 +1,65 @@
+---
+sidebar_position: 1
+---
+
+# Organization Onboarding
+
+This guide summarizes the dashboard setup checklist to get your organization ready to issue CFDI.
+
+## Onboarding checklist
+
+### 1. Create the organization
+
+When you create your account and start onboarding in the dashboard, the first screen asks for your organization name. Enter it and continue to create the issuing organization.
+
+If you work with multiple organizations (multi-RFC), also check [Organizations (Multi-RFC)](/docs/guides/organizations). If you prefer creating organizations via API, use [Create Organization](/api#tag/organization/operation/createOrganization).
+
+### 2. Upload CSD certificates
+
+In the dashboard, go to `Settings > Certificates` and upload:
+
+- `.cer` file
+- `.key` file
+- Private key password
+
+Without CSD, you cannot stamp CFDI in live mode.
+
+### 3. Complete fiscal data
+
+In `Settings > Fiscal Data`, enter the organization legal/tax information (RFC, legal name, tax regime, ZIP code, etc.).
+
+### 4. Activate subscription
+
+In `Account > Subscription`, activate a plan for the organization.
+
+This step is part of the base setup required to operate in production.
+
+### 5. Sign Carta Manifiesto (new SAT requirement)
+
+In `Settings > Sign Carta Manifiesto`, sign the letter to comply with RMF 2026.
+
+This step uses the e.firma (FIEL) of the issuing RFC. To complete the signature, you must provide:
+
+- e.firma `.cer` file
+- e.firma `.key` file
+- Private key password
+
+After signing, you can download Carta Manifiesto files in PDF, XML, or ZIP formats.
+
+## Optional recommended step
+
+### Invoice customization
+
+In `Settings > Customization` you can upload logo, colors, and PDF render preferences.
+
+It is not required for base fiscal setup, but it is recommended to standardize your issued documents.
+
+## Quick validation
+
+Before issuing in live mode, validate your organization has:
+
+- Organization created
+- CSD uploaded
+- Fiscal data completed
+- Active subscription
+- Carta Manifiesto signed

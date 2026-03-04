@@ -12285,6 +12285,14 @@ components:
             Código que representa la forma de pago, de acuerdo al [catálogo del
             SAT](#forma-de-pago).
           example: 6
+        total_payment_amount:
+          type: number
+          description: Total del complemento de Pago cuando la factura es tipo P.
+        total_payment_amount_converted:
+          type: number
+          description: >-
+            Total del monto pagado convertido de la moneda de pago a Pesos
+            Mexicanos.
         is_ready_to_stamp:
           type: boolean
           description: >

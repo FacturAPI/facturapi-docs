@@ -1025,7 +1025,7 @@ paths:
                         description:
                           type: string
 
-  /catalogs/cartaporte/31/transport-configs:
+  /catalogs/cartaporte/3.1/transport-configs:
     get:
       tags:
         - carta_porte_keys
@@ -1035,7 +1035,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/transport-configs" \
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/transport-configs" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -d "q=CC" \
@@ -1159,31 +1159,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
         '400':
-          description: Request parameter error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/BadRequest'
         '401':
-          description: Authentication error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/Unauthenticated'
         '404':
-          description: Resource not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/NotFound'
         '500':
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/UnexpectedError'
 
-  /catalogs/cartaporte/31/rights-of-passage:
+  /catalogs/cartaporte/3.1/rights-of-passage:
     get:
       tags:
         - carta_porte_keys
@@ -1193,7 +1177,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/rights-of-passage" \
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/rights-of-passage" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -d "q=MX-001" \
@@ -1249,7 +1233,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
 
-  /catalogs/cartaporte/31/customs-documents:
+  /catalogs/cartaporte/3.1/customs-documents:
     get:
       tags:
         - carta_porte_keys
@@ -1259,7 +1243,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/customs-documents" \
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/customs-documents" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -d "q=PEDIMENTO" \
@@ -1315,7 +1299,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
 
-  /catalogs/cartaporte/31/packaging-types:
+  /catalogs/cartaporte/3.1/packaging-types:
     get:
       tags:
         - carta_porte_keys
@@ -1325,7 +1309,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/packaging-types" \
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/packaging-types" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -d "q=CAJA" \
@@ -1381,7 +1365,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
 
-  /catalogs/cartaporte/31/trailer-types:
+  /catalogs/cartaporte/3.1/trailer-types:
     get:
       tags:
         - carta_porte_keys
@@ -1391,7 +1375,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/trailer-types" \
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/trailer-types" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -d "q=TRL" \
@@ -1447,7 +1431,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
 
-  /catalogs/cartaporte/31/hazardous-materials:
+  /catalogs/cartaporte/3.1/hazardous-materials:
     get:
       tags:
         - carta_porte_keys
@@ -1457,7 +1441,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/hazardous-materials" \
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/hazardous-materials" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -d "q=UN1203" \
@@ -1513,7 +1497,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
 
-  /catalogs/cartaporte/31/naval-authorizations:
+  /catalogs/cartaporte/3.1/naval-authorizations:
     get:
       tags:
         - carta_porte_keys
@@ -1523,7 +1507,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/naval-authorizations" \
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/naval-authorizations" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -d "q=Z-01" \
@@ -1593,7 +1577,7 @@ paths:
                         key:
                           type: string
 
-  /catalogs/cartaporte/31/port-stations:
+  /catalogs/cartaporte/3.1/port-stations:
     get:
       tags:
         - carta_porte_keys
@@ -1603,7 +1587,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/port-stations" \
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/port-stations" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -d "q=MEX" \
@@ -1659,7 +1643,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
 
-  /catalogs/cartaporte/31/marine-containers:
+  /catalogs/cartaporte/3.1/marine-containers:
     get:
       tags:
         - carta_porte_keys
@@ -1669,7 +1653,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl "https://www.facturapi.io/v2/catalogs/cartaporte/31/marine-containers" \
+            curl "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/marine-containers" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -d "q=20DC" \

@@ -1159,29 +1159,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
         '400':
-          description: Request parameter error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/BadRequest'
         '401':
-          description: Authentication error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/Unauthenticated'
         '404':
-          description: Resource not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/NotFound'
         '500':
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/UnexpectedError'
 
   /catalogs/cartaporte/31/rights-of-passage:
     get:

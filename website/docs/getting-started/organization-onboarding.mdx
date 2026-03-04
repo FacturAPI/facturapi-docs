@@ -2,17 +2,17 @@
 sidebar_position: 1
 ---
 
-# Onboarding de una organización
+# Configuración inicial de una organización
 
-Esta guía resume el mismo checklist de configuración que usamos en el dashboard para dejar una organización lista para emitir CFDI.
+Esta guía resume el checklist de configuración en dashboard para dejar tu organización lista para emitir CFDI.
 
-## Checklist de onboarding
+## Checklist de configuración inicial
 
 ### 1. Crear la organización
 
-Crea la organización emisora desde el dashboard o por API con [Crear Organización](/api#tag/organization/operation/createOrganization).
+Al crear tu cuenta e iniciar el proceso de configuración inicial en dashboard, la primera pantalla te pedirá el nombre de tu organización. Captura ese nombre y continúa para crear la organización emisora.
 
-Si trabajas con varias organizaciones (multi-RFC), consulta también [Organizaciones (Multi-RFC)](/docs/guides/organizations).
+Si trabajas con varias organizaciones (multi-RFC), consulta también [Organizaciones (Multi-RFC)](/docs/guides/organizations). Si prefieres crear organizaciones por API, usa [Crear Organización](/api#tag/organization/operation/createOrganization).
 
 ### 2. Subir certificados CSD
 
@@ -38,13 +38,13 @@ Este paso forma parte de la configuración base para operar en producción con l
 
 En `Configuración > Firma de Carta Manifiesto` firma la carta para cumplir con la RMF 2026.
 
-En este paso se usa la e.firma (FIEL) del RFC emisor para firmar el manifiesto. El flujo en dashboard solicita:
+En este paso se usa la e.firma (FIEL) del RFC emisor para firmar el manifiesto. Para completar la firma, se solicita:
 
 - Archivo `.cer` de e.firma
 - Archivo `.key` de e.firma
 - Contraseña de la llave privada
 
-Al finalizar, podrás descargar los archivos de la carta manifiesto en formatos PDF, XML o ZIP.
+Al finalizar, podrás descargar los archivos de la Carta Manifiesto en formatos PDF, XML o ZIP.
 
 ## Paso opcional recomendado
 

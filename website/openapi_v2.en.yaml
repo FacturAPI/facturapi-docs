@@ -10702,14 +10702,23 @@ components:
             - `08`: Not Subject to tax IVA, and not required IEPS breakdown.
         taxes:
           type: array
-          default: IVA (VAT) transferred 16%
+          default: |
+            Depends on `taxability`:
+            - `"02"` (or if `taxability` is omitted): IVA (VAT) transferred 16%.
+            - `"01"`, `"03"`, `"04"`, or `"05"`: `[]`.
           example:
             [{
               "type": "IVA",
               "rate": 0.16
             }]
           description: |
-            List of taxes that must be applied to this product. If the parameter is omitted or null, it will be saved with an element representing the transferred IVA (VAT) of 16%, which is the most common tax. If an empty array is explicitly sent, it is understood that the product is exempt from taxes.
+            List of taxes that must be applied to this product.
+
+            If `taxes` is omitted or `null`, the default depends on `taxability`:
+            - `taxability = "02"` (or if `taxability` is omitted): IVA (VAT) transferred 16% is added.
+            - `taxability` in `"01"`, `"03"`, `"04"`, or `"05"`: `[]` is stored.
+
+            If you send `taxes` explicitly, the provided array is used.
           items:
             $ref: "#/components/schemas/BaseTax"
         local_taxes:
@@ -10782,9 +10791,18 @@ components:
             - `05`: Subject to tax, VAT credit PODEBI.
         taxes:
           type: array
-          default: IVA (VAT) transferred 16%
+          default: |
+            Depends on `taxability`:
+            - `"02"` (or if `taxability` is omitted): IVA (VAT) transferred 16%.
+            - `"01"`, `"03"`, `"04"`, or `"05"`: `[]`.
           description: |
-            List of taxes that must be applied to this product. If the parameter is omitted or null, it will be saved with an element representing the transferred IVA (VAT) of 16%, which is the most common tax. If an empty array is explicitly sent, it is understood that the product is exempt from taxes.
+            List of taxes that must be applied to this product.
+
+            If `taxes` is omitted or `null`, the default depends on `taxability`:
+            - `taxability = "02"` (or if `taxability` is omitted): IVA (VAT) transferred 16% is added.
+            - `taxability` in `"01"`, `"03"`, `"04"`, or `"05"`: `[]` is stored.
+
+            If you send `taxes` explicitly, the provided array is used.
           items:
             $ref: "#/components/schemas/BaseTax"
         local_taxes:

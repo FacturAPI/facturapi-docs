@@ -10932,13 +10932,23 @@ components:
             - `08`: No traslado de IVA sin desglose de IEPS.
         taxes:
           type: array
-          default: IVA trasladado 16%
+          default: |
+            Depende de `taxability`:
+            - `"02"` (o si se omite `taxability`): IVA trasladado 16%.
+            - `"01"`, `"03"`, `"04"` o `"05"`: `[]`.
           example:
             [{
               "type": "IVA",
               "rate": 0.16
             }]
-          description: Lista de impuestos que deberán aplicarse a este producto. Si el parámetro se omite o es nulo, se guardará con un elemento que representa el IVA trasladado del 16%, que es el impuesto más común. En caso de mandar explícitamente un arreglo vacío, se entiende que el producto está exento de impuestos.
+          description: |
+            Lista de impuestos que deberán aplicarse a este producto.
+
+            Si `taxes` se omite o es `null`, el valor por default depende de `taxability`:
+            - `taxability = "02"` (o si se omite `taxability`): se agrega IVA trasladado 16%.
+            - `taxability` en `"01"`, `"03"`, `"04"` o `"05"`: se guarda `[]`.
+
+            Si envías `taxes` explícitamente, se usa el arreglo enviado.
           items:
             $ref: "#/components/schemas/BaseTax"
         local_taxes:
@@ -11001,8 +11011,18 @@ components:
             - `05`: Sí objeto de impuesto, IVA crédito PODEBI.
         taxes:
           type: array
-          default: IVA trasladado 16%
-          description: Lista de impuestos que deberán aplicarse a este producto. Si el parámetro se omite o es nulo, se guardará con un elemento que representa el IVA trasladado del 16%, que es el impuesto más común. En caso de mandar explícitamente un arreglo vacío, se entiende que el producto está exento de impuestos.
+          default: |
+            Depende de `taxability`:
+            - `"02"` (o si se omite `taxability`): IVA trasladado 16%.
+            - `"01"`, `"03"`, `"04"` o `"05"`: `[]`.
+          description: |
+            Lista de impuestos que deberán aplicarse a este producto.
+
+            Si `taxes` se omite o es `null`, el valor por default depende de `taxability`:
+            - `taxability = "02"` (o si se omite `taxability`): se agrega IVA trasladado 16%.
+            - `taxability` en `"01"`, `"03"`, `"04"` o `"05"`: se guarda `[]`.
+
+            Si envías `taxes` explícitamente, se usa el arreglo enviado.
           items:
             $ref: "#/components/schemas/BaseTax"
         local_taxes:

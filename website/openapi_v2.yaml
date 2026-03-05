@@ -10908,8 +10908,7 @@ components:
             - `false`: Indica que el atributo price no incluye impuestos, por lo que aquellos impuestos a aplicar se sumarán en el precio final.
         taxability:
           type: string
-          default: |
-            '01' si el array `taxes` está vacío; '02' si el array `taxes` tiene por lo menos un elemento.
+          default: "02"
           enum:
             - "01"
             - "02"
@@ -10932,10 +10931,9 @@ components:
             - `08`: No traslado de IVA sin desglose de IEPS.
         taxes:
           type: array
-          default: |
-            Depende de `taxability`:
-            - `"02"` (o si se omite `taxability`): IVA trasladado 16%.
-            - `"01"`, `"03"`, `"04"` o `"05"`: `[]`.
+          default:
+            - type: IVA
+              rate: 0.16
           example:
             [{
               "type": "IVA",
@@ -10944,9 +10942,10 @@ components:
           description: |
             Lista de impuestos que deberán aplicarse a este producto.
 
-            Si `taxes` se omite o es `null`, el valor por default depende de `taxability`:
-            - `taxability = "02"` (o si se omite `taxability`): se agrega IVA trasladado 16%.
-            - `taxability` en `"01"`, `"03"`, `"04"` o `"05"`: se guarda `[]`.
+            Resolución cuando `taxes` se omite o es `null`:
+            - `taxability` omitido o `"02"`: se agrega IVA trasladado 16%.
+            - `taxability` en `"01"`, `"03"`, `"04"`, `"05"`, `"06"` o `"08"`: se guarda `[]`.
+            - `taxability = "07"`: la solicitud es inválida; debes enviar al menos un IEPS de traslado y no incluir IVA.
 
             Si envías `taxes` explícitamente, se usa el arreglo enviado.
           items:
@@ -11001,6 +11000,9 @@ components:
             - "03"
             - "04"
             - "05"
+            - "06"
+            - "07"
+            - "08"
           description: |
             Código que representa si el bien o servicio es objeto de impuesto o no. Este atributo corresponde al campo "ObjetoImp" en el CFDI.
 
@@ -11011,16 +11013,16 @@ components:
             - `05`: Sí objeto de impuesto, IVA crédito PODEBI.
         taxes:
           type: array
-          default: |
-            Depende de `taxability`:
-            - `"02"` (o si se omite `taxability`): IVA trasladado 16%.
-            - `"01"`, `"03"`, `"04"` o `"05"`: `[]`.
+          default:
+            - type: IVA
+              rate: 0.16
           description: |
             Lista de impuestos que deberán aplicarse a este producto.
 
-            Si `taxes` se omite o es `null`, el valor por default depende de `taxability`:
-            - `taxability = "02"` (o si se omite `taxability`): se agrega IVA trasladado 16%.
-            - `taxability` en `"01"`, `"03"`, `"04"` o `"05"`: se guarda `[]`.
+            Resolución cuando `taxes` se omite o es `null`:
+            - `taxability` omitido o `"02"`: se agrega IVA trasladado 16%.
+            - `taxability` en `"01"`, `"03"`, `"04"`, `"05"`, `"06"` o `"08"`: se guarda `[]`.
+            - `taxability = "07"`: la solicitud es inválida; debes enviar al menos un IEPS de traslado y no incluir IVA.
 
             Si envías `taxes` explícitamente, se usa el arreglo enviado.
           items:

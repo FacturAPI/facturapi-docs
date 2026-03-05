@@ -10817,8 +10817,7 @@ components:
             - `false`: Indicates that the price attribute does not include taxes, so those taxes to be applied will be added to the final price.
         taxability:
           type: string
-          default: |
-            `"01"` if the `taxes` array is empty; `"02"` if the `taxes` array has at least one element.
+          default: "02"
           enum:
             - "01"
             - "02"
@@ -10841,14 +10840,23 @@ components:
             - `08`: Not Subject to tax IVA, and not required IEPS breakdown.
         taxes:
           type: array
-          default: IVA (VAT) transferred 16%
+          default:
+            - type: IVA
+              rate: 0.16
           example:
             [{
               "type": "IVA",
               "rate": 0.16
             }]
           description: |
-            List of taxes that must be applied to this product. If the parameter is omitted or null, it will be saved with an element representing the transferred IVA (VAT) of 16%, which is the most common tax. If an empty array is explicitly sent, it is understood that the product is exempt from taxes.
+            List of taxes that must be applied to this product.
+
+            Resolution when `taxes` is omitted or `null`:
+            - `taxability` omitted or `"02"`: IVA (VAT) transferred 16% is added.
+            - `taxability` in `"01"`, `"03"`, `"04"`, `"05"`, `"06"`, or `"08"`: `[]` is stored.
+            - `taxability = "07"`: the request is invalid; you must provide at least one transferred IEPS tax and include no IVA taxes.
+
+            If you send `taxes` explicitly, the provided array is used.
           items:
             $ref: "#/components/schemas/BaseTax"
         local_taxes:
@@ -10911,6 +10919,9 @@ components:
             - "03"
             - "04"
             - "05"
+            - "06"
+            - "07"
+            - "08"
           description: |
             Code that represents whether the good or service is subject to tax or not. This attribute corresponds to the "ObjetoImp" field in the CFDI.
 
@@ -10921,9 +10932,18 @@ components:
             - `05`: Subject to tax, VAT credit PODEBI.
         taxes:
           type: array
-          default: IVA (VAT) transferred 16%
+          default:
+            - type: IVA
+              rate: 0.16
           description: |
-            List of taxes that must be applied to this product. If the parameter is omitted or null, it will be saved with an element representing the transferred IVA (VAT) of 16%, which is the most common tax. If an empty array is explicitly sent, it is understood that the product is exempt from taxes.
+            List of taxes that must be applied to this product.
+
+            Resolution when `taxes` is omitted or `null`:
+            - `taxability` omitted or `"02"`: IVA (VAT) transferred 16% is added.
+            - `taxability` in `"01"`, `"03"`, `"04"`, `"05"`, `"06"`, or `"08"`: `[]` is stored.
+            - `taxability = "07"`: the request is invalid; you must provide at least one transferred IEPS tax and include no IVA taxes.
+
+            If you send `taxes` explicitly, the provided array is used.
           items:
             $ref: "#/components/schemas/BaseTax"
         local_taxes:

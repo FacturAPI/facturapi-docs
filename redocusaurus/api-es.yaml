@@ -6073,25 +6073,24 @@ paths:
         (CSD)](#tag/organization/operation/uploadOrganizationCertificate)
 
 
-        # FEATURE: carta-manifiesto      
 
-        # Después de crear la organización y antes de poder emitir facturas con
+        Después de crear la organización y antes de poder emitir facturas con
 
-        # la organización, deberás de terminar de configurarla llamando a los
+        la organización, deberás de terminar de configurarla llamando a los
 
-        # métodos de [Actualizar datos
+        métodos de [Actualizar datos
         fiscales](#tag/organization/operation/editOrganizationLegal) y
 
-        # [Subir certificados
+        [Subir certificados
         (CSD)](#tag/organization/operation/uploadOrganizationCertificate), 
 
-        # además de firmar la Carta Manifieso que autoriza a nuestro PAC a
-        timbrar facturas; 
+        además de firmar la Carta Manifieso que autoriza a nuestro PAC a timbrar
+        facturas; 
 
-        # puedes hacerlo en [tu
+        puedes hacerlo en [tu
         dashboard](https://dashboard.facturapi.io/manifiesto) 
 
-        # o en [nuestro portal público](https://www.facturapi.io/manifiesto).
+        o en [nuestro portal público](https://www.facturapi.io/manifiesto).
 
 
         Recuerda que los folios de tu suscripción podrán ser consumidos por

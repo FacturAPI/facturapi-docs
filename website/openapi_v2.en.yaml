@@ -5409,14 +5409,14 @@ paths:
         with the organization, you will need to finish setting it up by calling
         the [Update legal data](#tag/organization/operation/editOrganizationLegal) and
         [Upload certificates (CSD)](#tag/organization/operation/uploadOrganizationCertificate) methods.
-        # FEATURE: carta-manifiesto
-        # After creating the organization and before you can issue invoices with
-        # the organization, you must finish configuring it by calling the
-        # methods [Update legal information](#tag/organization/operation/editOrganizationLegal) and
-        # [Upload certificates (CSD)](#tag/organization/operation/uploadOrganizationCertificate),
-        # as well as signing the Carta Manifiesto that authorizes our PAC to stamp invoices;
-        # you can do this in [your dashboard](https://dashboard.facturapi.io/manifiesto)
-        # or in [our public portal](https://www.facturapi.io/manifiesto).
+      
+        After creating the organization and before you can issue invoices with
+        the organization, you must finish configuring it by calling the
+        methods [Update legal information](#tag/organization/operation/editOrganizationLegal) and
+        [Upload certificates (CSD)](#tag/organization/operation/uploadOrganizationCertificate),
+        as well as signing the Carta Manifiesto that authorizes our PAC to stamp invoices;
+        you can do this in [your dashboard](https://dashboard.facturapi.io/manifiesto)
+        or in [our public portal](https://www.facturapi.io/manifiesto).
 
         Remember that the stamps of your subscription can be consumed by any of
         the organizations registered under your account.

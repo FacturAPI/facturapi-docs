@@ -13318,6 +13318,7 @@ components:
                   - legal
                   - logo
                   - certificate
+                  - manifiesto
                 description: Código que representa el tiop de paso que se requiere completar
               description:
                 type: string

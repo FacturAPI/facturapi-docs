@@ -19,4 +19,6 @@
 
 > ⚠️ **Note:** Before you can issue CFDI stamped before SAT, make sure you have completed your organization’s setup in Facturapi, including uploading the CSD certificate.
 
+> ℹ️ **Usage and reconnection:** The Facturapi Stripe App connection stays active as long as you continue using the app inside Stripe. If the app goes unused for a long period, Stripe may ask you to reconnect it. In that case, simply reinstall or reconnect the app and select your organization again in Facturapi.
+
 That's it! You now have the application installed in Stripe.

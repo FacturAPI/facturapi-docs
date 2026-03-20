@@ -19,4 +19,6 @@
 
 > ⚠️ **Nota:** Antes de poder emitir CFDI timbrados ante el SAT, asegúrate de haber completado la configuración de tu organización en Facturapi, incluyendo la carga del certificado CSD.
 
+> ℹ️ **Uso y reconexión:** La conexión de la Stripe App de Facturapi se mantiene activa mientras sigas usando la app dentro de Stripe. Si pasa un periodo largo sin uso, Stripe podría solicitar que vuelvas a conectarla. En ese caso, basta con reinstalar o reconectar la app y seleccionar nuevamente tu organización en Facturapi.
+
 ¡Listo! Ahora tienes la aplicación instalada en Stripe.

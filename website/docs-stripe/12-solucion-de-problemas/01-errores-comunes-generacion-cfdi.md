@@ -66,6 +66,14 @@ Esto es **esperado**. En Stripe, los entornos **live**, **test mode** y cada **s
 - **Stripe test mode** apunta a **Facturapi test**.
 - **Stripe sandbox** apunta a **Facturapi test**.
 
+### **¿Se comparten los clientes entre sandboxes?**
+
+Sí, pueden compartirse si los sandboxes están conectados a la **misma organización** de Facturapi.
+
+- La **instalación** de la app y la **configuración de Stripe** sí son independientes por sandbox.
+- Pero los datos de Facturapi para **Stripe test mode** y **Stripe sandbox** viven en **Facturapi test**.
+- Eso significa que los clientes y demás datos de prueba pueden verse entre sandboxes cuando usan la misma organización en Facturapi.
+
 ---
 
 # Stripe pide reconectar la app en un sandbox
@@ -86,4 +94,4 @@ La reconexión dentro de un sandbox **no reconecta automáticamente** la instala
 2. Vuelve a conectar o reinstalar la app si Stripe lo solicita.
 3. Selecciona nuevamente tu organización en Facturapi.
 
-Tu configuración fiscal en Facturapi no se pierde por este proceso; solo se restablece el vínculo de esa instalación concreta.
+Tu configuración fiscal en Facturapi no se pierde por este proceso; solo se restablece el vínculo de esa instalación concreta. Si ese sandbox usa la misma organización de Facturapi en `test` que otros sandboxes, seguirá compartiendo los mismos datos de prueba con ellos.

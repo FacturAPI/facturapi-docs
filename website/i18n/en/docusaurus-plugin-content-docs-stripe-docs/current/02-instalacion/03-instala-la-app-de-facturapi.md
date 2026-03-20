@@ -35,13 +35,17 @@ The Facturapi Stripe App supports **Stripe live**, **Stripe test mode**, and **S
    - Stripe treats every sandbox as an isolated environment.
    - If you have multiple sandboxes, you can install, reconnect, or configure the Facturapi app independently in each one.
 
-3. **It is normal to select your organization again**
+3. **Facturapi test data can be shared across sandboxes**
+   - Even though the Stripe App installation is independent for each sandbox, both **Stripe test mode** and **sandboxes** connect to **Facturapi test**.
+   - If you connect multiple sandboxes to the same Facturapi organization, those sandboxes can see and reuse the same customers and other test data for that organization.
+
+4. **It is normal to select your organization again**
    - When you install or reconnect the app in another Stripe environment, Facturapi may ask you to choose the organization you want to link again.
 
 > ⚠️ **Note:** Before you can issue CFDI stamped before SAT, make sure you have completed your organization’s setup in Facturapi, including uploading the CSD certificate.
 
 > ℹ️ **Usage and reconnection:** The Facturapi Stripe App connection stays active as long as you continue using the app inside Stripe. If the app goes unused for a long period, Stripe may ask you to reconnect it. In that case, simply reinstall or reconnect the app and select your organization again in Facturapi.
 
-> ℹ️ **Important for sandboxes:** If Stripe asks you to reconnect the app inside a sandbox, that reconnection only applies to that sandbox. It does not automatically reconnect your live installation, your regular test mode installation, or any other sandbox.
+> ℹ️ **Important for sandboxes:** If Stripe asks you to reconnect the app inside a sandbox, that reconnection only applies to that sandbox. It does not automatically reconnect your live installation, your regular test mode installation, or any other sandbox. However, if those environments use the same Facturapi organization in `test`, they can still share the same test data.
 
 That's it! You now have the application installed in Stripe.

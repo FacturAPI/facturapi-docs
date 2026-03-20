@@ -41,3 +41,49 @@ La conexión de la app se mantiene activa mientras sigas usando la app dentro de
 ### **¿Se pierde la configuración?**
 
 No necesariamente. En la mayoría de los casos, la reconexión solo restablece el vínculo entre Stripe y Facturapi. Tu configuración fiscal, certificados y preferencias de facturación permanecen en Facturapi.
+
+---
+
+# Instalé la app en un sandbox y no aparece en live o en test mode
+
+Esto es **esperado**. En Stripe, los entornos **live**, **test mode** y cada **sandbox** se administran por separado.
+
+### **¿Qué significa esto?**
+
+- Instalar la app en **live** no la instala automáticamente en **test mode**.
+- Instalar la app en **test mode** no la instala automáticamente en un **sandbox**.
+- Instalar la app en un **sandbox** no la instala automáticamente en **live**, en **test mode** ni en otros **sandboxes**.
+
+### **¿Cómo resolverlo?**
+
+1. Entra al entorno de Stripe donde realmente quieres usar la app.
+2. Instala o abre ahí la **Stripe App de Facturapi**.
+3. Si Stripe te lo solicita, vuelve a conectar la app y selecciona nuevamente tu organización.
+
+### **¿A qué entorno de Facturapi apunta cada instalación?**
+
+- **Stripe live** apunta a **Facturapi live**.
+- **Stripe test mode** apunta a **Facturapi test**.
+- **Stripe sandbox** apunta a **Facturapi test**.
+
+---
+
+# Stripe pide reconectar la app en un sandbox
+
+Si Stripe te pide reconectar la app dentro de un **sandbox**, normalmente solo significa que esa instalación específica necesita restablecer el vínculo con Facturapi.
+
+### **Importante**
+
+La reconexión dentro de un sandbox **no reconecta automáticamente** la instalación de:
+
+- **Stripe live**
+- **Stripe test mode**
+- otros **sandboxes**
+
+### **¿Qué hacer?**
+
+1. Abre la app dentro del sandbox donde apareció el aviso.
+2. Vuelve a conectar o reinstalar la app si Stripe lo solicita.
+3. Selecciona nuevamente tu organización en Facturapi.
+
+Tu configuración fiscal en Facturapi no se pierde por este proceso; solo se restablece el vínculo de esa instalación concreta.

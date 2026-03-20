@@ -13105,6 +13105,7 @@ components:
                   - legal
                   - logo
                   - certificate
+                  - manifiesto
                 description: |
                   Code that represents the type of step that needs to be completed.
               description:

@@ -5415,7 +5415,7 @@ paths:
         methods [Update legal information](#tag/organization/operation/editOrganizationLegal) and
         [Upload certificates (CSD)](#tag/organization/operation/uploadOrganizationCertificate),
         as well as signing the Carta Manifiesto that authorizes our PAC to stamp invoices;
-        you can do this in [your dashboard](https://dashboard.facturapi.io/manifiesto)
+        you can do this in [your dashboard](https://dashboard.facturapi.io/settings/manifiesto)
         or in [our public portal](https://www.facturapi.io/manifiesto).
 
         Remember that the stamps of your subscription can be consumed by any of

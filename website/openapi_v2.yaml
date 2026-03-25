@@ -54,6 +54,12 @@ tags:
     x-displayName: Retenciones
   - name: organization
     x-displayName: Organizaciones
+  - name: organization_team
+    x-displayName: Equipos (Organizaciones)
+  - name: organization_roles
+    x-displayName: Roles y permisos (Organizaciones)
+  - name: organization_invites
+    x-displayName: Invitaciones (Organizaciones)
   - name: webhooks
     x-displayName: Webhooks
   - name: events
@@ -893,6 +899,9 @@ x-tagGroups:
       - receipt
       - retention
       - organization
+      - organization_team
+      - organization_roles
+      - organization_invites
   - name: Herramientas
     tags:
       - tools
@@ -7308,6 +7317,555 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /invites/pending:
+    get:
+      operationId: listPendingOrganizationInvites
+      tags:
+        - organization_invites
+      summary: Listar invitaciones pendientes
+      description: Regresa las invitaciones pendientes para el usuario autenticado.
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Lista de invitaciones pendientes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrganizationInvite"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /invites/{invite_key}/response:
+    post:
+      operationId: respondOrganizationInvite
+      tags:
+        - organization_invites
+      summary: Responder invitación
+      description: Acepta o rechaza una invitación usando su `invite_key`.
+      parameters:
+        - in: path
+          name: invite_key
+          schema:
+            type: string
+          required: true
+          description: Clave pública de la invitación.
+      requestBody:
+        $ref: "#/components/requestBodies/OrganizationInviteRespond"
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Respuesta procesada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team:
+    get:
+      operationId: getOrganizationTeam
+      tags:
+        - organization_team
+      summary: Obtener equipo de organización
+      description: Regresa los miembros del equipo y sus roles visibles en la organización.
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Equipo de la organización
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationTeam"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/invites:
+    get:
+      operationId: listOrganizationTeamInvites
+      tags:
+        - organization_invites
+      summary: Listar invitaciones enviadas
+      description: Regresa invitaciones enviadas desde la organización.
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Lista de invitaciones enviadas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrganizationInvite"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    post:
+      operationId: createOrganizationTeamInvite
+      tags:
+        - organization_invites
+      summary: Invitar usuario a organización
+      description: Crea o actualiza una invitación de equipo con rol asignado.
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+      requestBody:
+        $ref: "#/components/requestBodies/OrganizationInviteCreate"
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Invitación generada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationInvite"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/invites/{invite_key}:
+    delete:
+      operationId: deleteOrganizationTeamInvite
+      tags:
+        - organization_invites
+      summary: Cancelar invitación enviada
+      description: Elimina una invitación pendiente de la organización.
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+        - in: path
+          name: invite_key
+          schema:
+            type: string
+          required: true
+          description: Clave pública de la invitación.
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Invitación cancelada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/roles:
+    get:
+      operationId: listOrganizationPermissionRoles
+      tags:
+        - organization_roles
+      summary: Listar roles de organización
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Lista de roles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrganizationPermissionRole"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    post:
+      operationId: createOrganizationPermissionRole
+      tags:
+        - organization_roles
+      summary: Crear rol de organización
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+      requestBody:
+        $ref: "#/components/requestBodies/OrganizationPermissionRoleCreate"
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Rol creado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationPermissionRole"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/roles/templates:
+    get:
+      operationId: listOrganizationPermissionRoleTemplates
+      tags:
+        - organization_roles
+      summary: Listar plantillas de roles
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Plantillas disponibles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrganizationPermissionRoleTemplate"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/roles/operations:
+    get:
+      operationId: listOrganizationPermissionOperations
+      tags:
+        - organization_roles
+      summary: Listar operaciones de permisos
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Lista de operation codes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/roles/{role_id}:
+    get:
+      operationId: getOrganizationPermissionRole
+      tags:
+        - organization_roles
+      summary: Obtener rol de organización
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+        - in: path
+          name: role_id
+          schema:
+            type: string
+          required: true
+          description: ID del rol
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Detalle del rol
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationPermissionRole"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    patch:
+      operationId: updateOrganizationPermissionRole
+      tags:
+        - organization_roles
+      summary: Actualizar rol de organización
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+        - in: path
+          name: role_id
+          schema:
+            type: string
+          required: true
+          description: ID del rol
+      requestBody:
+        $ref: "#/components/requestBodies/OrganizationPermissionRoleUpdate"
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Rol actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationPermissionRole"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    delete:
+      operationId: deleteOrganizationPermissionRole
+      tags:
+        - organization_roles
+      summary: Eliminar rol de organización
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+        - in: path
+          name: role_id
+          schema:
+            type: string
+          required: true
+          description: ID del rol
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Rol eliminado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/assignments:
+    get:
+      operationId: listOrganizationPermissionAssignments
+      tags:
+        - organization_team
+      summary: Listar asignaciones de permisos
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Lista de asignaciones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrganizationPermissionAssignment"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/assignments/{user_id}:
+    get:
+      operationId: getOrganizationPermissionAssignment
+      tags:
+        - organization_team
+      summary: Obtener asignación de usuario
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID del usuario
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Asignación encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationPermissionAssignment"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/assignments/{user_id}/role:
+    patch:
+      operationId: updateOrganizationPermissionAssignmentRole
+      tags:
+        - organization_team
+      summary: Reasignar rol a usuario
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID del usuario
+      requestBody:
+        $ref: "#/components/requestBodies/OrganizationAssignmentRoleUpdate"
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Asignación actualizada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationPermissionAssignment"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/members/{user_id}:
+    delete:
+      operationId: removeOrganizationTeamMember
+      tags:
+        - organization_team
+      summary: Eliminar miembro del equipo
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: ID del usuario
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Miembro removido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
   /webhooks:
     post:
       operationId: createWebhook
@@ -8312,7 +8870,37 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/OrganizationSeriesUpdateInput"           
+            $ref: "#/components/schemas/OrganizationSeriesUpdateInput"
+    OrganizationInviteCreate:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrganizationInviteCreateInput"
+    OrganizationInviteRespond:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrganizationInviteRespondInput"
+    OrganizationPermissionRoleCreate:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrganizationPermissionRoleCreateInput"
+    OrganizationPermissionRoleUpdate:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrganizationPermissionRoleUpdateInput"
+    OrganizationAssignmentRoleUpdate:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrganizationAssignmentRoleUpdateInput"
     WebhookCreate:
       required: true
       content:
@@ -13775,6 +14363,203 @@ components:
           type: integer
           description: Número de folio que se asignará a la siguiente factura en ambiente Test (y que se incrementará automáticamente por cada nueva factura).
           example: 123
+    OkResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+          example: true
+    OrganizationInvite:
+      type: object
+      properties:
+        id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        email:
+          type: string
+          format: email
+        organization_name:
+          type: string
+        role:
+          type: string
+          nullable: true
+        role_name:
+          type: string
+          nullable: true
+        roles:
+          type: array
+          items:
+            type: string
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+    OrganizationTeamMember:
+      type: object
+      properties:
+        user_id:
+          type: string
+        full_name:
+          type: string
+        email:
+          type: string
+          format: email
+        roles:
+          type: array
+          items:
+            type: string
+    OrganizationTeam:
+      type: object
+      properties:
+        id:
+          type: string
+        permissions:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrganizationTeamMember"
+    OrganizationPermissionRole:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        template_code:
+          type: string
+          nullable: true
+        organization:
+          type: string
+          nullable: true
+        used_by:
+          type: integer
+        overrides_add:
+          type: array
+          items:
+            type: string
+        overrides_remove:
+          type: array
+          items:
+            type: string
+        operations:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+          nullable: true
+        updated_at:
+          type: string
+          format: date-time
+          nullable: true
+    OrganizationPermissionRoleTemplate:
+      type: object
+      properties:
+        code:
+          type: string
+        label:
+          type: string
+        operations:
+          type: array
+          items:
+            type: string
+    OrganizationPermissionAssignmentUser:
+      type: object
+      properties:
+        id:
+          type: string
+        full_name:
+          type: string
+        email:
+          type: string
+          format: email
+    OrganizationPermissionAssignment:
+      type: object
+      properties:
+        id:
+          type: string
+        user:
+          $ref: "#/components/schemas/OrganizationPermissionAssignmentUser"
+        role:
+          type: string
+          nullable: true
+        role_name:
+          type: string
+          nullable: true
+        organization:
+          type: string
+          nullable: true
+        operations:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    OrganizationInviteCreateInput:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+        role_id:
+          type: string
+          description: ID de rol personalizado de la organización.
+    OrganizationInviteRespondInput:
+      type: object
+      required:
+        - accept
+      properties:
+        accept:
+          type: boolean
+    OrganizationPermissionRoleCreateInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        template_code:
+          type: string
+          nullable: true
+        add:
+          type: array
+          items:
+            type: string
+        remove:
+          type: array
+          items:
+            type: string
+    OrganizationPermissionRoleUpdateInput:
+      type: object
+      properties:
+        name:
+          type: string
+        template_code:
+          type: string
+          nullable: true
+        add:
+          type: array
+          items:
+            type: string
+        remove:
+          type: array
+          items:
+            type: string
+    OrganizationAssignmentRoleUpdateInput:
+      type: object
+      required:
+        - role_id
+      properties:
+        role_id:
+          type: string
   securitySchemes:
     "SecretLiveKey":
       type: http

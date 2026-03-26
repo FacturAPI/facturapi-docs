@@ -5660,8 +5660,6 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationCreate"
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -5718,8 +5716,6 @@ paths:
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -7729,7 +7725,7 @@ paths:
         - "SecretUserKey": []
       responses:
         "200":
-          description: Lista de operation codes
+          description: Lista de códigos de operación
           content:
             application/json:
               schema:
@@ -14393,6 +14389,8 @@ components:
           example: 123
     OkResponse:
       type: object
+      required:
+        - ok
       properties:
         ok:
           type: boolean

@@ -11805,6 +11805,11 @@ components:
               default: true
               description: |
                 Mostrar el desglose de IEPS en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.    
+            combine_ieps_with_subtotal:
+              type: boolean
+              default: false
+              description: |
+                Suma IEPS con subtotal sin desglosarlo en el PDF.
             render_carta_porte:
               type: boolean
               default: false
@@ -11867,6 +11872,11 @@ components:
               default: true
               description: |
                 Mostrar el desglose de IEPS en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.   
+            combine_ieps_with_subtotal:
+              type: boolean
+              default: false
+              description: |
+                Suma IEPS con subtotal sin desglosarlo en el PDF.
             render_carta_porte:
               type: boolean
               default: false
@@ -13407,6 +13417,11 @@ components:
                   default: true
                   description: |
                     Mostrar el desglose de IEPS en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal. 
+                combine_ieps_with_subtotal:
+                  type: boolean
+                  default: false
+                  description: |
+                    Suma IEPS con subtotal sin desglosarlo en el PDF.
                 render_carta_porte:
                   type: boolean
                   default: false
@@ -13659,6 +13674,11 @@ components:
               default: true
               description: |
                 Mostrar el desglose de IEPS en el PDF. Si se desactiva, solo se mostrarán los impuestos relacionados al IVA en el subtotal.   
+            combine_ieps_with_subtotal:
+              type: boolean
+              default: false
+              description: |
+                Suma IEPS con subtotal sin desglosarlo en el PDF.
             render_carta_porte:
               type: boolean
               default: false

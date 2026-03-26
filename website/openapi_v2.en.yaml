@@ -46,6 +46,8 @@ tags:
     x-displayName: Retentions
   - name: organization
     x-displayName: Organizations
+  - name: organization_access
+    x-displayName: Organization users and permissions
   - name: webhooks
     x-displayName: Webhooks
   - name: events
@@ -919,6 +921,7 @@ x-tagGroups:
       - receipt
       - retention
       - organization
+      - organization_access
   - name: Tools
     tags:
       - tools
@@ -3964,6 +3967,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/ReceiptCreate"
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -5455,6 +5460,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationCreate"
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -5512,6 +5519,8 @@ paths:
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -5699,6 +5708,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationEditLegal"
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -5793,6 +5804,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationUploadCerts"
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -5852,6 +5865,8 @@ paths:
           required: true
           description: ID of the organization to delete certificates
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -5930,6 +5945,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationUploadLogo"
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -6026,6 +6043,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationEditCustomization"
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -6113,6 +6132,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationEditReceiptsSettings"
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -6200,6 +6221,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationEditSelfInvoiceSettings"
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -6262,6 +6285,8 @@ paths:
           schema:
             $ref: "#/components/schemas/DomainField"
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -6349,6 +6374,8 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationEditDomain"
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -6406,6 +6433,8 @@ paths:
           required: true
           description: ID of the organization
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -6465,6 +6494,8 @@ paths:
           required: true
           description: ID of the organization
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -6523,6 +6554,8 @@ paths:
           required: true
           description: ID of the organization
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -6582,6 +6615,8 @@ paths:
           required: true
           description: ID of the organization
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -6641,6 +6676,8 @@ paths:
           required: true
           description: Organization ID
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -6714,6 +6751,8 @@ paths:
           required: true
           description: ID of the organization
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -6783,6 +6822,8 @@ paths:
           required: true
           description: ID of the Live API Key
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -6856,6 +6897,8 @@ paths:
           required: true
           description: ID de la organización
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -6945,6 +6988,8 @@ paths:
           required: true
           description: ID de la organización
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -7033,6 +7078,8 @@ paths:
           required: true
           description: Series name
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -7100,6 +7147,8 @@ paths:
           required: true
           description: Series Name
       security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -7112,6 +7161,543 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team:
+    get:
+      operationId: getOrganizationTeam
+      tags:
+        - organization_access
+      summary: List users with organization access
+      description: Returns an array of users that currently have access to the organization, including the owner. This endpoint is not paginated.
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: Organization ID
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: List of user access entries within the organization, including implicit access such as the owner
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationUserAccessList"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/invites:
+    post:
+      operationId: createOrganizationTeamInvite
+      tags:
+        - organization_access
+      summary: Invite user to organization
+      description: Creates or updates a user invite. By default, invited users get full admin access; to limit access, create a role and send its ID in `role`.
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: Organization ID
+      requestBody:
+        $ref: "#/components/requestBodies/OrganizationInviteCreate"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Invite created or updated for the requested email
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationInvite"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    get:
+      operationId: listOrganizationTeamInvites
+      tags:
+        - organization_access
+      summary: List sent invites
+      description: Returns invites sent from the organization.
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: Organization ID
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: List of sent invites that are still active for the organization
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationInviteList"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/{access_id}:
+    get:
+      operationId: getOrganizationTeamUser
+      tags:
+        - organization_access
+      summary: Retrieve user access
+      description: Returns the access detail for a user within the organization using its `access_id`, including implicit access such as the owner.
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: Organization ID
+        - in: path
+          name: access_id
+          schema:
+            type: string
+          required: true
+          description: Access ID
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Access detail for the user within the organization, including implicit access such as the owner
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationUserAccess"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    delete:
+      operationId: removeOrganizationUserAccess
+      tags:
+        - organization_access
+      summary: Remove user access
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: Organization ID
+        - in: path
+          name: access_id
+          schema:
+            type: string
+          required: true
+          description: Access ID
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: User removed from the organization
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/invites/{invite_key}:
+    delete:
+      operationId: deleteOrganizationTeamInvite
+      tags:
+        - organization_access
+      summary: Cancel sent invite
+      description: Cancels a pending organization invite.
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: Organization ID
+        - in: path
+          name: invite_key
+          schema:
+            type: string
+          required: true
+          description: Public invite key
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Invite canceled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/invites/pending:
+    get:
+      operationId: listPendingOrganizationInvites
+      tags:
+        - organization_access
+      summary: List received invites
+      description: Returns received invites for the authenticated user.
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: List of invites received by the authenticated user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationInviteList"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/invites/{invite_key}/response:
+    post:
+      operationId: respondOrganizationInvite
+      tags:
+        - organization_access
+      summary: Respond to invite
+      description: Accepts or declines an invite using its `invite_key`.
+      parameters:
+        - in: path
+          name: invite_key
+          schema:
+            type: string
+          required: true
+          description: Public invite key
+      requestBody:
+        $ref: "#/components/requestBodies/OrganizationInviteRespond"
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Invite accepted or declined successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/roles:
+    get:
+      operationId: listOrganizationPermissionRoles
+      tags:
+        - organization_access
+      summary: List organization roles
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: Organization ID
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Roles list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationPermissionRoleList"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    post:
+      operationId: createOrganizationPermissionRole
+      tags:
+        - organization_access
+      summary: Create organization role
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: Organization ID
+      requestBody:
+        $ref: "#/components/requestBodies/OrganizationPermissionRoleCreate"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Role created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationPermissionRole"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/roles/templates:
+    get:
+      operationId: listOrganizationPermissionRoleTemplates
+      tags:
+        - organization_access
+      summary: List role templates
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: Organization ID
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Available role templates
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationPermissionRoleTemplateList"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/roles/operations:
+    get:
+      operationId: listOrganizationPermissionOperations
+      tags:
+        - organization_access
+      summary: List permission operations
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: Organization ID
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: List of operation codes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationPermissionOperationList"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/roles/{role_id}:
+    get:
+      operationId: getOrganizationPermissionRole
+      tags:
+        - organization_access
+      summary: Retrieve organization role
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: Organization ID
+        - in: path
+          name: role_id
+          schema:
+            type: string
+          required: true
+          description: Role ID
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Role detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationPermissionRole"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    patch:
+      operationId: updateOrganizationPermissionRole
+      tags:
+        - organization_access
+      summary: Update organization role
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: Organization ID
+        - in: path
+          name: role_id
+          schema:
+            type: string
+          required: true
+          description: Role ID
+      requestBody:
+        $ref: "#/components/requestBodies/OrganizationPermissionRoleUpdate"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Role updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationPermissionRole"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    delete:
+      operationId: deleteOrganizationPermissionRole
+      tags:
+        - organization_access
+      summary: Delete organization role
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: Organization ID
+        - in: path
+          name: role_id
+          schema:
+            type: string
+          required: true
+          description: Role ID
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Role deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/team/{access_id}/role:
+    patch:
+      operationId: updateOrganizationTeamUserRole
+      tags:
+        - organization_access
+      summary: Reassign role to user
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: Organization ID
+        - in: path
+          name: access_id
+          schema:
+            type: string
+          required: true
+          description: Access ID
+      requestBody:
+        $ref: "#/components/requestBodies/OrganizationUserAccessRoleUpdate"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: User access updated with the new role
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationUserAccess"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/UnexpectedError"
   /webhooks:
@@ -8127,7 +8713,37 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/OrganizationSeriesUpdateInput"           
+            $ref: "#/components/schemas/OrganizationSeriesUpdateInput"
+    OrganizationInviteCreate:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrganizationInviteCreateInput"
+    OrganizationInviteRespond:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrganizationInviteRespondInput"
+    OrganizationPermissionRoleCreate:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrganizationPermissionRoleCreateInput"
+    OrganizationPermissionRoleUpdate:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrganizationPermissionRoleUpdateInput"
+    OrganizationUserAccessRoleUpdate:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrganizationUserAccessRoleUpdateInput"
     WebhookCreate:
       required: true
       content:
@@ -13565,6 +14181,240 @@ components:
           type: integer
           description: Folio number that will be assigned to the next invoice in the Test environment (and will automatically increase with each new invoice).
           example: 123
+    OkResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+          example: true
+    OrganizationInvite:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique invite identifier.
+        created_at:
+          type: string
+          format: date-time
+          description: Date and time when the invite was created.
+        email:
+          type: string
+          format: email
+          description: Email address the invite was sent to.
+        organization_name:
+          type: string
+          description: Name of the organization that sent the invite.
+        role:
+          type: string
+          nullable: true
+          description: ID of the role assigned in the invite, if any.
+        role_name:
+          type: string
+          nullable: true
+          description: Name of the role assigned in the invite, if any.
+        roles:
+          type: array
+          description: List of visible roles that describes the access granted by the invite.
+          items:
+            type: string
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Date and time when the invite expires.
+    OrganizationInviteList:
+      type: array
+      description: List of organization invites.
+      items:
+        $ref: "#/components/schemas/OrganizationInvite"
+    OrganizationPermissionRole:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique role identifier.
+        name:
+          type: string
+          description: Role name.
+        template_code:
+          type: string
+          nullable: true
+          description: Base template code for the role, if it comes from a system template.
+        organization:
+          type: string
+          nullable: true
+          description: ID of the organization the role belongs to.
+        used_by:
+          type: integer
+          description: Number of users currently using this role.
+        overrides_add:
+          type: array
+          description: Operations added to the role beyond those defined by its template.
+          items:
+            type: string
+        overrides_remove:
+          type: array
+          description: Operations removed from the role relative to its template.
+          items:
+            type: string
+        operations:
+          type: array
+          description: Final list of operations allowed by this role.
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Date and time when the role was created.
+        updated_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Date and time when the role was last updated.
+    OrganizationPermissionRoleList:
+      type: array
+      description: List of configurable roles for the organization.
+      items:
+        $ref: "#/components/schemas/OrganizationPermissionRole"
+    OrganizationPermissionRoleTemplate:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Internal role template code.
+        label:
+          type: string
+          description: Visible name of the role template.
+        operations:
+          type: array
+          description: Operations included by default in the template.
+          items:
+            type: string
+    OrganizationPermissionRoleTemplateList:
+      type: array
+      description: List of available role templates for the organization.
+      items:
+        $ref: "#/components/schemas/OrganizationPermissionRoleTemplate"
+    OrganizationPermissionOperationList:
+      type: array
+      description: List of available organization-level permission operations.
+      items:
+        type: string
+    OrganizationUserAccess:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identifier of the user's access within the organization. For the owner, this value is `owner` because the access is implicit.
+        full_name:
+          type: string
+          description: User full name.
+        email:
+          type: string
+          format: email
+          description: User email address.
+        role:
+          type: string
+          nullable: true
+          description: ID of the role assigned to the user, if any. For the owner, this value is `null` because the access is implicit.
+        role_name:
+          type: string
+          nullable: true
+          description: Name of the assigned role or of the user's implicit access. For the owner, this value is `owner`.
+        organization:
+          type: string
+          nullable: true
+          description: ID of the organization this access belongs to.
+        operations:
+          type: array
+          description: Final list of operations allowed for the user.
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+          description: Date and time when the access was created. For the owner, this corresponds to when the organization was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: Date and time when the access was last updated. For the owner, this corresponds to when the organization was created because the access is implicit.
+    OrganizationUserAccessList:
+      type: array
+      description: List of user access entries in the organization, including implicit access such as the owner.
+      items:
+        $ref: "#/components/schemas/OrganizationUserAccess"
+
+    OrganizationInviteCreateInput:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          description: Email address of the user to invite.
+        role:
+          type: string
+          description: ID of a custom organization role.
+    OrganizationInviteRespondInput:
+      type: object
+      required:
+        - accept
+      properties:
+        accept:
+          type: boolean
+          description: Indicates whether the invite should be accepted (`true`) or declined (`false`).
+    OrganizationPermissionRoleCreateInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Role name.
+        template_code:
+          type: string
+          nullable: true
+          description: Base template code used to initialize the role, if any.
+        add:
+          type: array
+          description: Additional operations that will be added to the role.
+          items:
+            type: string
+        remove:
+          type: array
+          description: Operations that will be removed from the role.
+          items:
+            type: string
+    OrganizationPermissionRoleUpdateInput:
+      type: object
+      properties:
+        name:
+          type: string
+          description: New role name.
+        template_code:
+          type: string
+          nullable: true
+          description: New base template code for the role, if any.
+        add:
+          type: array
+          description: Full list of extra operations the role should keep.
+          items:
+            type: string
+        remove:
+          type: array
+          description: Full list of removed operations the role should keep.
+          items:
+            type: string
+    OrganizationUserAccessRoleUpdateInput:
+      type: object
+      required:
+        - role
+      properties:
+        role:
+          type: string
+          description: ID of the role that will be assigned to the user.
   securitySchemes:
     "SecretLiveKey":
       type: http

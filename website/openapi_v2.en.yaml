@@ -11608,6 +11608,11 @@ components:
               default: true
               description: |
                 Show the IEPS breakdown in the PDF. If disabled, only the taxes related to the IVA (VAT) will be shown in the subtotal.
+            combine_ieps_with_subtotal:
+              type: boolean
+              default: false
+              description: |
+                Add IEPS to the subtotal without breaking it down in the PDF.
             render_carta_porte:
               type: boolean
               default: false
@@ -11673,6 +11678,11 @@ components:
               default: true
               description: |
                 Show the IEPS breakdown in the PDF. If disabled, only the taxes related to the IVA (VAT) will be shown in the subtotal.
+            combine_ieps_with_subtotal:
+              type: boolean
+              default: false
+              description: |
+                Add IEPS to the subtotal without breaking it down in the PDF.
             render_carta_porte:
               type: boolean
               default: false
@@ -13197,6 +13207,11 @@ components:
                   default: true
                   description: |
                     Show the breakdown of IEPS in the PDF. If disabled, only the taxes related to IVA (VAT) will be shown in the subtotal.
+                combine_ieps_with_subtotal:
+                  type: boolean
+                  default: false
+                  description: |
+                    Add IEPS to the subtotal without breaking it down in the PDF.
                 render_carta_porte:
                   type: boolean
                   default: false
@@ -13450,6 +13465,11 @@ components:
               default: true
               description: |
                 Show the breakdown of IEPS in the PDF. If disabled, only the taxes related to IVA (VAT) will be shown in the subtotal.
+            combine_ieps_with_subtotal:
+              type: boolean
+              default: false
+              description: |
+                Add IEPS to the subtotal without breaking it down in the PDF.
             render_carta_porte:
               type: boolean
               default: false

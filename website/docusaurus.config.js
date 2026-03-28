@@ -10,7 +10,6 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
     url: "https://docs.facturapi.io",
     baseUrl: "/",
     onBrokenLinks: "throw",
-    onBrokenMarkdownLinks: "warn",
     favicon: "img/favicon.ico",
     organizationName: "facturapi", // Usually your GitHub org/user name.
     projectName: "facturapi-docs", // Usually your repo name.
@@ -18,6 +17,11 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
     future: {
       v4: true,
       experimental_faster: true
+    },
+    markdown: {
+      hooks: {
+        onBrokenMarkdownLinks: "warn",
+      },
     },
 
     presets: [
@@ -113,8 +117,9 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
               docsPluginId: "stripe-docs"
             },
             {
-              href: '/api', 
-              label: 'Referencia API'
+              to: '/api',
+              label: 'Referencia API',
+              activeBaseRegex: '^/api(?:/|$|#|\\?)',
             },
             {
               href: "https://dashboard.facturapi.io",

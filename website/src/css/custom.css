@@ -16,6 +16,42 @@
   --ifm-pre-background: #303846;
   --ifm-code-font-size: 95%;
   --ifm-heading-font-weight: 600;
+  --ifm-navbar-height: 3.25rem;
+  --gray-l1: #dee4ec;
+  --gray-l3: #f7f9fc;
+  --blue-l4: #e9f1ff;
+  --facturapi-hover-bg: #eef4ff;
+  --facturapi-selected-bg: #e3edff;
+  --facturapi-selected-text: #356ee8;
+  --facturapi-surface-shadow: 0 0 2px 0 rgba(13, 26, 44, 0.12), 0 1px 1px 0 rgba(13, 26, 44, 0.24);
+  --facturapi-topbar-shadow: 0 8px 18px rgba(13, 31, 45, 0.08), 0 2px 6px rgba(13, 31, 45, 0.05);
+  --redoc-main-column-split: 60%;
+  --facturapi-surface-bg: #ffffff;
+  --facturapi-section-label: #33465c;
+  --facturapi-scroll-thumb: rgba(15, 23, 42, 0.12);
+  --facturapi-redoc-arrow: #93a2b8;
+  --facturapi-brand-suffix: #6f89b8;
+  --facturapi-brand-suffix-hover: #77a8ff;
+  --ifm-menu-link-sublist-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M7.5 5.5L12 10L7.5 14.5' stroke='%237c8799' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --ifm-menu-link-sublist-icon-filter: none;
+}
+
+html[data-theme='dark'] {
+  --gray-l1: #2a394c;
+  --gray-l3: #0f1722;
+  --blue-l4: #1b2c46;
+  --facturapi-hover-bg: #20314d;
+  --facturapi-selected-bg: #263a5c;
+  --facturapi-selected-text: #8fb2ff;
+  --facturapi-topbar-shadow: 0 8px 18px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.35);
+  --facturapi-surface-bg: #111b28;
+  --facturapi-section-label: #7c8799;
+  --facturapi-scroll-thumb: rgba(124, 135, 153, 0.32);
+  --facturapi-redoc-arrow: #a7b5c8;
+  --facturapi-brand-suffix: #87a6dd;
+  --facturapi-brand-suffix-hover: #77a8ff;
+  --ifm-menu-link-sublist-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M7.5 5.5L12 10L7.5 14.5' stroke='%2393a2b8' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --ifm-menu-link-sublist-icon-filter: none;
 }
 
 .markdown h1 {
@@ -40,4 +76,288 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 
 html body {
   background-color: var(--ifm-background-color);
+}
+
+body,
+.navbar,
+.theme-doc-sidebar-container,
+.redocusaurus .menu-content {
+  background-color: var(--gray-l3) !important;
+}
+
+.navbar {
+  align-items: center;
+  box-shadow: none;
+  transition: box-shadow 200ms ease-in-out;
+  display: flex;
+  height: 3.25rem;
+  padding: 0 16px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+body[data-scrolled='true'] .navbar {
+  box-shadow: var(--facturapi-topbar-shadow);
+}
+
+.navbar__logo img {
+  height: 100%;
+  width: auto;
+}
+
+.navbar__logo {
+  height: 20px;
+  width: auto;
+}
+
+.facturapi-navbar-title {
+  align-items: baseline;
+  display: inline-flex;
+  gap: 0.18rem;
+}
+
+.facturapi-navbar-title__suffix {
+  color: var(--facturapi-brand-suffix);
+  font-weight: 500;
+  transition: color var(--ifm-transition-fast) var(--ifm-transition-timing-default);
+}
+
+.navbar__brand:hover .facturapi-navbar-title__suffix,
+.navbar__brand:focus-visible .facturapi-navbar-title__suffix,
+.navbar__brand:hover .facturapi-navbar-title .facturapi-navbar-title__suffix {
+  color: var(--facturapi-brand-suffix-hover) !important;
+}
+
+.main-wrapper,
+.theme-doc-page,
+.redocusaurus .redoc-wrap {
+  background: transparent;
+}
+
+.container,
+.container-fluid {
+  position: relative;
+}
+
+.theme-doc-markdown,
+.table-of-contents,
+.pagination-nav__link {
+  background: var(--facturapi-surface-bg);
+  border: 1px solid var(--gray-l1);
+  border-radius: 8px;
+  box-shadow: var(--facturapi-surface-shadow);
+}
+
+.theme-doc-markdown {
+  padding: 1.85rem;
+}
+
+.theme-doc-sidebar-container {
+  border-right: none;
+}
+
+.menu {
+  padding: 0.6rem 0.45rem 2rem;
+}
+
+.menu__link,
+.menu__caret {
+  border-radius: 8px;
+}
+
+.menu__list-item-collapsible {
+  border-radius: 8px;
+  transition: background-color 200ms ease-in-out;
+}
+
+.theme-doc-toc-desktop > div,
+.table-of-contents {
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03), 0 4px 12px rgba(15, 23, 42, 0.025);
+}
+
+.dropdown__menu {
+  background: var(--facturapi-surface-bg);
+  border: 1px solid var(--gray-l1);
+  border-radius: 12px;
+  box-shadow: var(--facturapi-surface-shadow);
+  padding: 0.5rem;
+}
+
+.dropdown__link {
+  border-radius: 8px;
+  margin-top: 0;
+  padding: 0.5rem 0.75rem;
+}
+
+.dropdown__link:hover {
+  background: var(--facturapi-hover-bg);
+}
+
+.dropdown__link--active,
+.dropdown__link--active:hover {
+  background: var(--facturapi-selected-bg);
+  color: var(--facturapi-selected-text);
+}
+
+.menu__list-item-collapsible:hover,
+.menu__list-item-collapsible--active {
+  background: var(--blue-l4) !important;
+}
+
+.menu__link:hover,
+.menu__link--active,
+.menu__caret:hover,
+.menu__list-item-collapsible--active {
+  background: var(--blue-l4);
+}
+
+.menu__link--sublist-caret::after,
+.menu__caret:before {
+  background-size: 1rem 1rem;
+  height: 1rem;
+  width: 1rem;
+  min-width: 1rem;
+  transform: rotate(90deg);
+}
+
+.menu__list-item--collapsed .menu__link--sublist-caret::after,
+.menu__list-item--collapsed .menu__caret:before {
+  transform: rotate(0deg);
+}
+
+.redocusaurus .redoc-wrap {
+  border-bottom: none;
+}
+
+.redocusaurus .menu-content {
+  border-right: none !important;
+  box-shadow: none !important;
+  top: var(--ifm-navbar-height) !important;
+  height: calc(100vh - var(--ifm-navbar-height)) !important;
+  padding-top: 0.6rem;
+}
+
+.redocusaurus .menu-content [role='menuitem'] {
+  margin: 0 0.5rem 0.15rem;
+}
+
+.redocusaurus .menu-content [role='menuitem'] > label {
+  background: var(--gray-l3) !important;
+  border-radius: 8px;
+  min-height: 0;
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+  transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
+}
+
+.redocusaurus .menu-content [role='menuitem'] > label:hover,
+.redocusaurus .menu-content [role='menuitem'] > label.active,
+.redocusaurus .menu-content [role='menuitem'] > label.active:hover {
+  background: var(--blue-l4) !important;
+}
+
+.redocusaurus .menu-content [role='menuitem'] > label.-depth0 {
+  background: transparent !important;
+  color: var(--facturapi-section-label) !important;
+  cursor: default;
+  opacity: 1 !important;
+  font-weight: 500;
+}
+
+.redocusaurus .menu-content [role='menuitem'] > label.-depth0:hover {
+  background: transparent !important;
+  color: var(--facturapi-section-label) !important;
+  opacity: 1 !important;
+}
+
+.redocusaurus .api-content {
+  background: linear-gradient(
+    to right,
+    var(--facturapi-surface-bg) 0,
+    var(--facturapi-surface-bg) var(--redoc-main-column-split),
+    transparent var(--redoc-main-column-split),
+    transparent 100%
+  );
+  border: 1px solid var(--gray-l1);
+  border-width: 1px 0 0 1px;
+  border-radius: 12px 0 0 12px;
+  box-shadow: var(--facturapi-surface-shadow);
+  overflow: hidden;
+}
+
+.redocusaurus .api-content > div {
+  background: transparent;
+}
+
+.redocusaurus .redoc-wrap > div:last-child {
+  border-radius: 12px 0 0 12px;
+}
+
+.redocusaurus .api-content .react-tabs__tab-panel.react-tabs__tab-panel--selected,
+.redocusaurus .api-content .react-tabs__tab-panel.react-tabs__tab-panel--selected > div {
+  border-radius: 12px !important;
+}
+
+.redocusaurus .api-content .react-tabs__tab-panel.react-tabs__tab-panel--selected > div {
+  overflow: hidden;
+}
+
+.redocusaurus .api-content .react-tabs__tab-panel.react-tabs__tab-panel--selected pre,
+.redocusaurus .api-content .react-tabs__tab-panel.react-tabs__tab-panel--selected pre[class*='language-'] {
+  border-radius: 12px !important;
+}
+
+.redocusaurus .menu-content,
+.theme-doc-sidebar-container {
+  box-shadow: none;
+}
+
+.redocusaurus .redoc-wrap > .menu-content,
+.redocusaurus .menu-content *,
+.redocusaurus .menu-content::before,
+.redocusaurus .menu-content::after {
+  border-right: none !important;
+}
+
+.redocusaurus .menu-content .ps__rail-y,
+.redocusaurus .menu-content .ps__rail-x {
+  background: transparent !important;
+}
+
+.redocusaurus .menu-content .ps__thumb-y,
+.redocusaurus .menu-content .ps__thumb-x {
+  background-color: var(--facturapi-scroll-thumb) !important;
+}
+
+html[data-theme='dark'] .redocusaurus button[aria-expanded='true'] {
+  border-color: transparent !important;
+}
+
+html[data-theme='dark'] .redocusaurus div[aria-hidden='false'] {
+  border-color: transparent !important;
+}
+
+html[data-theme='dark'] .redocusaurus div[aria-hidden='false'] [role='button'],
+html[data-theme='dark'] .redocusaurus div[aria-hidden='false'] [tabindex='0'] {
+  border-color: transparent !important;
+}
+
+@media (max-width: 996px) {
+  .theme-doc-markdown {
+    border-radius: 8px;
+    padding: 1.35rem;
+  }
+}
+
+@media (max-width: 75rem) {
+  .redocusaurus .api-content {
+    background: var(--facturapi-surface-bg);
+    border-width: 1px;
+    border-radius: 12px;
+  }
+
+  .redocusaurus .redoc-wrap > div:last-child {
+    border-radius: 12px;
+  }
 }

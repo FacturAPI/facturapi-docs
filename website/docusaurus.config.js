@@ -119,7 +119,6 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
             {
               to: '/api',
               label: 'Referencia API',
-              activeBaseRegex: '^/api(?:/|$|#|\\?)',
             },
             {
               href: "https://dashboard.facturapi.io",

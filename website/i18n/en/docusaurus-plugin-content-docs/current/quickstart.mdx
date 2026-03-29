@@ -122,7 +122,7 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 // a) Import the package
 use Facturapi\Facturapi;
 //    of the issuing organization (https://dashboard.facturapi.io/integration/apikeys)
-$facturapi = new Facturapi( "sk_test_API_KEY" );
+$facturapi = new Facturapi("sk_test_API_KEY");
 // c) Create an invoice
 $invoice = $facturapi->Invoices->create([
   "customer" => [
@@ -263,7 +263,7 @@ await facturapi.Invoice.SendByEmailAsync(invoice.Id);
 <TabItem value="php" label="PHP">
 
 ```php
-$facturapi->Invoices->send_by_email($invoice->id);
+$facturapi->Invoices->sendByEmail($invoice->id);
 ```
 
 </TabItem>
@@ -312,11 +312,11 @@ file.Close();
 <TabItem value="php" label="PHP">
 
 ```php
-$zip = $facturapi->Invoices->download_zip($invoice->id) // stream containing the PDF and XML as a ZIP file or
+$zip = $facturapi->Invoices->downloadZip($invoice->id) // stream containing the PDF and XML as a ZIP file or
 
-$pdf = $facturapi->Invoices->download_pdf($invoice->id) // stream containing the PDF file or
+$pdf = $facturapi->Invoices->downloadPdf($invoice->id) // stream containing the PDF file or
 
-$xml = $facturapi->Invoices->download_xml($invoice->id) // stream containing the XML file or
+$xml = $facturapi->Invoices->downloadXml($invoice->id) // stream containing the XML file or
 ```
 
 </TabItem>

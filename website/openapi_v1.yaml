@@ -557,7 +557,7 @@ paths:
             });
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $customer = $facturapi->Customers->create([
               "email" => "email@example.com",
               "legal_name" => "Dunder Mifflin S.A. de C.V.",
@@ -635,7 +635,7 @@ paths:
             });
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $searchResult = $facturapi->Customers->all([
               "q" => "Dunder",
               "date" => [
@@ -697,7 +697,7 @@ paths:
             var customer = await facturapi.Customer.RetrieveAsync("590ce6c56d04f840aa8438af");
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $customer = $facturapi->Customers->retrieve( "5a3ee743f508333611ad6b3c" );
       parameters:
         - in: path
@@ -773,7 +773,7 @@ paths:
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $customer = $facturapi->Customers->update("590ce6c56d04f840aa8438af", [
               "email" => "jdoe@example.com",
               "legal_name" => "Dunder Mifflin S.A. de C.V.",
@@ -832,7 +832,7 @@ paths:
             var customer = await facturapi.Customer.DeleteAsync("590ce6c56d04f840aa8438af");
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $facturapi->Customers->delete( "5a3fefd9f508333611ad6b43" );
       parameters:
         - in: path
@@ -904,7 +904,7 @@ paths:
             });
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $product = $facturapi->Products->create([
               "description" => "Ukelele",
               "product_key" => "60131324",
@@ -971,7 +971,7 @@ paths:
             });
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $searchResult = $facturapi->Products->all([
               "q" => "ukelele",
               "page" => 1
@@ -1028,7 +1028,7 @@ paths:
             var product = await facturapi.Product.RetrieveAsync("590e22c26d04f840aa8438b2");
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $product = $facturapi->Product->retrieve( "590e22c26d04f840aa8438b2" );
       parameters:
         - in: path
@@ -1097,7 +1097,7 @@ paths:
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $product = $facturapi->Products->update("590e22c26d04f840aa8438b2", [
               "price" => 456.70
             ]);
@@ -1152,7 +1152,7 @@ paths:
             var product = await facturapi.Product.DeleteAsync("590e22c26d04f840aa8438b2");
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $facturapi->Products->delete( "590e22c26d04f840aa8438b2" );
       parameters:
         - in: path
@@ -1263,7 +1263,7 @@ paths:
             });
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $invoice = $facturapi->Invoices->create([
               "customer" => [
                 "legal_name" => "Dunder Mifflin S.A. de C.V.",
@@ -1392,7 +1392,7 @@ paths:
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
 
             // Todas las facturas de la organización
             $invoices = $facturapi->Invoices->all();
@@ -1486,7 +1486,7 @@ paths:
             var invoice = await facturapi.Invoice.RetrieveAsync("58e93bd8e86eb318b019743d");
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $invoice = $facturapi->Invoices->retrieve( "58e93bd8e86eb318b019743d" );
       parameters:
         - in: path
@@ -1564,7 +1564,7 @@ paths:
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $facturapi->Invoices->cancel(
               "58e93bd8e86eb318b019743d",
               [
@@ -1685,14 +1685,14 @@ paths:
             file.Close();
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
 
             // stream containing the PDF and XML as a ZIP file
-            $zip = $facturapi->Invoices->download_zip("58e93bd8e86eb318b019743d");
+            $zip = $facturapi->Invoices->downloadZip("58e93bd8e86eb318b019743d");
             // stream containing the PDF file
-            $pdf = $facturapi->Invoices->download_pdf("58e93bd8e86eb318b019743d"); 
+            $pdf = $facturapi->Invoices->downloadPdf("58e93bd8e86eb318b019743d"); 
             // stream containing the XML file
-            $xml = $facturapi->Invoices->download_xml("58e93bd8e86eb318b019743d");
+            $xml = $facturapi->Invoices->downloadXml("58e93bd8e86eb318b019743d");
       parameters:
         - in: path
           name: invoice_id
@@ -1805,19 +1805,19 @@ paths:
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
 
             // Enviar al correo del cliente
-            $facturapi->Invoices->send_by_email("58e93bd8e86eb318b019743d");
+            $facturapi->Invoices->sendByEmail("58e93bd8e86eb318b019743d");
 
             // Enviar a otro correo
-            $facturapi->Invoices->send_by_email(
+            $facturapi->Invoices->sendByEmail(
               "58e93bd8e86eb318b019743d",
               "otro@correo.com"
             );
 
             // Enviar a más de un correo (máx 10)
-            $facturapi->Invoices->send_by_email(
+            $facturapi->Invoices->sendByEmail(
               "58e93bd8e86eb318b019743d",
               [
                 "primer@correo.com",
@@ -1940,7 +1940,7 @@ paths:
             });
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
 
             $receipt = $facturapi->Receipts->create([
               "folio_number" => 1234,
@@ -2041,7 +2041,7 @@ paths:
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
 
             // Todos los recibos de la organización
             $searchResult = $facturapi->Receipts->all();
@@ -2111,7 +2111,7 @@ paths:
             var receipt = await facturapi.Receipt.RetrieveAsync("58e93bd8e86eb318b019743d");
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $receipt = $facturapi->Receipts->retrieve( "58e93bd8e86eb318b019743d" );
       parameters:
         - in: path
@@ -2165,7 +2165,7 @@ paths:
             var receipt = await facturapi.Receipt.CancelAsync("5ebd8e56f5687a013ca0df46");
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $facturapi->Receipts->cancel("5ebd8e56f5687a013ca0df46");
       parameters:
         - in: path
@@ -2428,7 +2428,7 @@ paths:
             });
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $retention = $facturapi->Retentions->create([
               "customer" => "58e93bd8e86eb318b0197456",
               "cve_retenc" => "26",
@@ -2553,7 +2553,7 @@ paths:
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
 
             // Todas las retenciones de la organización
             $retentions = $facturapi->Retentions->all();
@@ -2632,7 +2632,7 @@ paths:
             var retention = await facturapi.Retention.RetrieveAsync("6062d9fb226600001cd22f71");
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $retention = $facturapi->Retentions->retrieve( "6062d9fb226600001cd22f71" );
       parameters:
         - in: path
@@ -2686,7 +2686,7 @@ paths:
             var canceledRetention = await facturapi.Retention.CancelAsync("6062d9fb226600001cd22f71");
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $canceledRetention = $facturapi->Retentions->cancel("6062d9fb226600001cd22f71");
       parameters:
         - in: path
@@ -2770,14 +2770,14 @@ paths:
             file.Close();
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
 
             // stream containing the PDF and XML as a ZIP file
-            $zip = $facturapi->Retentions->download_zip("58e93bd8e86eb318b019743d");
+            $zip = $facturapi->Retentions->downloadZip("58e93bd8e86eb318b019743d");
             // stream containing the PDF file
-            $pdf = $facturapi->Retentions->download_pdf("58e93bd8e86eb318b019743d"); 
+            $pdf = $facturapi->Retentions->downloadPdf("58e93bd8e86eb318b019743d"); 
             // stream containing the XML file
-            $xml = $facturapi->Retentions->download_xml("58e93bd8e86eb318b019743d");
+            $xml = $facturapi->Retentions->downloadXml("58e93bd8e86eb318b019743d");
       parameters:
         - in: path
           name: retention_id
@@ -2890,19 +2890,19 @@ paths:
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
 
             // Enviar al correo del cliente
-            $facturapi->Retentions->send_by_email("58e93bd8e86eb318b019743d");
+            $facturapi->Retentions->sendByEmail("58e93bd8e86eb318b019743d");
 
             // Enviar a otro correo
-            $facturapi->Retentions->send_by_email(
+            $facturapi->Retentions->sendByEmail(
               "58e93bd8e86eb318b019743d",
               "otro@correo.com"
             );
 
             // Enviar a más de un correo (máx 10)
-            $facturapi->Retentions->send_by_email(
+            $facturapi->Retentions->sendByEmail(
               "58e93bd8e86eb318b019743d",
               [
                 "primer@correo.com",
@@ -3048,7 +3048,7 @@ paths:
             var searchResult = await facturapi.Organization.ListAsync();
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
 
             $organizations = $facturapi->Organizations->all()
       parameters:
@@ -3448,13 +3448,13 @@ paths:
 
             $organization = $facturapi->Organizations->updateCustomization(
               "5a2a307be93a2f00129ea035",
-              array(
+              [
                 "color" => "#BADA55",
-                "pdf_extra" => array(
+                "pdf_extra" => [
                   "codes" => false,
                   "product_key" => true
-                )
-              )
+                ]
+              ]
             );
       parameters:
         - in: path
@@ -3607,7 +3607,7 @@ paths:
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $organization = $facturapi->Organizations->checkDomainIsAvailable(
               ["domain" => "empresa-demo"]
             );
@@ -3690,7 +3690,7 @@ paths:
 
             $organization = $facturapi->Organizations->updateDomain(
               "5a2a307be93a2f00129ea035",
-              array( "domain" => "empresa-demo" )
+              [ "domain" => "empresa-demo" ]
             );
       parameters:
         - in: path
@@ -3748,7 +3748,7 @@ paths:
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $organization = $facturapi->Organizations->retrieve("5a2a307be93a2f00129ea035");
       parameters:
         - in: path
@@ -3805,7 +3805,7 @@ paths:
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_user_API_KEY" );
+            $facturapi = new Facturapi("sk_user_API_KEY");
             $organization = $facturapi->Organizations->delete(
               "5a2a307be93a2f00129ea035"
             );
@@ -3862,7 +3862,7 @@ paths:
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             $organization = $facturapi->Organizations->getApiKeys(
               "5a2a307be93a2f00129ea035"
             );
@@ -3953,7 +3953,7 @@ paths:
             var customer = await facturapi.Tools.ValidateTaxIdAsync("BBA830831LJ2");
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
             
             $customer = $facturapi->Tools->validateTaxId("BBA830831LJ2");
       parameters:
@@ -4015,7 +4015,7 @@ paths:
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
 
             $result = $facturapi->Catalogs->searchProducts([
               "q" => "ukelele"
@@ -4080,7 +4080,7 @@ paths:
             );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi( "sk_test_API_KEY" );
+            $facturapi = new Facturapi("sk_test_API_KEY");
 
             $result = $facturapi->Catalogs->searchUnits([
               "q" => "pulgada"

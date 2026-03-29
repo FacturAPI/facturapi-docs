@@ -60,7 +60,8 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
             options: {
               disableSearch: true,
               requiredPropsFirst: true,
-              noAutoAuth: true
+              noAutoAuth: true,
+              removeAttribution: true,
             },
           },
         },
@@ -140,46 +141,75 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
           style: "dark",
           links: [
             {
-              title: "Docs",
+              title: "Facturapi",
               items: [
                 {
-                  label: "Tutorial",
-                  to: "/docs/quickstart",
+                  label: "Main site",
+                  href: "https://www.facturapi.io",
+                },
+                {
+                  label: "Dashboard",
+                  href: "https://dashboard.facturapi.io",
+                },
+                {
+                  label: "Contact",
+                  href: "https://www.facturapi.io/contact",
                 },
               ],
             },
             {
-              title: "Community",
+              title: "Developers",
               items: [
                 {
-                  label: "Stack Overflow",
-                  href: "https://stackoverflow.com/questions/tagged/facturapi",
+                  label: "API reference",
+                  to: "/api",
                 },
                 {
-                  label: "Twitter",
-                  href: "https://twitter.com/facturapi",
+                  label: "Tutorials",
+                  to: "/docs/intro",
                 },
                 {
-                  label: "Facebook",
-                  href: "https://facebook.com/facturapi",
+                  label: "Stripe app",
+                  to: "/stripe-app",
                 },
-                {
-                  label: "Instagram",
-                  href: "https://instagram.com/facturapi",
-                },
-              ],
-            },
-            {
-              title: "More",
-              items: [
                 {
                   label: "GitHub",
                   href: "https://github.com/facturapi",
                 },
               ],
             },
+            {
+              title: "Resources",
+              items: [
+                {
+                  label: "Pricing",
+                  href: "https://www.facturapi.io/pricing",
+                },
+                {
+                  label: "Blog",
+                  href: "https://www.facturapi.io/blog",
+                },
+                {
+                  label: "Service status",
+                  href: "https://status.facturapi.io",
+                },
+              ],
+            },
+            {
+              title: "Legal",
+              items: [
+                {
+                  label: "Terms",
+                  href: "https://www.facturapi.io/terms",
+                },
+                {
+                  label: "Privacy",
+                  href: "https://www.facturapi.io/privacy",
+                },
+              ],
+            },
           ],
-          copyright: `Copyright © ${new Date().getFullYear()} Facturación Espacial, SAPI de CV`,
+          copyright: `© ${new Date().getFullYear()} Facturapi. All rights reserved.`,
         },
         prism: {
           theme: lightCodeTheme,

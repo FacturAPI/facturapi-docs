@@ -386,6 +386,10 @@ body[data-scrolled='true'] .navbar {
   background-color: var(--facturapi-scroll-thumb) !important;
 }
 
+.redocusaurus .menu-content a[href='https://redocly.com/redoc/'] {
+  display: none !important;
+}
+
 html[data-theme='dark'] .redocusaurus button[aria-expanded='true'] {
   border-color: transparent !important;
 }

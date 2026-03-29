@@ -61,7 +61,6 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
               disableSearch: true,
               requiredPropsFirst: true,
               noAutoAuth: true,
-              removeAttribution: true,
             },
           },
         },

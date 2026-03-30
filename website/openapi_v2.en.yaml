@@ -7183,6 +7183,11 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var accessList = await facturapi.Organization.ListTeamAccessAsync("org_123");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $accessList = $facturapi->Organizations->listTeamAccess("org_123");
       parameters:
         - in: path
           name: organization_id
@@ -7247,6 +7252,14 @@ paths:
                 ["role"] = "role_123"
               }
             );
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $invite = $facturapi->Organizations->inviteUserToTeam("org_123", [
+              "email" => "alex@example.com",
+              "role" => "role_123"
+            ]);
       parameters:
         - in: path
           name: organization_id
@@ -7298,6 +7311,11 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var invites = await facturapi.Organization.ListSentTeamInvitesAsync("org_123");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $invites = $facturapi->Organizations->listSentTeamInvites("org_123");
       parameters:
         - in: path
           name: organization_id
@@ -7346,6 +7364,11 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var access = await facturapi.Organization.RetrieveTeamAccessAsync("org_123", "acc_123");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $access = $facturapi->Organizations->retrieveTeamAccess("org_123", "acc_123");
       parameters:
         - in: path
           name: organization_id
@@ -7399,6 +7422,11 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var result = await facturapi.Organization.RemoveTeamAccessAsync("org_123", "acc_123");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->Organizations->removeTeamAccess("org_123", "acc_123");
       parameters:
         - in: path
           name: organization_id
@@ -7456,6 +7484,11 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var result = await facturapi.Organization.CancelTeamInviteAsync("org_123", "inv_123");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->Organizations->cancelTeamInvite("org_123", "inv_123");
       parameters:
         - in: path
           name: organization_id
@@ -7510,6 +7543,11 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_user_API_KEY");
             var pendingInvites = await facturapi.Organization.ListReceivedTeamInvitesAsync();
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_user_API_KEY");
+            $pendingInvites = $facturapi->Organizations->listReceivedTeamInvites();
       security:
         - "SecretUserKey": []
       responses:
@@ -7560,6 +7598,13 @@ paths:
                 ["accept"] = true
               }
             );
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_user_API_KEY");
+            $result = $facturapi->Organizations->respondTeamInvite("inv_123", [
+              "accept" => true
+            ]);
       parameters:
         - in: path
           name: invite_key
@@ -7609,6 +7654,11 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var roles = await facturapi.Organization.ListTeamRolesAsync("org_123");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $roles = $facturapi->Organizations->listTeamRoles("org_123");
       parameters:
         - in: path
           name: organization_id
@@ -7668,6 +7718,13 @@ paths:
                 ["name"] = "Billing analyst"
               }
             );
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $role = $facturapi->Organizations->createTeamRole("org_123", [
+              "name" => "Billing analyst"
+            ]);
       parameters:
         - in: path
           name: organization_id
@@ -7719,6 +7776,11 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var templates = await facturapi.Organization.ListTeamRoleTemplatesAsync("org_123");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $templates = $facturapi->Organizations->listTeamRoleTemplates("org_123");
       parameters:
         - in: path
           name: organization_id
@@ -7766,6 +7828,11 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var operations = await facturapi.Organization.ListTeamRoleOperationsAsync("org_123");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $operations = $facturapi->Organizations->listTeamRoleOperations("org_123");
       parameters:
         - in: path
           name: organization_id
@@ -7813,6 +7880,11 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var role = await facturapi.Organization.RetrieveTeamRoleAsync("org_123", "role_123");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $role = $facturapi->Organizations->retrieveTeamRole("org_123", "role_123");
       parameters:
         - in: path
           name: organization_id
@@ -7879,6 +7951,13 @@ paths:
                 ["name"] = "Senior billing analyst"
               }
             );
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $role = $facturapi->Organizations->updateTeamRole("org_123", "role_123", [
+              "name" => "Senior billing analyst"
+            ]);
       parameters:
         - in: path
           name: organization_id
@@ -7936,6 +8015,11 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var result = await facturapi.Organization.DeleteTeamRoleAsync("org_123", "role_123");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->Organizations->deleteTeamRole("org_123", "role_123");
       parameters:
         - in: path
           name: organization_id
@@ -7998,6 +8082,11 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var access = await facturapi.Organization.UpdateTeamAccessRoleAsync("org_123", "acc_123", "role_123");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $access = $facturapi->Organizations->updateTeamAccessRole("org_123", "acc_123", "role_123");
       parameters:
         - in: path
           name: organization_id

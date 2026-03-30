@@ -7360,6 +7360,18 @@ paths:
         - organization_access
       summary: Listar usuarios con acceso a organización
       description: Regresa un arreglo con los usuarios que actualmente tienen acceso a la organización, incluyendo al propietario. Este endpoint no está paginado.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/org_123/team" \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const accessList = await facturapi.organizations.listTeamAccess('org_123')
       parameters:
         - in: path
           name: organization_id
@@ -7391,6 +7403,27 @@ paths:
         - organization_access
       summary: Invitar usuario a organización
       description: Crea o actualiza una invitación de usuario. Por defecto, el acceso es de administrador con permisos completos; para limitarlo, crea un rol y envía su ID en `role`.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/org_123/team/invites" \
+              -X POST \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "email": "alex@example.com",
+                "role": "role_123"
+              }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const invite = await facturapi.organizations.inviteUserToTeam('org_123', {
+              email: 'alex@example.com',
+              role: 'role_123',
+            })
       parameters:
         - in: path
           name: organization_id
@@ -7425,6 +7458,18 @@ paths:
         - organization_access
       summary: Listar invitaciones enviadas
       description: Regresa invitaciones enviadas desde la organización.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/org_123/team/invites" \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const invites = await facturapi.organizations.listSentTeamInvites('org_123')
       parameters:
         - in: path
           name: organization_id
@@ -7456,6 +7501,18 @@ paths:
         - organization_access
       summary: Obtener acceso de usuario
       description: Regresa el detalle del acceso del usuario dentro de la organización usando su `access_id`, incluyendo accesos implícitos como el del propietario.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/org_123/team/acc_123" \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const access = await facturapi.organizations.retrieveTeamAccess('org_123', 'acc_123')
       parameters:
         - in: path
           name: organization_id
@@ -7491,6 +7548,19 @@ paths:
       tags:
         - organization_access
       summary: Eliminar usuario con acceso
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/org_123/team/acc_123" \
+              -X DELETE \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.organizations.removeTeamAccess('org_123', 'acc_123')
       parameters:
         - in: path
           name: organization_id
@@ -7530,6 +7600,19 @@ paths:
         - organization_access
       summary: Cancelar invitación enviada
       description: Elimina una invitación pendiente de la organización.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/org_123/team/invites/inv_123" \
+              -X DELETE \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.organizations.cancelTeamInvite('org_123', 'inv_123')
       parameters:
         - in: path
           name: organization_id
@@ -7567,6 +7650,18 @@ paths:
         - organization_access
       summary: Listar invitaciones recibidas
       description: Regresa las invitaciones recibidas para el usuario autenticado.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/invites/pending" \
+              -H "Authorization: Bearer sk_user_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_user_API_KEY')
+            const pendingInvites = await facturapi.organizations.listReceivedTeamInvites()
       security:
         - "SecretUserKey": []
       responses:
@@ -7587,6 +7682,25 @@ paths:
         - organization_access
       summary: Responder invitación
       description: Acepta o rechaza una invitación usando su `invite_key`.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/invites/inv_123/response" \
+              -X POST \
+              -H "Authorization: Bearer sk_user_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "accept": true
+              }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_user_API_KEY')
+            const result = await facturapi.organizations.respondTeamInvite('inv_123', {
+              accept: true,
+            })
       parameters:
         - in: path
           name: invite_key
@@ -7619,6 +7733,18 @@ paths:
       tags:
         - organization_access
       summary: Listar roles de organización
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/org_123/team/roles" \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const roles = await facturapi.organizations.listTeamRoles('org_123')
       parameters:
         - in: path
           name: organization_id
@@ -7648,6 +7774,25 @@ paths:
       tags:
         - organization_access
       summary: Crear rol de organización
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/org_123/team/roles" \
+              -X POST \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "name": "Billing analyst"
+              }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const role = await facturapi.organizations.createTeamRole('org_123', {
+              name: 'Billing analyst',
+            })
       parameters:
         - in: path
           name: organization_id
@@ -7682,6 +7827,18 @@ paths:
       tags:
         - organization_access
       summary: Listar plantillas de roles
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/org_123/team/roles/templates" \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const templates = await facturapi.organizations.listTeamRoleTemplates('org_123')
       parameters:
         - in: path
           name: organization_id
@@ -7712,6 +7869,18 @@ paths:
       tags:
         - organization_access
       summary: Listar operaciones de permisos
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/org_123/team/roles/operations" \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const operations = await facturapi.organizations.listTeamRoleOperations('org_123')
       parameters:
         - in: path
           name: organization_id
@@ -7742,6 +7911,18 @@ paths:
       tags:
         - organization_access
       summary: Obtener rol de organización
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/org_123/team/roles/role_123" \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const role = await facturapi.organizations.retrieveTeamRole('org_123', 'role_123')
       parameters:
         - in: path
           name: organization_id
@@ -7777,6 +7958,25 @@ paths:
       tags:
         - organization_access
       summary: Actualizar rol de organización
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/org_123/team/roles/role_123" \
+              -X PUT \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "name": "Senior billing analyst"
+              }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const role = await facturapi.organizations.updateTeamRole('org_123', 'role_123', {
+              name: 'Senior billing analyst',
+            })
       parameters:
         - in: path
           name: organization_id
@@ -7816,6 +8016,19 @@ paths:
       tags:
         - organization_access
       summary: Eliminar rol de organización
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/org_123/team/roles/role_123" \
+              -X DELETE \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.organizations.deleteTeamRole('org_123', 'role_123')
       parameters:
         - in: path
           name: organization_id
@@ -7856,6 +8069,23 @@ paths:
       tags:
         - organization_access
       summary: Reasignar rol a usuario
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/org_123/team/acc_123/role" \
+              -X PUT \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "role": "role_123"
+              }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const access = await facturapi.organizations.updateTeamAccessRole('org_123', 'acc_123', 'role_123')
       parameters:
         - in: path
           name: organization_id

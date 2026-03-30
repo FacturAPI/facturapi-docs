@@ -7178,6 +7178,11 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const accessList = await facturapi.organizations.listTeamAccess('org_123')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var accessList = await facturapi.Organization.ListTeamAccessAsync("org_123");
       parameters:
         - in: path
           name: organization_id
@@ -7230,6 +7235,18 @@ paths:
               email: 'alex@example.com',
               role: 'role_123',
             })
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var invite = await facturapi.Organization.InviteUserToTeamAsync(
+              "org_123",
+              new Dictionary<string, object>
+              {
+                ["email"] = "alex@example.com",
+                ["role"] = "role_123"
+              }
+            );
       parameters:
         - in: path
           name: organization_id
@@ -7276,6 +7293,11 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const invites = await facturapi.organizations.listSentTeamInvites('org_123')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var invites = await facturapi.Organization.ListSentTeamInvitesAsync("org_123");
       parameters:
         - in: path
           name: organization_id
@@ -7319,6 +7341,11 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const access = await facturapi.organizations.retrieveTeamAccess('org_123', 'acc_123')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var access = await facturapi.Organization.RetrieveTeamAccessAsync("org_123", "acc_123");
       parameters:
         - in: path
           name: organization_id
@@ -7367,6 +7394,11 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.organizations.removeTeamAccess('org_123', 'acc_123')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.Organization.RemoveTeamAccessAsync("org_123", "acc_123");
       parameters:
         - in: path
           name: organization_id
@@ -7419,6 +7451,11 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.organizations.cancelTeamInvite('org_123', 'inv_123')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.Organization.CancelTeamInviteAsync("org_123", "inv_123");
       parameters:
         - in: path
           name: organization_id
@@ -7468,6 +7505,11 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY')
             const pendingInvites = await facturapi.organizations.listReceivedTeamInvites()
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var pendingInvites = await facturapi.Organization.ListReceivedTeamInvitesAsync();
       security:
         - "SecretUserKey": []
       responses:
@@ -7507,6 +7549,17 @@ paths:
             const result = await facturapi.organizations.respondTeamInvite('inv_123', {
               accept: true,
             })
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var result = await facturapi.Organization.RespondTeamInviteAsync(
+              "inv_123",
+              new Dictionary<string, object>
+              {
+                ["accept"] = true
+              }
+            );
       parameters:
         - in: path
           name: invite_key
@@ -7551,6 +7604,11 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const roles = await facturapi.organizations.listTeamRoles('org_123')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var roles = await facturapi.Organization.ListTeamRolesAsync("org_123");
       parameters:
         - in: path
           name: organization_id
@@ -7599,6 +7657,17 @@ paths:
             const role = await facturapi.organizations.createTeamRole('org_123', {
               name: 'Billing analyst',
             })
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var role = await facturapi.Organization.CreateTeamRoleAsync(
+              "org_123",
+              new Dictionary<string, object>
+              {
+                ["name"] = "Billing analyst"
+              }
+            );
       parameters:
         - in: path
           name: organization_id
@@ -7645,6 +7714,11 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const templates = await facturapi.organizations.listTeamRoleTemplates('org_123')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var templates = await facturapi.Organization.ListTeamRoleTemplatesAsync("org_123");
       parameters:
         - in: path
           name: organization_id
@@ -7687,6 +7761,11 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const operations = await facturapi.organizations.listTeamRoleOperations('org_123')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var operations = await facturapi.Organization.ListTeamRoleOperationsAsync("org_123");
       parameters:
         - in: path
           name: organization_id
@@ -7729,6 +7808,11 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const role = await facturapi.organizations.retrieveTeamRole('org_123', 'role_123')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var role = await facturapi.Organization.RetrieveTeamRoleAsync("org_123", "role_123");
       parameters:
         - in: path
           name: organization_id
@@ -7783,6 +7867,18 @@ paths:
             const role = await facturapi.organizations.updateTeamRole('org_123', 'role_123', {
               name: 'Senior billing analyst',
             })
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var role = await facturapi.Organization.UpdateTeamRoleAsync(
+              "org_123",
+              "role_123",
+              new Dictionary<string, object>
+              {
+                ["name"] = "Senior billing analyst"
+              }
+            );
       parameters:
         - in: path
           name: organization_id
@@ -7835,6 +7931,11 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.organizations.deleteTeamRole('org_123', 'role_123')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.Organization.DeleteTeamRoleAsync("org_123", "role_123");
       parameters:
         - in: path
           name: organization_id
@@ -7892,6 +7993,11 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const access = await facturapi.organizations.updateTeamAccessRole('org_123', 'acc_123', 'role_123')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var access = await facturapi.Organization.UpdateTeamAccessRoleAsync("org_123", "acc_123", "role_123");
       parameters:
         - in: path
           name: organization_id

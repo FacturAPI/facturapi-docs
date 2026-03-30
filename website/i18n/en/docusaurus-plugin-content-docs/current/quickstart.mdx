@@ -312,11 +312,11 @@ file.Close();
 <TabItem value="php" label="PHP">
 
 ```php
-$zip = $facturapi->Invoices->downloadZip($invoice->id) // stream containing the PDF and XML as a ZIP file or
+$zip = $facturapi->Invoices->downloadZip($invoice->id); // stream containing the PDF and XML as a ZIP file or
 
-$pdf = $facturapi->Invoices->downloadPdf($invoice->id) // stream containing the PDF file or
+$pdf = $facturapi->Invoices->downloadPdf($invoice->id); // stream containing the PDF file or
 
-$xml = $facturapi->Invoices->downloadXml($invoice->id) // stream containing the XML file or
+$xml = $facturapi->Invoices->downloadXml($invoice->id); // stream containing the XML file or
 ```
 
 </TabItem>

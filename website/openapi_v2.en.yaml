@@ -4267,12 +4267,12 @@ paths:
             $facturapi = new Facturapi("sk_test_API_KEY");
 
             // Assign an existing customer by ID
-            $receipt = $facturapi->Receipts->assign_customer("58e93bd8e86eb318b019743d", [
+            $receipt = $facturapi->Receipts->assignCustomer("58e93bd8e86eb318b019743d", [
               "customer" => "58e93bd8e86eb318b0197456"
             ]);
 
             // Or create the customer from payload and assign it to the receipt
-            $receiptWithNewCustomer = $facturapi->Receipts->assign_customer("58e93bd8e86eb318b019743d", [
+            $receiptWithNewCustomer = $facturapi->Receipts->assignCustomer("58e93bd8e86eb318b019743d", [
               "customer" => [
                 "legal_name" => "Dunder Mifflin",
                 "tax_id" => "XAXX010101000",
@@ -6918,11 +6918,11 @@ paths:
             var facturapi = new FacturapiClient("sk_user_API_KEY");
             var newSeries = await facturapi.Organization.CreateSeriesAsync(
               "5a2a307be93a2f00129ea035",
-              {
-                    "series": "New",
-                    "next_folio": 1,
-                    "next_folio_test": 1
-              }
+              [
+                "series" => "New",
+                "next_folio" => 1,
+                "next_folio_test" => 1
+              ]
             );
         - lang: PHP
           source: |
@@ -6989,10 +6989,10 @@ paths:
             const updatedSeries = await facturapi.organizations.updateSeries(
               '5a2a307be93a2f00129ea035',
               'New',
-              {
-                "next_folio": 1,
-                "next_folio_test": 1
-              }
+              [
+                "next_folio" => 1,
+                "next_folio_test" => 1
+              ]
             );
         - lang: csharp
           label: C#

@@ -41,3 +41,57 @@ The app connection stays active as long as you continue using the app inside Str
 ### **Will My Configuration Be Lost?**
 
 Not necessarily. In most cases, reconnecting only restores the link between Stripe and Facturapi. Your tax configuration, certificates, and invoicing preferences remain in Facturapi.
+
+---
+
+# I installed the app in a sandbox and it does not appear in live or test mode
+
+This is **expected**. In Stripe, **live**, **test mode**, and each **sandbox** are managed separately.
+
+### **What does this mean?**
+
+- Installing the app in **live** does not automatically install it in **test mode**.
+- Installing the app in **test mode** does not automatically install it in a **sandbox**.
+- Installing the app in a **sandbox** does not automatically install it in **live**, **test mode**, or other **sandboxes**.
+
+### **How do you fix it?**
+
+1. Open the Stripe environment where you actually want to use the app.
+2. Install or open the **Facturapi Stripe App** there.
+3. If Stripe asks you to, reconnect the app and select your organization again.
+
+### **Which Facturapi environment does each installation use?**
+
+- **Stripe live** points to **Facturapi live**.
+- **Stripe test mode** points to **Facturapi test**.
+- **Stripe sandbox** points to **Facturapi test**.
+
+### **Are customers shared across sandboxes?**
+
+Yes, they can be shared if those sandboxes are connected to the **same Facturapi organization**.
+
+- The app **installation** and the **Stripe-side configuration** are still independent for each sandbox.
+- But the Facturapi data used by **Stripe test mode** and **Stripe sandbox** lives in **Facturapi test**.
+- That means customers and other test data can be visible across sandboxes when they use the same Facturapi organization.
+
+---
+
+# Stripe asks me to reconnect the app in a sandbox
+
+If Stripe asks you to reconnect the app inside a **sandbox**, it usually only means that specific installation needs to restore the link with Facturapi.
+
+### **Important**
+
+Reconnecting inside a sandbox does **not automatically reconnect** the installation in:
+
+- **Stripe live**
+- **Stripe test mode**
+- other **sandboxes**
+
+### **What should you do?**
+
+1. Open the app inside the sandbox where the warning appeared.
+2. Reconnect or reinstall the app if Stripe asks you to.
+3. Select your organization again in Facturapi.
+
+Your tax configuration in Facturapi is not lost during this process; only the link for that specific installation is restored. If that sandbox uses the same Facturapi organization in `test` as other sandboxes, it will still share the same test data with them.

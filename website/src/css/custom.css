@@ -200,6 +200,62 @@ body[data-scrolled='true'] .navbar {
   color: var(--facturapi-selected-text);
 }
 
+.footer {
+  background: #1e3756;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.82);
+  padding: 2.75rem 0 1.25rem;
+}
+
+.footer__links {
+  column-gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  row-gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer__col {
+  min-width: 0;
+}
+
+.footer__title {
+  border-left: 1px solid #54e0b9;
+  color: #f0f4f9;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  padding-left: 0.55rem;
+}
+
+.footer__item {
+  color: rgba(255, 255, 255, 0.84);
+  line-height: 1.45;
+  margin-top: 0.7rem;
+}
+
+.footer__link-item {
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 0.95rem;
+  transition: color var(--ifm-transition-fast) var(--ifm-transition-timing-default);
+}
+
+.footer__link-item:hover {
+  color: #a7c7ff;
+  text-decoration: none;
+}
+
+.footer__bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 0;
+  padding-top: 1rem;
+}
+
+.footer__copyright {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.95rem;
+}
+
 .menu__list-item-collapsible:hover,
 .menu__list-item-collapsible--active {
   background: var(--blue-l4) !important;
@@ -330,6 +386,10 @@ body[data-scrolled='true'] .navbar {
   background-color: var(--facturapi-scroll-thumb) !important;
 }
 
+.redocusaurus .menu-content a[href='https://redocly.com/redoc/'] {
+  display: none !important;
+}
+
 html[data-theme='dark'] .redocusaurus button[aria-expanded='true'] {
   border-color: transparent !important;
 }
@@ -348,6 +408,15 @@ html[data-theme='dark'] .redocusaurus div[aria-hidden='false'] [tabindex='0'] {
     border-radius: 8px;
     padding: 1.35rem;
   }
+
+  .footer {
+    padding-top: 2.25rem;
+  }
+
+  .footer__links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 1.5rem;
+  }
 }
 
 @media (max-width: 75rem) {
@@ -359,5 +428,15 @@ html[data-theme='dark'] .redocusaurus div[aria-hidden='false'] [tabindex='0'] {
 
   .redocusaurus .redoc-wrap > div:last-child {
     border-radius: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .footer__links {
+    grid-template-columns: 1fr;
+  }
+
+  .footer__title {
+    margin-bottom: 0.75rem;
   }
 }

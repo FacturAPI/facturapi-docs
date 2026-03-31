@@ -60,9 +60,9 @@ API: [Invitar usuario a organización](/api#tag/organization_access/operation/cr
 import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_user_API_KEY')
 
-const invite = await facturapi.organizations.inviteUserToTeam('org_123', {
+const invite = await facturapi.organizations.inviteUserToTeam('ORG_ID', {
   email: 'alex@example.com',
-  role: 'role_123', // opcional
+  role: 'ROLE_ID', // opcional
 })
 ```
 
@@ -73,11 +73,11 @@ const invite = await facturapi.organizations.inviteUserToTeam('org_123', {
 var facturapi = new FacturapiClient("sk_user_API_KEY");
 
 var invite = await facturapi.Organization.InviteUserToTeamAsync(
-  "org_123",
+  "ORG_ID",
   new Dictionary<string, object>
   {
     ["email"] = "alex@example.com",
-    ["role"] = "role_123" // opcional
+    ["role"] = "ROLE_ID" // opcional
   }
 );
 ```
@@ -88,9 +88,9 @@ var invite = await facturapi.Organization.InviteUserToTeamAsync(
 ```php
 $facturapi = new Facturapi("sk_user_API_KEY");
 
-$invite = $facturapi->Organizations->inviteUserToTeam("org_123", [
+$invite = $facturapi->Organizations->inviteUserToTeam("ORG_ID", [
   "email" => "alex@example.com",
-  "role" => "role_123" // opcional
+  "role" => "ROLE_ID" // opcional
 ]);
 ```
 
@@ -98,13 +98,13 @@ $invite = $facturapi->Organizations->inviteUserToTeam("org_123", [
 <TabItem value="curl" label="cURL">
 
 ```bash
-curl "https://www.facturapi.io/v2/organizations/org_123/team/invites" \
+curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/invites" \
   -X POST \
   -H "Authorization: Bearer sk_user_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "email": "alex@example.com",
-    "role": "role_123"
+    "role": "ROLE_ID"
   }'
 ```
 
@@ -159,7 +159,7 @@ agregar lectura de clientes, pero remover la capacidad de crear descargas SAT.
 import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_user_API_KEY')
 
-const role = await facturapi.organizations.createTeamRole('org_123', {
+const role = await facturapi.organizations.createTeamRole('ORG_ID', {
   name: 'Developer (limited)',
   template_code: 'org-developer',
   add: ['read.customers.list', 'read.customers.detail'],
@@ -174,7 +174,7 @@ const role = await facturapi.organizations.createTeamRole('org_123', {
 var facturapi = new FacturapiClient("sk_user_API_KEY");
 
 var role = await facturapi.Organization.CreateTeamRoleAsync(
-  "org_123",
+  "ORG_ID",
   new Dictionary<string, object>
   {
     ["name"] = "Developer (limited)",
@@ -191,7 +191,7 @@ var role = await facturapi.Organization.CreateTeamRoleAsync(
 ```php
 $facturapi = new Facturapi("sk_user_API_KEY");
 
-$role = $facturapi->Organizations->createTeamRole("org_123", [
+$role = $facturapi->Organizations->createTeamRole("ORG_ID", [
   "name" => "Developer (limited)",
   "template_code" => "org-developer",
   "add" => ["read.customers.list", "read.customers.detail"],
@@ -203,7 +203,7 @@ $role = $facturapi->Organizations->createTeamRole("org_123", [
 <TabItem value="curl" label="cURL">
 
 ```bash
-curl "https://www.facturapi.io/v2/organizations/org_123/team/roles" \
+curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/roles" \
   -X POST \
   -H "Authorization: Bearer sk_user_API_KEY" \
   -H "Content-Type: application/json" \
@@ -246,7 +246,7 @@ puedes usar
 import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_user_API_KEY')
 
-const result = await facturapi.organizations.respondTeamInvite('inv_123', {
+const result = await facturapi.organizations.respondTeamInvite('INVITE_ID', {
   accept: true,
 })
 ```
@@ -258,7 +258,7 @@ const result = await facturapi.organizations.respondTeamInvite('inv_123', {
 var facturapi = new FacturapiClient("sk_user_API_KEY");
 
 var result = await facturapi.Organization.RespondTeamInviteAsync(
-  "inv_123",
+  "INVITE_ID",
   new Dictionary<string, object>
   {
     ["accept"] = true
@@ -272,7 +272,7 @@ var result = await facturapi.Organization.RespondTeamInviteAsync(
 ```php
 $facturapi = new Facturapi("sk_user_API_KEY");
 
-$result = $facturapi->Organizations->respondTeamInvite("inv_123", [
+$result = $facturapi->Organizations->respondTeamInvite("INVITE_ID", [
   "accept" => true
 ]);
 ```
@@ -281,7 +281,7 @@ $result = $facturapi->Organizations->respondTeamInvite("inv_123", [
 <TabItem value="curl" label="cURL">
 
 ```bash
-curl "https://www.facturapi.io/v2/organizations/invites/inv_123/response" \
+curl "https://www.facturapi.io/v2/organizations/invites/INVITE_ID/response" \
   -X POST \
   -H "Authorization: Bearer sk_user_API_KEY" \
   -H "Content-Type: application/json" \
@@ -318,9 +318,9 @@ import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_user_API_KEY')
 
 const access = await facturapi.organizations.updateTeamAccessRole(
-  'org_123',
-  'acc_123',
-  'role_123'
+  'ORG_ID',
+  'ACCESS_ID',
+  'ROLE_ID'
 )
 ```
 
@@ -331,9 +331,9 @@ const access = await facturapi.organizations.updateTeamAccessRole(
 var facturapi = new FacturapiClient("sk_user_API_KEY");
 
 var access = await facturapi.Organization.UpdateTeamAccessRoleAsync(
-  "org_123",
-  "acc_123",
-  "role_123"
+  "ORG_ID",
+  "ACCESS_ID",
+  "ROLE_ID"
 );
 ```
 
@@ -344,9 +344,9 @@ var access = await facturapi.Organization.UpdateTeamAccessRoleAsync(
 $facturapi = new Facturapi("sk_user_API_KEY");
 
 $access = $facturapi->Organizations->updateTeamAccessRole(
-  "org_123",
-  "acc_123",
-  "role_123"
+  "ORG_ID",
+  "ACCESS_ID",
+  "ROLE_ID"
 );
 ```
 
@@ -354,12 +354,12 @@ $access = $facturapi->Organizations->updateTeamAccessRole(
 <TabItem value="curl" label="cURL">
 
 ```bash
-curl "https://www.facturapi.io/v2/organizations/org_123/team/acc_123/role" \
+curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/ACCESS_ID/role" \
   -X PUT \
   -H "Authorization: Bearer sk_user_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "role": "role_123"
+    "role": "ROLE_ID"
   }'
 ```
 

@@ -2,6 +2,7 @@
 id: intro
 sidebar_position: 1
 title: Introducción
+slug: /
 ---
 
 # Facturapi para Stripe Marketplace

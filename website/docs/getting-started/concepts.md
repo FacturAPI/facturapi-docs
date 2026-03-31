@@ -69,4 +69,4 @@ Las llaves secretas se utilizan durante el proceso de [autenticación](/docs/get
 
 Para obtener tus llaves secretas y crear una cuenta gratuita en Facturapi visita:
 
-<a href="https://www.facturapi.io/register?utm_source=facturapi-docs&utm_medium=GithubPages" target="_blank">https://www.facturapi.io/register</a>
+[https://www.facturapi.io/register](https://www.facturapi.io/register?utm_source=facturapi-docs&utm_medium=GithubPages)

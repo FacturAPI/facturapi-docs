@@ -528,7 +528,7 @@ tags:
 
       | Validity | Exempt IVA | Rate 0% | Rate 8% Noth Border | Rate 8% South Border | Rate 16%
       |:-------:|:----------:|:-------:|:------------------------:|:----------------------:|:--------
-      | "0" <td colspan="5">The taxpayer is not authorized to issue invoices</td>
+      | "0" | The taxpayer is not authorized to issue invoices | The taxpayer is not authorized to issue invoices | The taxpayer is not authorized to issue invoices | The taxpayer is not authorized to issue invoices | The taxpayer is not authorized to issue invoices
       | "1" | Yes | Yes | No | No | Yes
       | "2" | Yes | Yes | Yes | No | Yes
       | "3" | Yes | Yes | No | Yes | Yes

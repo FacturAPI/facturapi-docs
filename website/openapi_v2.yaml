@@ -503,7 +503,7 @@ tags:
 
       | Validez | IVA Exento | Tasa 0% | Tasa 8% Fronteriza Norte | Tasa 8% Fronteriza Sur | Tasa 16%
       |:-------:|:----------:|:-------:|:------------------------:|:----------------------:|:--------
-      | "0" <td colspan="5">El contribuyente no está autorizado para emitir facturas</td>
+      | "0" | El contribuyente no está autorizado para emitir facturas | El contribuyente no está autorizado para emitir facturas | El contribuyente no está autorizado para emitir facturas | El contribuyente no está autorizado para emitir facturas | El contribuyente no está autorizado para emitir facturas
       | "1" | Sí | Sí | No | No | Sí
       | "2" | Sí | Sí | Sí | No | Sí
       | "3" | Sí | Sí | No | Sí | Sí

@@ -56,6 +56,5 @@ The secret keys are used during the authentication process.
 
 To obtain your secret keys and create a free account on Facturapi, visit:
 
-<a href="https://www.facturapi.io/register?utm_source=facturapi-docs&utm_medium=GithubPages" target="_blank">https://www.facturapi.io/register</a>
-
+[https://www.facturapi.io/register](https://www.facturapi.io/register?utm_source=facturapi-docs&utm_medium=GithubPages)
 

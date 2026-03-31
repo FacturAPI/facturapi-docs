@@ -144,13 +144,10 @@ When creating or updating a role, you can use these fields:
 - `add`: additional operations to include
 - `remove`: operations to remove
 
-If you need finer policy design, you can also inspect
-[List role templates](/api#tag/organization_access/operation/listOrganizationPermissionRoleTemplates)
-and
-[List permission operations](/api#tag/organization_access/operation/listOrganizationPermissionOperations).
-
 Example: start from the `org-developer` template, keep technical access, add
 customer read permissions, and remove the ability to create SAT downloads.
+
+#### Example
 
 <Tabs groupId="teamRoleExamples">
 <TabItem value="js" label="Node.js" default>
@@ -218,6 +215,11 @@ curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/roles" \
 </TabItem>
 </Tabs>
 
+If you need finer policy design, you can also inspect
+[List role templates](/api#tag/organization_access/operation/listOrganizationPermissionRoleTemplates)
+and
+[List permission operations](/api#tag/organization_access/operation/listOrganizationPermissionOperations).
+
 The idea is to use `template_code` as a stable starting point and then refine
 the role with `add` / `remove`, instead of building the entire permission matrix
 from scratch.
@@ -231,13 +233,10 @@ The invitation is handled by the invited user, either through the API using
 their own User Key, or from the dashboard by signing in with the invited email
 address.
 
-In the dashboard, pending invites are managed from:
-[My organizations](https://dashboard.facturapi.io/account/organizations/manage).
+Dashboard: [My organizations](https://dashboard.facturapi.io/account/organizations/manage)  
+API: [Respond to invite](/api#tag/organization_access/operation/respondOrganizationInvite)
 
-Primary API reference:
-[Respond to invite](/api#tag/organization_access/operation/respondOrganizationInvite).
-If the invited user needs to review pending invitations first, use
-[List received invites](/api#tag/organization_access/operation/listPendingOrganizationInvites).
+#### Example
 
 <Tabs groupId="teamRespondInviteExamples">
 <TabItem value="js" label="Node.js" default>
@@ -293,21 +292,22 @@ curl "https://www.facturapi.io/v2/organizations/invites/INVITE_ID/response" \
 </TabItem>
 </Tabs>
 
+If the invited user needs to review pending invitations first, use
+[List received invites](/api#tag/organization_access/operation/listPendingOrganizationInvites).
+
 This step returns `{ "ok": true }`. After acceptance, the user appears as an
 active organization access entry that you can manage through `access_id`.
 
 ### 4. Administer access, roles, and permissions
 
 Once the user has already accepted the invite, you can keep managing their
-access without sending a new invitation again. This maintenance can also be
+access without sending a new invitation. This maintenance can also be
 done from the dashboard or automated through the API.
 
-For example, you can reassign the `role` of an existing access:
-[Reassign role to user](/api#tag/organization_access/operation/updateOrganizationTeamUserRole).
-To get that `access_id`, use
-[List users with access](/api#tag/organization_access/operation/getOrganizationTeam)
-or
-[Retrieve user access](/api#tag/organization_access/operation/getOrganizationTeamUser).
+Dashboard: [Team access](https://dashboard.facturapi.io/users/access)  
+API: [Reassign role to user](/api#tag/organization_access/operation/updateOrganizationTeamUserRole)
+
+#### Example
 
 <Tabs groupId="teamAssignRoleExamples">
 <TabItem value="js" label="Node.js" default>
@@ -365,11 +365,10 @@ curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/ACCESS_ID/role" \
 </TabItem>
 </Tabs>
 
-If you prefer to operate without code, the same maintenance actions are
-available from
-[Team access](https://dashboard.facturapi.io/users/access)
-and
-[Team roles](https://dashboard.facturapi.io/users/roles).
+To get that `access_id`, use
+[List users with access](/api#tag/organization_access/operation/getOrganizationTeam)
+or
+[Retrieve user access](/api#tag/organization_access/operation/getOrganizationTeamUser).
 
 If you need automation or finer controls, in API Reference you can also:
 

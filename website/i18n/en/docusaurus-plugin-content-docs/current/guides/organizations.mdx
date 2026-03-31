@@ -49,9 +49,9 @@ var organization = await facturapi.Organization.CreateAsync(new Dictionary<strin
 
 ```php
 $facturapi = new Facturapi("sk_user_API_KEY");
-$organization = $facturapi->Organizations->create(array(
+$organization = $facturapi->Organizations->create([
     "name" => "Skynet"
-));
+]);
 // remember to save the organization.id in your own database
 ```
 

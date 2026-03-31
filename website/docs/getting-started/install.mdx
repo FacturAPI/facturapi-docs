@@ -77,8 +77,12 @@ using Facturapi;
 <TabItem value="php" label="PHP">
 
 ```php
+require_once __DIR__ . '/vendor/autoload.php';
+
 use Facturapi\Facturapi;
 ```
+
+Si tu framework ya carga el autoload de Composer automáticamente, puedes omitir `require_once`.
 
 </TabItem>
 <TabItem value="curl" label="cURL">

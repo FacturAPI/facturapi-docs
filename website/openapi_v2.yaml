@@ -6450,7 +6450,7 @@ paths:
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
-            $organization = $facturapi->Organizations->checkDomainIsAvailable(
+            $organization = $facturapi->Organizations->checkDomainAvailability(
               ["domain" => "empresa-demo"]
             );
       parameters:

@@ -1,0 +1,383 @@
+---
+sidebar_position: 6.5
+sidebar_label: Equipo y permisos
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Gestiona equipos y permisos por organización
+
+Esta guía explica cómo invitar usuarios a una organización, consultar accesos,
+crear roles personalizados y reasignar permisos en Facturapi. Todo lo expuesto
+en esta guía puede hacerse usando la API de Facturapi o desde el dashboard.
+
+## Conceptos base
+
+Antes de integrar este flujo, vale la pena distinguir 3 conceptos:
+
+- **Invite**: una invitación pendiente enviada a un correo electrónico.
+- **Access**: un acceso ya activo dentro de la organización.
+- **Role**: un conjunto de permisos que puedes asignar a un acceso o a una invitación.
+
+:::info
+Según el endpoint, puedes autenticarte con **User Key**, **Live Key** o
+**Test Key**. En particular, las operaciones relacionadas con invitaciones
+recibidas y su respuesta sí requieren autenticarse como el usuario invitado,
+por lo que normalmente usarás su **User Key**.
+:::
+
+## Flujo recomendado
+
+Esta guía asume que la organización emisora ya existe. Si todavía no la has
+creado, empieza por [Organizaciones (Multi-RFC)](/docs/guides/organizations) y
+luego vuelve aquí para administrar usuarios y permisos.
+
+1. Invita al usuario a la organización.
+2. Si no quieres darle acceso administrativo completo, crea antes un rol personalizado y úsalo en la invitación.
+3. El usuario invitado revisa y responde la invitación pendiente.
+4. Después puedes administrar accesos, roles y permisos según evolucione tu operación.
+
+### 1. Invitar a un usuario
+
+Al enviar la invitación, el usuario recibe un correo para unirse a la organización.
+Ese usuario podrá aceptar o rechazar la invitación. Si aún no tiene cuenta en
+Facturapi, el flujo lo llevará a crearla primero.
+
+Por default, una invitación crea acceso administrativo completo. Si requieres un
+acceso más limitado, puedes crear un rol de antemano y especificarlo en la
+invitación, o por API proporcionando el ID del rol en el atributo `role`.
+
+Dashboard: [Acceso de equipo](https://dashboard.facturapi.io/users/access)  
+API: [Invitar usuario a organización](/api#tag/organization_access/operation/createOrganizationTeamInvite)
+
+#### Ejemplo
+
+<Tabs groupId="teamInviteExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+import Facturapi from 'facturapi'
+const facturapi = new Facturapi('sk_user_API_KEY')
+
+const invite = await facturapi.organizations.inviteUserToTeam('org_123', {
+  email: 'alex@example.com',
+  role: 'role_123', // opcional
+})
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_user_API_KEY");
+
+var invite = await facturapi.Organization.InviteUserToTeamAsync(
+  "org_123",
+  new Dictionary<string, object>
+  {
+    ["email"] = "alex@example.com",
+    ["role"] = "role_123" // opcional
+  }
+);
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi("sk_user_API_KEY");
+
+$invite = $facturapi->Organizations->inviteUserToTeam("org_123", [
+  "email" => "alex@example.com",
+  "role" => "role_123" // opcional
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl "https://www.facturapi.io/v2/organizations/org_123/team/invites" \
+  -X POST \
+  -H "Authorization: Bearer sk_user_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "alex@example.com",
+    "role": "role_123"
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+Si quieres monitorear invitaciones pendientes, revisa también
+[Listar invitaciones enviadas](/api#tag/organization_access/operation/listOrganizationTeamInvites).
+
+El objeto retornado (`invite`) incluye el identificador de invitación (`id`),
+el correo invitado y metadatos como expiración. Guarda ese `id` porque se usa
+para responder invitaciones por API.
+
+### 2. Crear un rol personalizado (opcional)
+
+Esta sección es opcional. Úsala cuando no quieras que la invitación otorgue
+acceso administrativo completo y necesites un permiso más granular desde el
+inicio. Puedes configurar este rol desde el dashboard o desde API.
+
+Dashboard: [Roles del equipo](https://dashboard.facturapi.io/users/roles)  
+API: [Crear rol de organización](/api#tag/organization_access/operation/createOrganizationPermissionRole)
+
+Actualmente las plantillas base estables disponibles son:
+
+| `template_code` | Nombre | Uso sugerido |
+| --- | --- | --- |
+| `org-admin` | Organization admin | Acceso total a la organización |
+| `org-readonly` | Read only | Consulta sin permisos de escritura |
+| `org-billing` | Billing manager | Operación enfocada en facturación y recibos |
+| `org-developer` | Developer | API keys, webhooks, logs, herramientas y descargas SAT |
+| `org-team-manager` | Team manager | Invitaciones, accesos, roles y permisos del equipo |
+
+Al crear o actualizar un rol puedes usar estos campos:
+
+- `name`: nombre del rol
+- `template_code`: plantilla base, si aplica
+- `add`: operaciones adicionales
+- `remove`: operaciones removidas
+
+Si quieres diseñar una política más fina, puedes consultar además
+[Listar plantillas de roles](/api#tag/organization_access/operation/listOrganizationPermissionRoleTemplates)
+y
+[Listar operaciones de permisos](/api#tag/organization_access/operation/listOrganizationPermissionOperations).
+
+Ejemplo: partir de la plantilla `org-developer`, conservar acceso técnico y
+agregar lectura de clientes, pero remover la capacidad de crear descargas SAT.
+
+<Tabs groupId="teamRoleExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+import Facturapi from 'facturapi'
+const facturapi = new Facturapi('sk_user_API_KEY')
+
+const role = await facturapi.organizations.createTeamRole('org_123', {
+  name: 'Developer (limited)',
+  template_code: 'org-developer',
+  add: ['read.customers.list', 'read.customers.detail'],
+  remove: ['write.sat_downloads.create'],
+})
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_user_API_KEY");
+
+var role = await facturapi.Organization.CreateTeamRoleAsync(
+  "org_123",
+  new Dictionary<string, object>
+  {
+    ["name"] = "Developer (limited)",
+    ["template_code"] = "org-developer",
+    ["add"] = new[] { "read.customers.list", "read.customers.detail" },
+    ["remove"] = new[] { "write.sat_downloads.create" }
+  }
+);
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi("sk_user_API_KEY");
+
+$role = $facturapi->Organizations->createTeamRole("org_123", [
+  "name" => "Developer (limited)",
+  "template_code" => "org-developer",
+  "add" => ["read.customers.list", "read.customers.detail"],
+  "remove" => ["write.sat_downloads.create"]
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl "https://www.facturapi.io/v2/organizations/org_123/team/roles" \
+  -X POST \
+  -H "Authorization: Bearer sk_user_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Developer (limited)",
+    "template_code": "org-developer",
+    "add": ["read.customers.list", "read.customers.detail"],
+    "remove": ["write.sat_downloads.create"]
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+La idea es usar `template_code` como base estable y luego ajustar con `add` /
+`remove`, en lugar de construir toda la matriz de permisos desde cero.
+
+El objeto retornado (`role`) incluye el ID del rol (`id`). Ese ID es el que
+debes usar en la invitación (`role`) o al reasignar accesos.
+
+### 3. Aceptar o rechazar una invitación pendiente
+
+La invitación la responde el usuario invitado, ya sea desde la API
+autenticándose con su propia User Key, o desde el dashboard iniciando sesión
+con el correo al que fue invitado.
+
+En dashboard, las invitaciones pendientes se gestionan desde:
+[Mis organizaciones](https://dashboard.facturapi.io/account/organizations/manage).
+
+Referencia API principal:
+[Responder invitación](/api#tag/organization_access/operation/respondOrganizationInvite).
+Si necesitas mostrarle al usuario sus invitaciones pendientes antes de responder,
+puedes usar
+[Listar invitaciones recibidas](/api#tag/organization_access/operation/listPendingOrganizationInvites).
+
+<Tabs groupId="teamRespondInviteExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+import Facturapi from 'facturapi'
+const facturapi = new Facturapi('sk_user_API_KEY')
+
+const result = await facturapi.organizations.respondTeamInvite('inv_123', {
+  accept: true,
+})
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_user_API_KEY");
+
+var result = await facturapi.Organization.RespondTeamInviteAsync(
+  "inv_123",
+  new Dictionary<string, object>
+  {
+    ["accept"] = true
+  }
+);
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi("sk_user_API_KEY");
+
+$result = $facturapi->Organizations->respondTeamInvite("inv_123", [
+  "accept" => true
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl "https://www.facturapi.io/v2/organizations/invites/inv_123/response" \
+  -X POST \
+  -H "Authorization: Bearer sk_user_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "accept": true
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+La respuesta de este paso regresa `{ "ok": true }`. Después de aceptar, el
+usuario ya aparece como acceso activo de la organización y podrás administrarlo
+con `access_id`.
+
+### 4. Administrar accesos, roles y permisos
+
+Una vez que el usuario ya aceptó la invitación, puedes seguir administrando su
+acceso sin volver a invitarlo. Este mantenimiento también puede hacerse desde
+el dashboard o desde API.
+
+Por ejemplo, puedes reasignar el `role` de un acceso existente:
+[Reasignar rol a usuario](/api#tag/organization_access/operation/updateOrganizationTeamUserRole).
+Para obtener ese `access_id`, usa
+[Listar usuarios con acceso](/api#tag/organization_access/operation/getOrganizationTeam)
+o
+[Obtener acceso de usuario](/api#tag/organization_access/operation/getOrganizationTeamUser).
+
+<Tabs groupId="teamAssignRoleExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+import Facturapi from 'facturapi'
+const facturapi = new Facturapi('sk_user_API_KEY')
+
+const access = await facturapi.organizations.updateTeamAccessRole(
+  'org_123',
+  'acc_123',
+  'role_123'
+)
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_user_API_KEY");
+
+var access = await facturapi.Organization.UpdateTeamAccessRoleAsync(
+  "org_123",
+  "acc_123",
+  "role_123"
+);
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi("sk_user_API_KEY");
+
+$access = $facturapi->Organizations->updateTeamAccessRole(
+  "org_123",
+  "acc_123",
+  "role_123"
+);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl "https://www.facturapi.io/v2/organizations/org_123/team/acc_123/role" \
+  -X PUT \
+  -H "Authorization: Bearer sk_user_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "role": "role_123"
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+Si prefieres operar sin código, estos mismos ajustes se pueden hacer desde
+[Acceso de equipo](https://dashboard.facturapi.io/users/access)
+y
+[Roles del equipo](https://dashboard.facturapi.io/users/roles).
+
+Si necesitas automatización o controles más finos, en Referencia API tienes:
+
+- Cancelar invitaciones enviadas:
+  [Cancelar invitación](/api#tag/organization_access/operation/deleteOrganizationTeamInvite)
+- Remover accesos existentes de una organización:
+  [Remover acceso de usuario](/api#tag/organization_access/operation/removeOrganizationUserAccess)
+- Listar, obtener, actualizar o eliminar roles:
+  [Roles de organización](/api#tag/organization_access)
+- Consultar plantillas y operaciones disponibles para permisos:
+  [Plantillas y operaciones](/api#tag/organization_access/operation/listOrganizationPermissionRoleTemplates)

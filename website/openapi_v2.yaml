@@ -14935,6 +14935,12 @@ components:
       properties:
         code:
           type: string
+          enum:
+            - org-admin
+            - org-readonly
+            - org-billing
+            - org-developer
+            - org-team-manager
           description: Código interno de la plantilla de rol.
         label:
           type: string
@@ -15029,6 +15035,12 @@ components:
         template_code:
           type: string
           nullable: true
+          enum:
+            - org-admin
+            - org-readonly
+            - org-billing
+            - org-developer
+            - org-team-manager
           description: Código de plantilla base para inicializar el rol, si aplica.
         add:
           type: array
@@ -15049,6 +15061,12 @@ components:
         template_code:
           type: string
           nullable: true
+          enum:
+            - org-admin
+            - org-readonly
+            - org-billing
+            - org-developer
+            - org-team-manager
           description: Nuevo código de plantilla base del rol, si aplica.
         add:
           type: array

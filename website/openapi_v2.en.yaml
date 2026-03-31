@@ -14725,6 +14725,12 @@ components:
       properties:
         code:
           type: string
+          enum:
+            - org-admin
+            - org-readonly
+            - org-billing
+            - org-developer
+            - org-team-manager
           description: Internal role template code.
         label:
           type: string
@@ -14819,6 +14825,12 @@ components:
         template_code:
           type: string
           nullable: true
+          enum:
+            - org-admin
+            - org-readonly
+            - org-billing
+            - org-developer
+            - org-team-manager
           description: Base template code used to initialize the role, if any.
         add:
           type: array
@@ -14839,6 +14851,12 @@ components:
         template_code:
           type: string
           nullable: true
+          enum:
+            - org-admin
+            - org-readonly
+            - org-billing
+            - org-developer
+            - org-team-manager
           description: New base template code for the role, if any.
         add:
           type: array

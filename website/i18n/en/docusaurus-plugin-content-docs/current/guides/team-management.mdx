@@ -1,0 +1,382 @@
+---
+sidebar_position: 6.5
+sidebar_label: Team and roles
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Manage organization teams and permissions
+
+This guide explains how to invite users into an organization, inspect active
+access, create custom roles, and reassign permissions in Facturapi. Everything
+covered here can be done either through the Facturapi API or from the dashboard.
+
+## Core concepts
+
+Before integrating this flow, it helps to distinguish 3 concepts:
+
+- **Invite**: a pending invitation sent to an email address.
+- **Access**: an already active membership inside the organization.
+- **Role**: a permission set that you can assign to either an access entry or an invite.
+
+:::info
+Depending on the endpoint, you can authenticate with a **User Key**, **Live Key**,
+or **Test Key**. In particular, endpoints for received invites and invite responses
+do require authenticating as the invited user, so you will typically use that
+user's **User Key** there.
+:::
+
+## Recommended flow
+
+This guide assumes the issuing organization already exists. If you still need to
+create it, start with [Organizations (Multi-RFC)](/docs/guides/organizations)
+and then come back here to manage users and permissions.
+
+1. Invite the user into the organization.
+2. If you do not want to grant full admin access, first create a custom role and use it in the invite.
+3. The invited user reviews and responds to the pending invite.
+4. After that, you can keep administering access, roles, and permissions as your operation evolves.
+
+### 1. Invite a user
+
+When you send an invite, the invited user receives an email to join the
+organization. They can then accept or decline the invitation. If they do not
+have a Facturapi account yet, they will be prompted to create one first.
+
+By default, an invite grants full admin access. If you need more limited
+access, you can create a role beforehand and set it on the invitation, or via
+API by providing the role ID in the `role` field.
+
+Dashboard: [Team access](https://dashboard.facturapi.io/users/access)  
+API: [Invite user to organization](/api#tag/organization_access/operation/createOrganizationTeamInvite)
+
+#### Example
+
+<Tabs groupId="teamInviteExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+import Facturapi from 'facturapi'
+const facturapi = new Facturapi('sk_user_API_KEY')
+
+const invite = await facturapi.organizations.inviteUserToTeam('ORG_ID', {
+  email: 'alex@example.com',
+  role: 'ROLE_ID', // optional
+})
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_user_API_KEY");
+
+var invite = await facturapi.Organization.InviteUserToTeamAsync(
+  "ORG_ID",
+  new Dictionary<string, object>
+  {
+    ["email"] = "alex@example.com",
+    ["role"] = "ROLE_ID" // optional
+  }
+);
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi("sk_user_API_KEY");
+
+$invite = $facturapi->Organizations->inviteUserToTeam("ORG_ID", [
+  "email" => "alex@example.com",
+  "role" => "ROLE_ID" // optional
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/invites" \
+  -X POST \
+  -H "Authorization: Bearer sk_user_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "alex@example.com",
+    "role": "ROLE_ID"
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+If you want to monitor pending invites, also check
+[List sent invites](/api#tag/organization_access/operation/listOrganizationTeamInvites).
+
+The returned `invite` object includes the invite identifier (`id`), invited
+email, and metadata such as expiration. Keep that `id` value because it is used
+to respond to invites via API.
+
+### 2. Create a custom role (optional)
+
+This section is optional. Use it when you do not want the invite to grant full
+admin access and need a narrower permission set from the start. You can define
+this role from the dashboard or through the API.
+
+Dashboard: [Team roles](https://dashboard.facturapi.io/users/roles)  
+API: [Create organization role](/api#tag/organization_access/operation/createOrganizationPermissionRole)
+
+The currently stable base templates are:
+
+| `template_code` | Name | Suggested use |
+| --- | --- | --- |
+| `org-admin` | Organization admin | Full organization access |
+| `org-readonly` | Read only | Read-only access with no write operations |
+| `org-billing` | Billing manager | Billing and receipts-focused workflow |
+| `org-developer` | Developer | API keys, webhooks, logs, tools, and SAT downloads |
+| `org-team-manager` | Team manager | Invites, access control, roles, and team permissions |
+
+When creating or updating a role, you can use these fields:
+
+- `name`: role name
+- `template_code`: base template, when applicable
+- `add`: additional operations to include
+- `remove`: operations to remove
+
+Example: start from the `org-developer` template, keep technical access, add
+customer read permissions, and remove the ability to create SAT downloads.
+
+#### Example
+
+<Tabs groupId="teamRoleExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+import Facturapi from 'facturapi'
+const facturapi = new Facturapi('sk_user_API_KEY')
+
+const role = await facturapi.organizations.createTeamRole('ORG_ID', {
+  name: 'Developer (limited)',
+  template_code: 'org-developer',
+  add: ['read.customers.list', 'read.customers.detail'],
+  remove: ['write.sat_downloads.create'],
+})
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_user_API_KEY");
+
+var role = await facturapi.Organization.CreateTeamRoleAsync(
+  "ORG_ID",
+  new Dictionary<string, object>
+  {
+    ["name"] = "Developer (limited)",
+    ["template_code"] = "org-developer",
+    ["add"] = new[] { "read.customers.list", "read.customers.detail" },
+    ["remove"] = new[] { "write.sat_downloads.create" }
+  }
+);
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi("sk_user_API_KEY");
+
+$role = $facturapi->Organizations->createTeamRole("ORG_ID", [
+  "name" => "Developer (limited)",
+  "template_code" => "org-developer",
+  "add" => ["read.customers.list", "read.customers.detail"],
+  "remove" => ["write.sat_downloads.create"]
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/roles" \
+  -X POST \
+  -H "Authorization: Bearer sk_user_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Developer (limited)",
+    "template_code": "org-developer",
+    "add": ["read.customers.list", "read.customers.detail"],
+    "remove": ["write.sat_downloads.create"]
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+If you need finer policy design, you can also inspect
+[List role templates](/api#tag/organization_access/operation/listOrganizationPermissionRoleTemplates)
+and
+[List permission operations](/api#tag/organization_access/operation/listOrganizationPermissionOperations).
+
+The idea is to use `template_code` as a stable starting point and then refine
+the role with `add` / `remove`, instead of building the entire permission matrix
+from scratch.
+
+The returned `role` object includes the role ID (`id`). That ID is what you
+should use in invites (`role`) or when reassigning access.
+
+### 3. Accept or decline a pending invitation
+
+The invitation is handled by the invited user, either through the API using
+their own User Key, or from the dashboard by signing in with the invited email
+address.
+
+Dashboard: [My organizations](https://dashboard.facturapi.io/account/organizations/manage)  
+API: [Respond to invite](/api#tag/organization_access/operation/respondOrganizationInvite)
+
+#### Example
+
+<Tabs groupId="teamRespondInviteExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+import Facturapi from 'facturapi'
+const facturapi = new Facturapi('sk_user_API_KEY')
+
+const result = await facturapi.organizations.respondTeamInvite('INVITE_ID', {
+  accept: true,
+})
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_user_API_KEY");
+
+var result = await facturapi.Organization.RespondTeamInviteAsync(
+  "INVITE_ID",
+  new Dictionary<string, object>
+  {
+    ["accept"] = true
+  }
+);
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi("sk_user_API_KEY");
+
+$result = $facturapi->Organizations->respondTeamInvite("INVITE_ID", [
+  "accept" => true
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl "https://www.facturapi.io/v2/organizations/invites/INVITE_ID/response" \
+  -X POST \
+  -H "Authorization: Bearer sk_user_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "accept": true
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+If the invited user needs to review pending invitations first, use
+[List received invites](/api#tag/organization_access/operation/listPendingOrganizationInvites).
+
+This step returns `{ "ok": true }`. After acceptance, the user appears as an
+active organization access entry that you can manage through `access_id`.
+
+### 4. Administer access, roles, and permissions
+
+Once the user has already accepted the invite, you can keep managing their
+access without sending a new invitation. This maintenance can also be
+done from the dashboard or automated through the API.
+
+Dashboard: [Team access](https://dashboard.facturapi.io/users/access)  
+API: [Reassign role to user](/api#tag/organization_access/operation/updateOrganizationTeamUserRole)
+
+#### Example
+
+<Tabs groupId="teamAssignRoleExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+import Facturapi from 'facturapi'
+const facturapi = new Facturapi('sk_user_API_KEY')
+
+const access = await facturapi.organizations.updateTeamAccessRole(
+  'ORG_ID',
+  'ACCESS_ID',
+  'ROLE_ID'
+)
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var facturapi = new FacturapiClient("sk_user_API_KEY");
+
+var access = await facturapi.Organization.UpdateTeamAccessRoleAsync(
+  "ORG_ID",
+  "ACCESS_ID",
+  "ROLE_ID"
+);
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi("sk_user_API_KEY");
+
+$access = $facturapi->Organizations->updateTeamAccessRole(
+  "ORG_ID",
+  "ACCESS_ID",
+  "ROLE_ID"
+);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/ACCESS_ID/role" \
+  -X PUT \
+  -H "Authorization: Bearer sk_user_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "role": "ROLE_ID"
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+To get that `access_id`, use
+[List users with access](/api#tag/organization_access/operation/getOrganizationTeam)
+or
+[Retrieve user access](/api#tag/organization_access/operation/getOrganizationTeamUser).
+
+If you need automation or finer controls, in API Reference you can also:
+
+- Cancel sent invites:
+  [Cancel invite](/api#tag/organization_access/operation/deleteOrganizationTeamInvite)
+- Remove existing access from an organization:
+  [Remove user access](/api#tag/organization_access/operation/removeOrganizationUserAccess)
+- List, retrieve, update, or delete roles:
+  [Organization roles](/api#tag/organization_access)
+- Inspect available role templates and permission operations:
+  [Role templates and operations](/api#tag/organization_access/operation/listOrganizationPermissionRoleTemplates)

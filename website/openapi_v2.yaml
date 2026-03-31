@@ -7360,6 +7360,28 @@ paths:
         - organization_access
       summary: Listar usuarios con acceso a organización
       description: Regresa un arreglo con los usuarios que actualmente tienen acceso a la organización, incluyendo al propietario. Este endpoint no está paginado.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/ORG_ID/team" \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const accessList = await facturapi.organizations.listTeamAccess('ORG_ID');
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var accessList = await facturapi.Organization.ListTeamAccessAsync("ORG_ID");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $accessList = $facturapi->Organizations->listTeamAccess("ORG_ID");
       parameters:
         - in: path
           name: organization_id
@@ -7391,6 +7413,47 @@ paths:
         - organization_access
       summary: Invitar usuario a organización
       description: Crea o actualiza una invitación de usuario. Por defecto, el acceso es de administrador con permisos completos; para limitarlo, crea un rol y envía su ID en `role`.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/invites" \
+              -X POST \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "email": "alex@example.com",
+                "role": "ROLE_ID"
+              }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const invite = await facturapi.organizations.inviteUserToTeam('ORG_ID', {
+              email: 'alex@example.com',
+              role: 'ROLE_ID',
+            })
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var invite = await facturapi.Organization.InviteUserToTeamAsync(
+              "ORG_ID",
+              new Dictionary<string, object>
+              {
+                ["email"] = "alex@example.com",
+                ["role"] = "ROLE_ID"
+              }
+            );
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $invite = $facturapi->Organizations->inviteUserToTeam("ORG_ID", [
+              "email" => "alex@example.com",
+              "role" => "ROLE_ID"
+            ]);
       parameters:
         - in: path
           name: organization_id
@@ -7425,6 +7488,28 @@ paths:
         - organization_access
       summary: Listar invitaciones enviadas
       description: Regresa invitaciones enviadas desde la organización.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/invites" \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const invites = await facturapi.organizations.listSentTeamInvites('ORG_ID')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var invites = await facturapi.Organization.ListSentTeamInvitesAsync("ORG_ID");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $invites = $facturapi->Organizations->listSentTeamInvites("ORG_ID");
       parameters:
         - in: path
           name: organization_id
@@ -7456,6 +7541,28 @@ paths:
         - organization_access
       summary: Obtener acceso de usuario
       description: Regresa el detalle del acceso del usuario dentro de la organización usando su `access_id`, incluyendo accesos implícitos como el del propietario.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/ACCESS_ID" \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const access = await facturapi.organizations.retrieveTeamAccess('ORG_ID', 'ACCESS_ID')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var access = await facturapi.Organization.RetrieveTeamAccessAsync("ORG_ID", "ACCESS_ID");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $access = $facturapi->Organizations->retrieveTeamAccess("ORG_ID", "ACCESS_ID");
       parameters:
         - in: path
           name: organization_id
@@ -7491,6 +7598,29 @@ paths:
       tags:
         - organization_access
       summary: Eliminar usuario con acceso
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/ACCESS_ID" \
+              -X DELETE \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.organizations.removeTeamAccess('ORG_ID', 'ACCESS_ID')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.Organization.RemoveTeamAccessAsync("ORG_ID", "ACCESS_ID");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->Organizations->removeTeamAccess("ORG_ID", "ACCESS_ID");
       parameters:
         - in: path
           name: organization_id
@@ -7530,6 +7660,29 @@ paths:
         - organization_access
       summary: Cancelar invitación enviada
       description: Elimina una invitación pendiente de la organización.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/invites/INVITE_ID" \
+              -X DELETE \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.organizations.cancelTeamInvite('ORG_ID', 'INVITE_ID')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.Organization.CancelTeamInviteAsync("ORG_ID", "INVITE_ID");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->Organizations->cancelTeamInvite("ORG_ID", "INVITE_ID");
       parameters:
         - in: path
           name: organization_id
@@ -7567,6 +7720,28 @@ paths:
         - organization_access
       summary: Listar invitaciones recibidas
       description: Regresa las invitaciones recibidas para el usuario autenticado.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/invites/pending" \
+              -H "Authorization: Bearer sk_user_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_user_API_KEY')
+            const pendingInvites = await facturapi.organizations.listReceivedTeamInvites()
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var pendingInvites = await facturapi.Organization.ListReceivedTeamInvitesAsync();
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_user_API_KEY");
+            $pendingInvites = $facturapi->Organizations->listReceivedTeamInvites();
       security:
         - "SecretUserKey": []
       responses:
@@ -7587,6 +7762,43 @@ paths:
         - organization_access
       summary: Responder invitación
       description: Acepta o rechaza una invitación usando su `invite_key`.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/invites/INVITE_ID/response" \
+              -X POST \
+              -H "Authorization: Bearer sk_user_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "accept": true
+              }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_user_API_KEY')
+            const result = await facturapi.organizations.respondTeamInvite('INVITE_ID', {
+              accept: true,
+            })
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var result = await facturapi.Organization.RespondTeamInviteAsync(
+              "INVITE_ID",
+              new Dictionary<string, object>
+              {
+                ["accept"] = true
+              }
+            );
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_user_API_KEY");
+            $result = $facturapi->Organizations->respondTeamInvite("INVITE_ID", [
+              "accept" => true
+            ]);
       parameters:
         - in: path
           name: invite_key
@@ -7619,6 +7831,28 @@ paths:
       tags:
         - organization_access
       summary: Listar roles de organización
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/roles" \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const roles = await facturapi.organizations.listTeamRoles('ORG_ID')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var roles = await facturapi.Organization.ListTeamRolesAsync("ORG_ID");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $roles = $facturapi->Organizations->listTeamRoles("ORG_ID");
       parameters:
         - in: path
           name: organization_id
@@ -7648,6 +7882,43 @@ paths:
       tags:
         - organization_access
       summary: Crear rol de organización
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/roles" \
+              -X POST \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "name": "Billing analyst"
+              }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const role = await facturapi.organizations.createTeamRole('ORG_ID', {
+              name: 'Billing analyst',
+            })
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var role = await facturapi.Organization.CreateTeamRoleAsync(
+              "ORG_ID",
+              new Dictionary<string, object>
+              {
+                ["name"] = "Billing analyst"
+              }
+            );
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $role = $facturapi->Organizations->createTeamRole("ORG_ID", [
+              "name" => "Billing analyst"
+            ]);
       parameters:
         - in: path
           name: organization_id
@@ -7682,6 +7953,28 @@ paths:
       tags:
         - organization_access
       summary: Listar plantillas de roles
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/roles/templates" \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const templates = await facturapi.organizations.listTeamRoleTemplates('ORG_ID')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var templates = await facturapi.Organization.ListTeamRoleTemplatesAsync("ORG_ID");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $templates = $facturapi->Organizations->listTeamRoleTemplates("ORG_ID");
       parameters:
         - in: path
           name: organization_id
@@ -7712,6 +8005,28 @@ paths:
       tags:
         - organization_access
       summary: Listar operaciones de permisos
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/roles/operations" \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const operations = await facturapi.organizations.listTeamRoleOperations('ORG_ID')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var operations = await facturapi.Organization.ListTeamRoleOperationsAsync("ORG_ID");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $operations = $facturapi->Organizations->listTeamRoleOperations("ORG_ID");
       parameters:
         - in: path
           name: organization_id
@@ -7742,6 +8057,28 @@ paths:
       tags:
         - organization_access
       summary: Obtener rol de organización
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/roles/ROLE_ID" \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const role = await facturapi.organizations.retrieveTeamRole('ORG_ID', 'ROLE_ID')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var role = await facturapi.Organization.RetrieveTeamRoleAsync("ORG_ID", "ROLE_ID");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $role = $facturapi->Organizations->retrieveTeamRole("ORG_ID", "ROLE_ID");
       parameters:
         - in: path
           name: organization_id
@@ -7777,6 +8114,44 @@ paths:
       tags:
         - organization_access
       summary: Actualizar rol de organización
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/roles/ROLE_ID" \
+              -X PUT \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "name": "Senior billing analyst"
+              }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const role = await facturapi.organizations.updateTeamRole('ORG_ID', 'ROLE_ID', {
+              name: 'Senior billing analyst',
+            })
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var role = await facturapi.Organization.UpdateTeamRoleAsync(
+              "ORG_ID",
+              "ROLE_ID",
+              new Dictionary<string, object>
+              {
+                ["name"] = "Senior billing analyst"
+              }
+            );
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $role = $facturapi->Organizations->updateTeamRole("ORG_ID", "ROLE_ID", [
+              "name" => "Senior billing analyst"
+            ]);
       parameters:
         - in: path
           name: organization_id
@@ -7816,6 +8191,29 @@ paths:
       tags:
         - organization_access
       summary: Eliminar rol de organización
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/roles/ROLE_ID" \
+              -X DELETE \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.organizations.deleteTeamRole('ORG_ID', 'ROLE_ID')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.Organization.DeleteTeamRoleAsync("ORG_ID", "ROLE_ID");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->Organizations->deleteTeamRole("ORG_ID", "ROLE_ID");
       parameters:
         - in: path
           name: organization_id
@@ -7856,6 +8254,33 @@ paths:
       tags:
         - organization_access
       summary: Reasignar rol a usuario
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/organizations/ORG_ID/team/ACCESS_ID/role" \
+              -X PUT \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "role": "ROLE_ID"
+              }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const access = await facturapi.organizations.updateTeamAccessRole('ORG_ID', 'ACCESS_ID', 'ROLE_ID')
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var access = await facturapi.Organization.UpdateTeamAccessRoleAsync("ORG_ID", "ACCESS_ID", "ROLE_ID");
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $access = $facturapi->Organizations->updateTeamAccessRole("ORG_ID", "ACCESS_ID", "ROLE_ID");
       parameters:
         - in: path
           name: organization_id
@@ -14510,6 +14935,12 @@ components:
       properties:
         code:
           type: string
+          enum:
+            - org-admin
+            - org-readonly
+            - org-billing
+            - org-developer
+            - org-team-manager
           description: Código interno de la plantilla de rol.
         label:
           type: string
@@ -14604,6 +15035,12 @@ components:
         template_code:
           type: string
           nullable: true
+          enum:
+            - org-admin
+            - org-readonly
+            - org-billing
+            - org-developer
+            - org-team-manager
           description: Código de plantilla base para inicializar el rol, si aplica.
         add:
           type: array
@@ -14624,6 +15061,12 @@ components:
         template_code:
           type: string
           nullable: true
+          enum:
+            - org-admin
+            - org-readonly
+            - org-billing
+            - org-developer
+            - org-team-manager
           description: Nuevo código de plantilla base del rol, si aplica.
         add:
           type: array

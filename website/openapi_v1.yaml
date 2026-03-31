@@ -3608,7 +3608,7 @@ paths:
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
-            $organization = $facturapi->Organizations->checkDomainAvailability(
+            $organization = $facturapi->Organizations->checkDomainIsAvailable(
               ["domain" => "empresa-demo"]
             );
       parameters:

@@ -34,9 +34,5 @@
   "link.item.label.GitHub": {
     "message": "GitHub",
     "description": "The label of footer link with label=GitHub linking to https://github.com/facturapi"
-  },
-  "copyright": {
-    "message": "Copyright © 2024 Facturación Espacial, SAPI de CV",
-    "description": "The footer copyright"
   }
 }

@@ -1,6 +1,6 @@
-# Forma de Pago para Pagos "Out of Hand"
+# Forma de Pago para Pagos "Out of Band"
 
-## **¿Qué es la Forma de Pago para Pagos "Out of Hand"?**
+## **¿Qué es la Forma de Pago para Pagos "Out of Band"?**
 En las opciones de configuración de la Ap de Facturapi, puedes definer la forma de pago que se asignará a los CFDI cuando el pago se realice fuera de Stripe.
 
 ## **Cómo funciona**

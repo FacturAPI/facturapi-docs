@@ -1,7 +1,7 @@
 # Forma de Pago para Pagos "Out of Band"
 
 ## **¿Qué es la Forma de Pago para Pagos "Out of Band"?**
-En las opciones de configuración de la Ap de Facturapi, puedes definer la forma de pago que se asignará a los CFDI cuando el pago se realice fuera de Stripe.
+En las [opciones de configuración](https://dashboard.stripe.com/settings/apps/io.facturapi.stripe-app) de la App de Facturapi, puedes definer la forma de pago que se asignará a los CFDI cuando el pago se realice fuera de Stripe.
 
 ## **Cómo funciona**
 - Si una transacción se registra en Stripe pero el pago se realizó fuera de la plataforma, se usará la forma de pago seleccionada.

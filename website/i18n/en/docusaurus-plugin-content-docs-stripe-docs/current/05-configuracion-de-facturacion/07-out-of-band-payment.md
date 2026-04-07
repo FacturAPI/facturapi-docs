@@ -1,6 +1,6 @@
-# Payment Method for "Out of Hand" Payments
+# Payment Method for "Out of Band" Payments
 
-## **What is the Payment Method for "Out of Hand" Payments?**  
+## **What is the Payment Method for "Out of Band" Payments?**  
 In the Facturapi App settings, you can define the payment method that will be assigned to CFDIs when the payment is made outside of Stripe.
 
 ## **How It Works**  

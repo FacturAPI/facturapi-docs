@@ -44,6 +44,8 @@ Al enviar la invitación, el usuario recibe un correo para unirse a la organizac
 Ese usuario podrá aceptar o rechazar la invitación. Si aún no tiene cuenta en
 Facturapi, el flujo lo llevará a crearla primero.
 
+Cada organización puede invitar a un usuario sin costo adicional. A partir del segundo usuario invitado, cada usuario adicional tendrá un costo mensual. Este cargo se aplica automáticamente cuando el usuario acepta la invitación, ya sea desde el dashboard o mediante la API. Puedes consultar el precio vigente en nuestra [página de precios](https://www.facturapi.io/pricing).
+
 Por defecto, una invitación crea acceso administrativo completo. Si requieres un
 acceso más limitado, puedes crear un rol de antemano y especificarlo en la
 invitación, o en la API enviando el ID del rol en el atributo `role`.

@@ -7218,7 +7218,7 @@ paths:
       tags:
         - organization_access
       summary: Invite user to organization
-      description: Creates or updates a user invite. By default, invited users get full admin access; to limit access, create a role and send its ID in `role`.
+      description: Creates or updates a user invite. By default, invited users get full admin access; to limit access, create a role and send its ID in `role`. Each organization can invite one user at no additional cost. Starting from the second invited user, each additional user will incur a monthly fee. This charge is applied automatically when the user accepts the invitation, whether from the dashboard or via the API. You can check the current pricing on our [pricing page](https://www.facturapi.io/pricing).
       x-codeSamples:
         - lang: Bash
           label: cURL

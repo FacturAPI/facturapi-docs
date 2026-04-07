@@ -1,7 +1,7 @@
 # Payment Method for "Out of Band" Payments
 
 ## **What is the Payment Method for "Out of Band" Payments?**  
-In the Facturapi App settings, you can define the payment method that will be assigned to CFDIs when the payment is made outside of Stripe.
+In the [Facturapi App settings](https://dashboard.stripe.com/settings/apps/io.facturapi.stripe-app), you can define the payment method that will be assigned to CFDIs when the payment is made outside of Stripe. 
 
 ## **How It Works**  
 - If a transaction is recorded in Stripe but the payment was made outside the platform, the selected payment method will be used.

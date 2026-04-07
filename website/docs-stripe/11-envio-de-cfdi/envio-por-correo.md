@@ -5,4 +5,4 @@ Para enviar un CFDI por correo, selecciona el documento correspondiente, abre el
 Podrás enviarlo al correo electrónico que tu cliente tenga registrado, o bien ingresar una dirección distinta manualmente.
 
 Adicional a lo anterior, puedes habilitar el **envío automático por correo electrónico** al crearse las facturas, activando la automatización aquí:  
-👉 [Configurar automatizaciones](https://dashboard.stripe.com/settings/apps/io.facturapi.stripe-app.internal)
+👉 [Configurar automatizaciones](https://dashboard.stripe.com/settings/apps/io.facturapi.stripe-app)

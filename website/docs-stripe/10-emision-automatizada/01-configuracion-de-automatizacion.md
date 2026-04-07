@@ -4,7 +4,7 @@
 
 Una vez instalada la app de Facturapi, sigue estos pasos para acceder a la configuración:
 
-1. Abre tu [Stripe Dashboard](https://dashboard.stripe.com/)
+1. Abre tu [Stripe Dashboard](https://dashboard.stripe.com/settings/apps/io.facturapi.stripe-app)
 2. Haz clic en el ícono de **Facturapi** en la parte superior derecha
 3. Da clic en los **tres puntos** `⋮`
 4. Selecciona **"Ver configuración de la app"**

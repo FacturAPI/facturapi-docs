@@ -70,6 +70,30 @@ var receipt = await facturapi.Receipt.CreateAsync(new Dictionary<string, object>
 ```
 
 </TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.List;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+var receipt = facturapi.receipts().create(Map.of(
+  "folio_number", 1234,
+  "payment_form", "03",
+  "items", List.of(Map.of(
+    "quantity", 1,
+    "product", Map.of(
+      "description", "Ukelele",
+      "product_key", "60131324",
+      "price", 345.60,
+      "sku", "ABC1234"
+    )
+  ))
+));
+```
+
+</TabItem>
 <TabItem value="php" label="PHP">
 
 ```php
@@ -126,9 +150,98 @@ curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d \
   -X PUT \
   -d '{
         "customer": "58e93bd8e86eb318b0197456"
-      }'
+  }'
 ```
 
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const invoice = await facturapi.receipts.invoice(receipt.id, {
+  customer: {
+    legal_name: 'Roger Watters',
+    tax_id: 'ROWA121212A11',
+    email: 'roger@pinkfloyd.com'
+  },
+  folio_number: 914,
+  series: 'F'
+});
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var invoice = await facturapi.Receipt.InvoiceAsync(receipt.Id, new Dictionary<string, object>
+{
+  ["customer"] = new Dictionary<string, object>
+  {
+    ["legal_name"] = "Roger Watters",
+    ["tax_id"] = "ROWA121212A11",
+    ["email"] = "roger@pinkfloyd.com"
+  },
+  ["folio_number"] = 914,
+  ["series"] = "F"
+});
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+var invoice = facturapi.receipts().invoice(
+  receipt.getId(),
+  Map.of(
+    "customer", Map.of(
+      "legal_name", "Roger Watters",
+      "tax_id", "ROWA121212A11",
+      "email", "roger@pinkfloyd.com"
+    ),
+    "folio_number", 914,
+    "series", "F"
+  )
+);
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$invoice = $facturapi->Receipts->invoice($receipt->id, [
+  "customer" => [
+    "legal_name" => "Roger Watters",
+    "tax_id" => "ROWA121212A11",
+    "email" => "roger@pinkfloyd.com"
+  ],
+  "folio_number" => 914,
+  "series" => "F"
+]);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl https://www.facturapi.io/v2/receipts/5ebd8e56f5687a013ca0df46/invoice \
+  -H "Authorization: Bearer sk_test_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "customer": {
+          "legal_name": "Roger Watters",
+          "tax_id": "ROWA121212A11",
+          "email": "roger@pinkfloyd.com"
+        },
+        "folio_number": 914,
+        "series": "F"
+    }'
+```
+
+</TabItem>
+</Tabs>
 ## Portal de Autofactura
 
 Cuando creas un e-receipt, tienes la opción de enviarlo por correo electrónico a tu cliente.

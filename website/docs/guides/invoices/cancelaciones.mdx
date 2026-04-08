@@ -85,6 +85,20 @@ var invoice = await facturapi.Invoice.CancelAsync(
 ```
 
 </TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+var invoice = facturapi.invoices().cancel(
+  "58e93bd8e86eb318b019743d",
+  Map.of("motive", "02")
+);
+```
+
+</TabItem>
 </Tabs>
 
 Después de llamar a `cancelInvoice`, puede ocurrir:
@@ -208,6 +222,23 @@ var pdfStream = await facturapi.Invoice.DownloadCancellationReceiptPdfAsync("58e
 var pdfFile = new System.IO.FileStream("C:\\route\\to\\save\\acuse_cancelacion.pdf", FileMode.Create);
 pdfStream.CopyTo(pdfFile);
 pdfFile.Close();
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import io.facturapi.Facturapi;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+byte[] xml = facturapi.invoices().downloadCancellationReceiptXml("58e93bd8e86eb318b019743d");
+Files.write(Path.of("acuse_cancelacion.xml"), xml);
+
+byte[] pdf = facturapi.invoices().downloadCancellationReceiptPdf("58e93bd8e86eb318b019743d");
+Files.write(Path.of("acuse_cancelacion.pdf"), pdf);
 ```
 
 </TabItem>

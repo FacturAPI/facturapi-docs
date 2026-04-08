@@ -83,6 +83,21 @@ var invite = await facturapi.Organization.InviteUserToTeamAsync(
 ```
 
 </TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.List;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_user_API_KEY");
+var invite = facturapi.organizations().inviteUserToTeam("ORG_ID", Map.of(
+  "email", "alex@example.com",
+  "role", "ROLE_ID"
+));
+```
+
+</TabItem>
 <TabItem value="php" label="PHP">
 
 ```php
@@ -183,6 +198,23 @@ var role = await facturapi.Organization.CreateTeamRoleAsync(
 ```
 
 </TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.List;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_user_API_KEY");
+var role = facturapi.organizations().createTeamRole("ORG_ID", Map.of(
+  "name", "Developer (limited)",
+  "template_code", "org-developer",
+  "add", List.of("read.customers.list", "read.customers.detail"),
+  "remove", List.of("write.sat_downloads.create")
+));
+```
+
+</TabItem>
 <TabItem value="php" label="PHP">
 
 ```php
@@ -265,6 +297,19 @@ var result = await facturapi.Organization.RespondTeamInviteAsync(
 ```
 
 </TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_user_API_KEY");
+var result = facturapi.organizations().respondTeamInvite("INVITE_ID", Map.of(
+  "accept", true
+));
+```
+
+</TabItem>
 <TabItem value="php" label="PHP">
 
 ```php
@@ -331,6 +376,20 @@ const access = await facturapi.organizations.updateTeamAccessRole(
 var facturapi = new FacturapiClient("sk_user_API_KEY");
 
 var access = await facturapi.Organization.UpdateTeamAccessRoleAsync(
+  "ORG_ID",
+  "ACCESS_ID",
+  "ROLE_ID"
+);
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+
+Facturapi facturapi = new Facturapi("sk_user_API_KEY");
+var access = facturapi.organizations().updateTeamAccessRole(
   "ORG_ID",
   "ACCESS_ID",
   "ROLE_ID"

@@ -939,6 +939,22 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchAirTransportCodes({ q: 'AMX', page: 0, limit: 10 })
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var result = facturapi.cartaPorteCatalogs().searchAirTransportCodes(
+                  Map.of(
+                      "q", "AMX",
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -1029,6 +1045,22 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.comercioExteriorCatalogs.searchTariffFractions({ q: '0101', page: 0, limit: 10 })
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var result = facturapi.comercioExteriorCatalogs().searchTariffFractions(
+                  Map.of(
+                      "q", "0101",
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -1119,6 +1151,22 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchTransportConfigs({ q: 'CC', page: 0, limit: 10 })
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var result = facturapi.cartaPorteCatalogs().searchTransportConfigs(
+                  Map.of(
+                      "q", "AMX",
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -1209,6 +1257,22 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchRightsOfPassage({ q: 'MX-001', page: 0, limit: 10 })
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var result = facturapi.cartaPorteCatalogs().searchRightsOfPassage(
+                  Map.of(
+                      "q", "AMX",
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -1299,6 +1363,22 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchCustomsDocuments({ q: 'PEDIMENTO', page: 0, limit: 10 })
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var result = facturapi.cartaPorteCatalogs().searchCustomsDocuments(
+                  Map.of(
+                      "q", "AMX",
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -1389,6 +1469,22 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchPackagingTypes({ q: 'CAJA', page: 0, limit: 10 })
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var result = facturapi.cartaPorteCatalogs().searchPackagingTypes(
+                  Map.of(
+                      "q", "AMX",
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -1479,6 +1575,22 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchTrailerTypes({ q: 'TRL', page: 0, limit: 10 })
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var result = facturapi.cartaPorteCatalogs().searchTrailerTypes(
+                  Map.of(
+                      "q", "AMX",
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -1569,6 +1681,22 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchHazardousMaterials({ q: 'UN1203', page: 0, limit: 10 })
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var result = facturapi.cartaPorteCatalogs().searchHazardousMaterials(
+                  Map.of(
+                      "q", "AMX",
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -1659,6 +1787,22 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchNavalAuthorizations({ q: 'Z-01', page: 0, limit: 10 })
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var result = facturapi.cartaPorteCatalogs().searchNavalAuthorizations(
+                  Map.of(
+                      "q", "AMX",
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -1763,6 +1907,22 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchPortStations({ q: 'MEX', page: 0, limit: 10 })
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var result = facturapi.cartaPorteCatalogs().searchPortStations(
+                  Map.of(
+                      "q", "AMX",
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -1853,6 +2013,22 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.cartaPorteCatalogs.searchMarineContainers({ q: '20DC', page: 0, limit: 10 })
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var result = facturapi.cartaPorteCatalogs().searchMarineContainers(
+                  Map.of(
+                      "q", "AMX",
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -1985,6 +2161,24 @@ paths:
                 ["zip"] = "01234"
               }
             });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var customer = facturapi.customers().create(
+                Map.of(
+                    "legal_name", "Mi Empresa SA de CV",
+                    "tax_id", "XAXX010101000",
+                    "tax_system", "601",
+                    "email", "cliente@example.com"
+                ),
+                null
+            );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -2079,6 +2273,21 @@ paths:
                 },
               ["page"] = 1
             });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var searchResult = facturapi.customers().list(
+                  Map.of(
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -2141,6 +2350,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var customer = await facturapi.Customer.RetrieveAsync("590ce6c56d04f840aa8438af");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var customer = facturapi.customers().retrieve(
+                  "cus_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -2217,6 +2438,23 @@ paths:
                 }
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var customer = facturapi.customers().update(
+                "cus_123",
+                Map.of(
+                    "legal_name", "Mi Empresa SA de CV",
+                    "email", "cliente@example.com"
+                ),
+                null
+            );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -2286,6 +2524,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var customer = await facturapi.Customer.DeleteAsync("590ce6c56d04f840aa8438af");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var customer = facturapi.customers().delete(
+                  "cus_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -2349,6 +2599,19 @@ paths:
             {
               ["email"] = "email@example.com" // Opcional, si no se proporciona, se usará el correo electrónico del cliente
             });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var response = facturapi.customers().sendEditLinkByEmail(
+                  "cus_123",
+                  "cliente@example.com"
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -2426,6 +2689,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var customer = await facturapi.Customer.ValidateTaxInfoAsync("590ce6c56d04f840aa8438af");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var validation = facturapi.customers().validateTaxInfo(
+                  "cus_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -2519,6 +2794,22 @@ paths:
               ["price"] = 345.60,
               ["sku"] = "ABC1234"
             });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var product = facturapi.products().create(
+                Map.of(
+                    "description", "Producto de ejemplo",
+                    "product_key", "01010101",
+                    "price", 100.0,
+                    "tax_included", false
+                  ));
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -2586,6 +2877,21 @@ paths:
                 },
               ["page"] = 1
             });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var searchResult = facturapi.products().list(
+                  Map.of(
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -2648,6 +2954,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var product = await facturapi.Product.RetrieveAsync("590e22c26d04f840aa8438b2");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var product = facturapi.products().retrieve(
+                  "prod_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -2717,6 +3035,19 @@ paths:
                 ["price"] = 456.70
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var product = facturapi.products().update("prod_123", Map.of(
+                    "description", "Producto actualizado",
+                    "price", 120.0
+                  ));
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -2772,6 +3103,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var product = await facturapi.Product.DeleteAsync("590e22c26d04f840aa8438b2");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var product = facturapi.products().delete(
+                  "prod_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -2896,6 +3239,27 @@ paths:
               ["folio_number"] = 914,
               ["series"] = "F"
             });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var invoice = facturapi.invoices().create(
+                Map.of(
+                    "customer", "cus_123",
+                    "items", List.of(
+                        Map.of(
+                            "quantity", 1,
+                            "product", "prod_123"
+                        )
+                    )
+                ),
+                null
+            );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -3045,6 +3409,21 @@ paths:
                 ["limit"] = 10,
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var searchResult = facturapi.invoices().list(
+                  Map.of(
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -3282,6 +3661,25 @@ paths:
             var file = new System.IO.FileStream("invoice_preview.pdf", System.IO.FileMode.Create, System.IO.FileAccess.Write);
             pdfStream.CopyTo(file);
             file.Close();
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var pdf = facturapi.invoices().previewPdf(
+                Map.of(
+                    "customer", "cus_123",
+                    "items", List.of(
+                        Map.of(
+                            "quantity", 1,
+                            "product", "prod_123"
+                        )
+                    )
+                  ));
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -3353,6 +3751,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var invoice = await facturapi.Invoice.RetrieveAsync("58e93bd8e86eb318b019743d");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var invoice = facturapi.invoices().retrieve(
+                  "inv_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -3427,6 +3837,23 @@ paths:
                 ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var invoice = facturapi.invoices().updateDraft("inv_123", Map.of(
+                    "items", List.of(
+                        Map.of(
+                            "quantity", 1,
+                            "product", "prod_123"
+                        )
+                    )
+                  ));
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -3508,6 +3935,21 @@ paths:
                 ["motive"] = "02"
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var invoice = facturapi.invoices().cancel(
+                  "inv_123",
+                  Map.of(
+                      "motive", "02"
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -3600,6 +4042,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var invoice = await facturapi.Invoice.CopyToDraftAsync("58e93bd8e86eb318b019743d");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var draft = facturapi.invoices().copyToDraft(
+                  "inv_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -3659,6 +4113,20 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var stampedInvoice = await facturapi.Invoice.StampDraftAsync("58e93bd8e86eb318b019743d");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var invoice = facturapi.invoices().stampDraft(
+                  "inv_123",
+                  Map.of(
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -3732,6 +4200,17 @@ paths:
             // Acuse de factura cancelada
             await facturapi.Invoice.DownloadCancellationReceiptXmlAsync("58e93bd8e86eb318b019743d");
 
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+            byte[] cancellationReceipt = facturapi.invoices().downloadCancellationReceiptXml(
+                  "inv_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -3832,6 +4311,18 @@ paths:
             var file = new System.IO.FileStream("C:\\route\\to\\save\\invoice.zip", FileMode.Create);
             zipStream.CopyTo(file);
             file.Close();
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var invoice = facturapi.invoices().retrieve(
+                  "inv_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -3952,6 +4443,21 @@ paths:
                 }
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var response = facturapi.invoices().sendByEmail(
+                  "inv_123",
+                  Map.of(
+                      "to", "cliente@example.com"
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -4051,6 +4557,18 @@ paths:
           source: |
             var facturapi = new Facturapi
             var invoice = await facturapi.Invoice.UpdateStatusAsync("58e93bd8e86eb318b019743d");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var invoice = facturapi.invoices().updateStatus(
+                  "inv_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -4148,6 +4666,25 @@ paths:
                 }
               }
             });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var receipt = facturapi.receipts().create(
+                Map.of(
+                    "customer", "cus_123",
+                    "items", List.of(
+                        Map.of(
+                            "quantity", 1,
+                            "product", "prod_123"
+                        )
+                    )
+                  ));
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -4251,6 +4788,21 @@ paths:
                 ["limit"] = 10,
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var searchResult = facturapi.receipts().list(
+                  Map.of(
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -4360,6 +4912,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var receipt = await facturapi.Receipt.RetrieveAsync("58e93bd8e86eb318b019743d");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var receipt = facturapi.receipts().retrieve(
+                  "rec_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -4465,6 +5029,15 @@ paths:
                 }
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+            // This endpoint is available in the API, but the Java SDK helper is not exposed yet.
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -4541,6 +5114,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var receipt = await facturapi.Receipt.CancelAsync("5ebd8e56f5687a013ca0df46");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var receipt = facturapi.receipts().cancel(
+                  "rec_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -4602,6 +5187,17 @@ paths:
             var file = new System.IO.FileStream("C:\\route\\to\\save\\receipt.pdf", FileMode.Create);
             pdfStream.CopyTo(file);
             file.Close();
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+            byte[] pdf = facturapi.receipts().downloadPdf(
+                  "rec_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -4701,6 +5297,21 @@ paths:
                 }
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var response = facturapi.receipts().sendByEmail(
+                  "rec_123",
+                  Map.of(
+                      "to", "cliente@example.com"
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -4817,6 +5428,21 @@ paths:
               ["folio_number"] = 914,
               ["series"] = "F"
             });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var invoice = facturapi.receipts().invoice(
+                  "rec_123",
+                  Map.of(
+                      "customer", "cus_123"
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -4906,6 +5532,21 @@ paths:
               ["folio_number"] = 1234,
               ["series"] = "G"
             });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var invoice = facturapi.receipts().createGlobalInvoice(
+                  Map.of(
+                      "month", 5,
+                      "year", 2024
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -5027,6 +5668,27 @@ paths:
                 }
               }
             });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var retention = facturapi.retentions().create(
+                Map.of(
+                    "receiver", Map.of(
+                        "name", "Cliente ejemplo"
+                    ),
+                    "items", List.of(
+                        Map.of(
+                            "quantity", 1,
+                            "product", "prod_123"
+                        )
+                    )
+                  ));
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -5152,6 +5814,21 @@ paths:
                 ["limit"] = 10,
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var searchResult = facturapi.retentions().list(
+                  Map.of(
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -5231,6 +5908,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var retention = await facturapi.Retention.RetrieveAsync("6062d9fb226600001cd22f71");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var retention = facturapi.retentions().retrieve(
+                  "ret_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -5291,6 +5980,21 @@ paths:
                     motive = "01",
                     substitution = "UUID_O_ID_DE_RETENCION"
                 });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var retention = facturapi.retentions().cancel(
+                  "ret_123",
+                  Map.of(
+                      "motive", "02"
+                  )
+                );
         - lang: PHP
           source: |
                 $facturapi = new Facturapi("sk_test_API_KEY");
@@ -5408,6 +6112,17 @@ paths:
             var file = new System.IO.FileStream("C:\\route\\to\\save\\retention.zip", FileMode.Create);
             zipStream.CopyTo(file);
             file.Close();
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+            byte[] pdf = facturapi.retentions().downloadPdf(
+                  "ret_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -5528,6 +6243,21 @@ paths:
                 }
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var response = facturapi.retentions().sendByEmail(
+                  "ret_123",
+                  Map.of(
+                      "to", "cliente@example.com"
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -5651,6 +6381,23 @@ paths:
             {
               ["name"] = "Skynet"
             });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var organization = facturapi.organizations().create(
+                Map.of(
+                    "legal_name", "Mi Empresa SA de CV",
+                    "tax_id", "XAXX010101000",
+                    "tax_system", "601",
+                    "email", "cliente@example.com"
+                )
+            );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -5701,6 +6448,21 @@ paths:
             var facturapi = new FacturapiClient("sk_test_API_KEY");
 
             var searchResult = await facturapi.Organization.ListAsync();
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var searchResult = facturapi.organizations().list(
+                  Map.of(
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -5759,6 +6521,17 @@ paths:
             var facturapi = new FacturapiClient("sk_test_API_KEY");
 
             var searchResult = await facturapi.Organization.MeAsync();
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var organization = facturapi.organizations().me(
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -5870,6 +6643,22 @@ paths:
                 }
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var organization = facturapi.organizations().updateLegal(
+                "org_123",
+                Map.of(
+                    "legal_name", "Mi Empresa SA de CV",
+                    "tax_id", "XAXX010101000"
+                )
+            );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -5974,6 +6763,22 @@ paths:
               keyFileStream,
               "CONTRASEÑA_DEL_CERTIFICADO"
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.io.File;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var organization = facturapi.organizations().uploadCertificate(
+                    "org_123",
+              new File("certificate.cer"),
+              new File("certificate.key"),
+                    "secret"
+                  );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -6044,6 +6849,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_user_API_KEY");
             var organization = await facturapi.Organization.DeleteCertificateAsync("5a2a307be93a2f00129ea035");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var organization = facturapi.organizations().deleteCertificate(
+                  "org_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -6122,6 +6939,20 @@ paths:
               "5a2a307be93a2f00129ea035",
               fileStream
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.io.File;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var organization = facturapi.organizations().uploadLogo(
+                  "org_123",
+            new File("logo.png")
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -6214,6 +7045,21 @@ paths:
                 }
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var organization = facturapi.organizations().updateCustomization(
+                "org_123",
+                Map.of(
+                    "website", "https://facturapi.io"
+                )
+            );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -6305,6 +7151,21 @@ paths:
                 ["next_folio_number"] = 100
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var organization = facturapi.organizations().updateReceiptSettings(
+                "org_123",
+                Map.of(
+                    "color", "#4786FF"
+                )
+            );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -6394,6 +7255,18 @@ paths:
                 ["support_email"] = "support@dundermifflin.com"
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var organization = facturapi.organizations().updateSelfInvoiceSettings("org_123", Map.of(
+                    "enabled", true
+                  ));
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -6466,6 +7339,20 @@ paths:
                 ["domain"] = "empresa-demo"
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var availability = facturapi.organizations().checkDomainAvailability(
+                  Map.of(
+                      "domain", "facturapi"
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -6550,6 +7437,21 @@ paths:
                 ["domain"] = "empresa-demo"
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var organization = facturapi.organizations().updateDomain(
+                "org_123",
+                Map.of(
+                    "domain", "facturapi"
+                )
+            );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -6614,6 +7516,18 @@ paths:
             var organization = await facturapi.Organization.RetrieveAsync(
               "5a2a307be93a2f00129ea035"
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var organization = facturapi.organizations().retrieve(
+                  "org_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -6673,6 +7587,18 @@ paths:
             var organization = await facturapi.Organization.DeleteAsync(
               "5a2a307be93a2f00129ea035"
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var organization = facturapi.organizations().delete(
+                  "org_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -6732,6 +7658,18 @@ paths:
             var apiKeys = await facturapi.Organization.GetTestApiKeyAsync(
               "5a2a307be93a2f00129ea035"
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var apiKey = facturapi.organizations().getTestApiKey(
+                  "org_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -6792,6 +7730,18 @@ paths:
             var newTestApiKey = await facturapi.Organization.RenewTestApiKeyAsync(
               "5a2a307be93a2f00129ea035"
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var apiKey = facturapi.organizations().renewTestApiKey(
+                  "org_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -6853,6 +7803,18 @@ paths:
             var listLiveApiKeys = await facturapi.Organization.ListLiveApiKeysAsync(
               "5a2a307be93a2f00129ea035"
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var apiKeys = facturapi.organizations().listLiveApiKeys(
+                  "org_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -6927,6 +7889,18 @@ paths:
             var newLiveApiKey = await facturapi.Organization.RenewLiveApiKeyAsync(
               "5a2a307be93a2f00129ea035"
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var apiKey = facturapi.organizations().renewLiveApiKey(
+                  "org_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -6991,6 +7965,19 @@ paths:
               "5a2a307be93a2f00129ea035",
               "66f2ec798ca5a9b80c97db71"
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var apiKeys = facturapi.organizations().deleteLiveApiKey(
+                  "org_123",
+                  "key_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -7073,6 +8060,18 @@ paths:
             var seriesList = await facturapi.Organization.ListSeriesAsync(
               "5a2a307be93a2f00129ea035"
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var series = facturapi.organizations().listSeriesGroup(
+                  "org_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -7156,6 +8155,21 @@ paths:
                 "next_folio" => 1,
                 "next_folio_test" => 1
               ]
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var series = facturapi.organizations().createSeriesGroup(
+                "org_123",
+                Map.of(
+                    "name", "A"
+                )
             );
         - lang: PHP
           source: |
@@ -7241,6 +8255,18 @@ paths:
                 "next_folio_test": 1
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var series = facturapi.organizations().updateSeriesGroup("org_123", "A", Map.of(
+                    "next_folio", 1
+                  ));
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -7316,6 +8342,19 @@ paths:
               "5a2a307be93a2f00129ea035",
               "New"
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var series = facturapi.organizations().deleteSeriesGroup(
+                  "org_123",
+                  "A"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_user_API_KEY");
@@ -7377,6 +8416,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var accessList = await facturapi.Organization.ListTeamAccessAsync("ORG_ID");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var team = facturapi.organizations().listTeamAccess(
+                  "org_123"
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -7446,6 +8497,22 @@ paths:
                 ["role"] = "ROLE_ID"
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var invite = facturapi.organizations().inviteUserToTeam(
+                "org_123",
+                Map.of(
+                    "email", "new.user@example.com",
+                    "role", "admin"
+                )
+            );
         - lang: PHP
           label: PHP
           source: |
@@ -7505,6 +8572,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var invites = await facturapi.Organization.ListSentTeamInvitesAsync("ORG_ID");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var invites = facturapi.organizations().listSentTeamInvites(
+                  "org_123"
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -7558,6 +8637,19 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var access = await facturapi.Organization.RetrieveTeamAccessAsync("ORG_ID", "ACCESS_ID");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var access = facturapi.organizations().retrieveTeamAccess(
+                  "org_123",
+                  "access_123"
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -7616,6 +8708,19 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var result = await facturapi.Organization.RemoveTeamAccessAsync("ORG_ID", "ACCESS_ID");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var response = facturapi.organizations().removeTeamAccess(
+                  "org_123",
+                  "access_123"
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -7678,6 +8783,19 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var result = await facturapi.Organization.CancelTeamInviteAsync("ORG_ID", "INVITE_ID");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var response = facturapi.organizations().cancelTeamInvite(
+                  "org_123",
+                  "invite_123"
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -7737,6 +8855,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_user_API_KEY");
             var pendingInvites = await facturapi.Organization.ListReceivedTeamInvitesAsync();
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var organization = facturapi.organizations().retrieve(
+                  "org_123"
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -7791,6 +8921,21 @@ paths:
               {
                 ["accept"] = true
               }
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var response = facturapi.organizations().respondTeamInvite(
+                "invite_123",
+                Map.of(
+                    "response", "accepted"
+                )
             );
         - lang: PHP
           label: PHP
@@ -7848,6 +8993,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var roles = await facturapi.Organization.ListTeamRolesAsync("ORG_ID");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var roles = facturapi.organizations().listTeamRoles(
+                  "org_123"
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -7912,6 +9069,19 @@ paths:
                 ["name"] = "Billing analyst"
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var role = facturapi.organizations().createTeamRole("org_123", Map.of(
+                    "name", "Contabilidad",
+                    "operations", List.of("createInvoice", "cancelInvoice")
+                  ));
         - lang: PHP
           label: PHP
           source: |
@@ -7970,6 +9140,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var templates = await facturapi.Organization.ListTeamRoleTemplatesAsync("ORG_ID");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var templates = facturapi.organizations().listTeamRoleTemplates(
+                  "org_123"
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -8022,6 +9204,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var operations = await facturapi.Organization.ListTeamRoleOperationsAsync("ORG_ID");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var operations = facturapi.organizations().listTeamRoleOperations(
+                  "org_123"
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -8074,6 +9268,19 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var role = await facturapi.Organization.RetrieveTeamRoleAsync("ORG_ID", "ROLE_ID");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var role = facturapi.organizations().retrieveTeamRole(
+                  "org_123",
+                  "role_123"
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -8145,6 +9352,19 @@ paths:
                 ["name"] = "Senior billing analyst"
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var role = facturapi.organizations().updateTeamRole("org_123", "role_123", Map.of(
+                    "name", "Contabilidad",
+                    "operations", List.of("createInvoice", "cancelInvoice")
+                  ));
         - lang: PHP
           label: PHP
           source: |
@@ -8209,6 +9429,19 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var result = await facturapi.Organization.DeleteTeamRoleAsync("ORG_ID", "ROLE_ID");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var response = facturapi.organizations().deleteTeamRole(
+                  "org_123",
+                  "role_123"
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -8276,6 +9509,20 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var access = await facturapi.Organization.UpdateTeamAccessRoleAsync("ORG_ID", "ACCESS_ID", "ROLE_ID");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var access = facturapi.organizations().updateTeamAccessRole(
+                  "org_123",
+                  "access_123",
+                  "admin"
+                );
         - lang: PHP
           label: PHP
           source: |
@@ -8354,6 +9601,20 @@ paths:
               ["enabled_events"] = new Dictionary<string, object>["receipt.self_invoice_complete"],
               ["url"] = "http://my-website.com/my/webhook"
             });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var webhook = facturapi.webhooks().create(
+                Map.of(
+                    "url", "https://example.com/webhooks",
+                    "triggers", List.of("invoice.created")
+                  ));
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -8419,6 +9680,21 @@ paths:
               ["page"] = 1
               ["limit"] = 0,
             });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var searchResult = facturapi.webhooks().list(
+                  Map.of(
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -8471,6 +9747,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var customer = await facturapi.Webhook.RetrieveAsync("590ce6c56d04f840aa8438af");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var webhook = facturapi.webhooks().retrieve(
+                  "whk_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -8540,6 +9828,19 @@ paths:
                 ["address"] = new Dictionary<string>["receipt.self_invoice_complete"]
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var webhook = facturapi.webhooks().update("whk_123", Map.of(
+                    "url", "https://example.com/webhooks",
+                    "triggers", List.of("invoice.created")
+                  ));
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -8597,6 +9898,18 @@ paths:
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var customer = await facturapi.Webhook.DeleteAsync("590ce6c56d04f840aa8438af");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var webhook = facturapi.webhooks().delete(
+                  "whk_123"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -8666,6 +9979,20 @@ paths:
               ["payload"] = new Dictionary<string>["Object Response"],
               ["signature"] = "Signature_FROM_HEADER"
             });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var event = facturapi.webhooks().validateSignature(
+                    "webhook_secret",
+                    "signature_hex",
+                    "{\"id\":\"evt_123\"}"
+                  );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -8790,6 +10117,18 @@ paths:
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             
             var customer = await facturapi.Tool.ValidateTaxIdAsync("BBA830831LJ2");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var validation = facturapi.tools().validateTaxId(
+                  "XAXX010101000"
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -8851,6 +10190,22 @@ paths:
                 ["q"] = "ukelele"
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var result = facturapi.catalogs().searchProducts(
+                  Map.of(
+                      "q", "0101",
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -8916,6 +10271,22 @@ paths:
                 ["q"] = "pulgada"
               }
             );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var result = facturapi.catalogs().searchUnits(
+                  Map.of(
+                      "q", "H87",
+                      "page", 0,
+                      "limit", 10
+                  )
+                );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");

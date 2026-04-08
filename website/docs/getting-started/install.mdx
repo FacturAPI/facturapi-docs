@@ -11,6 +11,7 @@ Contamos con librerías oficiales para los siguientes lenguajes:
 
 - Node.js
 - C#
+- Java
 - PHP
 
 Si usas algún otro lenguaje, aún puedes consumir la API usando tu propio cliente HTTP.
@@ -37,6 +38,28 @@ desde Visual Studio, o bien, desde la terminal del Package Manager:
 
 ```bash
 dotnet add package Facturapi
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+Instala el [paquete de Maven Central](https://central.sonatype.com/artifact/io.facturapi/facturapi-java).
+Elige el bloque que corresponda con tu herramienta de construcción.
+
+Usando Maven:
+
+```xml
+<dependency>
+  <groupId>io.facturapi</groupId>
+  <artifactId>facturapi-java</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+Usando Gradle:
+
+```gradle
+implementation("io.facturapi:facturapi-java:1.0.0")
 ```
 
 </TabItem>
@@ -71,6 +94,13 @@ import Facturapi from 'facturapi';
 
 ```csharp
 using Facturapi;
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
 ```
 
 </TabItem>

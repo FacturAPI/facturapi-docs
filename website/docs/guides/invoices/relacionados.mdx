@@ -110,6 +110,42 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 ```
 
 </TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.List;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+var invoice = facturapi.invoices().create(Map.of(
+  "type", "E",
+  "customer", Map.of(
+    "legal_name", "Dunder Mifflin",
+    "email", "email@example.com",
+    "tax_id", "ABC101010111",
+    "tax_system", "601",
+    "address", Map.of("zip", "85900")
+  ),
+  "items", List.of(Map.of(
+    "product", Map.of(
+      "description", "Descuento",
+      "price", 400,
+      "taxes", List.of(Map.of(
+        "type", "IVA",
+        "rate", 0.16
+      ))
+    )
+  )),
+  "payment_form", "28",
+  "related_documents", List.of(Map.of(
+    "relationship", "01",
+    "documents", List.of("UUID_DEL_CFDI_DE_INGRESO")
+  ))
+));
+```
+
+</TabItem>
 <TabItem value="php" label="PHP">
 
 ```php

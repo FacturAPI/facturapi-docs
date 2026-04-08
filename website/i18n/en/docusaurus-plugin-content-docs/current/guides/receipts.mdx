@@ -71,6 +71,30 @@ var receipt = await facturapi.Receipt.CreateAsync(new Dictionary<string, object>
 ```
 
 </TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.List;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+var receipt = facturapi.receipts().create(Map.of(
+  "folio_number", 1234,
+  "payment_form", "03",
+  "items", List.of(Map.of(
+    "quantity", 1,
+    "product", Map.of(
+      "description", "Ukelele",
+      "product_key", "60131324",
+      "price", 345.60,
+      "sku", "ABC1234"
+    )
+  ))
+));
+```
+
+</TabItem>
 <TabItem value="php" label="PHP">
 
 ```php

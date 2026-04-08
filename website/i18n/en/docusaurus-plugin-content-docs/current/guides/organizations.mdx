@@ -52,6 +52,20 @@ var organization = await facturapi.Organization.CreateAsync(new Dictionary<strin
 ```
 
 </TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_user_API_KEY");
+var organization = facturapi.organizations().create(Map.of(
+  "name", "Skynet"
+));
+// remember to save the organization.getId() in your own database
+```
+
+</TabItem>
 <TabItem value="php" label="PHP">
 
 ```php

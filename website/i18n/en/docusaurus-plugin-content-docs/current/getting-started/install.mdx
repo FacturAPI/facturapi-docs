@@ -4,14 +4,13 @@ sidebar_position: 2
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import LanguageStrip from '@site/src/components/LanguageStrip';
 
 # SDK Installation
 
 We have official libraries for the following languages:
 
-- Node.js
-- C#
-- PHP
+<LanguageStrip />
 
 If you are using any other language, you can still consume the API using your own HTTP client.
 
@@ -37,6 +36,28 @@ from Visual Studio or from the Package Manager terminal:
 
 ```bash
 dotnet add package Facturapi
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+Install the [package from Maven Central](https://central.sonatype.com/artifact/io.facturapi/facturapi-java).
+Choose the block that matches your build tool.
+
+Using Maven:
+
+```xml
+<dependency>
+  <groupId>io.facturapi</groupId>
+  <artifactId>facturapi-java</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+Using Gradle:
+
+```gradle
+implementation("io.facturapi:facturapi-java:1.0.0")
 ```
 
 </TabItem>
@@ -71,6 +92,13 @@ import Facturapi from 'facturapi';
 
 ```csharp
 using Facturapi;
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
 ```
 
 </TabItem>

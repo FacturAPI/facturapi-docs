@@ -79,6 +79,23 @@ var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, objec
 ```
 
 </TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+var customer = facturapi.customers().create(Map.of(
+  "legal_name", "Dunder Mifflin",
+  "tax_id", "ABC101010111",
+  "tax_system", "601",
+  "email", "email@example.com",
+  "address", Map.of("zip", "85900")
+), null);
+```
+
+</TabItem>
 <TabItem value="php" label="PHP">
 
 ```php
@@ -201,6 +218,26 @@ var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, objec
 ```
 
 </TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+var customer = facturapi.customers().create(Map.of(
+  "legal_name", "Vättenfall, A.B.",
+  "tax_id", "198912171234",
+  "email", "email@example.com",
+  "address", Map.of(
+    "country", "SWE",
+    "zip", "17123",
+    "city", "Stockholm"
+  )
+), null);
+```
+
+</TabItem>
 <TabItem value="php" label="PHP">
 
 ```php
@@ -290,6 +327,19 @@ var customer = await facturapi.Customer.CreateAsync(new Dictionary<string, objec
 ```
 
 </TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+var customer = facturapi.customers().create(Map.of(
+  "email", "cliente@ejemplo.com"
+), Map.of("createEditLink", true));
+```
+
+</TabItem>
 <TabItem value="php" label="PHP">
 
 ```php
@@ -345,6 +395,16 @@ await facturapi.Customer.SendEditLinkByEmailAsync("62714bc2d1bfa410df1d98eb", ne
 {
   ["email"] = "cliente@ejemplo.com" // Opcional, si no se incluye se usará el email del cliente
 });
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+```java
+facturapi.customers().sendEditLinkByEmail(
+  "62714bc2d1bfa410df1d98eb",
+  "cliente@ejemplo.com"
+);
 ```
 
 </TabItem>

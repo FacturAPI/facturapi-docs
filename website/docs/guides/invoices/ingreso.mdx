@@ -130,6 +130,40 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 ```
 
 </TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.List;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+var invoice = facturapi.invoices().create(Map.of(
+  "customer", Map.of(
+    "legal_name", "Dunder Mifflin",
+    "email", "email@example.com",
+    "tax_id", "ABC101010111",
+    "tax_system", "601",
+    "address", Map.of("zip", "85900")
+  ),
+  "items", List.of(Map.of(
+    "quantity", 2,
+    "product", Map.of(
+      "description", "Ukelele",
+      "product_key", "60131324",
+      "price", 345.60,
+      "taxes", List.of(Map.of(
+        "type", "IVA",
+        "rate", 0.16
+      ))
+    )
+  )),
+  "use", "G01",
+  "payment_form", "28"
+));
+```
+
+</TabItem>
 <TabItem value="php" label="PHP">
 
 ```php
@@ -294,6 +328,42 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
   ["payment_method"] = "PPD", // "Pago en Parcialidades o Diferido"
   ["conditions"] = "Fecha límite de pago: 2022-01-01" // Texto libre definiendo las condiciones del pago (opcional)
 });
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.List;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+var invoice = facturapi.invoices().create(Map.of(
+  "customer", Map.of(
+    "legal_name", "Dunder Mifflin",
+    "email", "email@example.com",
+    "tax_id", "ABC101010111",
+    "tax_system", "601",
+    "address", Map.of("zip", "85900")
+  ),
+  "items", List.of(Map.of(
+    "quantity", 2,
+    "product", Map.of(
+      "description", "Ukelele",
+      "product_key", "60131324",
+      "price", 345.60,
+      "taxes", List.of(Map.of(
+        "type", "IVA",
+        "rate", 0.16
+      ))
+    )
+  )),
+  "use", "G01",
+  "payment_form", "99",
+  "payment_method", "PPD",
+  "conditions", "Fecha límite de pago: 2022-01-01"
+));
 ```
 
 </TabItem>

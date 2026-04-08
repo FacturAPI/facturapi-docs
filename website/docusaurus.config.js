@@ -57,6 +57,9 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
           ],
           theme: {
             primaryColor: "#4786FF",
+            prism: {
+              additionalLanguages: ["java"],
+            },
             options: {
               disableSearch: true,
               requiredPropsFirst: true,
@@ -68,6 +71,7 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
     ],
 
     plugins: [
+      require.resolve("./plugins/prism-fix"),
       [
         "@docusaurus/plugin-content-docs",
         {
@@ -213,7 +217,7 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
         prism: {
           theme: lightCodeTheme,
           darkTheme: darkCodeTheme,
-          additionalLanguages: ["powershell", "php", "csharp"],
+          additionalLanguages: ["powershell", "php", "csharp", "java"],
         },
       }),
   }

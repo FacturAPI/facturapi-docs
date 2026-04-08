@@ -85,6 +85,36 @@ var invoice = await facturapi.Invoice.CreateAsync(new Dictionary<string, object>
 ```
 
 </TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+Map<String, Object> body = new HashMap<>();
+body.put("status", "draft");
+body.put("customer", null);
+body.put("items", List.of(Map.of(
+  "quantity", 2,
+  "product", Map.of(
+    "description", "Ukelele",
+    "product_key", "60131324",
+    "price", 345.60,
+    "taxes", List.of(Map.of(
+      "type", "IVA",
+      "rate", 0.16
+    ))
+  )
+)));
+body.put("use", "G01");
+body.put("payment_form", "28");
+var invoice = facturapi.invoices().create(body, null);
+```
+
+</TabItem>
 <TabItem value="php" label="PHP">
 
 ```php
@@ -191,6 +221,25 @@ var invoice = await facturapi.Invoice.UpdateDraft(new Dictionary<string, object>
     }
   }
 });
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+var invoice = facturapi.invoices().updateDraft("[INVOICE_ID]", Map.of(
+  "customer", Map.of(
+    "legal_name", "Dunder Mifflin",
+    "email", "email@example.com",
+    "tax_id", "ABC101010111",
+    "tax_system", "601",
+    "address", Map.of("zip", "85900")
+  )
+));
 ```
 
 </TabItem>

@@ -63,6 +63,23 @@ var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
 ```
 
 </TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.List;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+var product = facturapi.products().create(Map.of(
+  "description", "Ukelele",
+  "product_key", "60131324",
+  "price", 345.60,
+  "sku", "ABC1234"
+));
+```
+
+</TabItem>
 <TabItem value="php" label="PHP">
 
 ```php
@@ -137,6 +154,28 @@ var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
     }
   }
 });
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.List;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+var product = facturapi.products().create(Map.of(
+  "description", "Ukelele",
+  "product_key", "60131324",
+  "price", 345.60,
+  "sku", "ABC1234",
+  "tax_included", false,
+  "taxes", List.of(Map.of(
+    "type", "IVA",
+    "rate", 0.16
+  ))
+));
 ```
 
 </TabItem>
@@ -233,6 +272,28 @@ var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
     }
   }
 });
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.List;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+var product = facturapi.products().create(Map.of(
+  "description", "Ukelele",
+  "product_key", "60131324",
+  "price", 345.60,
+  "sku", "ABC1234",
+  "tax_included", false,
+  "taxes", List.of(Map.of(
+    "type", "IVA",
+    "rate", 0
+  ))
+));
 ```
 
 </TabItem>
@@ -335,6 +396,29 @@ var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
 ```
 
 </TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.List;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+var product = facturapi.products().create(Map.of(
+  "description", "Ukelele",
+  "product_key", "60131324",
+  "price", 345.60,
+  "sku", "ABC1234",
+  "tax_included", false,
+  "taxes", List.of(Map.of(
+    "type", "IVA",
+    "factor", "Exento",
+    "rate", 0
+  ))
+));
+```
+
+</TabItem>
 <TabItem value="php" label="PHP">
 
 ```php
@@ -425,6 +509,20 @@ var product = await facturapi.Product.CreateAsync(new Dictionary<string, object>
     }
   }
 });
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+```java
+import io.facturapi.Facturapi;
+import java.util.Map;
+
+Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+var product = facturapi.products().update("PRODUCT_ID", Map.of(
+  "description", "Ukelele actualizado",
+  "price", 400.90
+));
 ```
 
 </TabItem>

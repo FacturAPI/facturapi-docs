@@ -1,0 +1,104 @@
+.grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  margin: 1rem 0 1.5rem;
+  align-items: stretch;
+}
+
+.card {
+  position: relative;
+  background: var(--facturapi-surface-bg);
+  color: inherit;
+  border: 1px solid var(--gray-l1);
+  border-radius: 16px;
+  box-shadow: var(--facturapi-surface-shadow);
+  min-height: 60px;
+  overflow: hidden;
+  transition: box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.primaryLink {
+  align-items: center;
+  color: inherit;
+  display: flex;
+  gap: 0.45rem;
+  min-height: 60px;
+  padding: 0.35rem 0.55rem 0.35rem 0.7rem;
+  text-decoration: none;
+  width: calc(100% - 2.9rem);
+  box-sizing: border-box;
+  transition: background-color 160ms ease;
+}
+
+.primaryLink:hover {
+  background: var(--facturapi-hover-bg);
+}
+
+.logo {
+  display: block;
+  flex: 0 0 auto;
+  height: 40px;
+  width: 40px;
+}
+
+.meta {
+  min-width: 0;
+}
+
+.name {
+  color: var(--ifm-font-color-base);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.note {
+  color: var(--facturapi-brand-suffix);
+  font-size: 0.8rem;
+  line-height: 1.25;
+  margin-top: 0.15rem;
+  white-space: nowrap;
+}
+
+.githubLink {
+  align-items: center;
+  border-left: 1px solid var(--gray-l1);
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  padding: 0 0.8rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 2.9rem;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.githubLink:hover {
+  background: var(--facturapi-hover-bg);
+}
+
+.githubIcon {
+  display: block;
+  height: 16px;
+  width: 16px;
+}
+
+html[data-theme='dark'] .card {
+  background: rgba(17, 27, 40, 0.92);
+}
+
+html[data-theme='dark'] .githubLink {
+  border-left-color: rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 767px) {
+  .primaryLink {
+    width: calc(100% - 2.6rem);
+  }
+
+  .githubLink {
+    width: 2.6rem;
+  }
+}

@@ -6165,7 +6165,8 @@ paths:
         as well as signing the Carta Manifiesto that authorizes our PAC to stamp invoices;
         you can do this in [your dashboard](https://dashboard.facturapi.io/settings/manifiesto)
         or in [our public portal](https://www.facturapi.io/manifiesto). You can also embed the signature
-        module (no branding, iframe-ready): https://www.facturapi.io/embedded/manifiesto
+        module (no branding, iframe-ready): 
+        https://www.facturapi.io/embedded/manifiesto
 
         Remember that the stamps of your subscription can be consumed by any of
         the organizations registered under your account.

@@ -950,7 +950,7 @@ paths:
 
             var result = facturapi.cartaPorteCatalogs().searchAirTransportCodes(
                   Map.of(
-                      "q", "AMX",
+                      "q", "CC",
                       "page", 0,
                       "limit", 10
                   )
@@ -1162,7 +1162,7 @@ paths:
 
             var result = facturapi.cartaPorteCatalogs().searchTransportConfigs(
                   Map.of(
-                      "q", "AMX",
+                      "q", "CC",
                       "page", 0,
                       "limit", 10
                   )
@@ -1268,7 +1268,7 @@ paths:
 
             var result = facturapi.cartaPorteCatalogs().searchRightsOfPassage(
                   Map.of(
-                      "q", "AMX",
+                      "q", "MX-001",
                       "page", 0,
                       "limit", 10
                   )
@@ -4208,8 +4208,11 @@ paths:
             import java.util.Map;
 
             Facturapi facturapi = new Facturapi("sk_test_API_KEY");
-            byte[] cancellationReceipt = facturapi.invoices().downloadCancellationReceiptXml(
-                  "inv_123"
+            byte[] cancellationReceiptXml = facturapi.invoices().downloadCancellationReceiptXml(
+                  "58e93bd8e86eb318b019743d"
+                );
+            byte[] cancellationReceiptPdf = facturapi.invoices().downloadCancellationReceiptPdf(
+                  "58e93bd8e86eb318b019743d"
                 );
         - lang: PHP
           source: |
@@ -4315,14 +4318,24 @@ paths:
           label: Java
           source: |
             import io.facturapi.Facturapi;
-            import java.util.List;
-            import java.util.Map;
+            import java.io.InputStream;
+            import java.nio.file.Files;
+            import java.nio.file.Path;
+            import java.nio.file.StandardCopyOption;
 
             Facturapi facturapi = new Facturapi("sk_test_API_KEY");
 
-            var invoice = facturapi.invoices().retrieve(
-                  "inv_123"
-                );
+            try (InputStream zipStream = facturapi.invoices().downloadZip("58e93bd8e86eb318b019743d")) {
+              Files.copy(zipStream, Path.of("./factura.zip"), StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            try (InputStream pdfStream = facturapi.invoices().downloadPdf("58e93bd8e86eb318b019743d")) {
+              Files.copy(pdfStream, Path.of("./factura.pdf"), StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            try (InputStream xmlStream = facturapi.invoices().downloadXml("58e93bd8e86eb318b019743d")) {
+              Files.copy(xmlStream, Path.of("./factura.xml"), StandardCopyOption.REPLACE_EXISTING);
+            }
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");

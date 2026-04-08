@@ -1,7 +1,9 @@
 const Prism = require("prismjs");
 
 globalThis.Prism = Prism;
-global.Prism = Prism;
+if (typeof global !== "undefined") {
+  global.Prism = Prism;
+}
 
 require("prismjs/components/prism-javadoclike");
 require("prismjs/components/prism-java");

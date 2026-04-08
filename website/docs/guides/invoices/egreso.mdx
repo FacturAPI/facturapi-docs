@@ -157,7 +157,7 @@ var invoice = facturapi.invoices().create(Map.of(
   "payment_form", "28",
   "related_documents", List.of(Map.of(
     "relationship", "01",
-    "documents", "UUID_DEL_CFDI_DE_INGRESO"
+    "documents", List.of("UUID_DEL_CFDI_DE_INGRESO")
   ))
 ));
 ```

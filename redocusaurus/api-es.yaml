@@ -6876,6 +6876,10 @@ paths:
         dashboard](https://dashboard.facturapi.io/settings/manifiesto) 
 
         o en [nuestro portal público](https://www.facturapi.io/manifiesto).
+        También puedes incrustar 
+
+        en tu solución el módulo de firma de la carta (sin logos, listo para
+        iframe): https://www.facturapi.io/embedded/manifiesto
 
 
         Recuerda que los folios de tu suscripción podrán ser consumidos por
@@ -9121,6 +9125,7 @@ paths:
         Crea o actualiza una invitación de usuario. Por defecto, el acceso es de
         administrador con permisos completos; para limitarlo, crea un rol y
         envía su ID en `role`.
+
 
         Cada organización puede invitar a un usuario sin costo adicional. A
         partir del segundo usuario invitado, cada usuario adicional tendrá un

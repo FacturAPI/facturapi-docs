@@ -6364,7 +6364,8 @@ paths:
         [Subir certificados (CSD)](#tag/organization/operation/uploadOrganizationCertificate), 
         además de firmar la Carta Manifieso que autoriza a nuestro PAC a timbrar facturas; 
         puedes hacerlo en [tu dashboard](https://dashboard.facturapi.io/settings/manifiesto) 
-        o en [nuestro portal público](https://www.facturapi.io/manifiesto).
+        o en [nuestro portal público](https://www.facturapi.io/manifiesto). También puedes incrustar 
+        en tu solución el módulo de firma de la carta (sin logos, listo para iframe): https://www.facturapi.io/embedded/manifiesto
 
         Recuerda que los folios de tu suscripción podrán ser consumidos por
         cualquiera de las organizaaciones registradas bajo tu cuenta.
@@ -8478,6 +8479,7 @@ paths:
       summary: Invitar usuario a organización
       description: |
         Crea o actualiza una invitación de usuario. Por defecto, el acceso es de administrador con permisos completos; para limitarlo, crea un rol y envía su ID en `role`.
+        
         Cada organización puede invitar a un usuario sin costo adicional. A partir del segundo usuario invitado, cada usuario adicional tendrá un costo mensual. Este cargo se aplica automáticamente cuando el usuario acepta la invitación.
         Puedes consultar el precio vigente en nuestra [página de precios](https://www.facturapi.io/pricing).
       x-codeSamples:

@@ -1077,7 +1077,7 @@ paths:
 
             var result = facturapi.cartaPorteCatalogs().searchTransportConfigs(
                   Map.of(
-                      "q", "CC",
+                      "q", "llantas",
                       "page", 0,
                       "limit", 10
                   )
@@ -1087,7 +1087,7 @@ paths:
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
             $result = $facturapi->CartaPorteCatalogs->searchTransportConfigs([
-              "q" => "CC",
+              "q" => "llantas",
               "page" => 0,
               "limit" => 10
             ]);
@@ -1097,7 +1097,7 @@ paths:
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var result = await facturapi.CartaporteCatalog.SearchTransportConfigs(new Dictionary<string, object>
             {
-              ["q"] = "CC",
+              ["q"] = "llantas",
               ["page"] = 0,
               ["limit"] = 10
             });
@@ -1231,7 +1231,7 @@ paths:
             curl "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/rights-of-passage" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
-              -d "q=MX-001" \
+              -d "q=CDP001" \
               -d "page=0" \
               -d "limit=10"
         - lang: JavaScript
@@ -1239,7 +1239,7 @@ paths:
           source: |
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
-            const result = await facturapi.cartaPorteCatalogs.searchRightsOfPassage({ q: 'MX-001', page: 0, limit: 10 })
+            const result = await facturapi.cartaPorteCatalogs.searchRightsOfPassage({ q: 'CDP001', page: 0, limit: 10 })
         - lang: Java
           label: Java
           source: |
@@ -1251,7 +1251,7 @@ paths:
 
             var result = facturapi.cartaPorteCatalogs().searchRightsOfPassage(
                   Map.of(
-                      "q", "MX-001",
+                      "q", "CDP001",
                       "page", 0,
                       "limit", 10
                   )
@@ -1261,7 +1261,7 @@ paths:
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
             $result = $facturapi->CartaPorteCatalogs->searchRightsOfPassage([
-              "q" => "MX-001",
+              "q" => "CDP001",
               "page" => 0,
               "limit" => 10
             ]);
@@ -1271,7 +1271,7 @@ paths:
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var result = await facturapi.CartaporteCatalog.SearchRightsOfPassage(new Dictionary<string, object>
             {
-              ["q"] = "MX-001",
+              ["q"] = "CDP001",
               ["page"] = 0,
               ["limit"] = 10
             });
@@ -1477,7 +1477,7 @@ paths:
             curl "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/trailer-types" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
-              -d "q=TRL" \
+              -d "q=CTR001" \
               -d "page=0" \
               -d "limit=10"
         - lang: JavaScript
@@ -1485,7 +1485,7 @@ paths:
           source: |
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
-            const result = await facturapi.cartaPorteCatalogs.searchTrailerTypes({ q: 'TRL', page: 0, limit: 10 })
+            const result = await facturapi.cartaPorteCatalogs.searchTrailerTypes({ q: 'CTR001', page: 0, limit: 10 })
         - lang: Java
           label: Java
           source: |
@@ -1507,7 +1507,7 @@ paths:
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
             $result = $facturapi->CartaPorteCatalogs->searchTrailerTypes([
-              "q" => "TRL",
+              "q" => "CTR001",
               "page" => 0,
               "limit" => 10
             ]);
@@ -1517,7 +1517,7 @@ paths:
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var result = await facturapi.CartaporteCatalog.SearchTrailerTypes(new Dictionary<string, object>
             {
-              ["q"] = "TRL",
+              ["q"] = "CTR001",
               ["page"] = 0,
               ["limit"] = 10
             });
@@ -1559,7 +1559,7 @@ paths:
             curl "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/hazardous-materials" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
-              -d "q=UN1203" \
+              -d "q=solido" \
               -d "page=0" \
               -d "limit=10"
         - lang: JavaScript
@@ -1567,7 +1567,7 @@ paths:
           source: |
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
-            const result = await facturapi.cartaPorteCatalogs.searchHazardousMaterials({ q: 'UN1203', page: 0, limit: 10 })
+            const result = await facturapi.cartaPorteCatalogs.searchHazardousMaterials({ q: 'solido', page: 0, limit: 10 })
         - lang: Java
           label: Java
           source: |
@@ -1589,7 +1589,7 @@ paths:
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
             $result = $facturapi->CartaPorteCatalogs->searchHazardousMaterials([
-              "q" => "UN1203",
+              "q" => "solido",
               "page" => 0,
               "limit" => 10
             ]);
@@ -1599,7 +1599,7 @@ paths:
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var result = await facturapi.CartaporteCatalog.SearchHazardousMaterials(new Dictionary<string, object>
             {
-              ["q"] = "UN1203",
+              ["q"] = "solido",
               ["page"] = 0,
               ["limit"] = 10
             });
@@ -1641,7 +1641,7 @@ paths:
             curl "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/naval-authorizations" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
-              -d "q=Z-01" \
+              -d "q=SCT418/069/2018" \
               -d "page=0" \
               -d "limit=10"
         - lang: JavaScript
@@ -1649,7 +1649,7 @@ paths:
           source: |
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
-            const result = await facturapi.cartaPorteCatalogs.searchNavalAuthorizations({ q: 'Z-01', page: 0, limit: 10 })
+            const result = await facturapi.cartaPorteCatalogs.searchNavalAuthorizations({ q: 'SCT418/069/2018', page: 0, limit: 10 })
         - lang: Java
           label: Java
           source: |
@@ -1671,7 +1671,7 @@ paths:
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
             $result = $facturapi->CartaPorteCatalogs->searchNavalAuthorizations([
-              "q" => "Z-01",
+              "q" => "SCT418/069/2018",
               "page" => 0,
               "limit" => 10
             ]);
@@ -1681,7 +1681,7 @@ paths:
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var result = await facturapi.CartaporteCatalog.SearchNavalAuthorizations(new Dictionary<string, object>
             {
-              ["q"] = "Z-01",
+              ["q"] = "SCT418/069/2018",
               ["page"] = 0,
               ["limit"] = 10
             });
@@ -1819,7 +1819,7 @@ paths:
             curl "https://www.facturapi.io/v2/catalogs/cartaporte/3.1/marine-containers" \
               -G \
               -H "Authorization: Bearer sk_test_API_KEY" \
-              -d "q=20DC" \
+              -d "q=FERRI" \
               -d "page=0" \
               -d "limit=10"
         - lang: JavaScript
@@ -1827,7 +1827,7 @@ paths:
           source: |
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
-            const result = await facturapi.cartaPorteCatalogs.searchMarineContainers({ q: '20DC', page: 0, limit: 10 })
+            const result = await facturapi.cartaPorteCatalogs.searchMarineContainers({ q: 'FERRI', page: 0, limit: 10 })
         - lang: Java
           label: Java
           source: |
@@ -1849,7 +1849,7 @@ paths:
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
             $result = $facturapi->CartaPorteCatalogs->searchMarineContainers([
-              "q" => "20DC",
+              "q" => "FERRI",
               "page" => 0,
               "limit" => 10
             ]);
@@ -1859,7 +1859,7 @@ paths:
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var result = await facturapi.CartaporteCatalog.SearchMarineContainers(new Dictionary<string, object>
             {
-              ["q"] = "20DC",
+              ["q"] = "FERRI",
               ["page"] = 0,
               ["limit"] = 10
             });

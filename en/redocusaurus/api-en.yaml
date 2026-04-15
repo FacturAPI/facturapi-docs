@@ -8694,6 +8694,107 @@ paths:
           $ref: '#/components/responses/Unauthenticated'
         '500':
           $ref: '#/components/responses/UnexpectedError'
+  /organizations/{organization_id}/series-group/default-series:
+    put:
+      operationId: updateDefaultSeries
+      tags:
+        - organization
+      summary: Set default series
+      description: |
+        Assigns a default series for the specified invoice type.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/series-group/default-series
+            \
+              -X PUT \
+              -H "Authorization: Bearer sk_user_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                    "type": "I",
+                    "series": "A"
+                  }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_user_API_KEY');
+
+            const result = await facturapi.organizations.updateDefaultSeries(
+              '5a2a307be93a2f00129ea035',
+              {
+                type: 'I',
+                series: 'A'
+              }
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var result = await facturapi.Organization.UpdateDefaultSeriesAsync(
+              "5a2a307be93a2f00129ea035",
+              new Dictionary<string, object>
+              {
+                ["type"] = "I",
+                ["series"] = "A"
+              }
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var response = facturapi.organizations().updateDefaultSeries(
+                "org_123",
+                Map.of(
+                    "type", "I",
+                    "series", "A"
+                )
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_user_API_KEY");
+            $result = $facturapi->Organizations->updateDefaultSeries(
+              "5a2a307be93a2f00129ea035",
+              [
+                "type" => "I",
+                "series" => "A"
+              ]
+            );
+      requestBody:
+        $ref: '#/components/requestBodies/OrganizationSeriesDefault'
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: Organization ID
+      security:
+        - SecretLiveKey: []
+        - SecretTestKey: []
+        - SecretUserKey: []
+      responses:
+        '200':
+          description: Default series updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
   /organizations/{organization_id}/series-group/{series_name}:
     put:
       operationId: updateSeriesGroup
@@ -11387,6 +11488,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/OrganizationSeriesUpdateInput'
+    OrganizationSeriesDefault:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OrganizationSeriesDefaultInput'
     OrganizationInviteCreate:
       required: true
       content:
@@ -17705,6 +17811,30 @@ components:
           description: >-
             Folio number that will be assigned to the next invoice in the Test
             environment (and will automatically increase with each new invoice).
+    OrganizationSeriesDefaultInput:
+      type: object
+      required:
+        - type
+        - series
+      properties:
+        type:
+          type: string
+          enum:
+            - I
+            - E
+            - P
+            - 'N'
+            - T
+          description: >
+            Invoice type. Possible values:
+
+            `I` (Income), `E` (Expense), `P` (Payment), `N` (Payroll), `T`
+            (Transfer).
+        series:
+          type: string
+          minLength: 1
+          maxLength: 25
+          description: Series name.
     OrganizationSeriesGroup:
       title: Objeto Series
       type: object

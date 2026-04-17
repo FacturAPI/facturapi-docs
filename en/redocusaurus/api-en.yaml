@@ -12064,7 +12064,7 @@ components:
         complement:
           type: string
           format: xml
-          description: XML code of your complement.
+          description: XML code of your concept-level complement.
         third_party:
           allOf:
             - type: object
@@ -12114,7 +12114,7 @@ components:
         complement:
           type: string
           format: xml
-          description: XML code of your complement.
+          description: XML code of your concept-level complement.
         third_party:
           allOf:
             - type: object
@@ -12151,7 +12151,7 @@ components:
         complement:
           type: string
           format: xml
-          description: XML code of your complement.
+          description: XML code of your concept-level complement.
         parts:
           type: array
           items:

@@ -12234,7 +12234,7 @@ components:
         complement:
           type: string
           format: xml
-          description: Código XML de tu complemento.
+          description: Código XML de tu complemento concepto.
         third_party:
           allOf:
             - type: object
@@ -12284,7 +12284,7 @@ components:
         complement:
           type: string
           format: xml
-          description: Código XML de tu complemento.
+          description: Código XML de tu complemento concepto.
         third_party:
           allOf:
             - type: object
@@ -12321,7 +12321,7 @@ components:
         complement:
           type: string
           format: xml
-          description: Código XML de tu complemento.
+          description: Código XML de tu complemento concepto.
         parts:
           type: array
           items:

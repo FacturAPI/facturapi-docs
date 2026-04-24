@@ -11167,9 +11167,12 @@ components:
             type: string
           description: Customs entry numbers (pedimento) associated with this concept.
         complement:
-          type: string
-          format: xml
-          description: XML code of your concept-level complement.
+          description: XML code of your concept-level complement or the Hydrocarbons and Petroleum complement.
+          oneOf:
+            - type: string
+              format: xml
+              description: XML code of your concept-level complement.
+            - $ref: "#/components/schemas/HidroYPetroComplementInput"
         third_party:
           allOf:
             - type: object
@@ -11217,9 +11220,12 @@ components:
             type: string
           description: Customs entry numbers (pedimento) associated with this concept.
         complement:
-          type: string
-          format: xml
-          description: XML code of your concept-level complement.
+          description: XML code of your concept-level complement or the Hydrocarbons and Petroleum complement.
+          oneOf:
+            - type: string
+              format: xml
+              description: XML code of your concept-level complement.
+            - $ref: "#/components/schemas/HidroYPetroComplementInput"
         third_party:
           allOf:
             - type: object
@@ -11287,6 +11293,31 @@ components:
               type: string
               description: Postal code of the third party.
               example: "01234"
+    HidroYPetroComplementInput:
+      title: HidroYPetroComplement
+      type: object
+      required:
+        - tipo_permiso
+        - numero_permiso
+        - sub_producto_hyp
+      properties:
+        tipo_permiso:
+          type: string
+          description: Type of permit granted by the competent authority, according to the c_TipoPermiso catalog.
+        numero_permiso:
+          type: string
+          minLength: 15
+          maxLength: 35
+          description: Permit number granted by the competent authority, according to the c_TipoPermiso catalog nomenclature.
+        sub_producto_hyp:
+          type: string
+          description: Hydrocarbon or petroleum subproduct, according to the c_SubProductoHYP catalog.
+        clave_hyp:
+          type: string
+          description: |
+            Hydrocarbon and petroleum key, according to the c_ClaveHYP catalog.
+
+            You can send it explicitly or let Facturapi derive it from the concept's `product_key` when applicable.
 
     CustomComplementData:
       title: string

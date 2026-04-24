@@ -11365,9 +11365,12 @@ components:
             type: string
           description: Números de pedimento asociados a este concepto.
         complement:
-          type: string
-          format: xml
-          description: Código XML de tu complemento concepto.
+          description: Código XML de tu complemento concepto o el complemento Hidrocarburos y Petrolíferos.
+          oneOf:
+            - type: string
+              format: xml
+              description: Código XML de tu complemento concepto.
+            - $ref: "#/components/schemas/HidroYPetroComplementInput"
         third_party:
           allOf:
             - type: object
@@ -11415,9 +11418,12 @@ components:
             type: string
           description: Números de pedimento asociados a este concepto.
         complement:
-          type: string
-          format: xml
-          description: Código XML de tu complemento concepto.
+          description: Código XML de tu complemento concepto o el complemento Hidrocarburos y Petrolíferos.
+          oneOf:
+            - type: string
+              format: xml
+              description: Código XML de tu complemento concepto.
+            - $ref: "#/components/schemas/HidroYPetroComplementInput"
         third_party:
           allOf:
             - type: object
@@ -11485,6 +11491,31 @@ components:
               type: string
               description: Código postal del tercero.
               example: "01234"
+    HidroYPetroComplementInput:
+      title: HidroYPetroComplement
+      type: object
+      required:
+        - tipo_permiso
+        - numero_permiso
+        - sub_producto_hyp
+      properties:
+        tipo_permiso:
+          type: string
+          description: Tipo de permiso otorgado por la autoridad competente, conforme al catálogo c_TipoPermiso.
+        numero_permiso:
+          type: string
+          minLength: 15
+          maxLength: 35
+          description: Número de permiso otorgado por la autoridad competente, conforme a la nomenclatura del catálogo c_TipoPermiso.
+        sub_producto_hyp:
+          type: string
+          description: Subtipo del hidrocarburo o petrolífero, conforme al catálogo c_SubProductoHYP.
+        clave_hyp:
+          type: string
+          description: |
+            Clave correspondiente a hidrocarburos y petrolíferos, conforme al catálogo c_ClaveHYP.
+
+            Puedes enviarla explícitamente o dejar que Facturapi la derive desde el `product_key` del concepto cuando aplique.
 
     CustomComplementData:
       title: string

@@ -130,6 +130,42 @@ tags:
       "CP01" | Pagos | Payments | 601, 603, 605, 606, 608, 610, 611, 612, 614, 616, 620, 621, 622, 623, 624, 607, 615, 625, 626
       "CN01" | Nómina | Payroll | 605
 
+      ### Catálogos Hidrocarburos Petrolíferos
+
+      (Hydrocarbons and Petroleum Catalogs)
+
+      Permit key | Description (Spanish) | Description (English)
+      :-----:|:-----------|:-----------
+      "PER01" | Expendio en estaciones de servicio de petrolíferos | Fuel station retail sales
+      "PER02" | Comercialización | Commercialization
+      "PER03" | Distribución por otros medios distintos a ducto | Distribution by means other than pipeline
+      "PER04" | Expendio en estaciones de servicio multimodal de petrolíferos | Multimodal fuel station retail sales
+      "PER05" | Expendio en estaciones de servicio de petrolíferos | Fuel station retail sales
+      "PER06" | Comercialización | Commercialization
+      "PER07" | Distribución por otros medios distintos a ducto | Distribution by means other than pipeline
+      "PER08" | Expendio en estaciones de servicio multimodal de petrolíferos | Multimodal fuel station retail sales
+      "PER09" | Comercialización | Commercialization
+      "PER10" | Comercialización | Commercialization
+      "PER11" | Comercialización | Commercialization
+
+      HYP key | Description (Spanish) | Description (English)
+      :-----:|:-----------|:-----------
+      "15101514" | Gasolina | Gasoline
+      "15101515" | Diesel | Diesel
+      "15101505" | Combustibles para barco | Marine fuels
+
+      Subproduct HYP | Description (Spanish) | Description (English)
+      :-----:|:-----------|:-----------
+      "SP16" | Gasolina regular menor a 91 octanos | Regular gasoline under 91 octane
+      "SP17" | Gasolina premium mayor o igual a 91 octanos | Premium gasoline 91 octane or higher
+      "SP18" | Diésel automotriz | Automotive diesel
+      "SP19" | Diésel marino | Marine diesel
+      "SP22" | IFO380 | IFO380
+      "SP23" | Diésel industrial | Industrial diesel
+      "SP24" | Diésel de Ultra Bajo Azufre (DUBA) | Ultra low sulfur diesel (ULSD)
+      "SP25" | Diésel agrícola | Agricultural diesel
+      "SP48" | Gasóleo doméstico | Domestic gas oil
+
       ### Relación entre facturas
 
       (Relation between invoices)
@@ -11303,7 +11339,32 @@ components:
       properties:
         tipo_permiso:
           type: string
-          description: Type of permit granted by the competent authority, according to the c_TipoPermiso catalog.
+          enum:
+            - PER01
+            - PER02
+            - PER03
+            - PER04
+            - PER05
+            - PER06
+            - PER07
+            - PER08
+            - PER09
+            - PER10
+            - PER11
+          example: PER01
+          description: Type of permit granted by the competent authority, according to the [Hydrocarbons and Petroleum Catalogs](#cat%C3%A1logos-hidrocarburos-petrol%C3%ADferos).
+          x-enum-descriptions:
+            - Expendio en estaciones de servicio de petroliferos
+            - Comercializacion
+            - Distribucion por otros medios distintos a ducto
+            - Expendio en estaciones de servicio multimodal de petroliferos
+            - Expendio en estaciones de servicio de petroliferos
+            - Comercializacion
+            - Distribucion por otros medios distintos a ducto
+            - Expendio en estaciones de servicio multimodal de petroliferos
+            - Comercializacion
+            - Comercializacion
+            - Comercializacion
         numero_permiso:
           type: string
           minLength: 15
@@ -11311,13 +11372,43 @@ components:
           description: Permit number granted by the competent authority, according to the c_TipoPermiso catalog nomenclature.
         sub_producto_hyp:
           type: string
-          description: Hydrocarbon or petroleum subproduct, according to the c_SubProductoHYP catalog.
+          enum:
+            - SP16
+            - SP17
+            - SP18
+            - SP19
+            - SP22
+            - SP23
+            - SP24
+            - SP25
+            - SP48
+          example: SP16
+          description: Hydrocarbon or petroleum subproduct, according to the [Hydrocarbons and Petroleum Catalogs](#cat%C3%A1logos-hidrocarburos-petrol%C3%ADferos).
+          x-enum-descriptions:
+            - Gasolina regular menor a 91 octanos
+            - Gasolina premium mayor o igual a 91 octanos
+            - Diésel automotriz
+            - Diésel marino
+            - IFO380
+            - Diésel industrial
+            - Diésel de Ultra Bajo Azufre (DUBA)
+            - Diésel agrícola
+            - Gasóleo doméstico
         clave_hyp:
           type: string
+          enum:
+            - "15101514"
+            - "15101515"
+            - "15101505"
+          example: "15101514"
           description: |
-            Hydrocarbon and petroleum key, according to the c_ClaveHYP catalog.
+            Hydrocarbon and petroleum key, according to the [Hydrocarbons and Petroleum Catalogs](#cat%C3%A1logos-hidrocarburos-petrol%C3%ADferos).
 
             You can send it explicitly or let Facturapi derive it from the concept's `product_key` when applicable.
+          x-enum-descriptions:
+            - Gasolina
+            - Diesel
+            - Combustibles para barco
 
     CustomComplementData:
       title: string

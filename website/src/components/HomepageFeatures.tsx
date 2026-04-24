@@ -91,7 +91,7 @@ function Feature({ title, image, description, linkTo, linkText }: FeatureItem) {
   );
 }
 
-export default function HomepageFeatures(): JSX.Element {
+export default function HomepageFeatures(): React.ReactElement {
   const { siteConfig } = useDocusaurusContext();
   return (
     <section className={styles.features}>

@@ -1,0 +1,83 @@
+---
+sidebar_position: 6
+---
+
+# Rate limits
+
+To keep the API stable for everyone, Facturapi applies request rate and concurrency limits.
+
+These limits **may change** over time as the product and traffic patterns evolve.
+Because of this, we recommend building your integration to explicitly handle `429 Too Many Requests`.
+
+## What to expect
+
+The API applies different policies depending on the operation type (for example):
+
+- Detail reads.
+- Search/list reads.
+- Resource creation.
+- Writes.
+- Heavier write operations.
+
+Limits are evaluated by authenticated identity (organization or user). If a request does not include an authenticated identity, IP-based limiting is applied.
+
+We apply the same rate-limit policy in test and live mode for a consistent experience across development and production.
+
+:::info
+Under normal integration behavior, you should not run into issues with these limits.
+
+We do not publish exact per-endpoint thresholds to reduce targeted abuse and preserve global reliability.
+:::
+
+## Response when you hit the limit
+
+When a request exceeds the limit, the API returns:
+
+- `429 Too Many Requests`
+- `Retry-After` header (recommended seconds before retrying)
+- `RATE_LIMIT_EXCEEDED` error code
+
+### Example `429` handling
+
+```javascript
+async function requestWithRetry(call, { maxRetries = 5 } = {}) {
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await call();
+    } catch (err) {
+      const status = err?.response?.status;
+      if (status !== 429 || attempt === maxRetries) {
+        throw err;
+      }
+
+      const retryAfter = Number(err?.response?.headers?.['retry-after'] || 1);
+      const jitterMs = Math.floor(Math.random() * 250);
+      await new Promise((resolve) => setTimeout(resolve, retryAfter * 1000 + jitterMs));
+    }
+  }
+}
+```
+
+## Integration recommendations
+
+### 1) Use queues for writes
+
+Process invoice creation with workers and controlled concurrency, instead of sending large synchronous bursts from web requests.
+
+### 2) Implement exponential backoff with jitter
+
+Avoid immediate synchronized retries. Always honor `Retry-After`.
+
+### 3) Reuse previously created resources
+
+Store `id` values for customers, products, and other resources so you do not recreate them on every operation.
+
+### 4) Treat `429` as a normal integration scenario
+
+Include retries with backoff and jitter, and always honor `Retry-After`.
+
+## Operational best practices
+
+- Include and preserve `X-Facturapi-Log-Id` in your observability stack to correlate incidents.
+- Add alerts for `429` rate and p95/p99 latency.
+- If your integration needs higher limits, contact support to increase them for your organization.

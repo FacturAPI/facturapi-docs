@@ -135,6 +135,40 @@ tags:
       "CP01" | Pagos |  601, 603, 605, 606, 608, 610, 611, 612, 614, 616, 620, 621, 622, 623, 624, 607, 615, 625, 626
       "CN01" | Nómina | 605
 
+      ### Catálogos Hidrocarburos Petrolíferos
+
+      Clave de permiso | Descripción
+      :-----:| -----------
+      "PER01" | Expendio en estaciones de servicio de petrolíferos
+      "PER02" | Comercialización
+      "PER03" | Distribución por otros medios distintos a ducto
+      "PER04" | Expendio en estaciones de servicio multimodal de petrolíferos
+      "PER05" | Expendio en estaciones de servicio de petrolíferos
+      "PER06" | Comercialización
+      "PER07" | Distribución por otros medios distintos a ducto
+      "PER08" | Expendio en estaciones de servicio multimodal de petrolíferos
+      "PER09" | Comercialización
+      "PER10" | Comercialización
+      "PER11" | Comercialización
+
+      Clave HYP | Descripción
+      :-----:| -----------
+      "15101514" | Gasolina
+      "15101515" | Diesel
+      "15101505" | Combustibles para barco
+
+      Subproducto HYP | Descripción
+      :-----:| -----------
+      "SP16" | Gasolina regular menor a 91 octanos
+      "SP17" | Gasolina premium mayor o igual a 91 octanos
+      "SP18" | Diésel automotriz
+      "SP19" | Diésel marino
+      "SP22" | IFO380
+      "SP23" | Diésel industrial
+      "SP24" | Diésel de Ultra Bajo Azufre (DUBA)
+      "SP25" | Diésel agrícola
+      "SP48" | Gasóleo doméstico
+
       ### Relación entre facturas
 
       Clave | Descripción
@@ -11365,9 +11399,12 @@ components:
             type: string
           description: Números de pedimento asociados a este concepto.
         complement:
-          type: string
-          format: xml
-          description: Código XML de tu complemento concepto.
+          description: Código XML de tu complemento concepto o el complemento Hidrocarburos y Petrolíferos.
+          oneOf:
+            - type: string
+              format: xml
+              description: Código XML de tu complemento concepto.
+            - $ref: "#/components/schemas/HidroYPetroComplementInput"
         third_party:
           allOf:
             - type: object
@@ -11415,9 +11452,12 @@ components:
             type: string
           description: Números de pedimento asociados a este concepto.
         complement:
-          type: string
-          format: xml
-          description: Código XML de tu complemento concepto.
+          description: Código XML de tu complemento concepto o el complemento Hidrocarburos y Petrolíferos.
+          oneOf:
+            - type: string
+              format: xml
+              description: Código XML de tu complemento concepto.
+            - $ref: "#/components/schemas/HidroYPetroComplementInput"
         third_party:
           allOf:
             - type: object
@@ -11485,6 +11525,86 @@ components:
               type: string
               description: Código postal del tercero.
               example: "01234"
+    HidroYPetroComplementInput:
+      title: HidroYPetroComplement
+      type: object
+      required:
+        - tipo_permiso
+        - numero_permiso
+        - sub_producto_hyp
+      properties:
+        tipo_permiso:
+          type: string
+          enum:
+            - PER01
+            - PER02
+            - PER03
+            - PER04
+            - PER05
+            - PER06
+            - PER07
+            - PER08
+            - PER09
+            - PER10
+            - PER11
+          example: PER01
+          description: Tipo de permiso otorgado por la autoridad competente, conforme al [Catálogo Hidrocarburos Petrolíferos](#cat%C3%A1logos-hidrocarburos-petrol%C3%ADferos).
+          x-enum-descriptions:
+            - Expendio en estaciones de servicio de petroliferos
+            - Comercializacion
+            - Distribucion por otros medios distintos a ducto
+            - Expendio en estaciones de servicio multimodal de petroliferos
+            - Expendio en estaciones de servicio de petroliferos
+            - Comercializacion
+            - Distribucion por otros medios distintos a ducto
+            - Expendio en estaciones de servicio multimodal de petroliferos
+            - Comercializacion
+            - Comercializacion
+            - Comercializacion
+        numero_permiso:
+          type: string
+          minLength: 15
+          maxLength: 35
+          description: Número de permiso otorgado por la autoridad competente, conforme a la nomenclatura del catálogo c_TipoPermiso.
+        sub_producto_hyp:
+          type: string
+          enum:
+            - SP16
+            - SP17
+            - SP18
+            - SP19
+            - SP22
+            - SP23
+            - SP24
+            - SP25
+            - SP48
+          example: SP16
+          description: Subtipo del hidrocarburo o petrolífero, conforme al [Catálogo Hidrocarburos Petrolíferos](#cat%C3%A1logos-hidrocarburos-petrol%C3%ADferos).
+          x-enum-descriptions:
+            - Gasolina regular menor a 91 octanos
+            - Gasolina premium mayor o igual a 91 octanos
+            - Diésel automotriz
+            - Diésel marino
+            - IFO380
+            - Diésel industrial
+            - Diésel de Ultra Bajo Azufre (DUBA)
+            - Diésel agrícola
+            - Gasóleo doméstico
+        clave_hyp:
+          type: string
+          enum:
+            - "15101514"
+            - "15101515"
+            - "15101505"
+          example: "15101514"
+          description: |
+            Clave correspondiente a hidrocarburos y petrolíferos, conforme al [Catálogo Hidrocarburos Petrolíferos](#cat%C3%A1logos-hidrocarburos-petrol%C3%ADferos).
+
+            Puedes enviarla explícitamente o dejar que Facturapi la derive desde el `product_key` del concepto cuando aplique.
+          x-enum-descriptions:
+            - Gasolina
+            - Diesel
+            - Combustibles para barco
 
     CustomComplementData:
       title: string

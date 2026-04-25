@@ -1,0 +1,83 @@
+---
+sidebar_position: 6
+---
+
+# Límites de tasa (Rate limits)
+
+Para mantener la API estable para todos, Facturapi aplica límites de tasa y de concurrencia.
+
+Estos límites **pueden cambiar** con el tiempo conforme evoluciona el producto y los patrones de uso.
+Por eso recomendamos diseñar tu integración para tolerar `429 Too Many Requests` de forma explícita.
+
+## Qué puedes esperar
+
+La API aplica políticas distintas según el tipo de operación (por ejemplo):
+
+- Lecturas de detalle.
+- Lecturas con búsqueda/listado.
+- Creación de recursos.
+- Escrituras.
+- Operaciones de escritura más costosas.
+
+Los límites se evalúan por identidad autenticada (organización o usuario). Si una solicitud no incluye una identidad autenticada, se aplica el control por IP.
+
+En entorno test y live aplicamos la misma política de límites para mantener una experiencia consistente durante desarrollo y producción.
+
+:::info
+En condiciones normales de integración no deberías tener problemas con estos límites.
+
+No publicamos umbrales exactos por endpoint para evitar abuso dirigido y preservar la confiabilidad global.
+:::
+
+## Respuesta cuando excediste el límite
+
+Cuando una solicitud excede el límite, la API responde con:
+
+- `429 Too Many Requests`
+- header `Retry-After` (segundos sugeridos antes de reintentar)
+- código de error `RATE_LIMIT_EXCEEDED`
+
+### Ejemplo de manejo de `429`
+
+```javascript
+async function requestWithRetry(call, { maxRetries = 5 } = {}) {
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await call();
+    } catch (err) {
+      const status = err?.response?.status;
+      if (status !== 429 || attempt === maxRetries) {
+        throw err;
+      }
+
+      const retryAfter = Number(err?.response?.headers?.['retry-after'] || 1);
+      const jitterMs = Math.floor(Math.random() * 250);
+      await new Promise((resolve) => setTimeout(resolve, retryAfter * 1000 + jitterMs));
+    }
+  }
+}
+```
+
+## Recomendaciones de integración
+
+### 1) Usa colas para escrituras
+
+Procesa creación de comprobantes con workers y concurrencia controlada, en lugar de disparar ráfagas masivas desde requests web síncronas.
+
+### 2) Implementa backoff exponencial con jitter
+
+Evita reintentos inmediatos y sincronizados. Respeta siempre `Retry-After`.
+
+### 3) Reutiliza recursos ya creados
+
+Guarda `id` de clientes, productos y otros recursos para no recrearlos en cada operación.
+
+### 4) Maneja `429` como parte normal del flujo
+
+Incluye reintentos con backoff y jitter, y respeta siempre `Retry-After`.
+
+## Buenas prácticas operativas
+
+- Incluye y conserva `X-Facturapi-Log-Id` en tu observabilidad para correlacionar incidentes.
+- Define alertas por tasa de `429` y latencia p95/p99.
+- Si tu integración requiere límites más altos, contacta a soporte para incrementarlos para tu organización.

@@ -5330,6 +5330,270 @@ paths:
           $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /receipts/to-invoice:
+    post:
+      operationId: createToInvoiceFromReceipts
+      tags:
+        - receipt
+      summary: Create invoice from multiple receipts
+      description: |
+        Creates a single invoice from multiple receipts selected by their `key`.
+
+        If `dry_run` is `true`, the endpoint does not create the invoice and returns a summary preview.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/receipts/to-invoice \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                    "keys": ["ticket_1001", "ticket_1002"],
+                    "customer": {
+                      "legal_name": "Dunder Mifflin",
+                      "tax_id": "ABC101010111",
+                      "tax_system": "601",
+                      "email": "email@example.com",
+                      "address": {
+                        "zip": "85900"
+                      }
+                    },
+                    "use": "G03",
+                    "payment_form": "03"
+                  }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            const invoice = await facturapi.receipts.toInvoice({
+              keys: ['ticket_1001', 'ticket_1002'],
+              customer: {
+                legal_name: 'Dunder Mifflin',
+                tax_id: 'ABC101010111',
+                tax_system: '601',
+                email: 'email@example.com',
+                address: {
+                  zip: '85900'
+                }
+              },
+              use: 'G03',
+              payment_form: Facturapi.PaymentForm.TRANSFERENCIA_ELECTRONICA_DE_FONDOS
+            });
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var invoice = await facturapi.Receipt.ToInvoiceAsync(new Dictionary<string, object>
+            {
+              ["keys"] = new[] { "ticket_1001", "ticket_1002" },
+              ["customer"] = new Dictionary<string, object>
+              {
+                ["legal_name"] = "Dunder Mifflin",
+                ["tax_id"] = "ABC101010111",
+                ["tax_system"] = "601",
+                ["email"] = "email@example.com",
+                ["address"] = new Dictionary<string, object>
+                {
+                  ["zip"] = "85900"
+                }
+              },
+              ["use"] = "G03",
+              ["payment_form"] = Facturapi.PaymentForm.TRANSFERENCIA_ELECTRONICA_DE_FONDOS
+            });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var invoice = facturapi.receipts().toInvoice(
+                Map.of(
+                    "keys", List.of("ticket_1001", "ticket_1002"),
+                    "customer", Map.of(
+                        "legal_name", "Dunder Mifflin",
+                        "tax_id", "ABC101010111",
+                        "tax_system", "601",
+                        "address", Map.of("zip", "85900")
+                    ),
+                    "use", "G03",
+                    "payment_form", "03"
+                )
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+
+            $invoice = $facturapi->Receipts->toInvoice([
+              "keys" => ["ticket_1001", "ticket_1002"],
+              "customer" => [
+                "legal_name" => "Dunder Mifflin",
+                "tax_id" => "ABC101010111",
+                "tax_system" => "601",
+                "email" => "email@example.com",
+                "address" => [
+                  "zip" => "85900"
+                ]
+              ],
+              "use" => "G03",
+              "payment_form" => \Facturapi\PaymentForm::TRANSFERENCIA_ELECTRONICA_DE_FONDOS
+            ]);
+      requestBody:
+        $ref: "#/components/requestBodies/ReceiptCreateToInvoice"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Created `Invoice` object or summary object when `dry_run=true`
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/Invoice"
+                  - $ref: "#/components/schemas/ToInvoiceSummary"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          description: No eligible receipts found for the provided keys
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ToInvoiceNotFoundResponse"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /receipts/to-invoice/preview:
+    post:
+      operationId: previewToInvoiceFromReceipts
+      tags:
+        - receipt
+      summary: Preview PDF for multiple receipts invoice
+      description: |
+        Generates a PDF preview for an invoice built from multiple receipts selected by their `key`.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/receipts/to-invoice/preview \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                    "keys": ["ticket_1001", "ticket_1002"],
+                    "customer": {
+                      "legal_name": "Dunder Mifflin",
+                      "tax_id": "ABC101010111",
+                      "tax_system": "601",
+                      "address": {
+                        "zip": "85900"
+                      }
+                    },
+                    "use": "G03"
+                  }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            import fs from 'fs'
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            const pdfStream = await facturapi.receipts.previewToInvoicePdf({
+              keys: ['ticket_1001', 'ticket_1002'],
+              customer: {
+                legal_name: 'Dunder Mifflin',
+                tax_id: 'ABC101010111',
+                tax_system: '601',
+                address: {
+                  zip: '85900'
+                }
+              },
+              use: 'G03'
+            });
+
+            const file = fs.createWriteStream('to_invoice_preview.pdf');
+            pdfStream.pipe(file);
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var pdfStream = await facturapi.Receipt.PreviewToInvoicePdfAsync(new Dictionary<string, object>
+            {
+              ["keys"] = new[] { "ticket_1001", "ticket_1002" },
+              ["customer"] = new Dictionary<string, object>
+              {
+                ["legal_name"] = "Dunder Mifflin",
+                ["tax_id"] = "ABC101010111",
+                ["tax_system"] = "601",
+                ["address"] = new Dictionary<string, object>
+                {
+                  ["zip"] = "85900"
+                }
+              },
+              ["use"] = "G03"
+            });
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var pdf = facturapi.receipts().previewToInvoicePdf(
+                Map.of(
+                    "keys", List.of("ticket_1001", "ticket_1002"),
+                    "customer", Map.of(
+                        "legal_name", "Dunder Mifflin",
+                        "tax_id", "ABC101010111",
+                        "tax_system", "601",
+                        "address", Map.of("zip", "85900")
+                    ),
+                    "use", "G03"
+                )
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+
+            $pdfBytes = $facturapi->Receipts->previewToInvoicePdf([
+              "keys" => ["ticket_1001", "ticket_1002"],
+              "customer" => [
+                "legal_name" => "Dunder Mifflin",
+                "tax_id" => "ABC101010111",
+                "tax_system" => "601",
+                "address" => [
+                  "zip" => "85900"
+                ]
+              ],
+              "use" => "G03"
+            ]);
+      requestBody:
+        $ref: "#/components/requestBodies/ReceiptPreviewToInvoice"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: PDF binary content
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        "204":
+          description: No eligible receipts found for the provided keys
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
   /receipts/global-invoice:
     post:
       operationId: createGlobalInvoice
@@ -10596,6 +10860,18 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/GlobalInvoiceInput"
+    ReceiptCreateToInvoice:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ToInvoiceInput"
+    ReceiptPreviewToInvoice:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ToInvoicePreviewInput"
     RetentionCreate:
       required: true
       content:
@@ -15381,6 +15657,87 @@ components:
             maxLength: 24
             description: ID of a receipt previously registered in Facturapi.
             example: 614496b471d422de4b6cfcc4
+    ToInvoiceInput:
+      type: object
+      required:
+        - keys
+      properties:
+        keys:
+          type: array
+          minItems: 1
+          maxItems: 1000
+          description: List of receipt keys to include in the invoice.
+          items:
+            type: string
+            description: Receipt key.
+            example: ticket_1001
+        customer:
+          allOf:
+            - $ref: "#/components/schemas/CustomerCreateInput"
+          description: |
+            Customer receiving the invoice. Required unless `dry_run` is `true`.
+        use:
+          type: string
+          default: G01
+          description: CFDI Use code according to SAT catalog.
+        dry_run:
+          type: boolean
+          default: false
+          description: If `true`, only validates data and returns a summary without creating the invoice.
+        payment_form:
+          type: string
+          nullable: true
+          minLength: 2
+          maxLength: 2
+          example: "03"
+          description: |
+            Payment form code according to the [Payment Form catalog](#forma-de-pago).
+    ToInvoicePreviewInput:
+      type: object
+      required:
+        - keys
+      properties:
+        keys:
+          type: array
+          minItems: 1
+          maxItems: 1000
+          description: List of receipt keys to include in the preview.
+          items:
+            type: string
+            description: Receipt key.
+            example: ticket_1001
+        customer:
+          nullable: true
+          allOf:
+            - $ref: "#/components/schemas/CustomerCreateInput"
+          description: Optional customer information used for preview rendering.
+        use:
+          type: string
+          default: G01
+          description: CFDI Use code according to SAT catalog.
+    ToInvoiceSummary:
+      type: object
+      description: Summary object returned when `dry_run=true`.
+    ToInvoiceNotFoundResponse:
+      type: object
+      required:
+        - invoice
+        - summary
+        - missingKeys
+      properties:
+        invoice:
+          nullable: true
+          type: object
+          description: Always `null` when no invoice was created.
+        summary:
+          nullable: true
+          type: object
+          description: Summary preview when available.
+        missingKeys:
+          type: array
+          description: Receipt keys that were not found or not eligible.
+          items:
+            type: string
     Retention:
       title: Retention object
       allOf:

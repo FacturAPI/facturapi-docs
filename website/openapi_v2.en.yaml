@@ -14522,6 +14522,16 @@ components:
               default: true
               description: |
                 Show the product/service key.
+            address_codes:
+              type: boolean
+              default: true
+              description: |
+                Show standardized state and country codes in the PDF.
+            export_key:
+              type: boolean
+              default: false
+              description: |
+                Show the export key in the PDF.
             round_unit_price:
               type: boolean
               default: false
@@ -14547,6 +14557,41 @@ components:
               default: false
               description: |
                 Render the Carta Porte 3.1 Complement in the pdf.
+            render_iedu:
+              type: boolean
+              default: false
+              description: |
+                Render the Private Education Institutions complement in the PDF.
+            render_hyp_complement:
+              type: boolean
+              default: false
+              description: |
+                Render the hydrocarbons and petroleum complement in the PDF.
+            render_comercio_exterior:
+              type: boolean
+              default: false
+              description: |
+                Render the foreign trade complement in the PDF.
+            repeat_signature:
+              type: boolean
+              default: false
+              description: |
+                Repeat the digital signature on each page of the PDF.
+            payroll_options:
+              type: object
+              properties:
+                tipo_contrato:
+                  type: boolean
+                  default: false
+                puesto:
+                  type: boolean
+                  default: false
+                riesgo_puesto:
+                  type: boolean
+                  default: false
+                antiguedad:
+                  type: boolean
+                  default: false
     InvoiceableCommonEditInput:
       type: object
       properties:
@@ -14592,6 +14637,16 @@ components:
               default: true
               description: |
                 Show the product/service key.
+            address_codes:
+              type: boolean
+              default: true
+              description: |
+                Show standardized state and country codes in the PDF.
+            export_key:
+              type: boolean
+              default: false
+              description: |
+                Show the export key in the PDF.
             round_unit_price:
               type: boolean
               default: false
@@ -14617,6 +14672,41 @@ components:
               default: false
               description: |
                 Render the Carta Porte 3.1 Complement in the pdf.
+            render_iedu:
+              type: boolean
+              default: false
+              description: |
+                Render the Private Education Institutions complement in the PDF.
+            render_hyp_complement:
+              type: boolean
+              default: false
+              description: |
+                Render the hydrocarbons and petroleum complement in the PDF.
+            render_comercio_exterior:
+              type: boolean
+              default: false
+              description: |
+                Render the foreign trade complement in the PDF.
+            repeat_signature:
+              type: boolean
+              default: false
+              description: |
+                Repeat the digital signature on each page of the PDF.
+            payroll_options:
+              type: object
+              properties:
+                tipo_contrato:
+                  type: boolean
+                  default: false
+                puesto:
+                  type: boolean
+                  default: false
+                riesgo_puesto:
+                  type: boolean
+                  default: false
+                antiguedad:
+                  type: boolean
+                  default: false
     InvoiceCommonInputProperties:
       allOf:
         - type: object
@@ -16202,6 +16292,11 @@ components:
                   default: true
                   description: |
                     Show the product-service key.
+                export_key:
+                  type: boolean
+                  default: false
+                  description: |
+                    Show the export key in the PDF.
                 round_unit_price:
                   type: boolean
                   default: false
@@ -16232,6 +16327,36 @@ components:
                   default: false
                   description: |
                     Repeat the digital signature on each page of the PDF.
+                render_iedu:
+                  type: boolean
+                  default: false
+                  description: |
+                    Render the Private Education Institutions complement in the PDF.
+                render_hyp_complement:
+                  type: boolean
+                  default: false
+                  description: |
+                    Render the hydrocarbons and petroleum complement in the PDF.
+                render_comercio_exterior:
+                  type: boolean
+                  default: false
+                  description: |
+                    Render the foreign trade complement in the PDF.
+                payroll_options:
+                  type: object
+                  properties:
+                    tipo_contrato:
+                      type: boolean
+                      default: false
+                    puesto:
+                      type: boolean
+                      default: false
+                    riesgo_puesto:
+                      type: boolean
+                      default: false
+                    antiguedad:
+                      type: boolean
+                      default: false
         certificate:
           type: object
           description: |
@@ -16460,6 +16585,16 @@ components:
               default: true
               description: |
                 Show the product-service key.
+            address_codes:
+              type: boolean
+              default: true
+              description: |
+                Show standardized state and country codes in the PDF.
+            export_key:
+              type: boolean
+              default: false
+              description: |
+                Show the export key in the PDF.
             round_unit_price:
               type: boolean
               default: false
@@ -16484,7 +16619,42 @@ components:
               type: boolean
               default: false
               description: |
-                Render the Carta Porte 3.1 Complement in the pdf.                
+                Render the Carta Porte 3.1 Complement in the pdf.
+            render_iedu:
+              type: boolean
+              default: false
+              description: |
+                Render the Private Education Institutions complement in the PDF.
+            render_hyp_complement:
+              type: boolean
+              default: false
+              description: |
+                Render the hydrocarbons and petroleum complement in the PDF.
+            render_comercio_exterior:
+              type: boolean
+              default: false
+              description: |
+                Render the foreign trade complement in the PDF.
+            repeat_signature:
+              type: boolean
+              default: false
+              description: |
+                Repeat the digital signature on each page of the PDF.
+            payroll_options:
+              type: object
+              properties:
+                tipo_contrato:
+                  type: boolean
+                  default: false
+                puesto:
+                  type: boolean
+                  default: false
+                riesgo_puesto:
+                  type: boolean
+                  default: false
+                antiguedad:
+                  type: boolean
+                  default: false
     OrganizationReceiptsInput:
       type: object
       properties:

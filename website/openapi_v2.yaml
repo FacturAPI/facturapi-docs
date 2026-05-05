@@ -6660,7 +6660,7 @@ paths:
         la organización, deberás de terminar de configurarla llamando a los
         métodos de [Actualizar datos fiscales](#tag/organization/operation/editOrganizationLegal) y
         [Subir certificados (CSD)](#tag/organization/operation/uploadOrganizationCertificate), 
-        además de firmar la Carta Manifieso que autoriza a nuestro PAC a timbrar facturas; 
+        además de firmar la Carta Manifiesto que autoriza a nuestro PAC a timbrar facturas; 
         puedes hacerlo en [tu dashboard](https://dashboard.facturapi.io/settings/manifiesto) 
         o en [nuestro portal público](https://www.facturapi.io/manifiesto). También puedes incrustar 
         en tu solución el módulo de firma de la carta (sin logos, listo para iframe): https://www.facturapi.io/embedded/manifiesto

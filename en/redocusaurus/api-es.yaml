@@ -16012,6 +16012,17 @@ components:
               default: true
               description: |
                 Mostrar la clave de producto-servicio.
+            address_codes:
+              type: boolean
+              default: true
+              description: >
+                Mostrar los códigos estandarizados de estado y de país en el
+                PDF.
+            export_key:
+              type: boolean
+              default: false
+              description: |
+                Mostrar la clave de exportación en el PDF.
             round_unit_price:
               type: boolean
               default: false
@@ -16041,8 +16052,44 @@ components:
               default: false
               description: >
                 Renderizar el complemento de Carta Porte 3.1 en el PDF sólo si
-                el complemento de carta porte está incluido en la
-                factura.                
+                el complemento de carta porte está incluido en la factura.
+            render_iedu:
+              type: boolean
+              default: false
+              description: >
+                Renderizar el complemento de Instituciones Educativas Privadas
+                en el PDF.
+            render_hyp_complement:
+              type: boolean
+              default: false
+              description: >
+                Renderizar el complemento de hidrocarburos y petrolíferos en el
+                PDF.
+            render_comercio_exterior:
+              type: boolean
+              default: false
+              description: |
+                Renderizar el complemento de comercio exterior en el PDF.
+            repeat_signature:
+              type: boolean
+              default: false
+              description: |
+                Repetir la firma electrónica en cada página del PDF.
+            payroll_options:
+              type: object
+              properties:
+                tipo_contrato:
+                  type: boolean
+                  default: false
+                puesto:
+                  type: boolean
+                  default: false
+                riesgo_puesto:
+                  type: boolean
+                  default: false
+                antiguedad:
+                  type: boolean
+                  default: false
     InvoiceableCommonEditInput:
       type: object
       properties:
@@ -16106,6 +16153,17 @@ components:
               default: true
               description: |
                 Mostrar la clave de producto-servicio.
+            address_codes:
+              type: boolean
+              default: true
+              description: >
+                Mostrar los códigos estandarizados de estado y de país en el
+                PDF.
+            export_key:
+              type: boolean
+              default: false
+              description: |
+                Mostrar la clave de exportación en el PDF.
             round_unit_price:
               type: boolean
               default: false
@@ -16136,6 +16194,43 @@ components:
               description: >
                 Renderizar el complemento de Carta Porte 3.1 en el PDF sólo si
                 el complemento de carta porte está incluido en la factura.
+            render_iedu:
+              type: boolean
+              default: false
+              description: >
+                Renderizar el complemento de Instituciones Educativas Privadas
+                en el PDF.
+            render_hyp_complement:
+              type: boolean
+              default: false
+              description: >
+                Renderizar el complemento de hidrocarburos y petrolíferos en el
+                PDF.
+            render_comercio_exterior:
+              type: boolean
+              default: false
+              description: |
+                Renderizar el complemento de comercio exterior en el PDF.
+            repeat_signature:
+              type: boolean
+              default: false
+              description: |
+                Repetir la firma electrónica en cada página del PDF.
+            payroll_options:
+              type: object
+              properties:
+                tipo_contrato:
+                  type: boolean
+                  default: false
+                puesto:
+                  type: boolean
+                  default: false
+                riesgo_puesto:
+                  type: boolean
+                  default: false
+                antiguedad:
+                  type: boolean
+                  default: false
     InvoiceCommonInputProperties:
       allOf:
         - type: object
@@ -18102,6 +18197,11 @@ components:
                   default: true
                   description: |
                     Mostrar la clave de producto-servicio.
+                export_key:
+                  type: boolean
+                  default: false
+                  description: |
+                    Mostrar la clave de exportación en el PDF.
                 round_unit_price:
                   type: boolean
                   default: false
@@ -18140,6 +18240,38 @@ components:
                   description: >
                     Repetir la firma electrónica en cada página del PDF. Si se
                     desactiva, la firma electrónica sólo se mostrará una vez.
+                render_iedu:
+                  type: boolean
+                  default: false
+                  description: >
+                    Renderizar el complemento de Instituciones Educativas
+                    Privadas en el PDF.
+                render_hyp_complement:
+                  type: boolean
+                  default: false
+                  description: >
+                    Renderizar el complemento de hidrocarburos y petrolíferos en
+                    el PDF.
+                render_comercio_exterior:
+                  type: boolean
+                  default: false
+                  description: |
+                    Renderizar el complemento de comercio exterior en el PDF.
+                payroll_options:
+                  type: object
+                  properties:
+                    tipo_contrato:
+                      type: boolean
+                      default: false
+                    puesto:
+                      type: boolean
+                      default: false
+                    riesgo_puesto:
+                      type: boolean
+                      default: false
+                    antiguedad:
+                      type: boolean
+                      default: false
         certificate:
           type: object
           description: >
@@ -18414,6 +18546,17 @@ components:
               default: true
               description: |
                 Mostrar la clave de producto-servicio.
+            address_codes:
+              type: boolean
+              default: true
+              description: >
+                Mostrar los códigos estandarizados de estado y de país en el
+                PDF.
+            export_key:
+              type: boolean
+              default: false
+              description: |
+                Mostrar la clave de exportación en el PDF.
             round_unit_price:
               type: boolean
               default: false
@@ -18443,7 +18586,44 @@ components:
               default: false
               description: >
                 Renderizar el complemento de Carta Porte 3.1 en el PDF sólo si
-                el complemento de carta porte está incluido en la factura.    
+                el complemento de carta porte está incluido en la factura.
+            render_iedu:
+              type: boolean
+              default: false
+              description: >
+                Renderizar el complemento de Instituciones Educativas Privadas
+                en el PDF.
+            render_hyp_complement:
+              type: boolean
+              default: false
+              description: >
+                Renderizar el complemento de hidrocarburos y petrolíferos en el
+                PDF.
+            render_comercio_exterior:
+              type: boolean
+              default: false
+              description: |
+                Renderizar el complemento de comercio exterior en el PDF.
+            repeat_signature:
+              type: boolean
+              default: false
+              description: |
+                Repetir la firma electrónica en cada página del PDF.
+            payroll_options:
+              type: object
+              properties:
+                tipo_contrato:
+                  type: boolean
+                  default: false
+                puesto:
+                  type: boolean
+                  default: false
+                riesgo_puesto:
+                  type: boolean
+                  default: false
+                antiguedad:
+                  type: boolean
+                  default: false
     OrganizationReceiptsInput:
       type: object
       properties:

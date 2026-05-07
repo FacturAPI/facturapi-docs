@@ -18368,8 +18368,6 @@ components:
               description: Fiscal address of the issuing organization.
               required:
                 - zip
-                - street
-                - exterior
             - $ref: '#/components/schemas/OrganizationAddress'
     OrganizationCertsInput:
       type: object

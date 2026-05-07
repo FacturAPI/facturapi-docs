@@ -18679,8 +18679,6 @@ components:
               description: Domicilio fiscal de la organización emisora.
               required:
                 - zip
-                - street
-                - exterior
             - $ref: '#/components/schemas/OrganizationAddress'
     OrganizationCertsInput:
       type: object

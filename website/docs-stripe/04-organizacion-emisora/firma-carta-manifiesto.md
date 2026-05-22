@@ -1,6 +1,3 @@
----
-sidebar_position: 999
----
 # Firma de Carta Manifiesto (Requisito SAT)
 
 En `Configuración > Firma de Carta Manifiesto` [firma la carta](https://dashboard.facturapi.io/settings/manifiesto) para cumplir con la RMF vigente.

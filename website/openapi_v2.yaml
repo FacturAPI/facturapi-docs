@@ -7110,7 +7110,6 @@ paths:
         $ref: "#/components/requestBodies/OrganizationEditLegal"
       security:
         - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -7222,7 +7221,6 @@ paths:
         $ref: "#/components/requestBodies/OrganizationUploadCerts"
       security:
         - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -7297,7 +7295,6 @@ paths:
           description: ID de la organización
       security:
         - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -7306,6 +7303,58 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/OrganizationDeleteCerts"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/fiel:
+    put:
+      operationId: uploadOrganizationFiel
+      tags:
+        - organization
+      summary: Subir certificado FIEL
+      description: |
+        Sube los archivos de la e.firma (FIEL) de la organización.
+
+        La e.firma (FIEL) no es necesaria para crear CFDI. Para timbrar CFDI
+        solo necesitas cargar el Certificado de Sello Digital (CSD). La FIEL es
+        necesaria para utilizar la descarga masiva de CFDI.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/organizations/me/fiel \
+              -X PUT \
+              -H "Authorization: Bearer sk_live_API_KEY" \
+              -H "Content-Type: multipart/form-data" \
+              -F 'cer=@/path/to/your/FIEL.cer' \
+              -F 'key=@/path/to/your/FIEL.key' \
+              -F 'password=CONTRASEÑA_DEL_CERTIFICADO'
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID de la organización. También puedes usar `me` con la Live Secret Key de la organización.
+      requestBody:
+        $ref: "#/components/requestBodies/OrganizationUploadFiel"
+      security:
+        - "SecretLiveKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Objeto `Organization` modificado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Organization"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -7396,7 +7445,6 @@ paths:
         $ref: "#/components/requestBodies/OrganizationUploadLogo"
       security:
         - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -7511,7 +7559,6 @@ paths:
         $ref: "#/components/requestBodies/OrganizationEditCustomization"
       security:
         - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -7617,7 +7664,6 @@ paths:
         $ref: "#/components/requestBodies/OrganizationEditReceiptsSettings"
       security:
         - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -7720,7 +7766,6 @@ paths:
         $ref: "#/components/requestBodies/OrganizationEditSelfInvoiceSettings"
       security:
         - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -7798,8 +7843,6 @@ paths:
           schema:
             $ref: "#/components/schemas/DomainField"
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -7905,7 +7948,6 @@ paths:
         $ref: "#/components/requestBodies/OrganizationEditDomain"
       security:
         - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -8051,8 +8093,6 @@ paths:
           required: true
           description: ID del objeto a eliminar
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -8124,8 +8164,6 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -8148,7 +8186,8 @@ paths:
       tags:
         - organization
       summary: Renovar Test API Key
-      description: Renueva la llave secreta de ambiente Test de la organización e invalida inmediatamente la anterior.
+      description: |
+        Renueva la llave secreta de ambiente Test de la organización e invalida inmediatamente la anterior.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -8198,8 +8237,6 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -8273,8 +8310,6 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -8308,10 +8343,11 @@ paths:
       operationId: renewLiveApiKey
       tags:
         - organization
-      summary: Renovar Live API Key
+      summary: Crear Live API Key
       description: |
         Genera una nueva llave secreta de ambiente Live de la organización.
-        Esta operación no invalida las llaves generadas previamente.
+        Esta operación no invalida las llaves generadas previamente. El endpoint usa `PUT`
+        por compatibilidad histórica, pero su comportamiento es crear una nueva llave.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -8361,8 +8397,6 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -8447,8 +8481,6 @@ paths:
           required: true
           description: ID de la llave secreta a eliminar
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -8537,7 +8569,6 @@ paths:
           description: ID de la organización
       security:
         - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -8645,7 +8676,6 @@ paths:
           description: ID de la organización
       security:
         - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -8745,7 +8775,6 @@ paths:
           description: ID de la organización
       security:
         - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -8849,7 +8878,6 @@ paths:
           description: Nombre de la serie
       security:
         - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -8933,7 +8961,6 @@ paths:
           description: Nombre de la serie
       security:
         - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -8999,8 +9026,6 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -9095,8 +9120,6 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationInviteCreate"
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -9163,8 +9186,6 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -9237,8 +9258,6 @@ paths:
           required: true
           description: ID del acceso
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -9310,8 +9329,6 @@ paths:
           required: true
           description: ID del acceso
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -9387,8 +9404,6 @@ paths:
           required: true
           description: Clave pública de la invitación.
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -9596,8 +9611,6 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -9679,8 +9692,6 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationPermissionRoleCreate"
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -9747,8 +9758,6 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -9813,8 +9822,6 @@ paths:
           required: true
           description: ID de la organización
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -9886,8 +9893,6 @@ paths:
           required: true
           description: ID del rol
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -9976,8 +9981,6 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationPermissionRoleUpdate"
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -10051,8 +10054,6 @@ paths:
           required: true
           description: ID del rol
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -10136,8 +10137,6 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/OrganizationUserAccessRoleUpdate"
       security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
         - "SecretUserKey": []
       responses:
         "200":
@@ -11291,6 +11290,12 @@ components:
         multipart/form-data:
           schema:
             $ref: "#/components/schemas/OrganizationCertsInput"
+    OrganizationUploadFiel:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/OrganizationFielInput"
     OrganizationUploadLogo:
       required: true
       content:
@@ -16801,7 +16806,7 @@ components:
               description: Número de serie del certificado CSD.
         fiel:
           type: object
-          description: Información sobre el certificado FIEL de la organización, que se utiliza para firmar retenciones.
+          description: Información sobre el certificado FIEL de la organización, que se utiliza para la descarga masiva de CFDI.
           properties:
             has_certificate:
               type: boolean
@@ -16958,6 +16963,24 @@ components:
         password:
           type: string
           description: Contraseña de la llave del certificado.
+    OrganizationFielInput:
+      type: object
+      required:
+        - cer
+        - key
+        - password
+      properties:
+        cer:
+          type: string
+          format: binary
+          description: Contenido binario del archivo con extensión `.cer` de la e.firma (FIEL).
+        key:
+          type: string
+          format: binary
+          description: Contenido binario del archivo con extensión `.key` de la e.firma (FIEL).
+        password:
+          type: string
+          description: Contraseña de la llave privada de la e.firma (FIEL).
     OrganizationLogoInput:
       type: object
       required:

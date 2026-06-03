@@ -11671,12 +11671,13 @@ components:
             type: string
           description: Customs entry numbers (pedimento) associated with this concept.
         complement:
-          description: XML code of your concept-level complement or the Hydrocarbons and Petroleum complement.
+          description: XML code of your concept-level complement, the Hydrocarbons and Petroleum complement, or the Private Education Institutions complement.
           oneOf:
             - type: string
               format: xml
               description: XML code of your concept-level complement.
             - $ref: "#/components/schemas/HidroYPetroComplementInput"
+            - $ref: "#/components/schemas/IeduComplementInput"
         third_party:
           allOf:
             - type: object
@@ -11724,12 +11725,13 @@ components:
             type: string
           description: Customs entry numbers (pedimento) associated with this concept.
         complement:
-          description: XML code of your concept-level complement or the Hydrocarbons and Petroleum complement.
+          description: XML code of your concept-level complement, the Hydrocarbons and Petroleum complement, or the Private Education Institutions complement.
           oneOf:
             - type: string
               format: xml
               description: XML code of your concept-level complement.
             - $ref: "#/components/schemas/HidroYPetroComplementInput"
+            - $ref: "#/components/schemas/IeduComplementInput"
         third_party:
           allOf:
             - type: object
@@ -11877,6 +11879,51 @@ components:
             - Gasolina
             - Diesel
             - Combustibles para barco
+
+    IeduComplementInput:
+      title: IeduComplement
+      type: object
+      description: |
+        Private Education Institutions concept-level complement version 1.0.
+
+        Include it at the concept level in `items[].complement`.
+      required:
+        - nombreAlumno
+        - CURP
+        - nivelEducativo
+        - autRVOE
+      properties:
+        nombreAlumno:
+          type: string
+          description: Student name.
+          example: Juan Perez Lopez
+        CURP:
+          type: string
+          minLength: 18
+          maxLength: 18
+          pattern: "^[A-Z][AEIOUX][A-Z]{2}[0-9]{2}[0-1][0-9][0-3][0-9][MHX][A-Z]{2}[BCDFGHJKLMNÑPQRSTVWXYZ]{3}[0-9A-Z][0-9]$"
+          description: CURP of the student enrolled in the educational institution.
+          example: PELJ010101HDFRPN09
+        nivelEducativo:
+          type: string
+          enum:
+            - Preescolar
+            - Primaria
+            - Secundaria
+            - Profesional técnico
+            - Bachillerato o su equivalente
+          example: Primaria
+          description: Educational level the student is enrolled in.
+        autRVOE:
+          type: string
+          minLength: 1
+          description: Work center code or official recognition of studies validity for the private educational institution where the payment is made.
+          example: 15PPR1234A
+        rfcPago:
+          type: string
+          pattern: "^[A-ZÑ&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z0-9]?[A-Z0-9]?[0-9A-Z]?$"
+          description: RFC of the person making the payment when different from the person receiving the service.
+          example: PELJ800101ABC
 
     CustomComplementData:
       title: string

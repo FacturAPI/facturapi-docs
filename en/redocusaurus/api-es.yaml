@@ -12731,13 +12731,14 @@ components:
           description: Números de pedimento asociados a este concepto.
         complement:
           description: >-
-            Código XML de tu complemento concepto o el complemento Hidrocarburos
-            y Petrolíferos.
+            Código XML de tu complemento concepto, el complemento Hidrocarburos
+            y Petrolíferos o el complemento Instituciones Educativas Privadas.
           oneOf:
             - type: string
               format: xml
               description: Código XML de tu complemento concepto.
             - $ref: '#/components/schemas/HidroYPetroComplementInput'
+            - $ref: '#/components/schemas/IeduComplementInput'
         third_party:
           allOf:
             - type: object
@@ -12786,13 +12787,14 @@ components:
           description: Números de pedimento asociados a este concepto.
         complement:
           description: >-
-            Código XML de tu complemento concepto o el complemento Hidrocarburos
-            y Petrolíferos.
+            Código XML de tu complemento concepto, el complemento Hidrocarburos
+            y Petrolíferos o el complemento Instituciones Educativas Privadas.
           oneOf:
             - type: string
               format: xml
               description: Código XML de tu complemento concepto.
             - $ref: '#/components/schemas/HidroYPetroComplementInput'
+            - $ref: '#/components/schemas/IeduComplementInput'
         third_party:
           allOf:
             - type: object
@@ -12952,6 +12954,57 @@ components:
             - Gasolina
             - Diesel
             - Combustibles para barco
+    IeduComplementInput:
+      title: IeduComplement
+      type: object
+      description: |
+        Complemento concepto de Instituciones Educativas Privadas versión 1.0.
+
+        Se incluye a nivel concepto dentro de `items[].complement`.
+      required:
+        - nombreAlumno
+        - CURP
+        - nivelEducativo
+        - autRVOE
+      properties:
+        nombreAlumno:
+          type: string
+          description: Nombre del alumno.
+          example: Juan Perez Lopez
+        CURP:
+          type: string
+          minLength: 18
+          maxLength: 18
+          pattern: >-
+            ^[A-Z][AEIOUX][A-Z]{2}[0-9]{2}[0-1][0-9][0-3][0-9][MHX][A-Z]{2}[BCDFGHJKLMNÑPQRSTVWXYZ]{3}[0-9A-Z][0-9]$
+          description: CURP del alumno de la institución educativa.
+          example: PELJ010101HDFRPN09
+        nivelEducativo:
+          type: string
+          enum:
+            - Preescolar
+            - Primaria
+            - Secundaria
+            - Profesional técnico
+            - Bachillerato o su equivalente
+          example: Primaria
+          description: Nivel educativo que cursa el alumno.
+        autRVOE:
+          type: string
+          minLength: 1
+          description: >-
+            Clave del centro de trabajo o reconocimiento de validez oficial de
+            estudios de la institución educativa privada donde se realiza el
+            pago.
+          example: 15PPR1234A
+        rfcPago:
+          type: string
+          pattern: >-
+            ^[A-ZÑ&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z0-9]?[A-Z0-9]?[0-9A-Z]?$
+          description: >-
+            RFC de quien realiza el pago cuando sea diferente a quien recibe el
+            servicio.
+          example: PELJ800101ABC
     CustomComplementData:
       title: string
       type: string

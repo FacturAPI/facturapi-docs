@@ -21,9 +21,16 @@ Ese flujo puede resolverse desde API o directamente desde el dashboard, según
 qué tanto necesites automatizar la administración del equipo.
 
 :::info
-Recuerda que para crear y administrar organizaciones deberás autenticarte usando tu User Key,
-que es una llave secreta asociada a toda tu cuenta, la cual puedes encontrar en tu
-[Centro de Integración](https://dashboard.facturapi.io/integration).
+Para crear organizaciones, administrar usuarios, roles, invitaciones o llaves API deberás
+autenticarte usando tu User Key, que es una llave secreta asociada a toda tu cuenta y que
+puedes encontrar en tu [Centro de Integración](https://dashboard.facturapi.io/integration).
+
+Una vez creada una organización, también puedes configurar sus datos operativos con tu User Key
+o con la Live Secret Key (`sk_live_*`) de esa organización. Con la Live Secret Key puedes usar
+`me` como alias de la organización, o enviar explícitamente el ID de la organización, en endpoints
+como `/v2/organizations/me/legal`, `/v2/organizations/me/certificate`,
+`/v2/organizations/me/customization` y `/v2/organizations/me/series-group`. La Test Secret Key
+(`sk_test_*`) solo puede consultar la información de su propia organización.
 :::
 
 <Tabs groupId="codeExamples">

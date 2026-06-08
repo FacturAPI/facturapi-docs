@@ -16686,7 +16686,7 @@ components:
                   - logo
                   - certificate
                   - manifiesto
-                description: Código que representa el tiop de paso que se requiere completar
+                description: Código que representa el tipo de paso que se requiere completar
               description:
                 type: string
                 description: Texto que describe el paso que se requiere completar y que puedes usar para mostrárselo al usuario.

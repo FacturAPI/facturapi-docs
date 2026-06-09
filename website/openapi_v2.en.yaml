@@ -14440,6 +14440,10 @@ components:
           description: |
             Current status of the cancellation request, if it has been made. `verifying` means the SAT has received the request and is validating it; Facturapi will keep checking until it changes to a final status. You can read more in the [Cancel Invoice](#tag/invoice/operation/deleteInvoice) section.
           example: none
+        canceled_at:
+          type: string
+          format: date-time
+          description: Date close to the time when the CFDI was canceled.
         verification_url:
           type: string
           format: uri

@@ -15609,6 +15609,10 @@ components:
             You can read more in the [Cancel
             Invoice](#tag/invoice/operation/deleteInvoice) section.
           example: none
+        canceled_at:
+          type: string
+          format: date-time
+          description: Date close to the time when the CFDI was canceled.
         verification_url:
           type: string
           format: uri

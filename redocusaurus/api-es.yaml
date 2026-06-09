@@ -15853,6 +15853,10 @@ components:
             realizado. Puedes leer más a detalle en la sección de [Cancelar
             Factura](#tag/invoice/operation/deleteInvoice)).
           example: none
+        canceled_at:
+          type: string
+          format: date-time
+          description: Fecha cercana a la hora donde se canceló CFDI
         verification_url:
           type: string
           format: uri

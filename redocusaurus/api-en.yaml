@@ -18261,7 +18261,7 @@ components:
           type: object
           description: >
             Useful information about the organization's FIEL certificate, which
-            will be used to sign the retentions.
+            will be used to activate the Descarga Masiva service.
           properties:
             has_certificate:
               type: boolean

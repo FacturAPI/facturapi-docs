@@ -16848,7 +16848,7 @@ components:
               description: Número de serie del certificado CSD.
         fiel:
           type: object
-          description: Información sobre el certificado FIEL de la organización, que se utiliza para firmar retenciones.
+          description: Información sobre el certificado FIEL de la organización, que se utiliza para el servicio de Descarga Masiva.
           properties:
             has_certificate:
               type: boolean

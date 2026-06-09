@@ -59,7 +59,30 @@ composer require facturapi/facturapi-php
 </TabItem>
 </Tabs>
 
-### 2. Crea tu primera factura
+### 2. API Keys de Organización
+
+:::warning Cambios en API keys
+Estos cambios entrarán en vigor el **16 de junio de 2026**.
+:::
+
+Próximamente actualizaremos el manejo de API keys en Facturapi para mejorar la seguridad y el control de credenciales.
+
+Con esta actualización, cada organización podrá generar como máximo:
+
+- **5 API keys por hora**
+- **10 API keys por día**
+
+Este límite aplica tanto para **test API keys** como para **live API keys**.
+
+Las API keys están diseñadas para usarse como credenciales persistentes en tus integraciones. Si tu integración genera una nueva API key por solicitud, te recomendamos mantener una API key estable para cada integración o entorno, guardarla de forma segura del lado de tu servidor y usar esa misma key para tus peticiones.
+
+Si actualmente utilizas una API key estable almacenada del lado de tu servidor, no necesitas realizar ninguna acción.
+
+Además, por motivos de seguridad, eliminaremos automáticamente las API keys que permanezcan sin uso por más de un año. Esto ayuda a reducir credenciales antiguas que podrían permanecer activas innecesariamente.
+
+Si tienes dudas sobre este cambio, puedes contactar a nuestro equipo de soporte en [soporte@facturapi.io](mailto:soporte@facturapi.io) o en el chat de nuestra página [www.facturapi.io](https://www.facturapi.io).
+
+### 3. Crea tu primera factura
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>

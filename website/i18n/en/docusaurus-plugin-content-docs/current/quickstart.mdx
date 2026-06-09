@@ -59,7 +59,30 @@ composer require facturapi/facturapi-php
 </TabItem>
 </Tabs>
 
-### 2. Create your first invoice
+### 2. Organization API Keys
+
+:::warning API key changes
+These changes will take effect on **June 16, 2026**.
+:::
+
+We will soon update how API keys are managed in Facturapi to improve credential security and control.
+
+With this update, each organization will be able to generate up to:
+
+- **5 API keys per hour**
+- **10 API keys per day**
+
+This limit applies to both **test API keys** and **live API keys**.
+
+API keys are designed to be used as persistent credentials in your integrations. If your integration generates a new API key for every request, we recommend keeping a stable API key for each integration or environment, storing it securely on your server, and using that same key for your requests.
+
+If you currently use a stable API key stored on your server, no action is required.
+
+Additionally, for security reasons, we will automatically delete API keys that remain unused for more than one year. This helps reduce old credentials that could otherwise remain active unnecessarily.
+
+If you have questions about this change, contact our support team at [soporte@facturapi.io](mailto:soporte@facturapi.io) or through the chat on [www.facturapi.io](https://www.facturapi.io).
+
+### 3. Create your first invoice
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>

@@ -11265,9 +11265,7 @@ components:
           example: false
         code:
           description: Optional error code (for example, RATE_LIMIT_EXCEEDED).
-          oneOf:
-            - type: string
-            - type: integer
+          type: string
         path:
           type: string
           description: Optional path to the field related to the error.

@@ -15856,7 +15856,7 @@ components:
         canceled_at:
           type: string
           format: date-time
-          description: Fecha cercana a la hora donde se canceló CFDI
+          description: Fecha en la que se canceló el CFDI con hora aproximada.
         verification_url:
           type: string
           format: uri

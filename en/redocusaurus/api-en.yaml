@@ -15612,7 +15612,7 @@ components:
         canceled_at:
           type: string
           format: date-time
-          description: Date close to the time when the CFDI was canceled.
+          description: Date on which CFDI was canceled, with approximate time.
         verification_url:
           type: string
           format: uri

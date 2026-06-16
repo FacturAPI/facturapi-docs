@@ -1,0 +1,294 @@
+---
+sidebar_position: 7
+---
+
+# Error handling
+
+:::info Availability
+The normalized error codes and messages described here apply starting June 30, 2026.
+:::
+
+The API returns errors as JSON and uses standard HTTP status codes. For programmatic error handling, use `code`: it is a stable, predictable string.
+
+`message` is meant for humans. It may change to improve clarity or support localization, so avoid using it for branching logic.
+
+## Error object
+
+```json
+{
+  "message": "La solicitud no es válida.",
+  "status": 400,
+  "code": "invalid_request",
+  "location": "body",
+  "path": "customer.email",
+  "errors": [
+    {
+      "message": "\"customer.email\" is required",
+      "code": "required",
+      "location": "body",
+      "path": "customer.email"
+    }
+  ],
+  "ok": false
+}
+```
+
+| Field | Description |
+| --- | --- |
+| `message` | Human-readable error message. |
+| `status` | HTTP status code. |
+| `code` | Stable root code for handling the error. |
+| `location` | Location of the data related to the error, such as `body`, `query`, `params`, or `files`. Included only when applicable. |
+| `path` | Path of the field related to the error. Included only when applicable. |
+| `errors` | Additional details. Included only when there are multiple validation errors or relevant external details. |
+| `ok` | Always `false` for error responses. |
+
+## Validation errors
+
+When the request does not match the input contract, the root error uses `code: "invalid_request"`. When details are available, `errors[]` includes each invalid field with `path`, `location`, and a validation subcode.
+
+Validation subcodes:
+
+- `invalid_format`
+- `invalid_length`
+- `invalid_type`
+- `not_allowed`
+- `required`
+- `too_large`
+- `too_small`
+- `unknown_field`
+
+## External errors
+
+Some operations depend on external validations or services, such as SAT or PAC. In those cases, the root `code` remains a Facturapi code, for example `invoice_stamping_validation_error`.
+
+If the external provider returns useful details, they are included in `errors[]` with the original code:
+
+```json
+{
+  "message": "La factura no pasó la validación de timbrado.",
+  "status": 400,
+  "code": "invoice_stamping_validation_error",
+  "errors": [
+    {
+      "message": "El RFC del receptor no se encuentra en la lista de RFC inscritos no cancelados del SAT.",
+      "code": "CFDI40145",
+      "source": "sat"
+    }
+  ],
+  "ok": false
+}
+```
+
+## Rate limits
+
+When you hit a limit, the API returns `429 Too Many Requests`, `code: "rate_limit_exceeded"`, and the `Retry-After` header with the recommended seconds to wait before retrying.
+
+You can also preserve the `X-Facturapi-Log-Id` header in your observability stack to correlate requests with support.
+
+## Error codes
+
+### CommonErrorCode
+
+- `conflict`
+- `forbidden`
+- `internal_error`
+- `not_found`
+- `unauthorized`
+
+### AuthErrorCode
+
+- `api_key_invalid`
+- `api_key_not_allowed`
+- `feature_not_available`
+- `live_api_key_required`
+- `mcp_permission_denied`
+- `missing_credentials`
+- `organization_incomplete`
+- `subscription_required`
+- `subscription_live_access_required`
+- `user_key_invalid`
+- `user_suspended`
+
+### RequestErrorCode
+
+- `date_range_too_large`
+- `idempotency_key_in_use`
+- `image_file_required`
+- `invalid_country_code`
+- `invalid_date`
+- `invalid_date_range`
+- `invalid_image_file`
+- `invalid_json`
+- `invalid_multipart_form_data`
+- `invalid_request`
+- `invalid_state_code`
+- `invalid_timezone`
+- `multipart_limit_exceeded`
+- `page_too_large`
+- `payload_too_large`
+- `rate_limit_exceeded`
+
+### CustomerErrorCode
+
+- `customer_could_not_be_resolved`
+- `customer_edit_link_not_found`
+- `customer_edit_link_unavailable`
+- `customer_email_required`
+- `customer_has_invoices`
+- `customer_not_found`
+- `customer_tax_info_unavailable`
+
+### ProductErrorCode
+
+- `product_not_found`
+
+### SupplierErrorCode
+
+- `supplier_not_found`
+
+### CatalogErrorCode
+
+- `product_key_not_found`
+- `tariff_code_not_found`
+- `unit_key_not_found`
+
+### InvoiceErrorCode
+
+- `invoice_already_stamped`
+- `invoice_not_draft`
+- `invoice_not_found`
+- `invoice_not_stamped`
+
+### InvoiceDraftErrorCode
+
+- `draft_not_ready_to_stamp`
+- `draft_update_in_progress`
+
+### InvoiceStampingErrorCode
+
+- `invoice_stamping_failed`
+- `invoice_stamping_service_unavailable`
+- `invoice_stamping_validation_error`
+- `manifesto_signature_failed`
+- `stamping_in_progress`
+
+### InvoiceDeliveryErrorCode
+
+- `invoice_email_delivery_failed`
+- `invoice_email_recipient_required`
+- `invoice_email_status_not_allowed`
+
+### InvoiceCancellationErrorCode
+
+- `invoice_cancellation_failed`
+- `invoice_cancellation_in_progress`
+- `invoice_cancellation_not_allowed`
+- `invoice_cancellation_not_found`
+- `invoice_cancellation_receipt_unavailable`
+- `invoice_cancellation_rfc_mismatch`
+- `invoice_cancellation_service_unavailable`
+- `invoice_not_cancelable`
+- `invoice_not_cancelable_by_sat`
+- `substitution_invoice_canceled`
+- `substitution_invoice_not_found`
+- `substitution_invoice_required`
+- `substitution_invoice_status_not_allowed`
+
+### ReceiptErrorCode
+
+- `receipt_expired`
+- `receipt_not_found`
+- `receipt_not_open`
+
+### ReceiptInvoicingErrorCode
+
+- `receipt_invoicing_customer_mismatch`
+- `receipt_invoicing_too_many_items`
+- `receipt_keys_not_found`
+
+### ReceiptGlobalInvoiceErrorCode
+
+- `global_invoice_too_many_items`
+- `invalid_global_invoice_period`
+
+### RetentionErrorCode
+
+- `invalid_retention_complement`
+- `retention_not_cancelable`
+- `retention_not_found`
+- `retention_not_stamped`
+
+### RetentionDeliveryErrorCode
+
+- `retention_email_delivery_failed`
+- `retention_email_recipient_required`
+- `retention_email_status_not_allowed`
+
+### RetentionCancellationErrorCode
+
+- `retention_cancellation_failed`
+- `retention_cancellation_service_unavailable`
+
+### RetentionStampingErrorCode
+
+- `retention_stamping_failed`
+- `retention_stamping_service_unavailable`
+- `retention_stamping_validation_error`
+
+### OrganizationErrorCode
+
+- `invalid_operation`
+- `invalid_user_id`
+- `organization_not_found`
+- `subscription_active_required`
+
+### OrganizationSettingsErrorCode
+
+- `certificate_invalid`
+- `certificate_rfc_mismatch`
+- `fiel_invalid`
+- `fiel_rfc_mismatch`
+- `organization_settings_invalid`
+- `organization_tax_info_invalid`
+
+### OrganizationInviteErrorCode
+
+- `invite_email_delivery_failed`
+- `invite_email_mismatch`
+- `invite_expired`
+- `invite_not_found`
+- `invite_role_unavailable`
+- `user_already_in_organization`
+
+### OrganizationAccessErrorCode
+
+- `organization_admin_access_cannot_be_removed`
+- `organization_admin_assignment_cannot_be_edited`
+- `organization_admin_role_cannot_be_deleted`
+- `organization_admin_role_cannot_be_edited`
+- `organization_admin_role_required`
+- `organization_id_not_allowed`
+- `organization_id_required`
+- `owner_access_cannot_be_reassigned`
+- `owner_access_cannot_be_removed`
+- `role_has_assigned_users`
+- `role_not_found`
+- `role_template_not_found`
+- `user_access_not_found`
+
+### OrganizationSeriesErrorCode
+
+- `series_already_exists`
+- `series_not_found`
+
+### WebhookErrorCode
+
+- `webhook_delivery_attempt_not_found`
+- `webhook_not_found`
+- `webhook_signature_invalid`
+
+### ToolErrorCode
+
+- `tax_id_validation_failed`
+- `tax_id_validation_service_unavailable`

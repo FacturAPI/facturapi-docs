@@ -84,11 +84,14 @@ Si el proveedor externo devuelve detalles útiles, se incluyen en `errors[]` con
 
 Para códigos de validación de timbrado emitidos por el SAT, consulta la [Matriz de errores CFDI 4.0](https://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/MatrizDeErrores_CFDI_v40.xls) publicada dentro de la documentación oficial del [Anexo 20](https://omawww.sat.gob.mx/tramitesyservicios/Paginas/anexo_20_version3-3.htm).
 
-## Límites de tasa
+## Headers útiles
 
-Cuando alcanzas un límite, la API responde `429 Too Many Requests`, `code: "rate_limit_exceeded"` y el header `Retry-After` con los segundos recomendados antes de reintentar.
+Algunas respuestas de error incluyen headers útiles para manejo programático u observabilidad:
 
-También puedes conservar el header `X-Facturapi-Log-Id` en tu observabilidad para correlacionar solicitudes con soporte.
+| Header | Descripción |
+| --- | --- |
+| `Retry-After` | Segundos recomendados antes de reintentar. Se incluye en errores con `code: "rate_limit_exceeded"`. |
+| `X-Facturapi-Log-Id` | ID de correlación de la solicitud. Puedes conservarlo en tu observabilidad para investigar errores con soporte. |
 
 ## Códigos de error
 

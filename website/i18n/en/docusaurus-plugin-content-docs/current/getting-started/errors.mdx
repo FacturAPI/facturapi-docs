@@ -84,11 +84,14 @@ If the external provider returns useful details, they are included in `errors[]`
 
 For SAT stamping validation codes, see the [CFDI 4.0 error matrix](https://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/MatrizDeErrores_CFDI_v40.xls) published as part of SAT's official [Anexo 20](https://omawww.sat.gob.mx/tramitesyservicios/Paginas/anexo_20_version3-3.htm) documentation.
 
-## Rate limits
+## Useful headers
 
-When you hit a limit, the API returns `429 Too Many Requests`, `code: "rate_limit_exceeded"`, and the `Retry-After` header with the recommended seconds to wait before retrying.
+Some error responses include useful headers for programmatic handling or observability:
 
-You can also preserve the `X-Facturapi-Log-Id` header in your observability stack to correlate requests with support.
+| Header | Description |
+| --- | --- |
+| `Retry-After` | Recommended seconds to wait before retrying. Included in errors with `code: "rate_limit_exceeded"`. |
+| `X-Facturapi-Log-Id` | Request correlation ID. You can keep it in your observability stack to investigate errors with support. |
 
 ## Error codes
 

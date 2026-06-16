@@ -26,8 +26,8 @@ The Facturapi API allows you to create, retrieve, and manage the following resou
 
 There are 2 different roles that you can identify yourself with in the API:
 
-- **Organization**: Identifying yourself as an organization allows you to issue invoices using the previously configured fiscal information for the organization, as well as create, retrieve, and perform operations on resources belonging to it. To identify yourself with this role, you must use the Test Secret Key or the Live Secret Key of the organization, depending on the environment you want to use.
-- **User**: Identifying yourself as a user allows you to create and manage organizations that belong to your user account. To identify yourself with this role, you must use the User Secret Key of your account.
+- **Organization**: Identifying yourself as an organization allows you to issue invoices using the configured fiscal information for the organization, as well as create, retrieve, and perform operations on resources belonging to it. The Live Secret Key can also update the operating configuration of its own organization, such as legal data, certificates, logo, self-invoice settings, receipts, and series. To identify yourself with this role, you must use the Test Secret Key or the Live Secret Key of the organization, depending on the environment you want to use.
+- **User**: Identifying yourself as a user allows you to create organizations, manage users, roles, invites, API keys, and update organizations you have access to. To identify yourself with this role, you must use the User Secret Key of your account.
 
 ## Environments
 
@@ -48,13 +48,12 @@ They are used to identify an organization or a user account when calling the Fac
 
 There are 3 types of secret keys, each with a specific function:
 
-- **Test Secret Key**: Identifies the organization in the Test environment to create and manage resources (clients, invoices, etc.). It is unique per organization.
-- **Live Secret Key**: Identifies an organization in the Live environment to create and manage resources (clients, invoices, etc.). It is unique per organization.
-- **User Secret Key**: Identifies your account to create and configure organizations. It is unique per account.
+- **Test Secret Key**: Identifies the organization in the Test environment to create and manage resources (clients, invoices, etc.). It can also read its own organization information, but it cannot update organization configuration. It is unique per organization.
+- **Live Secret Key**: Identifies an organization in the Live environment to create and manage resources (clients, invoices, etc.) and configure its own organization. It is unique per organization.
+- **User Secret Key**: Identifies your account to create organizations and manage permissions, users, and API keys. It is unique per account.
 
 The secret keys are used during the authentication process.
 
 To obtain your secret keys and create a free account on Facturapi, visit:
 
 [https://www.facturapi.io/register](https://www.facturapi.io/register?utm_source=facturapi-docs&utm_medium=GithubPages)
-

@@ -27,13 +27,15 @@ La API de Facturapi te permite crear, consultar y administrar los siguientes rec
 Existen 2 roles distintos con los que puedes identificarte en la API:
 
 - **Organización**. Identificarte como **organización** te permite emitir facturas usando la
-  información fiscal previamente configurada para la organización, así como crear, consultar y
-  realizar operaciones sobre recursos que le pertenezcan. Para identificarte con este rol,
-  deberás utilizar la **Test Secret Key** o la **Live Secret Key** de la organización,
-  dependiendo del **ambiente** que quieras utilizar.
-- **Usuario**. Identificarte como usuario te permite crear y administrar
-  organizaciones que pertenecerán a tu cuenta de usuario. Para identificarte con este
-  rol, deberás utilizar la **User Secret Key** de tu cuenta.
+  información fiscal configurada para la organización, así como crear, consultar y
+  realizar operaciones sobre recursos que le pertenezcan. La **Live Secret Key** también puede
+  modificar la configuración operativa de su propia organización, como datos fiscales,
+  certificados, logotipo, autofactura y series. Para identificarte con este rol, deberás
+  utilizar la **Test Secret Key** o la **Live Secret Key** de la organización, dependiendo del
+  **ambiente** que quieras utilizar.
+- **Usuario**. Identificarte como usuario te permite crear organizaciones, administrar
+  usuarios, roles, invitaciones y llaves API, y modificar organizaciones a las que tengas
+  acceso. Para identificarte con este rol, deberás utilizar la **User Secret Key** de tu cuenta.
 
 ## Ambientes
 
@@ -61,9 +63,9 @@ Sirven para identificar a una organización o a una cuenta de usuario al llamar 
 
 Existen 3 tipos de llaves secretas, cada una con una función específica:
 
-- **Test Secret Key**: Identifica a la organización en ambiente Test para crear y administrar recursos (clientes, facturas, etc.). Es única por organización.
-- **Live Secret Key**: Identifica a una Organización en ambiente Live para crear y administrar recursos (clientes, facturas, etc.). Es única por organización.
-- **User Secret Key**: Identifica a tu cuenta para crear y configurar organizaciones. Es única por cuenta.
+- **Test Secret Key**: Identifica a la organización en ambiente Test para crear y administrar recursos (clientes, facturas, etc.). También puede consultar la información de su propia organización, pero no modificar su configuración. Es única por organización.
+- **Live Secret Key**: Identifica a una organización en ambiente Live para crear y administrar recursos (clientes, facturas, etc.) y para configurar su propia organización. Es única por organización.
+- **User Secret Key**: Identifica a tu cuenta para crear organizaciones y administrar permisos, usuarios y llaves API. Es única por cuenta.
 
 Las llaves secretas se utilizan durante el proceso de [autenticación](/docs/getting-started/authenticate).
 

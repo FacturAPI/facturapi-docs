@@ -5159,14 +5159,10 @@ paths:
       operationId: assignReceiptCustomer
       tags:
         - receipt
-      summary: Assign customer to receipt
+      summary: Assign or reassign customer to receipt
       description: >
-        Assign an existing customer (by ID) to a receipt, or create a new one by
-        sending the customer object.
-
-
-        If the receipt has a registered transaction, the transaction's
-        `counterparty` will also be updated.
+        Assign or reassign an existing customer (by ID) to a receipt, or create
+        a new one by sending the customer object.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -5668,6 +5664,13 @@ paths:
 
 
         Only open receipts (`status = "open"`) can be invoiced.
+
+
+        If you send `customer`, that customer is used as the invoice recipient
+
+        and overrides the customer assigned to the receipt. If you omit
+
+        `customer`, the receipt must already have an assigned customer.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -5775,8 +5778,19 @@ paths:
         Creates a single invoice from multiple receipts selected by their `key`.
 
 
+        If you send `customer`, that customer is used as the invoice recipient
+
+        and overrides the customer assigned to the included receipts. If you
+        omit
+
+        `customer`, all receipts must already have the same assigned customer.
+
+
         If `dry_run` is `true`, the endpoint does not create the invoice and
         returns a summary preview.
+
+        The `dry_run` validates the same rules as real invoice creation, but
+        does not persist changes.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -5917,6 +5931,12 @@ paths:
       description: >
         Generates a PDF preview for an invoice built from multiple receipts
         selected by their `key`.
+
+
+        The preview validates the same customer rules as real invoice creation:
+
+        if you omit `customer`, all receipts must already have the same assigned
+        customer.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -6047,6 +6067,13 @@ paths:
       description: >
         Creates a global invoice that will include all receipts with `status =
         "open"` from a certain period.
+
+
+        Global invoices are issued to the generic `PUBLICO EN GENERAL` customer.
+
+        Included receipts are associated with that customer and their `status`
+
+        changes to `"invoiced_globally"`.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -17398,8 +17425,8 @@ components:
       properties:
         customer:
           description: >
-            Customer to assign to the receipt. You can send the ID of an
-            existing customer or a customer object to create it.
+            Customer to assign or reassign to the receipt. You can send the ID
+            of an existing customer or a customer object to create it.
           oneOf:
             - type: string
               minLength: 24
@@ -17417,16 +17444,18 @@ components:
                 $ref: '#/components/schemas/Receipt'
     InvoiceReceiptInput:
       type: object
-      required:
-        - customer
       allOf:
         - type: object
           properties:
             customer:
               description: >
                 Customer receiving the invoice. You can send the customer object
-                directly or the ID of a previously registered customer in
-                Facturapi.
+                directly
+
+                or the ID of a previously registered customer in Facturapi. If
+                you omit it,
+
+                the receipt must already have an assigned customer.
               oneOf:
                 - $ref: '#/components/schemas/CustomerCreateInput'
                 - type: string
@@ -17577,10 +17606,21 @@ components:
             description: Receipt key.
             example: ticket_1001
         customer:
-          allOf:
+          oneOf:
             - $ref: '#/components/schemas/CustomerCreateInput'
-          description: |
-            Customer receiving the invoice. Required unless `dry_run` is `true`.
+            - type: string
+              title: customer_id
+              description: ID of a customer previously registered in Facturapi.
+              example: 58e93bd8e86eb318b0197456
+          description: >
+            Customer receiving the invoice. If you send it, it overrides the
+            customer
+
+            assigned to the included receipts. If you omit it, all receipts must
+            already
+
+            have the same assigned customer. This rule also applies when
+            `dry_run` is `true`.
         use:
           type: string
           default: G01
@@ -17616,9 +17656,17 @@ components:
             example: ticket_1001
         customer:
           nullable: true
-          allOf:
+          oneOf:
             - $ref: '#/components/schemas/CustomerCreateInput'
-          description: Optional customer information used for preview rendering.
+            - type: string
+              title: customer_id
+              description: ID of a customer previously registered in Facturapi.
+              example: 58e93bd8e86eb318b0197456
+          description: >
+            Optional customer used for preview rendering. If you omit it, all
+            receipts
+
+            must already have the same assigned customer.
         use:
           type: string
           default: G01

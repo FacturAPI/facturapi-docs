@@ -5680,6 +5680,10 @@ paths:
       summary: Create global invoice
       description: |
         Creates a global invoice that will include all receipts with `status = "open"` from a certain period.
+
+        Global invoices are issued to the generic `PUBLICO EN GENERAL` customer.
+        Included receipts are associated with that customer and their `status`
+        changes to `"invoiced_globally"`.
       x-codeSamples:
         - lang: Bash
           label: cURL

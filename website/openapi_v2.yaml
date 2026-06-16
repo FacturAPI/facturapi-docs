@@ -5896,6 +5896,10 @@ paths:
       summary: Crear factura global
       description: |
         Crea una factura global que incluirá todos los recibos con `status = “open”` de un cierto periodo.
+
+        La factura global se emite al cliente genérico `PUBLICO EN GENERAL`.
+        Los recibos incluidos quedan asociados a ese cliente y su `status`
+        cambia a `"invoiced_globally"`.
       x-codeSamples:
         - lang: Bash
           label: cURL

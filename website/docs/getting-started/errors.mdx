@@ -1,0 +1,355 @@
+---
+sidebar_position: 7
+---
+
+# Manejo de errores
+
+:::info Vigencia
+Los códigos y mensajes de error normalizados descritos aquí aplicarán a partir del 30 de junio de 2026. Antes de esa fecha, los códigos y mensajes pueden ser diferentes a los documentados en esta página.
+:::
+
+La API responde los errores en JSON y usa códigos de estado HTTP estándar. Para manejar errores de forma programática, usa `code`: es un string estable y predecible.
+
+`message` está pensado para lectura humana. Puede cambiar para mejorar claridad o soportar localización, así que no debería usarse para branching de lógica.
+
+## Objeto de error
+
+```json
+{
+  "message": "La solicitud no es válida.",
+  "status": 400,
+  "code": "invalid_request",
+  "location": "body",
+  "path": "customer.email",
+  "errors": [
+    {
+      "message": "\"customer.email\" is required",
+      "code": "required",
+      "location": "body",
+      "path": "customer.email"
+    }
+  ],
+  "ok": false
+}
+```
+
+| Campo | Tipo | Descripción |
+| --- | --- | --- |
+| `message` | `string` | Mensaje legible para humanos. |
+| `status` | `number` | Código de estado HTTP. |
+| `code` | `string` | Código raíz estable para manejar el error. |
+| `location` | `string` | Ubicación del dato relacionado con el error, por ejemplo `body`, `query`, `params` o `files`. Sólo se incluye cuando aplica. |
+| `path` | `string` | Ruta del campo relacionado con el error. Sólo se incluye cuando aplica. |
+| `errors` | `array` | Detalles adicionales. Sólo se incluye cuando hay múltiples errores de validación o detalles externos relevantes. |
+| `ok` | `boolean` | Siempre es `false` en respuestas de error. |
+
+## Errores de validación
+
+Cuando la petición no cumple el contrato de entrada, el error raíz usa `code: "invalid_request"`. Si hay detalles, `errors[]` incluye cada campo inválido con `path`, `location` y un subcódigo de validación.
+
+Subcódigos de validación:
+
+| Código | Descripción |
+| --- | --- |
+| `invalid_format` | El valor no cumple el formato esperado. |
+| `invalid_length` | El valor no cumple la longitud permitida. |
+| `invalid_type` | El valor no tiene el tipo esperado. |
+| `not_allowed` | El valor no está permitido para este campo. |
+| `required` | Falta un campo requerido. |
+| `too_large` | El valor excede el límite permitido. |
+| `too_small` | El valor está por debajo del mínimo permitido. |
+| `unknown_field` | El campo no está permitido en esta petición. |
+
+## Errores externos
+
+Algunas operaciones dependen de validaciones o servicios externos, como SAT o PAC. En esos casos, el `code` raíz sigue siendo un código de Facturapi, por ejemplo `invoice_stamping_validation_error`.
+
+Si el proveedor externo devuelve detalles útiles, se incluyen en `errors[]` con su código original:
+
+```json
+{
+  "message": "La factura no pasó la validación de timbrado.",
+  "status": 400,
+  "code": "invoice_stamping_validation_error",
+  "errors": [
+    {
+      "message": "El RFC del receptor no se encuentra en la lista de RFC inscritos no cancelados del SAT.",
+      "code": "CFDI40145",
+      "source": "sat"
+    }
+  ],
+  "ok": false
+}
+```
+
+Para códigos de validación de timbrado emitidos por el SAT, consulta la [Matriz de errores CFDI 4.0](https://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/MatrizDeErrores_CFDI_v40.xls) publicada dentro de la documentación oficial del [Anexo 20](https://omawww.sat.gob.mx/tramitesyservicios/Paginas/anexo_20_version3-3.htm).
+
+## Headers útiles
+
+Algunas respuestas de error incluyen headers útiles para manejo programático u observabilidad:
+
+| Header | Descripción |
+| --- | --- |
+| `Retry-After` | Segundos recomendados antes de reintentar. Se incluye en errores con `code: "rate_limit_exceeded"`. |
+| `X-Facturapi-Log-Id` | ID de correlación de la solicitud. Puedes conservarlo en tu observabilidad para investigar errores con soporte. |
+
+## Códigos de error
+
+Esta lista es la referencia documentada de códigos públicos de la API. Podemos agregar nuevos códigos en cualquier momento cuando nuevas funcionalidades o nuevos casos de error lo requieran, pero procuramos mantener esta página actualizada para que las integraciones tengan una referencia predecible.
+
+### CommonErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `conflict` | La solicitud no puede completarse por un conflicto. |
+| `forbidden` | No tienes permiso para realizar esta acción. |
+| `internal_error` | Ocurrió un error interno. |
+| `not_found` | No se encontró el recurso solicitado. |
+| `unauthorized` | No se pudo autenticar la solicitud. |
+
+### AuthErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `api_key_invalid` | La API key proporcionada no es válida. |
+| `api_key_not_allowed` | Esta API key no puede realizar esta acción. |
+| `feature_not_available` | Esta funcionalidad no está disponible para tu organización. |
+| `live_api_key_required` | Esta operación requiere una API key de producción. |
+| `mcp_permission_denied` | No tienes permiso para usar esta herramienta. |
+| `missing_credentials` | No se proporcionaron credenciales. |
+| `organization_incomplete` | La organización no está configurada para realizar esta operación. |
+| `subscription_required` | Esta operación requiere una suscripción activa. |
+| `subscription_live_access_required` | Tu suscripción no permite usar el ambiente de producción. |
+| `user_key_invalid` | La user key proporcionada no es válida. |
+| `user_suspended` | El usuario está suspendido. |
+
+### RequestErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `idempotency_key_in_use` | La idempotency key ya está siendo usada. |
+| `rate_limit_exceeded` | Se excedió el límite de solicitudes. |
+| `date_range_too_large` | El rango de fechas excede el límite permitido. |
+| `image_file_required` | Se requiere un archivo de imagen. |
+| `invalid_country_code` | El código de país no es válido. |
+| `invalid_date` | La fecha no es válida. |
+| `invalid_date_range` | El rango de fechas no es válido. |
+| `invalid_image_file` | El archivo proporcionado no es una imagen válida. |
+| `invalid_json` | El JSON enviado no es válido. |
+| `invalid_request` | La solicitud no es válida. |
+| `invalid_multipart_form_data` | Los datos multipart/form-data no son válidos. |
+| `invalid_state_code` | El código de estado no es válido. |
+| `invalid_timezone` | La zona horaria no es válida. |
+| `multipart_limit_exceeded` | La solicitud multipart/form-data excede los límites permitidos. |
+| `page_too_large` | La página solicitada excede el límite permitido. |
+| `payload_too_large` | El payload excede el tamaño máximo permitido. |
+
+### CustomerErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `customer_could_not_be_resolved` | No se pudo resolver el cliente. |
+| `customer_edit_link_not_found` | El enlace de edición del cliente no existe o expiró. |
+| `customer_edit_link_unavailable` | El enlace de edición del cliente no está disponible. |
+| `customer_email_required` | Se requiere un correo electrónico del cliente. |
+| `customer_has_invoices` | No se puede eliminar un cliente con facturas asociadas. |
+| `customer_not_found` | No se encontró el cliente. |
+| `customer_tax_info_unavailable` | La información fiscal del cliente no está disponible. |
+
+### ProductErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `product_not_found` | No se encontró el producto. |
+
+### SupplierErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `supplier_not_found` | No se encontró el proveedor. |
+
+### CatalogErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `product_key_not_found` | No se encontró la clave de producto o servicio. |
+| `tariff_code_not_found` | No se encontró la fracción arancelaria. |
+| `unit_key_not_found` | No se encontró la clave de unidad. |
+
+### InvoiceErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `invoice_already_stamped` | La factura ya fue timbrada. |
+| `invoice_not_draft` | La factura no es un borrador. |
+| `invoice_not_found` | No se encontró la factura. |
+| `invoice_not_stamped` | La factura no ha sido timbrada. |
+
+### InvoiceDraftErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `draft_not_ready_to_stamp` | El borrador no está listo para timbrarse. |
+| `draft_update_in_progress` | El borrador ya se está actualizando. |
+
+### InvoiceStampingErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `invoice_stamping_failed` | No se pudo timbrar la factura. |
+| `invoice_stamping_service_unavailable` | El servicio de timbrado no está disponible. |
+| `invoice_stamping_validation_error` | La factura no pasó la validación de timbrado. |
+| `manifesto_signature_failed` | No se pudo firmar el manifiesto. |
+| `stamping_in_progress` | El timbrado de esta factura ya está en proceso. |
+
+### InvoiceDeliveryErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `invoice_email_delivery_failed` | No se pudo enviar la factura por correo. |
+| `invoice_email_recipient_required` | No tenemos una dirección de correo electrónico registrada para este cliente. |
+| `invoice_email_status_not_allowed` | No se permite enviar una factura con status `{status}` por correo. |
+
+### InvoiceCancellationErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `invoice_cancellation_in_progress` | La factura tiene una solicitud de cancelación pendiente. |
+| `invoice_cancellation_receipt_unavailable` | El acuse de cancelación no está disponible. |
+| `invoice_cancellation_failed` | No se pudo cancelar la factura. |
+| `invoice_cancellation_not_allowed` | La cancelación de la factura no está permitida. |
+| `invoice_cancellation_not_found` | No se encontró la solicitud de cancelación. |
+| `invoice_cancellation_rfc_mismatch` | El RFC no coincide para cancelar la factura. |
+| `invoice_cancellation_service_unavailable` | El servicio de cancelación no está disponible. |
+| `invoice_not_cancelable` | La factura no puede cancelarse. |
+| `invoice_not_cancelable_by_sat` | La factura no puede cancelarse ante el SAT. |
+| `substitution_invoice_canceled` | La factura de sustitución ya está cancelada. |
+| `substitution_invoice_not_found` | No se encontró la factura de sustitución. |
+| `substitution_invoice_required` | Se requiere una factura de sustitución. |
+| `substitution_invoice_status_not_allowed` | La factura de sustitución no tiene un estatus válido. |
+
+### ReceiptErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `receipt_expired` | El recibo expiró. |
+| `receipt_not_found` | No se encontró el recibo. |
+| `receipt_not_open` | El recibo no está abierto. |
+
+### ReceiptInvoicingErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `receipt_invoicing_customer_mismatch` | Los recibos no pueden facturarse juntos para el mismo cliente. |
+| `receipt_invoicing_too_many_items` | Los recibos exceden el límite de conceptos permitidos. |
+| `receipt_keys_not_found` | No se encontraron todos los recibos solicitados. |
+
+### ReceiptGlobalInvoiceErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `global_invoice_too_many_items` | La factura global excede el límite de conceptos permitidos. |
+| `invalid_global_invoice_period` | El periodo de factura global no es válido. |
+
+### RetentionErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `invalid_retention_complement` | El complemento de retención no es válido. |
+| `retention_not_found` | No se encontró la retención. |
+| `retention_not_stamped` | La retención no ha sido timbrada. |
+| `retention_not_cancelable` | La retención no puede cancelarse. |
+
+### RetentionDeliveryErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `retention_email_delivery_failed` | No se pudo enviar la retención por correo. |
+| `retention_email_recipient_required` | No tenemos una dirección de correo electrónico registrada para este cliente. |
+| `retention_email_status_not_allowed` | No se permite enviar una retención con status `{status}` por correo. |
+
+### RetentionCancellationErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `retention_cancellation_failed` | No se pudo cancelar la retención. |
+| `retention_cancellation_service_unavailable` | El servicio de cancelación de retenciones no está disponible. |
+
+### RetentionStampingErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `retention_stamping_failed` | No se pudo timbrar la retención. |
+| `retention_stamping_service_unavailable` | El servicio de timbrado de retenciones no está disponible. |
+| `retention_stamping_validation_error` | La retención no pasó la validación de timbrado. |
+
+### OrganizationErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `invalid_operation` | La operación no es válida. |
+| `invalid_user_id` | El usuario no es válido. |
+| `organization_not_found` | No se encontró la organización. |
+| `subscription_active_required` | La organización requiere una suscripción activa. |
+
+### OrganizationSettingsErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `certificate_invalid` | El certificado no es válido. |
+| `certificate_rfc_mismatch` | El RFC del certificado no coincide con la organización. |
+| `fiel_invalid` | La FIEL no es válida. |
+| `fiel_rfc_mismatch` | El RFC de la FIEL no coincide con la organización. |
+| `organization_settings_invalid` | La configuración de la organización no es válida. |
+| `organization_tax_info_invalid` | La información fiscal de la organización no es válida. |
+
+### OrganizationInviteErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `invite_email_delivery_failed` | No se pudo enviar la invitación por correo. |
+| `invite_email_mismatch` | El correo no coincide con la invitación. |
+| `invite_expired` | La invitación expiró. |
+| `invite_not_found` | No se encontró la invitación. |
+| `invite_role_unavailable` | El rol de la invitación no está disponible. |
+| `user_already_in_organization` | El usuario ya pertenece a la organización. |
+
+### OrganizationAccessErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `organization_admin_access_cannot_be_removed` | No se puede remover el acceso de administrador de la organización. |
+| `organization_admin_assignment_cannot_be_edited` | No se puede editar la asignación de administrador de la organización. |
+| `organization_admin_role_cannot_be_deleted` | No se puede eliminar el rol de administrador de la organización. |
+| `organization_admin_role_cannot_be_edited` | No se puede editar el rol de administrador de la organización. |
+| `organization_admin_role_required` | Se requiere el rol de administrador de la organización. |
+| `organization_id_not_allowed` | No se permite enviar organizationId para este scope. |
+| `organization_id_required` | Se requiere organizationId para este scope. |
+| `owner_access_cannot_be_reassigned` | No se puede reasignar el acceso del propietario. |
+| `owner_access_cannot_be_removed` | No se puede remover el acceso del propietario. |
+| `role_has_assigned_users` | No se puede eliminar un rol con usuarios asignados. |
+| `role_template_not_found` | No se encontró el template del rol. |
+| `role_not_found` | No se encontró el rol. |
+| `user_access_not_found` | No se encontró el acceso del usuario. |
+
+### OrganizationSeriesErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `series_already_exists` | La serie ya existe. |
+| `series_not_found` | No se encontró la serie. |
+
+### WebhookErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `webhook_delivery_attempt_not_found` | No se encontró el intento de envío del webhook. |
+| `webhook_not_found` | No se encontró el webhook. |
+| `webhook_signature_invalid` | La firma del webhook no es válida. |
+
+### ToolErrorCode
+
+| Código | Descripción |
+| --- | --- |
+| `tax_id_validation_failed` | No se pudo validar el RFC. |
+| `tax_id_validation_service_unavailable` | El servicio de validación de RFC no está disponible. |

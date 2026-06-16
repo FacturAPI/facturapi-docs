@@ -16,6 +16,7 @@ The API returns errors as JSON and uses standard HTTP status codes. For programm
 
 ```json
 {
+  "ok": false,
   "message": "La solicitud no es válida.",
   "status": 400,
   "code": "invalid_request",
@@ -28,39 +29,38 @@ The API returns errors as JSON and uses standard HTTP status codes. For programm
       "location": "body",
       "path": "customer.email"
     }
-  ],
-  "ok": false
+  ]
 }
 ```
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `ok` | `boolean` | Always `false` for error responses. You can ignore it for programmatic handling. |
 | `message` | `string` | Human-readable error message. |
 | `status` | `number` | HTTP status code. |
 | `code` | `string` | Stable root code for handling the error. |
 | `location` | `string` | Location of the data related to the error, such as `body`, `query`, `params`, or `files`. Included only when applicable. |
 | `path` | `string` | Path of the field related to the error. Included only when applicable. |
 | `errors` | `array` | Additional details. Included only when there are multiple validation errors or relevant external details. |
-| `ok` | `boolean` | Always `false` for error responses. |
+| `errors[].message` | `string` | Human-readable message for a detail. |
+| `errors[].code` | `string` | Detail subcode. For validation errors, this uses a `ValidationErrorCode`; for external errors, it may be the original SAT or PAC code. |
+| `errors[].location` | `string` | Location of the data related to the detail, such as `body`, `query`, `params`, or `files`. |
+| `errors[].path` | `string` | Path of the field related to the detail. |
+| `errors[].source` | `string` | External source for the detail, such as `sat` or `pac`. Included only for external errors. |
 
-## Validation errors
+## Interpreting codes
+
+The root `code` classifies the main result of the request and is the value you should check first when deciding how to handle an error.
+
+Codes inside `errors[]` are detail subcodes. They explain invalid fields or external responses, but they do not replace the root `code`. They may be Facturapi validation subcodes or original codes from external systems such as SAT or PAC.
+
+### Validation errors
 
 When the request does not match the input contract, the root error uses `code: "invalid_request"`. When details are available, `errors[]` includes each invalid field with `path`, `location`, and a validation subcode.
 
-Validation subcodes:
+Validation subcodes are documented at the end of this page as detail subcodes because they appear in `errors[].code`, not in `error.code`.
 
-| Code | Description |
-| --- | --- |
-| `invalid_format` | The value does not match the expected format. |
-| `invalid_length` | The value does not match the allowed length. |
-| `invalid_type` | The value has the wrong type. |
-| `not_allowed` | The value is not allowed for this field. |
-| `required` | A required field is missing. |
-| `too_large` | The value exceeds the allowed limit. |
-| `too_small` | The value is below the allowed minimum. |
-| `unknown_field` | The field is not allowed in this request. |
-
-## External errors
+### External errors
 
 Some operations depend on external validations or services, such as SAT or PAC. In those cases, the root `code` remains a Facturapi code, for example `invoice_stamping_validation_error`.
 
@@ -93,9 +93,9 @@ Some error responses include useful headers for programmatic handling or observa
 | `Retry-After` | Recommended seconds to wait before retrying. Included in errors with `code: "rate_limit_exceeded"`. |
 | `X-Facturapi-Log-Id` | Request correlation ID. You can keep it in your observability stack to investigate errors with support. |
 
-## Error codes
+## Root error codes (`error.code`)
 
-This list is the documented reference for public API codes. We may add new codes at any time when new features or new error cases require them, but we aim to keep this page up to date so integrations have a predictable reference.
+This list is the documented reference for public root API codes. We may add new codes at any time when new features or new error cases require them, but we aim to keep this page up to date so integrations have a predictable reference.
 
 ### CommonErrorCode
 
@@ -353,3 +353,28 @@ This list is the documented reference for public API codes. We may add new codes
 | --- | --- |
 | `tax_id_validation_failed` | The RFC could not be validated. |
 | `tax_id_validation_service_unavailable` | The RFC validation service is unavailable. |
+
+## Detail subcodes (`errors[].code`)
+
+These values appear inside `errors[]` to explain specific details of the root error. They are not root error codes.
+
+### Input validation
+
+These subcodes may appear when the root code is `invalid_request`.
+
+| Code | Description |
+| --- | --- |
+| `invalid_format` | The value does not match the expected format. |
+| `invalid_length` | The value does not match the allowed length. |
+| `invalid_type` | The value has the wrong type. |
+| `not_allowed` | The value is not allowed for this field. |
+| `required` | A required field is missing. |
+| `too_large` | The value exceeds the allowed limit. |
+| `too_small` | The value is below the allowed minimum. |
+| `unknown_field` | The field is not allowed in this request. |
+
+### External codes
+
+When an external system returns a useful code, Facturapi preserves it in `errors[].code` and adds `errors[].source` to indicate how to interpret it. For example, in stamping errors, `source: "sat"` means `errors[].code` is a SAT validation code, such as `CFDI40145`.
+
+External codes are not enumerated here because they belong to the system that emits them. For SAT stamping validation codes, see the [CFDI 4.0 error matrix](https://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/MatrizDeErrores_CFDI_v40.xls).

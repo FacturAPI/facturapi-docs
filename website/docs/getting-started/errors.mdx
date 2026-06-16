@@ -16,6 +16,7 @@ La API responde los errores en JSON y usa códigos de estado HTTP estándar. Par
 
 ```json
 {
+  "ok": false,
   "message": "La solicitud no es válida.",
   "status": 400,
   "code": "invalid_request",
@@ -28,39 +29,38 @@ La API responde los errores en JSON y usa códigos de estado HTTP estándar. Par
       "location": "body",
       "path": "customer.email"
     }
-  ],
-  "ok": false
+  ]
 }
 ```
 
 | Campo | Tipo | Descripción |
 | --- | --- | --- |
+| `ok` | `boolean` | Siempre es `false` en respuestas de error. Puedes ignorarlo para manejo programático. |
 | `message` | `string` | Mensaje legible para humanos. |
 | `status` | `number` | Código de estado HTTP. |
 | `code` | `string` | Código raíz estable para manejar el error. |
 | `location` | `string` | Ubicación del dato relacionado con el error, por ejemplo `body`, `query`, `params` o `files`. Sólo se incluye cuando aplica. |
 | `path` | `string` | Ruta del campo relacionado con el error. Sólo se incluye cuando aplica. |
 | `errors` | `array` | Detalles adicionales. Sólo se incluye cuando hay múltiples errores de validación o detalles externos relevantes. |
-| `ok` | `boolean` | Siempre es `false` en respuestas de error. |
+| `errors[].message` | `string` | Mensaje legible de un detalle. |
+| `errors[].code` | `string` | Subcódigo del detalle. En errores de validación usa un `ValidationErrorCode`; en errores externos puede ser el código original del SAT o PAC. |
+| `errors[].location` | `string` | Ubicación del dato relacionado con el detalle, por ejemplo `body`, `query`, `params` o `files`. |
+| `errors[].path` | `string` | Ruta del campo relacionado con el detalle. |
+| `errors[].source` | `string` | Fuente externa del detalle, por ejemplo `sat` o `pac`. Sólo se incluye para errores externos. |
 
-## Errores de validación
+## Cómo interpretar los códigos
+
+El `code` raíz clasifica el resultado principal de la solicitud y es el valor que deberías usar primero para decidir cómo manejar el error.
+
+Los códigos dentro de `errors[]` son subcódigos de detalle. Sirven para explicar campos inválidos o respuestas externas, pero no reemplazan al `code` raíz. Pueden ser subcódigos de validación definidos por Facturapi o códigos originales de sistemas externos como SAT o PAC.
+
+### Errores de validación
 
 Cuando la petición no cumple el contrato de entrada, el error raíz usa `code: "invalid_request"`. Si hay detalles, `errors[]` incluye cada campo inválido con `path`, `location` y un subcódigo de validación.
 
-Subcódigos de validación:
+Los subcódigos de validación están documentados al final de esta página como subcódigos de detalle porque aparecen en `errors[].code`, no en `error.code`.
 
-| Código | Descripción |
-| --- | --- |
-| `invalid_format` | El valor no cumple el formato esperado. |
-| `invalid_length` | El valor no cumple la longitud permitida. |
-| `invalid_type` | El valor no tiene el tipo esperado. |
-| `not_allowed` | El valor no está permitido para este campo. |
-| `required` | Falta un campo requerido. |
-| `too_large` | El valor excede el límite permitido. |
-| `too_small` | El valor está por debajo del mínimo permitido. |
-| `unknown_field` | El campo no está permitido en esta petición. |
-
-## Errores externos
+### Errores externos
 
 Algunas operaciones dependen de validaciones o servicios externos, como SAT o PAC. En esos casos, el `code` raíz sigue siendo un código de Facturapi, por ejemplo `invoice_stamping_validation_error`.
 
@@ -93,9 +93,9 @@ Algunas respuestas de error incluyen headers útiles para manejo programático u
 | `Retry-After` | Segundos recomendados antes de reintentar. Se incluye en errores con `code: "rate_limit_exceeded"`. |
 | `X-Facturapi-Log-Id` | ID de correlación de la solicitud. Puedes conservarlo en tu observabilidad para investigar errores con soporte. |
 
-## Códigos de error
+## Códigos raíz (`error.code`)
 
-Esta lista es la referencia documentada de códigos públicos de la API. Podemos agregar nuevos códigos en cualquier momento cuando nuevas funcionalidades o nuevos casos de error lo requieran, pero procuramos mantener esta página actualizada para que las integraciones tengan una referencia predecible.
+Esta lista es la referencia documentada de códigos raíz públicos de la API. Podemos agregar nuevos códigos en cualquier momento cuando nuevas funcionalidades o nuevos casos de error lo requieran, pero procuramos mantener esta página actualizada para que las integraciones tengan una referencia predecible.
 
 ### CommonErrorCode
 
@@ -353,3 +353,28 @@ Esta lista es la referencia documentada de códigos públicos de la API. Podemos
 | --- | --- |
 | `tax_id_validation_failed` | No se pudo validar el RFC. |
 | `tax_id_validation_service_unavailable` | El servicio de validación de RFC no está disponible. |
+
+## Subcódigos de detalle (`errors[].code`)
+
+Estos valores aparecen dentro de `errors[]` para explicar detalles específicos del error raíz. No son códigos raíz.
+
+### Validación de entrada
+
+Estos subcódigos pueden aparecer cuando el código raíz es `invalid_request`.
+
+| Código | Descripción |
+| --- | --- |
+| `invalid_format` | El valor no cumple el formato esperado. |
+| `invalid_length` | El valor no cumple la longitud permitida. |
+| `invalid_type` | El valor no tiene el tipo esperado. |
+| `not_allowed` | El valor no está permitido para este campo. |
+| `required` | Falta un campo requerido. |
+| `too_large` | El valor excede el límite permitido. |
+| `too_small` | El valor está por debajo del mínimo permitido. |
+| `unknown_field` | El campo no está permitido en esta petición. |
+
+### Códigos externos
+
+Cuando un sistema externo devuelve un código útil, Facturapi lo conserva en `errors[].code` y agrega `errors[].source` para indicar cómo interpretarlo. Por ejemplo, en errores de timbrado, `source: "sat"` indica que `errors[].code` corresponde a un código de validación del SAT, como `CFDI40145`.
+
+Los códigos externos no se enumeran aquí porque pertenecen al sistema que los emite. Para códigos de validación de timbrado emitidos por el SAT, consulta la [Matriz de errores CFDI 4.0](https://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/MatrizDeErrores_CFDI_v40.xls).

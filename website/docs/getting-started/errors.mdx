@@ -80,6 +80,8 @@ Si el proveedor externo devuelve detalles útiles, se incluyen en `errors[]` con
 }
 ```
 
+Para códigos de validación de timbrado emitidos por el SAT, consulta la [Matriz de errores CFDI 4.0](https://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/MatrizDeErrores_CFDI_v40.xls) publicada dentro de la documentación oficial del [Anexo 20](https://omawww.sat.gob.mx/tramitesyservicios/Paginas/anexo_20_version3-3.htm).
+
 ## Límites de tasa
 
 Cuando alcanzas un límite, la API responde `429 Too Many Requests`, `code: "rate_limit_exceeded"` y el header `Retry-After` con los segundos recomendados antes de reintentar.

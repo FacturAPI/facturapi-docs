@@ -4862,9 +4862,9 @@ paths:
       operationId: assignReceiptCustomer
       tags:
         - receipt
-      summary: Assign customer to receipt
+      summary: Assign or reassign customer to receipt
       description: |
-        Assign an existing customer (by ID) to a receipt, or create a new one by sending the customer object.
+        Assign or reassign an existing customer (by ID) to a receipt, or create a new one by sending the customer object.
 
         If the receipt has a registered transaction, the transaction's `counterparty` will also be updated.
       x-codeSamples:
@@ -15883,7 +15883,7 @@ components:
       properties:
         customer:
           description: |
-            Customer to assign to the receipt. You can send the ID of an existing customer or a customer object to create it.
+            Customer to assign or reassign to the receipt. You can send the ID of an existing customer or a customer object to create it.
           oneOf:
             - type: string
               minLength: 24

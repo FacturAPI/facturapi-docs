@@ -5078,9 +5078,9 @@ paths:
       operationId: assignReceiptCustomer
       tags:
         - receipt
-      summary: Asignar cliente a recibo
+      summary: Asignar o reasignar cliente a recibo
       description: |
-        Asigna un cliente existente (por ID) a un recibo o crea uno nuevo enviando el objeto del cliente.
+        Asigna o reasigna un cliente existente (por ID) a un recibo, o crea uno nuevo enviando el objeto del cliente.
 
         Si el recibo tiene una transacción registrada, también se actualizará el `counterparty` de la transacción.
       x-codeSamples:
@@ -16139,7 +16139,7 @@ components:
       properties:
         customer:
           description: |
-            Cliente a asignar al recibo. Puedes enviar el ID de un cliente existente o un objeto de cliente para crearlo.
+            Cliente a asignar o reasignar al recibo. Puedes enviar el ID de un cliente existente o un objeto de cliente para crearlo.
           oneOf:
             - type: string
               minLength: 24

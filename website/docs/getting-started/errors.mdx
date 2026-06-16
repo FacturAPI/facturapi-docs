@@ -33,15 +33,15 @@ La API responde los errores en JSON y usa códigos de estado HTTP estándar. Par
 }
 ```
 
-| Campo | Descripción |
-| --- | --- |
-| `message` | Mensaje legible para humanos. |
-| `status` | Código de estado HTTP. |
-| `code` | Código raíz estable para manejar el error. |
-| `location` | Ubicación del dato relacionado con el error, por ejemplo `body`, `query`, `params` o `files`. Sólo se incluye cuando aplica. |
-| `path` | Ruta del campo relacionado con el error. Sólo se incluye cuando aplica. |
-| `errors` | Detalles adicionales. Sólo se incluye cuando hay múltiples errores de validación o detalles externos relevantes. |
-| `ok` | Siempre es `false` en respuestas de error. |
+| Campo | Tipo | Descripción |
+| --- | --- | --- |
+| `message` | `string` | Mensaje legible para humanos. |
+| `status` | `number` | Código de estado HTTP. |
+| `code` | `string` | Código raíz estable para manejar el error. |
+| `location` | `string` | Ubicación del dato relacionado con el error, por ejemplo `body`, `query`, `params` o `files`. Sólo se incluye cuando aplica. |
+| `path` | `string` | Ruta del campo relacionado con el error. Sólo se incluye cuando aplica. |
+| `errors` | `array` | Detalles adicionales. Sólo se incluye cuando hay múltiples errores de validación o detalles externos relevantes. |
+| `ok` | `boolean` | Siempre es `false` en respuestas de error. |
 
 ## Errores de validación
 

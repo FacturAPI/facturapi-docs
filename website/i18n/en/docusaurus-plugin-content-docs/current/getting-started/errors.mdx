@@ -33,15 +33,15 @@ The API returns errors as JSON and uses standard HTTP status codes. For programm
 }
 ```
 
-| Field | Description |
-| --- | --- |
-| `message` | Human-readable error message. |
-| `status` | HTTP status code. |
-| `code` | Stable root code for handling the error. |
-| `location` | Location of the data related to the error, such as `body`, `query`, `params`, or `files`. Included only when applicable. |
-| `path` | Path of the field related to the error. Included only when applicable. |
-| `errors` | Additional details. Included only when there are multiple validation errors or relevant external details. |
-| `ok` | Always `false` for error responses. |
+| Field | Type | Description |
+| --- | --- | --- |
+| `message` | `string` | Human-readable error message. |
+| `status` | `number` | HTTP status code. |
+| `code` | `string` | Stable root code for handling the error. |
+| `location` | `string` | Location of the data related to the error, such as `body`, `query`, `params`, or `files`. Included only when applicable. |
+| `path` | `string` | Path of the field related to the error. Included only when applicable. |
+| `errors` | `array` | Additional details. Included only when there are multiple validation errors or relevant external details. |
+| `ok` | `boolean` | Always `false` for error responses. |
 
 ## Validation errors
 

@@ -5,7 +5,7 @@ sidebar_position: 7
 # Manejo de errores
 
 :::info Vigencia
-Los códigos y mensajes de error normalizados descritos aquí aplicarán a partir del 30 de junio de 2026.
+Los códigos y mensajes de error normalizados descritos aquí aplicarán a partir del 30 de junio de 2026. Antes de esa fecha, los códigos y mensajes pueden ser diferentes a los documentados en esta página.
 :::
 
 La API responde los errores en JSON y usa códigos de estado HTTP estándar. Para manejar errores de forma programática, usa `code`: es un string estable y predecible.
@@ -87,6 +87,8 @@ Cuando alcanzas un límite, la API responde `429 Too Many Requests`, `code: "rat
 También puedes conservar el header `X-Facturapi-Log-Id` en tu observabilidad para correlacionar solicitudes con soporte.
 
 ## Códigos de error
+
+Esta lista es la referencia documentada de códigos públicos de la API. Podemos agregar nuevos códigos en cualquier momento cuando nuevas funcionalidades o nuevos casos de error lo requieran, pero procuramos mantener esta página actualizada para que las integraciones tengan una referencia predecible.
 
 ### CommonErrorCode
 

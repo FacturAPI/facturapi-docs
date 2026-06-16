@@ -5,7 +5,7 @@ sidebar_position: 7
 # Error handling
 
 :::info Availability
-The normalized error codes and messages described here apply starting June 30, 2026.
+The normalized error codes and messages described here apply starting June 30, 2026. Before that date, error codes and messages may differ from what is documented on this page.
 :::
 
 The API returns errors as JSON and uses standard HTTP status codes. For programmatic error handling, use `code`: it is a stable, predictable string.
@@ -87,6 +87,8 @@ When you hit a limit, the API returns `429 Too Many Requests`, `code: "rate_limi
 You can also preserve the `X-Facturapi-Log-Id` header in your observability stack to correlate requests with support.
 
 ## Error codes
+
+This list is the documented reference for public API codes. We may add new codes at any time when new features or new error cases require them, but we aim to keep this page up to date so integrations have a predictable reference.
 
 ### CommonErrorCode
 

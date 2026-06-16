@@ -20,10 +20,6 @@ website where they can fill in their tax information and download their invoice
 You can also create a global invoice at the end of the month that includes all those
 receipts that were not invoiced (known as global invoice).
 
-When a receipt is included in a global invoice, Facturapi uses the generic
-`PUBLICO EN GENERAL` customer as the invoice recipient and updates the included
-receipts with that customer.
-
 ## Create a receipt
 
 To see the descriptions of all the parameters, consult the complete reference of the
@@ -143,10 +139,20 @@ curl https://www.facturapi.io/v2/receipts \
 </TabItem>
 </Tabs>
 
-## Assign a customer to an existing receipt
+## Receipt customer
 
-You can assign or reassign a customer (or create it from payload) to an existing receipt with
-[Assign customer to receipt](/api/#tag/receipt/operation/assignReceiptCustomer).
+A receipt can exist without an assigned customer. This state means the invoicing
+destination is not decided yet: the receipt can later become a self-invoice, an invoice
+to a specific customer, or part of a global invoice.
+
+You can associate a customer when calling
+[Create Receipt](/api/#tag/receipt/operation/createReceipt), by sending the
+`customer` field, or later with
+[Assign or reassign customer to receipt](/api/#tag/receipt/operation/assignReceiptCustomer).
+In both cases, you can send the ID of an existing customer or a customer object to create one.
+
+When you reassign a customer, Facturapi also updates the transaction associated with
+the receipt, if one exists.
 
 ```bash
 curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d \
@@ -157,6 +163,23 @@ curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d \
         "customer": "58e93bd8e86eb318b0197456"
       }'
 ```
+
+These are the rules when invoicing receipts:
+
+- [Convert e-receipt to invoice](/api/#tag/receipt/operation/invoiceReceipt): if you
+  send `customer`, that customer is used as the invoice recipient and overrides the
+  customer previously assigned to the receipt. If you omit `customer`, the receipt must
+  already have an assigned customer.
+- [Create invoice from multiple receipts](/api/#tag/receipt/operation/createToInvoiceFromReceipts):
+  if you send `customer`, that customer is used for every included receipt. If you omit
+  `customer`, all receipts must already have the same assigned customer; if they have
+  different customers or any receipt has no customer, the operation fails.
+- [PDF preview for multiple receipts invoice](/api/#tag/receipt/operation/previewToInvoiceFromReceipts)
+  and `dry_run` validate the same customer rules as real invoice creation, but do not
+  persist changes.
+- [Global invoice](/api/#tag/receipt/operation/createGlobalInvoice): Facturapi uses
+  the generic `PUBLICO EN GENERAL` customer as the invoice recipient and updates the
+  included receipts with that customer.
 
 ## Self-invoice portal
 
@@ -169,12 +192,8 @@ For more information, see the article on [Self-Invoice](/docs/guides/self-invoic
 ## Convert an e-receipt into an invoice
 
 With [Convert e-receipt to invoice](/api/#tag/receipt/operation/invoiceReceipt)
-you can convert an e-receipt into an invoice. If the receipt already has an
-assigned customer, you can omit the `customer` parameter; otherwise, send the ID
-of an existing customer or the customer data to create it.
-
-When you send `customer`, that value is used as the invoice recipient and
-overrides any customer previously assigned to the receipt.
+you can convert an e-receipt into an invoice. See the `customer` rules in
+[Receipt customer](#receipt-customer).
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -249,12 +268,5 @@ curl https://www.facturapi.io/v2/receipts/5ebd8e56f5687a013ca0df46/invoice \
 [Create invoice from multiple receipts](/api/#tag/receipt/operation/createToInvoiceFromReceipts)
 creates a single invoice from open receipts selected by `key`.
 
-The `customer` field is optional only when every included receipt already has
-the same assigned customer. If you send `customer`, Facturapi uses it for the
-invoice and updates the included receipts with that customer. If you omit it and
-the receipts have different customers, or if some receipts do not have an
-assigned customer, the operation fails.
-
-The same rules apply to `dry_run` and to the PDF preview. In those cases,
-Facturapi validates the operation as if it were going to create the invoice, but
-does not persist changes.
+See the `customer`, `dry_run`, and PDF preview rules in
+[Receipt customer](#receipt-customer).

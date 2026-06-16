@@ -19,10 +19,6 @@ donde podrán llenar sus datos fiscales y descargar su facuta (portal de autofac
 También puedes crear una factura global al final del mes que incluya todos aquellos
 recibos que no fueron facturados.
 
-Cuando un recibo se incluye en una factura global, Facturapi usa el cliente genérico
-`PUBLICO EN GENERAL` como receptor de la factura y actualiza los recibos incluidos
-con ese cliente.
-
 ## Crear un recibo
 
 Para ver las descripciones de todos los parámetros, consulta la referencia completa del
@@ -142,10 +138,20 @@ curl https://www.facturapi.io/v2/receipts \
 </TabItem>
 </Tabs>
 
-## Asignar un cliente a un recibo existente
+## Cliente asociado al recibo
 
-Puedes asignar o reasignar un cliente a un recibo existente con el método
-[Asignar cliente a recibo](/api/#tag/receipt/operation/assignReceiptCustomer).
+Un recibo puede existir sin cliente asociado. Ese estado significa que el destino de
+facturación todavía no está decidido: el recibo puede terminar en una autofactura, en
+una factura a un cliente específico o en una factura global.
+
+Puedes asociar un cliente al recibo desde el método
+[Crear Recibo](/api/#tag/receipt/operation/createReceipt), enviando el campo
+`customer`, o después con
+[Asignar o reasignar cliente a recibo](/api/#tag/receipt/operation/assignReceiptCustomer).
+En ambos casos puedes enviar el ID de un cliente existente o un objeto para crear uno nuevo.
+
+Al reasignar un cliente, Facturapi también actualiza la transacción asociada al recibo,
+si existe.
 
 ```bash
 curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d \
@@ -156,6 +162,23 @@ curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d \
         "customer": "58e93bd8e86eb318b0197456"
   }'
 ```
+
+Estas son las reglas al facturar recibos:
+
+- [Facturar un recibo](/api/#tag/receipt/operation/invoiceReceipt): si envías
+  `customer`, ese cliente se usa como receptor de la factura y sobrescribe el cliente
+  asignado previamente al recibo. Si omites `customer`, el recibo debe tener un cliente
+  asignado.
+- [Facturar múltiples recibos](/api/#tag/receipt/operation/createToInvoiceFromReceipts):
+  si envías `customer`, ese cliente se usa para todos los recibos incluidos. Si omites
+  `customer`, todos los recibos deben tener asignado el mismo cliente; si hay clientes
+  distintos o recibos sin cliente, la operación falla.
+- [Vista previa PDF de factura múltiple](/api/#tag/receipt/operation/previewToInvoiceFromReceipts)
+  y `dry_run` validan las mismas reglas de cliente que la creación real, pero no
+  persisten cambios.
+- [Factura global](/api/#tag/receipt/operation/createGlobalInvoice): Facturapi usa el
+  cliente genérico `PUBLICO EN GENERAL` como receptor y actualiza los recibos incluidos
+  con ese cliente.
 
 ## Portal de Autofactura
 
@@ -168,12 +191,8 @@ Para más información consulta el artículo de [Autofactura](/docs/guides/self-
 ## Facturar un recibo
 
 Por medio del método [Facturar Recibo](/api/#tag/receipt/operation/invoiceReceipt) puedes convertir
-un e-receipt en una factura. Si el recibo ya tiene un cliente asignado, puedes omitir
-el parámetro `customer`; de lo contrario, debes enviar el ID de un cliente existente
-o los datos del cliente para crearlo.
-
-Cuando envías `customer`, ese valor se usa como cliente receptor de la factura y
-sobrescribe el cliente que pudiera tener asignado el recibo.
+un e-receipt en una factura. Consulta las reglas de `customer` en la sección
+[Cliente asociado al recibo](#cliente-asociado-al-recibo).
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -248,10 +267,5 @@ curl https://www.facturapi.io/v2/receipts/5ebd8e56f5687a013ca0df46/invoice \
 El método [Facturar múltiples recibos](/api/#tag/receipt/operation/createToInvoiceFromReceipts)
 crea una sola factura a partir de recibos abiertos seleccionados por `key`.
 
-El campo `customer` es opcional sólo cuando todos los recibos incluidos ya tienen
-asignado el mismo cliente. Si lo envías, Facturapi usará ese cliente para la factura
-y actualizará los recibos incluidos con ese cliente. Si no lo envías y los recibos
-tienen clientes distintos, o si algunos no tienen cliente asignado, la operación fallará.
-
-Las mismas reglas aplican para `dry_run` y para la vista previa en PDF. En esos casos
-Facturapi valida la operación como si fuera a crear la factura, pero no persiste cambios.
+Consulta las reglas de `customer`, `dry_run` y vista previa PDF en la sección
+[Cliente asociado al recibo](#cliente-asociado-al-recibo).

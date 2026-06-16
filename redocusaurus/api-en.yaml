@@ -11832,7 +11832,7 @@ components:
             message: Too many requests. Please retry shortly.
             status: 429
             ok: false
-            code: RATE_LIMIT_EXCEEDED
+            code: rate_limit_exceeded
     UnexpectedError:
       description: Unexpected error
       content:
@@ -12142,13 +12142,58 @@ components:
             responses.
           example: false
         code:
-          description: Optional error code (for example, RATE_LIMIT_EXCEEDED).
-          oneOf:
-            - type: string
-            - type: integer
+          type: string
+          description: >-
+            Stable error code for programmatic handling. See the error handling
+            guide for the documented code list.
+          example: invalid_request
+        location:
+          type: string
+          description: Optional location of the data related to the error.
+          enum:
+            - body
+            - query
+            - params
+            - headers
+            - files
         path:
           type: string
           description: Optional path to the field related to the error.
+        errors:
+          type: array
+          description: >-
+            Additional error details. Included only when there are validation
+            errors or relevant external details.
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+    ErrorDetail:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable detail message.
+        code:
+          type: string
+          description: >-
+            Detail subcode. Validation errors use codes such as `required` or
+            `invalid_type`; external errors may contain the provider's original
+            code.
+          example: required
+        location:
+          type: string
+          description: Optional location of the data related to this detail.
+          enum:
+            - body
+            - query
+            - params
+            - headers
+            - files
+        path:
+          type: string
+          description: Optional path to the field related to this detail.
+        source:
+          type: string
+          description: Optional source for external details, for example `sat`.
     IssuingType:
       type: string
       description: >-

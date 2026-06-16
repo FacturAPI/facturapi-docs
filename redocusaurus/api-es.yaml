@@ -12007,7 +12007,7 @@ components:
             message: Too many requests. Please retry shortly.
             status: 429
             ok: false
-            code: RATE_LIMIT_EXCEEDED
+            code: rate_limit_exceeded
     UnexpectedError:
       description: Error inesperado
       content:
@@ -12346,13 +12346,59 @@ components:
             error.
           example: false
         code:
-          description: Código de error opcional (por ejemplo, RATE_LIMIT_EXCEEDED).
-          oneOf:
-            - type: string
-            - type: integer
+          type: string
+          description: >-
+            Código de error estable para manejar el error de forma programática.
+            Consulta la guía de manejo de errores para ver la lista de códigos
+            documentados.
+          example: invalid_request
+        location:
+          type: string
+          description: Ubicación opcional del dato relacionado con el error.
+          enum:
+            - body
+            - query
+            - params
+            - headers
+            - files
         path:
           type: string
           description: Ruta opcional del campo relacionado con el error.
+        errors:
+          type: array
+          description: >-
+            Detalles adicionales del error. Sólo se incluye cuando hay errores
+            de validación o detalles externos relevantes.
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+    ErrorDetail:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Mensaje legible del detalle.
+        code:
+          type: string
+          description: >-
+            Subcódigo del detalle. En validaciones usa códigos como `required` o
+            `invalid_type`; en errores externos puede contener el código
+            original del proveedor.
+          example: required
+        location:
+          type: string
+          description: Ubicación opcional del dato relacionado con este detalle.
+          enum:
+            - body
+            - query
+            - params
+            - headers
+            - files
+        path:
+          type: string
+          description: Ruta opcional del campo relacionado con este detalle.
+        source:
+          type: string
+          description: Fuente opcional para detalles externos, por ejemplo `sat`.
     IssuingType:
       type: string
       description: >-

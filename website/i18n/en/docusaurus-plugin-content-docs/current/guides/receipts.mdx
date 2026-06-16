@@ -164,9 +164,13 @@ For more information, see the article on [Self-Invoice](/docs/guides/self-invoic
 
 ## Convert an e-receipt into an invoice
 
-Por medio del método [Facturar Recibo](/api/#tag/receipt/operation/invoiceReceipt) puedes convertir
-un e-receipt en una factura. Para ello, debes enviar los datos del cliente y otros datos que
-no se solicitan al crear el recibo.
+With [Convert e-receipt to invoice](/api/#tag/receipt/operation/invoiceReceipt)
+you can convert an e-receipt into an invoice. If the receipt already has an
+assigned customer, you can omit the `customer` parameter; otherwise, send the ID
+of an existing customer or the customer data to create it.
+
+When you send `customer`, that value is used as the invoice recipient and
+overrides any customer previously assigned to the receipt.
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -235,3 +239,18 @@ curl https://www.facturapi.io/v2/receipts/5ebd8e56f5687a013ca0df46/invoice \
 
 </TabItem>
 </Tabs>
+
+## Convert multiple receipts into one invoice
+
+[Create invoice from multiple receipts](/api/#tag/receipt/operation/createToInvoiceFromReceipts)
+creates a single invoice from open receipts selected by `key`.
+
+The `customer` field is optional only when every included receipt already has
+the same assigned customer. If you send `customer`, Facturapi uses it for the
+invoice and updates the included receipts with that customer. If you omit it and
+the receipts have different customers, or if some receipts do not have an
+assigned customer, the operation fails.
+
+The same rules apply to `dry_run` and to the PDF preview. In those cases,
+Facturapi validates the operation as if it were going to create the invoice, but
+does not persist changes.

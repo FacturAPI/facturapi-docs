@@ -164,8 +164,12 @@ Para más información consulta el artículo de [Autofactura](/docs/guides/self-
 ## Facturar un recibo
 
 Por medio del método [Facturar Recibo](/api/#tag/receipt/operation/invoiceReceipt) puedes convertir
-un e-receipt en una factura. Para ello, debes enviar los datos del cliente y otros datos que
-no se solicitan al crear el recibo.
+un e-receipt en una factura. Si el recibo ya tiene un cliente asignado, puedes omitir
+el parámetro `customer`; de lo contrario, debes enviar el ID de un cliente existente
+o los datos del cliente para crearlo.
+
+Cuando envías `customer`, ese valor se usa como cliente receptor de la factura y
+sobrescribe el cliente que pudiera tener asignado el recibo.
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -234,3 +238,16 @@ curl https://www.facturapi.io/v2/receipts/5ebd8e56f5687a013ca0df46/invoice \
 
 </TabItem>
 </Tabs>
+
+## Facturar múltiples recibos
+
+El método [Facturar múltiples recibos](/api/#tag/receipt/operation/createToInvoiceFromReceipts)
+crea una sola factura a partir de recibos abiertos seleccionados por `key`.
+
+El campo `customer` es opcional sólo cuando todos los recibos incluidos ya tienen
+asignado el mismo cliente. Si lo envías, Facturapi usará ese cliente para la factura
+y actualizará los recibos incluidos con ese cliente. Si no lo envías y los recibos
+tienen clientes distintos, o si algunos no tienen cliente asignado, la operación fallará.
+
+Las mismas reglas aplican para `dry_run` y para la vista previa en PDF. En esos casos
+Facturapi valida la operación como si fuera a crear la factura, pero no persiste cambios.

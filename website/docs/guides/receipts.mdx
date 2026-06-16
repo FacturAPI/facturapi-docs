@@ -189,7 +189,7 @@ factura global a `PUBLICO EN GENERAL`.
   Los recibos incluidos quedan asociados a ese cliente y cambian su `status` a
   `"invoiced_globally"`.
 
-## Facturar un recibo
+### Facturar un recibo
 
 Por medio del método [Facturar Recibo](/api/#tag/receipt/operation/invoiceReceipt) puedes convertir
 un e-receipt en una factura. Consulta las reglas completas en la sección
@@ -263,7 +263,7 @@ curl https://www.facturapi.io/v2/receipts/5ebd8e56f5687a013ca0df46/invoice \
 </TabItem>
 </Tabs>
 
-## Facturar múltiples recibos
+### Facturar múltiples recibos
 
 El método [Facturar múltiples recibos](/api/#tag/receipt/operation/createToInvoiceFromReceipts)
 crea una sola factura a partir de recibos abiertos seleccionados por `key`.

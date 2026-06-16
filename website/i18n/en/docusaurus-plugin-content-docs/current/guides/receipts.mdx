@@ -193,8 +193,9 @@ to `PUBLICO EN GENERAL`.
 ### Convert an e-receipt into an invoice
 
 With [Convert e-receipt to invoice](/api/#tag/receipt/operation/invoiceReceipt)
-you can convert an e-receipt into an invoice. See the full rules in
-[Ways to invoice receipts](#ways-to-invoice-receipts).
+you can convert an e-receipt into an invoice for a specific customer. If the receipt
+already has an assigned customer, you can omit `customer`; if you send `customer`, that
+customer becomes the invoice recipient.
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -269,4 +270,5 @@ curl https://www.facturapi.io/v2/receipts/5ebd8e56f5687a013ca0df46/invoice \
 [Create invoice from multiple receipts](/api/#tag/receipt/operation/createToInvoiceFromReceipts)
 creates a single invoice from open receipts selected by `key`.
 
-See the full rules in [Ways to invoice receipts](#ways-to-invoice-receipts).
+You can also send `dry_run: true` to validate the operation and get a summary without
+creating the invoice, or use the [PDF preview](/api/#tag/receipt/operation/previewToInvoiceFromReceipts).

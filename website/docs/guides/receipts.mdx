@@ -192,8 +192,9 @@ factura global a `PUBLICO EN GENERAL`.
 ### Facturar un recibo
 
 Por medio del método [Facturar Recibo](/api/#tag/receipt/operation/invoiceReceipt) puedes convertir
-un e-receipt en una factura. Consulta las reglas completas en la sección
-[Formas de facturar recibos](#formas-de-facturar-recibos).
+un e-receipt en una factura a un cliente específico. Si el recibo ya tiene un cliente
+asignado, puedes omitir `customer`; si envías `customer`, ese cliente será el receptor
+de la factura.
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -268,5 +269,5 @@ curl https://www.facturapi.io/v2/receipts/5ebd8e56f5687a013ca0df46/invoice \
 El método [Facturar múltiples recibos](/api/#tag/receipt/operation/createToInvoiceFromReceipts)
 crea una sola factura a partir de recibos abiertos seleccionados por `key`.
 
-Consulta las reglas completas en la sección
-[Formas de facturar recibos](#formas-de-facturar-recibos).
+También puedes enviar `dry_run: true` para validar la operación y obtener un resumen
+sin crear la factura, o usar la [vista previa PDF](/api/#tag/receipt/operation/previewToInvoiceFromReceipts).

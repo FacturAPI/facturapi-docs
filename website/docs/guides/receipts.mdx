@@ -149,9 +149,6 @@ Puedes asociar un cliente al recibo desde el método
 [Asignar o reasignar cliente a recibo](/api/#tag/receipt/operation/assignReceiptCustomer).
 En ambos casos puedes enviar el ID de un cliente existente o un objeto para crear uno nuevo.
 
-Al reasignar un cliente, Facturapi también actualiza la transacción asociada al recibo,
-si existe.
-
 ```bash
 curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d \
   -H "Authorization: Bearer sk_test_API_KEY" \

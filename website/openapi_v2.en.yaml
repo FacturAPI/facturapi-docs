@@ -4865,8 +4865,6 @@ paths:
       summary: Assign or reassign customer to receipt
       description: |
         Assign or reassign an existing customer (by ID) to a receipt, or create a new one by sending the customer object.
-
-        If the receipt has a registered transaction, the transaction's `counterparty` will also be updated.
       x-codeSamples:
         - lang: Bash
           label: cURL

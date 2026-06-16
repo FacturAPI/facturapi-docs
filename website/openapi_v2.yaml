@@ -5081,8 +5081,6 @@ paths:
       summary: Asignar o reasignar cliente a recibo
       description: |
         Asigna o reasigna un cliente existente (por ID) a un recibo, o crea uno nuevo enviando el objeto del cliente.
-
-        Si el recibo tiene una transacción registrada, también se actualizará el `counterparty` de la transacción.
       x-codeSamples:
         - lang: Bash
           label: cURL

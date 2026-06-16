@@ -150,9 +150,6 @@ You can associate a customer when calling
 [Assign or reassign customer to receipt](/api/#tag/receipt/operation/assignReceiptCustomer).
 In both cases, you can send the ID of an existing customer or a customer object to create one.
 
-When you reassign a customer, Facturapi also updates the transaction associated with
-the receipt, if one exists.
-
 ```bash
 curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d \
   -H "Authorization: Bearer sk_test_API_KEY" \

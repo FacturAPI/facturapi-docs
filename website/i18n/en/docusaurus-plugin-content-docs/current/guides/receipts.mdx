@@ -139,10 +139,16 @@ curl https://www.facturapi.io/v2/receipts \
 </TabItem>
 </Tabs>
 
-## Assign a customer to an existing receipt
+## Receipt customer
 
-You can assign a customer (or create it from payload) to an existing receipt with
-[Assign customer to receipt](/api/#tag/receipt/operation/assignReceiptCustomer).
+A receipt can exist without an assigned customer. This state means the invoicing
+destination is not decided yet.
+
+You can associate a customer when calling
+[Create Receipt](/api/#tag/receipt/operation/createReceipt), by sending the
+`customer` field, or later with
+[Assign or reassign customer to receipt](/api/#tag/receipt/operation/assignReceiptCustomer).
+In both cases, you can send the ID of an existing customer or a customer object to create one.
 
 ```bash
 curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d \
@@ -162,11 +168,34 @@ their tax information and download their invoice.
 
 For more information, see the article on [Self-Invoice](/docs/guides/self-invoice).
 
-## Convert an e-receipt into an invoice
+## Ways to invoice receipts
 
-Por medio del método [Facturar Recibo](/api/#tag/receipt/operation/invoiceReceipt) puedes convertir
-un e-receipt en una factura. Para ello, debes enviar los datos del cliente y otros datos que
-no se solicitan al crear el recibo.
+Open receipts can be invoiced to a specific customer or included in a global invoice
+to `PUBLICO EN GENERAL`.
+
+- [Convert e-receipt to invoice](/api/#tag/receipt/operation/invoiceReceipt) creates
+  an invoice for a single receipt. If you send `customer`, that customer is used as the
+  invoice recipient and overrides the customer previously assigned to the receipt. If
+  you omit `customer`, the receipt must already have an assigned customer.
+- [Create invoice from multiple receipts](/api/#tag/receipt/operation/createToInvoiceFromReceipts)
+  creates an invoice for several receipts selected by `key`. If you send `customer`,
+  that customer is used for every included receipt. If you omit `customer`, all receipts
+  must already have the same assigned customer; if they have different customers or any
+  receipt has no customer, the operation fails.
+- [PDF preview for multiple receipts invoice](/api/#tag/receipt/operation/previewToInvoiceFromReceipts)
+  and `dry_run` validate the same customer rules as real invoice creation, but do not
+  persist changes.
+- [Global invoice](/api/#tag/receipt/operation/createGlobalInvoice) also groups
+  multiple receipts, but always invoices them to the generic `PUBLICO EN GENERAL`
+  customer. Included receipts are associated with that customer and their `status`
+  changes to `"invoiced_globally"`.
+
+### Convert an e-receipt into an invoice
+
+With [Convert e-receipt to invoice](/api/#tag/receipt/operation/invoiceReceipt)
+you can convert an e-receipt into an invoice for a specific customer. If the receipt
+already has an assigned customer, you can omit `customer`; if you send `customer`, that
+customer becomes the invoice recipient.
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -235,3 +264,11 @@ curl https://www.facturapi.io/v2/receipts/5ebd8e56f5687a013ca0df46/invoice \
 
 </TabItem>
 </Tabs>
+
+### Convert multiple receipts into one invoice
+
+[Create invoice from multiple receipts](/api/#tag/receipt/operation/createToInvoiceFromReceipts)
+creates a single invoice from open receipts selected by `key`.
+
+You can also send `dry_run: true` to validate the operation and get a summary without
+creating the invoice, or use the [PDF preview](/api/#tag/receipt/operation/previewToInvoiceFromReceipts).

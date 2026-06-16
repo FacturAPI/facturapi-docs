@@ -138,10 +138,16 @@ curl https://www.facturapi.io/v2/receipts \
 </TabItem>
 </Tabs>
 
-## Asignar un cliente a un recibo existente
+## Cliente asociado al recibo
 
-Puedes asignar un cliente a un recibo existente con el método
-[Asignar cliente a recibo](/api/#tag/receipt/operation/assignReceiptCustomer).
+Un recibo puede existir sin cliente asociado. Ese estado significa que el destino de
+facturación todavía no está decidido.
+
+Puedes asociar un cliente al recibo desde el método
+[Crear Recibo](/api/#tag/receipt/operation/createReceipt), enviando el campo
+`customer`, o después con
+[Asignar o reasignar cliente a recibo](/api/#tag/receipt/operation/assignReceiptCustomer).
+En ambos casos puedes enviar el ID de un cliente existente o un objeto para crear uno nuevo.
 
 ```bash
 curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d \
@@ -161,11 +167,34 @@ llenar sus datos fiscales y descargar su factura.
 
 Para más información consulta el artículo de [Autofactura](/docs/guides/self-invoice).
 
-## Facturar un recibo
+## Formas de facturar recibos
+
+Los recibos abiertos pueden facturarse a un cliente específico o incluirse en una
+factura global a `PUBLICO EN GENERAL`.
+
+- [Facturar un recibo](/api/#tag/receipt/operation/invoiceReceipt) crea una factura
+  para un solo recibo. Si envías `customer`, ese cliente se usa como receptor y
+  sobrescribe el cliente asignado previamente al recibo. Si omites `customer`, el
+  recibo debe tener un cliente asignado.
+- [Facturar múltiples recibos](/api/#tag/receipt/operation/createToInvoiceFromReceipts)
+  crea una factura para varios recibos seleccionados por `key`. Si envías `customer`,
+  ese cliente se usa para todos los recibos incluidos. Si omites `customer`, todos los
+  recibos deben tener asignado el mismo cliente; si hay clientes distintos o recibos
+  sin cliente, la operación falla.
+- [Vista previa PDF de factura múltiple](/api/#tag/receipt/operation/previewToInvoiceFromReceipts)
+  y `dry_run` validan las mismas reglas de cliente que la creación real, pero no
+  persisten cambios.
+- [Factura global](/api/#tag/receipt/operation/createGlobalInvoice) también agrupa
+  múltiples recibos, pero siempre los factura al cliente genérico `PUBLICO EN GENERAL`.
+  Los recibos incluidos quedan asociados a ese cliente y cambian su `status` a
+  `"invoiced_globally"`.
+
+### Facturar un recibo
 
 Por medio del método [Facturar Recibo](/api/#tag/receipt/operation/invoiceReceipt) puedes convertir
-un e-receipt en una factura. Para ello, debes enviar los datos del cliente y otros datos que
-no se solicitan al crear el recibo.
+un e-receipt en una factura a un cliente específico. Si el recibo ya tiene un cliente
+asignado, puedes omitir `customer`; si envías `customer`, ese cliente será el receptor
+de la factura.
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -234,3 +263,11 @@ curl https://www.facturapi.io/v2/receipts/5ebd8e56f5687a013ca0df46/invoice \
 
 </TabItem>
 </Tabs>
+
+### Facturar múltiples recibos
+
+El método [Facturar múltiples recibos](/api/#tag/receipt/operation/createToInvoiceFromReceipts)
+crea una sola factura a partir de recibos abiertos seleccionados por `key`.
+
+También puedes enviar `dry_run: true` para validar la operación y obtener un resumen
+sin crear la factura, o usar la [vista previa PDF](/api/#tag/receipt/operation/previewToInvoiceFromReceipts).

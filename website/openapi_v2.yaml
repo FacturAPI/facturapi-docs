@@ -5078,11 +5078,9 @@ paths:
       operationId: assignReceiptCustomer
       tags:
         - receipt
-      summary: Asignar cliente a recibo
+      summary: Asignar o reasignar cliente a recibo
       description: |
-        Asigna un cliente existente (por ID) a un recibo o crea uno nuevo enviando el objeto del cliente.
-
-        Si el recibo tiene una transacción registrada, también se actualizará el `counterparty` de la transacción.
+        Asigna o reasigna un cliente existente (por ID) a un recibo, o crea uno nuevo enviando el objeto del cliente.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -5525,6 +5523,10 @@ paths:
 
         Sólo pueden facturarse recibos abiertos (`status = "open"`)
 
+        Si envías `customer`, ese cliente se usará como receptor de la factura y
+        sobrescribirá el cliente asignado al recibo. Si omites `customer`, el
+        recibo debe tener un cliente asignado previamente.
+
         Una vez facturado, el `status` del recibo cambiará a `"invoiced_to_customer"`.
       x-codeSamples:
         - lang: Bash
@@ -5621,7 +5623,12 @@ paths:
       description: |
         Crea una sola factura a partir de múltiples recibos seleccionados por su `key`.
 
+        Si envías `customer`, ese cliente se usará como receptor de la factura y
+        sobrescribirá el cliente asignado a los recibos incluidos. Si omites
+        `customer`, todos los recibos deben tener asignado el mismo cliente.
+
         Si `dry_run` es `true`, no crea la factura y regresa un resumen de vista previa.
+        El `dry_run` valida las mismas reglas que la creación real, pero no persiste cambios.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -5758,6 +5765,9 @@ paths:
       summary: Vista previa PDF de factura múltiple
       description: |
         Genera una vista previa en PDF para una factura construida a partir de múltiples recibos seleccionados por `key`.
+
+        La vista previa valida las mismas reglas de cliente que la creación real:
+        si omites `customer`, todos los recibos deben tener asignado el mismo cliente.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -5884,6 +5894,10 @@ paths:
       summary: Crear factura global
       description: |
         Crea una factura global que incluirá todos los recibos con `status = “open”` de un cierto periodo.
+
+        La factura global se emite al cliente genérico `PUBLICO EN GENERAL`.
+        Los recibos incluidos quedan asociados a ese cliente y su `status`
+        cambia a `"invoiced_globally"`.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -16123,7 +16137,7 @@ components:
       properties:
         customer:
           description: |
-            Cliente a asignar al recibo. Puedes enviar el ID de un cliente existente o un objeto de cliente para crearlo.
+            Cliente a asignar o reasignar al recibo. Puedes enviar el ID de un cliente existente o un objeto de cliente para crearlo.
           oneOf:
             - type: string
               minLength: 24
@@ -16141,13 +16155,14 @@ components:
                 $ref: "#/components/schemas/Receipt"
     InvoiceReceiptInput:
       type: object
-      required:
-        - customer
       allOf:
         - type: object
           properties:
             customer:
-              description: Cliente receptor de la factura.
+              description: |
+                Cliente receptor de la factura. Puedes enviarlo como ID de un cliente existente
+                o como objeto para crear un cliente nuevo. Si lo omites, el recibo debe tener
+                un cliente asignado previamente.
               oneOf:
                 - $ref: "#/components/schemas/CustomerCreateInput"
                 - type: string
@@ -16259,10 +16274,17 @@ components:
             description: Key del recibo.
             example: ticket_1001
         customer:
-          allOf:
+          oneOf:
             - $ref: "#/components/schemas/CustomerCreateInput"
+            - type: string
+              title: customer_id
+              description: ID de un cliente previamente registrado en Facturapi.
+              example: 58e93bd8e86eb318b0197456
           description: |
-            Cliente receptor de la factura. Requerido excepto cuando `dry_run` es `true`.
+            Cliente receptor de la factura. Si lo envías, sobrescribe el cliente
+            asignado a los recibos incluidos. Si lo omites, todos los recibos deben
+            tener asignado el mismo cliente. Esta regla también aplica cuando
+            `dry_run` es `true`.
         use:
           type: string
           default: G01
@@ -16295,9 +16317,15 @@ components:
             example: ticket_1001
         customer:
           nullable: true
-          allOf:
+          oneOf:
             - $ref: "#/components/schemas/CustomerCreateInput"
-          description: Información de cliente opcional para renderizar la vista previa.
+            - type: string
+              title: customer_id
+              description: ID de un cliente previamente registrado en Facturapi.
+              example: 58e93bd8e86eb318b0197456
+          description: |
+            Cliente opcional para renderizar la vista previa. Si lo omites,
+            todos los recibos deben tener asignado el mismo cliente.
         use:
           type: string
           default: G01

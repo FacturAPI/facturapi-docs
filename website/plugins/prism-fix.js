@@ -5,6 +5,7 @@ module.exports = function prismFixPlugin() {
       return {
         resolve: {
           alias: {
+            // Redoc can load Scala snippets; Prism's Scala component expects Java to be registered first.
             "prismjs/components/prism-scala.js$": require.resolve(
               "../src/prism/prism-scala.js"
             ),

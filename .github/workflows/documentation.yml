@@ -3,7 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
-    paths: [website/**]
+    paths:
+      - website/**
+      - .github/workflows/documentation.yml
 
 jobs:
   deploy:
@@ -12,14 +14,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.5.1
+
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: 24.x
           cache: pnpm
           cache-dependency-path: website/pnpm-lock.yaml
-
-      - name: Enable Corepack
-        run: corepack enable
 
       - name: Build website
         working-directory: website

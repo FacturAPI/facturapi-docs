@@ -1,0 +1,1 @@
+(self.webpackChunkfacturapi_docs=self.webpackChunkfacturapi_docs||[]).push([["8354"],{2703(s,a,c){let e=c(65904);globalThis.Prism=e,void 0!==c.g&&(c.g.Prism=e),c(77659),c(32912),c(2703),s.exports=e},79559(){},90672(){},82941(){},29452(){},19299(){}}]);

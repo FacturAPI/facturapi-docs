@@ -16,7 +16,7 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
     trailingSlash: true,
     future: {
       v4: true,
-      experimental_faster: true
+      faster: true
     },
     markdown: {
       hooks: {

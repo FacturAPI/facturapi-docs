@@ -111,21 +111,21 @@ body[data-scrolled='true'] .navbar {
   width: auto;
 }
 
-.facturapi-navbar-title {
+.navbar__brand .navbar__title {
   align-items: baseline;
   display: inline-flex;
   gap: 0.18rem;
 }
 
-.facturapi-navbar-title__suffix {
+.navbar__brand .navbar__title::after {
   color: var(--facturapi-brand-suffix);
+  content: "Docs";
   font-weight: 500;
   transition: color var(--ifm-transition-fast) var(--ifm-transition-timing-default);
 }
 
-.navbar__brand:hover .facturapi-navbar-title__suffix,
-.navbar__brand:focus-visible .facturapi-navbar-title__suffix,
-.navbar__brand:hover .facturapi-navbar-title .facturapi-navbar-title__suffix {
+.navbar__brand:hover .navbar__title::after,
+.navbar__brand:focus-visible .navbar__title::after {
   color: var(--facturapi-brand-suffix-hover) !important;
 }
 

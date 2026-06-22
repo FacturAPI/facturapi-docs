@@ -16728,6 +16728,17 @@ components:
               description: >-
                 Payment form code according to the [Payment Form
                 catalog](#forma-de-pago).
+            payment_method:
+              type: string
+              default: PUE
+              enum:
+                - PUE
+              description: >
+                Payment method code according to the SAT catalog. For Egress
+                invoices,
+
+                this field is optional and the only allowed value is `PUE`
+                (Payment in One Installment).
             related_documents:
               type: array
               description: |
@@ -17101,6 +17112,16 @@ components:
               description: >-
                 Payment form code according to the [Payment Form
                 catalog](#forma-de-pago).
+            payment_method:
+              type: string
+              enum:
+                - PUE
+              description: >
+                Payment method code according to the SAT catalog. For Egress
+                invoices,
+
+                this field is optional and the only allowed value is `PUE`
+                (Payment in One Installment).
             related_documents:
               type: array
               description: |

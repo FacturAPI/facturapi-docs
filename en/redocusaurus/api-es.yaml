@@ -17055,6 +17055,17 @@ components:
               description: >-
                 Código que representa la forma de pago, de acuerdo al [catálogo
                 del SAT](#forma-de-pago).
+            payment_method:
+              type: string
+              default: PUE
+              enum:
+                - PUE
+              description: >
+                Código del método de pago según el catálogo del SAT. Para
+                facturas de Egreso,
+
+                este campo es opcional y el único valor permitido es `PUE` (Pago
+                en Una sola Exhibición).
             related_documents:
               type: array
               description: Documentos relacionados con la nota de crédito.
@@ -17431,6 +17442,16 @@ components:
               description: >-
                 Código que representa la forma de pago, de acuerdo al [catálogo
                 del SAT](#forma-de-pago).
+            payment_method:
+              type: string
+              enum:
+                - PUE
+              description: >
+                Código del método de pago según el catálogo del SAT. Para
+                facturas de Egreso,
+
+                este campo es opcional y el único valor permitido es `PUE` (Pago
+                en Una sola Exhibición).
             related_documents:
               type: array
               description: Documentos relacionados con la nota de crédito.

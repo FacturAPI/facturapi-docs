@@ -3411,7 +3411,10 @@ paths:
       tags:
         - invoice
       summary: Listar facturas
-      description: Regresa una lista paginada de todas las facturas de una organización o realiza una búsqueda de acuerdo a parámetros
+      description: |
+        Regresa una lista paginada de todas las facturas de una organización o realiza una búsqueda de acuerdo a parámetros.
+
+        Por defecto, los resultados se ordenan por fecha de emisión, usando el campo `date` de forma descendente.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -3595,7 +3598,9 @@ paths:
         - in: query
           name: issuer_type
           schema:
-            $ref: '#/components/schemas/IssuingType'
+            allOf:
+              - $ref: '#/components/schemas/IssuingType'
+            default: issuing
           description: Filtrar por tipo de emisión.
         - in: query
           name: cancellation_status
@@ -3618,9 +3623,27 @@ paths:
               - paid
               - unpaid
           description: Filtrar por estado de pago. Coincidencia exacta.
-        - $ref: "#/components/parameters/SearchDate"
-        - $ref: "#/components/parameters/SearchPage"
-        - $ref: "#/components/parameters/SearchLimit"
+        - in: query
+          name: date
+          style: deepObject
+          schema:
+            $ref: "#/components/schemas/DateRange"
+          description: Objeto con rango de fechas solicitado. El rango filtra el campo `date` de la factura.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: Página de resultados a regresar, empezando desde la página 1.
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            default: 100
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []

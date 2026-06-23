@@ -5410,6 +5410,7 @@ paths:
         If you send `customer`, that customer is used as the invoice recipient
         and overrides the customer assigned to the included receipts. If you omit
         `customer`, all receipts must already have the same assigned customer.
+        The `address` field of the included receipts will also be validated.
 
         If `dry_run` is `true`, the endpoint does not create the invoice and returns a summary preview.
         The `dry_run` validates the same rules as real invoice creation, but does not persist changes.
@@ -15872,6 +15873,16 @@ components:
                   maxLength: 24
                   example: 58e93bd8e86eb318b0197456
                 - $ref: "#/components/schemas/CustomerCreateInput"
+            address:
+              allOf:
+                - $ref: "#/components/schemas/CommonAddressProperties"
+                - type: object
+                  description: Place of issuance address for the receipt.
+                  properties:
+                    state:
+                      type: string
+                      description: State or federal entity name.
+                      example: Sonora
             items:
               type: array
               maxItems: 5000

@@ -1020,6 +1020,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            maximum: 30
         - in: query
           name: limit
           schema:
@@ -1128,6 +1129,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            maximum: 30
         - in: query
           name: limit
           schema:
@@ -1236,6 +1238,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            maximum: 30
         - in: query
           name: limit
           schema:
@@ -1344,6 +1347,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            maximum: 30
         - in: query
           name: limit
           schema:
@@ -1452,6 +1456,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            maximum: 30
         - in: query
           name: limit
           schema:
@@ -1560,6 +1565,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            maximum: 30
         - in: query
           name: limit
           schema:
@@ -1668,6 +1674,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            maximum: 30
         - in: query
           name: limit
           schema:
@@ -1776,6 +1783,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            maximum: 30
         - in: query
           name: limit
           schema:
@@ -1884,6 +1892,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            maximum: 30
         - in: query
           name: limit
           schema:
@@ -2006,6 +2015,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            maximum: 30
         - in: query
           name: limit
           schema:
@@ -2114,6 +2124,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            maximum: 30
         - in: query
           name: limit
           schema:
@@ -11438,7 +11449,8 @@ components:
       schema:
         type: integer
         minimum: 1
-      description: Página de resultados a regresar, empezando desde la página 1.
+        maximum: 30
+      description: Página de resultados a regresar, empezando desde la página 1. La página máxima que se puede solicitar es 30.
     SearchLimit:
       in: query
       name: limit

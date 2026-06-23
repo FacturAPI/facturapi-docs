@@ -11438,8 +11438,7 @@ components:
       schema:
         type: integer
         minimum: 1
-        maximum: 30
-      description: Página de resultados a regresar, empezando desde la página 1. La página máxima que se puede solicitar es 30.
+      description: Página de resultados a regresar, empezando desde la página 1.
     SearchLimit:
       in: query
       name: limit

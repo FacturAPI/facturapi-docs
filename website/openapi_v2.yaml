@@ -5626,6 +5626,7 @@ paths:
         Si envías `customer`, ese cliente se usará como receptor de la factura y
         sobrescribirá el cliente asignado a los recibos incluidos. Si omites
         `customer`, todos los recibos deben tener asignado el mismo cliente.
+        También se validará el campo `address` de los recibos incluidos.
 
         Si `dry_run` es `true`, no crea la factura y regresa un resumen de vista previa.
         El `dry_run` valida las mismas reglas que la creación real, pero no persiste cambios.
@@ -16133,6 +16134,16 @@ components:
                   maxLength: 24
                   example: 58e93bd8e86eb318b0197456
                 - $ref: "#/components/schemas/CustomerCreateInput"
+            address:
+              allOf:
+                - $ref: "#/components/schemas/CommonAddressProperties"
+                - type: object
+                  description: Domicilio de expedición del recibo.
+                  properties:
+                    state:
+                      type: string
+                      description: Nombre del Estado o Entidad Federativa.
+                      example: Sonora
             items:
               type: array
               maxItems: 5000

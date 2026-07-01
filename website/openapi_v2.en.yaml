@@ -10842,6 +10842,44 @@ x-webhooks:
                             - invoice
                         object:
                           $ref: "#/components/schemas/Invoice"
+                    related_resource_messages:
+                      type: array
+                      description: Messages related to the resource associated with the event.
+                      items:
+                        $ref: "#/components/schemas/RelatedResourceMessage"
+            examples:
+              with_related_messages:
+                summary: With related messages
+                value:
+                  id: evt_xxx
+                  created_at: "2026-07-01T12:00:00.000Z"
+                  livemode: true
+                  organization: org_xxx
+                  type: invoice.status_updated
+                  data:
+                    type: invoice
+                    object:
+                      id: invoice_xxx
+                  related_resource_messages:
+                    - resource_type: invoice
+                      resource_id: invoice_xxx
+                      source: stamping_async_task
+                      severity: error
+                      message: The receiver RFC is not valid
+                      created_at: "2026-01-01T00:00:00.000Z"
+              without_related_messages:
+                summary: Without related messages
+                value:
+                  id: evt_xxx
+                  created_at: "2026-07-01T12:00:00.000Z"
+                  livemode: true
+                  organization: org_xxx
+                  type: invoice.status_updated
+                  data:
+                    type: invoice
+                    object:
+                      id: invoice_xxx
+                  related_resource_messages: []
   "Invoice created from dashboard":
     post:
       summary: Invoice created from dashboard
@@ -11257,6 +11295,38 @@ components:
       description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
 
   schemas:
+    RelatedResourceMessage:
+      type: object
+      properties:
+        resource_type:
+          type: string
+          description: Type of related resource.
+          example: invoice
+        resource_id:
+          type: string
+          description: ID of the related resource.
+          example: invoice_xxx
+        source:
+          type: string
+          description: Source of the message.
+          example: stamping_async_task
+        severity:
+          type: string
+          description: Severity of the message.
+          enum:
+            - error
+            - warning
+            - info
+          example: error
+        message:
+          type: string
+          description: Message related to the resource.
+          example: The receiver RFC is not valid
+        created_at:
+          type: string
+          format: date-time
+          description: Creation date and time of the message.
+          example: "2026-01-01T00:00:00.000Z"
     EventBase:
       type: object
       properties:

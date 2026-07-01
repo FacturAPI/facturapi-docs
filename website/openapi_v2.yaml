@@ -6038,6 +6038,11 @@ paths:
       summary: Crear retención
       description: |
         Crea una nueva Retención. Si el comprobante es creado en ambiente Live, ésta será **timbrado y enviado al SAT**.
+
+        Para crear una retención en borrador, envía `status: "draft"`. En ese caso,
+        la retención se guardará sin timbrarse, no se enviará al PAC y podrá estar
+        incompleta. Facturapi asignará `is_ready_to_stamp: true` únicamente cuando
+        el borrador tenga todos los datos requeridos para timbrarse.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -6172,7 +6177,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Retention"
+                type: object
+                discriminator:
+                  propertyName: status
+                  mapping:
+                    valid: "#/components/schemas/Retention"
+                    pending: "#/components/schemas/Retention"
+                    draft: "#/components/schemas/Retention"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -6314,6 +6325,25 @@ paths:
           schema:
             type: string
           description: Identificador del cliente. Útil para obtener las retenciones emitidas a un sólo cliente.
+        - in: query
+          name: status
+          schema:
+            oneOf:
+              - type: string
+                enum:
+                  - draft
+                  - pending
+                  - valid
+                  - canceled
+              - type: array
+                items:
+                  type: string
+                  enum:
+                    - draft
+                    - pending
+                    - valid
+                    - canceled
+          description: Filtrar por uno o más estados de retención.
         - $ref: "#/components/parameters/SearchDate"
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
@@ -6402,6 +6432,95 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+    put:
+      operationId: updateDraftRetention
+      tags:
+        - retention
+      summary: Editar borrador de retención
+      description: |
+        Actualiza la información de una retención con status `draft`, asignando
+        los valores de los parámetros enviados. Los parámetros que no se envíen
+        en la petición no se modificarán.
+
+        Facturapi recalculará automáticamente `is_ready_to_stamp` después de cada
+        edición. Si la retención ya no está en status `draft`, la llamada regresará
+        un error.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/retentions/6062d9fb226600001cd22f71 \
+              -X PUT \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                    "folio_int": "R-2026-001"
+                  }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const retention = await facturapi.retentions.updateDraft(
+              '6062d9fb226600001cd22f71',
+              { folio_int: 'R-2026-001' }
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var retention = await facturapi.Retention.UpdateDraftAsync(
+              "6062d9fb226600001cd22f71",
+              new Dictionary<string, object>
+              {
+                ["folio_int"] = "R-2026-001"
+              }
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var retention = facturapi.retentions().updateDraft(
+              "ret_123",
+              Map.of("folio_int", "R-2026-001")
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $retention = $facturapi->Retentions->updateDraft("6062d9fb226600001cd22f71", [
+              "folio_int" => "R-2026-001"
+            ]);
+      parameters:
+        - in: path
+          name: retention_id
+          schema:
+            type: string
+          required: true
+          description: ID de la retención a editar
+      requestBody:
+        $ref: "#/components/requestBodies/RetentionCreate"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Objeto `Retention` editado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Retention"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
     delete:
       operationId: cancelRetention
       tags:
@@ -6411,6 +6530,9 @@ paths:
         Realiza una solicitud de cancelación de retención ante el SAT.
 
         A diferencia de las facturas comúnes, la cancelación de la retención es inmediata y no requiere autorización de parte del receptor.
+
+        Si el status de la retención es `draft`, este método la eliminará de la
+        base de datos sin llamar al SAT/PAC y sin requerir parámetros de cancelación.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -6466,7 +6588,7 @@ paths:
           description: ID de la retención a cancelar
         - in: query
           name: motive
-          required: true
+          required: false
           schema:
             type: string
             enum:
@@ -6475,7 +6597,8 @@ paths:
               - "03"
               - "04"
           description: |
-            Clave que representa el motivo de la cancelación de la retención
+            Clave que representa el motivo de la cancelación de la retención.
+            Requerido para retenciones que no son borrador.
             - `01`: **Comprobante emitido con errores con relación**. Cuando la
               retención contiene algún error en las cantidades, claves o cualquier otro dato y ya
               se ha emitido el comprobante que la sustituye, el cual deberá indicarse por medio
@@ -6508,6 +6631,140 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthenticated"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /retentions/{retention_id}/copy:
+    post:
+      operationId: copyToDraftRetention
+      tags:
+        - retention
+      summary: Copiar a borrador
+      description: |
+        Crea una copia en borrador de la retención especificada. La copia no conserva
+        campos propios del timbrado, cancelación, idempotencia o identidad externa.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/retentions/6062d9fb226600001cd22f71/copy \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -X POST
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const retention = await facturapi.retentions.copyToDraft('6062d9fb226600001cd22f71');
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var retention = await facturapi.Retention.CopyToDraftAsync("6062d9fb226600001cd22f71");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var retention = facturapi.retentions().copyToDraft("ret_123");
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $retention = $facturapi->Retentions->copyToDraft("6062d9fb226600001cd22f71");
+      parameters:
+        - in: path
+          name: retention_id
+          schema:
+            type: string
+          required: true
+          description: ID de la retención a copiar
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Nuevo objeto `Retention` con status `draft`.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Retention"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /retentions/{retention_id}/stamp:
+    post:
+      operationId: stampDraftRetention
+      tags:
+        - retention
+      summary: Timbrar borrador de retención
+      description: |
+        Timbra una retención con status `draft` y la envía al SAT para su validación.
+
+        Facturapi validará el borrador como una retención completa antes de timbrarlo.
+        Si el borrador está incompleto o no es válido, la llamada regresará un error.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/retentions/6062d9fb226600001cd22f71/stamp \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -X POST
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const retention = await facturapi.retentions.stampDraft('6062d9fb226600001cd22f71');
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var retention = await facturapi.Retention.StampDraftAsync("6062d9fb226600001cd22f71");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var retention = facturapi.retentions().stampDraft("ret_123");
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $retention = $facturapi->Retentions->stampDraft("6062d9fb226600001cd22f71");
+      parameters:
+        - in: path
+          name: retention_id
+          schema:
+            type: string
+          required: true
+          description: ID de la retención a timbrar
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Objeto `Retention` timbrado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Retention"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "409":
+          $ref: "#/components/responses/Conflict"
         "429":
           $ref: "#/components/responses/RateLimited"
         "500":
@@ -16535,6 +16792,8 @@ components:
         status:
           type: string
           enum:
+            - draft
+            - pending
             - valid
             - canceled
           description: |
@@ -16560,6 +16819,12 @@ components:
           $ref: "#/components/schemas/Stamp"
         customer:
           $ref: "#/components/schemas/CustomerInfo"
+        is_ready_to_stamp:
+          type: boolean
+          description: |
+            Indica si la retención con status `draft` está completa y lista para intentar timbrarse.
+            En una retención con status diferente a `draft`, este campo siempre será `false`.
+          example: false
     RetentionProperties:
       type: object
       properties:
@@ -16688,14 +16953,20 @@ components:
                 $ref: "#/components/schemas/Retention"
     RetentionInput:
       type: object
-      required:
-        - customer
-        - cve_retenc
-        - periodo
-        - totales
       properties:
+        status:
+          type: string
+          enum:
+            - draft
+          description: |
+            Estado inicial de la retención. Si se envía `draft`, la retención se
+            guardará como borrador y no se timbrará ni se enviará al SAT. También
+            al enviar `draft`, `customer`, `cve_retenc`, `periodo` y `totales`
+            pueden omitirse o enviarse como `null`.
+          example: draft
         customer:
           description: Cliente receptor de la factura.
+          nullable: true
           oneOf:
             - $ref: "#/components/schemas/CustomerCreateInput"
             - type: string
@@ -16704,6 +16975,7 @@ components:
               example: 58e93bd8e86eb318b0197456
         cve_retenc:
           type: string
+          nullable: true
           example: 26
           description: Clave de la retención o información de pagos de acuerdo al [catálogo del SAT](#clave-de-retencion).
         fecha_exp:
@@ -16720,6 +16992,7 @@ components:
           description: Identificador alfanumérico para control interno de la empresa y sin relevancia fiscal.
         periodo:
           type: object
+          nullable: true
           description: Información sobre el periodo de la retención.
           required:
             - mes_ini
@@ -16744,6 +17017,7 @@ components:
               description: Año o ejercicio fiscal en que se realizó la retención.
         totales:
           type: object
+          nullable: true
           description: Información sobre el total de retenciones efectuadas en el periodo correspondiente.
           required:
             - monto_tot_operacion

@@ -11880,6 +11880,44 @@ x-webhooks:
                             - invoice
                         object:
                           $ref: '#/components/schemas/Invoice'
+                    related_resource_messages:
+                      type: array
+                      description: Mensajes relacionados con el recurso asociado al evento.
+                      items:
+                        $ref: '#/components/schemas/RelatedResourceMessage'
+            examples:
+              with_related_messages:
+                summary: Con mensajes relacionados
+                value:
+                  id: evt_xxx
+                  created_at: '2026-07-01T12:00:00.000Z'
+                  livemode: true
+                  organization: org_xxx
+                  type: invoice.status_updated
+                  data:
+                    type: invoice
+                    object:
+                      id: invoice_xxx
+                  related_resource_messages:
+                    - resource_type: invoice
+                      resource_id: invoice_xxx
+                      source: stamping_async_task
+                      severity: error
+                      message: El RFC del receptor no es válido
+                      created_at: '2026-01-01T00:00:00.000Z'
+              without_related_messages:
+                summary: Sin mensajes relacionados
+                value:
+                  id: evt_xxx
+                  created_at: '2026-07-01T12:00:00.000Z'
+                  livemode: true
+                  organization: org_xxx
+                  type: invoice.status_updated
+                  data:
+                    type: invoice
+                    object:
+                      id: invoice_xxx
+                  related_resource_messages: []
   Creación de factura desde dashboard:
     post:
       summary: Creación de factura desde dashboard
@@ -12326,6 +12364,38 @@ components:
         message:
           type: string
           description: Descripción del error y posible sugerencia.
+    RelatedResourceMessage:
+      type: object
+      properties:
+        resource_type:
+          type: string
+          description: Tipo de recurso relacionado.
+          example: invoice
+        resource_id:
+          type: string
+          description: ID del recurso relacionado.
+          example: invoice_xxx
+        source:
+          type: string
+          description: Origen del mensaje.
+          example: stamping_async_task
+        severity:
+          type: string
+          description: Severidad del mensaje.
+          enum:
+            - error
+            - warning
+            - info
+          example: error
+        message:
+          type: string
+          description: Mensaje relacionado con el recurso.
+          example: El RFC del receptor no es válido
+        created_at:
+          type: string
+          format: date-time
+          description: Fecha y hora de creación del mensaje.
+          example: '2026-01-01T00:00:00.000Z'
     EventBase:
       type: object
       properties:

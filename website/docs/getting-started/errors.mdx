@@ -82,7 +82,7 @@ Si el proveedor externo devuelve detalles útiles, se incluyen en `errors[]` con
 }
 ```
 
-Para códigos de validación de timbrado emitidos por el SAT, consulta la [Matriz de errores CFDI 4.0](https://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/MatrizDeErrores_CFDI_v40.xls) publicada dentro de la documentación oficial del [Anexo 20](https://omawww.sat.gob.mx/tramitesyservicios/Paginas/anexo_20_version3-3.htm).
+Para códigos de validación de timbrado emitidos por el SAT, consulta la Matriz de errores CFDI 4.0 publicada dentro de la documentación oficial del [Anexo 20](http://omawww.sat.gob.mx/tramitesyservicios/Paginas/anexo_20.htm).
 
 ## Headers útiles
 
@@ -377,4 +377,4 @@ Estos subcódigos pueden aparecer cuando el código raíz es `invalid_request`.
 
 Cuando un sistema externo devuelve un código útil, Facturapi lo conserva en `errors[].code` y agrega `errors[].source` para indicar cómo interpretarlo. Por ejemplo, en errores de timbrado, `source: "sat"` indica que `errors[].code` corresponde a un código de validación del SAT, como `CFDI40145`.
 
-Los códigos externos no se enumeran aquí porque pertenecen al sistema que los emite. Para códigos de validación de timbrado emitidos por el SAT, consulta la [Matriz de errores CFDI 4.0](https://omawww.sat.gob.mx/tramitesyservicios/Paginas/documentos/MatrizDeErrores_CFDI_v40.xls).
+Los códigos externos no se enumeran aquí porque pertenecen al sistema que los emite. Para códigos de validación de timbrado emitidos por el SAT, consulta la matriz de errores de CFDI 4.0 publicada dentro de la documentación oficial del [Anexo 20](http://omawww.sat.gob.mx/tramitesyservicios/Paginas/anexo_20.htm).

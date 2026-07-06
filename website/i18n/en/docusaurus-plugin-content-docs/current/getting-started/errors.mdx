@@ -4,10 +4,6 @@ sidebar_position: 7
 
 # Error handling
 
-:::info[Availability]
-The normalized error codes and messages described here apply starting July 2, 2026. Before that date, error codes and messages may differ from what is documented on this page.
-:::
-
 The API returns errors as JSON and uses standard HTTP status codes. For programmatic error handling, use `code`: it is a stable, predictable string.
 
 `message` is meant for humans. It may change to improve clarity or support localization, so avoid using it for branching logic.
@@ -296,12 +292,22 @@ This list is the documented reference for public root API codes. We may add new 
 
 | Code | Description |
 | --- | --- |
+| `certificate_expired` | The certificate has expired. |
+| `certificate_file_required` | We could not find a file named "cer" in your request. Make sure your request uses multipart/form-data and uses "cer" as the field name. |
+| `certificate_files_invalid` | The certificate or private key are invalid, incomplete, or damaged. |
+| `certificate_files_required` | We could not find any files in your request. |
 | `certificate_invalid` | The certificate is invalid. |
+| `certificate_not_yet_valid` | The certificate cannot be used yet. |
 | `certificate_rfc_mismatch` | The certificate RFC does not match the organization. |
+| `csd_required` | The certificate is not a CSD. Make sure you are not sending a FIEL. |
 | `fiel_invalid` | The FIEL is invalid. |
 | `fiel_rfc_mismatch` | The FIEL RFC does not match the organization. |
+| `fiel_required` | The certificate is not a FIEL. Make sure you are not sending a CSD. |
 | `organization_settings_invalid` | The organization settings are invalid. |
 | `organization_tax_info_invalid` | The organization tax information is invalid. |
+| `private_key_certificate_mismatch` | The private key does not match the certificate. |
+| `private_key_file_required` | We could not find a file named "key" in your request. Make sure your request uses multipart/form-data and uses "key" as the field name. |
+| `private_key_password_incorrect` | The private key password is incorrect. |
 
 ### OrganizationInviteErrorCode
 

@@ -4,10 +4,6 @@ sidebar_position: 7
 
 # Manejo de errores
 
-:::info[Vigencia]
-Los códigos y mensajes de error normalizados descritos aquí aplicarán a partir del 2 de julio de 2026. Antes de esa fecha, los códigos y mensajes pueden ser diferentes a los documentados en esta página.
-:::
-
 La API responde los errores en JSON y usa códigos de estado HTTP estándar. Para manejar errores de forma programática, usa `code`: es un string estable y predecible.
 
 `message` está pensado para lectura humana. Puede cambiar para mejorar claridad o soportar localización, así que no debería usarse para branching de lógica.
@@ -296,12 +292,22 @@ Esta lista es la referencia documentada de códigos raíz públicos de la API. P
 
 | Código | Descripción |
 | --- | --- |
+| `certificate_expired` | El certificado ha expirado. |
+| `certificate_file_required` | No pudimos encontrar un archivo con el nombre "cer" en tu petición. Asegúrate de que tu petición sea de tipo multipart/form-data y de usar "cer" como la llave del atributo. |
+| `certificate_files_invalid` | El certificado o la llave privada no son válidos, están incompletos o están dañados. |
+| `certificate_files_required` | No pudimos encontrar ningún archivo en tu petición. |
 | `certificate_invalid` | El certificado no es válido. |
+| `certificate_not_yet_valid` | El certificado aún no puede ser utilizado. |
 | `certificate_rfc_mismatch` | El RFC del certificado no coincide con la organización. |
+| `csd_required` | El certificado no es un CSD. Asegúrate de no estar enviando una FIEL. |
 | `fiel_invalid` | La FIEL no es válida. |
 | `fiel_rfc_mismatch` | El RFC de la FIEL no coincide con la organización. |
+| `fiel_required` | El certificado no es una FIEL. Asegúrate de no estar enviando un CSD. |
 | `organization_settings_invalid` | La configuración de la organización no es válida. |
 | `organization_tax_info_invalid` | La información fiscal de la organización no es válida. |
+| `private_key_certificate_mismatch` | La llave privada no coincide con el certificado. |
+| `private_key_file_required` | No pudimos encontrar un archivo con el nombre "key" en tu petición. Asegúrate de que tu petición sea de tipo multipart/form-data y de usar "key" como la llave del atributo. |
+| `private_key_password_incorrect` | La contraseña de la llave privada es incorrecta. |
 
 ### OrganizationInviteErrorCode
 

@@ -20,8 +20,9 @@ The API returns errors as JSON and uses standard HTTP status codes. For programm
   "path": "customer.email",
   "errors": [
     {
-      "message": "\"customer.email\" is required",
+      "message": "El campo \"customer.email\" es requerido.",
       "code": "required",
+      "source": "facturapi",
       "location": "body",
       "path": "customer.email"
     }
@@ -37,22 +38,22 @@ The API returns errors as JSON and uses standard HTTP status codes. For programm
 | `code` | `string` | Stable root code for handling the error. |
 | `location` | `string` | Location of the data related to the error, such as `body`, `query`, `params`, or `files`. Included only when applicable. |
 | `path` | `string` | Path of the field related to the error. Included only when applicable. |
-| `errors` | `array` | Additional details. Included only when there are multiple validation errors or relevant external details. |
+| `errors` | `array` | Additional details. Included only when there are multiple validation errors or relevant details. |
 | `errors[].message` | `string` | Human-readable message for a detail. |
 | `errors[].code` | `string` | Detail subcode. For validation errors, this uses a `ValidationErrorCode`; for external errors, it may be the original SAT or PAC code. |
 | `errors[].location` | `string` | Location of the data related to the detail, such as `body`, `query`, `params`, or `files`. |
 | `errors[].path` | `string` | Path of the field related to the detail. |
-| `errors[].source` | `string` | External source for the detail, such as `sat` or `pac`. Included only for external errors. |
+| `errors[].source` | `string` | Source of the detail. It can be `facturapi`, `sat`, `pac`, or `stripe`. |
 
 ## Interpreting codes
 
 The root `code` classifies the main result of the request and is the value you should check first when deciding how to handle an error.
 
-Codes inside `errors[]` are detail subcodes. They explain invalid fields or external responses, but they do not replace the root `code`. They may be Facturapi validation subcodes or original codes from external systems such as SAT or PAC.
+Codes inside `errors[]` are detail subcodes. They explain invalid fields or external responses, but they do not replace the root `code`. When `source` is `facturapi`, the subcode and message are defined by Facturapi. When `source` is external, the subcode may be the original code from the indicated system.
 
 ### Validation errors
 
-When the request does not match the input contract, the root error uses `code: "invalid_request"`. When details are available, `errors[]` includes each invalid field with `path`, `location`, and a validation subcode.
+When the request does not match the input contract, the root error uses `code: "invalid_request"`. When details are available, `errors[]` includes each invalid field with `source: "facturapi"`, `path`, `location`, and a validation subcode.
 
 Validation subcodes are documented at the end of this page as detail subcodes because they appear in `errors[].code`, not in `error.code`.
 
@@ -296,12 +297,14 @@ This list is the documented reference for public root API codes. We may add new 
 | `certificate_file_required` | We could not find a file named "cer" in your request. Make sure your request uses multipart/form-data and uses "cer" as the field name. |
 | `certificate_files_invalid` | The certificate or private key are invalid, incomplete, or damaged. |
 | `certificate_files_required` | We could not find any files in your request. |
+| `certificate_fiel_rfc_mismatch` | The certificate RFC does not match the FIEL RFC. |
 | `certificate_invalid` | The certificate is invalid. |
 | `certificate_not_yet_valid` | The certificate cannot be used yet. |
+| `certificate_previous_rfc_mismatch` | The certificate RFC does not match the previous certificate. |
 | `certificate_rfc_mismatch` | The certificate RFC does not match the organization. |
 | `csd_required` | The certificate is not a CSD. Make sure you are not sending a FIEL. |
 | `fiel_invalid` | The FIEL is invalid. |
-| `fiel_rfc_mismatch` | The FIEL RFC does not match the organization. |
+| `fiel_rfc_mismatch` | The FIEL RFC does not match the CSD certificate RFC. |
 | `fiel_required` | The certificate is not a FIEL. Make sure you are not sending a CSD. |
 | `organization_settings_invalid` | The organization settings are invalid. |
 | `organization_tax_info_invalid` | The organization tax information is invalid. |
@@ -366,7 +369,9 @@ These values appear inside `errors[]` to explain specific details of the root er
 
 ### Input validation
 
-These subcodes may appear when the root code is `invalid_request`.
+These subcodes usually appear when the root code is `invalid_request`, but they
+may also appear in `errors[]` for other root codes when the error detail is about
+invalid fields or values.
 
 | Code | Description |
 | --- | --- |

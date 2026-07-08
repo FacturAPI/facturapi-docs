@@ -6,7 +6,7 @@ sidebar_position: 7
 
 The API returns errors as JSON and uses standard HTTP status codes. For programmatic error handling, use `code`: it is a stable, predictable string.
 
-`message` is meant for humans. It may change to improve clarity or support localization, so avoid using it for branching logic.
+`message` is meant for humans. Today, API messages are returned in Spanish. They may change to improve clarity or support localization, so avoid using them for branching logic.
 
 ## Error object
 
@@ -20,7 +20,7 @@ The API returns errors as JSON and uses standard HTTP status codes. For programm
   "path": "customer.email",
   "errors": [
     {
-      "message": "The field \"customer.email\" is required.",
+      "message": "El campo \"customer.email\" es requerido.",
       "code": "required",
       "source": "facturapi",
       "location": "body",

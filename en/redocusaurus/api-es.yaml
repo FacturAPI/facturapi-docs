@@ -2123,7 +2123,7 @@ paths:
 
         te recomendamos guardar el ID en tu base de datos junto a la información
 
-        de tu cliente. Posteriormente, puedes llamar al encpoint de Crear
+        de tu cliente. Posteriormente, puedes llamar al endpoint de Crear
         Factura
 
         pasando el ID del cliente en lugar de repetir la información.
@@ -15296,7 +15296,7 @@ components:
           example: ABC101010111
           description: >-
             En clientes de México contiene el RFC del cliente. Para extranjeros
-            es opcional y representa el número de registro de identificacón
+            es opcional y representa el número de registro de identificación
             tributaria, es decir, el equivalente al RFC en el país del cliente.
         tax_system:
           type: string

@@ -43,7 +43,7 @@ The API returns errors as JSON and uses standard HTTP status codes. For programm
 | `errors[].code` | `string` | Detail subcode. For validation errors, this uses a `ValidationErrorCode`; for external errors, it may be the original SAT or PAC code. |
 | `errors[].location` | `string` | Location of the data related to the detail, such as `body`, `query`, `params`, or `files`. |
 | `errors[].path` | `string` | Path of the field related to the detail. |
-| `errors[].source` | `string` | Source of the detail. It can be `facturapi`, `sat`, `pac`, or `stripe`. |
+| `errors[].source` | `string` | Source of the detail. It can be `facturapi`, `sat`, or `pac`. |
 
 ## Interpreting codes
 
@@ -237,16 +237,17 @@ This list is the documented reference for public root API codes. We may add new 
 
 | Code | Description |
 | --- | --- |
-| `receipt_invoicing_customer_mismatch` | The receipts cannot be invoiced together for the same customer. |
-| `receipt_invoicing_too_many_items` | The receipts exceed the allowed item limit. |
-| `receipt_keys_not_found` | Not all requested receipt keys were found. |
+| `receipt_invoicing_address_mismatch` | All receipts must have the same expedition address to be invoiced together. |
+| `receipt_invoicing_customer_mismatch` | Send a customer or select receipts that already belong to the same customer. |
+| `receipt_invoicing_too_many_items` | The receipts exceed the maximum of 5,000 supported items. Split the receipts into multiple invoices. |
+| `receipt_keys_not_found` | The requested receipts were not found. When only some keys are missing, `errors[]` may point to their position with `path: "keys.N"`. |
 
 ### ReceiptGlobalInvoiceErrorCode
 
 | Code | Description |
 | --- | --- |
-| `global_invoice_too_many_items` | The global invoice exceeds the allowed item limit. |
-| `invalid_global_invoice_period` | The global invoice period is invalid. |
+| `global_invoice_too_many_items` | The global invoice exceeds the maximum of 5,000 supported items. Create multiple global invoices using smaller date ranges or receipt subsets. |
+| `invalid_global_invoice_period` | The date range must be within the same billing period: `{period}`. |
 
 ### RetentionErrorCode
 
@@ -378,6 +379,7 @@ invalid fields or values.
 | `invalid_format` | The value does not match the expected format. |
 | `invalid_length` | The value does not match the allowed length. |
 | `invalid_type` | The value has the wrong type. |
+| `not_found` | The value references a resource that does not exist. |
 | `not_allowed` | The value is not allowed for this field. |
 | `required` | A required field is missing. |
 | `too_large` | The value exceeds the allowed limit. |

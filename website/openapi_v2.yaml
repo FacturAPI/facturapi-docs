@@ -5786,11 +5786,7 @@ paths:
         "401":
           $ref: "#/components/responses/Unauthenticated"
         "404":
-          description: No se encontraron recibos elegibles para las keys enviadas
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ToInvoiceNotFoundResponse"
+          $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/UnexpectedError"
   /receipts/to-invoice/preview:
@@ -11667,7 +11663,11 @@ components:
           description: Ruta opcional del campo relacionado con este detalle.
         source:
           type: string
-          description: Fuente opcional para detalles externos, por ejemplo `sat`.
+          description: Fuente del detalle.
+          enum:
+            - facturapi
+            - sat
+            - pac
     IssuingType:
       type: string
       description: Indica si la factura fue emitida por tu organización o recibida de un tercero.
@@ -16503,26 +16503,6 @@ components:
     ToInvoiceSummary:
       type: object
       description: Objeto resumen que regresa cuando `dry_run=true`.
-    ToInvoiceNotFoundResponse:
-      type: object
-      required:
-        - invoice
-        - summary
-        - missingKeys
-      properties:
-        invoice:
-          nullable: true
-          type: object
-          description: Siempre `null` cuando no se creó la factura.
-        summary:
-          nullable: true
-          type: object
-          description: Resumen de vista previa cuando está disponible.
-        missingKeys:
-          type: array
-          description: Keys de recibos no encontradas o no elegibles.
-          items:
-            type: string
     Retention:
       title: Objeto Retention
       allOf:

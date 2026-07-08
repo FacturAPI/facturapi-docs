@@ -5569,11 +5569,7 @@ paths:
         "401":
           $ref: "#/components/responses/Unauthenticated"
         "404":
-          description: No eligible receipts found for the provided keys
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ToInvoiceNotFoundResponse"
+          $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/UnexpectedError"
   /receipts/to-invoice/preview:
@@ -11432,7 +11428,11 @@ components:
           description: Optional path to the field related to this detail.
         source:
           type: string
-          description: Optional source for external details, for example `sat`.
+          description: Source of the detail.
+          enum:
+            - facturapi
+            - sat
+            - pac
     IssuingType:
       type: string
       description: Indicates whether the invoice was issued by your organization or received from a third party.
@@ -16250,26 +16250,6 @@ components:
     ToInvoiceSummary:
       type: object
       description: Summary object returned when `dry_run=true`.
-    ToInvoiceNotFoundResponse:
-      type: object
-      required:
-        - invoice
-        - summary
-        - missingKeys
-      properties:
-        invoice:
-          nullable: true
-          type: object
-          description: Always `null` when no invoice was created.
-        summary:
-          nullable: true
-          type: object
-          description: Summary preview when available.
-        missingKeys:
-          type: array
-          description: Receipt keys that were not found or not eligible.
-          items:
-            type: string
     Retention:
       title: Retention object
       allOf:

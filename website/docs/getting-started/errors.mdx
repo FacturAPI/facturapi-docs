@@ -43,7 +43,7 @@ La API responde los errores en JSON y usa códigos de estado HTTP estándar. Par
 | `errors[].code` | `string` | Subcódigo del detalle. En errores de validación usa un `ValidationErrorCode`; en errores externos puede ser el código original del SAT o PAC. |
 | `errors[].location` | `string` | Ubicación del dato relacionado con el detalle, por ejemplo `body`, `query`, `params` o `files`. |
 | `errors[].path` | `string` | Ruta del campo relacionado con el detalle. |
-| `errors[].source` | `string` | Fuente del detalle. Puede ser `facturapi`, `sat`, `pac` o `stripe`. |
+| `errors[].source` | `string` | Fuente del detalle. Puede ser `facturapi`, `sat` o `pac`. |
 
 ## Cómo interpretar los códigos
 
@@ -237,16 +237,17 @@ Esta lista es la referencia documentada de códigos raíz públicos de la API. P
 
 | Código | Descripción |
 | --- | --- |
-| `receipt_invoicing_customer_mismatch` | Los recibos no pueden facturarse juntos para el mismo cliente. |
-| `receipt_invoicing_too_many_items` | Los recibos exceden el límite de conceptos permitidos. |
-| `receipt_keys_not_found` | No se encontraron todos los recibos solicitados. |
+| `receipt_invoicing_address_mismatch` | Todos los recibos deben tener el mismo domicilio de expedición para poder facturarlos juntos. |
+| `receipt_invoicing_customer_mismatch` | Debes enviar un cliente o seleccionar recibos que ya pertenezcan al mismo cliente. |
+| `receipt_invoicing_too_many_items` | Los recibos exceden el máximo de 5,000 conceptos soportados. Divide los recibos en varias facturas. |
+| `receipt_keys_not_found` | No se encontraron los recibos solicitados. Cuando faltan sólo algunas keys, `errors[]` puede indicar su posición con `path: "keys.N"`. |
 
 ### ReceiptGlobalInvoiceErrorCode
 
 | Código | Descripción |
 | --- | --- |
-| `global_invoice_too_many_items` | La factura global excede el límite de conceptos permitidos. |
-| `invalid_global_invoice_period` | El periodo de factura global no es válido. |
+| `global_invoice_too_many_items` | La factura global excede el máximo de 5,000 conceptos soportados. Genera varias facturas globales usando rangos de fechas más pequeños o subconjuntos de recibos. |
+| `invalid_global_invoice_period` | El rango de fechas debe estar dentro del mismo periodo de facturación: `{period}`. |
 
 ### RetentionErrorCode
 
@@ -378,6 +379,7 @@ detalle del error corresponde a campos o valores inválidos.
 | `invalid_format` | El valor no cumple el formato esperado. |
 | `invalid_length` | El valor no cumple la longitud permitida. |
 | `invalid_type` | El valor no tiene el tipo esperado. |
+| `not_found` | El valor referencia un recurso que no existe. |
 | `not_allowed` | El valor no está permitido para este campo. |
 | `required` | Falta un campo requerido. |
 | `too_large` | El valor excede el límite permitido. |

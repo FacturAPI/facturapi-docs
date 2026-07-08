@@ -20,7 +20,7 @@ The API returns errors as JSON and uses standard HTTP status codes. For programm
   "path": "customer.email",
   "errors": [
     {
-      "message": "El campo \"customer.email\" es requerido.",
+      "message": "The field \"customer.email\" is required.",
       "code": "required",
       "source": "facturapi",
       "location": "body",
@@ -296,7 +296,7 @@ This list is the documented reference for public root API codes. We may add new 
 | --- | --- |
 | `certificate_expired` | The certificate has expired. |
 | `certificate_file_required` | We could not find a file named "cer" in your request. Make sure your request uses multipart/form-data and uses "cer" as the field name. |
-| `certificate_files_invalid` | The certificate or private key are invalid, incomplete, or damaged. |
+| `certificate_files_invalid` | The certificate or private key is invalid, incomplete, or damaged. |
 | `certificate_files_required` | We could not find any files in your request. |
 | `certificate_fiel_rfc_mismatch` | The certificate RFC does not match the FIEL RFC. |
 | `certificate_invalid` | The certificate is invalid. |

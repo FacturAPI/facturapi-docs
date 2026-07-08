@@ -258,7 +258,7 @@ curl https://www.facturapi.io/v2/invoices \
 </Tabs>
 
 :::info
-  Por default se considera que el precio del producto tiene impuestos incluídos.
+  Por default se considera que el precio del producto tiene impuestos incluidos.
   Facturapi se encarga de desglosar los impuestos del producto (siendo 16% de IVA el default)
   y calcular el precio unitario. Si en lugar de eso requieres que el atributo `price` sea
   el precio unitario, debes enviar el parámetro `tax_included` con el valor `false`.
@@ -319,7 +319,7 @@ curl https://www.facturapi.io/v2/invoices \
 ```
 </details>
 
-### 3. Envía la factura por correo electrónico
+### 4. Envía la factura por correo electrónico
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
@@ -361,7 +361,7 @@ curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/email \
 </TabItem>
 </Tabs>
 
-### 4. Descarga de XML y PDF
+### 5. Descarga de XML y PDF
 
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>

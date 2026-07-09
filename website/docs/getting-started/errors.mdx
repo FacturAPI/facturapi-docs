@@ -55,7 +55,7 @@ Los códigos dentro de `errors[]` son subcódigos de detalle. Sirven para explic
 
 Cuando la petición no cumple el contrato de entrada, el error raíz usa `code: "invalid_request"`. Si hay detalles, `errors[]` incluye cada campo inválido con `source: "facturapi"`, `path`, `location` y un subcódigo de validación.
 
-Los subcódigos de validación están documentados al final de esta página como subcódigos de detalle porque aparecen en `errors[].code`, no en `error.code`.
+Los subcódigos de validación están documentados al final de esta página como subcódigos de detalle porque aparecen en `errors[].code`, no en el `code` raíz.
 
 ### Errores externos
 

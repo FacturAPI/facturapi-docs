@@ -55,7 +55,7 @@ Codes inside `errors[]` are detail subcodes. They explain invalid fields or exte
 
 When the request does not match the input contract, the root error uses `code: "invalid_request"`. When details are available, `errors[]` includes each invalid field with `source: "facturapi"`, `path`, `location`, and a validation subcode.
 
-Validation subcodes are documented at the end of this page as detail subcodes because they appear in `errors[].code`, not in `error.code`.
+Validation subcodes are documented at the end of this page as detail subcodes because they appear in `errors[].code`, not in the root `code`.
 
 ### External errors
 

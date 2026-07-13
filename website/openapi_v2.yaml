@@ -2807,7 +2807,7 @@ paths:
                     example: true
                   errors:
                     type: array
-                    description: Detalles de validación fiscal. Solo se incluyen cuando `is_valid` es `false`.
+                    description: Detalles de validación fiscal. Es un array vacío cuando `is_valid` es `true`.
                     items:
                       type: object
                       required:

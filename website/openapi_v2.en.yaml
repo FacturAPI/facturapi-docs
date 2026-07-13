@@ -2579,7 +2579,7 @@ paths:
                     example: true
                   errors:
                     type: array
-                    description: Tax information validation details. They are only included when `is_valid` is `false`.
+                    description: Tax information validation details. This is an empty array when `is_valid` is `true`.
                     items:
                       type: object
                       required:

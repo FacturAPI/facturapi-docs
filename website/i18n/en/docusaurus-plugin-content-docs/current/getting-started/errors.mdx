@@ -13,7 +13,7 @@ The API returns errors as JSON and uses standard HTTP status codes. For programm
 ```json
 {
   "ok": false,
-  "message": "La solicitud no es válida.",
+  "message": "El campo \"customer.email\" es requerido.",
   "status": 400,
   "code": "invalid_request",
   "location": "body",
@@ -38,9 +38,9 @@ The API returns errors as JSON and uses standard HTTP status codes. For programm
 | `code` | `string` | Stable root code for handling the error. |
 | `location` | `string` | Location of the data related to the error, such as `body`, `query`, `params`, or `files`. Included only when applicable. |
 | `path` | `string` | Path of the field related to the error. Included only when applicable. |
-| `errors` | `array` | Additional details. Included only when there are multiple validation errors or relevant details. |
+| `errors` | `array` | Additional details. Included only when they provide useful information. |
 | `errors[].message` | `string` | Human-readable message for a detail. |
-| `errors[].code` | `string` | Detail subcode. For validation errors, this uses a `ValidationErrorCode`; for external errors, it may be the original SAT or PAC code. |
+| `errors[].code` | `string` | Detail subcode. Facturapi validation errors use an input-validation or tax-information-validation subcode; external errors may use the original SAT or PAC code. |
 | `errors[].location` | `string` | Location of the data related to the detail, such as `body`, `query`, `params`, or `files`. |
 | `errors[].path` | `string` | Path of the field related to the detail. |
 | `errors[].source` | `string` | Source of the detail. It can be `facturapi`, `sat`, or `pac`. |
@@ -152,6 +152,12 @@ This list is the documented reference for public root API codes. We may add new 
 | `customer_has_invoices` | The customer cannot be deleted because it has associated invoices. |
 | `customer_not_found` | The customer was not found. |
 | `customer_tax_info_unavailable` | The customer tax information is not available. |
+
+### TaxInfoErrorCode
+
+| Code | Description |
+| --- | --- |
+| `invalid_tax_info` | The tax information is invalid. |
 
 ### ProductErrorCode
 
@@ -302,12 +308,14 @@ This list is the documented reference for public root API codes. We may add new 
 | `certificate_invalid` | The certificate is invalid. |
 | `certificate_not_yet_valid` | The certificate cannot be used yet. |
 | `certificate_previous_rfc_mismatch` | The certificate RFC does not match the previous certificate. |
-| `certificate_rfc_mismatch` | The certificate RFC does not match the organization. |
 | `csd_required` | The certificate is not a CSD. Make sure you are not sending a FIEL. |
 | `fiel_invalid` | The FIEL is invalid. |
 | `fiel_rfc_mismatch` | The FIEL RFC does not match the CSD certificate RFC. |
 | `fiel_required` | The certificate is not a FIEL. Make sure you are not sending a CSD. |
+| `organization_domain_change_not_allowed` | The invoicing domain cannot be changed after it has been selected. Contact us to change it. |
+| `organization_domain_unavailable` | The invoicing domain is not available. |
 | `organization_settings_invalid` | The organization settings are invalid. |
+| `organization_support_email_required` | A support email is required to select an invoicing domain. |
 | `organization_tax_info_invalid` | The organization tax information is invalid. |
 | `private_key_certificate_mismatch` | The private key does not match the certificate. |
 | `private_key_file_required` | We could not find a file named "key" in your request. Make sure your request uses multipart/form-data and uses "key" as the field name. |
@@ -374,6 +382,8 @@ These subcodes usually appear when the root code is `invalid_request`, but they
 may also appear in `errors[]` for other root codes when the error detail is about
 invalid fields or values.
 
+Interpret the subcode together with `path`, `location`, and the original request. Subcodes are intentionally generic and do not change based on the field type or endpoint flow.
+
 | Code | Description |
 | --- | --- |
 | `invalid_format` | The value does not match the expected format. |
@@ -385,6 +395,19 @@ invalid fields or values.
 | `too_large` | The value exceeds the allowed limit. |
 | `too_small` | The value is below the allowed minimum. |
 | `unknown_field` | The field is not allowed in this request. |
+| `invalid_value` | The value is invalid. |
+
+### Tax information validation
+
+These subcodes describe tax information validations performed by Facturapi. They may appear when creating or editing a customer or organization, and in the result of validating a customer's tax information. Values outside the catalog are reported under the endpoint's validation root code; values that do not match tax records are reported under `invalid_tax_info`.
+
+| Code | Description |
+| --- | --- |
+| `legal_name_mismatch` | The legal name does not match the RFC in SAT records. |
+| `tax_address_zip_mismatch` | The fiscal zip code does not match the RFC in SAT records. |
+| `tax_id_not_found` | The RFC was not found in SAT records. |
+| `tax_system_not_allowed_for_tax_id` | The tax regime is not allowed for the RFC in SAT records. |
+| `tax_system_not_in_catalog` | The tax regime does not belong to the SAT catalog. |
 
 ### External codes
 

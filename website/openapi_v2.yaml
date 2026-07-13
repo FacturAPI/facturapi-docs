@@ -2807,18 +2807,31 @@ paths:
                     example: true
                   errors:
                     type: array
-                    description: Lista de errores encontrados
+                    description: Detalles de validación fiscal. Solo se incluyen cuando `is_valid` es `false`.
                     items:
                       type: object
+                      required:
+                        - source
+                        - code
+                        - message
                       properties:
+                        source:
+                          type: string
+                          enum: [facturapi]
+                          description: Indica que Facturapi generó el detalle de validación.
+                          example: facturapi
+                        code:
+                          type: string
+                          description: Código estable del detalle de validación.
+                          example: tax_system_not_allowed_for_tax_id
                         path:
                           type: string
-                          description: Nombre del campo que no coincide con los registros del SAT
+                          description: Ruta del campo cuya información fiscal no es válida.
                           example: tax_system
                         message:
                           type: string
-                          description: Mensaje de error
-                          example: El RégimenFiscal no coincide con el registrado para el RFC en la lista de contribuyentes obligados del SAT.
+                          description: Mensaje descriptivo del detalle de validación.
+                          example: El régimen fiscal no está permitido para el RFC en los registros del SAT.
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -11247,7 +11260,7 @@ components:
           schema:
             $ref: "#/components/schemas/GenericError"
           example:
-            message: Too many requests. Please retry shortly.
+            message: Se excedió el límite de solicitudes.
             status: 429
             ok: false
             code: rate_limit_exceeded
@@ -11603,6 +11616,11 @@ components:
           description: Límite superior inclusivo del rango de fechas a solicitar.
     GenericError:
       type: object
+      required:
+        - message
+        - status
+        - ok
+        - code
       properties:
         message:
           type: string
@@ -11636,18 +11654,22 @@ components:
           description: Ruta opcional del campo relacionado con el error.
         errors:
           type: array
-          description: Detalles adicionales del error. Sólo se incluye cuando hay errores de validación o detalles externos relevantes.
+          description: Detalles adicionales del error. Sólo se incluye cuando aporta información útil.
           items:
             $ref: "#/components/schemas/ErrorDetail"
     ErrorDetail:
       type: object
+      required:
+        - message
+        - code
+        - source
       properties:
         message:
           type: string
           description: Mensaje legible del detalle.
         code:
           type: string
-          description: Subcódigo del detalle. En validaciones usa códigos como `required` o `invalid_type`; en errores externos puede contener el código original del proveedor.
+          description: Subcódigo del detalle. En validaciones de Facturapi usa códigos como `required`, `invalid_type` o `tax_id_not_found`; en errores externos puede contener el código original del proveedor.
           example: required
         location:
           type: string

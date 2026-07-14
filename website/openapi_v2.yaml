@@ -2800,6 +2800,9 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - is_valid
+                  - errors
                 properties:
                   is_valid:
                     type: boolean

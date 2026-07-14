@@ -38,7 +38,7 @@ The API returns errors as JSON and uses standard HTTP status codes. For programm
 | `code` | `string` | Stable root code for handling the error. |
 | `location` | `string` | Location of the data related to the error, such as `body`, `query`, `params`, or `files`. Included only when applicable. |
 | `path` | `string` | Path of the field related to the error. Included only when applicable. |
-| `errors` | `array` | Additional details. Included only when they provide useful information. |
+| `errors` | `array` | Actionable details to correct the request or understand an external response. It can include multiple items when multiple issues are detected. |
 | `errors[].message` | `string` | Human-readable message for a detail. |
 | `errors[].code` | `string` | Detail subcode. Facturapi validation errors use an input-validation or tax-information-validation subcode; external errors may use the original SAT or PAC code. |
 | `errors[].location` | `string` | Location of the data related to the detail, such as `body`, `query`, `params`, or `files`. |
@@ -49,7 +49,7 @@ The API returns errors as JSON and uses standard HTTP status codes. For programm
 
 The root `code` classifies the main result of the request and is the value you should check first when deciding how to handle an error.
 
-Codes inside `errors[]` are detail subcodes. They explain invalid fields or external responses, but they do not replace the root `code`. When `source` is `facturapi`, the subcode and message are defined by Facturapi. When `source` is external, the subcode may be the original code from the indicated system.
+The `errors[]` array appears when the response needs to explain one or more details in addition to the main outcome: for example, multiple invalid fields in the same request or reasons returned by an external provider. Its codes are detail subcodes and do not replace the root `code`. When `source` is `facturapi`, the subcode and message are defined by Facturapi. When `source` is external, the subcode may be the original code from the indicated system.
 
 ### Validation errors
 
@@ -378,9 +378,7 @@ These values appear inside `errors[]` to explain specific details of the root er
 
 ### Input validation
 
-These subcodes usually appear when the root code is `invalid_request`, but they
-may also appear in `errors[]` for other root codes when the error detail is about
-invalid fields or values.
+When a request has multiple invalid fields or values, `errors[]` includes one detail for each. These subcodes identify the problem in each detail.
 
 Interpret the subcode together with `path`, `location`, and the original request. Subcodes are intentionally generic and do not change based on the field type or endpoint flow.
 

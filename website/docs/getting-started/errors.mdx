@@ -38,7 +38,7 @@ La API responde los errores en JSON y usa códigos de estado HTTP estándar. Par
 | `code` | `string` | Código raíz estable para manejar el error. |
 | `location` | `string` | Ubicación del dato relacionado con el error, por ejemplo `body`, `query`, `params` o `files`. Sólo se incluye cuando aplica. |
 | `path` | `string` | Ruta del campo relacionado con el error. Sólo se incluye cuando aplica. |
-| `errors` | `array` | Detalles adicionales. Sólo se incluye cuando aporta información útil. |
+| `errors` | `array` | Detalles accionables para corregir la solicitud o entender una respuesta externa. Puede incluir varios elementos cuando se detectan varios problemas. |
 | `errors[].message` | `string` | Mensaje legible de un detalle. |
 | `errors[].code` | `string` | Subcódigo del detalle. En validaciones de Facturapi usa un subcódigo de validación de entrada o de información fiscal; en errores externos puede ser el código original del SAT o PAC. |
 | `errors[].location` | `string` | Ubicación del dato relacionado con el detalle, por ejemplo `body`, `query`, `params` o `files`. |
@@ -49,7 +49,7 @@ La API responde los errores en JSON y usa códigos de estado HTTP estándar. Par
 
 El `code` raíz clasifica el resultado principal de la solicitud y es el valor que deberías usar primero para decidir cómo manejar el error.
 
-Los códigos dentro de `errors[]` son subcódigos de detalle. Sirven para explicar campos inválidos o respuestas externas, pero no reemplazan al `code` raíz. Cuando `source` es `facturapi`, el subcódigo y el mensaje son definidos por Facturapi. Cuando `source` es externo, el subcódigo puede ser el código original del sistema indicado.
+El arreglo `errors[]` aparece cuando la respuesta necesita explicar uno o más detalles además del resultado principal: por ejemplo, varios campos inválidos en una misma solicitud o los motivos que devolvió un proveedor externo. Sus códigos son subcódigos de detalle y no reemplazan al `code` raíz. Cuando `source` es `facturapi`, el subcódigo y el mensaje son definidos por Facturapi. Cuando `source` es externo, el subcódigo puede ser el código original del sistema indicado.
 
 ### Errores de validación
 
@@ -378,9 +378,7 @@ Estos valores aparecen dentro de `errors[]` para explicar detalles específicos 
 
 ### Validación de entrada
 
-Estos subcódigos suelen aparecer cuando el código raíz es `invalid_request`,
-pero también pueden aparecer en `errors[]` de otros códigos raíz cuando el
-detalle del error corresponde a campos o valores inválidos.
+Cuando una solicitud tiene varios campos o valores inválidos, `errors[]` incluye un detalle por cada uno. Estos subcódigos identifican el problema de cada detalle.
 
 Interpreta el subcódigo junto con `path`, `location` y la petición original; los subcódigos son deliberadamente generales y no cambian según el tipo del campo o el flujo del endpoint.
 

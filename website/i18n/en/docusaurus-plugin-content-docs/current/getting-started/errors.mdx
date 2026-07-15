@@ -92,7 +92,7 @@ Some error responses include useful headers for programmatic handling or observa
 | `Retry-After` | Recommended seconds to wait before retrying. Included in errors with `code: "rate_limit_exceeded"`. |
 | `X-Facturapi-Log-Id` | Request correlation ID. You can keep it in your observability stack to investigate errors with support. |
 
-## Root error codes (`error.code`)
+## Root error codes (`code`)
 
 This list is the documented reference for public root API codes. We may add new codes at any time when new features or new error cases require them, but we aim to keep this page up to date so integrations have a predictable reference.
 
@@ -145,7 +145,7 @@ This list is the documented reference for public root API codes. We may add new 
 
 ### TaxInfoValidationCode
 
-These codes describe tax-information errors validated by Facturapi. When a customer or organization tax-information validation detects a single issue, it appears in `error.code`. Input validations and the customer tax-information validation endpoint return them in `errors[].code`.
+These codes describe tax-information errors validated by Facturapi. When a customer or organization tax-information validation detects a single issue, it appears in `code`. Input validations and the customer tax-information validation endpoint return them in `errors[].code`.
 
 | Code | Description |
 | --- | --- |

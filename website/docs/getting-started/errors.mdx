@@ -92,7 +92,7 @@ Algunas respuestas de error incluyen headers útiles para manejo programático u
 | `Retry-After` | Segundos recomendados antes de reintentar. Se incluye en errores con `code: "rate_limit_exceeded"`. |
 | `X-Facturapi-Log-Id` | ID de correlación de la solicitud. Puedes conservarlo en tu observabilidad para investigar errores con soporte. |
 
-## Códigos raíz (`error.code`)
+## Códigos raíz (`code`)
 
 Esta lista es la referencia documentada de códigos raíz públicos de la API. Podemos agregar nuevos códigos en cualquier momento cuando nuevas funcionalidades o nuevos casos de error lo requieran, pero procuramos mantener esta página actualizada para que las integraciones tengan una referencia predecible.
 
@@ -145,7 +145,7 @@ Esta lista es la referencia documentada de códigos raíz públicos de la API. P
 
 ### TaxInfoValidationCode
 
-Estos códigos describen errores de información fiscal validados por Facturapi. Cuando la validación fiscal de un cliente u organización detecta un solo problema, aparece en `error.code`. Las validaciones de entrada y el endpoint de validación de información fiscal de un cliente los devuelven en `errors[].code`.
+Estos códigos describen errores de información fiscal validados por Facturapi. Cuando la validación fiscal de un cliente u organización detecta un solo problema, aparece en `code`. Las validaciones de entrada y el endpoint de validación de información fiscal de un cliente los devuelven en `errors[].code`.
 
 | Código | Descripción |
 | --- | --- |

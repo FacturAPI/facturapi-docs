@@ -63,18 +63,18 @@ Los subcódigos de validación están documentados al final de esta página como
 
 Algunas operaciones dependen de validaciones o servicios externos, como SAT o PAC. En esos casos, el `code` raíz sigue siendo un código de Facturapi, por ejemplo `invoice_stamping_validation_error`.
 
-Si el proveedor externo devuelve detalles útiles, se incluyen en `errors[]` con su código original:
+Si el proveedor externo devuelve detalles útiles que Facturapi no puede clasificar de forma confiable, se incluyen en `errors[]` con su código original:
 
 ```json
 {
-  "message": "El RFC del receptor no se encuentra en la lista de RFC inscritos no cancelados del SAT.",
+  "message": "No se encontró el RFC [AAA010101AAA] en la Lista de Contribuyentes Obligados.",
   "status": 400,
   "code": "invoice_stamping_validation_error",
   "errors": [
     {
-      "message": "El RFC del receptor no se encuentra en la lista de RFC inscritos no cancelados del SAT.",
-      "code": "CFDI40145",
-      "source": "sat"
+      "message": "No se encontró el RFC [AAA010101AAA] en la Lista de Contribuyentes Obligados.",
+      "code": "402",
+      "source": "pac"
     }
   ],
   "ok": false

@@ -136,13 +136,24 @@ Esta lista es la referencia documentada de códigos raíz públicos de la API. P
 | `invalid_image_file` | El archivo proporcionado no es una imagen válida. |
 | `invalid_json` | El JSON enviado no es válido. |
 | `invalid_request` | La solicitud no es válida. |
-| `invalid_tax_info` | La información fiscal no es válida. |
 | `invalid_multipart_form_data` | Los datos multipart/form-data no son válidos. |
 | `invalid_state_code` | El código de estado no es válido. |
 | `invalid_timezone` | La zona horaria no es válida. |
 | `multipart_limit_exceeded` | La solicitud multipart/form-data excede los límites permitidos. |
 | `page_too_large` | La página solicitada excede el límite permitido. |
 | `payload_too_large` | El payload excede el tamaño máximo permitido. |
+
+### TaxInfoValidationCode
+
+Estos códigos describen errores de información fiscal validados por Facturapi. Cuando la validación fiscal de un cliente u organización detecta un solo problema, aparece en `error.code`. Las validaciones de entrada y el endpoint de validación de información fiscal de un cliente los devuelven en `errors[].code`.
+
+| Código | Descripción |
+| --- | --- |
+| `legal_name_mismatch` | El nombre, denominación o razón social no corresponde al RFC en los registros del SAT. Verifica que coincida exactamente con la Constancia de Situación Fiscal. |
+| `tax_address_zip_mismatch` | El código postal fiscal no corresponde al RFC en los registros del SAT. |
+| `tax_id_not_found` | Este RFC del receptor no existe en la lista de RFC inscritos no cancelados del SAT. |
+| `tax_system_not_allowed_for_tax_id` | El régimen fiscal no está permitido para el RFC en los registros del SAT. |
+| `tax_system_not_in_catalog` | El régimen fiscal no pertenece al catálogo del SAT. |
 
 ### CustomerErrorCode
 
@@ -391,18 +402,6 @@ Interpreta el subcódigo junto con `path`, `location` y la petición original; l
 | `too_small` | El valor está por debajo del mínimo permitido. |
 | `unknown_field` | El campo no está permitido en esta petición. |
 | `invalid_value` | El valor no es válido. |
-
-### Validación de información fiscal
-
-Estos subcódigos describen validaciones fiscales realizadas por Facturapi. Pueden aparecer al crear o editar un cliente u organización, en el resultado de validar la información fiscal de un cliente y al timbrar una factura cuando el rechazo identifica de forma confiable una validación fiscal del receptor. Los datos que no cumplen el catálogo se reportan bajo el código raíz de validación del endpoint; los datos que no coinciden con los registros fiscales se reportan bajo `invalid_tax_info`.
-
-| Código | Descripción |
-| --- | --- |
-| `legal_name_mismatch` | La razón social no corresponde al RFC en los registros del SAT. |
-| `tax_address_zip_mismatch` | El código postal fiscal no corresponde al RFC en los registros del SAT. |
-| `tax_id_not_found` | Este RFC del receptor no existe en la lista de RFC inscritos no cancelados del SAT. |
-| `tax_system_not_allowed_for_tax_id` | El régimen fiscal no está permitido para el RFC en los registros del SAT. |
-| `tax_system_not_in_catalog` | El régimen fiscal no pertenece al catálogo del SAT. |
 
 ### Códigos externos
 

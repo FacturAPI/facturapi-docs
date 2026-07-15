@@ -136,13 +136,24 @@ This list is the documented reference for public root API codes. We may add new 
 | `invalid_image_file` | The provided file is not a valid image. |
 | `invalid_json` | The request body is not valid JSON. |
 | `invalid_request` | The request is invalid. |
-| `invalid_tax_info` | The tax information is invalid. |
 | `invalid_multipart_form_data` | The multipart/form-data payload is invalid. |
 | `invalid_state_code` | The state code is invalid. |
 | `invalid_timezone` | The timezone is invalid. |
 | `multipart_limit_exceeded` | The multipart/form-data request exceeds the allowed limits. |
 | `page_too_large` | The requested page exceeds the allowed limit. |
 | `payload_too_large` | The request payload exceeds the maximum allowed size. |
+
+### TaxInfoValidationCode
+
+These codes describe tax-information errors validated by Facturapi. When a customer or organization tax-information validation detects a single issue, it appears in `error.code`. Input validations and the customer tax-information validation endpoint return them in `errors[].code`.
+
+| Code | Description |
+| --- | --- |
+| `legal_name_mismatch` | The name, corporate name, or business name does not match the RFC in SAT records. Verify that it exactly matches the Tax Status Certificate (Constancia de Situación Fiscal). |
+| `tax_address_zip_mismatch` | The fiscal zip code does not match the RFC in SAT records. |
+| `tax_id_not_found` | The receiver RFC does not exist in SAT's list of registered, non-cancelled RFCs. |
+| `tax_system_not_allowed_for_tax_id` | The tax regime is not allowed for the RFC in SAT records. |
+| `tax_system_not_in_catalog` | The tax regime does not belong to the SAT catalog. |
 
 ### CustomerErrorCode
 
@@ -391,18 +402,6 @@ Interpret the subcode together with `path`, `location`, and the original request
 | `too_small` | The value is below the allowed minimum. |
 | `unknown_field` | The field is not allowed in this request. |
 | `invalid_value` | The value is invalid. |
-
-### Tax information validation
-
-These subcodes describe tax information validations performed by Facturapi. They may appear when creating or editing a customer or organization, in the result of validating a customer's tax information, and while stamping an invoice when a rejection reliably identifies a receiver tax-information validation. Values outside the catalog are reported under the endpoint's validation root code; values that do not match tax records are reported under `invalid_tax_info`.
-
-| Code | Description |
-| --- | --- |
-| `legal_name_mismatch` | The legal name does not match the RFC in SAT records. |
-| `tax_address_zip_mismatch` | The fiscal zip code does not match the RFC in SAT records. |
-| `tax_id_not_found` | The receiver RFC does not exist in SAT's list of registered, non-cancelled RFCs. |
-| `tax_system_not_allowed_for_tax_id` | The tax regime is not allowed for the RFC in SAT records. |
-| `tax_system_not_in_catalog` | The tax regime does not belong to the SAT catalog. |
 
 ### External codes
 

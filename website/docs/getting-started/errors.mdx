@@ -51,6 +51,8 @@ El `code` raíz clasifica el resultado principal de la solicitud y es el valor q
 
 El arreglo `errors[]` aparece cuando la respuesta necesita explicar uno o más detalles además del resultado principal: por ejemplo, varios campos inválidos en una misma solicitud o los motivos que devolvió un proveedor externo. Sus códigos son subcódigos de detalle y no reemplazan al `code` raíz. Cuando `source` es `facturapi`, el subcódigo y el mensaje son definidos por Facturapi. Cuando `source` es externo, el subcódigo puede ser el código original del sistema indicado.
 
+Cuando el error usa su mensaje raíz por defecto, `message` repite el mensaje del primer detalle de `errors[]`. Esto conserva un mensaje útil para integraciones que todavía no procesan detalles estructurados; para lógica programática, usa siempre `code`, `errors[].code` y `path`.
+
 ### Errores de validación
 
 Cuando la petición no cumple el contrato de entrada, el error raíz usa `code: "invalid_request"`. Si hay detalles, `errors[]` incluye cada campo inválido con `source: "facturapi"`, `path`, `location` y un subcódigo de validación.
@@ -65,7 +67,7 @@ Si el proveedor externo devuelve detalles útiles, se incluyen en `errors[]` con
 
 ```json
 {
-  "message": "La factura no pasó la validación de timbrado.",
+  "message": "El RFC del receptor no se encuentra en la lista de RFC inscritos no cancelados del SAT.",
   "status": 400,
   "code": "invoice_stamping_validation_error",
   "errors": [
@@ -392,13 +394,13 @@ Interpreta el subcódigo junto con `path`, `location` y la petición original; l
 
 ### Validación de información fiscal
 
-Estos subcódigos describen validaciones fiscales realizadas por Facturapi. Pueden aparecer al crear o editar un cliente u organización, y en el resultado de validar la información fiscal de un cliente. Los datos que no cumplen el catálogo se reportan bajo el código raíz de validación del endpoint; los datos que no coinciden con los registros fiscales se reportan bajo `invalid_tax_info`.
+Estos subcódigos describen validaciones fiscales realizadas por Facturapi. Pueden aparecer al crear o editar un cliente u organización, en el resultado de validar la información fiscal de un cliente y al timbrar una factura cuando el rechazo identifica de forma confiable una validación fiscal del receptor. Los datos que no cumplen el catálogo se reportan bajo el código raíz de validación del endpoint; los datos que no coinciden con los registros fiscales se reportan bajo `invalid_tax_info`.
 
 | Código | Descripción |
 | --- | --- |
 | `legal_name_mismatch` | La razón social no corresponde al RFC en los registros del SAT. |
 | `tax_address_zip_mismatch` | El código postal fiscal no corresponde al RFC en los registros del SAT. |
-| `tax_id_not_found` | No se encontró el RFC en los registros del SAT. |
+| `tax_id_not_found` | Este RFC del receptor no existe en la lista de RFC inscritos no cancelados del SAT. |
 | `tax_system_not_allowed_for_tax_id` | El régimen fiscal no está permitido para el RFC en los registros del SAT. |
 | `tax_system_not_in_catalog` | El régimen fiscal no pertenece al catálogo del SAT. |
 

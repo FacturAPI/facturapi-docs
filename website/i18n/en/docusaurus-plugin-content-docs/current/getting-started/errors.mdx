@@ -51,6 +51,8 @@ The root `code` classifies the main result of the request and is the value you s
 
 The `errors[]` array appears when the response needs to explain one or more details in addition to the main outcome: for example, multiple invalid fields in the same request or reasons returned by an external provider. Its codes are detail subcodes and do not replace the root `code`. When `source` is `facturapi`, the subcode and message are defined by Facturapi. When `source` is external, the subcode may be the original code from the indicated system.
 
+When an error uses its default root message, `message` repeats the first detail message in `errors[]`. This preserves a useful message for integrations that do not yet process structured details; for programmatic logic, always use `code`, `errors[].code`, and `path`.
+
 ### Validation errors
 
 When the request does not match the input contract, the root error uses `code: "invalid_request"`. When details are available, `errors[]` includes each invalid field with `source: "facturapi"`, `path`, `location`, and a validation subcode.
@@ -65,7 +67,7 @@ If the external provider returns useful details, they are included in `errors[]`
 
 ```json
 {
-  "message": "La factura no pasó la validación de timbrado.",
+  "message": "El RFC del receptor no se encuentra en la lista de RFC inscritos no cancelados del SAT.",
   "status": 400,
   "code": "invoice_stamping_validation_error",
   "errors": [
@@ -392,13 +394,13 @@ Interpret the subcode together with `path`, `location`, and the original request
 
 ### Tax information validation
 
-These subcodes describe tax information validations performed by Facturapi. They may appear when creating or editing a customer or organization, and in the result of validating a customer's tax information. Values outside the catalog are reported under the endpoint's validation root code; values that do not match tax records are reported under `invalid_tax_info`.
+These subcodes describe tax information validations performed by Facturapi. They may appear when creating or editing a customer or organization, in the result of validating a customer's tax information, and while stamping an invoice when a rejection reliably identifies a receiver tax-information validation. Values outside the catalog are reported under the endpoint's validation root code; values that do not match tax records are reported under `invalid_tax_info`.
 
 | Code | Description |
 | --- | --- |
 | `legal_name_mismatch` | The legal name does not match the RFC in SAT records. |
 | `tax_address_zip_mismatch` | The fiscal zip code does not match the RFC in SAT records. |
-| `tax_id_not_found` | The RFC was not found in SAT records. |
+| `tax_id_not_found` | The receiver RFC does not exist in SAT's list of registered, non-cancelled RFCs. |
 | `tax_system_not_allowed_for_tax_id` | The tax regime is not allowed for the RFC in SAT records. |
 | `tax_system_not_in_catalog` | The tax regime does not belong to the SAT catalog. |
 

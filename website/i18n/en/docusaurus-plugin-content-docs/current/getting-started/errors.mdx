@@ -392,6 +392,9 @@ Interpret the subcode together with `path`, `location`, and the original request
 
 | Code | Description |
 | --- | --- |
+| `amount_exceeds_related_document_balance` | The paid amount cannot exceed the related document's previous balance. |
+| `exchange_rate_too_large` | The exchange rate must be less than or equal to 1 when the payment is in MXN and the related document is in USD. |
+| `exchange_rate_too_small` | The exchange rate must be greater than or equal to 1 when the payment is in USD and the related document is in MXN. |
 | `invalid_format` | The value does not match the expected format. |
 | `invalid_length` | The value does not match the allowed length. |
 | `invalid_type` | The value has the wrong type. |

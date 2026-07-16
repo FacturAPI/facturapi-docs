@@ -392,6 +392,9 @@ Interpreta el subcódigo junto con `path`, `location` y la petición original; l
 
 | Código | Descripción |
 | --- | --- |
+| `amount_exceeds_related_document_balance` | El monto pagado no puede ser mayor al saldo anterior del documento relacionado. |
+| `exchange_rate_too_large` | El tipo de cambio debe ser menor o igual a 1 cuando el pago está en MXN y el documento relacionado en USD. |
+| `exchange_rate_too_small` | El tipo de cambio debe ser mayor o igual a 1 cuando el pago está en USD y el documento relacionado en MXN. |
 | `invalid_format` | El valor no cumple el formato esperado. |
 | `invalid_length` | El valor no cumple la longitud permitida. |
 | `invalid_type` | El valor no tiene el tipo esperado. |

@@ -4,28 +4,25 @@ sidebar_position: 7
 
 # Error handling
 
-:::info[Availability]
-The normalized error codes and messages described here apply starting July 2, 2026. Before that date, error codes and messages may differ from what is documented on this page.
-:::
-
 The API returns errors as JSON and uses standard HTTP status codes. For programmatic error handling, use `code`: it is a stable, predictable string.
 
-`message` is meant for humans. It may change to improve clarity or support localization, so avoid using it for branching logic.
+`message` is meant for humans. Today, API messages are returned in Spanish. They may change to improve clarity or support localization, so avoid using them for branching logic.
 
 ## Error object
 
 ```json
 {
   "ok": false,
-  "message": "La solicitud no es válida.",
+  "message": "El campo \"customer.email\" es requerido.",
   "status": 400,
   "code": "invalid_request",
   "location": "body",
   "path": "customer.email",
   "errors": [
     {
-      "message": "\"customer.email\" is required",
+      "message": "El campo \"customer.email\" es requerido.",
       "code": "required",
+      "source": "facturapi",
       "location": "body",
       "path": "customer.email"
     }
@@ -41,41 +38,43 @@ The API returns errors as JSON and uses standard HTTP status codes. For programm
 | `code` | `string` | Stable root code for handling the error. |
 | `location` | `string` | Location of the data related to the error, such as `body`, `query`, `params`, or `files`. Included only when applicable. |
 | `path` | `string` | Path of the field related to the error. Included only when applicable. |
-| `errors` | `array` | Additional details. Included only when there are multiple validation errors or relevant external details. |
+| `errors` | `array` | Actionable details to correct the request or understand an external response. It can include multiple items when multiple issues are detected. |
 | `errors[].message` | `string` | Human-readable message for a detail. |
-| `errors[].code` | `string` | Detail subcode. For validation errors, this uses a `ValidationErrorCode`; for external errors, it may be the original SAT or PAC code. |
+| `errors[].code` | `string` | Detail subcode. Facturapi validation errors use an input-validation or tax-information-validation subcode; external errors may use the original SAT or PAC code. |
 | `errors[].location` | `string` | Location of the data related to the detail, such as `body`, `query`, `params`, or `files`. |
 | `errors[].path` | `string` | Path of the field related to the detail. |
-| `errors[].source` | `string` | External source for the detail, such as `sat` or `pac`. Included only for external errors. |
+| `errors[].source` | `string` | Source of the detail. It can be `facturapi`, `sat`, or `pac`. |
 
 ## Interpreting codes
 
 The root `code` classifies the main result of the request and is the value you should check first when deciding how to handle an error.
 
-Codes inside `errors[]` are detail subcodes. They explain invalid fields or external responses, but they do not replace the root `code`. They may be Facturapi validation subcodes or original codes from external systems such as SAT or PAC.
+The `errors[]` array appears when the response needs to explain one or more details in addition to the main outcome: for example, multiple invalid fields in the same request or reasons returned by an external provider. Its codes are detail subcodes and do not replace the root `code`. When `source` is `facturapi`, the subcode and message are defined by Facturapi. When `source` is external, the subcode may be the original code from the indicated system.
+
+When an error uses its default root message, `message` repeats the first detail message in `errors[]`. This preserves a useful message for integrations that do not yet process structured details; for programmatic logic, always use `code`, `errors[].code`, and `path`.
 
 ### Validation errors
 
-When the request does not match the input contract, the root error uses `code: "invalid_request"`. When details are available, `errors[]` includes each invalid field with `path`, `location`, and a validation subcode.
+When the request does not match the input contract, the root error uses `code: "invalid_request"`. When details are available, `errors[]` includes each invalid field with `source: "facturapi"`, `path`, `location`, and a validation subcode.
 
-Validation subcodes are documented at the end of this page as detail subcodes because they appear in `errors[].code`, not in `error.code`.
+Validation subcodes are documented at the end of this page as detail subcodes because they appear in `errors[].code`, not in the root `code`.
 
 ### External errors
 
 Some operations depend on external validations or services, such as SAT or PAC. In those cases, the root `code` remains a Facturapi code, for example `invoice_stamping_validation_error`.
 
-If the external provider returns useful details, they are included in `errors[]` with the original code:
+If the external provider returns useful details that Facturapi cannot classify reliably, they are included in `errors[]` with the original code:
 
 ```json
 {
-  "message": "La factura no pasó la validación de timbrado.",
+  "message": "No se encontró el RFC [AAA010101AAA] en la Lista de Contribuyentes Obligados.",
   "status": 400,
   "code": "invoice_stamping_validation_error",
   "errors": [
     {
-      "message": "El RFC del receptor no se encuentra en la lista de RFC inscritos no cancelados del SAT.",
-      "code": "CFDI40145",
-      "source": "sat"
+      "message": "No se encontró el RFC [AAA010101AAA] en la Lista de Contribuyentes Obligados.",
+      "code": "402",
+      "source": "pac"
     }
   ],
   "ok": false
@@ -93,7 +92,7 @@ Some error responses include useful headers for programmatic handling or observa
 | `Retry-After` | Recommended seconds to wait before retrying. Included in errors with `code: "rate_limit_exceeded"`. |
 | `X-Facturapi-Log-Id` | Request correlation ID. You can keep it in your observability stack to investigate errors with support. |
 
-## Root error codes (`error.code`)
+## Root error codes (`code`)
 
 This list is the documented reference for public root API codes. We may add new codes at any time when new features or new error cases require them, but we aim to keep this page up to date so integrations have a predictable reference.
 
@@ -143,6 +142,18 @@ This list is the documented reference for public root API codes. We may add new 
 | `multipart_limit_exceeded` | The multipart/form-data request exceeds the allowed limits. |
 | `page_too_large` | The requested page exceeds the allowed limit. |
 | `payload_too_large` | The request payload exceeds the maximum allowed size. |
+
+### TaxInfoValidationCode
+
+These codes describe tax-information errors validated by Facturapi. When a customer or organization tax-information validation detects a single issue, it appears in `code`. Input validations and the customer tax-information validation endpoint return them in `errors[].code`.
+
+| Code | Description |
+| --- | --- |
+| `legal_name_mismatch` | The name or business name does not match the RFC in SAT records. Verify that it exactly matches the Tax Status Certificate (Constancia de Situación Fiscal). |
+| `tax_address_zip_mismatch` | The fiscal zip code does not match the RFC in SAT records. |
+| `tax_id_not_found` | The receiver RFC does not exist in SAT's list of registered, non-cancelled RFCs. |
+| `tax_system_not_allowed_for_tax_id` | The tax regime is not allowed for the RFC in SAT records. |
+| `tax_system_not_in_catalog` | The tax regime does not belong to the SAT catalog. |
 
 ### CustomerErrorCode
 
@@ -240,16 +251,17 @@ This list is the documented reference for public root API codes. We may add new 
 
 | Code | Description |
 | --- | --- |
-| `receipt_invoicing_customer_mismatch` | The receipts cannot be invoiced together for the same customer. |
-| `receipt_invoicing_too_many_items` | The receipts exceed the allowed item limit. |
-| `receipt_keys_not_found` | Not all requested receipt keys were found. |
+| `receipt_invoicing_address_mismatch` | All receipts must have the same expedition address to be invoiced together. |
+| `receipt_invoicing_customer_mismatch` | Send a customer or select receipts that already belong to the same customer. |
+| `receipt_invoicing_too_many_items` | The receipts exceed the maximum of 5,000 supported items. Split the receipts into multiple invoices. |
+| `receipt_keys_not_found` | The requested receipts were not found. When only some keys are missing, `errors[]` may point to their position with `path: "keys.N"`. |
 
 ### ReceiptGlobalInvoiceErrorCode
 
 | Code | Description |
 | --- | --- |
-| `global_invoice_too_many_items` | The global invoice exceeds the allowed item limit. |
-| `invalid_global_invoice_period` | The global invoice period is invalid. |
+| `global_invoice_too_many_items` | The global invoice exceeds the maximum of 5,000 supported items. Create multiple global invoices using smaller date ranges or receipt subsets. |
+| `invalid_global_invoice_period` | The date range must be within the same billing period: `{period}`. |
 
 ### RetentionErrorCode
 
@@ -296,12 +308,26 @@ This list is the documented reference for public root API codes. We may add new 
 
 | Code | Description |
 | --- | --- |
+| `certificate_expired` | The certificate has expired. |
+| `certificate_file_required` | We could not find a file named "cer" in your request. Make sure your request uses multipart/form-data and uses "cer" as the field name. |
+| `certificate_files_invalid` | The certificate or private key is invalid, incomplete, or damaged. |
+| `certificate_files_required` | We could not find any files in your request. |
+| `certificate_fiel_rfc_mismatch` | The certificate RFC does not match the FIEL RFC. |
 | `certificate_invalid` | The certificate is invalid. |
-| `certificate_rfc_mismatch` | The certificate RFC does not match the organization. |
+| `certificate_not_yet_valid` | The certificate cannot be used yet. |
+| `certificate_previous_rfc_mismatch` | The certificate RFC does not match the previous certificate. |
+| `csd_required` | The certificate is not a CSD. Make sure you are not sending a FIEL. |
 | `fiel_invalid` | The FIEL is invalid. |
-| `fiel_rfc_mismatch` | The FIEL RFC does not match the organization. |
+| `fiel_rfc_mismatch` | The FIEL RFC does not match the CSD certificate RFC. |
+| `fiel_required` | The certificate is not a FIEL. Make sure you are not sending a CSD. |
+| `organization_domain_change_not_allowed` | The invoicing domain cannot be changed after it has been selected. Contact us to change it. |
+| `organization_domain_unavailable` | The invoicing domain is not available. |
 | `organization_settings_invalid` | The organization settings are invalid. |
+| `organization_support_email_required` | A support email is required to select an invoicing domain. |
 | `organization_tax_info_invalid` | The organization tax information is invalid. |
+| `private_key_certificate_mismatch` | The private key does not match the certificate. |
+| `private_key_file_required` | We could not find a file named "key" in your request. Make sure your request uses multipart/form-data and uses "key" as the field name. |
+| `private_key_password_incorrect` | The private key password is incorrect. |
 
 ### OrganizationInviteErrorCode
 
@@ -360,18 +386,25 @@ These values appear inside `errors[]` to explain specific details of the root er
 
 ### Input validation
 
-These subcodes may appear when the root code is `invalid_request`.
+When a request has multiple invalid fields or values, `errors[]` includes one detail for each. These subcodes identify the problem in each detail.
+
+Interpret the subcode together with `path`, `location`, and the original request. Subcodes are intentionally generic and do not change based on the field type or endpoint flow.
 
 | Code | Description |
 | --- | --- |
+| `amount_exceeds_related_document_balance` | The paid amount cannot exceed the related document's previous balance. |
+| `exchange_rate_too_large` | The exchange rate must be less than or equal to 1 when the payment is in MXN and the related document is in USD. |
+| `exchange_rate_too_small` | The exchange rate must be greater than or equal to 1 when the payment is in USD and the related document is in MXN. |
 | `invalid_format` | The value does not match the expected format. |
 | `invalid_length` | The value does not match the allowed length. |
 | `invalid_type` | The value has the wrong type. |
+| `not_found` | The value references a resource that does not exist. |
 | `not_allowed` | The value is not allowed for this field. |
 | `required` | A required field is missing. |
 | `too_large` | The value exceeds the allowed limit. |
 | `too_small` | The value is below the allowed minimum. |
 | `unknown_field` | The field is not allowed in this request. |
+| `invalid_value` | The value is invalid. |
 
 ### External codes
 

@@ -2590,6 +2590,9 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - is_valid
+                  - errors
                 properties:
                   is_valid:
                     type: boolean
@@ -2599,21 +2602,38 @@ paths:
                     example: true
                   errors:
                     type: array
-                    description: List of errors found in the validation
+                    description: >-
+                      Tax information validation details. This is an empty array
+                      when `is_valid` is `true`.
                     items:
                       type: object
+                      required:
+                        - source
+                        - code
+                        - message
                       properties:
+                        source:
+                          type: string
+                          enum:
+                            - facturapi
+                          description: >-
+                            Indicates that Facturapi generated the validation
+                            detail.
+                          example: facturapi
+                        code:
+                          type: string
+                          description: Stable validation detail code.
+                          example: tax_system_not_allowed_for_tax_id
                         path:
                           type: string
-                          description: Path to the field with the error
+                          description: Path to the field whose tax information is invalid.
                           example: tax_system
                         message:
                           type: string
-                          description: Error message
+                          description: Descriptive validation detail message.
                           example: >-
-                            El RégimenFiscal no coincide con el registrado para
-                            el RFC en la lista de contribuyentes obligados del
-                            SAT.
+                            El régimen fiscal no está permitido para el RFC en
+                            los registros del SAT.
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -5959,11 +5979,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthenticated'
         '404':
-          description: No eligible receipts found for the provided keys
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ToInvoiceNotFoundResponse'
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/UnexpectedError'
   /receipts/to-invoice/preview:
@@ -11913,7 +11929,7 @@ components:
           schema:
             $ref: '#/components/schemas/GenericError'
           example:
-            message: Too many requests. Please retry shortly.
+            message: Se excedió el límite de solicitudes.
             status: 429
             ok: false
             code: rate_limit_exceeded
@@ -12241,6 +12257,11 @@ components:
           description: Upper inclusive limit of the date range to request.
     GenericError:
       type: object
+      required:
+        - message
+        - status
+        - ok
+        - code
       properties:
         message:
           type: string
@@ -12281,12 +12302,16 @@ components:
         errors:
           type: array
           description: >-
-            Additional error details. Included only when there are validation
-            errors or relevant external details.
+            Additional error details. Included only when they provide useful
+            information.
           items:
             $ref: '#/components/schemas/ErrorDetail'
     ErrorDetail:
       type: object
+      required:
+        - message
+        - code
+        - source
       properties:
         message:
           type: string
@@ -12294,9 +12319,9 @@ components:
         code:
           type: string
           description: >-
-            Detail subcode. Validation errors use codes such as `required` or
-            `invalid_type`; external errors may contain the provider's original
-            code.
+            Detail subcode. Facturapi validation errors use codes such as
+            `required`, `invalid_type`, or `tax_id_not_found`; external errors
+            may contain the provider's original code.
           example: required
         location:
           type: string
@@ -12312,7 +12337,11 @@ components:
           description: Optional path to the field related to this detail.
         source:
           type: string
-          description: Optional source for external details, for example `sat`.
+          description: Source of the detail.
+          enum:
+            - facturapi
+            - sat
+            - pac
     IssuingType:
       type: string
       description: >-
@@ -17869,26 +17898,6 @@ components:
     ToInvoiceSummary:
       type: object
       description: Summary object returned when `dry_run=true`.
-    ToInvoiceNotFoundResponse:
-      type: object
-      required:
-        - invoice
-        - summary
-        - missingKeys
-      properties:
-        invoice:
-          nullable: true
-          type: object
-          description: Always `null` when no invoice was created.
-        summary:
-          nullable: true
-          type: object
-          description: Summary preview when available.
-        missingKeys:
-          type: array
-          description: Receipt keys that were not found or not eligible.
-          items:
-            type: string
     Retention:
       title: Retention object
       allOf:

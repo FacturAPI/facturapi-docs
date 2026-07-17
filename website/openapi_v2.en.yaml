@@ -11875,9 +11875,11 @@ components:
                 - zip
             - $ref: "#/components/schemas/ThirdParty"
         property_tax_account:
-          type: string
-          description: Bank account number for property tax.
-          example: "0102030405"
+          type: array
+          description: Property tax account numbers.
+          items:
+            type: string
+          example: ["0102030405"]
     LineItemEgresoInput:
       title: LineItem
       required:

@@ -5833,6 +5833,11 @@ paths:
       summary: Create retention
       description: |
         Create a new Retention. If the invoice is created in Live environment, it will be **stamped and sent to SAT**.
+
+        To create a draft retention, send `status: "draft"`. In that case, the
+        retention will be saved without stamping, will not be sent to the PAC, and
+        may be incomplete. Facturapi sets `is_ready_to_stamp: true` only when the
+        draft has all required data to be stamped.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -5967,7 +5972,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Retention"
+                type: object
+                discriminator:
+                  propertyName: status
+                  mapping:
+                    valid: "#/components/schemas/Retention"
+                    pending: "#/components/schemas/Retention"
+                    draft: "#/components/schemas/Retention"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -6110,6 +6121,25 @@ paths:
           schema:
             type: string
           description: ID of the customer to filter by. Only retentions issued to this customer will be returned.
+        - in: query
+          name: status
+          schema:
+            oneOf:
+              - type: string
+                enum:
+                  - draft
+                  - pending
+                  - valid
+                  - canceled
+              - type: array
+                items:
+                  type: string
+                  enum:
+                    - draft
+                    - pending
+                    - valid
+                    - canceled
+          description: Filter by one or more retention statuses.
         - $ref: "#/components/parameters/SearchDate"
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
@@ -6199,6 +6229,94 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+    put:
+      operationId: updateDraftRetention
+      tags:
+        - retention
+      summary: Edit draft retention
+      description: |
+        Updates the information of a draft retention, setting only the values for
+        the parameters sent in the request. Parameters not sent in the request
+        will not be modified.
+
+        Facturapi recalculates `is_ready_to_stamp` after every edit. If the
+        retention is no longer in `draft` status, the call returns an error.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/retentions/6062d9fb226600001cd22f71 \
+              -X PUT \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                    "folio_int": "R-2026-001"
+                  }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const retention = await facturapi.retentions.updateDraft(
+              '6062d9fb226600001cd22f71',
+              { folio_int: 'R-2026-001' }
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var retention = await facturapi.Retention.UpdateDraftAsync(
+              "6062d9fb226600001cd22f71",
+              new Dictionary<string, object>
+              {
+                ["folio_int"] = "R-2026-001"
+              }
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var retention = facturapi.retentions().updateDraft(
+              "ret_123",
+              Map.of("folio_int", "R-2026-001")
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $retention = $facturapi->Retentions->updateDraft("6062d9fb226600001cd22f71", [
+              "folio_int" => "R-2026-001"
+            ]);
+      parameters:
+        - in: path
+          name: retention_id
+          schema:
+            type: string
+          required: true
+          description: ID of the retention to edit
+      requestBody:
+        $ref: "#/components/requestBodies/RetentionCreate"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: "`Retention` object updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Retention"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
     delete:
       operationId: cancelRetention
       tags:
@@ -6208,6 +6326,10 @@ paths:
         Request a cancellation of a retention from the SAT.
 
         Unlike regular invoices, retention cancellations are immediate and do not require authorization from the recipient.
+
+        If the retention status is `draft`, this method deletes it from the
+        database without calling SAT/PAC cancellation and without requiring
+        cancellation parameters.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -6263,7 +6385,7 @@ paths:
           description: ID of the retention to cancel
         - in: query
           name: motive
-          required: true
+          required: false
           schema:
             type: string
             enum:
@@ -6272,7 +6394,8 @@ paths:
               - "03"
               - "04"
           description: |
-            Code representing the reason for the retention cancellation
+            Code representing the reason for the retention cancellation.
+            Required for retentions that are not drafts.
             - `01`: **Document issued with errors and replacement**. When the retention contains an error in amounts, codes, or any other data and the replacement document has already been issued, which must be indicated using the `substitution` attribute.
             - `02`: **Document issued with errors without replacement**. When the retention contains an error in amounts, codes, or any other data and does not need to be related to another retention.
             - `03`: **The operation did not take place**. When the operation or transaction was not completed.
@@ -6300,6 +6423,141 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthenticated"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /retentions/{retention_id}/copy:
+    post:
+      operationId: copyToDraftRetention
+      tags:
+        - retention
+      summary: Copy to draft
+      description: |
+        Creates a new draft retention with the same information as the specified
+        retention. The copy does not keep stamping, cancellation, idempotency, or
+        external identity fields.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/retentions/6062d9fb226600001cd22f71/copy \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -X POST
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const retention = await facturapi.retentions.copyToDraft('6062d9fb226600001cd22f71');
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var retention = await facturapi.Retention.CopyToDraftAsync("6062d9fb226600001cd22f71");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var retention = facturapi.retentions().copyToDraft("ret_123");
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $retention = $facturapi->Retentions->copyToDraft("6062d9fb226600001cd22f71");
+      parameters:
+        - in: path
+          name: retention_id
+          schema:
+            type: string
+          required: true
+          description: ID of the retention to copy
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: New `Retention` object with `draft` status.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Retention"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /retentions/{retention_id}/stamp:
+    post:
+      operationId: stampDraftRetention
+      tags:
+        - retention
+      summary: Stamp draft retention
+      description: |
+        Stamps a draft retention and sends it to the SAT for validation.
+
+        Facturapi validates the draft as a complete retention before stamping it.
+        If the draft is incomplete or invalid, the call returns an error.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/retentions/6062d9fb226600001cd22f71/stamp \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -X POST
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const retention = await facturapi.retentions.stampDraft('6062d9fb226600001cd22f71');
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var retention = await facturapi.Retention.StampDraftAsync("6062d9fb226600001cd22f71");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var retention = facturapi.retentions().stampDraft("ret_123");
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $retention = $facturapi->Retentions->stampDraft("6062d9fb226600001cd22f71");
+      parameters:
+        - in: path
+          name: retention_id
+          schema:
+            type: string
+          required: true
+          description: ID of the retention to stamp
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: "`Retention` object stamped successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Retention"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "409":
+          $ref: "#/components/responses/Conflict"
         "429":
           $ref: "#/components/responses/RateLimited"
         "500":
@@ -16289,6 +16547,8 @@ components:
         status:
           type: string
           enum:
+            - draft
+            - pending
             - valid
             - canceled
           description: |
@@ -16315,6 +16575,12 @@ components:
           $ref: "#/components/schemas/Stamp"
         customer:
           $ref: "#/components/schemas/CustomerInfo"
+        is_ready_to_stamp:
+          type: boolean
+          description: |
+            Indicates whether the retention with `draft` status is complete and ready to attempt stamping.
+            In a retention with any status other than `draft`, this field is always `false`.
+          example: false
     RetentionProperties:
       type: object
       properties:
@@ -16453,14 +16719,20 @@ components:
                 $ref: "#/components/schemas/Retention"
     RetentionInput:
       type: object
-      required:
-        - customer
-        - cve_retenc
-        - periodo
-        - totales
       properties:
+        status:
+          type: string
+          enum:
+            - draft
+          description: |
+            Initial status of the retention. If `draft` is sent, the retention
+            will be saved as a draft and will not be stamped or sent to the SAT.
+            When `draft` is sent, `customer`, `cve_retenc`, `periodo`, and
+            `totales` may be omitted or sent as `null`.
+          example: draft
         customer:
           description: Customer receiving the invoice.
+          nullable: true
           oneOf:
             - $ref: "#/components/schemas/CustomerCreateInput"
             - type: string
@@ -16469,6 +16741,7 @@ components:
               example: 58e93bd8e86eb318b0197456
         cve_retenc:
           type: string
+          nullable: true
           example: 26
           description: Key of the retention or payment information according to the [SAT catalog](#clave-de-retencion).
         fecha_exp:
@@ -16486,6 +16759,7 @@ components:
           description: Alphanumeric identifier for internal control of the company and without fiscal relevance.
         periodo:
           type: object
+          nullable: true
           description: Information about the retention period.
           required:
             - mes_ini
@@ -16510,6 +16784,7 @@ components:
               description: Fiscal year in which the retention was made.
         totales:
           type: object
+          nullable: true
           description: Information about the total of retentions made in the corresponding period.
           required:
             - monto_tot_operacion

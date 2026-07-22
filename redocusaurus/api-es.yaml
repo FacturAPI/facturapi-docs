@@ -4170,7 +4170,7 @@ paths:
         rechace o deje expirar la solicitud, de tal manera que al consultar una
         factura (usando [Obtener Factura](#tag/invoice/operation/getInvoice)),
         la propiedad `cancellation_status` reflejará el estado más reciente de
-        la soliitud.
+        la solicitud.
 
 
         Consulta los valores posibles de `cancellation_status` más abajo.
@@ -4466,7 +4466,7 @@ paths:
             objeto `invoice` en status `pending`, y podrá consultarse su cambio
             de status
 
-            a `valid`` en un momento posterior.
+            a `valid` en un momento posterior.
       security:
         - SecretLiveKey: []
         - SecretTestKey: []
@@ -4930,7 +4930,7 @@ paths:
                   oneOf:
                     - type: string
                       format: email
-                      description: Dirección de correo eletrónico
+                      description: Dirección de correo electrónico
                       example: otro@correo.com
                     - type: array
                       example:
@@ -5880,7 +5880,7 @@ paths:
                   oneOf:
                     - type: string
                       format: email
-                      description: Dirección de correo eletrónico
+                      description: Dirección de correo electrónico
                       example: otro@correo.com
                     - type: array
                       example:
@@ -6836,7 +6836,7 @@ paths:
         Realiza una solicitud de cancelación de retención ante el SAT.
 
 
-        A diferencia de las facturas comúnes, la cancelación de la retención es
+        A diferencia de las facturas comunes, la cancelación de la retención es
         inmediata y no requiere autorización de parte del receptor.
       x-codeSamples:
         - lang: Bash
@@ -7259,7 +7259,7 @@ paths:
                   oneOf:
                     - type: string
                       format: email
-                      description: Dirección de correo eletrónico
+                      description: Dirección de correo electrónico
                       example: otro@correo.com
                     - type: array
                       example:
@@ -7343,7 +7343,7 @@ paths:
 
         Recuerda que los folios de tu suscripción podrán ser consumidos por
 
-        cualquiera de las organizaaciones registradas bajo tu cuenta.
+        cualquiera de las organizaciones registradas bajo tu cuenta.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -16624,7 +16624,7 @@ components:
           type: array
           description: >-
             Si incluiste el parámetro `complements`, este campo es opcional; en
-            cambio si inclusite el parámetro `addenda`, debes enviar la
+            cambio si incluiste el parámetro `addenda`, debes enviar la
             información necesaria para incluir estos namespaces en el documento
             XML.
           items:
@@ -16634,7 +16634,7 @@ components:
         pdf_options:
           type: object
           description: >-
-            Configura qué campos opcionales se queiren mostrar en el PDF. El SAT
+            Configura qué campos opcionales se quieren mostrar en el PDF. El SAT
             no obliga a mostrar estos campos, pero pueden activarse según la
             preferencia del cliente para la factura en curso. Utiliza este campo
             para peticiones de generación de facturas en las cuales necesites
@@ -17904,8 +17904,8 @@ components:
                 Conceptos a incluir en el recibo.
 
 
-                El número máximo de elementos que puedes incluir en un recxibo
-                es de 5,000. Si necesitas
+                El número máximo de elementos que puedes incluir en un recibo es
+                de 5,000. Si necesitas
 
                 emitir una recibo con más de 5,000 conceptos, prueba dividir la
                 transacción en varios recibos.
@@ -18706,7 +18706,7 @@ components:
             pdf_extra:
               type: object
               description: >-
-                Configura qué campos opcionales se queiren mostrar en el PDF. El
+                Configura qué campos opcionales se quieren mostrar en el PDF. El
                 SAT no obliga a mostrar estos campos, pero pueden activarse
                 según la preferencia de la organización.
               properties:
@@ -18806,7 +18806,7 @@ components:
         certificate:
           type: object
           description: >
-            Información últil sobre el certificado de sello digital (CSD) de la
+            Información útil sobre el certificado de sello digital (CSD) de la
             organización, que se utilizará para firmar las facturas.
           properties:
             has_certificate:
@@ -19082,7 +19082,7 @@ components:
         pdf_extra:
           type: object
           description: >-
-            Configura qué campos opcionales se queiren mostrar en el PDF. El SAT
+            Configura qué campos opcionales se quieren mostrar en el PDF. El SAT
             no obliga a mostrar estos campos, pero pueden activarse según la
             preferencia de la organización.
           properties:

@@ -189,6 +189,48 @@ factura global a `PUBLICO EN GENERAL`.
   Los recibos incluidos quedan asociados a ese cliente y cambian su `status` a
   `"invoiced_globally"`.
 
+### Facturas globales con más de 5,000 recibos
+
+El límite de una factura global se calcula sobre los recibos abiertos incluidos, no
+sobre los conceptos resultantes después de agruparlos.
+
+Si un periodo contiene más de 5,000 recibos, envía
+`limit_to_max_receipts: true`. La llamada generará una factura con hasta 5,000
+recibos y dejará el resto con `status = "open"`. Repite la misma solicitud,
+conservando el rango y la periodicidad originales, hasta que la API responda `null`.
+Así puedes dividir un mismo periodo entre varias facturas globales sin cambiar su
+información de periodicidad.
+
+Si omites esta opción, la API devuelve
+`global_invoice_too_many_receipts` y no genera una factura parcial.
+
+### Automatizar las facturas globales
+
+Las organizaciones que tienen contratado el feature de factura global pueden activar
+la automatización mediante
+[Editar configuración de recibos](/api/#tag/organization/operation/editOrganizationReceiptsSettings):
+
+```json
+{
+  "periodicity": "month",
+  "activate_global_invoice": true
+}
+```
+
+La automatización procesa cada periodo después de que termina, según la zona horaria
+de la organización. Puedes cambiar `periodicity` para reprogramar los periodos futuros
+o enviar `activate_global_invoice: false` para pausarla. Los periodos que transcurran
+mientras esté desactivada no se facturan automáticamente al reactivarla.
+
+La API pública permite configurar la automatización, pero el historial, monitoreo y
+las acciones sobre sus ejecuciones están disponibles únicamente en el Dashboard.
+
+### Agrupar conceptos al facturar recibos seleccionados
+
+La opción de configuración `group_similar_self_invoice_items` agrupa conceptos
+equivalentes cuando se facturan varios recibos seleccionados, tanto desde la API como
+desde el portal de autofactura. No se utiliza para las facturas globales.
+
 ### Facturar un recibo
 
 Por medio del método [Facturar Recibo](/api/#tag/receipt/operation/invoiceReceipt) puedes convertir

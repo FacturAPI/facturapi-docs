@@ -260,7 +260,7 @@ These codes describe tax-information errors validated by Facturapi. When a custo
 
 | Code | Description |
 | --- | --- |
-| `global_invoice_too_many_items` | The global invoice exceeds the maximum of 5,000 supported items. Create multiple global invoices using smaller date ranges or receipt subsets. |
+| `global_invoice_too_many_receipts` | The period contains more than 5,000 open receipts. Send `limit_to_max_receipts` to invoice up to 5,000 per request, or use smaller date ranges or receipt subsets. |
 | `invalid_global_invoice_period` | The date range must be within the same billing period: `{period}`. |
 
 ### RetentionErrorCode

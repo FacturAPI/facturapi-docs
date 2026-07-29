@@ -59,7 +59,7 @@ The receipt can only be invoiced while its `status` attribute has the value
 can be invoiced at any time through the API. However, the self-invoicing portal
 will not allow invoices to be generated for receipts after their expiration
 date (`expires_at` field), which is calculated at the time of creating the
-receipt based on the `invoicing_period` and `duration_days` fields from
+receipt based on the `periodicity` and `duration_days` fields from
 [receipt settings](/docs/guides/receipts/).
 
 For example, if your invoicing period is monthly and your duration days for

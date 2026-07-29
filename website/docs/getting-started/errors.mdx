@@ -260,7 +260,7 @@ Estos códigos describen errores de información fiscal validados por Facturapi.
 
 | Código | Descripción |
 | --- | --- |
-| `global_invoice_too_many_items` | La factura global excede el máximo de 5,000 conceptos soportados. Genera varias facturas globales usando rangos de fechas más pequeños o subconjuntos de recibos. |
+| `global_invoice_too_many_receipts` | El periodo contiene más de 5,000 recibos abiertos. Envía `limit_to_max_receipts` para facturar hasta 5,000 por llamada o usa rangos de fechas o subconjuntos de recibos. |
 | `invalid_global_invoice_period` | El rango de fechas debe estar dentro del mismo periodo de facturación: `{period}`. |
 
 ### RetentionErrorCode

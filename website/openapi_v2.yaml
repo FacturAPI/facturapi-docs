@@ -6379,6 +6379,10 @@ paths:
         La factura global se emite al cliente genérico `PUBLICO EN GENERAL`.
         Los recibos incluidos quedan asociados a ese cliente y su `status`
         cambia a `"invoiced_globally"`.
+
+        Una factura global puede incluir hasta 5,000 recibos abiertos. Si el periodo
+        contiene más, puedes enviar `limit_to_max_receipts: true` y repetir la solicitud
+        con el mismo periodo hasta recibir `null`.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -6393,7 +6397,8 @@ paths:
                     "months": "01",
                     "year": 2021,
                     "folio_number": 1234,
-                    "series": "G"
+                    "series": "G",
+                    "limit_to_max_receipts": true
                 }'
         - lang: JavaScript
           label: Node.js
@@ -6406,9 +6411,10 @@ paths:
               to: '2020-12-31T04:59:59.999Z',
               periodicity: 'month',
               months: '01',
-              year: 2021
+              year: 2021,
               folio_number: 1234,
-              series: 'G'
+              series: 'G',
+              limit_to_max_receipts: true
             });
         - lang: csharp
           label: C#
@@ -6459,11 +6465,13 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: Nuevo objeto `Invoice` creado
+          description: Nuevo objeto `Invoice` creado, o `null` si no hay recibos abiertos en el periodo
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Invoice"
+                oneOf:
+                  - $ref: "#/components/schemas/Invoice"
+                  - type: "null"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -8325,7 +8333,9 @@ paths:
         - organization
       summary: Editar config. recibos
       description: |
-        Actualiza la configuración de recibos de la organización.
+        Actualiza los campos enviados de la configuración de recibos de la organización.
+        Para activar la generación automática de facturas globales, la organización
+        debe tener contratado ese feature.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -8335,9 +8345,10 @@ paths:
               -H "Authorization: Bearer sk_user_API_KEY" \
               -H "Content-Type: application/json" \
               -d '{
-                    "invoicing_period": "month",
+                    "periodicity": "month",
                     "duration_days": 14,
-                    "next_folio_number": 100
+                    "next_folio_number": 100,
+                    "activate_global_invoice": true
                 }'
         - lang: JavaScript
           label: Node.js
@@ -8348,9 +8359,10 @@ paths:
             const organization = await facturapi.organizations.updateReceiptSettings(
               '5a2a307be93a2f00129ea035',
               {
-                invoicing_period: "month",
+                periodicity: "month",
                 duration_days: 14,
-                next_folio_number: 100
+                next_folio_number: 100,
+                activate_global_invoice: true
               }
             );
         - lang: csharp
@@ -8362,9 +8374,10 @@ paths:
               "5a2a307be93a2f00129ea035",
               new Dictionary<string, object>
               {
-                ["invoicing_period"] = "month",
+                ["periodicity"] = "month",
                 ["duration_days"] = 14,
-                ["next_folio_number"] = 100
+                ["next_folio_number"] = 100,
+                ["activate_global_invoice"] = true
               }
             );
         - lang: Java
@@ -8379,7 +8392,8 @@ paths:
             var organization = facturapi.organizations().updateReceiptSettings(
                 "org_123",
                 Map.of(
-                    "color", "#4786FF"
+                    "periodicity", "month",
+                    "activate_global_invoice", true
                 )
             );
         - lang: PHP
@@ -8389,9 +8403,10 @@ paths:
             $organization = $facturapi->Organizations->updateReceiptSettings(
               "5a2a307be93a2f00129ea035",
               [
-                "invoicing_period" => "month",
+                "periodicity" => "month",
                 "duration_days" => 14,
-                "next_folio_number" => 100
+                "next_folio_number" => 100,
+                "activate_global_invoice" => true
               ]
             );
       parameters:
@@ -17343,8 +17358,8 @@ components:
             - two_months
           description: |
             Periodicidad que corresponde al rango de fechas utilizado.
-            Si se omite, se tomará la configuración de recibos de la organización. 
-            Si omites enviar los campos `from` y `to`, las fechas que se asignarán por default dependerán del valor de periodicity.
+            Si omites los campos `from` y `to`, las fechas que se asignarán por
+            default dependerán del valor de `periodicity`.
         months:
           type: string
           default: Mes contenido en el rango de fechas utilizado.
@@ -17387,6 +17402,17 @@ components:
             maxLength: 24
             description: ID de un recibo previamente registrado en Facturapi.
             example: 614496b471d422de4b6cfcc4
+        limit_to_max_receipts:
+          type: boolean
+          default: false
+          description: |
+            Permite procesar periodos con más de 5,000 recibos abiertos. Cuando es
+            `true`, la factura incluye como máximo 5,000 recibos y los restantes
+            conservan el status `"open"`. Repite la solicitud con el mismo periodo
+            hasta recibir `null`, que indica que ya no quedan recibos por facturar.
+
+            Cuando es `false`, un periodo con más de 5,000 recibos abiertos devuelve
+            el error `global_invoice_too_many_receipts`.
     ToInvoiceInput:
       type: object
       required:
@@ -18106,6 +18132,19 @@ components:
               description: |
                 Número de folio que se asignará al siguiente recibo en ambiente Test.
                 Se incrementará automáticamente por cada nuevo recibo.
+            activate_global_invoice:
+              type: boolean
+              default: false
+              description: |
+                Indica si la organización genera automáticamente una factura global
+                después de cerrar cada periodo configurado. Requiere tener contratado
+                el feature de factura global.
+            group_similar_self_invoice_items:
+              type: boolean
+              default: false
+              description: |
+                Agrupa conceptos equivalentes al facturar varios recibos seleccionados,
+                incluyendo las autofacturas. No modifica la generación de facturas globales.
         self_invoice:
           type: object
           description: |
@@ -18371,6 +18410,19 @@ components:
         next_folio_number_test:
           type: integer
           description: Número de folio que se asignará al siguiente recibo creado en esta organización en ambiente Test.
+        activate_global_invoice:
+          type: boolean
+          default: false
+          description: |
+            Activa o desactiva la generación automática de una factura global después
+            de cerrar cada periodo configurado. Para activarla, la organización debe
+            tener contratado el feature de factura global.
+        group_similar_self_invoice_items:
+          type: boolean
+          default: false
+          description: |
+            Cuando es `true`, agrupa conceptos equivalentes al facturar varios recibos
+            seleccionados, incluyendo las autofacturas. No aplica a las facturas globales.
     OrganizationSelfInvoiceInput:
       type: object
       properties:

@@ -17162,7 +17162,7 @@ components:
             until the response is `null`, which means no receipts remain to be invoiced.
 
             When `false`, a period with more than 5,000 open receipts returns the
-            `global_invoice_too_many_receipts` error.
+            `global_invoice_too_many_items` error.
     ToInvoiceInput:
       type: object
       required:

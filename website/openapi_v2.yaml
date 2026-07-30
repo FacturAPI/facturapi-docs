@@ -17412,7 +17412,7 @@ components:
             hasta recibir `null`, que indica que ya no quedan recibos por facturar.
 
             Cuando es `false`, un periodo con más de 5,000 recibos abiertos devuelve
-            el error `global_invoice_too_many_receipts`.
+            el error `global_invoice_too_many_items`.
     ToInvoiceInput:
       type: object
       required:

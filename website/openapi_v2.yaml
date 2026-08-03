@@ -3257,6 +3257,27 @@ paths:
       summary: Crear factura (CFDI 4.0)
       description: |
         Crea una nueva Factura. Si la factura es creada en ambiente Live, ésta será **timbrada y enviada al SAT**.
+
+        ### Recuperación ante intermitencias de timbrado
+
+        Si PADE devuelve un error intermitente reconocido durante el timbrado, Facturapi conserva la factura con `status: "pending"`, sin UUID y con su sello CFD original. El folio queda reservado durante seis horas y la API responde con `202 Accepted`. Esto significa que la solicitud fue aceptada, pero su procesamiento todavía no termina. Los errores de validación y demás errores que no sean elegibles para recuperación se devuelven de forma normal.
+
+        Facturapi guarda una copia de los datos necesarios para validar la recuperación: RFC del emisor y receptor, serie, folio, total, moneda, tipo de CFDI, sello y fecha de emisión. Diez minutos después consulta a PADE por los CFDI que coincidan con el RFC del emisor, la serie y el folio, y valida cada resultado contra esos datos para evitar asociar un CFDI incorrecto.
+
+        Se realizan hasta cinco intentos de recuperación, uno cada 10 minutos. La solicitud original del minuto 0 no cuenta como intento:
+
+        | Tiempo | Acción |
+        | --- | --- |
+        | Minuto 0 | El timbrado original falla por una intermitencia; la API responde `202` |
+        | Minuto 10 | Intento de recuperación 1 |
+        | Minuto 20 | Intento de recuperación 2 |
+        | Minuto 30 | Intento de recuperación 3 |
+        | Minuto 40 | Intento de recuperación 4 |
+        | Minuto 50 | Intento de recuperación 5 |
+
+        Si se recupera un CFDI válido, Facturapi guarda el UUID, el timbre y el XML; marca la factura como `valid`; consume el folio reservado; registra el uso y las relaciones contables; marca la tarea de recuperación como exitosa; emite el evento de actualización de estado de la factura; y detiene los reintentos.
+
+        Si el quinto intento no recupera un CFDI válido, Facturapi marca la tarea de recuperación y la factura como `failed`, libera el folio reservado y deja de reintentar. El código `202` solo comunica que la tarea de recuperación continuará en segundo plano; el código de estado no es lo que inicia los reintentos.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -3422,6 +3443,21 @@ paths:
                   mapping:
                     pending: "#/components/schemas/Invoice"
                     draft: "#/components/schemas/InvoiceDraft"
+        "202":
+          description: Solicitud aceptada; Facturapi intentará recuperar el CFDI hasta cinco veces, una cada 10 minutos
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Invoice"
+                  - type: object
+                    required:
+                      - status
+                    properties:
+                      status:
+                        type: string
+                        enum: [pending]
+                        example: pending
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -11032,7 +11068,7 @@ x-webhooks:
       description: |
         Notifica acerca del cambio del campo `status` de una factura.
 
-        Se utiliza en el caso de haber creado la factura de manera asíncrona.
+        Se utiliza cuando la factura se crea de manera asíncrona o cuando una tarea de recuperación por intermitencia de timbrado cambia su estado.
       tags:
         - events
       requestBody:
@@ -14838,8 +14874,9 @@ components:
             - valid
             - canceled
             - draft
+            - failed
           description: |
-            Estado actual de la factura.
+            Estado actual de la factura. `failed` indica que el timbrado en segundo plano o la recuperación automática del CFDI terminó sin éxito.
           example: valid
         cancellation_status:
           type: string

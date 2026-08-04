@@ -3692,6 +3692,400 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /invoices/zip-requests:
+    post:
+      operationId: createInvoiceZipRequest
+      tags:
+        - invoice
+      summary: Crear o recuperar solicitud de ZIP mensual
+      description: |
+        Crea una solicitud para generar un archivo ZIP con las facturas de un mes, o recupera la solicitud existente con los mismos filtros.
+
+        La operación es idempotente. Los tipos de factura se normalizan, por lo que `["I", "E"]` y `["E", "I"]` corresponden a la misma solicitud. Las llamadas concurrentes idénticas también regresan la misma solicitud.
+
+        Si una solicitud anterior tiene status `failed`, volver a llamar este método reintentará su procesamiento. Antes del nuevo intento se limpian el error, la tarea anterior, el progreso procesado y la lista de documentos fallidos. Si no es posible programar la generación, la solicitud se guarda con status `failed` y la API regresa un error `5xx`.
+
+        Este método requiere una llave de API de organización en ambiente Live, una suscripción activa y permiso para leer facturas. Las llaves de ambiente Test regresan HTTP 402.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/zip-requests \
+              -H "Authorization: Bearer sk_live_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "year": 2025,
+                "month": 3,
+                "issuer_type": "issuing",
+                "invoice_types": ["I", "E"]
+              }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const zipRequest = await facturapi.invoices.createZipRequest({
+              year: 2025,
+              month: 3,
+              issuer_type: 'issuing',
+              invoice_types: ['I', 'E']
+            });
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_live_API_KEY");
+            var zipRequest = await facturapi.Invoice.CreateZipRequestAsync(
+              new Dictionary<string, object>
+              {
+                ["year"] = 2025,
+                ["month"] = 3,
+                ["issuer_type"] = "issuing",
+                ["invoice_types"] = new[] { "I", "E" }
+              }
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_live_API_KEY");
+            var zipRequest = facturapi.invoices().createZipRequest(
+              Map.of(
+                "year", 2025,
+                "month", 3,
+                "issuer_type", "issuing",
+                "invoice_types", List.of("I", "E")
+              )
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_live_API_KEY");
+            $zipRequest = $facturapi->Invoices->createZipRequest([
+              "year" => 2025,
+              "month" => 3,
+              "issuer_type" => "issuing",
+              "invoice_types" => ["I", "E"]
+            ]);
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceZipRequestCreateInput"
+      security:
+        - "SecretLiveKey": []
+      responses:
+        "200":
+          description: Solicitud de ZIP creada o recuperada correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceZipRequest"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "402":
+          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
+        "404":
+          $ref: "#/components/responses/InvoiceZipRequestNoInvoices"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    get:
+      operationId: listInvoiceZipRequests
+      tags:
+        - invoice
+      summary: Listar solicitudes de ZIP mensual
+      description: |
+        Regresa una lista paginada de solicitudes de ZIP. `year` y `month` deben enviarse juntos. `invoice_types` filtra por un tipo o por un arreglo normalizado exacto.
+
+        Este método requiere una llave de API de organización en ambiente Live, una suscripción activa y permiso para leer facturas.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/invoices/zip-requests?year=2025&month=3&status=finished&limit=20&page=1" \
+              -H "Authorization: Bearer sk_live_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const zipRequests = await facturapi.invoices.listZipRequests({
+              year: 2025,
+              month: 3,
+              status: 'finished',
+              limit: 20,
+              page: 1
+            });
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_live_API_KEY");
+            var zipRequests = await facturapi.Invoice.ListZipRequestsAsync(
+              new Dictionary<string, object>
+              {
+                ["year"] = 2025,
+                ["month"] = 3,
+                ["status"] = "finished",
+                ["limit"] = 20,
+                ["page"] = 1
+              }
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_live_API_KEY");
+            var zipRequests = facturapi.invoices().listZipRequests(
+              Map.of(
+                "year", 2025,
+                "month", 3,
+                "status", "finished",
+                "limit", 20,
+                "page", 1
+              )
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_live_API_KEY");
+            $zipRequests = $facturapi->Invoices->listZipRequests([
+              "year" => 2025,
+              "month" => 3,
+              "status" => "finished",
+              "limit" => 20,
+              "page" => 1
+            ]);
+      parameters:
+        - in: query
+          name: year
+          schema:
+            type: integer
+            minimum: 2000
+            maximum: 9999
+          description: Año a filtrar. Debe enviarse junto con `month`.
+        - in: query
+          name: month
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 12
+          description: Mes a filtrar. Debe enviarse junto con `year`.
+        - in: query
+          name: status
+          schema:
+            $ref: "#/components/schemas/InvoiceZipRequestStatus"
+          description: Status de la solicitud.
+        - in: query
+          name: issuer_type
+          schema:
+            $ref: "#/components/schemas/IssuingType"
+          description: Filtra facturas emitidas o recibidas.
+        - in: query
+          name: invoice_types
+          style: form
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: "#/components/schemas/InvoiceZipRequestInvoiceType"
+          description: Filtra por un tipo de factura o por un arreglo normalizado exacto.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: Página de resultados, empezando en 1.
+        - $ref: "#/components/parameters/SearchLimit"
+      security:
+        - "SecretLiveKey": []
+      responses:
+        "200":
+          description: Resultado paginado de solicitudes de ZIP.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceZipRequestSearchResult"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "402":
+          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /invoices/zip-requests/{id}:
+    get:
+      operationId: retrieveInvoiceZipRequest
+      tags:
+        - invoice
+      summary: Recuperar solicitud de ZIP mensual
+      description: |
+        Recupera una solicitud de ZIP. Consulta este método hasta que el status sea `finished` o `failed`. Cuando sea `finished`, descarga el archivo con el método de descarga.
+
+        Requiere una llave de API de organización en ambiente Live, una suscripción activa y permiso para leer facturas.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/zip-requests/66b0f0000000000000000000 \
+              -H "Authorization: Bearer sk_live_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const zipRequest = await facturapi.invoices.retrieveZipRequest(
+              '66b0f0000000000000000000'
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_live_API_KEY");
+            var zipRequest = await facturapi.Invoice.RetrieveZipRequestAsync(
+              "66b0f0000000000000000000"
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+
+            Facturapi facturapi = new Facturapi("sk_live_API_KEY");
+            var zipRequest = facturapi.invoices().retrieveZipRequest(
+              "66b0f0000000000000000000"
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_live_API_KEY");
+            $zipRequest = $facturapi->Invoices->retrieveZipRequest(
+              "66b0f0000000000000000000"
+            );
+      parameters:
+        - $ref: "#/components/parameters/InvoiceZipRequestId"
+      security:
+        - "SecretLiveKey": []
+      responses:
+        "200":
+          description: Solicitud de ZIP recuperada correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceZipRequest"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "402":
+          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
+        "404":
+          $ref: "#/components/responses/InvoiceZipRequestNotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /invoices/zip-requests/{id}/zip:
+    get:
+      operationId: downloadInvoiceZipRequest
+      tags:
+        - invoice
+      summary: Descargar ZIP mensual
+      description: |
+        Descarga el ZIP de una solicitud terminada. El nombre del archivo usa el formato `YYYY-MM.zip`.
+
+        Requiere una llave de API de organización en ambiente Live, una suscripción activa y permiso para leer facturas.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/zip-requests/66b0f0000000000000000000/zip \
+              -H "Authorization: Bearer sk_live_API_KEY" \
+              --output 2025-03.zip
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import fs from 'fs';
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const zipStream = await facturapi.invoices.downloadZipRequest(
+              '66b0f0000000000000000000'
+            );
+            zipStream.pipe(fs.createWriteStream('./2025-03.zip'));
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_live_API_KEY");
+            var zipStream = await facturapi.Invoice.DownloadZipRequestAsync(
+              "66b0f0000000000000000000"
+            );
+            await using var file = File.Create("2025-03.zip");
+            await zipStream.CopyToAsync(file);
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.io.InputStream;
+            import java.nio.file.Files;
+            import java.nio.file.Path;
+            import java.nio.file.StandardCopyOption;
+
+            Facturapi facturapi = new Facturapi("sk_live_API_KEY");
+            try (InputStream zipStream = facturapi.invoices().downloadZipRequest(
+              "66b0f0000000000000000000"
+            )) {
+              Files.copy(zipStream, Path.of("./2025-03.zip"), StandardCopyOption.REPLACE_EXISTING);
+            }
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_live_API_KEY");
+            $zip = $facturapi->Invoices->downloadZipRequest(
+              "66b0f0000000000000000000"
+            );
+            file_put_contents("2025-03.zip", $zip);
+      parameters:
+        - $ref: "#/components/parameters/InvoiceZipRequestId"
+      security:
+        - "SecretLiveKey": []
+      responses:
+        "200":
+          description: Archivo ZIP generado.
+          headers:
+            Content-Disposition:
+              description: Nombre sugerido con formato `attachment; filename="YYYY-MM.zip"`.
+              schema:
+                type: string
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "402":
+          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
+        "404":
+          $ref: "#/components/responses/InvoiceZipRequestNotFound"
+        "409":
+          $ref: "#/components/responses/InvoiceZipRequestNotReady"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
   /invoices/preview/pdf:
     post:
       operationId: previewInvoicePdf
@@ -6050,6 +6444,11 @@ paths:
       summary: Crear retención
       description: |
         Crea una nueva Retención. Si el comprobante es creado en ambiente Live, ésta será **timbrado y enviado al SAT**.
+
+        Para crear una retención en borrador, envía `status: "draft"`. En ese caso,
+        la retención se guardará sin timbrarse, no se enviará al PAC y podrá estar
+        incompleta. Facturapi asignará `is_ready_to_stamp: true` únicamente cuando
+        el borrador tenga todos los datos requeridos para timbrarse.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -6326,6 +6725,18 @@ paths:
           schema:
             type: string
           description: Identificador del cliente. Útil para obtener las retenciones emitidas a un sólo cliente.
+        - in: query
+          name: status
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - draft
+                - pending
+                - valid
+                - canceled
+          description: Filtrar por uno o más estados de retención.
         - $ref: "#/components/parameters/SearchDate"
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
@@ -6414,6 +6825,97 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+    put:
+      operationId: updateDraftRetention
+      tags:
+        - retention
+      summary: Editar borrador de retención
+      description: |
+        Actualiza la información de una retención con status `draft`, asignando
+        los valores de los parámetros enviados. Los parámetros que no se envíen
+        en la petición no se modificarán.
+
+        Facturapi recalculará automáticamente `is_ready_to_stamp` después de cada
+        edición. Si la retención ya no está en status `draft`, la llamada regresará
+        un error.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/retentions/6062d9fb226600001cd22f71 \
+              -X PUT \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                    "folio_int": "R-2026-001"
+                  }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const retention = await facturapi.retentions.updateDraft(
+              '6062d9fb226600001cd22f71',
+              { folio_int: 'R-2026-001' }
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var retention = await facturapi.Retention.UpdateDraftAsync(
+              "6062d9fb226600001cd22f71",
+              new Dictionary<string, object>
+              {
+                ["folio_int"] = "R-2026-001"
+              }
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var retention = facturapi.retentions().updateDraft(
+              "ret_123",
+              Map.of("folio_int", "R-2026-001")
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $retention = $facturapi->Retentions->updateDraft("6062d9fb226600001cd22f71", [
+              "folio_int" => "R-2026-001"
+            ]);
+      parameters:
+        - in: path
+          name: retention_id
+          schema:
+            type: string
+          required: true
+          description: ID de la retención a editar
+      requestBody:
+        $ref: "#/components/requestBodies/RetentionUpdate"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Objeto `Retention` editado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Retention"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
     delete:
       operationId: cancelRetention
       tags:
@@ -6422,7 +6924,10 @@ paths:
       description: |
         Realiza una solicitud de cancelación de retención ante el SAT.
 
-        A diferencia de las facturas comunes, la cancelación de la retención es inmediata y no requiere autorización de parte del receptor.
+        A diferencia de las facturas comúnes, la cancelación de la retención es inmediata y no requiere autorización de parte del receptor.
+
+        Si el status de la retención es `draft`, este método la eliminará de la
+        base de datos sin llamar al SAT/PAC y sin requerir parámetros de cancelación.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -6487,7 +6992,8 @@ paths:
               - "03"
               - "04"
           description: |
-            Clave que representa el motivo de la cancelación de la retención
+            Clave que representa el motivo de la cancelación de la retención.
+            Requerido para retenciones que no son borrador.
             - `01`: **Comprobante emitido con errores con relación**. Cuando la
               retención contiene algún error en las cantidades, claves o cualquier otro dato y ya
               se ha emitido el comprobante que la sustituye, el cual deberá indicarse por medio
@@ -6520,6 +7026,140 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthenticated"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /retentions/{retention_id}/copy:
+    post:
+      operationId: copyToDraftRetention
+      tags:
+        - retention
+      summary: Copiar a borrador
+      description: |
+        Crea una copia en borrador de la retención especificada. La copia no conserva
+        campos propios del timbrado, cancelación, idempotencia o identidad externa.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/retentions/6062d9fb226600001cd22f71/copy \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -X POST
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const retention = await facturapi.retentions.copyToDraft('6062d9fb226600001cd22f71');
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var retention = await facturapi.Retention.CopyToDraftAsync("6062d9fb226600001cd22f71");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var retention = facturapi.retentions().copyToDraft("ret_123");
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $retention = $facturapi->Retentions->copyToDraft("6062d9fb226600001cd22f71");
+      parameters:
+        - in: path
+          name: retention_id
+          schema:
+            type: string
+          required: true
+          description: ID de la retención a copiar
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Nuevo objeto `Retention` con status `draft`.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Retention"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /retentions/{retention_id}/stamp:
+    post:
+      operationId: stampDraftRetention
+      tags:
+        - retention
+      summary: Timbrar borrador de retención
+      description: |
+        Timbra una retención con status `draft` y la envía al SAT para su validación.
+
+        Facturapi validará el borrador como una retención completa antes de timbrarlo.
+        Si el borrador está incompleto o no es válido, la llamada regresará un error.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/retentions/6062d9fb226600001cd22f71/stamp \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -X POST
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const retention = await facturapi.retentions.stampDraft('6062d9fb226600001cd22f71');
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var retention = await facturapi.Retention.StampDraftAsync("6062d9fb226600001cd22f71");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var retention = facturapi.retentions().stampDraft("ret_123");
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $retention = $facturapi->Retentions->stampDraft("6062d9fb226600001cd22f71");
+      parameters:
+        - in: path
+          name: retention_id
+          schema:
+            type: string
+          required: true
+          description: ID de la retención a timbrar
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Objeto `Retention` timbrado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Retention"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "409":
+          $ref: "#/components/responses/Conflict"
         "429":
           $ref: "#/components/responses/RateLimited"
         "500":
@@ -11273,6 +11913,60 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/GenericError"
+    InvoiceZipRequestAccessRequired:
+      description: Se requiere una suscripción activa y acceso al ambiente Live.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GenericError"
+          examples:
+            subscription_required:
+              summary: No existe una suscripción activa
+              value:
+                message: Esta operación requiere una suscripción activa. Actualiza tu suscripción en el dashboard.
+                status: 402
+                ok: false
+                code: subscription_required
+            subscription_live_access_required:
+              summary: La llave no tiene acceso al ambiente Live
+              value:
+                message: Tu suscripción no permite usar el ambiente de producción. Actualiza tu suscripción en el dashboard.
+                status: 402
+                ok: false
+                code: subscription_live_access_required
+    InvoiceZipRequestNoInvoices:
+      description: No existen facturas válidas que coincidan con los filtros.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GenericError"
+          example:
+            message: No se encontraron facturas para generar el archivo ZIP.
+            status: 404
+            ok: false
+            code: zip_request_no_invoices
+    InvoiceZipRequestNotFound:
+      description: La solicitud no existe o no pertenece a la organización o ambiente actuales.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GenericError"
+          example:
+            message: No se encontró la solicitud del archivo ZIP.
+            status: 404
+            ok: false
+            code: zip_request_not_found
+    InvoiceZipRequestNotReady:
+      description: La generación del ZIP todavía no ha terminado.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GenericError"
+          example:
+            message: El archivo ZIP todavía no está listo para descargarse.
+            status: 409
+            ok: false
+            code: zip_request_not_ready
 
   requestBodies:
     CustomerCreate:
@@ -11372,6 +12066,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/RetentionInput"
+    RetentionUpdate:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/RetentionUpdateInput"
     OrganizationCreate:
       required: true
       content:
@@ -11487,6 +12187,14 @@ components:
             $ref: "#/components/schemas/WebhookCreateEdit"
 
   parameters:
+    InvoiceZipRequestId:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+        pattern: "^[a-fA-F0-9]{24}$"
+      description: Identificador de la solicitud de ZIP.
     SearchDate:
       in: query
       name: date
@@ -14803,6 +15511,143 @@ components:
           items:
             type: string
           description: Folios fiscales (UUID) de facturas relacionadas.
+    InvoiceZipRequestStatus:
+      type: string
+      enum:
+        - created
+        - processing
+        - finished
+        - failed
+        - none
+      description: |
+        Status de generación del ZIP:
+        - `created`: la solicitud fue creada y programada.
+        - `processing`: la generación está en curso.
+        - `finished`: el ZIP está listo para descargarse.
+        - `failed`: falló la programación o generación.
+        - `none`: valor legado; normalmente no se regresa en este flujo.
+    InvoiceZipRequestInvoiceType:
+      type: string
+      enum:
+        - I
+        - E
+        - T
+        - N
+        - P
+      description: Tipo de factura (`I` Ingreso, `E` Egreso, `T` Traslado, `N` Nómina o `P` Pago).
+    InvoiceZipRequestCreateInput:
+      type: object
+      required:
+        - year
+        - month
+      properties:
+        year:
+          type: integer
+          minimum: 2000
+          maximum: 9999
+          example: 2025
+        month:
+          type: integer
+          minimum: 1
+          maximum: 12
+          example: 3
+        issuer_type:
+          allOf:
+            - $ref: "#/components/schemas/IssuingType"
+          default: issuing
+        invoice_types:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          description: Tipos de factura a incluir. Por defecto se incluyen todos.
+          items:
+            $ref: "#/components/schemas/InvoiceZipRequestInvoiceType"
+          example:
+            - I
+            - E
+    InvoiceZipRequest:
+      title: Objeto InvoiceZipRequest
+      allOf:
+        - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
+        - type: object
+          required:
+            - organization
+            - issuer_type
+            - invoice_types
+            - start_date
+            - end_date
+            - status
+            - document_count
+            - processed_document
+            - failed_documents
+          properties:
+            livemode:
+              type: boolean
+              const: true
+              description: Siempre es `true` para este flujo.
+              example: true
+            organization:
+              type: string
+              description: Identificador de la organización.
+              example: 65a1f0000000000000000000
+            issuer_type:
+              $ref: "#/components/schemas/IssuingType"
+            invoice_types:
+              type: array
+              description: Tipos normalizados de las facturas incluidas.
+              uniqueItems: true
+              items:
+                $ref: "#/components/schemas/InvoiceZipRequestInvoiceType"
+              example:
+                - E
+                - I
+            start_date:
+              type: string
+              format: date-time
+              description: Inicio inclusivo del mes solicitado.
+              example: "2025-03-01T06:00:00.000Z"
+            end_date:
+              type: string
+              format: date-time
+              description: Fin inclusivo del mes solicitado.
+              example: "2025-04-01T04:59:59.999Z"
+            status:
+              $ref: "#/components/schemas/InvoiceZipRequestStatus"
+            document_count:
+              type: integer
+              minimum: 0
+              description: Número total de facturas por procesar.
+              example: 25
+            processed_document:
+              type: integer
+              minimum: 0
+              description: Número de facturas procesadas.
+              example: 25
+            failed_documents:
+              type: array
+              description: Facturas que no pudieron agregarse al ZIP.
+              items:
+                type: string
+              example: []
+            scheduled_at:
+              type: string
+              format: date-time
+              description: Fecha en que se programó el procesamiento.
+              example: "2026-08-04T18:00:01.000Z"
+    InvoiceZipRequestSearchResult:
+      allOf:
+        - $ref: "#/components/schemas/SearchResult"
+        - type: object
+          required:
+            - page
+            - total_pages
+            - total_results
+            - data
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/InvoiceZipRequest"
     Invoice:
       title: Objeto Invoice
       allOf:
@@ -16542,6 +17387,8 @@ components:
         status:
           type: string
           enum:
+            - draft
+            - pending
             - valid
             - canceled
           description: |
@@ -16567,6 +17414,12 @@ components:
           $ref: "#/components/schemas/Stamp"
         customer:
           $ref: "#/components/schemas/CustomerInfo"
+        is_ready_to_stamp:
+          type: boolean
+          description: |
+            Indica si la retención con status `draft` está completa y lista para intentar timbrarse.
+            En una retención con status diferente a `draft`, este campo siempre será `false`.
+          example: false
     RetentionProperties:
       type: object
       properties:
@@ -16694,15 +17547,62 @@ components:
               items:
                 $ref: "#/components/schemas/Retention"
     RetentionInput:
+      oneOf:
+        - title: Retención completa
+          allOf:
+            - $ref: "#/components/schemas/RetentionUpdateInput"
+            - type: object
+              required:
+                - customer
+                - cve_retenc
+                - periodo
+                - totales
+              not:
+                anyOf:
+                  - required:
+                      - status
+                  - required:
+                      - customer
+                    properties:
+                      customer:
+                        type: "null"
+                  - required:
+                      - cve_retenc
+                    properties:
+                      cve_retenc:
+                        type: "null"
+                  - required:
+                      - periodo
+                    properties:
+                      periodo:
+                        type: "null"
+                  - required:
+                      - totales
+                    properties:
+                      totales:
+                        type: "null"
+        - title: Retención borrador
+          allOf:
+            - $ref: "#/components/schemas/RetentionUpdateInput"
+            - type: object
+              required:
+                - status
+    RetentionUpdateInput:
       type: object
-      required:
-        - customer
-        - cve_retenc
-        - periodo
-        - totales
       properties:
+        status:
+          type: string
+          enum:
+            - draft
+          description: |
+            Estado inicial de la retención. Si se envía `draft`, la retención se
+            guardará como borrador y no se timbrará ni se enviará al SAT. También
+            al enviar `draft`, `customer`, `cve_retenc`, `periodo` y `totales`
+            pueden omitirse o enviarse como `null`.
+          example: draft
         customer:
           description: Cliente receptor de la factura.
+          nullable: true
           oneOf:
             - $ref: "#/components/schemas/CustomerCreateInput"
             - type: string
@@ -16711,6 +17611,7 @@ components:
               example: 58e93bd8e86eb318b0197456
         cve_retenc:
           type: string
+          nullable: true
           example: 26
           description: Clave de la retención o información de pagos de acuerdo al [catálogo del SAT](#clave-de-retencion).
         fecha_exp:
@@ -16727,6 +17628,7 @@ components:
           description: Identificador alfanumérico para control interno de la empresa y sin relevancia fiscal.
         periodo:
           type: object
+          nullable: true
           description: Información sobre el periodo de la retención.
           required:
             - mes_ini
@@ -16751,6 +17653,7 @@ components:
               description: Año o ejercicio fiscal en que se realizó la retención.
         totales:
           type: object
+          nullable: true
           description: Información sobre el total de retenciones efectuadas en el periodo correspondiente.
           required:
             - monto_tot_operacion

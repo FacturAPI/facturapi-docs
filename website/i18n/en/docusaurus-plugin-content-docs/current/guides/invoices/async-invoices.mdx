@@ -11,6 +11,17 @@ When the size of your invoices is very large, or you need to invoice many invoic
 and receive an immediate response with the Invoice object and its ID, but without stamping yet. The stamping of the invoice is done in the background, and you can check the status of the invoice at any time
 using the get invoice method.
 
+## Automatic recovery after a temporary error
+
+When creating an invoice synchronously, the SAT or the certification provider may return a temporary error after stamping the CFDI. When Facturapi detects one of these cases, it preserves the invoice with `status: "pending"` and responds with HTTP `202 Accepted` instead of returning a definitive error. This response means that the request was accepted, but processing has not finished yet.
+
+Facturapi will automatically try to recover the CFDI up to 5 times, with a 10-minute interval between attempts. The attempts occur approximately 10, 20, 30, 40, and 50 minutes after the initial response.
+
+- If Facturapi recovers the CFDI, the invoice changes to `status: "valid"`, its UUID and stamp are saved, and the `invoice.status_updated` webhook is sent.
+- If it cannot be recovered after the fifth attempt, the invoice changes to `status: "failed"` and no further attempts are made.
+
+While the invoice remains `pending`, do not create it again or assign its folio to another document. You can check its state using the get invoice method or subscribe to the `invoice.status_updated` webhook.
+
 ## Create an asynchronous invoice
 
 An invoice will be created asynchronously in either of these 2 cases:

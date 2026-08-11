@@ -17907,7 +17907,7 @@ components:
                 Indicates whether the organization automatically creates a global
                 invoice after each configured period closes. Requires the global
                 invoice feature.
-            group_similar_self_invoice_items:
+            grouped_items_invoice:
               type: boolean
               default: false
               description: |
@@ -18187,7 +18187,7 @@ components:
             Enables or disables automatic global invoice generation after each
             configured period closes. The organization must have the global invoice
             feature to enable it.
-        group_similar_self_invoice_items:
+        grouped_items_invoice:
           type: boolean
           default: false
           description: |

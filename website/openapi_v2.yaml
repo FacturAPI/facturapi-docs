@@ -18139,7 +18139,7 @@ components:
                 Indica si la organización genera automáticamente una factura global
                 después de cerrar cada periodo configurado. Requiere tener contratado
                 el feature de factura global.
-            group_similar_self_invoice_items:
+            grouped_items_invoice:
               type: boolean
               default: false
               description: |
@@ -18417,7 +18417,7 @@ components:
             Activa o desactiva la generación automática de una factura global después
             de cerrar cada periodo configurado. Para activarla, la organización debe
             tener contratado el feature de factura global.
-        group_similar_self_invoice_items:
+        grouped_items_invoice:
           type: boolean
           default: false
           description: |

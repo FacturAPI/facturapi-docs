@@ -14225,6 +14225,20 @@ components:
           properties:
             data:
               $ref: '#/components/schemas/ComercioExteriorDataInput'
+    LeyendasFiscalesProperties:
+      allOf:
+        - $ref: '#/components/schemas/CartaPorteOrCustomComplementProperties'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/LeyendasFiscalesData'
+    LeyendasFiscalesInput:
+      allOf:
+        - $ref: '#/components/schemas/CartaPorteOrCustomComplementInput'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/LeyendasFiscalesData'
     CartaPorteOrCustomComplementProperties:
       title: Complement
       type: object
@@ -14233,6 +14247,7 @@ components:
         mapping:
           carta_porte: '#/components/schemas/CartaPorteProperties'
           comercio_exterior: '#/components/schemas/ComercioExteriorProperties'
+          leyendas_fiscales: '#/components/schemas/LeyendasFiscalesProperties'
           custom: '#/components/schemas/CustomComplementProperties'
       properties:
         type:
@@ -14240,6 +14255,7 @@ components:
           enum:
             - carta_porte
             - comercio_exterior
+            - leyendas_fiscales
             - custom
           description: Type of complement
     CartaPorteOrCustomComplementInput:
@@ -14251,6 +14267,7 @@ components:
           custom: '#/components/schemas/CustomComplementInput'
           carta_porte: '#/components/schemas/CartaPorteInput'
           comercio_exterior: '#/components/schemas/ComercioExteriorInput'
+          leyendas_fiscales: '#/components/schemas/LeyendasFiscalesInput'
       required:
         - type
         - data
@@ -14260,8 +14277,37 @@ components:
           enum:
             - carta_porte
             - comercio_exterior
+            - leyendas_fiscales
             - custom
           description: Type of complement
+    LeyendasFiscalesData:
+      type: object
+      title: LeyendasFiscales
+      description: Fiscal Legends complement version 1.0.
+      required:
+        - leyendas
+      properties:
+        leyendas:
+          type: array
+          minItems: 1
+          description: Fiscal legends to include in the document.
+          items:
+            type: object
+            required:
+              - texto_leyenda
+            properties:
+              disposicion_fiscal:
+                type: string
+                minLength: 1
+                description: Tax provision applicable to the legend.
+              norma:
+                type: string
+                minLength: 1
+                description: Regulation governing the legend.
+              texto_leyenda:
+                type: string
+                minLength: 1
+                description: Text of the fiscal legend.
     CartaPorteDataProperties:
       type: object
       title: CartaPorte

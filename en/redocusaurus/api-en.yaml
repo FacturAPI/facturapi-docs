@@ -3614,6 +3614,437 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/UnexpectedError'
+  /invoices/zip-requests:
+    post:
+      operationId: createInvoiceZipRequest
+      tags:
+        - invoice
+      summary: Create or retrieve a monthly ZIP request
+      description: >
+        Creates a request to generate a ZIP file containing one month of
+        invoices, or retrieves the existing request with the same filters.
+
+
+        This operation is idempotent. Invoice types are normalized, so `["I",
+        "E"]` and `["E", "I"]` resolve to the same request. Identical concurrent
+        calls also return the same request.
+
+
+        If an earlier request has a `failed` status, calling this method again
+        retries it. Before retrying, the previous error and task fields,
+        processed progress, and failed-document list are cleared. If scheduling
+        fails, the request is saved with a `failed` status and the API returns a
+        `5xx` error.
+
+
+        This method requires a live-mode organization API key, an active
+        subscription, and permission to read invoices. Test-mode keys return
+        HTTP 402.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/zip-requests \
+              -H "Authorization: Bearer sk_live_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "year": 2025,
+                "month": 3,
+                "issuer_type": "issuing",
+                "invoice_types": ["I", "E"]
+              }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const zipRequest = await facturapi.invoices.createZipRequest({
+              year: 2025,
+              month: 3,
+              issuer_type: 'issuing',
+              invoice_types: ['I', 'E']
+            });
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_live_API_KEY");
+            var zipRequest = await facturapi.Invoice.CreateZipRequestAsync(
+              new Dictionary<string, object>
+              {
+                ["year"] = 2025,
+                ["month"] = 3,
+                ["issuer_type"] = "issuing",
+                ["invoice_types"] = new[] { "I", "E" }
+              }
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_live_API_KEY");
+            var zipRequest = facturapi.invoices().createZipRequest(
+              Map.of(
+                "year", 2025,
+                "month", 3,
+                "issuer_type", "issuing",
+                "invoice_types", List.of("I", "E")
+              )
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_live_API_KEY");
+            $zipRequest = $facturapi->Invoices->createZipRequest([
+              "year" => 2025,
+              "month" => 3,
+              "issuer_type" => "issuing",
+              "invoice_types" => ["I", "E"]
+            ]);
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoiceZipRequestCreateInput'
+      security:
+        - SecretLiveKey: []
+      responses:
+        '200':
+          description: ZIP request created or retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceZipRequest'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '402':
+          $ref: '#/components/responses/InvoiceZipRequestAccessRequired'
+        '404':
+          $ref: '#/components/responses/InvoiceZipRequestNoInvoices'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+    get:
+      operationId: listInvoiceZipRequests
+      tags:
+        - invoice
+      summary: List monthly ZIP requests
+      description: >
+        Returns a paginated list of ZIP requests. `year` and `month` must be
+        provided together. `invoice_types` filters by one type or an exact
+        normalized array.
+
+
+        This method requires a live-mode organization API key, an active
+        subscription, and permission to read invoices.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            "https://www.facturapi.io/v2/invoices/zip-requests?year=2025&month=3&status=finished&limit=20&page=1"
+            \
+              -H "Authorization: Bearer sk_live_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const zipRequests = await facturapi.invoices.listZipRequests({
+              year: 2025,
+              month: 3,
+              status: 'finished',
+              limit: 20,
+              page: 1
+            });
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_live_API_KEY");
+            var zipRequests = await facturapi.Invoice.ListZipRequestsAsync(
+              new Dictionary<string, object>
+              {
+                ["year"] = 2025,
+                ["month"] = 3,
+                ["status"] = "finished",
+                ["limit"] = 20,
+                ["page"] = 1
+              }
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_live_API_KEY");
+            var zipRequests = facturapi.invoices().listZipRequests(
+              Map.of(
+                "year", 2025,
+                "month", 3,
+                "status", "finished",
+                "limit", 20,
+                "page", 1
+              )
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_live_API_KEY");
+            $zipRequests = $facturapi->Invoices->listZipRequests([
+              "year" => 2025,
+              "month" => 3,
+              "status" => "finished",
+              "limit" => 20,
+              "page" => 1
+            ]);
+      parameters:
+        - in: query
+          name: year
+          schema:
+            type: integer
+            minimum: 2000
+            maximum: 9999
+          description: Year to filter. Must be provided with `month`.
+        - in: query
+          name: month
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 12
+          description: Month to filter. Must be provided with `year`.
+        - in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/InvoiceZipRequestStatus'
+          description: ZIP request status.
+        - in: query
+          name: issuer_type
+          schema:
+            $ref: '#/components/schemas/IssuingType'
+          description: Filters issued or received invoices.
+        - in: query
+          name: invoice_types
+          style: form
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/InvoiceZipRequestInvoiceType'
+          description: Filters by one invoice type or an exact normalized array.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: Results page, starting at 1.
+        - $ref: '#/components/parameters/SearchLimit'
+      security:
+        - SecretLiveKey: []
+      responses:
+        '200':
+          description: Paginated ZIP request results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceZipRequestSearchResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '402':
+          $ref: '#/components/responses/InvoiceZipRequestAccessRequired'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  /invoices/zip-requests/{id}:
+    get:
+      operationId: retrieveInvoiceZipRequest
+      tags:
+        - invoice
+      summary: Retrieve a monthly ZIP request
+      description: >
+        Retrieves a ZIP request. Poll this method until the status becomes
+        `finished` or `failed`. Once it is `finished`, call the download method.
+
+
+        Requires a live-mode organization API key, an active subscription, and
+        permission to read invoices.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            https://www.facturapi.io/v2/invoices/zip-requests/66b0f0000000000000000000
+            \
+              -H "Authorization: Bearer sk_live_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const zipRequest = await facturapi.invoices.retrieveZipRequest(
+              '66b0f0000000000000000000'
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_live_API_KEY");
+            var zipRequest = await facturapi.Invoice.RetrieveZipRequestAsync(
+              "66b0f0000000000000000000"
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+
+            Facturapi facturapi = new Facturapi("sk_live_API_KEY");
+            var zipRequest = facturapi.invoices().retrieveZipRequest(
+              "66b0f0000000000000000000"
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_live_API_KEY");
+            $zipRequest = $facturapi->Invoices->retrieveZipRequest(
+              "66b0f0000000000000000000"
+            );
+      parameters:
+        - $ref: '#/components/parameters/InvoiceZipRequestId'
+      security:
+        - SecretLiveKey: []
+      responses:
+        '200':
+          description: ZIP request retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceZipRequest'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '402':
+          $ref: '#/components/responses/InvoiceZipRequestAccessRequired'
+        '404':
+          $ref: '#/components/responses/InvoiceZipRequestNotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  /invoices/zip-requests/{id}/zip:
+    get:
+      operationId: downloadInvoiceZipRequest
+      tags:
+        - invoice
+      summary: Download a monthly ZIP
+      description: >
+        Downloads the ZIP for a finished request. The filename uses the
+        `YYYY-MM.zip` format.
+
+
+        Requires a live-mode organization API key, an active subscription, and
+        permission to read invoices.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            https://www.facturapi.io/v2/invoices/zip-requests/66b0f0000000000000000000/zip
+            \
+              -H "Authorization: Bearer sk_live_API_KEY" \
+              --output 2025-03.zip
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import fs from 'fs';
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const zipStream = await facturapi.invoices.downloadZipRequest(
+              '66b0f0000000000000000000'
+            );
+            zipStream.pipe(fs.createWriteStream('./2025-03.zip'));
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_live_API_KEY");
+            var zipStream = await facturapi.Invoice.DownloadZipRequestAsync(
+              "66b0f0000000000000000000"
+            );
+            await using var file = File.Create("2025-03.zip");
+            await zipStream.CopyToAsync(file);
+        - lang: Java
+          label: Java
+          source: >
+            import io.facturapi.Facturapi;
+
+            import java.io.InputStream;
+
+            import java.nio.file.Files;
+
+            import java.nio.file.Path;
+
+            import java.nio.file.StandardCopyOption;
+
+
+            Facturapi facturapi = new Facturapi("sk_live_API_KEY");
+
+            try (InputStream zipStream =
+            facturapi.invoices().downloadZipRequest(
+              "66b0f0000000000000000000"
+            )) {
+              Files.copy(zipStream, Path.of("./2025-03.zip"), StandardCopyOption.REPLACE_EXISTING);
+            }
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_live_API_KEY");
+            $zip = $facturapi->Invoices->downloadZipRequest(
+              "66b0f0000000000000000000"
+            );
+            file_put_contents("2025-03.zip", $zip);
+      parameters:
+        - $ref: '#/components/parameters/InvoiceZipRequestId'
+      security:
+        - SecretLiveKey: []
+      responses:
+        '200':
+          description: Generated ZIP file.
+          headers:
+            Content-Disposition:
+              description: >-
+                Suggested filename in `attachment; filename="YYYY-MM.zip"`
+                format.
+              schema:
+                type: string
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '402':
+          $ref: '#/components/responses/InvoiceZipRequestAccessRequired'
+        '404':
+          $ref: '#/components/responses/InvoiceZipRequestNotFound'
+        '409':
+          $ref: '#/components/responses/InvoiceZipRequestNotReady'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
   /invoices/preview/pdf:
     post:
       operationId: previewInvoicePdf
@@ -12300,6 +12731,62 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenericError'
+    InvoiceZipRequestAccessRequired:
+      description: An active subscription and live-mode access are required.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+          examples:
+            subscription_required:
+              summary: No active subscription exists
+              value:
+                message: An active subscription is required.
+                status: 402
+                ok: false
+                code: subscription_required
+            subscription_live_access_required:
+              summary: The key does not have live-mode access
+              value:
+                message: Live-mode access is required.
+                status: 402
+                ok: false
+                code: subscription_live_access_required
+    InvoiceZipRequestNoInvoices:
+      description: No matching valid invoices exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+          example:
+            message: No invoices were found to generate the ZIP file.
+            status: 404
+            ok: false
+            code: zip_request_no_invoices
+    InvoiceZipRequestNotFound:
+      description: >-
+        The request does not exist or does not belong to the current
+        organization or mode.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+          example:
+            message: The ZIP request was not found.
+            status: 404
+            ok: false
+            code: zip_request_not_found
+    InvoiceZipRequestNotReady:
+      description: ZIP generation has not finished yet.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+          example:
+            message: The ZIP file is not ready yet.
+            status: 409
+            ok: false
+            code: zip_request_not_ready
   requestBodies:
     CustomerCreate:
       required: true
@@ -12516,6 +13003,14 @@ components:
           schema:
             $ref: '#/components/schemas/WebhookCreateEdit'
   parameters:
+    InvoiceZipRequestId:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-fA-F0-9]{24}$
+      description: ZIP request identifier.
     SearchDate:
       in: query
       name: date
@@ -16200,6 +16695,145 @@ components:
           items:
             type: string
           description: Fiscal folios (UUID) of related invoices.
+    InvoiceZipRequestStatus:
+      type: string
+      enum:
+        - created
+        - processing
+        - finished
+        - failed
+        - none
+      description: |
+        ZIP generation status:
+        - `created`: the request was created and scheduled.
+        - `processing`: ZIP generation is in progress.
+        - `finished`: the ZIP is ready to download.
+        - `failed`: scheduling or ZIP generation failed.
+        - `none`: legacy value; normally not returned by this flow.
+    InvoiceZipRequestInvoiceType:
+      type: string
+      enum:
+        - I
+        - E
+        - T
+        - 'N'
+        - P
+      description: >-
+        Invoice type (`I` Income, `E` Credit note/expense, `T` Transport, `N`
+        Payroll, or `P` Payment).
+    InvoiceZipRequestCreateInput:
+      type: object
+      required:
+        - year
+        - month
+      properties:
+        year:
+          type: integer
+          minimum: 2000
+          maximum: 9999
+          example: 2025
+        month:
+          type: integer
+          minimum: 1
+          maximum: 12
+          example: 3
+        issuer_type:
+          allOf:
+            - $ref: '#/components/schemas/IssuingType'
+          default: issuing
+        invoice_types:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          description: Invoice types to include. All types are included by default.
+          items:
+            $ref: '#/components/schemas/InvoiceZipRequestInvoiceType'
+          example:
+            - I
+            - E
+    InvoiceZipRequest:
+      title: InvoiceZipRequest object
+      allOf:
+        - $ref: '#/components/schemas/ResourceAutoGeneratedProps'
+        - type: object
+          required:
+            - organization
+            - issuer_type
+            - invoice_types
+            - start_date
+            - end_date
+            - status
+            - document_count
+            - processed_document
+            - failed_documents
+          properties:
+            livemode:
+              type: boolean
+              const: true
+              description: Always `true` for this flow.
+              example: true
+            organization:
+              type: string
+              description: Organization identifier.
+              example: 65a1f0000000000000000000
+            issuer_type:
+              $ref: '#/components/schemas/IssuingType'
+            invoice_types:
+              type: array
+              description: Normalized invoice types included in the request.
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/InvoiceZipRequestInvoiceType'
+              example:
+                - E
+                - I
+            start_date:
+              type: string
+              format: date-time
+              description: Inclusive start of the requested month.
+              example: '2025-03-01T06:00:00.000Z'
+            end_date:
+              type: string
+              format: date-time
+              description: Inclusive end of the requested month.
+              example: '2025-04-01T04:59:59.999Z'
+            status:
+              $ref: '#/components/schemas/InvoiceZipRequestStatus'
+            document_count:
+              type: integer
+              minimum: 0
+              description: Total number of invoices to process.
+              example: 25
+            processed_document:
+              type: integer
+              minimum: 0
+              description: Number of invoices processed.
+              example: 25
+            failed_documents:
+              type: array
+              description: Invoices that could not be added to the ZIP.
+              items:
+                type: string
+              example: []
+            scheduled_at:
+              type: string
+              format: date-time
+              description: Date when processing was scheduled.
+              example: '2026-08-04T18:00:01.000Z'
+    InvoiceZipRequestSearchResult:
+      allOf:
+        - $ref: '#/components/schemas/SearchResult'
+        - type: object
+          required:
+            - page
+            - total_pages
+            - total_results
+            - data
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/InvoiceZipRequest'
     Invoice:
       title: Invoice object
       allOf:

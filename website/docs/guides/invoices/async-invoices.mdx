@@ -1,5 +1,5 @@
 ---
-sidebar_position: 9
+sidebar_position: 10
 ---
 
 import Tabs from '@theme/Tabs';
@@ -10,17 +10,6 @@ import TabItem from '@theme/TabItem';
 Cuando el tamaño de tus facturas es muy grande, o necesitas facturar muchas facturas al mismo tiempo, es recomendable (y en algunos casos requerido) utilizar la facturación asíncrona. Esto te permite registrar una factura en Facturapi
 y recibir una respuesta inmediata con el objeto Invoice y su ID, pero sin timbrar todavía. El timbrado de la factura se realiza en segundo plano, y puedes consultar el estado de la factura en cualquier momento
 por medio del método de obtener factura.
-
-## Recuperación automática tras un error temporal
-
-Al crear una factura de forma síncrona, el SAT o el proveedor de certificación puede devolver un error temporal después de haber timbrado el CFDI. Cuando Facturapi detecta uno de estos casos, conserva la factura con `status: "pending"` y responde con el código HTTP `202 Accepted` en lugar de devolver un error definitivo. Esta respuesta significa que la solicitud fue aceptada, pero su procesamiento todavía no ha terminado.
-
-Facturapi intentará recuperar el CFDI automáticamente hasta 5 veces, con un intervalo de 10 minutos entre intentos. Los intentos ocurren aproximadamente 10, 20, 30, 40 y 50 minutos después de la respuesta inicial.
-
-- Si Facturapi recupera el CFDI, la factura cambia a `status: "valid"`, se guardan su UUID y timbre, y se envía el webhook `invoice.status_updated`.
-- Si no es posible recuperarlo después del quinto intento, la factura cambia a `status: "failed"` y no se realizan más intentos.
-
-Mientras la factura permanezca en `pending`, no vuelvas a crearla ni asignes su folio a otro comprobante. Puedes consultar su estado mediante el método de obtener factura o suscribirte al webhook `invoice.status_updated`.
 
 ## Crear una factura asíncrona
 

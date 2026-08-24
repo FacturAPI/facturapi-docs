@@ -372,6 +372,9 @@ tags:
       "051" | Pagos por gratificaciones, primas, compensaciones, recompensas u otros en parcialidades | Payments for bonuses, bonuses, compensations, rewards or others in installments
       "052" | Pagos por jubilación en parcialidades derivados de una resolución judicial | Retirement payments in installments derived from a judicial resolution
       "053" | Pagos por jubilación en una sola exhibición derivados de la ejecución de una resolución judicial | Retirement payments in a single exhibition derived from the execution of a judicial resolution
+      "054" | Días de descanso laborados | Worked rest days
+      "055" | Días de descanso obligatorios laborados | Worked mandatory rest days
+      "056" | Previsión social, Art 93 fracciones VIII y IX | Social security, Art 93 sections VIII and IX
 
       ### Tipo de Horas
 

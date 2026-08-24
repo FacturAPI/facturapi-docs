@@ -17095,8 +17095,6 @@ components:
             in the receipts configuration of your organization. This value is required when the `receipts` field is sent.
         periodicity:
           type: string
-          # default: Propiedad `periodicity` de la configuración de recibos de la organización.
-          default: "`periodicity` property from the organization's receipt configuration."
           enum:
             - day
             - week
@@ -17105,7 +17103,7 @@ components:
             - two_months
           description: |
             Periodicity that corresponds to the range of dates used.
-            If omitted, the organization's receipt settings will be used.
+            This field is required.
             If you omit the `from` and `to` fields, the default dates will depend
             on the value of `periodicity`.
         months:

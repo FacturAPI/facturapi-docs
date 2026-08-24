@@ -17105,7 +17105,6 @@ components:
             - two_months
           description: |
             Periodicity that corresponds to the range of dates used.
-            If omitted, the organization's receipt settings will be used.
             If you omit the `from` and `to` fields, the default dates will depend
             on the value of `periodicity`.
         months:

@@ -17358,7 +17358,6 @@ components:
             - two_months
           description: |
             Periodicidad que corresponde al rango de fechas utilizado.
-            Si se omite, se tomará la configuración de recibos de la organización.
             Si omites los campos `from` y `to`, las fechas que se asignarán por
             default dependerán del valor de `periodicity`.
         months:

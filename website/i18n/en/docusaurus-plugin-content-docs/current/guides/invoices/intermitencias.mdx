@@ -5,7 +5,7 @@ title: Intermittencies (Status 202)
 
 # Intermittencies (Status 202)
 
-If PADE returns a recognized intermittent error during stamping, Facturapi preserves the invoice with `status: "pending"`, no UUID, and its original CFD signature. The folio remains reserved for six hours, and the API responds with `202 Accepted`. This means that the request was accepted, but processing has not finished. Validation errors and other errors that are not eligible for recovery are returned normally.
+If PADE returns a recognized intermittent error during stamping, Facturapi preserves the invoice with `status: "pending"`, no UUID, and its original CFDI signature. The folio remains reserved for six hours, and the API responds with `202 Accepted`. This means that the request was accepted, but processing has not finished. Validation errors and other errors that are not eligible for recovery are returned normally.
 
 Facturapi saves a snapshot of the data needed to validate a recovery: issuer and receiver RFCs, series, folio, total, currency, CFDI type, signature, and issuance date. Ten minutes later, it asks PADE for CFDIs matching the issuer RFC, series, and folio, then validates every result against the snapshot to prevent associating the wrong CFDI.
 

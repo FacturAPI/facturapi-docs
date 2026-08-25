@@ -3095,57 +3095,8 @@ paths:
         environment, it will be **stamped and sent to the SAT**.
 
 
-        ### Recovery from intermittent stamping errors
-
-
-        If PADE returns a recognized intermittent error during stamping,
-        Facturapi preserves the invoice with `status: "pending"`, no UUID, and
-        its original CFD signature. The folio remains reserved for six hours,
-        and the API responds with `202 Accepted`. This means that the request
-        was accepted, but processing has not finished. Validation errors and
-        other errors that are not eligible for recovery are returned normally.
-
-
-        Facturapi saves a snapshot of the data needed to validate a recovery:
-        issuer and receiver RFCs, series, folio, total, currency, CFDI type,
-        signature, and issuance date. Ten minutes later, it asks PADE for CFDIs
-        matching the issuer RFC, series, and folio, then validates every result
-        against the snapshot to prevent associating the wrong CFDI.
-
-
-        Facturapi makes up to five recovery attempts, one every 10 minutes. The
-        original request at minute 0 does not count as an attempt:
-
-
-        | Time | Action |
-
-        | --- | --- |
-
-        | Minute 0 | The original stamping request fails intermittently; the API
-        returns `202` |
-
-        | Minute 10 | Recovery attempt 1 |
-
-        | Minute 20 | Recovery attempt 2 |
-
-        | Minute 30 | Recovery attempt 3 |
-
-        | Minute 40 | Recovery attempt 4 |
-
-        | Minute 50 | Recovery attempt 5 |
-
-
-        If a valid CFDI is recovered, Facturapi stores the UUID, stamp, and XML;
-        marks the invoice as `valid`; consumes the reserved folio; records usage
-        and accounting relationships; marks the recovery task as succeeded;
-        emits the invoice status update event; and stops retrying.
-
-
-        If the fifth attempt does not recover a valid CFDI, Facturapi marks the
-        recovery task and the invoice as `failed`, releases the reserved folio,
-        and stops retrying. The `202` status code only communicates that the
-        recovery task will continue in the background; the status code itself
-        does not initiate retries.
+        Learn more about [CFDI recovery during intermittent failures (Status
+        202)](/en/docs/guides/invoices/intermitencias).
       x-codeSamples:
         - lang: Bash
           label: cURL

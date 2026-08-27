@@ -26,6 +26,13 @@ modos de paginación que puedes elegir con el parámetro `pagination`:
 Para la mayoría de los casos, y en particular para listas grandes, te recomendamos
 usar `pagination=cursor`.
 
+La diferencia práctica más importante entre ambos modos es el **alcance**:
+`pagination=page` solo permite acceder a los primeros 3,000 resultados
+(30 páginas × 100 por página), mientras que `pagination=cursor` puede recorrer
+**todos** los resultados de la búsqueda, incluso cuando `total_results` está
+capeado a 3,000. Si necesitas exportar o procesar más de 3,000 resultados, usa
+`pagination=cursor`.
+
 ## Parámetros comunes
 
 | Parámetro | Tipo | Descripción |

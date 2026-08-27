@@ -11827,7 +11827,8 @@ components:
           type: integer
           example: 1
           title: Resultados totales
-          description: Número de elementos individuales en todas las páginas de resultados
+          description: |
+            Número de elementos individuales en todas las páginas de resultados. En modo `pagination=cursor` solo se incluye en la primera página de la búsqueda (sin `after`/`before`); el total no cambia entre páginas.
         previous_cursor:
           type: string
           example: null

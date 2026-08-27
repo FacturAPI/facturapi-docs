@@ -11592,7 +11592,8 @@ components:
           type: integer
           example: 1
           title: Total results
-          description: The total number of results available in the search
+          description: |
+            The total number of results available in the search. In `pagination=cursor` mode it is only included on the first page of the search (no `after`/`before`); the total does not change between pages.
         previous_cursor:
           type: string
           example: null

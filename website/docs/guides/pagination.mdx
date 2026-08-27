@@ -89,6 +89,10 @@ Respuesta:
 }
 ```
 
+`total_results` y `totals_are_capped` se incluyen únicamente en la **primera
+página** de la búsqueda (cuando no se envían `after` ni `before`): el total no
+cambia entre páginas, así que las siguientes solo regresan `data` y los cursores.
+
 ### Navegar entre páginas
 
 1. **Primera página:** se obtiene sin enviar `after` ni `before`.

@@ -1038,6 +1038,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1139,6 +1143,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1222,6 +1230,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1317,6 +1329,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1400,6 +1416,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1483,6 +1503,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1566,6 +1590,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1649,6 +1677,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1732,6 +1764,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1829,6 +1865,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1912,6 +1952,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -2141,6 +2185,10 @@ paths:
               "page" => 1
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -2771,6 +2819,10 @@ paths:
               "page" => 1
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -3335,6 +3387,10 @@ paths:
               limit => 10,
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -4772,6 +4828,10 @@ paths:
               limit => 10,
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -6100,6 +6160,10 @@ paths:
               limit => 10,
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -6727,6 +6791,10 @@ paths:
 
             $organizations = $facturapi->Organizations->all()
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -10677,6 +10745,10 @@ paths:
               "q" => "ukelele"
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -10760,6 +10832,10 @@ paths:
               "q" => "pulgada"
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -11306,6 +11382,31 @@ components:
         maximum: 100
       description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
 
+    SearchPagination:
+      in: query
+      name: pagination
+      schema:
+        type: string
+        enum:
+          - page
+          - cursor
+      description: |
+        Pagination mode for the search. `page` (default) or `cursor` (recommended for large lists).
+    SearchAfter:
+      in: query
+      name: after
+      schema:
+        type: string
+      description: |
+        Returns the results after the given cursor. Only with `pagination=cursor`; mutually exclusive with `before`.
+    SearchBefore:
+      in: query
+      name: before
+      schema:
+        type: string
+      description: |
+        Returns the results before the given cursor. Only with `pagination=cursor`; mutually exclusive with `after`.
+
   schemas:
     RelatedResourceMessage:
       type: object
@@ -11492,6 +11593,22 @@ components:
           example: 1
           title: Total results
           description: The total number of results available in the search
+        previous_cursor:
+          type: string
+          example: null
+          title: Previous cursor
+          description: Cursor to fetch the previous page of results. It is `null` on the first page. Only available with `pagination=cursor`.
+        next_cursor:
+          type: string
+          example: null
+          title: Next cursor
+          description: Cursor to fetch the next page of results. It is `null` when there are no more results. Only available with `pagination=cursor`.
+        totals_are_capped:
+          type: boolean
+          example: false
+          title: Totals capped
+          description: Indicates whether `total_results` is capped at 3,000 because there are more results than reported.
+
     ResourceAutoGeneratedProps:
       type: object
       required:

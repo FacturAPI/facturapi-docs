@@ -1009,6 +1009,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1118,6 +1122,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1227,6 +1235,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1336,6 +1348,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1445,6 +1461,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1554,6 +1574,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1663,6 +1687,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1772,6 +1800,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1881,6 +1913,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -2004,6 +2040,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -2113,6 +2153,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -2369,6 +2413,10 @@ paths:
               "page" => 1
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -2999,6 +3047,10 @@ paths:
               "page" => 1
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -3561,6 +3613,10 @@ paths:
               limit => 10,
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -4992,6 +5048,10 @@ paths:
               limit => 10,
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -6316,6 +6376,10 @@ paths:
               limit => 10,
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -6945,6 +7009,10 @@ paths:
 
             $organizations = $facturapi->Organizations->all()
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -10883,6 +10951,10 @@ paths:
               "q" => "ukelele"
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -10966,6 +11038,10 @@ paths:
               "q" => "pulgada"
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -11512,6 +11588,31 @@ components:
         maximum: 100
       description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
 
+    SearchPagination:
+      in: query
+      name: pagination
+      schema:
+        type: string
+        enum:
+          - page
+          - cursor
+      description: |
+        Modo de paginación de la búsqueda. `page` (por defecto) o `cursor` (recomendado para listas grandes).
+    SearchAfter:
+      in: query
+      name: after
+      schema:
+        type: string
+      description: |
+        Devuelve los resultados posteriores al cursor indicado. Solo con `pagination=cursor`; mutuamente excluyente con `before`.
+    SearchBefore:
+      in: query
+      name: before
+      schema:
+        type: string
+      description: |
+        Devuelve los resultados anteriores al cursor indicado. Solo con `pagination=cursor`; mutuamente excluyente con `after`.
+
   schemas:
     SearchKeyDescriptionResult:
       type: object
@@ -11727,6 +11828,22 @@ components:
           example: 1
           title: Resultados totales
           description: Número de elementos individuales en todas las páginas de resultados
+        previous_cursor:
+          type: string
+          example: null
+          title: Cursor anterior
+          description: Cursor para obtener la página anterior de resultados. Es `null` en la primera página. Solo disponible con `pagination=cursor`.
+        next_cursor:
+          type: string
+          example: null
+          title: Cursor siguiente
+          description: Cursor para obtener la página siguiente de resultados. Es `null` cuando no hay más resultados. Solo disponible con `pagination=cursor`.
+        totals_are_capped:
+          type: boolean
+          example: false
+          title: Resultados con tope
+          description: Indica si `total_results` está limitado a 3,000 porque existen más resultados de los reportados.
+
     ResourceAutoGeneratedProps:
       type: object
       required:

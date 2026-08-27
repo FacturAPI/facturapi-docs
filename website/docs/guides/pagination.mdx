@@ -1,0 +1,142 @@
+---
+sidebar_position: 11
+---
+
+# Paginación
+
+Todos los listados de la API devuelven resultados paginados. Facturapi ofrece dos
+modos de paginación que puedes elegir con el parámetro `pagination`:
+
+- **`pagination=page`** — el modo clásico, por **páginas numeradas**. Es el
+  comportamiento por defecto cuando no se envía `pagination`.
+- **`pagination=cursor`** — el modo recomendado, por **cursores**. Es más rápido
+  porque no ejecuta conteos exactos sobre toda la colección y está pensado para
+  recorrer listas grandes de forma secuencial.
+
+## ¿Qué modo usar?
+
+| | `pagination=page` | `pagination=cursor` |
+| --- | --- | --- |
+| Navegación | Saltar a una página específica (`page=3`) | Secuencial: siguiente / anterior |
+| Total de resultados | Conteo exacto (hasta 3,000) | Informativo (conteo acotado a 3,000) |
+| Rendimiento | Ejecuta un conteo por búsqueda | Más rápido, sin conteos exactos |
+| Límites | Máximo 30 páginas | Sin límite de páginas |
+| Uso recomendado | Compatibilidad, interfaces con saltos de página | Listas grandes, iteración, exportaciones |
+
+Para la mayoría de los casos, y en particular para listas grandes, te recomendamos
+usar `pagination=cursor`.
+
+## Parámetros comunes
+
+| Parámetro | Tipo | Descripción |
+| --- | --- | --- |
+| `limit` | `integer` | Cantidad máxima de resultados a regresar, del 1 al 100. |
+| `pagination` | `string` | `page` (por defecto) o `cursor`. |
+
+Los parámetros `page`, `after` y `before` dependen del modo elegido y son
+**mutuamente excluyentes** entre modos:
+
+- `pagination=page` acepta `page`, pero no `after` ni `before`.
+- `pagination=cursor` acepta `after` o `before`, pero no `page`.
+
+Enviar `after` y `before` al mismo tiempo devuelve un error.
+
+## Paginación por páginas (`pagination=page`)
+
+Es el modo por defecto. Además de `limit`, acepta:
+
+| Parámetro | Descripción |
+| --- | --- |
+| `page` | Número de página a regresar, empezando desde 1. La página máxima es 30. |
+
+Respuesta:
+
+```json
+{
+  "data": [ ... ],
+  "page": 1,
+  "total_pages": 3,
+  "total_results": 250,
+  "totals_are_capped": false
+}
+```
+
+## Paginación por cursores (`pagination=cursor`)
+
+En lugar de un número de página, cada respuesta regresa dos cursores que te
+permiten avanzar o retroceder sobre los resultados:
+
+| Parámetro | Descripción |
+| --- | --- |
+| `after` | Devuelve los resultados posteriores al cursor indicado. |
+| `before` | Devuelve los resultados anteriores al cursor indicado. |
+
+Respuesta:
+
+```json
+{
+  "data": [ ... ],
+  "previous_cursor": null,
+  "next_cursor": "d176717f4000000.i65a8282775d4e9263da48115",
+  "total_results": 250,
+  "totals_are_capped": false
+}
+```
+
+### Navegar entre páginas
+
+1. **Primera página:** se obtiene sin enviar `after` ni `before`.
+   `previous_cursor` regresa `null`, indicando que no hay páginas anteriores.
+2. **Página siguiente:** envía `after` con el valor de `next_cursor` de la
+   respuesta anterior.
+3. **Página anterior:** envía `before` con el valor de `previous_cursor` de la
+   respuesta anterior.
+
+La presencia de `previous_cursor` y `next_cursor` es la única fuente de verdad
+para saber si hay más resultados: si `next_cursor` es `null`, llegaste al final
+de la lista; si `previous_cursor` es `null`, estás en la primera página.
+
+```bash
+# Primera página
+curl "https://www.facturapi.io/v2/invoices?pagination=cursor&limit=10" \
+  -G \
+  -H "Authorization: Bearer sk_test_API_KEY"
+
+# Página siguiente (usa next_cursor de la respuesta anterior)
+curl "https://www.facturapi.io/v2/invoices?pagination=cursor&limit=10&after=NEXT_CURSOR" \
+  -G \
+  -H "Authorization: Bearer sk_test_API_KEY"
+
+# Página anterior (usa previous_cursor de la respuesta anterior)
+curl "https://www.facturapi.io/v2/invoices?pagination=cursor&limit=10&before=PREVIOUS_CURSOR" \
+  -G \
+  -H "Authorization: Bearer sk_test_API_KEY"
+```
+
+Los cursores son tokens opacos y específicos de la búsqueda que los generó: no
+los combines con otra búsqueda ni los compartas entre distintas consultas.
+Usarlos con una búsqueda diferente puede regresar resultados inesperados.
+
+## Totales y límite de 3,000
+
+Ambos modos regresan `total_results` con el número de elementos que coinciden con
+la búsqueda, **con un tope de 3,000**:
+
+- Si hay 3,000 o menos resultados, `total_results` es exacto y
+  `totals_are_capped` es `false`.
+- Si hay más de 3,000, `total_results` regresa `3000` y `totals_are_capped` es
+  `true`, indicando que el total real es "más de 3,000".
+
+```json
+{
+  "data": [ ... ],
+  "previous_cursor": "d176717f4000000.i65a8282775d4e9263da48115",
+  "next_cursor": null,
+  "total_results": 3000,
+  "totals_are_capped": true
+}
+```
+
+En el modo `pagination=cursor`, `total_results` es informativo: el total se
+calcula con un conteo acotado a 3,000 en lugar de un conteo exacto sobre toda
+la colección, por lo que es más rápida incluso con listas muy grandes.

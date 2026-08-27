@@ -26,6 +26,12 @@ pagination modes that you can choose with the `pagination` parameter:
 For most cases, and especially for large lists, we recommend using
 `pagination=cursor`.
 
+The most important practical difference between both modes is **reach**:
+`pagination=page` only gives access to the first 3,000 results
+(30 pages × 100 per page), while `pagination=cursor` can traverse **all** the
+search results, even when `total_results` is capped at 3,000. If you need to
+export or process more than 3,000 results, use `pagination=cursor`.
+
 ## Common parameters
 
 | Parameter | Type | Description |

@@ -9,18 +9,17 @@ modos de paginación que puedes elegir con el parámetro `pagination`:
 
 - **`pagination=page`** — el modo clásico, por **páginas numeradas**. Es el
   comportamiento por defecto cuando no se envía `pagination`.
-- **`pagination=cursor`** — el modo recomendado, por **cursores**. Es más rápido
-  porque no ejecuta conteos exactos sobre toda la colección y está pensado para
-  recorrer listas grandes de forma secuencial.
+- **`pagination=cursor`** — el modo recomendado, por **cursores**. Recorre los
+  resultados de forma secuencial, sin el tope de 30 páginas del modo `page`, y
+  con páginas estables aunque cambien los datos.
 
 ## ¿Qué modo usar?
 
 | | `pagination=page` | `pagination=cursor` |
 | --- | --- | --- |
 | Navegación | Saltar a una página específica (`page=3`) | Secuencial: siguiente / anterior |
-| Total de resultados | Conteo exacto (hasta 3,000) | Informativo (conteo acotado a 3,000) |
-| Rendimiento | Ejecuta un conteo por búsqueda | Más rápido, sin conteos exactos |
-| Límites | Máximo 30 páginas | Sin límite de páginas |
+| Alcance | Hasta 3,000 resultados (30 páginas × 100) | Todos los resultados de la búsqueda |
+| Estabilidad | Las páginas se corren si cambian los datos | Páginas estables (basadas en posición) |
 | Uso recomendado | Compatibilidad, interfaces con saltos de página | Listas grandes, iteración, exportaciones |
 
 Para la mayoría de los casos, y en particular para listas grandes, te recomendamos
@@ -144,6 +143,7 @@ la búsqueda, **con un tope de 3,000**:
 }
 ```
 
-En el modo `pagination=cursor`, `total_results` es informativo: el total se
-calcula con un conteo acotado a 3,000 en lugar de un conteo exacto sobre toda
-la colección, por lo que es más rápida incluso con listas muy grandes.
+En ambos modos `total_results` es informativo: el conteo se acota a 3,000 y no
+recorre toda la colección. La ventaja práctica de `pagination=cursor` no es la
+velocidad del conteo (ambos modos lo acotan), sino su **alcance** y la
+**estabilidad** de las páginas.

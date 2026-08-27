@@ -9,18 +9,17 @@ pagination modes that you can choose with the `pagination` parameter:
 
 - **`pagination=page`** — the classic mode, based on **numbered pages**. This is
   the default behavior when `pagination` is not sent.
-- **`pagination=cursor`** — the recommended mode, based on **cursors**. It is
-  faster because it does not run exact counts over the whole collection, and it
-  is designed to traverse large lists sequentially.
+- **`pagination=cursor`** — the recommended mode, based on **cursors**. It
+  traverses results sequentially, without the 30-page limit of `page` mode, and
+  with stable pages even when the data changes.
 
 ## Which mode should I use?
 
 | | `pagination=page` | `pagination=cursor` |
 | --- | --- | --- |
 | Navigation | Jump to a specific page (`page=3`) | Sequential: next / previous |
-| Total results | Exact count (up to 3,000) | Informational (count capped at 3,000) |
-| Performance | Runs a count per search | Faster, no exact counts |
-| Limits | Up to 30 pages | No page limit |
+| Reach | Up to 3,000 results (30 pages × 100) | All search results |
+| Stability | Pages shift when the data changes | Stable pages (position-based) |
 | Recommended for | Compatibility, UIs with page jumps | Large lists, iteration, exports |
 
 For most cases, and especially for large lists, we recommend using
@@ -143,6 +142,7 @@ search, **capped at 3,000**:
 }
 ```
 
-In `pagination=cursor` mode, `total_results` is informational: the total is
-computed with a count capped at 3,000 instead of an exact count over the whole
-collection, so it stays fast even with very large lists.
+In both modes, `total_results` is informational and the count is capped at
+3,000 without traversing the whole collection. The practical advantage of
+`pagination=cursor` is not count speed (both modes cap it), but **reach** and
+**stable pages**.

@@ -5,8 +5,8 @@
 ### Paginación por cursores (`pagination=cursor`)
 
 - Nuevo modo de paginación opt-in `pagination=cursor`, **recomendado** para
-  listas grandes: no ejecuta conteos exactos sobre la colección, por lo que es
-  más rápido que la paginación por páginas.
+  listas grandes: recorre todos los resultados sin el tope de 30 páginas del
+  modo `page`, con páginas estables aunque cambien los datos.
 - Nuevos parámetros `after` y `before` para navegar entre páginas de forma
   secuencial. Cada búsqueda regresa `previous_cursor` y `next_cursor`.
 - Nuevo campo `totals_are_capped` en las respuestas de búsqueda de ambos modos:

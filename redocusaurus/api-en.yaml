@@ -6587,6 +6587,15 @@ paths:
         Included receipts are associated with that customer and their `status`
 
         changes to `"invoiced_globally"`.
+
+
+        A global invoice can include up to 5,000 open receipts. If the period
+        contains
+
+        more, send `limit_to_max_receipts: true` and repeat the request with the
+        same
+
+        period until the response is `null`.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -6601,7 +6610,8 @@ paths:
                     "months": "01",
                     "year": 2021,
                     "folio_number": 1234,
-                    "series": "G"
+                    "series": "G",
+                    "limit_to_max_receipts": true
                 }'
         - lang: JavaScript
           label: Node.js
@@ -6614,9 +6624,10 @@ paths:
               to: '2020-12-31T04:59:59.999Z',
               periodicity: 'month',
               months: '01',
-              year: 2021
+              year: 2021,
               folio_number: 1234,
-              series: 'G'
+              series: 'G',
+              limit_to_max_receipts: true
             });
         - lang: csharp
           label: C#
@@ -6670,11 +6681,15 @@ paths:
         - SecretTestKey: []
       responses:
         '200':
-          description: New `Invoice` object creaded
+          description: >-
+            Created `Invoice` object, or `null` when the period has no open
+            receipts
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Invoice'
+                oneOf:
+                  - $ref: '#/components/schemas/Invoice'
+                  - type: 'null'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -8766,8 +8781,13 @@ paths:
       tags:
         - organization
       summary: Edit receipts settings
-      description: |
-        Update the organization's receipts settings.
+      description: >
+        Updates the supplied fields in the organization's receipt settings.
+
+        The organization must have the global invoice feature to enable
+        automatic
+
+        global invoice generation.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -8779,9 +8799,10 @@ paths:
               -H "Authorization: Bearer sk_user_API_KEY" \
               -H "Content-Type: application/json" \
               -d '{
-                    "invoicing_period": "month",
+                    "periodicity": "month",
                     "duration_days": 14,
-                    "next_folio_number": 100
+                    "next_folio_number": 100,
+                    "activate_global_invoice": true
                 }'
         - lang: JavaScript
           label: Node.js
@@ -8795,9 +8816,10 @@ paths:
             facturapi.organizations.updateReceiptSettings(
               '5a2a307be93a2f00129ea035',
               {
-                invoicing_period: "month",
+                periodicity: "month",
                 duration_days: 14,
-                next_folio_number: 100
+                next_folio_number: 100,
+                activate_global_invoice: true
               }
             );
         - lang: csharp
@@ -8811,9 +8833,10 @@ paths:
               "5a2a307be93a2f00129ea035",
               new Dictionary<string, object>
               {
-                ["invoicing_period"] = "month",
+                ["periodicity"] = "month",
                 ["duration_days"] = 14,
-                ["next_folio_number"] = 100
+                ["next_folio_number"] = 100,
+                ["activate_global_invoice"] = true
               }
             );
         - lang: Java
@@ -8828,7 +8851,8 @@ paths:
             var organization = facturapi.organizations().updateReceiptSettings(
                 "org_123",
                 Map.of(
-                    "color", "#4786FF"
+                    "periodicity", "month",
+                    "activate_global_invoice", true
                 )
             );
         - lang: PHP
@@ -8838,9 +8862,10 @@ paths:
             $organization = $facturapi->Organizations->updateReceiptSettings(
               "5a2a307be93a2f00129ea035",
               [
-                "invoicing_period" => "month",
+                "periodicity" => "month",
                 "duration_days" => 14,
-                "next_folio_number" => 100
+                "next_folio_number" => 100,
+                "activate_global_invoice" => true
               ]
             );
       parameters:
@@ -18757,10 +18782,10 @@ components:
           description: >
             Periodicity that corresponds to the range of dates used.
 
-            If omitted, the organization's receipt configuration will be used.
+            If you omit the `from` and `to` fields, the default dates will
+            depend
 
-            If you omit sending the `from` and `to` fields, the default dates
-            will depend on the value of `periodicity`.
+            on the value of `periodicity`.
         months:
           type: string
           default: Month contained in the range of dates used.
@@ -18818,6 +18843,27 @@ components:
             maxLength: 24
             description: ID of a receipt previously registered in Facturapi.
             example: 614496b471d422de4b6cfcc4
+        limit_to_max_receipts:
+          type: boolean
+          default: false
+          description: >
+            Allows periods with more than 5,000 open receipts to be processed.
+            When
+
+            `true`, the invoice includes at most 5,000 receipts and the
+            remaining
+
+            receipts keep the `"open"` status. Repeat the request with the same
+            period
+
+            until the response is `null`, which means no receipts remain to be
+            invoiced.
+
+
+            When `false`, a period with more than 5,000 open receipts returns
+            the
+
+            `global_invoice_too_many_items` error.
     ToInvoiceInput:
       type: object
       required:
@@ -19655,6 +19701,25 @@ components:
                 Test environment.
 
                 It will be automatically incremented for each new receipt.
+            activate_global_invoice:
+              type: boolean
+              default: false
+              description: >
+                Indicates whether the organization automatically creates a
+                global
+
+                invoice after each configured period closes. Requires the global
+
+                invoice feature.
+            grouped_items_invoice:
+              type: boolean
+              default: false
+              description: >
+                Groups equivalent items when invoicing multiple selected
+                receipts,
+
+                including self-invoices. It does not affect global invoice
+                generation.
         self_invoice:
           type: object
           description: >
@@ -19964,6 +20029,25 @@ components:
           description: >
             Folio number that will be assigned to the next receipt created in
             this organization in the Test environment.
+        activate_global_invoice:
+          type: boolean
+          default: false
+          description: >
+            Enables or disables automatic global invoice generation after each
+
+            configured period closes. The organization must have the global
+            invoice
+
+            feature to enable it.
+        grouped_items_invoice:
+          type: boolean
+          default: false
+          description: >
+            When `true`, groups equivalent items when invoicing multiple
+            selected
+
+            receipts, including self-invoices. It does not apply to global
+            invoices.
     OrganizationSelfInvoiceInput:
       type: object
       properties:

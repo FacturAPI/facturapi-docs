@@ -195,6 +195,9 @@ These codes describe tax-information errors validated by Facturapi. When a custo
 | `invoice_not_draft` | The invoice is not a draft. |
 | `invoice_not_found` | The invoice was not found. |
 | `invoice_not_stamped` | The invoice has not been stamped. |
+| `zip_request_no_invoices` | No invoices were found to generate the ZIP file. |
+| `zip_request_not_found` | The ZIP request was not found. |
+| `zip_request_not_ready` | The ZIP file is not ready to download yet. |
 
 ### InvoiceDraftErrorCode
 
@@ -260,7 +263,7 @@ These codes describe tax-information errors validated by Facturapi. When a custo
 
 | Code | Description |
 | --- | --- |
-| `global_invoice_too_many_items` | The global invoice exceeds the maximum of 5,000 supported items. Create multiple global invoices using smaller date ranges or receipt subsets. |
+| `global_invoice_too_many_items` | The period contains more than 5,000 open receipts. Send `limit_to_max_receipts` to invoice up to 5,000 per request, or use smaller date ranges or receipt subsets. |
 | `invalid_global_invoice_period` | The date range must be within the same billing period: `{period}`. |
 
 ### RetentionErrorCode
@@ -269,6 +272,7 @@ These codes describe tax-information errors validated by Facturapi. When a custo
 | --- | --- |
 | `invalid_retention_complement` | The retention complement is invalid. |
 | `retention_not_found` | The retention was not found. |
+| `retention_not_draft` | The retention is not a draft. |
 | `retention_not_stamped` | The retention has not been stamped. |
 | `retention_not_cancelable` | The retention cannot be canceled. |
 

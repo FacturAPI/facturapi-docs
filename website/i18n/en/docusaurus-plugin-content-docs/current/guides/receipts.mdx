@@ -190,6 +190,48 @@ to `PUBLICO EN GENERAL`.
   customer. Included receipts are associated with that customer and their `status`
   changes to `"invoiced_globally"`.
 
+### Global invoices with more than 5,000 receipts
+
+The global invoice limit is based on the number of included open receipts, not on
+the resulting items after they are grouped.
+
+If a period contains more than 5,000 receipts, send
+`limit_to_max_receipts: true`. The request creates an invoice with up to 5,000
+receipts and leaves the rest with `status = "open"`. Repeat the same request,
+keeping the original date range and periodicity, until the API responds with `null`.
+This lets you split one period across multiple global invoices without changing its
+periodicity information.
+
+If you omit this option, the API returns
+`global_invoice_too_many_items` and does not create a partial invoice.
+
+### Automate global invoices
+
+Organizations with the global invoice feature can enable automation through
+[Edit receipt settings](/api/#tag/organization/operation/editOrganizationReceiptsSettings):
+
+```json
+{
+  "periodicity": "month",
+  "activate_global_invoice": true
+}
+```
+
+The automation processes each period after it ends, using the organization's time
+zone. You can change `periodicity` to reschedule future periods or send
+`activate_global_invoice: false` to pause it. Periods elapsed while automation is
+disabled are not automatically invoiced when it is enabled again.
+
+Automatic and scheduled tasks can be monitored from
+[Automatic global invoice](https://dashboard.facturapi.io/receipts/global-invoice-automation)
+in the Dashboard.
+
+### Group items when invoicing selected receipts
+
+The `grouped_items_invoice` setting groups equivalent items when
+invoicing multiple selected receipts, both through the API and the self-invoice
+portal. It is not used for global invoices.
+
 ### Convert an e-receipt into an invoice
 
 With [Convert e-receipt to invoice](/api/#tag/receipt/operation/invoiceReceipt)

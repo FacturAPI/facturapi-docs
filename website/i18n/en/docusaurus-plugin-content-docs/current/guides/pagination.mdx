@@ -1,0 +1,152 @@
+---
+sidebar_position: 11
+---
+
+# Pagination
+
+All API listing endpoints return paginated results. Facturapi offers two
+pagination modes that you can choose with the `pagination` parameter:
+
+- **`pagination=page`** — the classic mode, based on **numbered pages**. This is
+  the default behavior when `pagination` is not sent.
+- **`pagination=cursor`** — the recommended mode, based on **cursors**. It
+  traverses results sequentially, without the 30-page limit of `page` mode, and
+  with stable pages even when the data changes.
+
+## Which mode should I use?
+
+| | `pagination=page` | `pagination=cursor` |
+| --- | --- | --- |
+| Navigation | Jump to a specific page (`page=3`) | Sequential: next / previous |
+| Reach | Up to 3,000 results (30 pages × 100) | All search results |
+| Stability | Pages shift when the data changes | Stable pages (position-based) |
+| Recommended for | Compatibility, UIs with page jumps | Large lists, iteration, exports |
+
+For most cases, and especially for large lists, we recommend using
+`pagination=cursor`.
+
+The most important practical difference between both modes is **reach**:
+`pagination=page` only gives access to the first 3,000 results
+(30 pages × 100 per page), while `pagination=cursor` can traverse **all** the
+search results, even when `total_results` is capped at 3,000. If you need to
+export or process more than 3,000 results, use `pagination=cursor`.
+
+## Common parameters
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `limit` | `integer` | Maximum number of results to return, from 1 to 100. |
+| `pagination` | `string` | `page` (default) or `cursor`. |
+
+The `page`, `after` and `before` parameters depend on the selected mode and are
+**mutually exclusive** between modes:
+
+- `pagination=page` accepts `page`, but not `after` or `before`.
+- `pagination=cursor` accepts `after` or `before`, but not `page`.
+
+Sending `after` and `before` at the same time returns an error.
+
+## Page pagination (`pagination=page`)
+
+This is the default mode. In addition to `limit`, it accepts:
+
+| Parameter | Description |
+| --- | --- |
+| `page` | Page number to return, starting from 1. The maximum page is 30. |
+
+Response:
+
+```json
+{
+  "data": [ ... ],
+  "page": 1,
+  "total_pages": 3,
+  "total_results": 250,
+  "totals_are_capped": false
+}
+```
+
+## Cursor pagination (`pagination=cursor`)
+
+Instead of a page number, each response returns two cursors that let you move
+forward or backward through the results:
+
+| Parameter | Description |
+| --- | --- |
+| `after` | Returns the results after the given cursor. |
+| `before` | Returns the results before the given cursor. |
+
+Response:
+
+```json
+{
+  "data": [ ... ],
+  "previous_cursor": null,
+  "next_cursor": "d176717f4000000.i65a8282775d4e9263da48115",
+  "total_results": 250,
+  "totals_are_capped": false
+}
+```
+
+`total_results` and `totals_are_capped` are only included on the **first page**
+of the search (when neither `after` nor `before` is sent): the total does not
+change between pages, so subsequent pages only return `data` and the cursors.
+
+### Navigating between pages
+
+1. **First page:** obtained by not sending `after` or `before`.
+   `previous_cursor` returns `null`, meaning there are no previous pages.
+2. **Next page:** send `after` with the `next_cursor` value from the previous
+   response.
+3. **Previous page:** send `before` with the `previous_cursor` value from the
+   previous response.
+
+The presence of `previous_cursor` and `next_cursor` is the only source of truth
+for whether there are more results: if `next_cursor` is `null`, you reached the
+end of the list; if `previous_cursor` is `null`, you are on the first page.
+
+```bash
+# First page
+curl "https://www.facturapi.io/v2/invoices?pagination=cursor&limit=10" \
+  -G \
+  -H "Authorization: Bearer sk_test_API_KEY"
+
+# Next page (use next_cursor from the previous response)
+curl "https://www.facturapi.io/v2/invoices?pagination=cursor&limit=10&after=NEXT_CURSOR" \
+  -G \
+  -H "Authorization: Bearer sk_test_API_KEY"
+
+# Previous page (use previous_cursor from the previous response)
+curl "https://www.facturapi.io/v2/invoices?pagination=cursor&limit=10&before=PREVIOUS_CURSOR" \
+  -G \
+  -H "Authorization: Bearer sk_test_API_KEY"
+```
+
+Cursors are opaque tokens tied to the search that generated them: do not combine
+them with a different search or share them between queries. Using them with a
+different search may return unexpected results.
+
+## Totals and the 3,000 limit
+
+Both modes return `total_results` with the number of elements matching the
+search, **capped at 3,000**:
+
+- If there are 3,000 or fewer results, `total_results` is exact and
+  `totals_are_capped` is `false`.
+- If there are more than 3,000, `total_results` returns `3000` and
+  `totals_are_capped` is `true`, indicating the real total is "more than 3,000".
+
+```json
+{
+  "data": [ ... ],
+  "previous_cursor": "d176717f4000000.i65a8282775d4e9263da48115",
+  "next_cursor": null,
+  "total_results": 3000,
+  "totals_are_capped": true
+}
+```
+
+In both modes, `total_results` is informational and the count is capped at
+3,000 without traversing the whole collection. The practical advantage of
+`pagination=cursor` is not count speed (both modes cap it), but **reach** and
+**stable pages**.

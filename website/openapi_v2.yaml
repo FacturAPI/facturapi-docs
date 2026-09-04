@@ -4884,8 +4884,7 @@ paths:
                     description: UUID de la factura
                   folio_number:
                     type: number
-                    nullable: true
-                    description: Folio de la factura
+                    description: Folio de la factura. Se omite si la factura no lo tiene registrado.
                   series:
                     type: string
                     nullable: true

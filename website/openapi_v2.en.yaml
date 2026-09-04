@@ -4662,8 +4662,7 @@ paths:
                     description: Invoice UUID
                   folio_number:
                     type: number
-                    nullable: true
-                    description: Invoice folio number
+                    description: Invoice folio number. Omitted when the invoice has none registered.
                   series:
                     type: string
                     nullable: true

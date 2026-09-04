@@ -4598,6 +4598,123 @@ paths:
         "500":
           $ref: "#/components/responses/UnexpectedError"
 
+  /invoices/{invoice_id}/payment-summary:
+    get:
+      operationId: getInvoicePaymentSummary
+      tags:
+        - invoice
+      summary: Payment summary
+      description: |
+        Returns the information needed to add this invoice as a related document in a payment
+        complement (complemento de pago): the installment number according to the payment history,
+        the previous balance (`last_balance`), and the invoice tax breakdown prorated to the amount
+        being paid.
+
+        The response is ready to be used as an element of `related_documents` when
+        [creating a Payment invoice](#tag/invoice/operation/createInvoice).
+
+        The `amount` parameter must be expressed in the invoice currency and cannot exceed the
+        outstanding balance (`amount_due`). When the payment is received in a different currency,
+        convert the amount before calling this method.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/payment-summary?amount=100" \
+              -H "Authorization: Bearer sk_test_API_KEY"
+
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            const summary = await facturapi.invoices.paymentSummary(
+              '58e93bd8e86eb318b019743d',
+              { amount: 100 }
+            );
+      parameters:
+        - in: path
+          name: invoice_id
+          schema:
+            type: string
+          required: true
+          description: ID of the income invoice (PPD payment method) being paid
+        - in: query
+          name: amount
+          schema:
+            type: number
+          required: true
+          description: Amount being paid on this invoice, expressed in the invoice currency. Cannot exceed the outstanding balance.
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Related document summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    description: Invoice UUID
+                  folio_number:
+                    type: number
+                    nullable: true
+                    description: Invoice folio number
+                  series:
+                    type: string
+                    nullable: true
+                    description: Invoice series
+                  installment:
+                    type: number
+                    description: Installment number corresponding to this payment
+                  last_balance:
+                    type: number
+                    description: Invoice outstanding balance before this payment
+                  total:
+                    type: number
+                    description: Invoice total
+                  currency:
+                    type: string
+                    description: Invoice currency
+                  amount:
+                    type: number
+                    description: Amount paid in this installment
+                  taxes:
+                    type: array
+                    description: Invoice taxes prorated to the paid amount
+                    items:
+                      type: object
+                      properties:
+                        base:
+                          type: number
+                          description: Tax base prorated to the paid amount
+                        rate:
+                          type: number
+                          description: Tax rate or quota
+                        type:
+                          type: string
+                          description: Tax type (VAT, income tax withholding, etc.)
+                        factor:
+                          type: string
+                          description: Factor type (Rate, Exempt, etc.)
+                        withholding:
+                          type: boolean
+                          description: Whether this tax is a withholding
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+
   /invoices/{invoice_id}/{format}:
     get:
       operationId: downloadInvoice

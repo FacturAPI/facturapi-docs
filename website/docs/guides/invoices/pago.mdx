@@ -456,3 +456,45 @@ curl https://www.facturapi.io/v2/invoices \
 
 </TabItem>
 </Tabs>
+
+## Resumen de pago
+
+Para construir los `related_documents` de un Complemento de Pago necesitas, por cada factura
+relacionada: el número de parcialidad que corresponde, el saldo anterior y el desglose de impuestos
+prorrateado al monto que se paga. Calcular estos valores a mano es propenso a errores, sobre todo en
+pagos en varias parcialidades o con retenciones.
+
+El endpoint [Resumen de pago](/api/#tag/invoice/operation/getInvoicePaymentSummary) hace ese cálculo
+por ti: devuelve el objeto `related_document` listo para agregarse al complemento.
+
+```javascript
+import Facturapi from 'facturapi'
+const facturapi = new Facturapi('sk_test_API_KEY');
+
+// Monto que se paga de esta factura, en la divisa de la factura.
+// No puede exceder el saldo pendiente (amount_due).
+const summary = await facturapi.invoices.paymentSummary(
+  '58e93bd8e86eb318b019743d',
+  { amount: 100 }
+);
+
+// El resumen es un elemento de related_documents listo para usarse
+const invoice = await facturapi.invoices.create({
+  type: 'P',
+  customer: customer.id,
+  complements: [
+    {
+      type: 'pago',
+      data: [
+        {
+          payment_form: '28',
+          related_documents: [summary]
+        }
+      ]
+    }
+  ]
+});
+```
+
+Cuando el pago cubre varias facturas, llama al método una vez por factura con el monto que
+le corresponde a cada una y arma el complemento con los resúmenes resultantes.

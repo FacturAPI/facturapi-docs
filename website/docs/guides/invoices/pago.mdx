@@ -496,5 +496,51 @@ const invoice = await facturapi.invoices.create({
 });
 ```
 
-Cuando el pago cubre varias facturas, llama al método una vez por factura con el monto que
-le corresponde a cada una y arma el complemento con los resúmenes resultantes.
+Cada resumen contiene, listo para el CFDI: `uuid`, `installment` (la parcialidad
+que corresponde según el historial de pagos), `last_balance` (el saldo anterior),
+`amount` (el monto pagado en esta parcialidad) y `taxes` con las bases e impuestos
+ya prorrateados al monto pagado. No necesitas mapear nada: el objeto completo va
+como elemento de `related_documents`.
+
+### Un pago que cubre varias facturas
+
+Cuando un mismo pago liquida varias facturas, pide un resumen por factura con el
+monto que le corresponde a cada una y arma el complemento con todos los resúmenes:
+
+```javascript
+import Facturapi from 'facturapi'
+const facturapi = new Facturapi('sk_test_API_KEY');
+
+// Los montos que decide el negocio: cuánto se abona a cada factura.
+const pagos = [
+  { invoiceId: '58e93bd8e86eb318b019743d', amount: 100 },
+  { invoiceId: '7f104ce9f97eb428c130854e', amount: 250 }
+];
+
+const related_documents = await Promise.all(
+  pagos.map(({ invoiceId, amount }) =>
+    facturapi.invoices.paymentSummary(invoiceId, { amount })
+  )
+);
+
+const invoice = await facturapi.invoices.create({
+  type: 'P',
+  customer: customer.id,
+  complements: [
+    {
+      type: 'pago',
+      data: [
+        {
+          payment_form: '28',
+          related_documents
+        }
+      ]
+    }
+  ]
+});
+```
+
+Si el monto excede el saldo de alguna factura, el endpoint responde un error
+(`amount_exceeds_related_document_balance`) antes de crear nada. Lo mismo sucede
+si la factura no es candidata a pago: el endpoint solo acepta facturas de ingreso
+timbradas con método de pago PPD que sigan vigentes.

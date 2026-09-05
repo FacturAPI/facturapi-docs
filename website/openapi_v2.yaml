@@ -4855,6 +4855,23 @@ paths:
               '58e93bd8e86eb318b019743d',
               { amount: 100 }
             );
+
+            // El resumen va completo como related_document del complemento
+            const invoice = await facturapi.invoices.create({
+              type: 'P',
+              customer: 'customer_id',
+              complements: [
+                {
+                  type: 'pago',
+                  data: [
+                    {
+                      payment_form: '28',
+                      related_documents: [summary]
+                    }
+                  ]
+                }
+              ]
+            });
       parameters:
         - in: path
           name: invoice_id
@@ -4925,6 +4942,21 @@ paths:
                         withholding:
                           type: boolean
                           description: Indica si se trata de una retención
+                example:
+                  uuid: 39c85a3f-275b-4341-b259-e8971d9f8a94
+                  folio_number: 914
+                  series: F
+                  installment: 2
+                  last_balance: 245.6
+                  total: 345.6
+                  currency: MXN
+                  amount: 100
+                  taxes:
+                    - base: 86.21
+                      rate: 0.16
+                      type: IVA
+                      factor: Tasa
+                      withholding: false
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":

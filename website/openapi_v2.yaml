@@ -4820,6 +4820,154 @@ paths:
         "500":
           $ref: "#/components/responses/UnexpectedError"
 
+  /invoices/{invoice_id}/payment-summary:
+    get:
+      operationId: getInvoicePaymentSummary
+      tags:
+        - invoice
+      summary: Resumen de pago
+      description: |
+        Devuelve la información necesaria para agregar esta factura como documento relacionado en un
+        Comprobante de Pago (complemento de pago): el número de parcialidad que corresponde según el
+        historial de pagos, el saldo anterior (`last_balance`) y el desglose de impuestos de la factura
+        prorrateado al monto que se pretende pagar.
+
+        El valor de retorno está listo para usarse como elemento de `related_documents` al
+        [crear una factura de tipo Pago](#tag/invoice/operation/createInvoice).
+
+        El parámetro `amount` debe expresarse en la divisa de la factura y no puede exceder el saldo
+        pendiente (`amount_due`). Cuando el pago se recibe en otra divisa, convierte el monto antes de
+        llamar este método.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/payment-summary?amount=100" \
+              -H "Authorization: Bearer sk_test_API_KEY"
+
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            const summary = await facturapi.invoices.paymentSummary(
+              '58e93bd8e86eb318b019743d',
+              { amount: 100 }
+            );
+
+            // El resumen va completo como related_document del complemento
+            const invoice = await facturapi.invoices.create({
+              type: 'P',
+              customer: 'customer_id',
+              complements: [
+                {
+                  type: 'pago',
+                  data: [
+                    {
+                      payment_form: '28',
+                      related_documents: [summary]
+                    }
+                  ]
+                }
+              ]
+            });
+      parameters:
+        - in: path
+          name: invoice_id
+          schema:
+            type: string
+          required: true
+          description: ID de la factura de ingreso (método de pago PPD) que se desea pagar
+        - in: query
+          name: amount
+          schema:
+            type: number
+          required: true
+          description: Monto que se paga de esta factura, expresado en la divisa de la factura. No puede exceder el saldo pendiente.
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Resumen del documento relacionado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    description: UUID de la factura
+                  folio_number:
+                    type: number
+                    description: Folio de la factura. Se omite si la factura no lo tiene registrado.
+                  series:
+                    type: string
+                    nullable: true
+                    description: Serie de la factura
+                  installment:
+                    type: number
+                    description: Número de parcialidad que corresponde a este pago
+                  last_balance:
+                    type: number
+                    description: Saldo pendiente de la factura antes de aplicar este pago
+                  total:
+                    type: number
+                    description: Total de la factura
+                  currency:
+                    type: string
+                    description: Divisa de la factura
+                  amount:
+                    type: number
+                    description: Monto que se paga en esta parcialidad
+                  taxes:
+                    type: array
+                    description: Impuestos de la factura prorrateados al monto pagado
+                    items:
+                      type: object
+                      properties:
+                        base:
+                          type: number
+                          description: Base del impuesto prorrateada al monto pagado
+                        rate:
+                          type: number
+                          description: Tasa o cuota del impuesto
+                        type:
+                          type: string
+                          description: Tipo de impuesto (IVA, ISR, etc.)
+                        factor:
+                          type: string
+                          description: Tipo de factor (Tasa, Exento, etc.)
+                        withholding:
+                          type: boolean
+                          description: Indica si se trata de una retención
+                example:
+                  uuid: 39c85a3f-275b-4341-b259-e8971d9f8a94
+                  folio_number: 914
+                  series: F
+                  installment: 2
+                  last_balance: 245.6
+                  total: 345.6
+                  currency: MXN
+                  amount: 100
+                  taxes:
+                    - base: 86.21
+                      rate: 0.16
+                      type: IVA
+                      factor: Tasa
+                      withholding: false
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+
   /invoices/{invoice_id}/{format}:
     get:
       operationId: downloadInvoice

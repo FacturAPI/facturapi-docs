@@ -39,6 +39,12 @@ info:
     (Test o Live), así como la organización a utilizar como emisor
     de tu factura, o bien como dueña del recurso que solicites crear.
 
+    Envía `Accept-Language: en` para recibir mensajes de error de Facturapi en inglés,
+    o `Accept-Language: es` para español (predeterminado). Se admiten variantes regionales
+    y prioridades `q`. Los mensajes externos SAT/PAC conservan su idioma original.
+    Consulta [Manejo de errores](https://docs.facturapi.io/docs/getting-started/errors)
+    para el contrato completo y ejemplos con cada SDK.
+
 tags:
   - name: tools
     x-displayName: Herramientas

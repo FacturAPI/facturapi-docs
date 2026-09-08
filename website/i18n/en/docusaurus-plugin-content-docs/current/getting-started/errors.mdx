@@ -2,11 +2,80 @@
 sidebar_position: 7
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Error handling
 
 The API returns errors as JSON and uses standard HTTP status codes. For programmatic error handling, use `code`: it is a stable, predictable string.
 
-`message` is meant for humans. Today, API messages are returned in Spanish. They may change to improve clarity or support localization, so avoid using them for branching logic.
+`message` is meant for humans and can be returned in Spanish or English. It may change to improve clarity, so avoid using it for branching logic.
+
+## Message language
+
+In API V2, send `Accept-Language: en` to receive Facturapi-defined error messages in English. Use `es` for Spanish. Regional variants such as `en-US` and `es-MX` are supported, as are weighted preferences such as `es;q=0.5, en;q=0.9`. Missing or unsupported language preferences fall back to Spanish.
+
+The language is selected per request and does not depend on the user or organization language. Localization changes `message` and cataloged `errors[].message` values; codes, paths, HTTP status, and all other fields remain unchanged. Original SAT/PAC messages and uncataloged legacy messages retain their original language.
+
+The SDKs already support configuring headers for every request made by a client instance:
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const facturapi = new Facturapi('YOUR_API_KEY', {
+  headers: { 'Accept-Language': 'en' },
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi('YOUR_API_KEY', [
+    'httpClient' => new GuzzleHttp\Client([
+        'headers' => ['Accept-Language' => 'en'],
+    ]),
+]);
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+```java
+OkHttpClient httpClient = new OkHttpClient.Builder()
+    .addInterceptor(chain -> chain.proceed(chain.request().newBuilder()
+        .header("Accept-Language", "en")
+        .build()))
+    .build();
+
+Facturapi facturapi = new Facturapi(
+    FacturapiConfig.builder("YOUR_API_KEY")
+        .httpClient(httpClient)
+        .build());
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var httpClient = new HttpClient();
+httpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd("en");
+var facturapi = FacturapiClient.CreateWithCustomHttpClient(
+    "YOUR_API_KEY", httpClient);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl 'https://www.facturapi.io/v2/customers' \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'Accept-Language: en'
+```
+
+</TabItem>
+</Tabs>
 
 ## Error object
 

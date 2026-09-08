@@ -337,7 +337,7 @@ These codes describe tax-information errors validated by Facturapi. When a custo
 | `global_invoice_too_many_items` | The period contains more than 5,000 open receipts. Send `limit_to_max_receipts` to invoice up to 5,000 per request, or use smaller date ranges or receipt subsets. |
 | `invalid_global_invoice_period` | The date range must be within the same billing period: `{period}`. |
 
-For `invalid_global_invoice_period`, `{period}` is a stable, untranslated value: `year`, `day`, `week`, `fortnight`, `month`, or `two_months`.
+For `invalid_global_invoice_period`, `{period}` identifies the period with a stable value (`year`, `day`, `week`, `fortnight`, `month`, or `two_months`) and is rendered in the response language, e.g. `año`/`year` or `bimestre`/`two-month period`.
 
 ### RetentionErrorCode
 

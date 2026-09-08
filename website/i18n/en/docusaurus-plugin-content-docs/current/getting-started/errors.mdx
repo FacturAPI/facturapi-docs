@@ -210,7 +210,9 @@ This list is the documented reference for public root API codes. We may add new 
 | `invalid_timezone` | The timezone is invalid. |
 | `multipart_limit_exceeded` | The multipart/form-data request exceeds the allowed limits. |
 | `page_too_large` | The requested page exceeds the allowed limit. |
-| `payload_too_large` | The request payload exceeds the maximum allowed size. |
+| `payload_too_large` | The payload exceeds the maximum allowed size. |
+
+When the server knows the limit, `payload_too_large` includes it in parentheses, e.g. `The payload exceeds the maximum allowed size (100KB).`
 
 ### TaxInfoValidationCode
 
@@ -334,6 +336,8 @@ These codes describe tax-information errors validated by Facturapi. When a custo
 | --- | --- |
 | `global_invoice_too_many_items` | The period contains more than 5,000 open receipts. Send `limit_to_max_receipts` to invoice up to 5,000 per request, or use smaller date ranges or receipt subsets. |
 | `invalid_global_invoice_period` | The date range must be within the same billing period: `{period}`. |
+
+For `invalid_global_invoice_period`, `{period}` is a stable, untranslated value: `year`, `day`, `week`, `fortnight`, `month`, or `two_months`.
 
 ### RetentionErrorCode
 

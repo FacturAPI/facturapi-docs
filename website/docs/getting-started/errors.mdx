@@ -212,6 +212,8 @@ Esta lista es la referencia documentada de códigos raíz públicos de la API. P
 | `page_too_large` | La página solicitada excede el límite permitido. |
 | `payload_too_large` | El payload excede el tamaño máximo permitido. |
 
+Cuando el servidor conoce el límite, `payload_too_large` lo incluye entre paréntesis, p. ej. `El payload excede el tamaño máximo permitido (100KB).`
+
 ### TaxInfoValidationCode
 
 Estos códigos describen errores de información fiscal validados por Facturapi. Cuando la validación fiscal de un cliente u organización detecta un solo problema, aparece en `code`. Las validaciones de entrada y el endpoint de validación de información fiscal de un cliente los devuelven en `errors[].code`.
@@ -334,6 +336,8 @@ Estos códigos describen errores de información fiscal validados por Facturapi.
 | --- | --- |
 | `global_invoice_too_many_items` | El periodo contiene más de 5,000 recibos abiertos. Envía `limit_to_max_receipts` para facturar hasta 5,000 por llamada o usa rangos de fechas o subconjuntos de recibos. |
 | `invalid_global_invoice_period` | El rango de fechas debe estar dentro del mismo periodo de facturación: `{period}`. |
+
+En `invalid_global_invoice_period`, `{period}` es un valor estable que no se traduce: `year`, `day`, `week`, `fortnight`, `month` o `two_months`.
 
 ### RetentionErrorCode
 

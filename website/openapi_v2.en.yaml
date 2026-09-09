@@ -1070,23 +1070,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  page:
-                    type: integer
-                  total_pages:
-                    type: integer
-                  total_results:
-                    type: integer
-                  data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        key:
-                          type: string
-                        description:
-                          type: string
+                $ref: "#/components/schemas/SearchKeyDescriptionResult"
 
   /catalogs/cartaporte/3.1/transport-configs:
     get:
@@ -1794,21 +1778,17 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  page:
-                    type: integer
-                  total_pages:
-                    type: integer
-                  total_results:
-                    type: integer
-                  data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        key:
-                          type: string
+                allOf:
+                  - $ref: "#/components/schemas/SearchResult"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            key:
+                              type: string
 
   /catalogs/cartaporte/3.1/port-stations:
     get:

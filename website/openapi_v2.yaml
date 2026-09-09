@@ -12717,12 +12717,12 @@ components:
           description: |
             Número de elementos individuales en todas las páginas de resultados. En modo `pagination=cursor` solo se incluye en la primera página de la búsqueda (sin `after`/`before`); el total no cambia entre páginas.
         previous_cursor:
-          type: string
+          type: [string, "null"]
           example: null
           title: Cursor anterior
           description: Cursor para obtener la página anterior de resultados. Es `null` en la primera página. Solo disponible con `pagination=cursor`.
         next_cursor:
-          type: string
+          type: [string, "null"]
           example: null
           title: Cursor siguiente
           description: Cursor para obtener la página siguiente de resultados. Es `null` cuando no hay más resultados. Solo disponible con `pagination=cursor`.

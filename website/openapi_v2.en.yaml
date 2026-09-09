@@ -12468,12 +12468,12 @@ components:
           description: |
             The total number of results available in the search. In `pagination=cursor` mode it is only included on the first page of the search (no `after`/`before`); the total does not change between pages.
         previous_cursor:
-          type: string
+          type: [string, "null"]
           example: null
           title: Previous cursor
           description: Cursor to fetch the previous page of results. It is `null` on the first page. Only available with `pagination=cursor`.
         next_cursor:
-          type: string
+          type: [string, "null"]
           example: null
           title: Next cursor
           description: Cursor to fetch the next page of results. It is `null` when there are no more results. Only available with `pagination=cursor`.

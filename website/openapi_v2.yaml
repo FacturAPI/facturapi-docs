@@ -11246,6 +11246,9 @@ paths:
               "page" => 1
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:

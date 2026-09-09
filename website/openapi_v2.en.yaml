@@ -16086,6 +16086,11 @@ components:
               default: false
               description: |
                 Repeat the digital signature on each page of the PDF.
+            use_expedition_address:
+              type: boolean
+              default: false
+              description: |
+                Show the invoice place of issue instead of the organization address. Only one address is shown.
             payroll_options:
               type: object
               properties:
@@ -16201,6 +16206,11 @@ components:
               default: false
               description: |
                 Repeat the digital signature on each page of the PDF.
+            use_expedition_address:
+              type: boolean
+              default: false
+              description: |
+                Show the invoice place of issue instead of the organization address. Only one address is shown.
             payroll_options:
               type: object
               properties:
@@ -17922,6 +17932,11 @@ components:
                   default: false
                   description: |
                     Repeat the digital signature on each page of the PDF.
+                use_expedition_address:
+                  type: boolean
+                  default: false
+                  description: |
+                    Show the invoice place of issue instead of the organization address. Only one address is shown.
                 render_iedu:
                   type: boolean
                   default: false
@@ -18264,6 +18279,11 @@ components:
               default: false
               description: |
                 Repeat the digital signature on each page of the PDF.
+            use_expedition_address:
+              type: boolean
+              default: false
+              description: |
+                Show the invoice place of issue instead of the organization address. Only one address is shown.
             payroll_options:
               type: object
               properties:

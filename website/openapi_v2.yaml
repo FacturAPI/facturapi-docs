@@ -16301,6 +16301,11 @@ components:
               default: false
               description: |
                 Repetir la firma electrónica en cada página del PDF.
+            use_expedition_address:
+              type: boolean
+              default: false
+              description: |
+                Mostrar el lugar de expedición de la factura en vez de la dirección de la organización. Solo se muestra una dirección.
             payroll_options:
               type: object
               properties:
@@ -16413,6 +16418,11 @@ components:
               default: false
               description: |
                 Repetir la firma electrónica en cada página del PDF.
+            use_expedition_address:
+              type: boolean
+              default: false
+              description: |
+                Mostrar el lugar de expedición de la factura en vez de la dirección de la organización. Solo se muestra una dirección.
             payroll_options:
               type: object
               properties:
@@ -18152,6 +18162,11 @@ components:
                   default: false
                   description: |
                     Repetir la firma electrónica en cada página del PDF. Si se desactiva, la firma electrónica sólo se mostrará una vez.
+                use_expedition_address:
+                  type: boolean
+                  default: false
+                  description: |
+                    Mostrar el lugar de expedición de la factura en vez de la dirección de la organización. Solo se muestra una dirección.
                 render_iedu:
                   type: boolean
                   default: false
@@ -18493,6 +18508,11 @@ components:
               default: false
               description: |
                 Repetir la firma electrónica en cada página del PDF.
+            use_expedition_address:
+              type: boolean
+              default: false
+              description: |
+                Mostrar el lugar de expedición de la factura en vez de la dirección de la organización. Solo se muestra una dirección.
             payroll_options:
               type: object
               properties:

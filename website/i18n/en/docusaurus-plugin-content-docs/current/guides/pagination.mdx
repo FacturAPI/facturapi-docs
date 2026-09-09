@@ -4,14 +4,24 @@ sidebar_position: 11
 
 # Pagination
 
-All API listing endpoints return paginated results. Facturapi offers two
-pagination modes that you can choose with the `pagination` parameter:
+Customer (`/customers`), invoice (`/invoices`), receipt (`/receipts`), product
+(`/products`) and retention (`/retentions`) listings, as well as catalog
+searches (`/catalogs/...`), return paginated results. On these search
+endpoints, Facturapi offers two pagination modes that you can choose with the
+`pagination` parameter:
 
 - **`pagination=page`** — the classic mode, based on **numbered pages**. This is
   the default behavior when `pagination` is not sent.
 - **`pagination=cursor`** — the recommended mode, based on **cursors**. It
   traverses results sequentially, without the 30-page limit of `page` mode, and
   with stable pages even when the data changes.
+
+:::note
+The webhook listing (`GET /webhooks`) also returns paginated results, but it is
+not part of the cursor-enabled searches: it only accepts the `page` and `limit`
+parameters of the `pagination=page` mode. Do not send `pagination=cursor`,
+`after` or `before` to that endpoint.
+:::
 
 ## Which mode should I use?
 
@@ -36,7 +46,7 @@ export or process more than 3,000 results, use `pagination=cursor`.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `limit` | `integer` | Maximum number of results to return, from 1 to 100. |
-| `pagination` | `string` | `page` (default) or `cursor`. |
+| `pagination` | `string` | `page` (default) or `cursor`. Not available on the webhook listing. |
 
 The `page`, `after` and `before` parameters depend on the selected mode and are
 **mutually exclusive** between modes:

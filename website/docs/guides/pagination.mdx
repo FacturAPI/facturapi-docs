@@ -4,14 +4,24 @@ sidebar_position: 11
 
 # Paginación
 
-Todos los listados de la API devuelven resultados paginados. Facturapi ofrece dos
-modos de paginación que puedes elegir con el parámetro `pagination`:
+Los listados de clientes (`/customers`), facturas (`/invoices`), recibos
+(`/receipts`), productos (`/products`) y retenciones (`/retentions`), así como
+las búsquedas de catálogo (`/catalogs/...`), devuelven resultados paginados. En
+estos endpoints de búsqueda, Facturapi ofrece dos modos de paginación que puedes
+elegir con el parámetro `pagination`:
 
 - **`pagination=page`** — el modo clásico, por **páginas numeradas**. Es el
   comportamiento por defecto cuando no se envía `pagination`.
 - **`pagination=cursor`** — el modo recomendado, por **cursores**. Recorre los
   resultados de forma secuencial, sin el tope de 30 páginas del modo `page`, y
   con páginas estables aunque cambien los datos.
+
+:::note
+El listado de webhooks (`GET /webhooks`) también devuelve resultados paginados,
+pero no forma parte de las búsquedas que soportan cursores: solo acepta los
+parámetros `page` y `limit` del modo `pagination=page`. No envíes
+`pagination=cursor`, `after` ni `before` a ese endpoint.
+:::
 
 ## ¿Qué modo usar?
 
@@ -37,7 +47,7 @@ capeado a 3,000. Si necesitas exportar o procesar más de 3,000 resultados, usa
 | Parámetro | Tipo | Descripción |
 | --- | --- | --- |
 | `limit` | `integer` | Cantidad máxima de resultados a regresar, del 1 al 100. |
-| `pagination` | `string` | `page` (por defecto) o `cursor`. |
+| `pagination` | `string` | `page` (por defecto) o `cursor`. No disponible en el listado de webhooks. |
 
 Los parámetros `page`, `after` y `before` dependen del modo elegido y son
 **mutuamente excluyentes** entre modos:

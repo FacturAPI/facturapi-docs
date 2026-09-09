@@ -17314,7 +17314,7 @@ components:
           type: string
           format: date
           default: End of the last period
-          example: 2022-31-01T23:59:59.999
+          example: 2022-01-31T23:59:59.999
           description: |
             End date of the receipts that will be included in the global invoice.
             By default, this value is the end of the last period (day, week,

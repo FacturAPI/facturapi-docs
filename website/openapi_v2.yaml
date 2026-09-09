@@ -12502,26 +12502,21 @@ components:
 
   schemas:
     SearchKeyDescriptionResult:
-      type: object
-      properties:
-        page:
-          type: integer
-          description: Número de página actual (base 0).
-        total_pages:
-          type: integer
-          description: Total de páginas disponibles.
-        total_results:
-          type: integer
-          description: Total de resultados encontrados.
-        data:
-          type: array
-          items:
-            type: object
-            properties:
-              key:
-                type: string
-              description:
-                type: string
+      allOf:
+        - $ref: "#/components/schemas/SearchResult"
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  key:
+                    type: string
+                    description: Clave del catálogo
+                  description:
+                    type: string
+                    description: Descripción de la entrada del catálogo
     ErrorMessage:
       type: object
       required:

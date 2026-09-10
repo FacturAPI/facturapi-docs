@@ -2,11 +2,80 @@
 sidebar_position: 7
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Manejo de errores
 
 La API responde los errores en JSON y usa códigos de estado HTTP estándar. Para manejar errores de forma programática, usa `code`: es un string estable y predecible.
 
-`message` está pensado para lectura humana. Hoy los mensajes de la API se devuelven en español. Pueden cambiar para mejorar claridad o soportar localización, así que no deberían usarse para branching de lógica.
+`message` está pensado para lectura humana y puede devolverse en español o inglés. Puede cambiar para mejorar claridad, así que no debería usarse para branching de lógica.
+
+## Idioma de los mensajes
+
+En API V2, envía `Accept-Language: en` para recibir en inglés los mensajes de error definidos por Facturapi. Usa `es` para español. Se aceptan variantes regionales como `en-US` y `es-MX`, además de preferencias con prioridad como `es;q=0.5, en;q=0.9`. Sin el header o sin un idioma compatible, la API usa español.
+
+El idioma se decide en cada petición y no depende del idioma del usuario o de la organización. La localización cambia `message` y los mensajes catalogados de `errors[].message`; los códigos, paths, status HTTP y demás campos permanecen iguales. Los mensajes originales del SAT/PAC y los mensajes legacy no catalogados conservan su idioma original.
+
+Los SDKs ya permiten configurar headers para todas las peticiones de una instancia:
+
+<Tabs groupId="codeExamples">
+<TabItem value="js" label="Node.js" default>
+
+```javascript
+const facturapi = new Facturapi('TU_API_KEY', {
+  headers: { 'Accept-Language': 'en' },
+});
+```
+
+</TabItem>
+<TabItem value="php" label="PHP">
+
+```php
+$facturapi = new Facturapi('TU_API_KEY', [
+    'httpClient' => new GuzzleHttp\Client([
+        'headers' => ['Accept-Language' => 'en'],
+    ]),
+]);
+```
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+```java
+OkHttpClient httpClient = new OkHttpClient.Builder()
+    .addInterceptor(chain -> chain.proceed(chain.request().newBuilder()
+        .header("Accept-Language", "en")
+        .build()))
+    .build();
+
+Facturapi facturapi = new Facturapi(
+    FacturapiConfig.builder("TU_API_KEY")
+        .httpClient(httpClient)
+        .build());
+```
+
+</TabItem>
+<TabItem value="cs" label="C#">
+
+```csharp
+var httpClient = new HttpClient();
+httpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd("en");
+var facturapi = FacturapiClient.CreateWithCustomHttpClient(
+    "TU_API_KEY", httpClient);
+```
+
+</TabItem>
+<TabItem value="curl" label="cURL">
+
+```bash
+curl 'https://www.facturapi.io/v2/customers' \
+  -H 'Authorization: Bearer TU_API_KEY' \
+  -H 'Accept-Language: en'
+```
+
+</TabItem>
+</Tabs>
 
 ## Objeto de error
 
@@ -144,6 +213,8 @@ Esta lista es la referencia documentada de códigos raíz públicos de la API. P
 | `page_too_large` | La página solicitada excede el límite permitido. |
 | `payload_too_large` | El payload excede el tamaño máximo permitido. |
 
+Cuando el servidor conoce el límite, `payload_too_large` lo incluye entre paréntesis, p. ej. `El payload excede el tamaño máximo permitido (100KB).`
+
 ### TaxInfoValidationCode
 
 Estos códigos describen errores de información fiscal validados por Facturapi. Cuando la validación fiscal de un cliente u organización detecta un solo problema, aparece en `code`. Las validaciones de entrada y el endpoint de validación de información fiscal de un cliente los devuelven en `errors[].code`.
@@ -266,6 +337,8 @@ Estos códigos describen errores de información fiscal validados por Facturapi.
 | --- | --- |
 | `global_invoice_too_many_items` | El periodo contiene más de 5,000 recibos abiertos. Envía `limit_to_max_receipts` para facturar hasta 5,000 por llamada o usa rangos de fechas o subconjuntos de recibos. |
 | `invalid_global_invoice_period` | El rango de fechas debe estar dentro del mismo periodo de facturación: `{period}`. |
+
+En `invalid_global_invoice_period`, `{period}` identifica el periodo con un valor estable (`year`, `day`, `week`, `fortnight`, `month` o `two_months`) y se muestra en el idioma de la respuesta, p. ej. `año` o `year`, `bimestre` o `two-month period`.
 
 ### RetentionErrorCode
 

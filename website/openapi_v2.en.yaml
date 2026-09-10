@@ -31,6 +31,12 @@ info:
       
       The secret key you use to authenticate will determine both the environment in which the invoice will be created (Test or Live), as well as the organization to use as the issuer of your invoice or as the owner of the resource you request to create.
 
+      Send `Accept-Language: en` for English Facturapi error messages, or
+      `Accept-Language: es` for Spanish (the default). Regional variants and `q`
+      priorities are supported. External SAT/PAC messages retain their original language.
+      See [Error handling](https://docs.facturapi.io/en/docs/getting-started/errors)
+      for the full contract and examples for every SDK.
+
 tags:
   - name: tools
     x-displayName: Tools
@@ -3685,8 +3691,6 @@ paths:
           description: Filters issued or received invoices.
         - in: query
           name: invoice_types
-          style: form
-          explode: false
           schema:
             type: array
             uniqueItems: true

@@ -4,7 +4,7 @@ sidebar_position: 9
 
 # Facturapi MCP: usa tu cuenta desde asistentes de IA
 
-Facturapi MCP es un servidor MCP remoto que permite a asistentes y agentes de IA
+Facturapi MCP es un servidor MCP remoto que permite a asistentes de IA
 (como ChatGPT, Claude u otras plataformas compatibles) consultar y operar tus
 servicios de Facturapi a través de la API oficial, usando lenguaje natural.
 
@@ -61,7 +61,7 @@ Puedes autenticarte de dos formas:
 Todas las llamadas a la API de Facturapi incluyen el encabezado
 `x-facturapi-client: MCP`.
 
-Ejemplo de configuración de cliente (ilustrativo):
+Ejemplo de configuración de cliente en modo API key (ilustrativo):
 
 ```json
 {
@@ -98,9 +98,8 @@ rechaza la operación.
 
 - El asistente solo accede a las organizaciones donde tu usuario tiene
   permisos y **nunca tiene más permisos que tu cuenta**.
-- Solo puede operar los **servicios que tienes contratados**. Si intenta una
-  operación que tu plan no incluye, la API responde con un error claro
-  (por ejemplo, `402` cuando no hay una suscripción activa).
+- Solo puede operar los **servicios que tienes contratados**: si intenta una
+  operación que tu plan no incluye, no se realiza.
 - Elige **solo lectura** o **lectura y escritura** al conectar, y revoca el
   acceso cuando quieras desde el
   [Centro de integración](https://dashboard.facturapi.io/integration/oauth).

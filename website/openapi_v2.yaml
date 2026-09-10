@@ -1026,9 +1026,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
@@ -1142,9 +1141,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
@@ -1258,9 +1256,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
@@ -1374,9 +1371,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
@@ -1490,9 +1486,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
@@ -1606,9 +1601,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
@@ -1722,9 +1716,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
@@ -1838,9 +1831,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
@@ -1954,9 +1946,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
@@ -2080,9 +2071,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
@@ -2196,9 +2186,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
@@ -12499,8 +12488,7 @@ components:
       schema:
         type: integer
         minimum: 1
-        maximum: 30
-      description: Página de resultados a regresar, empezando desde la página 1. La página máxima que se puede solicitar es 30.
+      description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados (con el `limit` por defecto de 100, la página máxima es 30).
     SearchLimit:
       in: query
       name: limit

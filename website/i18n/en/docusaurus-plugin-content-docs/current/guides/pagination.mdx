@@ -5,9 +5,9 @@ sidebar_position: 11
 # Pagination
 
 Customer (`/customers`), invoice (`/invoices`), receipt (`/receipts`), product
-(`/products`), retention (`/retentions`), organization (`/organizations`) and
-webhook (`/webhooks`) listings, as well as catalog searches (`/catalogs/...`),
-return paginated results. On these
+(`/products`), supplier (`/suppliers`), retention (`/retentions`), organization
+(`/organizations`) and webhook (`/webhooks`) listings, as well as catalog
+searches (`/catalogs/...`), return paginated results. On these
 endpoints, Facturapi offers two pagination modes that you can choose with the
 `pagination` parameter:
 
@@ -70,12 +70,12 @@ This is the default mode. In addition to `limit`, it accepts:
 
 | Parameter | Description |
 | --- | --- |
-| `page` | Page number to return, starting from 1. The maximum page is 30. |
+| `page` | Page number to return, starting from 1. The maximum depends on the 3,000-result cap (see below): with the default `limit` of 100, the maximum page is 30. |
 
 On the listings (`/customers`, `/invoices`, …) `page` is the shared parameter,
-ranging from 1 to 30. **Catalog searches** (`/catalogs/...`) declare `page` and
-`limit` on their own: there `page` also accepts `0` (equivalent to the first
-page) in addition to `1`–`30`, and `limit` keeps the 1 to 100 range.
+starting at 1. **Catalog searches** (`/catalogs/...`) accept the same pagination
+parameters, with `limit` between 1 and 100. The maximum `page` is not fixed: it
+follows from the 3,000-result cap (30 pages with the default `limit` of 100).
 
 Response:
 

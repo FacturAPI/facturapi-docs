@@ -1055,10 +1055,9 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
+            minimum: 1
           required: false
-          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
+          description: Page of results to return, starting from page 1. The maximum is not fixed; together with `limit` it must fit within the 3,000-result cap.
         - in: query
           name: limit
           schema:
@@ -1147,9 +1146,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
+            minimum: 1
+          description: Page of results to return, starting from page 1. The maximum is not fixed; together with `limit` it must fit within the 3,000-result cap.
         - in: query
           name: limit
           schema:
@@ -1237,10 +1235,9 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
+            minimum: 1
           required: false
-          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
+          description: Page of results to return, starting from page 1. The maximum is not fixed; together with `limit` it must fit within the 3,000-result cap.
         - in: query
           name: limit
           schema:
@@ -1339,9 +1336,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
+            minimum: 1
+          description: Page of results to return, starting from page 1. The maximum is not fixed; together with `limit` it must fit within the 3,000-result cap.
         - in: query
           name: limit
           schema:
@@ -1429,9 +1425,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
+            minimum: 1
+          description: Page of results to return, starting from page 1. The maximum is not fixed; together with `limit` it must fit within the 3,000-result cap.
         - in: query
           name: limit
           schema:
@@ -1519,9 +1514,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
+            minimum: 1
+          description: Page of results to return, starting from page 1. The maximum is not fixed; together with `limit` it must fit within the 3,000-result cap.
         - in: query
           name: limit
           schema:
@@ -1609,9 +1603,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
+            minimum: 1
+          description: Page of results to return, starting from page 1. The maximum is not fixed; together with `limit` it must fit within the 3,000-result cap.
         - in: query
           name: limit
           schema:
@@ -1699,9 +1692,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
+            minimum: 1
+          description: Page of results to return, starting from page 1. The maximum is not fixed; together with `limit` it must fit within the 3,000-result cap.
         - in: query
           name: limit
           schema:
@@ -1789,9 +1781,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
+            minimum: 1
+          description: Page of results to return, starting from page 1. The maximum is not fixed; together with `limit` it must fit within the 3,000-result cap.
         - in: query
           name: limit
           schema:
@@ -1889,9 +1880,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
+            minimum: 1
+          description: Page of results to return, starting from page 1. The maximum is not fixed; together with `limit` it must fit within the 3,000-result cap.
         - in: query
           name: limit
           schema:
@@ -1979,9 +1969,8 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
-          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
+            minimum: 1
+          description: Page of results to return, starting from page 1. The maximum is not fixed; together with `limit` it must fit within the 3,000-result cap.
         - in: query
           name: limit
           schema:
@@ -12279,8 +12268,7 @@ components:
       schema:
         type: integer
         minimum: 1
-        maximum: 30
-      description: Page of results to return, starting from page 1. The maximum page that can be requested is 30.
+      description: Page of results to return, starting from page 1. The maximum is not fixed; together with `limit` it must fit within the 3,000-result cap (30 pages with the default `limit` of 100).
     SearchLimit:
       in: query
       name: limit

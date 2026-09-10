@@ -5,11 +5,11 @@ sidebar_position: 11
 # Paginación
 
 Los listados de clientes (`/customers`), facturas (`/invoices`), recibos
-(`/receipts`), productos (`/products`), retenciones (`/retentions`),
-organizaciones (`/organizations`) y webhooks (`/webhooks`), así como las
-búsquedas de catálogo (`/catalogs/...`), devuelven
-resultados paginados. En estos endpoints, Facturapi ofrece dos modos de
-paginación que puedes elegir con el parámetro `pagination`:
+(`/receipts`), productos (`/products`), proveedores (`/suppliers`), retenciones
+(`/retentions`), organizaciones (`/organizations`) y webhooks (`/webhooks`),
+así como las búsquedas de catálogo (`/catalogs/...`), devuelven resultados
+paginados. En estos endpoints, Facturapi ofrece dos modos de paginación que
+puedes elegir con el parámetro `pagination`:
 
 - **`pagination=page`** — el modo clásico, por **páginas numeradas**. Es el
   comportamiento por defecto cuando no se envía `pagination`.
@@ -71,12 +71,13 @@ Es el modo por defecto. Además de `limit`, acepta:
 
 | Parámetro | Descripción |
 | --- | --- |
-| `page` | Número de página a regresar, empezando desde 1. La página máxima es 30. |
+| `page` | Número de página a regresar, empezando desde 1. El máximo depende del tope de 3,000 resultados (ver más abajo): con el `limit` por defecto de 100, la página máxima es 30. |
 
 En los listados (`/customers`, `/invoices`, …) `page` es el parámetro compartido,
-que va del 1 al 30. Las **búsquedas de catálogo** (`/catalogs/...`) declaran
-`page` y `limit` de forma propia: ahí `page` acepta `0` (equivalente a la primera
-página) además de `1`–`30`, y `limit` conserva el rango del 1 al 100.
+que empieza en 1. Las **búsquedas de catálogo** (`/catalogs/...`) aceptan los
+mismos parámetros de paginación, con `limit` del 1 al 100. El máximo de `page` no
+es fijo: sale del tope de 3,000 resultados (con el `limit` por defecto de 100 son
+30 páginas).
 
 Respuesta:
 

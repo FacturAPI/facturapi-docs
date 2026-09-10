@@ -1028,11 +1028,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -1141,11 +1144,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -1254,11 +1260,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -1367,11 +1376,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -1480,11 +1492,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -1593,11 +1608,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -1706,11 +1724,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -1819,11 +1840,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -1932,11 +1956,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -2055,11 +2082,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -2168,11 +2198,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Página de resultados, de 0 a 30. En las búsquedas de catálogo `0` equivale a la primera página (el parámetro compartido `page` empieza en 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa

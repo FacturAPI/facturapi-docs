@@ -1058,12 +1058,15 @@ paths:
             minimum: 0
             maximum: 30
           required: false
+          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
           required: false
+          description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
       responses:
         '200':
           description: Successful search
@@ -1146,11 +1149,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
       responses:
         '200':
           description: Successful search
@@ -1234,12 +1240,15 @@ paths:
             minimum: 0
             maximum: 30
           required: false
+          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
           required: false
+          description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
       responses:
         '200':
           description: Successful search
@@ -1332,11 +1341,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
       responses:
         '200':
           description: Successful search
@@ -1419,11 +1431,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
       responses:
         '200':
           description: Successful search
@@ -1506,11 +1521,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
       responses:
         '200':
           description: Successful search
@@ -1593,11 +1611,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
       responses:
         '200':
           description: Successful search
@@ -1680,11 +1701,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
       responses:
         '200':
           description: Successful search
@@ -1767,11 +1791,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
       responses:
         '200':
           description: Successful search
@@ -1864,11 +1891,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
       responses:
         '200':
           description: Successful search
@@ -1951,11 +1981,14 @@ paths:
             type: integer
             minimum: 0
             maximum: 30
+          description: Page of results, from 0 to 30. In catalog searches `0` is equivalent to the first page (the shared `page` parameter starts at 1).
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
       responses:
         '200':
           description: Successful search

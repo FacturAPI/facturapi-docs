@@ -11,33 +11,69 @@ info:
   x-logo:
     url: https://www.facturapi.io/img/logo.svg
     altText: Facturapi
-  description: |
+  description: >
     <br />
+
     <br />
+
 
     En esta página enlistamos todos los métodos
+
     disponibles en la API de Facturapi, así como
+
     la referencia completa de los parámetros
+
     que acepta cada uno. Para ver las propiedades
+
     anidadas de un objeto o arreglo de objetos,
+
     puedes hacer clic sobre el nombre del campo y
+
     expandirlo.
 
+
     La API de Facturapi está diseñada con el
+
     estándar [REST](https://developer.mozilla.org/en-US/docs/Glossary/REST)
+
     en mente. Los endpoints de la API están agrupados
+
     por recursos, tienen URLs predecibles, las respuestas
+
     tienen formato JSON y usamos códigos HTTP de respuesta,
+
     autenticación y verbos estándar.
 
+
     Durante el desarrollo, puedes usar la API de Facturapi en
+
     ambiente Test y las facturas que emitas no se enviarán al SAT ni
+
     tendrán validez fiscal.
 
+
     La llave secreta que utilices para autenticarte
+
     determinará tanto el ambiente en el que se creará la factura
+
     (Test o Live), así como la organización a utilizar como emisor
+
     de tu factura, o bien como dueña del recurso que solicites crear.
+
+
+    Envía `Accept-Language: en` para recibir mensajes de error de Facturapi en
+    inglés,
+
+    o `Accept-Language: es` para español (predeterminado). Se admiten variantes
+    regionales
+
+    y prioridades `q`. Los mensajes externos SAT/PAC conservan su idioma
+    original.
+
+    Consulta [Manejo de
+    errores](https://docs.facturapi.io/docs/getting-started/errors)
+
+    para el contrato completo y ejemplos con cada SDK.
 tags:
   - name: tools
     x-displayName: Herramientas
@@ -4026,8 +4062,6 @@ paths:
           description: Filtra facturas emitidas o recibidas.
         - in: query
           name: invoice_types
-          style: form
-          explode: false
           schema:
             type: array
             uniqueItems: true

@@ -3917,8 +3917,6 @@ paths:
           description: Filtra facturas emitidas o recibidas.
         - in: query
           name: invoice_types
-          style: form
-          explode: false
           schema:
             type: array
             uniqueItems: true

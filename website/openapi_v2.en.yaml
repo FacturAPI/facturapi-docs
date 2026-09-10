@@ -3691,8 +3691,6 @@ paths:
           description: Filters issued or received invoices.
         - in: query
           name: invoice_types
-          style: form
-          explode: false
           schema:
             type: array
             uniqueItems: true

@@ -50,6 +50,20 @@ The `page`, `after` and `before` parameters depend on the selected mode and are
 
 Sending `after` and `before` at the same time returns an error.
 
+### Filter format in the URL
+
+Filters travel in the query string in two formats, the same ones the official
+SDKs send:
+
+- **Objects and ranges**: bracket notation, for example
+  `date[gte]=2026-01-01&date[lt]=2026-02-01` (the `deepObject` style).
+- **Arrays**: the key is repeated, for example `status=valid&status=canceled`
+  (`form` with `explode`).
+
+The API also accepts the most common array variants
+(`status[]=valid&status[]=canceled` and `status[0]=valid&status[1]=canceled`), so
+existing integrations keep working.
+
 ## Page pagination (`pagination=page`)
 
 This is the default mode. In addition to `limit`, it accepts:

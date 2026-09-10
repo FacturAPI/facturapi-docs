@@ -51,6 +51,20 @@ Los parámetros `page`, `after` y `before` dependen del modo elegido y son
 
 Enviar `after` y `before` al mismo tiempo devuelve un error.
 
+### Formato de los filtros en la URL
+
+Los filtros viajan en el query string con dos formatos, los mismos que emiten
+los SDK oficiales:
+
+- **Objetos y rangos**: notación de corchetes, por ejemplo
+  `date[gte]=2026-01-01&date[lt]=2026-02-01` (el estilo `deepObject`).
+- **Arreglos**: la clave se repite, por ejemplo `status=valid&status=canceled`
+  (`form` con `explode`).
+
+La API también acepta las variantes más comunes de arreglos
+(`status[]=valid&status[]=canceled` y `status[0]=valid&status[1]=canceled`), de
+modo que las integraciones existentes siguen funcionando.
+
 ## Paginación por páginas (`pagination=page`)
 
 Es el modo por defecto. Además de `limit`, acepta:

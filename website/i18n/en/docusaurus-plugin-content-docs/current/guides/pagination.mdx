@@ -118,17 +118,17 @@ end of the list; if `previous_cursor` is `null`, you are on the first page.
 # First page
 curl "https://www.facturapi.io/v2/invoices?pagination=cursor&limit=10" \
   -G \
-  -u 'sk_test_API_KEY:'
+  -H "Authorization: Bearer sk_test_API_KEY"
 
 # Next page (use next_cursor from the previous response)
 curl "https://www.facturapi.io/v2/invoices?pagination=cursor&limit=10&after=NEXT_CURSOR" \
   -G \
-  -u 'sk_test_API_KEY:'
+  -H "Authorization: Bearer sk_test_API_KEY"
 
 # Previous page (use previous_cursor from the previous response)
 curl "https://www.facturapi.io/v2/invoices?pagination=cursor&limit=10&before=PREVIOUS_CURSOR" \
   -G \
-  -u 'sk_test_API_KEY:'
+  -H "Authorization: Bearer sk_test_API_KEY"
 ```
 
 Cursors are opaque tokens tied to the search that generated them: do not combine

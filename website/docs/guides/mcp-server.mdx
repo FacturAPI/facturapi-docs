@@ -14,10 +14,17 @@ Descarga Masiva o la app para Stripe). El asistente solo puede operar **los
 servicios que tienes contratados** y nunca tiene más permisos que tu propia
 cuenta.
 
-## Conectar desde un asistente (OAuth)
+## Cómo conectarte
 
-La forma más sencilla de usar Facturapi MCP es conectando tu cuenta desde un
-asistente compatible con MCP:
+El endpoint del servidor es:
+
+```
+https://mcp.facturapi.io/mcp
+```
+
+Hay dos formas de autenticarte, y las dos exponen las mismas herramientas.
+
+### Con OAuth (desde tu asistente)
 
 1. Abre tu asistente y añade el servidor **Facturapi** (o usa la URL
    `https://mcp.facturapi.io/mcp` cuando el cliente lo permita).
@@ -42,26 +49,15 @@ probando, indícalo en la conversación (por ejemplo, *"trabaja en modo pruebas"
 para operar en test.
 :::
 
-## Para desarrolladores
+### Con una API key (desde tu código)
 
-El endpoint del servidor es:
-
-```
-https://mcp.facturapi.io/mcp
-```
-
-Puedes autenticarte de dos formas:
-
-- **OAuth (multi-organización):** tokens que empiezan con `mcp_`. El servidor
-  expone `list_organizations` y las herramientas requieren `organization_id`.
-- **API key (una organización):** una llave de API (test o live) de tu
-  organización. El servidor opera sobre esa organización y no expone
-  `list_organizations`.
+Usa una llave de API (test o live) de tu organización. El servidor opera sobre
+esa organización y no expone `list_organizations`.
 
 Todas las llamadas a la API de Facturapi incluyen el encabezado
 `x-facturapi-client: MCP`.
 
-Ejemplo de configuración de cliente en modo API key (ilustrativo):
+Ejemplo de configuración de cliente (ilustrativo):
 
 ```json
 {
@@ -77,7 +73,7 @@ Ejemplo de configuración de cliente en modo API key (ilustrativo):
 }
 ```
 
-### Qué puedes hacer
+## Qué puedes hacer
 
 El servidor expone herramientas para los dominios principales de Facturapi:
 
@@ -91,8 +87,9 @@ El servidor expone herramientas para los dominios principales de Facturapi:
 - Webhooks: solo en modo API key, para configurar eventos.
 
 Tu asistente lista las herramientas disponibles al conectarse. Las de escritura
-requieren que elijas **lectura y escritura**; con **solo lectura**, el servidor
-rechaza la operación.
+requieren **lectura y escritura** si conectas con OAuth; con **solo lectura**,
+el servidor rechaza la operación. Una API key opera con los permisos de su
+organización.
 
 ## Alcance y permisos
 
@@ -100,9 +97,6 @@ rechaza la operación.
   permisos y **nunca tiene más permisos que tu cuenta**.
 - Solo puede operar los **servicios que tienes contratados**: si intenta una
   operación que tu plan no incluye, no se realiza.
-- Elige **solo lectura** o **lectura y escritura** al conectar, y revoca el
-  acceso cuando quieras desde el
-  [Centro de integración](https://dashboard.facturapi.io/integration/oauth).
 
 ## Referencias
 

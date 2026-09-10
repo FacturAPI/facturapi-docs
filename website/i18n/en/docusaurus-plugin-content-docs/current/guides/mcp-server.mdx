@@ -13,15 +13,22 @@ Facturapi service (API, Web Invoicing, E-Receipts, automatic SAT downloads, or
 the Stripe app). The assistant can only operate **the services you have
 contracted** and never has more permissions than your own account.
 
-## Connect from an assistant (OAuth)
+## How to connect
 
-The easiest way to use Facturapi MCP is to connect your account from an
-MCP-compatible assistant:
+The server endpoint is:
+
+```
+https://mcp.facturapi.io/mcp
+```
+
+There are two ways to authenticate, and both expose the same tools.
+
+### With OAuth (from your assistant)
 
 1. Open your assistant and add the **Facturapi** server (or use the URL
    `https://mcp.facturapi.io/mcp` when the client allows it).
 2. Authorize with your Facturapi account. Choose the access level:
-   **read-only** or **read & write**.
+   **read-only** or **read &amp; write**.
 3. If you have access to several organizations, the assistant will ask which one
    you want to work with. You only need to name it.
 4. Ask for what you need in plain language, for example:
@@ -41,25 +48,14 @@ If you are testing, say so in the conversation (for example, *"work in test
 mode"*) to operate in test mode.
 :::
 
-## For developers
+### With an API key (from your code)
 
-The server endpoint is:
-
-```
-https://mcp.facturapi.io/mcp
-```
-
-There are two authentication modes:
-
-- **OAuth (multi-organization):** tokens that start with `mcp_`. The server
-  exposes `list_organizations` and tools require an `organization_id`.
-- **API key (single organization):** one of your organization's API keys (test
-  or live). The server operates on that organization and does not expose
-  `list_organizations`.
+Use one of your organization's API keys (test or live). The server operates on
+that organization and does not expose `list_organizations`.
 
 All calls to the Facturapi API include the `x-facturapi-client: MCP` header.
 
-Illustrative client configuration in API key mode:
+Illustrative client configuration:
 
 ```json
 {
@@ -75,7 +71,7 @@ Illustrative client configuration in API key mode:
 }
 ```
 
-### What you can do
+## What you can do
 
 The server exposes tools for Facturapi's main domains:
 
@@ -89,8 +85,8 @@ The server exposes tools for Facturapi's main domains:
 - Webhooks: API-key mode only, to configure events.
 
 Your assistant lists the available tools when it connects. Write tools require
-connecting with **read &amp; write**; with **read-only**, the server rejects the
-operation.
+**read &amp; write** when connecting with OAuth; with **read-only**, the server
+rejects the operation. An API key operates with its organization's permissions.
 
 ## Scope and permissions
 
@@ -98,9 +94,6 @@ operation.
   and **never has more permissions than your account**.
 - It can only operate the **services you have contracted**: if it tries an
   operation your plan does not include, it is not performed.
-- Choose **read-only** or **read & write** when connecting, and revoke access
-  anytime from the
-  [Integration Center](https://dashboard.facturapi.io/integration/oauth).
 
 ## References
 

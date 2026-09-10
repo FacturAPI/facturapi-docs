@@ -3513,9 +3513,8 @@ paths:
           schema:
             type: integer
             minimum: 1
-            maximum: 30
             default: 1
-          description: Page of results to return, starting from page 1. The maximum page that can be requested is 30.
+          description: Page of results to return, starting from page 1. The maximum is not fixed; together with `limit` it must fit within the 3,000-result cap (30 pages with the default `limit` of 100).
         - in: query
           name: limit
           schema:

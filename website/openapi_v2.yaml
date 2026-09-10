@@ -12516,6 +12516,7 @@ components:
       name: pagination
       schema:
         type: string
+        default: page
         enum:
           - page
           - cursor

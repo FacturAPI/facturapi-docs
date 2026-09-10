@@ -59,6 +59,11 @@ Es el modo por defecto. Además de `limit`, acepta:
 | --- | --- |
 | `page` | Número de página a regresar, empezando desde 1. La página máxima es 30. |
 
+En los listados (`/customers`, `/invoices`, …) `page` es el parámetro compartido,
+que va del 1 al 30. Las **búsquedas de catálogo** (`/catalogs/...`) declaran
+`page` y `limit` de forma propia: ahí `page` acepta `0` (equivalente a la primera
+página) además de `1`–`30`, y `limit` conserva el rango del 1 al 100.
+
 Respuesta:
 
 ```json

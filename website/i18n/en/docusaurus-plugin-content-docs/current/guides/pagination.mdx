@@ -58,6 +58,11 @@ This is the default mode. In addition to `limit`, it accepts:
 | --- | --- |
 | `page` | Page number to return, starting from 1. The maximum page is 30. |
 
+On the listings (`/customers`, `/invoices`, …) `page` is the shared parameter,
+ranging from 1 to 30. **Catalog searches** (`/catalogs/...`) declare `page` and
+`limit` on their own: there `page` also accepts `0` (equivalent to the first
+page) in addition to `1`–`30`, and `limit` keeps the 1 to 100 range.
+
 Response:
 
 ```json

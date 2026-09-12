@@ -4334,6 +4334,43 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /invoices/preview/pdf/download-url:
+    post:
+      operationId: previewInvoicePdfUrl
+      tags:
+        - invoice
+      summary: Obtener URL del preview PDF de factura
+      description: Devuelve una URL temporal para el preview PDF de una factura sin timbrar.
+      x-codeSamples:
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const download = await facturapi.invoices.previewPdfUrl({
+              customer: 'cus_123',
+              items: [{ product: 'prod_123' }],
+              payment_form: '06'
+            });
+            console.log(download.url, download.expires_at);
+      requestBody:
+        $ref: "#/components/requestBodies/InvoiceCreate"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: URL temporal de descarga para el preview PDF.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
   /invoices/{invoice_id}:
     get:
       operationId: getInvoice
@@ -6550,6 +6587,45 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /receipts/to-invoice/preview/download-url:
+    post:
+      operationId: previewToInvoiceFromReceiptsUrl
+      tags:
+        - receipt
+      summary: Obtener URL del preview de factura de recibos
+      description: Devuelve una URL temporal para el preview PDF de una factura construida con los recibos seleccionados.
+      x-codeSamples:
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const download = await facturapi.receipts.previewToInvoicePdfUrl({
+              keys: ['ticket_1001', 'ticket_1002'],
+              customer: 'cus_123',
+              use: 'G03'
+            });
+            console.log(download.url, download.expires_at);
+      requestBody:
+        $ref: "#/components/requestBodies/ReceiptPreviewToInvoice"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: URL temporal de descarga para el preview PDF.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
   /receipts/global-invoice:

@@ -4826,7 +4826,7 @@ paths:
       tags:
         - invoice
       summary: Descargar acuse de cancelación
-      description: Descarga acuse de recibo de cancelación de una factura en un archivo xml o pdf.
+      description: Descarga en XML o PDF el acuse emitido por el SAT al solicitar la cancelación mediante Facturapi. El acuse contiene el resultado inmediato de la solicitud y no necesariamente acredita que el CFDI ya esté cancelado; consulta el estado de la factura para confirmar el desenlace.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -12021,7 +12021,7 @@ paths:
         - invoice
       summary: Obtener enlace del acuse de cancelación
       description: |
-        Devuelve un enlace temporal para descargar el acuse de recibo de cancelación de una factura en XML o PDF, sin que el archivo pase por tu servidor.
+        Devuelve un enlace temporal para descargar en XML o PDF el acuse emitido por el SAT al solicitar la cancelación mediante Facturapi. El acuse contiene el resultado inmediato de la solicitud y no necesariamente acredita que el CFDI ya esté cancelado; consulta el estado de la factura para confirmar el desenlace.
 
         El enlace da acceso a ese archivo mientras siga vigente: trátalo como una credencial y no lo almacenes.
       x-codeSamples:

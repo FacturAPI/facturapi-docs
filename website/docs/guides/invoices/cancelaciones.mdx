@@ -158,7 +158,9 @@ Facturapi consulta periódicamente el SAT y actualiza `cancellation_status`. Pue
 
 ## Acuse de cancelación y verificación
 
-Cuando la cancelación es aceptada, puedes descargar el acuse en XML o PDF desde el endpoint de [Cancellation receipt](/api/#tag/invoice/operation/downloadCancellationReceiptXml). También puedes validar el CFDI con `verification_url`.
+Cuando solicitas la cancelación mediante Facturapi, puedes descargar el acuse emitido por el SAT en XML o PDF desde el endpoint de [Cancellation receipt](/api/#tag/invoice/operation/downloadCancellationReceiptXml). El acuse demuestra el resultado inmediato de la solicitud, pero no necesariamente que el CFDI ya esté cancelado: confirma el desenlace con `status`, `cancellation_status` o `verification_url`.
+
+Facturapi sólo puede recuperar acuses de solicitudes enviadas mediante su servicio. Para cancelaciones realizadas externamente, valida el estado actual del CFDI con `verification_url`.
 
 <Tabs groupId="receiptExamples">
 <TabItem value="curl" label="cURL" default>

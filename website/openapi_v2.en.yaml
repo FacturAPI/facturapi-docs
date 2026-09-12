@@ -4599,7 +4599,7 @@ paths:
       tags:
         - invoice
       summary: Cancellation receipt
-      description: Download the cancellation receipt of a canceled invoice in an xml or pdf file.
+      description: Download the XML or PDF receipt issued by SAT when a cancellation request is submitted through Facturapi. The receipt contains the immediate request result and does not necessarily prove that the CFDI is already canceled; check the invoice status to confirm the outcome.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -11817,7 +11817,7 @@ paths:
         - invoice
       summary: Get cancellation receipt download URL
       description: |
-        Returns a temporary URL to download the cancellation receipt of an invoice in XML or PDF, without the file travelling through your server.
+        Returns a temporary URL to download the XML or PDF receipt issued by SAT when a cancellation request is submitted through Facturapi, without the file travelling through your server. The receipt contains the immediate request result and does not necessarily prove that the CFDI is already canceled; check the invoice status to confirm the outcome.
 
         The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
       x-codeSamples:

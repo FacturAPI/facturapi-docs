@@ -11836,6 +11836,18 @@ paths:
           source: |
             curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/download-url/pdf \
               -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const download = await facturapi.invoices.getDownloadUrl(
+              '58e93bd8e86eb318b019743d',
+              'pdf'
+            );
+
+            console.log(download.url, download.expires_at);
       parameters:
         - in: path
           name: invoice_id
@@ -11891,6 +11903,18 @@ paths:
           source: |
             curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/download-url/pdf \
               -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const download = await facturapi.invoices.getCancellationReceiptDownloadUrl(
+              '58e93bd8e86eb318b019743d',
+              'pdf'
+            );
+
+            console.log(download.url, download.expires_at);
       parameters:
         - in: path
           name: invoice_id
@@ -11943,6 +11967,17 @@ paths:
           source: |
             curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d/download-url/pdf \
               -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const download = await facturapi.receipts.getDownloadUrl(
+              '58e93bd8e86eb318b019743d'
+            );
+
+            console.log(download.url, download.expires_at);
       parameters:
         - in: path
           name: receipt_id
@@ -11986,6 +12021,18 @@ paths:
           source: |
             curl https://www.facturapi.io/v2/retentions/58e93bd8e86eb318b019743d/download-url/pdf \
               -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const download = await facturapi.retentions.getDownloadUrl(
+              '58e93bd8e86eb318b019743d',
+              'pdf'
+            );
+
+            console.log(download.url, download.expires_at);
       parameters:
         - in: path
           name: retention_id

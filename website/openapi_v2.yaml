@@ -11842,9 +11842,8 @@ paths:
             import Facturapi from 'facturapi';
 
             const facturapi = new Facturapi('sk_test_API_KEY');
-            const download = await facturapi.invoices.getDownloadUrl(
-              '58e93bd8e86eb318b019743d',
-              'pdf'
+            const download = await facturapi.invoices.downloadPdfUrl(
+              '58e93bd8e86eb318b019743d'
             );
 
             console.log(download.url, download.expires_at);
@@ -11909,9 +11908,8 @@ paths:
             import Facturapi from 'facturapi';
 
             const facturapi = new Facturapi('sk_test_API_KEY');
-            const download = await facturapi.invoices.getCancellationReceiptDownloadUrl(
-              '58e93bd8e86eb318b019743d',
-              'pdf'
+            const download = await facturapi.invoices.downloadCancellationReceiptPdfUrl(
+              '58e93bd8e86eb318b019743d'
             );
 
             console.log(download.url, download.expires_at);
@@ -11973,7 +11971,7 @@ paths:
             import Facturapi from 'facturapi';
 
             const facturapi = new Facturapi('sk_test_API_KEY');
-            const download = await facturapi.receipts.getDownloadUrl(
+            const download = await facturapi.receipts.downloadPdfUrl(
               '58e93bd8e86eb318b019743d'
             );
 
@@ -12027,9 +12025,8 @@ paths:
             import Facturapi from 'facturapi';
 
             const facturapi = new Facturapi('sk_test_API_KEY');
-            const download = await facturapi.retentions.getDownloadUrl(
-              '58e93bd8e86eb318b019743d',
-              'pdf'
+            const download = await facturapi.retentions.downloadPdfUrl(
+              '58e93bd8e86eb318b019743d'
             );
 
             console.log(download.url, download.expires_at);

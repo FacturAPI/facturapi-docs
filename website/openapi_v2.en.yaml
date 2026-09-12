@@ -3884,6 +3884,58 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /invoices/zip-requests/{id}/download-url:
+    get:
+      operationId: getInvoiceZipRequestDownloadUrl
+      tags:
+        - invoice
+      summary: Get monthly ZIP download URL
+      description: |
+        Returns a temporary URL for downloading the ZIP of a finished request without the file travelling through your server.
+
+        The URL grants access to that one file while it is valid: treat it as a credential and do not store it. Requires a live-mode organization API key, an active subscription, and permission to read invoices.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/zip-requests/66b0f0000000000000000000/download-url \
+              -H "Authorization: Bearer sk_live_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const download = await facturapi.invoices.downloadZipRequestUrl(
+              '66b0f0000000000000000000'
+            );
+
+            console.log(download.url, download.expires_at);
+      parameters:
+        - $ref: "#/components/parameters/InvoiceZipRequestId"
+      security:
+        - "SecretLiveKey": []
+      responses:
+        "200":
+          description: Temporary download URL for the generated ZIP file.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "402":
+          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
+        "404":
+          $ref: "#/components/responses/InvoiceZipRequestNotFound"
+        "409":
+          $ref: "#/components/responses/InvoiceZipRequestNotReady"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
   /invoices/preview/pdf:
     post:
       operationId: previewInvoicePdf

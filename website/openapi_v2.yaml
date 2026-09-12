@@ -4110,6 +4110,58 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /invoices/zip-requests/{id}/download-url:
+    get:
+      operationId: getInvoiceZipRequestDownloadUrl
+      tags:
+        - invoice
+      summary: Obtener URL de descarga del ZIP mensual
+      description: |
+        Devuelve una URL temporal para descargar el ZIP de una solicitud terminada sin que el archivo viaje a través de tu servidor.
+
+        La URL permite acceder únicamente a ese archivo mientras sea válida: trátala como una credencial y no la almacenes. Requiere una llave de API de organización en ambiente Live, una suscripción activa y permiso para leer facturas.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/zip-requests/66b0f0000000000000000000/download-url \
+              -H "Authorization: Bearer sk_live_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const download = await facturapi.invoices.downloadZipRequestUrl(
+              '66b0f0000000000000000000'
+            );
+
+            console.log(download.url, download.expires_at);
+      parameters:
+        - $ref: "#/components/parameters/InvoiceZipRequestId"
+      security:
+        - "SecretLiveKey": []
+      responses:
+        "200":
+          description: URL temporal de descarga para el archivo ZIP generado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "402":
+          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
+        "404":
+          $ref: "#/components/responses/InvoiceZipRequestNotFound"
+        "409":
+          $ref: "#/components/responses/InvoiceZipRequestNotReady"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
   /invoices/preview/pdf:
     post:
       operationId: previewInvoicePdf
@@ -4274,6 +4326,43 @@ paths:
               schema:
                 type: string
                 format: binary
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /invoices/preview/pdf/download-url:
+    post:
+      operationId: previewInvoicePdfUrl
+      tags:
+        - invoice
+      summary: Obtener URL del preview PDF de factura
+      description: Devuelve una URL temporal para el preview PDF de una factura sin timbrar.
+      x-codeSamples:
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const download = await facturapi.invoices.previewPdfUrl({
+              customer: 'cus_123',
+              items: [{ product: 'prod_123' }],
+              payment_form: '06'
+            });
+            console.log(download.url, download.expires_at);
+      requestBody:
+        $ref: "#/components/requestBodies/InvoiceCreate"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: URL temporal de descarga para el preview PDF.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -4737,7 +4826,7 @@ paths:
       tags:
         - invoice
       summary: Descargar acuse de cancelación
-      description: Descarga acuse de recibo de cancelación de una factura en un archivo xml o pdf.
+      description: Descarga en XML o PDF el acuse emitido por el SAT al solicitar la cancelación mediante Facturapi. El acuse contiene el resultado inmediato de la solicitud y no necesariamente acredita que el CFDI ya esté cancelado; consulta el estado de la factura para confirmar el desenlace.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -6498,6 +6587,45 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /receipts/to-invoice/preview/download-url:
+    post:
+      operationId: previewToInvoiceFromReceiptsUrl
+      tags:
+        - receipt
+      summary: Obtener URL del preview de factura de recibos
+      description: Devuelve una URL temporal para el preview PDF de una factura construida con los recibos seleccionados.
+      x-codeSamples:
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const download = await facturapi.receipts.previewToInvoicePdfUrl({
+              keys: ['ticket_1001', 'ticket_1002'],
+              customer: 'cus_123',
+              use: 'G03'
+            });
+            console.log(download.url, download.expires_at);
+      requestBody:
+        $ref: "#/components/requestBodies/ReceiptPreviewToInvoice"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: URL temporal de descarga para el preview PDF.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
   /receipts/global-invoice:
@@ -11820,6 +11948,255 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /invoices/{invoice_id}/download-url/{format}:
+    get:
+      operationId: getInvoiceDownloadUrl
+      tags:
+        - invoice
+      summary: Obtener enlace de descarga
+      description: |
+        Devuelve un enlace temporal para descargar la factura en PDF, XML o ambos en un archivo comprimido ZIP, sin que el archivo pase por tu servidor.
+
+        El enlace da acceso a ese archivo mientras siga vigente: trátalo como una credencial y no lo almacenes.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/download-url/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const download = await facturapi.invoices.downloadPdfUrl(
+              '58e93bd8e86eb318b019743d'
+            );
+
+            console.log(download.url, download.expires_at);
+      parameters:
+        - in: path
+          name: invoice_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto a descargar
+        - in: path
+          name: format
+          schema:
+            type: string
+            enum:
+              - pdf
+              - xml
+              - zip
+          required: true
+          description: Formato del archivo de descarga
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Enlace temporal de descarga del comprobante CFDI en el formato solicitado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /invoices/{invoice_id}/cancellation_receipt/download-url/{format}:
+    get:
+      operationId: getCancellationReceiptDownloadUrl
+      tags:
+        - invoice
+      summary: Obtener enlace del acuse de cancelación
+      description: |
+        Devuelve un enlace temporal para descargar en XML o PDF el acuse emitido por el SAT al solicitar la cancelación mediante Facturapi. El acuse contiene el resultado inmediato de la solicitud y no necesariamente acredita que el CFDI ya esté cancelado; consulta el estado de la factura para confirmar el desenlace.
+
+        El enlace da acceso a ese archivo mientras siga vigente: trátalo como una credencial y no lo almacenes.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/download-url/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const download = await facturapi.invoices.downloadCancellationReceiptPdfUrl(
+              '58e93bd8e86eb318b019743d'
+            );
+
+            console.log(download.url, download.expires_at);
+      parameters:
+        - in: path
+          name: invoice_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto a descargar
+        - in: path
+          name: format
+          schema:
+            type: string
+            enum:
+              - xml
+              - pdf
+          required: true
+          description: Formato del acuse de cancelación
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Enlace temporal de descarga del acuse de cancelación en el formato solicitado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /receipts/{receipt_id}/download-url/pdf:
+    get:
+      operationId: getReceiptDownloadUrl
+      tags:
+        - receipt
+      summary: Obtener enlace de descarga
+      description: |
+        Devuelve un enlace temporal para descargar el recibo digital en PDF, sin que el archivo pase por tu servidor.
+
+        El enlace da acceso a ese archivo mientras siga vigente: trátalo como una credencial y no lo almacenes.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d/download-url/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const download = await facturapi.receipts.downloadPdfUrl(
+              '58e93bd8e86eb318b019743d'
+            );
+
+            console.log(download.url, download.expires_at);
+      parameters:
+        - in: path
+          name: receipt_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto a descargar
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Enlace temporal de descarga del recibo digital en formato PDF
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /retentions/{retention_id}/download-url/{format}:
+    get:
+      operationId: getRetentionDownloadUrl
+      tags:
+        - retention
+      summary: Obtener enlace de descarga
+      description: |
+        Devuelve un enlace temporal para descargar la retención en PDF, XML o ambos en un archivo comprimido ZIP, sin que el archivo pase por tu servidor.
+
+        El enlace da acceso a ese archivo mientras siga vigente: trátalo como una credencial y no lo almacenes.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/retentions/58e93bd8e86eb318b019743d/download-url/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const download = await facturapi.retentions.downloadPdfUrl(
+              '58e93bd8e86eb318b019743d'
+            );
+
+            console.log(download.url, download.expires_at);
+      parameters:
+        - in: path
+          name: retention_id
+          schema:
+            type: string
+          required: true
+          description: ID del objeto a descargar
+        - in: path
+          name: format
+          schema:
+            type: string
+            enum:
+              - pdf
+              - xml
+              - zip
+          required: true
+          description: Formato del archivo de descarga
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Enlace temporal de descarga de la retención en el formato solicitado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
 x-webhooks:
   "Factura global creada":
     post:
@@ -12408,6 +12785,30 @@ components:
       description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
 
   schemas:
+    SignedDownloadUrl:
+      type: object
+      description: Enlace temporal de descarga de un archivo.
+      required:
+        - url
+        - expires_at
+        - content_type
+        - filename
+      properties:
+        url:
+          type: string
+          description: Enlace de descarga. Da acceso al archivo mientras siga vigente.
+        expires_at:
+          type: string
+          format: date-time
+          description: Momento en el que el enlace deja de funcionar.
+        content_type:
+          type: string
+          description: Tipo de contenido del archivo.
+          example: application/pdf
+        filename:
+          type: string
+          description: Nombre sugerido del archivo.
+          example: invoice.pdf
     SearchKeyDescriptionResult:
       type: object
       properties:

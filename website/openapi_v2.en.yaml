@@ -3884,6 +3884,58 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /invoices/zip-requests/{id}/download-url:
+    get:
+      operationId: getInvoiceZipRequestDownloadUrl
+      tags:
+        - invoice
+      summary: Get monthly ZIP download URL
+      description: |
+        Returns a temporary URL for downloading the ZIP of a finished request without the file travelling through your server.
+
+        The URL grants access to that one file while it is valid: treat it as a credential and do not store it. Requires a live-mode organization API key, an active subscription, and permission to read invoices.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/zip-requests/66b0f0000000000000000000/download-url \
+              -H "Authorization: Bearer sk_live_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const download = await facturapi.invoices.downloadZipRequestUrl(
+              '66b0f0000000000000000000'
+            );
+
+            console.log(download.url, download.expires_at);
+      parameters:
+        - $ref: "#/components/parameters/InvoiceZipRequestId"
+      security:
+        - "SecretLiveKey": []
+      responses:
+        "200":
+          description: Temporary download URL for the generated ZIP file.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "402":
+          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
+        "404":
+          $ref: "#/components/responses/InvoiceZipRequestNotFound"
+        "409":
+          $ref: "#/components/responses/InvoiceZipRequestNotReady"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
   /invoices/preview/pdf:
     post:
       operationId: previewInvoicePdf
@@ -4050,6 +4102,43 @@ paths:
               schema:
                 type: string
                 format: binary
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /invoices/preview/pdf/download-url:
+    post:
+      operationId: previewInvoicePdfUrl
+      tags:
+        - invoice
+      summary: Get invoice PDF preview URL
+      description: Returns a temporary URL for an unstamped invoice PDF preview.
+      x-codeSamples:
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const download = await facturapi.invoices.previewPdfUrl({
+              customer: 'cus_123',
+              items: [{ product: 'prod_123' }],
+              payment_form: '06'
+            });
+            console.log(download.url, download.expires_at);
+      requestBody:
+        $ref: "#/components/requestBodies/InvoiceCreate"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Temporary download URL for the PDF preview.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -4510,7 +4599,7 @@ paths:
       tags:
         - invoice
       summary: Cancellation receipt
-      description: Download the cancellation receipt of a canceled invoice in an xml or pdf file.
+      description: Download the XML or PDF receipt issued by SAT when a cancellation request is submitted through Facturapi. The receipt contains the immediate request result and does not necessarily prove that the CFDI is already canceled; check the invoice status to confirm the outcome.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -6281,6 +6370,45 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthenticated"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /receipts/to-invoice/preview/download-url:
+    post:
+      operationId: previewToInvoiceFromReceiptsUrl
+      tags:
+        - receipt
+      summary: Get receipts invoice preview URL
+      description: Returns a temporary URL for the PDF preview of an invoice built from the selected receipts.
+      x-codeSamples:
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const download = await facturapi.receipts.previewToInvoicePdfUrl({
+              keys: ['ticket_1001', 'ticket_1002'],
+              customer: 'cus_123',
+              use: 'G03'
+            });
+            console.log(download.url, download.expires_at);
+      requestBody:
+        $ref: "#/components/requestBodies/ReceiptPreviewToInvoice"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Temporary download URL for the PDF preview.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
   /receipts/global-invoice:
@@ -11616,6 +11744,255 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /invoices/{invoice_id}/download-url/{format}:
+    get:
+      operationId: getInvoiceDownloadUrl
+      tags:
+        - invoice
+      summary: Get download URL
+      description: |
+        Returns a temporary URL to download the invoice in PDF, XML, or both in a ZIP file, without the file travelling through your server.
+
+        The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/download-url/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const download = await facturapi.invoices.downloadPdfUrl(
+              '58e93bd8e86eb318b019743d'
+            );
+
+            console.log(download.url, download.expires_at);
+      parameters:
+        - in: path
+          name: invoice_id
+          schema:
+            type: string
+          required: true
+          description: ID of the object to download
+        - in: path
+          name: format
+          schema:
+            type: string
+            enum:
+              - pdf
+              - xml
+              - zip
+          required: true
+          description: Format of the file to download
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Temporary download URL for the CFDI in the requested format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /invoices/{invoice_id}/cancellation_receipt/download-url/{format}:
+    get:
+      operationId: getCancellationReceiptDownloadUrl
+      tags:
+        - invoice
+      summary: Get cancellation receipt download URL
+      description: |
+        Returns a temporary URL to download the XML or PDF receipt issued by SAT when a cancellation request is submitted through Facturapi, without the file travelling through your server. The receipt contains the immediate request result and does not necessarily prove that the CFDI is already canceled; check the invoice status to confirm the outcome.
+
+        The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/download-url/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const download = await facturapi.invoices.downloadCancellationReceiptPdfUrl(
+              '58e93bd8e86eb318b019743d'
+            );
+
+            console.log(download.url, download.expires_at);
+      parameters:
+        - in: path
+          name: invoice_id
+          schema:
+            type: string
+          required: true
+          description: ID of the object to download
+        - in: path
+          name: format
+          schema:
+            type: string
+            enum:
+              - xml
+              - pdf
+          required: true
+          description: Format of the cancellation receipt
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Temporary download URL for the cancellation receipt in the requested format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /receipts/{receipt_id}/download-url/pdf:
+    get:
+      operationId: getReceiptDownloadUrl
+      tags:
+        - receipt
+      summary: Get download URL
+      description: |
+        Returns a temporary URL to download the receipt in PDF, without the file travelling through your server.
+
+        The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d/download-url/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const download = await facturapi.receipts.downloadPdfUrl(
+              '58e93bd8e86eb318b019743d'
+            );
+
+            console.log(download.url, download.expires_at);
+      parameters:
+        - in: path
+          name: receipt_id
+          schema:
+            type: string
+          required: true
+          description: ID of the object to download
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Temporary download URL for the receipt in PDF
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /retentions/{retention_id}/download-url/{format}:
+    get:
+      operationId: getRetentionDownloadUrl
+      tags:
+        - retention
+      summary: Get download URL
+      description: |
+        Returns a temporary URL to download the retention in PDF, XML, or both in a ZIP file, without the file travelling through your server.
+
+        The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/retentions/58e93bd8e86eb318b019743d/download-url/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const download = await facturapi.retentions.downloadPdfUrl(
+              '58e93bd8e86eb318b019743d'
+            );
+
+            console.log(download.url, download.expires_at);
+      parameters:
+        - in: path
+          name: retention_id
+          schema:
+            type: string
+          required: true
+          description: ID of the object to download
+        - in: path
+          name: format
+          schema:
+            type: string
+            enum:
+              - pdf
+              - xml
+              - zip
+          required: true
+          description: Format of the file to download
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Temporary download URL for the retention in the requested format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
 x-webhooks:
   "Global invoice created":
     post:
@@ -12204,6 +12581,30 @@ components:
       description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
 
   schemas:
+    SignedDownloadUrl:
+      type: object
+      description: Temporary download URL for a file.
+      required:
+        - url
+        - expires_at
+        - content_type
+        - filename
+      properties:
+        url:
+          type: string
+          description: Download URL. It grants access to the file while it is valid.
+        expires_at:
+          type: string
+          format: date-time
+          description: Moment at which the URL stops working.
+        content_type:
+          type: string
+          description: Content type of the file.
+          example: application/pdf
+        filename:
+          type: string
+          description: Suggested file name.
+          example: invoice.pdf
     RelatedResourceMessage:
       type: object
       properties:

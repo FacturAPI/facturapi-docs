@@ -1018,6 +1018,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1028,13 +1032,15 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -1127,6 +1133,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1137,13 +1147,15 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -1236,6 +1248,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1246,13 +1262,15 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -1345,6 +1363,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1355,13 +1377,15 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -1454,6 +1478,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1464,13 +1492,15 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -1563,6 +1593,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1573,13 +1607,15 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -1672,6 +1708,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1682,13 +1722,15 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -1781,6 +1823,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1791,13 +1837,15 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -1890,6 +1938,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -1900,34 +1952,32 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  page:
-                    type: integer
-                  total_pages:
-                    type: integer
-                  total_results:
-                    type: integer
-                  data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        key:
-                          type: string
+                allOf:
+                  - $ref: "#/components/schemas/SearchResult"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            key:
+                              type: string
         '400':
           description: Error en parámetros de la petición
           content:
@@ -2013,6 +2063,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -2023,13 +2077,15 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -2122,6 +2178,10 @@ paths:
               ["limit"] = 10
             });
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -2132,13 +2192,15 @@ paths:
           name: page
           schema:
             type: integer
-            minimum: 0
-            maximum: 30
+            minimum: 1
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados.
         - in: query
           name: limit
           schema:
             type: integer
             minimum: 1
+            maximum: 100
+          description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
       responses:
         '200':
           description: Búsqueda exitosa
@@ -2378,6 +2440,10 @@ paths:
               "page" => 1
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -3008,6 +3074,10 @@ paths:
               "page" => 1
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -3587,6 +3657,10 @@ paths:
               limit => 10,
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -3687,9 +3761,8 @@ paths:
           schema:
             type: integer
             minimum: 1
-            maximum: 30
             default: 1
-          description: Página de resultados a regresar, empezando desde la página 1. La página máxima que se puede solicitar es 30.
+          description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados (con el `limit` por defecto de 100, la página máxima es 30).
         - in: query
           name: limit
           schema:
@@ -5558,6 +5631,10 @@ paths:
               limit => 10,
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -6895,6 +6972,10 @@ paths:
               limit => 10,
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -7765,6 +7846,10 @@ paths:
 
             $organizations = $facturapi->Organizations->all()
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -11186,6 +11271,9 @@ paths:
               "page" => 1
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:
@@ -11710,6 +11798,10 @@ paths:
               "q" => "ukelele"
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -11793,6 +11885,10 @@ paths:
               "q" => "pulgada"
             ]);
       parameters:
+        - $ref: "#/components/parameters/SearchPagination"
+        - $ref: "#/components/parameters/SearchAfter"
+        - $ref: "#/components/parameters/SearchBefore"
+
         - in: query
           name: q
           schema:
@@ -12395,8 +12491,7 @@ components:
       schema:
         type: integer
         minimum: 1
-        maximum: 30
-      description: Página de resultados a regresar, empezando desde la página 1. La página máxima que se puede solicitar es 30.
+      description: Página de resultados a regresar, empezando desde la página 1. El máximo no es fijo; junto con `limit` debe caber dentro del tope de 3,000 resultados (con el `limit` por defecto de 100, la página máxima es 30).
     SearchLimit:
       in: query
       name: limit
@@ -12407,28 +12502,49 @@ components:
         maximum: 100
       description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
 
+    SearchPagination:
+      in: query
+      name: pagination
+      schema:
+        type: string
+        default: page
+        enum:
+          - page
+          - cursor
+      description: |
+        Modo de paginación de la búsqueda. `page` (por defecto) o `cursor` (recomendado para listas grandes).
+    SearchAfter:
+      in: query
+      name: after
+      schema:
+        type: string
+      description: |
+        Devuelve los resultados posteriores al cursor indicado. Solo con `pagination=cursor`; mutuamente excluyente con `before`.
+    SearchBefore:
+      in: query
+      name: before
+      schema:
+        type: string
+      description: |
+        Devuelve los resultados anteriores al cursor indicado. Solo con `pagination=cursor`; mutuamente excluyente con `after`.
+
   schemas:
     SearchKeyDescriptionResult:
-      type: object
-      properties:
-        page:
-          type: integer
-          description: Número de página actual (base 0).
-        total_pages:
-          type: integer
-          description: Total de páginas disponibles.
-        total_results:
-          type: integer
-          description: Total de resultados encontrados.
-        data:
-          type: array
-          items:
-            type: object
-            properties:
-              key:
-                type: string
-              description:
-                type: string
+      allOf:
+        - $ref: "#/components/schemas/SearchResult"
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  key:
+                    type: string
+                    description: Clave del catálogo
+                  description:
+                    type: string
+                    description: Descripción de la entrada del catálogo
     ErrorMessage:
       type: object
       required:
@@ -12621,7 +12737,24 @@ components:
           type: integer
           example: 1
           title: Resultados totales
-          description: Número de elementos individuales en todas las páginas de resultados
+          description: |
+            Número de elementos individuales en todas las páginas de resultados. En modo `pagination=cursor` solo se incluye en la primera página de la búsqueda (sin `after`/`before`); el total no cambia entre páginas.
+        previous_cursor:
+          type: [string, "null"]
+          example: null
+          title: Cursor anterior
+          description: Cursor para obtener la página anterior de resultados. Es `null` en la primera página. Solo disponible con `pagination=cursor`.
+        next_cursor:
+          type: [string, "null"]
+          example: null
+          title: Cursor siguiente
+          description: Cursor para obtener la página siguiente de resultados. Es `null` cuando no hay más resultados. Solo disponible con `pagination=cursor`.
+        totals_are_capped:
+          type: boolean
+          example: false
+          title: Resultados con tope
+          description: Indica si `total_results` está limitado a 3,000 porque existen más resultados de los reportados.
+
     ResourceAutoGeneratedProps:
       type: object
       required:
@@ -17474,7 +17607,7 @@ components:
           type: string
           format: date
           default: Fin del último periodo
-          example: 2022-31-01T23:59:59.999
+          example: 2022-01-31T23:59:59.999
           description: |
             Fecha final de los recibos que se incluirán en la factura global.
             Por default, este valor es el fin del último periodo (día, semana,

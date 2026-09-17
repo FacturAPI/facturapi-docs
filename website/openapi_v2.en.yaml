@@ -957,6 +957,13 @@ tags:
     description: |
       <SchemaDefinition schemaRef="#/components/schemas/Organization" />
 
+  - name: nomina_keys
+    x-displayName: Payroll catalogs
+    description: |
+      Payroll deduction and perception type catalogs for the Nómina 1.2 complement.
+
+      Each result includes the SAT key and its official description.
+
 x-tagGroups:
   - name: Resources
     tags:
@@ -973,6 +980,7 @@ x-tagGroups:
       - sat_keys
       - carta_porte_keys
       - comercio_exterior_keys
+      - nomina_keys
   - name: Webhooks
     tags:
       - events
@@ -988,6 +996,172 @@ x-tagGroups:
  
 
 paths:
+  /catalogs/deductions:
+    get:
+      tags:
+        - nomina_keys
+      summary: Search payroll deduction types
+      description: Returns payroll deduction types that match the query.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/catalogs/deductions" \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=001" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.nominaCatalogs.searchDeductions({ q: '001', page: 0, limit: 10 })
+        - lang: Java
+          label: Java
+          source: |
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+            var result = facturapi.nominaCatalogs().searchDeductions(
+              Map.of("q", "001", "page", 0, "limit", 10)
+            );
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->NominaCatalogs->searchDeductions([
+              "q" => "001", "page" => 0, "limit" => 10
+            ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.NominaCatalog.SearchDeductions(new Dictionary<string, object>
+            {
+              ["q"] = "001", ["page"] = 0, ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key` or `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Authentication error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+
+  /catalogs/perceptions:
+    get:
+      tags:
+        - nomina_keys
+      summary: Search payroll perception types
+      description: Returns payroll perception types that match the query.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/catalogs/perceptions" \
+              -G \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -d "q=001" \
+              -d "page=0" \
+              -d "limit=10"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY')
+            const result = await facturapi.nominaCatalogs.searchPerceptions({ q: '001', page: 0, limit: 10 })
+        - lang: Java
+          label: Java
+          source: |
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+            var result = facturapi.nominaCatalogs().searchPerceptions(
+              Map.of("q", "001", "page", 0, "limit", 10)
+            );
+        - lang: PHP
+          label: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+            $result = $facturapi->NominaCatalogs->searchPerceptions([
+              "q" => "001", "page" => 0, "limit" => 10
+            ]);
+        - lang: csharp
+          label: .NET
+          source: |
+            var facturapi = new FacturapiClient("sk_test_API_KEY");
+            var result = await facturapi.NominaCatalog.SearchPerceptions(new Dictionary<string, object>
+            {
+              ["q"] = "001", ["page"] = 0, ["limit"] = 10
+            });
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Prefix to match against `key` or `description`.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Authentication error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+
   /catalogs/cartaporte/3.1/air-transport-codes:
     get:
       tags:
@@ -16212,6 +16386,11 @@ components:
               default: false
               description: |
                 Repeat the digital signature on each page of the PDF.
+            use_expedition_address:
+              type: boolean
+              default: false
+              description: |
+                Show the invoice place of issue instead of the organization address. Only one address is shown.
             payroll_options:
               type: object
               properties:
@@ -16327,6 +16506,11 @@ components:
               default: false
               description: |
                 Repeat the digital signature on each page of the PDF.
+            use_expedition_address:
+              type: boolean
+              default: false
+              description: |
+                Show the invoice place of issue instead of the organization address. Only one address is shown.
             payroll_options:
               type: object
               properties:
@@ -18048,6 +18232,11 @@ components:
                   default: false
                   description: |
                     Repeat the digital signature on each page of the PDF.
+                use_expedition_address:
+                  type: boolean
+                  default: false
+                  description: |
+                    Show the invoice place of issue instead of the organization address. Only one address is shown.
                 render_iedu:
                   type: boolean
                   default: false
@@ -18390,6 +18579,11 @@ components:
               default: false
               description: |
                 Repeat the digital signature on each page of the PDF.
+            use_expedition_address:
+              type: boolean
+              default: false
+              description: |
+                Show the invoice place of issue instead of the organization address. Only one address is shown.
             payroll_options:
               type: object
               properties:

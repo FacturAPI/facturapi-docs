@@ -1,0 +1,107 @@
+---
+sidebar_position: 9
+sidebar_label: Facturapi MCP
+---
+
+# Facturapi MCP: usa tu cuenta desde asistentes de IA
+
+Facturapi MCP es un servidor MCP remoto que permite a asistentes de IA
+(como ChatGPT, Claude u otras plataformas compatibles) consultar y operar tus
+servicios de Facturapi a través de la API oficial, usando lenguaje natural.
+
+Para usarlo necesitas tener contratada la **Licencia API** de Facturapi: el
+servidor está **incluido sin costo adicional** con ella. El asistente solo puede
+operar **los servicios que tienes contratados** y nunca tiene más permisos que
+tu propia cuenta.
+
+## Cómo conectarte
+
+El endpoint del servidor es:
+
+```
+https://mcp.facturapi.io/mcp
+```
+
+Hay dos formas de autenticarte, y las dos exponen las mismas herramientas.
+
+### Con OAuth (desde tu asistente)
+
+1. Abre tu asistente y añade el servidor **Facturapi** (o usa la URL
+   `https://mcp.facturapi.io/mcp` cuando el cliente lo permita).
+2. Autoriza con tu cuenta de Facturapi. Elige el nivel de acceso:
+   **solo lectura** o **lectura y escritura**.
+3. Si tienes acceso a varias organizaciones, el asistente te preguntará en cuál
+   quieres trabajar. Solo necesitas nombrarla.
+4. Pide lo que necesites en lenguaje natural, por ejemplo:
+   - *"Muéstrame las facturas de este mes que aún no se han pagado."*
+   - *"Crea una nota de venta por $500 MXN por una consultoría."*
+   - *"Registra un cliente con sus datos fiscales y envíale su enlace de
+     autofactura."*
+   - *"¿Ya se timbró la factura F-123?"*
+
+Puedes revisar y revocar las conexiones autorizadas cuando quieras desde el
+[Centro de integración](https://dashboard.facturapi.io/integration/oauth) de tu
+dashboard.
+
+:::note[Ambientes]
+Por defecto el asistente opera en tu **ambiente live** (producción). Si estás
+probando, indícalo en la conversación (por ejemplo, *"trabaja en modo pruebas"*)
+para operar en test.
+:::
+
+### Con una API key (desde tu código)
+
+Usa una llave de API (test o live) de tu organización. El servidor opera sobre
+esa organización y no expone `list_organizations`.
+
+Todas las llamadas a la API de Facturapi incluyen el encabezado
+`x-facturapi-client: MCP`.
+
+Ejemplo de configuración de cliente (ilustrativo):
+
+```json
+{
+  "mcpServers": {
+    "facturapi": {
+      "type": "http",
+      "url": "https://mcp.facturapi.io/mcp",
+      "headers": {
+        "Authorization": "Bearer <TU_API_KEY>"
+      }
+    }
+  }
+}
+```
+
+## Qué puedes hacer
+
+El servidor expone herramientas para los dominios principales de Facturapi:
+
+- Organizaciones: consultar tu organización y su estado de onboarding.
+- Clientes y productos: buscar, crear, actualizar y administrar catálogos.
+- Facturas (CFDI): crear (ingreso, egreso, complementos de pago), consultar,
+  cancelar y descargar representaciones PDF/XML.
+- E-Receipts: emitir notas de venta, enviar enlaces de autofactura y generar
+  facturas globales.
+- Retenciones: administrar complementos de retención.
+- Webhooks: solo en modo API key, para configurar eventos.
+
+Tu asistente lista las herramientas disponibles al conectarse. Las de escritura
+requieren **lectura y escritura** si conectas con OAuth; con **solo lectura**,
+el servidor rechaza la operación. Una API key opera con los permisos de su
+organización.
+
+## Alcance y permisos
+
+- El asistente solo accede a las organizaciones donde tu usuario tiene
+  permisos y **nunca tiene más permisos que tu cuenta**.
+- Solo puede operar los **servicios que tienes contratados**: si intenta una
+  operación que tu plan no incluye, no se realiza.
+
+## Referencias
+
+- Metadatos de descubrimiento:
+  `https://mcp.facturapi.io/.well-known/mcp/server.json`
+- Metadatos OAuth del recurso protegido:
+  `https://mcp.facturapi.io/.well-known/oauth-protected-resource`
+- Salud del servicio: `https://mcp.facturapi.io/health`

@@ -144,7 +144,9 @@ Facturapi periodically checks the SAT and updates `cancellation_status`. You can
 
 ## Cancellation receipt and verification
 
-When the cancellation is accepted, you can download the cancellation receipt in XML or PDF from the [Cancellation receipt](/api/#tag/invoice/operation/downloadCancellationReceiptXml) endpoint. You can also validate the CFDI using `verification_url`.
+When you submit the cancellation through Facturapi, you can download the SAT receipt in XML or PDF from the [Cancellation receipt](/api/#tag/invoice/operation/downloadCancellationReceiptXml) endpoint. The receipt proves the immediate result of the request, but does not necessarily mean that the CFDI is already canceled: confirm the outcome using `status`, `cancellation_status`, or `verification_url`.
+
+Facturapi can only retrieve receipts for requests submitted through its service. For cancellations performed externally, validate the current CFDI status using `verification_url`.
 
 <Tabs groupId="receiptExamples">
 <TabItem value="curl" label="cURL" default>

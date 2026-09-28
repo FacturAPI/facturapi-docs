@@ -15309,12 +15309,14 @@ components:
         edit_link_expires_at:
           type: string
           format: date-time
+          nullable: true
           description: |
             Fecha de expiración del enlace de edición.
           example: 2022-12-31T23:59:59Z
         sat_validated_at:
           type: string
           format: date-time
+          nullable: true
           description: |
             Fecha en la que la información fiscal fue validado por el SAT.
           example: 2022-12-31T23:59:59Z
@@ -16067,6 +16069,7 @@ components:
         canceled_at:
           type: string
           format: date-time
+          nullable: true
           description: Fecha en la que se canceló el CFDI con hora aproximada. 
         verification_url:
           type: string
@@ -16076,6 +16079,7 @@ components:
         date:
           type: string
           format: date-time
+          nullable: true
           default: now
           description: Fecha de expedición del comprobante en formato ISO8601 (UTC String).
         address:
@@ -17808,6 +17812,7 @@ components:
         fecha_exp:
           type: string
           format: date-time
+          nullable: true
           example: "2021-09-15T06:03:23.000Z"
           description: Fecha de expedición del comprobante en formato ISO8601 (UTC String).
         desc_retenc:
@@ -18165,6 +18170,38 @@ components:
           format: date-time
           description: Fecha de registro
           example: "2017-05-05T20:55:33.468Z"
+        plan:
+          type: string
+          nullable: true
+          deprecated: true
+          description: Plan heredado de la organización.
+        add_ons:
+          type: array
+          description: Funcionalidades adicionales contratadas por la organización.
+          items:
+            type: string
+        pending_plan_update:
+          type: object
+          nullable: true
+          description: Cambio de plan programado, si existe.
+          properties:
+            plan:
+              type: string
+            scheduled_for:
+              type: string
+              format: date-time
+        pending_add_ons_update:
+          type: object
+          nullable: true
+          description: Cambio programado de funcionalidades adicionales, si existe.
+          properties:
+            add_ons:
+              type: array
+              items:
+                type: string
+            scheduled_for:
+              type: string
+              format: date-time
         is_production_ready:
           type: boolean
           description: Indica si la organización tiene información necesaria para facturar en ambiente Live.
@@ -18330,11 +18367,13 @@ components:
             updated_at:
               type: string
               format: date-time
+              nullable: true
               example: "2023-05-05T20:55:33.468Z"
               description: Fecha de la última actualización del certificado.
             expires_at:
               type: string
               format: date-time
+              nullable: true
               example: "2025-05-05T20:55:33.468Z"
               description: Fecha de expiración del certificado.
             serial_number:
@@ -18351,11 +18390,13 @@ components:
             updated_at:
               type: string
               format: date-time
+              nullable: true
               example: "2023-05-05T20:55:33.468Z"
               description: Fecha de la última actualización del certificado FIEL.
             expires_at:
               type: string
               format: date-time
+              nullable: true
               example: "2025-05-05T20:55:33.468Z"
               description: Fecha de expiración del certificado FIEL.
             serial_number:

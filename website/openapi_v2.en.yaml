@@ -28,7 +28,7 @@ info:
       authentication, and verbs.
 
       During development, you can use the Facturapi API in the Test environment, and the invoices you issue will not be sent to the SAT (Mexican Tax Authority) and will not have fiscal validity.
-      
+
       The secret key you use to authenticate will determine both the environment in which the invoice will be created (Test or Live), as well as the organization to use as the issuer of your invoice or as the owner of the resource you request to create.
 
       Send `Accept-Language: en` for English Facturapi error messages, or
@@ -66,7 +66,7 @@ tags:
     x-displayName: Keys from SAT's catálogos
     description: |
       These are the main catalogs from SAT, included here for convenience. This is by no means the full list. You can find these and more catalogs on the official SAT website: http://omawww.sat.gob.mx/tramitesyservicios/Paginas/anexo_20_version3-3.htm
-      
+
       ### Forma de Pago
 
       (Payment Form)
@@ -108,7 +108,7 @@ tags:
       ### Uso del CFDI
 
       (CFDI use)
-      
+
       Key | Description (Spanish) | Description (English) | Allowed Fiscal Regimes
       :-----:|:----------- |:----------- |:-----------
       "G01" | Adquisición de mercancías. | Purchase of goods | 601, 603, 606, 612, 620, 621, 622, 623, 624, 625, 626
@@ -985,11 +985,12 @@ x-tagGroups:
       - receipt_model
       - retention_model
       - organization_model
- 
+
 
 paths:
   /catalogs/cartaporte/3.1/air-transport-codes:
     get:
+      operationId: searchAirTransportCodes
       tags:
         - carta_porte_keys
       summary: Search air transport codes
@@ -1047,10 +1048,9 @@ paths:
               ["limit"] = 10
             });
       parameters:
-        - $ref: "#/components/parameters/SearchPagination"
-        - $ref: "#/components/parameters/SearchAfter"
-        - $ref: "#/components/parameters/SearchBefore"
-
+        - $ref: '#/components/parameters/SearchPagination'
+        - $ref: '#/components/parameters/SearchAfter'
+        - $ref: '#/components/parameters/SearchBefore'
         - in: query
           name: q
           schema:
@@ -1062,7 +1062,6 @@ paths:
           schema:
             type: integer
             minimum: 1
-          required: false
           description: Page of results to return, starting from page 1. The maximum is not fixed; together with `limit` it must fit within the 3,000-result cap.
         - in: query
           name: limit
@@ -1070,7 +1069,6 @@ paths:
             type: integer
             minimum: 1
             maximum: 100
-          required: false
           description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
       responses:
         '200':
@@ -1078,10 +1076,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SearchKeyDescriptionResult"
+                $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
 
   /catalogs/cartaporte/3.1/transport-configs:
     get:
+      operationId: searchTransportConfigs
       tags:
         - carta_porte_keys
       summary: Search auto transport configurations
@@ -1168,9 +1177,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
 
   /catalogs/comercioexterior/2.0/tariff-fractions:
     get:
+      operationId: searchTariffFractions
       tags:
         - comercio_exterior_keys
       summary: Search tariff fractions
@@ -1227,10 +1247,9 @@ paths:
               ["limit"] = 10
             });
       parameters:
-        - $ref: "#/components/parameters/SearchPagination"
-        - $ref: "#/components/parameters/SearchAfter"
-        - $ref: "#/components/parameters/SearchBefore"
-
+        - $ref: '#/components/parameters/SearchPagination'
+        - $ref: '#/components/parameters/SearchAfter'
+        - $ref: '#/components/parameters/SearchBefore'
         - in: query
           name: q
           schema:
@@ -1242,7 +1261,6 @@ paths:
           schema:
             type: integer
             minimum: 1
-          required: false
           description: Page of results to return, starting from page 1. The maximum is not fixed; together with `limit` it must fit within the 3,000-result cap.
         - in: query
           name: limit
@@ -1250,7 +1268,6 @@ paths:
             type: integer
             minimum: 1
             maximum: 100
-          required: false
           description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
       responses:
         '200':
@@ -1272,6 +1289,7 @@ paths:
 
   /catalogs/cartaporte/3.1/rights-of-passage:
     get:
+      operationId: searchRightsOfPassage
       tags:
         - carta_porte_keys
       summary: Search rights of passage
@@ -1358,9 +1376,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
 
   /catalogs/cartaporte/3.1/customs-documents:
     get:
+      operationId: searchCustomsDocuments
       tags:
         - carta_porte_keys
       summary: Search customs documents
@@ -1447,9 +1476,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
 
   /catalogs/cartaporte/3.1/packaging-types:
     get:
+      operationId: searchPackagingTypes
       tags:
         - carta_porte_keys
       summary: Search packaging types
@@ -1536,9 +1576,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
 
   /catalogs/cartaporte/3.1/trailer-types:
     get:
+      operationId: searchTrailerTypes
       tags:
         - carta_porte_keys
       summary: Search trailer types
@@ -1625,9 +1676,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
 
   /catalogs/cartaporte/3.1/hazardous-materials:
     get:
+      operationId: searchHazardousMaterials
       tags:
         - carta_porte_keys
       summary: Search hazardous materials
@@ -1714,9 +1776,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
 
   /catalogs/cartaporte/3.1/naval-authorizations:
     get:
+      operationId: searchNavalAuthorizations
       tags:
         - carta_porte_keys
       summary: Search naval authorizations
@@ -1803,7 +1876,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: "#/components/schemas/SearchResult"
+                  - $ref: '#/components/schemas/SearchResult'
                   - type: object
                     properties:
                       data:
@@ -1813,9 +1886,20 @@ paths:
                           properties:
                             key:
                               type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
 
   /catalogs/cartaporte/3.1/port-stations:
     get:
+      operationId: searchPortStations
       tags:
         - carta_porte_keys
       summary: Search port stations
@@ -1902,9 +1986,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
 
   /catalogs/cartaporte/3.1/marine-containers:
     get:
+      operationId: searchMarineContainers
       tags:
         - carta_porte_keys
       summary: Search marine containers
@@ -1991,6 +2086,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
   /customers:
     post:
       operationId: createCustomer
@@ -2007,7 +2112,7 @@ paths:
           Once the customer is created and a response object is obtained,
           we recommend saving the ID in your database along with the customer information.
           Later, you can call the Create Invoice endpoint by passing the customer ID instead of repeating the information.
-          
+
           Finally, keep in mind that the customers you create in the Test environment **are not shared**
           with the Live environment.
       x-codeSamples:
@@ -2577,7 +2682,7 @@ paths:
         Validates that the customer's fiscal information matches the SAT records.
 
         Its main function is to validate that the registered customer data continues to meet the SAT validation.
-        
+
         > **Note:**
         > The operations of creating a customer, editing a customer, and creating an invoice already perform a
         > validation of the customer's information, so it is **not** necessary to call this endpoint
@@ -3286,7 +3391,7 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
-    
+
     get:
       operationId: listInvoices
       tags:
@@ -4473,7 +4578,7 @@ paths:
             type: string
           description: |
             ID of the invoice that replaces the invoice being canceled.
-            
+
             You can use either the ID assigned by Facturapi or the fiscal folio (UUID).
       security:
         - "SecretLiveKey": []
@@ -4665,7 +4770,7 @@ paths:
             curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/xml \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -X GET
-            
+
             # Cancellation receipt pdf
             curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/pdf \
               -H "Authorization: Bearer sk_test_API_KEY" \
@@ -4709,7 +4814,7 @@ paths:
 
             // Cancellation receipt xml
             $facturapi->Invoices->downloadCancellationReceiptXml("58e93bd8e86eb318b019743d");
-            
+
             // Cancellation receipt pdf
             $facturapi->Invoices->downloadCancellationReceiptPdf("58e93bd8e86eb318b019743d");
       parameters:
@@ -4831,8 +4936,7 @@ paths:
                     type: number
                     description: Invoice folio number. Omitted when the invoice has none registered.
                   series:
-                    type: string
-                    nullable: true
+                    type: ["string","null"]
                     description: Invoice series
                   installment:
                     type: number
@@ -5266,7 +5370,7 @@ paths:
       summary: Create e-receipt
       description: |
         Creates a new e-Receipt, which acts as a sales note.
-        
+
         Every receipt will have an auto-generated URL that the client can visit to fill in their fiscal data in a microsite with the organization's branding.
       x-codeSamples:
         - lang: Bash
@@ -5767,7 +5871,7 @@ paths:
       summary: Cancel e-receipt
       description: |
         Cancel a receipt by changing its `status` property to `"canceled"`.
-        
+
         Once canceled, the receipt cannot be invoiced.
       x-codeSamples:
         - lang: Bash
@@ -6063,7 +6167,7 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
-  
+
   /receipts/{receipt_id}/invoice:
     post:
       operationId: invoiceReceipt
@@ -6889,6 +6993,7 @@ paths:
             items:
               type: string
               enum:
+                - all
                 - draft
                 - pending
                 - valid
@@ -7165,7 +7270,7 @@ paths:
           description: |
             ID of the retention that replaces the one being canceled.
             You can use the Facturapi ID or the fiscal folio (UUID).
-          
+
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []
@@ -7608,12 +7713,12 @@ paths:
       summary: Create organization
       description: |
         Create a new Organization that will belong to your user account.
-        
+
         After creating the organization and before being able to issue invoices
         with the organization, you will need to finish setting it up by calling
         the [Update legal data](#tag/organization/operation/editOrganizationLegal) and
         [Upload certificates (CSD)](#tag/organization/operation/uploadOrganizationCertificate) methods.
-      
+
         After creating the organization and before you can issue invoices with
         the organization, you must finish configuring it by calling the
         methods [Update legal information](#tag/organization/operation/editOrganizationLegal) and
@@ -8239,7 +8344,7 @@ paths:
       summary: Upload logo
       description: |
         Upload the organization's logo. The logo will be displayed on the PDFs and emails sent to your customers.
-        
+
         The file must be an image in JPG or PNG format and have a size not greater than 500 KB. The recommended dimensions are 800 × 500px.
 
         If the organization already has a logo, this call replaces the previous logo.
@@ -9465,7 +9570,7 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
-    
+
     post:
       operationId: createSeriesGroup
       tags:
@@ -9924,7 +10029,7 @@ paths:
       summary: Invite user to organization
       description: |
         Creates or updates a user invite. By default, invited users get full admin access; to limit access, create a role and send its ID in `role`.
-      
+
         Each organization can invite one user at no additional cost. Starting from the second invited user, each additional user will incur a monthly fee. 
         This charge is applied automatically when the user accepts the invitation, whether from the dashboard or via the API. You can check the current pricing on our [pricing page](https://www.facturapi.io/pricing).
       x-codeSamples:
@@ -11037,9 +11142,9 @@ paths:
       summary: Create webhook
       description: |
         Register a new webhook in your Facturapi organization.
-        
+
         Use this call to receive notifications of asynchronous events to the API.
-        
+
         Test and live environment webhooks are independent.
       x-codeSamples:
         - lang: Bash
@@ -11099,12 +11204,6 @@ paths:
       responses:
         "201":
           description: New `Webhook` object
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Webhook"
-        "200":
-          description: An existing `Webhook` object with the same URL was found
           content:
             application/json:
               schema:
@@ -11489,6 +11588,7 @@ paths:
               "signature" => "Signature_FROM_HEADER"
             ]);
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -11498,11 +11598,18 @@ paths:
                   type: string
                   description: Secret key of the webhook, found in the webhook settings or upon creation.
                 payload:
-                  type: object
-                  description: Event object received through a webhook.
+                  oneOf:
+                    - type: string
+                    - type: object
+                      additionalProperties: true
+                  description: Signed payload. Use the original JSON text to preserve the signed bytes.
                 signature:
                   type: string
                   description: Signature from the header "Facturapi-Signature".
+              required:
+                - secret
+                - payload
+                - signature
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []
@@ -11512,26 +11619,11 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: "#/components/schemas/EventBase"
+                oneOf:
+                  - type: string
                   - type: object
-                    properties:
-                      type:
-                        type: string
-                        description: Type of event
-                        example: "invoice.status_updated"
-                        enum:
-                          - invoice.status_updated
-                      data:
-                        type: object
-                        properties:
-                          type:
-                            type: string
-                            description: Type of object affected by the event
-                            enum:
-                              - invoice
-                          object:
-                            $ref: "#/components/schemas/Invoice"
+                    additionalProperties: true
+                description: "Returns the original payload when the signature is valid: a string for JSON text, or an object for object input. It does not parse a string into an object."
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -11542,10 +11634,11 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
-  
+
 
   /check:
     get:
+      operationId: checkApiKey
       tags:
         - tools
       summary: Health check
@@ -11569,9 +11662,10 @@ paths:
           description: Error de autenticación. Asegúrate de estar usando tu llave secreta.
         "502":
           description: Servicio temporalmente no disponible.
-          
+
   /tools/tax_id_validation:
     get:
+      operationId: validateTaxId
       tags:
         - tools
       summary: Validate RFC (tax_id)
@@ -11605,7 +11699,7 @@ paths:
           label: C#
           source: |
             var facturapi = new FacturapiClient("sk_test_API_KEY");
-            
+
             var customer = await facturapi.Tool.ValidateTaxIdAsync("BBA830831LJ2");
         - lang: Java
           label: Java
@@ -11622,7 +11716,7 @@ paths:
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
-            
+
             $customer = $facturapi->Tools->validateTaxId("BBA830831LJ2");
       parameters:
         - in: query
@@ -11652,6 +11746,7 @@ paths:
           $ref: "#/components/responses/UnexpectedError"
   /catalogs/products:
     get:
+      operationId: searchProducts
       tags:
         - sat_keys
       summary: Product/Service Key
@@ -11739,6 +11834,7 @@ paths:
           $ref: "#/components/responses/UnexpectedError"
   /catalogs/units:
     get:
+      operationId: searchUnits
       tags:
         - sat_keys
       summary: Units of Measure
@@ -12073,8 +12169,8 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
-x-webhooks:
-  "Global invoice created":
+webhooks:
+  invoice.global_invoice_created:
     post:
       summary: Global invoice created
       description: |
@@ -12086,27 +12182,12 @@ x-webhooks:
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: "#/components/schemas/EventBase"
-                - type: object
-                  properties:
-                    type:
-                      type: string
-                      description: Type of event
-                      example: "invoice.global_invoice_created"
-                      enum:
-                        - invoice.global_invoice_created
-                    data:
-                      type: object
-                      properties:
-                        type:
-                          type: string
-                          description: Type of object associated with the event
-                          enum:
-                            - invoice
-                        object:
-                          $ref: "#/components/schemas/Invoice"
-  "Invoice status updated":
+              $ref: '#/components/schemas/InvoiceGlobalInvoiceCreatedEvent'
+      operationId: onInvoiceGlobalInvoiceCreated
+      responses:
+        '200':
+          description: OK
+  invoice.status_updated:
     post:
       summary: Invoice status updated
       description: |
@@ -12120,37 +12201,13 @@ x-webhooks:
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: "#/components/schemas/EventBase"
-                - type: object
-                  properties:
-                    type:
-                      type: string
-                      description: Type of event
-                      example: "invoice.status_updated"
-                      enum:
-                        - invoice.status_updated
-                    data:
-                      type: object
-                      properties:
-                        type:
-                          type: string
-                          description: Type of object associated with the event
-                          enum:
-                            - invoice
-                        object:
-                          $ref: "#/components/schemas/Invoice"
-                    related_resource_messages:
-                      type: array
-                      description: Messages related to the resource associated with the event.
-                      items:
-                        $ref: "#/components/schemas/RelatedResourceMessage"
+              $ref: '#/components/schemas/InvoiceStatusUpdatedEvent'
             examples:
               with_related_messages:
                 summary: With related messages
                 value:
                   id: evt_xxx
-                  created_at: "2026-07-01T12:00:00.000Z"
+                  created_at: '2026-07-01T12:00:00.000Z'
                   livemode: true
                   organization: org_xxx
                   type: invoice.status_updated
@@ -12164,12 +12221,12 @@ x-webhooks:
                       source: stamping_async_task
                       severity: error
                       message: The receiver RFC is not valid
-                      created_at: "2026-01-01T00:00:00.000Z"
+                      created_at: '2026-01-01T00:00:00.000Z'
               without_related_messages:
                 summary: Without related messages
                 value:
                   id: evt_xxx
-                  created_at: "2026-07-01T12:00:00.000Z"
+                  created_at: '2026-07-01T12:00:00.000Z'
                   livemode: true
                   organization: org_xxx
                   type: invoice.status_updated
@@ -12178,7 +12235,11 @@ x-webhooks:
                     object:
                       id: invoice_xxx
                   related_resource_messages: []
-  "Invoice created from dashboard":
+      operationId: onInvoiceStatusUpdated
+      responses:
+        '200':
+          description: OK
+  invoice.created_from_dashboard:
     post:
       summary: Invoice created from dashboard
       description: |
@@ -12190,28 +12251,12 @@ x-webhooks:
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: "#/components/schemas/EventBase"
-                - type: object
-                  properties:
-                    type:
-                      type: string
-                      description: Type of event
-                      example: "invoice.created_from_dashboard"
-                      enum:
-                        - invoice.created_from_dashboard
-                    data:
-                      type: object
-                      properties:
-                        type:
-                          type: string
-                          description: Type of object associated with the event
-                          enum:
-                            - invoice
-                        object:
-                          $ref: "#/components/schemas/Invoice"
- 
-  "Cancellation status updated":
+              $ref: '#/components/schemas/InvoiceCreatedFromDashboardEvent'
+      operationId: onInvoiceCreatedFromDashboard
+      responses:
+        '200':
+          description: OK
+  invoice.cancellation_status_updated:
     post:
       tags:
         - events
@@ -12223,26 +12268,12 @@ x-webhooks:
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: "#/components/schemas/EventBase"
-                - type: object
-                  properties:
-                    type:
-                      type: string
-                      description: Type of event
-                      enum:
-                        - invoice.cancellation_status_updated
-                    data:
-                      type: object
-                      properties:
-                        type:
-                          type: string
-                          description: Type of object associated with the event
-                          enum:
-                            - invoice
-                        object:
-                          $ref: "#/components/schemas/Invoice"
-  "Self-invoice completed":
+              $ref: '#/components/schemas/InvoiceCancellationStatusUpdatedEvent'
+      operationId: onInvoiceCancellationStatusUpdated
+      responses:
+        '200':
+          description: OK
+  receipt.self_invoice_complete:
     post:
       tags:
         - events
@@ -12254,27 +12285,12 @@ x-webhooks:
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: "#/components/schemas/EventBase"
-                - type: object
-                  properties:
-                    type:
-                      type: string
-                      description: Type of event
-                      example: "receipt.self_invoice_complete"
-                      enum:
-                        - receipt.self_invoice_complete
-                    data:
-                      type: object
-                      properties:
-                        type:
-                          type: string
-                          description: Type of object associated with the event
-                          enum:
-                            - receipt
-                        object:
-                          $ref: "#/components/schemas/Receipt"
-  "Receipt status updated":
+              $ref: '#/components/schemas/ReceiptSelfInvoiceCompleteEvent'
+      operationId: onReceiptSelfInvoiceComplete
+      responses:
+        '200':
+          description: OK
+  receipt.status_updated:
     post:
       tags:
         - events
@@ -12286,25 +12302,26 @@ x-webhooks:
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: "#/components/schemas/EventBase"
-                - type: object
-                  properties:
-                    type:
-                      type: string
-                      description: Type of event
-                      enum:
-                        - receipt.status_updated
-                    data:
-                      type: object
-                      properties:
-                        type:
-                          type: string
-                          description: Type of object associated with the event
-                          enum:
-                            - receipt
-                        object:
-                          $ref: "#/components/schemas/Receipt"
+              $ref: '#/components/schemas/ReceiptStatusUpdatedEvent'
+      operationId: onReceiptStatusUpdated
+      responses:
+        '200':
+          description: OK
+  customer.edit_link_completed:
+    post:
+      summary: Customer edit completed
+      tags:
+        - events
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerEditLinkCompletedEvent'
+      responses:
+        '200':
+          description: OK
+      operationId: onCustomerEditLinkCompleted
 components:
   responses:
     BadRequest:
@@ -12686,6 +12703,214 @@ components:
         Returns the results before the given cursor. Only with `pagination=cursor`; mutually exclusive with `after`.
 
   schemas:
+    InvoiceGlobalInvoiceCreatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventBase'
+        - type: object
+          properties:
+            type:
+              type: string
+              description: Type of event
+              example: invoice.global_invoice_created
+              enum:
+                - invoice.global_invoice_created
+            data:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: Type of object associated with the event
+                  enum:
+                    - invoice
+                object:
+                  $ref: '#/components/schemas/Invoice'
+              required:
+                - type
+                - object
+          required:
+            - type
+            - data
+    InvoiceStatusUpdatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventBase'
+        - type: object
+          properties:
+            type:
+              type: string
+              description: Type of event
+              example: invoice.status_updated
+              enum:
+                - invoice.status_updated
+            data:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: Type of object associated with the event
+                  enum:
+                    - invoice
+                object:
+                  $ref: '#/components/schemas/Invoice'
+              required:
+                - type
+                - object
+            related_resource_messages:
+              type: array
+              description: Messages related to the resource associated with the event.
+              items:
+                $ref: '#/components/schemas/RelatedResourceMessage'
+          required:
+            - type
+            - data
+    InvoiceCreatedFromDashboardEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventBase'
+        - type: object
+          properties:
+            type:
+              type: string
+              description: Type of event
+              example: invoice.created_from_dashboard
+              enum:
+                - invoice.created_from_dashboard
+            data:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: Type of object associated with the event
+                  enum:
+                    - invoice
+                object:
+                  $ref: '#/components/schemas/Invoice'
+              required:
+                - type
+                - object
+          required:
+            - type
+            - data
+    InvoiceCancellationStatusUpdatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventBase'
+        - type: object
+          properties:
+            type:
+              type: string
+              description: Type of event
+              enum:
+                - invoice.cancellation_status_updated
+            data:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: Type of object associated with the event
+                  enum:
+                    - invoice
+                object:
+                  $ref: '#/components/schemas/Invoice'
+              required:
+                - type
+                - object
+          required:
+            - type
+            - data
+    ReceiptSelfInvoiceCompleteEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventBase'
+        - type: object
+          properties:
+            type:
+              type: string
+              description: Type of event
+              example: receipt.self_invoice_complete
+              enum:
+                - receipt.self_invoice_complete
+            data:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: Type of object associated with the event
+                  enum:
+                    - receipt
+                object:
+                  $ref: '#/components/schemas/Receipt'
+              required:
+                - type
+                - object
+          required:
+            - type
+            - data
+    ReceiptStatusUpdatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventBase'
+        - type: object
+          properties:
+            type:
+              type: string
+              description: Type of event
+              enum:
+                - receipt.status_updated
+            data:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: Type of object associated with the event
+                  enum:
+                    - receipt
+                object:
+                  $ref: '#/components/schemas/Receipt'
+              required:
+                - type
+                - object
+          required:
+            - type
+            - data
+    CustomerEditLinkCompletedEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventBase'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - customer.edit_link_completed
+            data:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - customer
+                object:
+                  $ref: '#/components/schemas/Customer'
+              required:
+                - type
+                - object
+          required:
+            - type
+            - data
+    ApiEvent:
+      oneOf:
+        - $ref: '#/components/schemas/InvoiceGlobalInvoiceCreatedEvent'
+        - $ref: '#/components/schemas/InvoiceStatusUpdatedEvent'
+        - $ref: '#/components/schemas/InvoiceCreatedFromDashboardEvent'
+        - $ref: '#/components/schemas/InvoiceCancellationStatusUpdatedEvent'
+        - $ref: '#/components/schemas/ReceiptSelfInvoiceCompleteEvent'
+        - $ref: '#/components/schemas/ReceiptStatusUpdatedEvent'
+        - $ref: '#/components/schemas/CustomerEditLinkCompletedEvent'
+      discriminator:
+        propertyName: type
+        mapping:
+          invoice.global_invoice_created: '#/components/schemas/InvoiceGlobalInvoiceCreatedEvent'
+          invoice.status_updated: '#/components/schemas/InvoiceStatusUpdatedEvent'
+          invoice.created_from_dashboard: '#/components/schemas/InvoiceCreatedFromDashboardEvent'
+          invoice.cancellation_status_updated: '#/components/schemas/InvoiceCancellationStatusUpdatedEvent'
+          receipt.self_invoice_complete: '#/components/schemas/ReceiptSelfInvoiceCompleteEvent'
+          receipt.status_updated: '#/components/schemas/ReceiptStatusUpdatedEvent'
+          customer.edit_link_completed: '#/components/schemas/CustomerEditLinkCompletedEvent'
     SignedDownloadUrl:
       type: object
       description: Temporary download URL for a file.
@@ -12753,7 +12978,7 @@ components:
           type: string
           format: date-time
           description: Creation date and time of the event
-          example: 2022-03-30T00:00:00Z
+          example: '2022-03-30T00:00:00Z'
         livemode:
           type: boolean
           description: Indicates if the event was generated in Test mode (false) or Live mode (true).
@@ -12762,6 +12987,11 @@ components:
           type: string
           description: ID of the organization this event is related to
           example: 61f81a7fbd4661b11b9b3f27
+      required:
+        - id
+        - created_at
+        - livemode
+        - organization
     DateRange:
       type: object
       properties:
@@ -12884,12 +13114,14 @@ components:
           type: integer
           example: 1
           title: Página
-          description: The current page number within the search results
+          description: Page number. Zero when no matches exist; omitted in cursor pagination.
+          minimum: 0
         total_pages:
           type: integer
           example: 1
           title: Total pages
-          description: The total number of pages available in the search results
+          description: Total pages. Omitted in cursor pagination.
+          minimum: 0
         total_results:
           type: integer
           example: 1
@@ -12897,12 +13129,16 @@ components:
           description: |
             The total number of results available in the search. In `pagination=cursor` mode it is only included on the first page of the search (no `after`/`before`); the total does not change between pages.
         previous_cursor:
-          type: [string, "null"]
+          type:
+            - string
+            - 'null'
           example: null
           title: Previous cursor
           description: Cursor to fetch the previous page of results. It is `null` on the first page. Only available with `pagination=cursor`.
         next_cursor:
-          type: [string, "null"]
+          type:
+            - string
+            - 'null'
           example: null
           title: Next cursor
           description: Cursor to fetch the next page of results. It is `null` when there are no more results. Only available with `pagination=cursor`.
@@ -13022,7 +13258,7 @@ components:
                         example: 08/06/2021
                         format: "DD/MM/YYYY"
                         description: Date of favorable sentence.
-                      
+
     ProductCatalogResult:
       type: object
       properties:
@@ -13094,7 +13330,7 @@ components:
                     type: string
                     description: Description of the catalog entry
 
-    
+
     LocalTax:
       type: object
       required:
@@ -13103,11 +13339,10 @@ components:
       properties:
         rate:
           type: number
-          example: 0.10
+          example: 0.1
           description: Tax rate in decimal format.
         base:
           type: number
-          default: 100% of subtotal
           description: Tax base amount.
         type:
           type: string
@@ -13116,6 +13351,12 @@ components:
           type: boolean
           default: false
           description: Indicates if it is a withholding tax (`true`) or a transferred tax (`false`).
+        factor:
+          type: string
+          enum:
+            - Tasa
+            - Cuota
+            - Exento
     BaseTax:
       title: Tax
       type: object
@@ -13134,7 +13375,6 @@ components:
           description: Tax rate in decimal format.
         base:
           type: number
-          default: 100% of subtotal
           description: Tax base amount.
         type:
           type: string
@@ -13180,7 +13420,7 @@ components:
                 `"unit"`: Apply the IEPS before the unit price, and use the original unit price as the base for the rest of the taxes.
 
                 `"subtract_before_break_down"`: Apply the IEPS only to calculate taxes like IVA de traslado and retentions, and use the original unit price as the base for the rest of the taxes.
-                
+
                 Consult with your accountant which case applies to your company and product.
 
     Stamp:
@@ -13192,8 +13432,8 @@ components:
           description: Digital signature of the fiscal document.
         date:
           type: string
-          format: date-time
-          description: Stamp date in ISO8601 format (UTC String).
+          description: "SAT FechaTimbrado: local date and time without a timezone offset. Preserved as text."
+          example: "2026-09-17T06:59:16"
         sat_cert_number:
           type: string
           description: SAT certificate serial number used for stamping.
@@ -13593,7 +13833,6 @@ components:
         fecha_pago:
           type: string
           format: date
-          default: now
           description: Payment date of the payroll to the worker.
         fecha_inicial_pago:
           type: string
@@ -14122,7 +14361,7 @@ components:
                 - IM
               description: |
                 Key of the origin of the resource.
-                
+
                 - `“IP”`: Ingresos Propios (Own income)
                 - `“IF”`: Ingresos Federales (Federal income)
                 - `“IM”`: Ingresos mixtos (Mixed income)
@@ -15334,16 +15573,28 @@ components:
           description: |
             ID of the organization for which the webhook is being created.
         livemode:
-          type: boolean 
+          type: boolean
           example: false
           description: Environment in which the webhook is being created.
         enabled_events:
-          type: string
-          example: ["receipt.cancellation_status"]
+          type: array
+          example:
+            - receipt.status_updated
           description: Events enabled for the webhook to listen to.
+          items:
+            type: string
+            enum:
+              - receipt.self_invoice_complete
+              - invoice.cancellation_status_updated
+              - receipt.status_updated
+              - invoice.global_invoice_created
+              - invoice.status_updated
+              - invoice.created_from_dashboard
+              - customer.edit_link_completed
+              - "*"
         url:
           type: string
-          format: email
+          format: uri
           description: Full URL of the webhook listener.
           example: http://my-website.com/my/webhook
         status:
@@ -15353,6 +15604,13 @@ components:
             - enabled
             - disabled
           example: enabled
+        secret:
+          type: string
+          readOnly: true
+          description: Secret for verifying signatures. Returned when creating the webhook.
+        description:
+          type: string
+      type: object
     WebhookCreateInput:
       title: Webhook
       allOf:
@@ -15365,72 +15623,93 @@ components:
               type: string
               description: Full URL of the webhook listener.
               example: http://webhook_api.com
+              format: uri
             enabled_events:
               type: array
               items:
                 type: string
-                enum: 
-                  - "invoice.global_invoice_created"
-                  - "invoice.status_updated"
-                  - "invoice.cancellation_status_updated"
-                  - "invoice.created_from_dashboard"
-                  - "receipt.self_invoice_complete"
-                  - "receipt.status_updated"
-                  - "receipt.cancellation_status_updated"
+                enum:
+                  - receipt.self_invoice_complete
+                  - invoice.cancellation_status_updated
+                  - receipt.status_updated
+                  - invoice.global_invoice_created
+                  - invoice.status_updated
+                  - invoice.created_from_dashboard
+                  - customer.edit_link_completed
               description: Events enabled for the webhook to listen to.
-              example: ["receipt.self_invoice_complete"]
+              example:
+                - receipt.self_invoice_complete
+              minItems: 1
     WebhookCreateEdit:
       title: Webhook
       allOf:
         - type: object
           required:
             - enabled_events
+            - status
           properties:
             status:
               type: string
               description: Status of the webhook.
               enum:
-                - "disabled"
-                - "enabled"
+                - disabled
+                - enabled
               example: disabled
             enabled_events:
               type: array
               items:
                 type: string
-                enum: 
-                  - "invoice.global_invoice_created"
-                  - "invoice.status_updated"
-                  - "invoice.cancellation_status_updated"
-                  - "receipt.self_invoice_complete"
-                  - "receipt.status_updated"
-                  - "receipt.cancellation_status_updated"
-              description: Events enabled for the webhook to listen to. 
-              example: ["receipt.self_invoice_complete"]
+                enum:
+                  - receipt.self_invoice_complete
+                  - invoice.cancellation_status_updated
+                  - receipt.status_updated
+                  - invoice.global_invoice_created
+                  - invoice.status_updated
+                  - invoice.created_from_dashboard
+                  - customer.edit_link_completed
+              description: Events enabled for the webhook to listen to.
+              example:
+                - receipt.self_invoice_complete
+              minItems: 1
 
 
     Customer:
       title: Customer object
       allOf:
-        - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
-        - $ref: "#/components/schemas/CustomerNonEditableProperties"
-        - $ref: "#/components/schemas/CustomerProperties"
+        - $ref: '#/components/schemas/ResourceAutoGeneratedProps'
+        - $ref: '#/components/schemas/CustomerNonEditableProperties'
+        - $ref: '#/components/schemas/CustomerProperties'
+        - type: object
+          properties:
+            organization:
+              type: string
+            curp:
+              type: string
+            external_id:
+              type: string
     CustomerNonEditableProperties:
       type: object
       properties:
         edit_link:
-          type: string
+          type:
+            - string
+            - 'null'
           description: Link to a hosted page where the customer can edit their information once.
           example: https://auto.facturapi.io/tax-info/abcdWXYZ1234
         edit_link_expires_at:
-          type: string
+          type:
+            - string
+            - 'null'
           format: date-time
           description: Expiration date of the edit link.
-          example: 2022-12-31T23:59:59Z
+          example: '2022-12-31T23:59:59Z'
         sat_validated_at:
-          type: string
+          type:
+            - string
+            - 'null'
           format: date-time
           description: Date when the customer's tax information was validated by the SAT.
-          example: 2022-12-31T23:59:59Z
+          example: '2022-12-31T23:59:59Z'
     CustomerSearchResult:
       allOf:
         - $ref: "#/components/schemas/SearchResult"
@@ -15526,7 +15805,7 @@ components:
       title: Product
       allOf:
         - $ref: "#/components/schemas/ProductProperties"
-    
+
     LineItemProductEgresoInput:
       title: Product
       allOf:
@@ -15608,8 +15887,15 @@ components:
     Product:
       title: Product object
       allOf:
-        - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
-        - $ref: "#/components/schemas/ProductProperties"
+        - $ref: '#/components/schemas/ResourceAutoGeneratedProps'
+        - $ref: '#/components/schemas/ProductProperties'
+        - type: object
+          properties:
+            organization:
+              type: string
+          required:
+            - organization
+            - unit_key
     ProductSearchResult:
       allOf:
         - $ref: "#/components/schemas/SearchResult"
@@ -15622,10 +15908,7 @@ components:
     ProductProperties:
       type: object
       required:
-        - description
-        - product_key
-        - unit_key
-        - price
+        ["description","product_key","price"]
       properties:
         description:
           type: string
@@ -15883,9 +16166,6 @@ components:
                       description: Indicates if the tax is a withholding (`true`) or a transfer (`false`).
               taxability:
                 type: string
-                default: |
-                  "01" if the `taxes` array is empty; "02" if the `taxes` array has at least one element.
-                enum:
                   - "01"
                   - "02"
                   - "03"
@@ -15947,7 +16227,6 @@ components:
         date:
           type: string
           format: date-time
-          default: now
           description: Date on which the payment was received. It is only necessary to include it if the payment was made on a date prior to the issuance of this document. Future dates are not allowed.
         numOperacion:
           type: string
@@ -16014,9 +16293,14 @@ components:
             country:
               type: string
               format: ISO 3166-1 alpha-3
-              # description: Código de País acorde al estándar ISO 3166-1 alpha-3, del Catálogo de Países.
               description: Country code according to the standard [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3).
               example: MEX
+            zip:
+              type: string
+        tax_system:
+          type:
+            - string
+            - 'null'
     CustomerComercioExterior:
       type: object
       description: Objeto con información parcial del cliente receptor del comprobante. Para obtener el objeto `Customer` completo, deberás consultarlo con el método de [Obtener Cliente]('#/operation/getCustomer').
@@ -16102,7 +16386,7 @@ components:
     InvoiceZipRequest:
       title: InvoiceZipRequest object
       allOf:
-        - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
+        - $ref: '#/components/schemas/ResourceAutoGeneratedProps'
         - type: object
           required:
             - organization
@@ -16125,13 +16409,13 @@ components:
               description: Organization identifier.
               example: 65a1f0000000000000000000
             issuer_type:
-              $ref: "#/components/schemas/IssuingType"
+              $ref: '#/components/schemas/IssuingType'
             invoice_types:
               type: array
               description: Normalized invoice types included in the request.
               uniqueItems: true
               items:
-                $ref: "#/components/schemas/InvoiceZipRequestInvoiceType"
+                $ref: '#/components/schemas/InvoiceZipRequestInvoiceType'
               example:
                 - E
                 - I
@@ -16139,14 +16423,14 @@ components:
               type: string
               format: date-time
               description: Inclusive start of the requested month.
-              example: "2025-03-01T06:00:00.000Z"
+              example: '2025-03-01T06:00:00.000Z'
             end_date:
               type: string
               format: date-time
               description: Inclusive end of the requested month.
-              example: "2025-04-01T04:59:59.999Z"
+              example: '2025-04-01T04:59:59.999Z'
             status:
-              $ref: "#/components/schemas/InvoiceZipRequestStatus"
+              $ref: '#/components/schemas/InvoiceZipRequestStatus'
             document_count:
               type: integer
               minimum: 0
@@ -16167,7 +16451,11 @@ components:
               type: string
               format: date-time
               description: Date when processing was scheduled.
-              example: "2026-08-04T18:00:01.000Z"
+              example: '2026-08-04T18:00:01.000Z'
+            processing_started_at:
+              type: string
+              format: date-time
+              description: Time processing started, when present.
     InvoiceZipRequestSearchResult:
       allOf:
         - $ref: "#/components/schemas/SearchResult"
@@ -16234,7 +16522,9 @@ components:
             Current status of the cancellation request, if it has been made. `verifying` means the SAT has received the request and is validating it; Facturapi will keep checking until it changes to a final status. You can read more in the [Cancel Invoice](#tag/invoice/operation/deleteInvoice) section.
           example: none
         canceled_at:
-          type: string
+          type:
+            - string
+            - 'null'
           format: date-time
           description: Date on which CFDI was canceled, with approximate time.
         verification_url:
@@ -16243,14 +16533,14 @@ components:
           description: URL to verify the status of the CFDI on the SAT portal. This link is the same as the one that appears in the QR code on the invoice PDF.
           example: https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABC101010111&tt=345.600000&fe=bWApPw==
         date:
-          type: string
+          type:
+            - string
+            - 'null'
           format: date-time
-          default: now
-          description: |
-            Date of issuance of the invoice in ISO8601 format (UTC String).
+          description: Issue date in ISO8601 format. May be null for drafts.
         address:
           allOf:
-            - $ref: "#/components/schemas/CommonAddressProperties"
+            - $ref: '#/components/schemas/CommonAddressProperties'
             - type: object
               description: Address where the invoice was issued.
               properties:
@@ -16264,12 +16554,14 @@ components:
             - I
             - E
             - P
-            - N
+            - 'N'
             - T
           description: |
             Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
         customer:
-          $ref: "#/components/schemas/CustomerInfo"
+          anyOf:
+            - $ref: '#/components/schemas/CustomerInfo'
+            - type: 'null'
         total:
           type: number
           description: Total amount invoiced.
@@ -16296,7 +16588,7 @@ components:
         payment_form:
           type: string
           description: Payment form code according to the [Payment Form catalog](#payment-form).
-          example: 06
+          example: 6
         total_payment_amount:
           type: number
           description: Total amount of the Payment complement when the invoice is type P.
@@ -16311,21 +16603,21 @@ components:
             try to stamp the invoice with the [Stamp Invoice]('#/operation/stampInvoice') method.
             If the value is `false`, you must use the [Update Invoice]('#/operation/updateDraftInvoice')
             method to complete the missing fields.
-            
+
             In an invoice with a status other than `draft`, this field will always be `false`.
         items:
           type: array
           description: Concepts included in the document.
           items:
-            $ref: "#/components/schemas/LineItem"
+            $ref: '#/components/schemas/LineItem'
         related_documents:
           type: array
           description: Documents related to the invoice.
           items:
-            $ref: "#/components/schemas/RelatedDocument"
+            $ref: '#/components/schemas/RelatedDocument'
         received_payment_ids:
           type: array
-          items: 
+          items:
             type: string
           description: |
             On invoices with type I (Income) and payment method PPD, this field lists the
@@ -16355,7 +16647,7 @@ components:
           type: array
           default: []
           items:
-            $ref: "#/components/schemas/NominaOrCustomComplementProperties"
+            $ref: '#/components/schemas/NominaOrCustomComplementProperties'
           description: Complements to include in the invoice.
         pdf_custom_section:
           type: string
@@ -16369,9 +16661,91 @@ components:
           type: array
           description: Namespaces to insert in the root node of the invoice. Required for `addenda`.
           items:
-            $ref: "#/components/schemas/NamespaceProperties"
+            $ref: '#/components/schemas/NamespaceProperties'
         stamp:
-          $ref: "#/components/schemas/Stamp"
+          anyOf:
+            - $ref: '#/components/schemas/Stamp'
+            - type: 'null'
+        cancellation:
+          type: object
+          properties:
+            requested_at:
+              type:
+                - string
+                - 'null'
+              format: date-time
+            last_checked:
+              type: string
+              format: date-time
+            canceled_at:
+              type:
+                - string
+                - 'null'
+              format: date-time
+            status:
+              type: string
+              enum:
+                - none
+                - verifying
+                - pending
+                - accepted
+                - rejected
+                - expired
+              description: |
+                Current status of the cancellation request, if it has been made. `verifying` means the SAT has received the request and is validating it; Facturapi will keep checking until it changes to a final status. You can read more in the [Cancel Invoice](#tag/invoice/operation/deleteInvoice) section.
+              example: none
+            motive:
+              type: string
+            substitutionUUID:
+              type: string
+            cancellation_type:
+              type: string
+        organization:
+          type:
+            - string
+            - 'null'
+        issuer_type:
+          $ref: '#/components/schemas/IssuingType'
+        cfdi_version:
+          type: number
+          example: 4
+        issuer_info:
+          $ref: '#/components/schemas/CustomerInfo'
+        payment_method:
+          type: string
+          enum:
+            - PUE
+            - PPD
+        use:
+          type: string
+        amount_due:
+          type: number
+        verification_carta_porte:
+          type: string
+          format: uri
+        conditions:
+          type: string
+        export:
+          type: string
+        global:
+          type: object
+          required:
+            - periodicity
+            - months
+            - year
+          properties:
+            periodicity:
+              type: string
+              enum:
+                - day
+                - week
+                - fortnight
+                - month
+                - two_months
+            months:
+              type: string
+            year:
+              type: integer
     InvoiceDraftProperties:
       type: object
       properties:
@@ -16403,14 +16777,16 @@ components:
           description: URL to verify the status of the CFDI on the SAT portal. This link is the same as the one that appears in the QR code on the invoice PDF.
           example: null
         date:
-          type: string
+          type:
+            - string
+            - 'null'
           format: date-time
           example: null
           description: |
             Date of issuance of the invoice in ISO8601 format (UTC String). If the status is `draft`, this field is null.
         address:
           allOf:
-            - $ref: "#/components/schemas/CommonAddressProperties"
+            - $ref: '#/components/schemas/CommonAddressProperties'
             - type: object
               description: Address where the invoice was issued.
               properties:
@@ -16424,12 +16800,12 @@ components:
             - I
             - E
             - P
-            - N
+            - 'N'
             - T
           description: |
             Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
         customer:
-          $ref: "#/components/schemas/CustomerInfo"
+          $ref: '#/components/schemas/CustomerInfo'
         total:
           type: number
           description: Total amount invoiced.
@@ -16456,17 +16832,17 @@ components:
         payment_form:
           type: string
           description: Payment form code according to the [Payment Form catalog](#forma-de-pago).
-          example: 06
+          example: 6
         items:
           type: array
           description: Concepts included in the document.
           items:
-            $ref: "#/components/schemas/LineItem"
+            $ref: '#/components/schemas/LineItem'
         related_documents:
           type: array
           description: Documents related to the invoice.
           items:
-            $ref: "#/components/schemas/RelatedDocument"
+            $ref: '#/components/schemas/RelatedDocument'
         currency:
           type: string
           example: MXN
@@ -16480,7 +16856,7 @@ components:
           type: array
           default: []
           items:
-            $ref: "#/components/schemas/NominaOrCustomComplementProperties"
+            $ref: '#/components/schemas/NominaOrCustomComplementProperties'
           description: Complements to include in the invoice.
         pdf_custom_section:
           type: string
@@ -16494,7 +16870,7 @@ components:
           type: array
           description: Namespaces to insert in the root node of the invoice. Required for `addenda`.
           items:
-            $ref: "#/components/schemas/NamespaceProperties"
+            $ref: '#/components/schemas/NamespaceProperties'
         is_ready_to_stamp:
           type: boolean
           description: |
@@ -16507,7 +16883,7 @@ components:
             In an invoice with a status other than `draft`, this field will always be `false`.
         stamp:
           allOf:
-            - $ref: "#/components/schemas/Stamp"
+            - $ref: '#/components/schemas/Stamp'
             - type: object
               example: null
 
@@ -16516,7 +16892,6 @@ components:
       properties:
         folio_number:
           type: integer
-          default: autoincremental
           description: |
             Number of folio assigned by the company for internal control. If omitted, the autoincremental value of the organization will be assigned.
         series:
@@ -16763,7 +17138,7 @@ components:
               default: pending  
               description: |
                 Initial status of the invoice.
-                
+
                 If `draft` is sent, the invoice will
                 be saved as a draft and will not be stamped or sent to the SAT.
                 Also, when sending `draft`, all required fields become optional.
@@ -16776,7 +17151,6 @@ components:
             date:
               type: string
               format: date-time
-              default: now
               description: |
                 Date of issuance of the invoice in ISO8601 format (UTC String). It cannot be earlier than 72 hours in the past, nor later than the present.
             address:
@@ -16856,37 +17230,135 @@ components:
         - $ref: "#/components/schemas/InvoiceableCommonEditInput"
     InvoiceCreateInput:
       type: object
+      description: Invoice data according to its type and initial status. Omit status to stamp; use draft to save a draft.
       oneOf:
-        - title: Income
-          discriminator:
-            propertyName: status
-            mapping:
-              pending: "#/components/schemas/InvoiceIngresoInput"
-              draft: "#/components/schemas/InvoiceIngresoEditInput"
-        - title: Egress
-          discriminator:
-            propertyName: status
-            mapping:
-              pending: "#/components/schemas/InvoiceEgresoInput"
-              draft: "#/components/schemas/InvoiceEgresoEditInput"
-        - title: Payment
-          discriminator:
-            propertyName: status
-            mapping:
-              pending: "#/components/schemas/InvoicePagoInput"
-              draft: "#/components/schemas/InvoicePagoEditInput"
-        - title: Payroll
-          discriminator:
-            propertyName: status
-            mapping:
-              pending: "#/components/schemas/InvoiceNominaInput"
-              draft: "#/components/schemas/InvoiceNominaEditInput"
-        - title: Transfer
-          discriminator:
-            propertyName: status
-            mapping:
-              pending: "#/components/schemas/InvoiceTrasladoInput"
-              draft: "#/components/schemas/InvoiceTrasladoEditInput"
+        - allOf:
+            - $ref: '#/components/schemas/InvoiceIngresoInput'
+            - type: object
+              properties:
+                type:
+                  type: string
+                  const: I
+                status:
+                  type: string
+                  const: pending
+                  default: pending
+        - allOf:
+            - $ref: '#/components/schemas/InvoiceIngresoEditInput'
+            - type: object
+              required:
+                - status
+              properties:
+                type:
+                  type: string
+                  const: I
+                status:
+                  type: string
+                  const: draft
+        - allOf:
+            - $ref: '#/components/schemas/InvoiceEgresoInput'
+            - type: object
+              required:
+                - type
+              properties:
+                type:
+                  type: string
+                  const: E
+                status:
+                  type: string
+                  const: pending
+                  default: pending
+        - allOf:
+            - $ref: '#/components/schemas/InvoiceEgresoEditInput'
+            - type: object
+              required:
+                - status
+                - type
+              properties:
+                type:
+                  type: string
+                  const: E
+                status:
+                  type: string
+                  const: draft
+        - allOf:
+            - $ref: '#/components/schemas/InvoicePagoInput'
+            - type: object
+              required:
+                - type
+              properties:
+                type:
+                  type: string
+                  const: P
+                status:
+                  type: string
+                  const: pending
+                  default: pending
+        - allOf:
+            - $ref: '#/components/schemas/InvoicePagoEditInput'
+            - type: object
+              required:
+                - status
+                - type
+              properties:
+                type:
+                  type: string
+                  const: P
+                status:
+                  type: string
+                  const: draft
+        - allOf:
+            - $ref: '#/components/schemas/InvoiceNominaInput'
+            - type: object
+              required:
+                - type
+              properties:
+                type:
+                  type: string
+                  const: 'N'
+                status:
+                  type: string
+                  const: pending
+                  default: pending
+        - allOf:
+            - $ref: '#/components/schemas/InvoiceNominaEditInput'
+            - type: object
+              required:
+                - status
+                - type
+              properties:
+                type:
+                  type: string
+                  const: 'N'
+                status:
+                  type: string
+                  const: draft
+        - allOf:
+            - $ref: '#/components/schemas/InvoiceTrasladoInput'
+            - type: object
+              required:
+                - type
+              properties:
+                type:
+                  type: string
+                  const: T
+                status:
+                  type: string
+                  const: pending
+                  default: pending
+        - allOf:
+            - $ref: '#/components/schemas/InvoiceTrasladoEditInput'
+            - type: object
+              required:
+                - status
+                - type
+              properties:
+                type:
+                  type: string
+                  const: T
+                status:
+                  type: string
+                  const: draft
     InvoiceIngresoInput:
       title: Income
       required:
@@ -16936,7 +17408,7 @@ components:
               default: G01
               description: |
                 Code of Use of CFDI according to the SAT catalog. You can see the codes in [this table](#uso-cfdi), or use the constants included in our libraries.
-                
+
                 For global invoices you must use the code `S01`.
             currency:
               type: string
@@ -17257,7 +17729,7 @@ components:
               example: G01
               description: |
                 Code of Use of CFDI according to the SAT catalog. You can see the codes in [this table](#uso-cfdi), or use the constants included in our libraries.
-                
+
                 For global invoices you must use the code `S01`.
             currency:
               type: string
@@ -17376,7 +17848,7 @@ components:
               maxItems: 5000
               description: |
                 Concepts to include in the credit note.
-                
+
                 The maximum number of elements that you can include in a document is 5,000. If you need
                 to issue a document with more than 5,000 concepts, you can divide the transaction into several documents.
               items:
@@ -17522,8 +17994,12 @@ components:
     Receipt:
       title: Receipt object
       allOf:
-        - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
-        - $ref: "#/components/schemas/ReceiptProperties"
+        - $ref: '#/components/schemas/ResourceAutoGeneratedProps'
+        - $ref: '#/components/schemas/ReceiptProperties'
+        - type: object
+          properties:
+            organization:
+              type: string
     ReceiptProperties:
       allOf:
         - type: object
@@ -17629,7 +18105,7 @@ components:
                 to issue a receipt with more than 5,000 concepts, you can divide the transaction into several receipts.
               items:
                 $ref: "#/components/schemas/LineItemInput"
-          
+
         - $ref: "#/components/schemas/ReceiptEditableProperties"
         - type: object
           properties:
@@ -17732,7 +18208,6 @@ components:
         from:
           type: string
           format: date
-          default: Start of the last period
           example: 2022-01-01T00:00:00.000
           description: |
             Initial date of the receipts that will be included in the global invoice.
@@ -17742,7 +18217,6 @@ components:
         to:
           type: string
           format: date
-          default: End of the last period
           example: 2022-01-31T23:59:59.999
           description: |
             End date of the receipts that will be included in the global invoice.
@@ -17752,7 +18226,6 @@ components:
         periodicity:
           type: string
           # default: Propiedad `periodicity` de la configuración de recibos de la organización.
-          default: "`periodicity` property from the organization's receipt configuration."
           enum:
             - day
             - week
@@ -17765,14 +18238,12 @@ components:
             on the value of `periodicity`.
         months:
           type: string
-          default: Month contained in the range of dates used.
           description: |
             Key representing the month or bimester of the invoice. Consult
             the possible values in the [Months and Bimesters catalog](#meses-y-bimestres).
           example: "01"
         folio_number:
           type: integer
-          default: autoincremental
           description: |
             Number of the folio assigned by the company for internal control.
             If omitted, the incremental value of the organization will be assigned.
@@ -17784,7 +18255,6 @@ components:
         date:
           type: string
           format: date
-          default: Value of the `to` field
           example: 2022-01-01T00:00:00.000
           description: |
             Date of issuance of the invoice. By default, it takes the value of the `to` field.
@@ -17853,8 +18323,7 @@ components:
           default: false
           description: If `true`, only validates data and returns a summary without creating the invoice.
         payment_form:
-          type: string
-          nullable: true
+          type: ["string","null"]
           minLength: 2
           maxLength: 2
           example: "03"
@@ -17875,13 +18344,13 @@ components:
             description: Receipt key.
             example: ticket_1001
         customer:
-          nullable: true
           oneOf:
-            - $ref: "#/components/schemas/CustomerCreateInput"
+            - $ref: '#/components/schemas/CustomerCreateInput'
             - type: string
               title: customer_id
               description: ID of a customer previously registered in Facturapi.
               example: 58e93bd8e86eb318b0197456
+            - type: 'null'
           description: |
             Optional customer used for preview rendering. If you omit it, all receipts
             must already have the same assigned customer.
@@ -17895,9 +18364,13 @@ components:
     Retention:
       title: Retention object
       allOf:
-        - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
-        - $ref: "#/components/schemas/RetentionReadOnlyProperties"
-        - $ref: "#/components/schemas/RetentionProperties"
+        - $ref: '#/components/schemas/ResourceAutoGeneratedProps'
+        - $ref: '#/components/schemas/RetentionReadOnlyProperties'
+        - $ref: '#/components/schemas/RetentionProperties'
+        - type: object
+          properties:
+            organization:
+              type: string
     RetentionReadOnlyProperties:
       type: object
       properties:
@@ -17929,9 +18402,13 @@ components:
             Fiscal folio of the retention, assigned by the SAT.
           example: 39c85a3f-275b-4341-b259-e8971d9f8a94
         stamp:
-          $ref: "#/components/schemas/Stamp"
+          anyOf:
+            - $ref: '#/components/schemas/Stamp'
+            - type: 'null'
         customer:
-          $ref: "#/components/schemas/CustomerInfo"
+          anyOf:
+            - $ref: '#/components/schemas/CustomerInfo'
+            - type: 'null'
         is_ready_to_stamp:
           type: boolean
           description: |
@@ -17943,13 +18420,15 @@ components:
       properties:
         cve_retenc:
           type: string
-          example: 01
+          example: 1
           description: |
             Key of the retention or payment information according to the SAT catalog.
         fecha_exp:
-          type: string
+          type:
+            - string
+            - 'null'
           format: date-time
-          example: "2021-09-15T06:03:23.000Z"
+          example: '2021-09-15T06:03:23.000Z'
           description: Date of issuance of the document in ISO8601 format (UTC String).
         desc_retenc:
           type: string
@@ -18023,10 +18502,10 @@ components:
                   tipo_pago_ret:
                     type: string
                     enum:
-                      - 01
-                      - 02
-                      - 03
-                      - 04
+                      - 1
+                      - 2
+                      - 3
+                      - 4
                     description: |
                       Key of the type of payment according to the SAT catalog.
 
@@ -18048,7 +18527,7 @@ components:
           type: array
           default: []
           items:
-            $ref: "#/components/schemas/CustomComplementData"
+            $ref: '#/components/schemas/CustomComplementData'
           description: |
             Array of complements to include in the retention. Each element contains a `string` with the XML code of the complement.
         pdf_custom_section:
@@ -18064,7 +18543,7 @@ components:
           type: array
           description: Namespaces to insert in the root node of the invoice. Required for `addenda`.
           items:
-            $ref: "#/components/schemas/NamespaceProperties"
+            $ref: '#/components/schemas/NamespaceProperties'
     RetentionSearchResult:
       allOf:
         - $ref: "#/components/schemas/SearchResult"
@@ -18130,16 +18609,15 @@ components:
           example: draft
         customer:
           description: Customer receiving the invoice.
-          nullable: true
           oneOf:
-            - $ref: "#/components/schemas/CustomerCreateInput"
+            - $ref: '#/components/schemas/CustomerCreateInput'
             - type: string
               title: customer_id
               description: ID of the 'customer' object previously registered in Facturapi.
               example: 58e93bd8e86eb318b0197456
+            - type: 'null'
         cve_retenc:
-          type: string
-          nullable: true
+          type: ["string","null"]
           example: 26
           description: Key of the retention or payment information according to the [SAT catalog](#clave-de-retencion).
         fecha_exp:
@@ -18156,8 +18634,7 @@ components:
           example: R123
           description: Alphanumeric identifier for internal control of the company and without fiscal relevance.
         periodo:
-          type: object
-          nullable: true
+          type: ["object","null"]
           description: Information about the retention period.
           required:
             - mes_ini
@@ -18181,8 +18658,7 @@ components:
               example: 2021
               description: Fiscal year in which the retention was made.
         totales:
-          type: object
-          nullable: true
+          type: ["object","null"]
           description: Information about the total of retentions made in the corresponding period.
           required:
             - monto_tot_operacion
@@ -18307,21 +18783,21 @@ components:
         id:
           type: string
           description: ID of the organization, assigned by Facturapi.
-          example: "5a2a307be93a2f00129ea035"
+          example: 5a2a307be93a2f00129ea035
         created_at:
           type: string
           format: date-time
           description: Date and time of creation of the organization.
-          example: "2017-05-05T20:55:33.468Z"
+          example: '2017-05-05T20:55:33.468Z'
         logo_url:
           type: string
           format: uri
           description: URL of the organization's logo.
-          example: "https://storage.googleapis.com/cdn.facturapi.io/organization/6c100efa5c6f5d7db0379ca643476a4183526007/logo.jpg"
+          example: https://storage.googleapis.com/cdn.facturapi.io/organization/6c100efa5c6f5d7db0379ca643476a4183526007/logo.jpg
         timezone:
           type: string
           description: Time zone of the organization, in IANA format.
-          example: "America/Mexico_City"
+          example: America/Mexico_City
         is_production_ready:
           type: boolean
           description: Indicates if the organization has the necessary information to issue invoices in the Live environment.
@@ -18356,7 +18832,7 @@ components:
                 Fiscal or Legal Name of the organization, *without* the corporate regime (e.g.: S.A. de C.V.).
             tax_system:
               type: string
-              example: "601"
+              example: '601'
               maxLength: 3
               minLength: 3
               description: Fiscal Regime Code, from the [SAT catalog](#régimen-fiscal).
@@ -18370,7 +18846,7 @@ components:
               allOf:
                 - type: object
                   description: Fiscal address of the organization.
-                - $ref: "#/components/schemas/OrganizationAddress"
+                - $ref: '#/components/schemas/OrganizationAddress'
         customization:
           type: object
           description: |
@@ -18490,16 +18966,16 @@ components:
             updated_at:
               type: string
               format: date-time
-              example: "2023-05-05T20:55:33.468Z"
+              example: '2023-05-05T20:55:33.468Z'
               description: Date of the last update of the certificate.
             expires_at:
               type: string
               format: date-time
-              example: "2025-05-05T20:55:33.468Z"
+              example: '2025-05-05T20:55:33.468Z'
               description: Expiration date of the certificate.
             serial_number:
               type: string
-              example: "20001000000300000000"
+              example: '20001000000300000000'
               description: Serial number of the certificate.
         fiel:
           type: object
@@ -18512,16 +18988,16 @@ components:
             updated_at:
               type: string
               format: date-time
-              example: "2023-05-05T20:55:33.468Z"
+              example: '2023-05-05T20:55:33.468Z'
               description: Date of the last update of the FIEL certificate.
             expires_at:
               type: string
               format: date-time
-              example: "2025-05-05T20:55:33.468Z"
+              example: '2025-05-05T20:55:33.468Z'
               description: Expiration date of the FIEL certificate.
             serial_number:
               type: string
-              example: "20001000000300000000"
+              example: '20001000000300000000'
               description: Serial number of the FIEL certificate.
         receipts:
           type: object
@@ -18593,6 +19069,49 @@ components:
             support_email_verified:
               type: boolean
               description: Indicates if the support email has been verified. If false, the email used in the self-invoice portal will be the main account's email.
+        plan:
+          type:
+            - string
+            - 'null'
+          deprecated: true
+          description: Legacy organization plan.
+        add_ons:
+          type: array
+          description: Additional features contracted for the organization.
+          items:
+            type: string
+        pending_plan_update:
+          type:
+            - object
+            - 'null'
+          description: Scheduled plan change, when present.
+          properties:
+            plan:
+              type: string
+            scheduled_for:
+              type: string
+              format: date-time
+        pending_add_ons_update:
+          type:
+            - object
+            - 'null'
+          description: Scheduled additional-feature change, when present.
+          properties:
+            add_ons:
+              type: array
+              items:
+                type: string
+            scheduled_for:
+              type: string
+              format: date-time
+        domain:
+          type:
+            - string
+            - 'null'
+        custom_domain:
+          type:
+            - string
+            - 'null'
 
     OrganizationDeleteCerts: 
       type: object
@@ -18977,12 +19496,10 @@ components:
           type: string
           description: Name of the organization that sent the invite.
         role:
-          type: string
-          nullable: true
+          type: ["string","null"]
           description: ID of the role assigned in the invite, if any.
         role_name:
-          type: string
-          nullable: true
+          type: ["string","null"]
           description: Name of the role assigned in the invite, if any.
         roles:
           type: array
@@ -18990,9 +19507,8 @@ components:
           items:
             type: string
         expires_at:
-          type: string
+          type: ["string","null"]
           format: date-time
-          nullable: true
           description: Date and time when the invite expires.
     OrganizationInviteList:
       type: array
@@ -19009,12 +19525,10 @@ components:
           type: string
           description: Role name.
         template_code:
-          type: string
-          nullable: true
+          type: ["string","null"]
           description: Base template code for the role, if it comes from a system template.
         organization:
-          type: string
-          nullable: true
+          type: ["string","null"]
           description: ID of the organization the role belongs to.
         used_by:
           type: integer
@@ -19035,14 +19549,12 @@ components:
           items:
             type: string
         created_at:
-          type: string
+          type: ["string","null"]
           format: date-time
-          nullable: true
           description: Date and time when the role was created.
         updated_at:
-          type: string
+          type: ["string","null"]
           format: date-time
-          nullable: true
           description: Date and time when the role was last updated.
     OrganizationPermissionRoleList:
       type: array
@@ -19093,16 +19605,13 @@ components:
           format: email
           description: User email address.
         role:
-          type: string
-          nullable: true
+          type: ["string","null"]
           description: ID of the role assigned to the user, if any. For the owner, this value is `null` because the access is implicit.
         role_name:
-          type: string
-          nullable: true
+          type: ["string","null"]
           description: Name of the assigned role or of the user's implicit access. For the owner, this value is `owner`.
         organization:
-          type: string
-          nullable: true
+          type: ["string","null"]
           description: ID of the organization this access belongs to.
         operations:
           type: array
@@ -19152,14 +19661,14 @@ components:
           type: string
           description: Role name.
         template_code:
-          type: string
-          nullable: true
+          type: ["string","null"]
           enum:
             - org-admin
             - org-readonly
             - org-billing
             - org-developer
             - org-team-manager
+            - null
           description: Base template code used to initialize the role, if any.
         add:
           type: array
@@ -19178,14 +19687,14 @@ components:
           type: string
           description: New role name.
         template_code:
-          type: string
-          nullable: true
+          type: ["string","null"]
           enum:
             - org-admin
             - org-readonly
             - org-billing
             - org-developer
             - org-team-manager
+            - null
           description: New base template code for the role, if any.
         add:
           type: array

@@ -16336,7 +16336,10 @@ components:
                   - "03"
                   - "04"
                   - "05"
-                description: "Code representing whether the good or service is subject to tax or not. This attribute corresponds to the \"ObjetoImp\" field in the CFDI.\n\n- `01`: Not subject to tax.\n- `02`: Subject to tax.\n- `03`: Subject to tax, but not required to break down.\n- `04`: Subject to tax, but does not cause tax.\n- `05`: Subject to tax, VAT credit PODEBI.\n\nIf omitted, `01` is used when `taxes` is empty and `02` when it contains at least one tax."
+                  - "06"
+                  - "07"
+                  - "08"
+                description: "Code representing whether the good or service is subject to tax or not. This attribute corresponds to the \"ObjetoImp\" field in the CFDI.\n\n- `01`: Not subject to tax.\n- `02`: Subject to tax.\n- `03`: Subject to tax, but not required to break down.\n- `04`: Subject to tax, but does not cause tax.\n- `05`: Subject to tax, VAT credit PODEBI.\n- `06`: Taxable, without transferred VAT.\n- `07`: No transferred VAT, with an IEPS breakdown.\n- `08`: No transferred VAT, without an IEPS breakdown.\n\nIf omitted, `01` is used when `taxes` is empty and `02` when it contains at least one tax."
               installment:
                 type: integer
                 description: |

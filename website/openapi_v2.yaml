@@ -16311,7 +16311,10 @@ components:
                   - "03"
                   - "04"
                   - "05"
-                description: "Código que representa si el bien o servicio es objeto de impuesto o no. Este atributo corresponde al campo \"ObjetoImp\" en el CFDI.\n\n- `01`: No objeto de impuesto.\n- `02`: Sí objeto de impuesto.\n- `03`: Sí objeto de impuesto, pero no obligado a desglose.\n- `04`: Sí objeto de impuesto, y no causa impuesto.\n- `05`: Sí objeto de impuesto, IVA crédito PODEBI.\n\nSi se omite, se utiliza `01` cuando `taxes` está vacío y `02` cuando contiene al menos un impuesto."
+                  - "06"
+                  - "07"
+                  - "08"
+                description: "Código que representa si el bien o servicio es objeto de impuesto o no. Este atributo corresponde al campo \"ObjetoImp\" en el CFDI.\n\n- `01`: No objeto de impuesto.\n- `02`: Sí objeto de impuesto.\n- `03`: Sí objeto de impuesto, pero no obligado a desglose.\n- `04`: Sí objeto de impuesto, y no causa impuesto.\n- `05`: Sí objeto de impuesto, IVA crédito PODEBI.\n- `06`: Sí objeto de impuesto, no IVA trasladado.\n- `07`: No traslado de IVA, pero desglose de IEPS.\n- `08`: No traslado de IVA sin desglose de IEPS.\n\nSi se omite, se utiliza `01` cuando `taxes` está vacío y `02` cuando contiene al menos un impuesto."
 
               installment:
                 type: integer

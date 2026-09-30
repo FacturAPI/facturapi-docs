@@ -15863,7 +15863,8 @@ components:
           type: array
           example:
             - receipt.status_updated
-          description: Events enabled for the webhook to listen to.
+          description: |
+            Subscribed webhook events. Existing responses may contain "*", but creating or updating a webhook requires explicit event names; the wildcard is not accepted in requests.
           items:
             type: string
             enum:
@@ -17059,7 +17060,10 @@ components:
           description: |
             Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
         customer:
-          $ref: '#/components/schemas/CustomerInfo'
+          description: Invoice customer. Null when the draft has no customer.
+          anyOf:
+            - $ref: '#/components/schemas/CustomerInfo'
+            - type: 'null'
         total:
           type: number
           description: Total amount invoiced.

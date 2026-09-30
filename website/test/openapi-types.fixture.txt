@@ -136,3 +136,11 @@ const nullIssuedCustomer: components["schemas"]["InvoiceCreateInput"] = { custom
 // @ts-expect-error a draft edit cannot request the pending status
 const pendingDraftEdit: components["schemas"]["InvoiceEgresoEditInput"] = { type: "E", status: "pending" };
 void [incomeWithDefaultUse, incomeWithNullUse, clearedDraft, clearedCreditDraft, clearedPaymentDraft, nullPayrollCustomer, nullTransferCustomer, singlePayment, nullIssuedCustomer, pendingDraftEdit];
+
+const draftWithoutCustomer: components["schemas"]["InvoiceDraftProperties"]["customer"] = null;
+const existingWildcard: NonNullable<components["schemas"]["WebhookProperties"]["enabled_events"]>[number] = "*";
+// @ts-expect-error webhook creation requires explicit event names
+const wildcardCreate: components["schemas"]["WebhookCreateInput"] = { url: "https://example.com/hooks", enabled_events: ["*"] };
+// @ts-expect-error webhook editing requires explicit event names
+const wildcardEdit: components["schemas"]["WebhookCreateEdit"] = { status: "enabled", enabled_events: ["*"] };
+void [draftWithoutCustomer, existingWildcard, wildcardCreate, wildcardEdit];

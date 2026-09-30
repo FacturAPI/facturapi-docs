@@ -18405,7 +18405,72 @@ components:
           description: Código de Uso CFDI según catálogo del SAT.
     ToInvoiceSummary:
       type: object
-      description: Objeto resumen que regresa cuando `dry_run=true`.
+      description: Resumen de importes e impuestos de los recibos cuando `dry_run=true`.
+      required: [subtotal, discount, taxes, total, receipts, payment_form, item_count]
+      properties:
+        subtotal:
+          type: number
+        discount:
+          type: number
+        total:
+          type: number
+        receipts:
+          type: array
+          items:
+            type: string
+        payment_form:
+          type: string
+        item_count:
+          type: integer
+        taxes:
+          type: object
+          required: [totalAdded, totalWithholding, allAdded, allWithholding, localTotalAdded, localTotalWithholding, localAllAdded, localAllWithholding]
+          properties:
+            totalAdded:
+              type: number
+            totalWithholding:
+              type: number
+            localTotalAdded:
+              type: number
+            localTotalWithholding:
+              type: number
+            allAdded:
+              type: array
+              items:
+                $ref: "#/components/schemas/ReceiptInvoiceSummaryTax"
+            allWithholding:
+              type: array
+              items:
+                $ref: "#/components/schemas/ReceiptInvoiceSummaryTax"
+            localAllAdded:
+              type: array
+              items:
+                $ref: "#/components/schemas/ReceiptInvoiceSummaryTax"
+            localAllWithholding:
+              type: array
+              items:
+                $ref: "#/components/schemas/ReceiptInvoiceSummaryTax"
+    ReceiptInvoiceSummaryTax:
+      type: object
+      required: [factor, withholding, base, amount]
+      additionalProperties: true
+      properties:
+        type:
+          type: string
+        rate:
+          type: number
+        factor:
+          type: string
+          enum: [Tasa, Cuota, Exento]
+        withholding:
+          type: boolean
+        base:
+          type: number
+        amount:
+          type: number
+        name:
+          type: string
+
     Retention:
       title: Objeto Retention
       allOf:

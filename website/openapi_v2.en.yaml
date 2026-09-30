@@ -14609,12 +14609,14 @@ components:
               format: date-time
 
     PagoComplementDataInput:
-      type: array
       title: PagoComplementData
       description: Payments to include in this document. The most common is to include only one payment. A case in which more than one must be added is when the payment is made with 2 different payment methods; for example, when one part is paid by card and the other in cash.
-      items:
-        $ref: "#/components/schemas/PaymentInput"
-
+      oneOf:
+        - $ref: "#/components/schemas/PaymentInput"
+        - type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/PaymentInput"
     NominaOrCustomComplementProperties:
       title: Complement
       type: object
@@ -17369,18 +17371,20 @@ components:
                 antiguedad:
                   type: boolean
                   default: false
+    InvoiceCustomerInput:
+      description: Customer receiving the invoice.
+      oneOf:
+        - $ref: "#/components/schemas/CustomerCreateInput"
+        - type: string
+          title: customer_id
+          description: ID of the `customer` object previously registered in Facturapi.
+          example: 58e93bd8e86eb318b0197456
     InvoiceCommonInputProperties:
       allOf:
         - type: object
           properties:
             customer:
-              description: Customer receiving the invoice.
-              oneOf:
-                - $ref: "#/components/schemas/CustomerCreateInput"
-                - type: string
-                  title: customer_id
-                  description: ID of the `customer` object previously registered in Facturapi.
-                  example: 58e93bd8e86eb318b0197456
+              $ref: "#/components/schemas/InvoiceCustomerInput"
             status:
               type: string
               enum:
@@ -17432,14 +17436,6 @@ components:
       allOf:
         - type: object
           properties:
-            customer:
-              description: Customer receiving the invoice.
-              oneOf:
-                - $ref: "#/components/schemas/CustomerCreateInput"
-                - type: string
-                  title: customer_id
-                  description: ID of the `Customer` object previously registered in Facturapi.
-                  example: 58e93bd8e86eb318b0197456
             status:
               type: string
               enum:
@@ -17478,6 +17474,20 @@ components:
 
                 If left blank, it will not be taken into account.
         - $ref: "#/components/schemas/InvoiceableCommonEditInput"
+    InvoiceDraftInputProperties:
+      allOf:
+        - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
+        - type: object
+          properties:
+            customer:
+              description: Customer receiving the invoice.
+              oneOf:
+                - type: "null"
+                - $ref: "#/components/schemas/CustomerCreateInput"
+                - type: string
+                  title: customer_id
+                  description: ID of the `Customer` object previously registered in Facturapi.
+                  example: 58e93bd8e86eb318b0197456
     InvoiceCreateInput:
       type: object
       description: Invoice data according to its type and initial status. Omit status to stamp; use draft to save a draft.
@@ -17615,7 +17625,6 @@ components:
         - customer
         - items
         - payment_form
-        - use
       allOf:
         - type: object
           properties:
@@ -17654,9 +17663,10 @@ components:
                 - `PUE`: Payment in One Installment (paid in full at the time of the transaction)
                 - `PPD`: Payment in Installments or Deferred (partial or deferred payment)
             use:
-              type: string
-              default: G01
+              type: [string, "null"]
               description: |
+                If omitted or null, the customer default is used, falling back to G03. For foreign customers or the general public, S01 is used.
+
                 Code of Use of CFDI according to the SAT catalog. You can see the codes in [this table](#uso-cfdi), or use the constants included in our libraries.
 
                 For global invoices you must use the code `S01`.
@@ -17791,7 +17801,7 @@ components:
                 $ref: "#/components/schemas/LineItemEgresoInput"
             use:
               type: string
-              default: G01
+              default: G02
               description: |
                 Code of Use of CFDI according to the SAT catalog. You can see the codes in [this table](#uso-cfdi), or use the constants included in our libraries.
             currency:
@@ -17928,12 +17938,12 @@ components:
                 `pdf_custom_section` parameter.
             use:
               type: string
-              default: G01
+              default: S01
               description: |
                 Code of Use of CFDI according to the SAT catalog. You can see the codes in [this table](#uso-cfdi), or use the constants included in our libraries.
             currency:
               type: string
-              default: MXN
+              default: XXX
               description: Currency code, according to the standard [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
             exchange:
               type: number
@@ -17969,7 +17979,7 @@ components:
               items:
                 $ref: "#/components/schemas/LineItemInput"
             payment_form:
-              type: string
+              type: [string, "null"]
               minLength: 2
               maxLength: 2
               example: "03"
@@ -17985,7 +17995,7 @@ components:
                 - `PUE`: Payment in One Installment (paid in full at the time of the transaction)
                 - `PPD`: Payment in Installments or Deferred (partial or deferred payment)
             use:
-              type: string
+              type: [string, "null"]
               example: G01
               description: |
                 Code of Use of CFDI according to the SAT catalog. You can see the codes in [this table](#uso-cfdi), or use the constants included in our libraries.
@@ -18068,7 +18078,7 @@ components:
                 invoice if you build the XML node of the complement yourself and use the `custom` type.
                 It is necessary to add the complement information to the PDF separately using the
                 `pdf_custom_section` parameter.
-        - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
+        - $ref: "#/components/schemas/InvoiceDraftInputProperties"
     InvoiceEgresoEditInput:
       title: Egress
       allOf:
@@ -18129,7 +18139,7 @@ components:
                 credit note if you build the XML node of the complement yourself and use the `custom` type.
                 It is necessary to add the complement information to the PDF separately using the
                 `pdf_custom_section` parameter.
-        - $ref: "#/components/schemas/InvoiceCommonInputProperties"
+        - $ref: "#/components/schemas/InvoiceDraftInputProperties"
     InvoicePagoEditInput:
       title: Payment
       allOf:
@@ -18158,12 +18168,14 @@ components:
               items:
                 $ref: "#/components/schemas/InvoiceComplementInput"
               description: Complements to include in the invoice.
-        - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
+        - $ref: "#/components/schemas/InvoiceDraftInputProperties"
     InvoiceNominaEditInput:
       title: Payroll
       allOf:
         - type: object
           properties:
+            customer:
+              $ref: "#/components/schemas/InvoiceCustomerInput"
             type:
               type: string
               const: "N"
@@ -18184,6 +18196,8 @@ components:
       allOf:
         - type: object
           properties:
+            customer:
+              $ref: "#/components/schemas/InvoiceCustomerInput"
             type:
               type: string
               const: "T"

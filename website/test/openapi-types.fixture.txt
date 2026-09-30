@@ -121,3 +121,18 @@ const missingOvertimeAmount: components["schemas"]["NominaHorasExtraInput"] = { 
 const publicAidPerception: components["schemas"]["NominaPercepcionInput"] = { ...plainPerception, tipo_percepcion: "056" };
 const customPayroll: components["schemas"]["NominaOtroPagoInput"] = { tipo_otro_pago: "002", clave: "ABC", importe: 1 };
 void [missingPerceptionAmounts, missingOvertimeAmount, publicAidPerception, customPayroll];
+const incomeWithDefaultUse: components["schemas"]["InvoiceCreateInput"] = { customer: "cus", payment_form: "28", items: [{ quantity: 1, product: { description: "Ejemplo", product_key: "60131324", price: 1 } }] };
+const incomeWithNullUse: components["schemas"]["InvoiceCreateInput"] = { ...incomeWithDefaultUse, use: null };
+const clearedDraft: components["schemas"]["InvoiceCreateInput"] = { status: "draft", customer: null, payment_form: null, use: null };
+const clearedCreditDraft: components["schemas"]["InvoiceEgresoEditInput"] = { type: "E", customer: null };
+const clearedPaymentDraft: components["schemas"]["InvoicePagoEditInput"] = { type: "P", customer: null };
+// @ts-expect-error a payroll customer can be omitted, but cannot be cleared with null
+const nullPayrollCustomer: components["schemas"]["InvoiceNominaEditInput"] = { type: "N", customer: null };
+// @ts-expect-error a transfer customer can be omitted, but cannot be cleared with null
+const nullTransferCustomer: components["schemas"]["InvoiceTrasladoEditInput"] = { type: "T", customer: null };
+const singlePayment: components["schemas"]["PagoComplementInput"] = { type: "pago", data: { payment_form: "28", related_documents: [{ uuid: "39c85a3f-275b-4341-b259-e8971d9f8a94", installment: 1, last_balance: 1, amount: 1, taxes: [] }] } };
+// @ts-expect-error issued invoices still require a real customer
+const nullIssuedCustomer: components["schemas"]["InvoiceCreateInput"] = { customer: null, payment_form: "28", items: incomeWithDefaultUse.items };
+// @ts-expect-error a draft edit cannot request the pending status
+const pendingDraftEdit: components["schemas"]["InvoiceEgresoEditInput"] = { type: "E", status: "pending" };
+void [incomeWithDefaultUse, incomeWithNullUse, clearedDraft, clearedCreditDraft, clearedPaymentDraft, nullPayrollCustomer, nullTransferCustomer, singlePayment, nullIssuedCustomer, pendingDraftEdit];

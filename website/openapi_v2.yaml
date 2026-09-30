@@ -14548,12 +14548,14 @@ components:
               format: date-time
 
     PagoComplementDataInput:
-      type: array
       title: PagoComplementData
       description: Pagos a incluir en este comprobante. Lo más común es incluir un sólo pago. Un caso en el que se debe de agregar más de uno es cuando el pago se realiza con 2 formas de pago distintas; por ejemplo, cuando se paga una parte con tarjeta y otra en efectivo.
-      items:
-        $ref: "#/components/schemas/PaymentInput"
-
+      oneOf:
+        - $ref: "#/components/schemas/PaymentInput"
+        - type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/PaymentInput"
     NominaOrCustomComplementProperties:
       title: Complement
       type: object
@@ -17318,18 +17320,20 @@ components:
                 antiguedad:
                   type: boolean
                   default: false
+    InvoiceCustomerInput:
+      description: Cliente receptor de la factura.
+      oneOf:
+        - $ref: "#/components/schemas/CustomerCreateInput"
+        - type: string
+          title: customer_id
+          description: ID del objeto 'customer' previamente registrado en Facturapi.
+          example: 58e93bd8e86eb318b0197456
     InvoiceCommonInputProperties:
       allOf:
         - type: object
           properties:
             customer:
-              description: Cliente receptor de la factura.
-              oneOf:
-                - $ref: "#/components/schemas/CustomerCreateInput"
-                - type: string
-                  title: customer_id
-                  description: ID del objeto 'customer' previamente registrado en Facturapi.
-                  example: 58e93bd8e86eb318b0197456
+              $ref: "#/components/schemas/InvoiceCustomerInput"
             status:
               type: string
               enum:
@@ -17375,14 +17379,6 @@ components:
       allOf:
         - type: object
           properties:
-            customer:
-              description: Cliente receptor de la factura.
-              oneOf:
-                - $ref: "#/components/schemas/CustomerCreateInput"
-                - type: string
-                  title: customer_id
-                  description: ID del objeto 'customer' previamente registrado en Facturapi.
-                  example: 58e93bd8e86eb318b0197456
             status:
               type: string
               enum:
@@ -17419,6 +17415,20 @@ components:
                 Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
                 Si se deja en blanco, no se tomará en cuenta.
         - $ref: "#/components/schemas/InvoiceableCommonEditInput"
+    InvoiceDraftInputProperties:
+      allOf:
+        - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
+        - type: object
+          properties:
+            customer:
+              description: Cliente receptor de la factura.
+              oneOf:
+                - type: "null"
+                - $ref: "#/components/schemas/CustomerCreateInput"
+                - type: string
+                  title: customer_id
+                  description: ID del objeto 'customer' previamente registrado en Facturapi.
+                  example: 58e93bd8e86eb318b0197456
     InvoiceCreateInput:
       type: object
       description: Datos de la factura según su tipo y estado inicial. Omite status para timbrar; usa draft para guardar un borrador.
@@ -17556,7 +17566,6 @@ components:
         - customer
         - items
         - payment_form
-        - use
       allOf:
         - type: object
           properties:
@@ -17594,9 +17603,10 @@ components:
                 - `PUE`: Pago en Una sola Exhibición
                 - `PPD`: Pago en Parcialidades o Diferido
             use:
-              type: string
-              default: G01
+              type: [string, "null"]
               description: |
+                Si se omite o es null, se utiliza el uso configurado en el cliente; si no tiene uno, se utiliza G03. Para clientes extranjeros o público en general se utiliza S01.
+
                 Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos
                 en [esta tabla](#uso-cfdi), o utilizar las constantes incluidas en
                 nuestras librerías.
@@ -17731,7 +17741,7 @@ components:
                 $ref: "#/components/schemas/LineItemEgresoInput"
             use:
               type: string
-              default: G01
+              default: G02
               description: Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en [esta tabla](#uso-cfdi), o utilizar las constantes incluidas en nuestras librerías.
             currency:
               type: string
@@ -17864,13 +17874,13 @@ components:
                 usando el parámetro `pdf_custom_section`.
             use:
               type: string
-              default: G01
+              default: S01
               description: |
                 Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos en
                 [esta tabla](#uso-cfdi), o utilizar las constantes incluidas en nuestras librerías.
             currency:
               type: string
-              default: MXN
+              default: XXX
               description: Código de la moneda, acorde al estándar [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
             exchange:
               type: number
@@ -17905,7 +17915,7 @@ components:
               items:
                 $ref: "#/components/schemas/LineItemInput"
             payment_form:
-              type: string
+              type: [string, "null"]
               minLength: 2
               maxLength: 2
               example: "03"
@@ -17921,7 +17931,7 @@ components:
                 - `PUE`: Pago en Una sola Exhibición
                 - `PPD`: Pago en Parcialidades o Diferido
             use:
-              type: string
+              type: [string, "null"]
               example: G01
               description: |
                 Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos
@@ -18006,7 +18016,7 @@ components:
                 factura si tú mismo construyes el nodo XML del complemento y usas el tipo `custom`.
                 Es necesario agregar la información del complemento al PDF por separado usando el
                 parámetro `pdf_custom_section`.
-        - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
+        - $ref: "#/components/schemas/InvoiceDraftInputProperties"
     InvoiceEgresoEditInput:
       title: Egreso
       allOf:
@@ -18064,7 +18074,7 @@ components:
                 complemento en el comprobante si tú mismo construyes el nodo XML del
                 complemento y usas el tipo `custom`. Es necesario agregar la información
                 del complemento al PDF por separado usando el parámetro `pdf_custom_section`.
-        - $ref: "#/components/schemas/InvoiceCommonInputProperties"
+        - $ref: "#/components/schemas/InvoiceDraftInputProperties"
     InvoicePagoEditInput:
       title: Pago
       allOf:
@@ -18093,12 +18103,14 @@ components:
               items:
                 $ref: "#/components/schemas/InvoiceComplementInput"
               description: Complementos a incluir en la factura.
-        - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
+        - $ref: "#/components/schemas/InvoiceDraftInputProperties"
     InvoiceNominaEditInput:
       title: Nómina
       allOf:
         - type: object
           properties:
+            customer:
+              $ref: "#/components/schemas/InvoiceCustomerInput"
             type:
               type: string
               const: "N"
@@ -18119,6 +18131,8 @@ components:
       allOf:
         - type: object
           properties:
+            customer:
+              $ref: "#/components/schemas/InvoiceCustomerInput"
             type:
               type: string
               const: "T"

@@ -16887,10 +16887,10 @@ components:
 
             In an invoice with a status other than `draft`, this field will always be `false`.
         stamp:
-          allOf:
+          anyOf:
             - $ref: '#/components/schemas/Stamp'
-            - type: object
-              example: null
+            - type: 'null'
+          example: null
 
     InvoiceableCommonInput:
       type: object
@@ -18967,12 +18967,12 @@ components:
               type: string
               format: date-time
               example: '2023-05-05T20:55:33.468Z'
-              description: Date of the last update of the certificate.
+              description: Date of the last update of the certificate. Omitted when no certificate is uploaded.
             expires_at:
               type: string
               format: date-time
               example: '2025-05-05T20:55:33.468Z'
-              description: Expiration date of the certificate.
+              description: Expiration date of the certificate. Omitted when no certificate is uploaded.
             serial_number:
               type: string
               example: '20001000000300000000'
@@ -18989,12 +18989,12 @@ components:
               type: string
               format: date-time
               example: '2023-05-05T20:55:33.468Z'
-              description: Date of the last update of the FIEL certificate.
+              description: Date of the last update of the FIEL certificate. Omitted when no certificate is uploaded.
             expires_at:
               type: string
               format: date-time
               example: '2025-05-05T20:55:33.468Z'
-              description: Expiration date of the FIEL certificate.
+              description: Expiration date of the FIEL certificate. Omitted when no certificate is uploaded.
             serial_number:
               type: string
               example: '20001000000300000000'

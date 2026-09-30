@@ -16842,10 +16842,10 @@ components:
 
             En una factura con status diferente a `draft`, este campo siempre será `false`.
         stamp:
-          allOf:
+          anyOf:
             - $ref: '#/components/schemas/Stamp'
-            - type: object
-              example: null
+            - type: 'null'
+          example: null
 
     InvoiceableCommonInput:
       type: object
@@ -18865,12 +18865,12 @@ components:
               type: string
               format: date-time
               example: '2023-05-05T20:55:33.468Z'
-              description: Fecha de la última actualización del certificado.
+              description: Fecha de la última actualización del certificado. Se omite cuando no hay un certificado cargado.
             expires_at:
               type: string
               format: date-time
               example: '2025-05-05T20:55:33.468Z'
-              description: Fecha de expiración del certificado.
+              description: Fecha de expiración del certificado. Se omite cuando no hay un certificado cargado.
             serial_number:
               type: string
               example: '30001000000300000101'
@@ -18886,12 +18886,12 @@ components:
               type: string
               format: date-time
               example: '2023-05-05T20:55:33.468Z'
-              description: Fecha de la última actualización del certificado FIEL.
+              description: Fecha de la última actualización del certificado FIEL. Se omite cuando no hay un certificado cargado.
             expires_at:
               type: string
               format: date-time
               example: '2025-05-05T20:55:33.468Z'
-              description: Fecha de expiración del certificado FIEL.
+              description: Fecha de expiración del certificado FIEL. Se omite cuando no hay un certificado cargado.
             serial_number:
               type: string
               example: '30001000000300000101'

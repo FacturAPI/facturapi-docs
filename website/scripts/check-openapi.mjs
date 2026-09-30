@@ -72,33 +72,35 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
   }
   walk(spec);
   const ids = new Set();
-  for (const [path, item] of Object.entries(spec.paths)) {
-    for (const [method, operation] of Object.entries(item)) {
-      if (!operation.responses) continue;
-      assert(operation.operationId, `Missing operationId: ${method} ${path}`);
-      assert(
-        !ids.has(operation.operationId),
-        `Duplicate operationId: ${operation.operationId}`,
-      );
-      ids.add(operation.operationId);
-      const params = [
-        ...(item.parameters || []),
-        ...(operation.parameters || []),
-      ].map((parameter) =>
-        parameter.$ref
-          ? spec.components.parameters[parameter.$ref.split("/").at(-1)]
-          : parameter,
-      );
-      for (const match of path.matchAll(/\{([^}]+)\}/g)) {
+  for (const items of [spec.paths, spec.webhooks || {}]) {
+    for (const [path, item] of Object.entries(items)) {
+      for (const [method, operation] of Object.entries(item)) {
+        if (!operation.responses) continue;
+        assert(operation.operationId, `Missing operationId: ${method} ${path}`);
         assert(
-          params.some(
-            (parameter) =>
-              parameter.in === "path" &&
-              parameter.name === match[1] &&
-              parameter.required === true,
-          ),
-          `Missing required path parameter: ${path}`,
+          !ids.has(operation.operationId),
+          `Duplicate operationId: ${operation.operationId}`,
         );
+        ids.add(operation.operationId);
+        const params = [
+          ...(item.parameters || []),
+          ...(operation.parameters || []),
+        ].map((parameter) =>
+          parameter.$ref
+            ? spec.components.parameters[parameter.$ref.split("/").at(-1)]
+            : parameter,
+        );
+        for (const match of path.matchAll(/\{([^}]+)\}/g)) {
+          assert(
+            params.some(
+              (parameter) =>
+                parameter.in === "path" &&
+                parameter.name === match[1] &&
+                parameter.required === true,
+            ),
+            `Missing required path parameter: ${path}`,
+          );
+        }
       }
     }
   }

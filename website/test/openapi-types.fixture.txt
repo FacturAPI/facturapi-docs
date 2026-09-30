@@ -33,6 +33,19 @@ const validation: operations["validateWebhookSignature"]["requestBody"]["content
     payload: '{"type":"receipt.status_updated"}',
   };
 const nullDate: components["schemas"]["InvoiceProperties"]["date"] = null;
+const draftStamp: components["schemas"]["InvoiceDraftProperties"]["stamp"] = null;
+const certificate: NonNullable<components["schemas"]["Organization"]["certificate"]> = {
+  has_certificate: false,
+};
+const missingCertificateDate: typeof certificate.updated_at = undefined;
+// @ts-expect-error absent certificate dates are omitted, not null
+const nullCertificateDate: typeof certificate.updated_at = null;
+const fiel: NonNullable<components["schemas"]["Organization"]["fiel"]> = {
+  has_certificate: false,
+};
+const missingFielDate: typeof fiel.expires_at = undefined;
+// @ts-expect-error absent FIEL dates are omitted, not null
+const nullFielDate: typeof fiel.expires_at = null;
 const callback: keyof webhooks = "customer.edit_link_completed";
 const retainedTax: NonNullable<
   NonNullable<components["schemas"]["RetentionProperties"]["totales"]>["imp_retenidos"]
@@ -51,4 +64,4 @@ const invalid: components["schemas"]["ApiEvent"] = {
     },
   },
 };
-void [invoice, draft, receiptEvent, validation, nullDate, callback, retainedTax, invalidRetainedTax, invalid];
+void [invoice, draft, receiptEvent, validation, nullDate, draftStamp, certificate, missingCertificateDate, nullCertificateDate, fiel, missingFielDate, nullFielDate, callback, retainedTax, invalidRetainedTax, invalid];

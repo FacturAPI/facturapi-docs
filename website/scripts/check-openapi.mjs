@@ -36,13 +36,30 @@ function contract(value, key) {
 }
 
 for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
-  const spec = yaml.load(await readFile(new URL(filename, root), "utf8"));
+  const spec = yaml.load(await readFile(new URL(filename, root), "utf8"), {
+    schema: yaml.JSON_SCHEMA,
+  });
   function walk(value, path = []) {
     if (!value || typeof value !== "object") return;
     assert(
       !("nullable" in value),
       `Use OpenAPI 3.1 null unions: ${path.join(".")}`,
     );
+    if (value.type === "string") {
+      for (const item of value.enum || [])
+        assert.equal(
+          typeof item,
+          "string",
+          `String enum values must be quoted when needed: ${path.join(".")}`,
+        );
+      for (const key of ["example", "default"])
+        if (key in value)
+          assert.equal(
+            typeof value[key],
+            "string",
+            `String ${key} must remain a string: ${path.join(".")}`,
+          );
+    }
     if (value.$ref?.startsWith("#/")) {
       let target = spec;
       for (const part of value.$ref.slice(2).split("/")) {

@@ -961,7 +961,7 @@ x-tagGroups:
 paths:
   /catalogs/cartaporte/3.1/air-transport-codes:
     get:
-      operationId: searchAirTransportCodes
+      operationId: "searchCartaPorteAirTransportCodes"
       tags:
         - carta_porte_keys
       summary: Buscar códigos de transporte aéreo
@@ -1061,7 +1061,7 @@ paths:
 
   /catalogs/comercioexterior/2.0/tariff-fractions:
     get:
-      operationId: searchTariffFractions
+      operationId: "searchComercioExteriorTariffFractions"
       tags:
         - comercio_exterior_keys
       summary: Buscar fracciones arancelarias
@@ -1160,7 +1160,7 @@ paths:
 
   /catalogs/cartaporte/3.1/transport-configs:
     get:
-      operationId: searchTransportConfigs
+      operationId: "searchCartaPorteTransportConfigs"
       tags:
         - carta_porte_keys
       summary: Buscar configuraciones de autotransporte
@@ -1260,7 +1260,7 @@ paths:
 
   /catalogs/cartaporte/3.1/rights-of-passage:
     get:
-      operationId: searchRightsOfPassage
+      operationId: "searchCartaPorteRightsOfPassage"
       tags:
         - carta_porte_keys
       summary: Buscar derechos de paso
@@ -1360,7 +1360,7 @@ paths:
 
   /catalogs/cartaporte/3.1/customs-documents:
     get:
-      operationId: searchCustomsDocuments
+      operationId: "searchCartaPorteCustomsDocuments"
       tags:
         - carta_porte_keys
       summary: Buscar documentos aduaneros
@@ -1460,7 +1460,7 @@ paths:
 
   /catalogs/cartaporte/3.1/packaging-types:
     get:
-      operationId: searchPackagingTypes
+      operationId: "searchCartaPortePackagingTypes"
       tags:
         - carta_porte_keys
       summary: Buscar tipos de empaque
@@ -1560,7 +1560,7 @@ paths:
 
   /catalogs/cartaporte/3.1/trailer-types:
     get:
-      operationId: searchTrailerTypes
+      operationId: "searchCartaPorteTrailerTypes"
       tags:
         - carta_porte_keys
       summary: Buscar tipos de remolque
@@ -1660,7 +1660,7 @@ paths:
 
   /catalogs/cartaporte/3.1/hazardous-materials:
     get:
-      operationId: searchHazardousMaterials
+      operationId: "searchCartaPorteHazardousMaterials"
       tags:
         - carta_porte_keys
       summary: Buscar materiales peligrosos
@@ -1760,7 +1760,7 @@ paths:
 
   /catalogs/cartaporte/3.1/naval-authorizations:
     get:
-      operationId: searchNavalAuthorizations
+      operationId: "searchCartaPorteNavalAuthorizations"
       tags:
         - carta_porte_keys
       summary: Buscar autorizaciones navales
@@ -1870,7 +1870,7 @@ paths:
 
   /catalogs/cartaporte/3.1/port-stations:
     get:
-      operationId: searchPortStations
+      operationId: "searchCartaPortePortStations"
       tags:
         - carta_porte_keys
       summary: Buscar estaciones/puertos
@@ -1970,7 +1970,7 @@ paths:
 
   /catalogs/cartaporte/3.1/marine-containers:
     get:
-      operationId: searchMarineContainers
+      operationId: "searchCartaPorteMarineContainers"
       tags:
         - carta_porte_keys
       summary: Buscar contenedores marítimos
@@ -3523,11 +3523,11 @@ paths:
           schema:
             type: string
             enum:
-              - I  
-              - E 
-              - P 
-              - N
-              - T 
+              - "I"
+              - "E"
+              - "P"
+              - "N"
+              - "T"
           description: Tipo de factura. Búsqueda por tipo de factura con las claves exactas. 
         - in: query
           name: payment_method
@@ -6959,7 +6959,7 @@ paths:
                 - valid
                 - canceled
                 - failed
-          description: Filtrar por uno o más estados de retención.
+          description: "Filtrar por uno o más estados de retención. Si se omite, no se filtra por estado, equivalente a `all`. Enviar `all` también desactiva este filtro."
         - $ref: "#/components/parameters/SearchDate"
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
@@ -11552,7 +11552,7 @@ paths:
                     - type: string
                     - type: object
                       additionalProperties: true
-                  description: Payload firmado. Usa el texto JSON original para conservar los bytes que se firmaron.
+                  description: "Payload firmado. Prefiere el texto JSON original, conservando exactamente los bytes recibidos. También se aceptan objetos, pero la verificación utiliza su serialización JSON."
                 signature:
                   type: string
                   description: Firma del webhook recibida en el header `Facturapi-Signature`
@@ -11565,7 +11565,7 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: Objeto del evento validado
+          description: Payload original con firma válida
           content:
             application/json:
               schema:
@@ -11587,11 +11587,11 @@ paths:
 
   /check:
     get:
-      operationId: checkApiKey
+      operationId: "checkApiHealth"
       tags:
         - tools
       summary: Health check (Pulso)
-      description: Indica el estatus de disponibilidad de la API.
+      description: "Comprueba que la API está disponible. Este endpoint requiere una llave secreta de API."
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []
@@ -13080,13 +13080,13 @@ components:
           type: integer
           example: 1
           title: Página
-          description: Número de página. Vale 0 cuando no hay coincidencias; se omite en paginación por cursor.
+          description: "Número de página. Vale 0 cuando no hay coincidencias. Se omite en todas las respuestas de paginación por cursor, incluida la primera página."
           minimum: 0
         total_pages:
           type: integer
           example: 1
           title: Páginas totales
-          description: Total de páginas. Se omite en paginación por cursor.
+          description: "Total de páginas. Se omite en todas las respuestas de paginación por cursor, incluida la primera página."
           minimum: 0
         total_results:
           type: integer
@@ -13232,7 +13232,7 @@ components:
         key:
           type: string
           description: Clave del catálogo
-          example: 60131324
+          example: "60131324"
         description:
           type: string
           description: Descripción
@@ -13293,7 +13293,7 @@ components:
           description: Tasa del impuesto en fracción decimal.
         base:
           type: number
-          description: Base del impuesto
+          description: "Base del impuesto. Si se omite, se utiliza el subtotal completo del concepto."
         type:
           type: string
           description: Nombre del impuesto. Texto libre.
@@ -13325,7 +13325,7 @@ components:
           description: Tasa del impuesto en fracción decimal.
         base:
           type: number
-          description: Base del impuesto.
+          description: "Base del impuesto. Si se omite, se calcula a partir del subtotal del concepto y el factor del impuesto. Para el factor Cuota, se utiliza la cantidad de unidades."
         type:
           type: string
           default: IVA
@@ -13781,7 +13781,7 @@ components:
         fecha_pago:
           type: string
           format: date
-          description: Fecha de pago de la nómina al trabajador.
+          description: "Fecha de pago de la nómina al trabajador. Si se omite, se utiliza la fecha y hora actuales."
         fecha_inicial_pago:
           type: string
           format: date
@@ -15525,11 +15525,11 @@ components:
         exterior:
           type: string
           description: Número exterior.
-          example: 142
+          example: "142"
         interior:
           type: string
           description: Número interior.
-          example: 4
+          example: "4"
         neighborhood:
           type: string
           description: Colonia
@@ -15545,7 +15545,7 @@ components:
         zip:
           type: string
           description: Código postal
-          example: 86500
+          example: "86500"
 
     # Main resources
     Webhook:
@@ -15678,6 +15678,7 @@ components:
         - type: object
           properties:
             organization:
+              description: "ID de la organización a la que pertenece este recurso."
               type: string
             curp:
               type: string
@@ -15765,7 +15766,7 @@ components:
         phone:
           type: string
           description: Teléfono del cliente.
-          example: 6474010101
+          example: "6474010101"
         default_invoice_use:
           type: string
           description: Uso de CFDI por defecto.
@@ -15822,7 +15823,7 @@ components:
         product_key:
           type: string
           description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/catalogs/productKey).
-          example: 60131324
+          example: "60131324"
         unit_key:
           type: string
           default: H87
@@ -15888,6 +15889,7 @@ components:
         - type: object
           properties:
             organization:
+              description: "ID de la organización a la que pertenece este recurso."
               type: string
           required:
             - organization
@@ -15913,7 +15915,7 @@ components:
         product_key:
           type: string
           description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/catalogs/productKey).
-          example: 60131324
+          example: "60131324"
         price:
           type: number
           description: Precio por unidad del bien o servicio. Este valor representará el precio con IVA incluido o sin él, dependiendo del valor de `tax_included`.
@@ -15996,9 +15998,9 @@ components:
           example: Ukelele
         product_key:
           type: string
-          default: 84111506
+          default: "84111506"
           description: Clave de producto/servicio, del catálogo del SAT. Nosotros te proporcionamos una manera más conveniente de encontrarlo utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/catalogs/productKey).
-          example: 84111506
+          example: "84111506"
         price:
           type: number
           description: Suma total de la cantidad devuelta, descontada o bonificada.
@@ -16145,14 +16147,7 @@ components:
                   - "03"
                   - "04"
                   - "05"
-                description: |
-                  Código que representa si el bien o servicio es objeto de impuesto o no. Este atributo corresponde al campo "ObjetoImp" en el CFDI.
-
-                  - `01`: No objeto de impuesto.
-                  - `02`: Sí objeto de impuesto.
-                  - `03`: Sí objeto de impuesto, pero no obligado a desglose.
-                  - `04`: Sí objeto de impuesto, y no causa impuesto.
-                  - `05`: Sí objeto de impuesto, IVA crédito PODEBI.
+                description: "Código que representa si el bien o servicio es objeto de impuesto o no. Este atributo corresponde al campo \"ObjetoImp\" en el CFDI.\n\n- `01`: No objeto de impuesto.\n- `02`: Sí objeto de impuesto.\n- `03`: Sí objeto de impuesto, pero no obligado a desglose.\n- `04`: Sí objeto de impuesto, y no causa impuesto.\n- `05`: Sí objeto de impuesto, IVA crédito PODEBI.\n\nSi se omite, se utiliza `01` cuando `taxes` está vacío y `02` cuando contiene al menos un impuesto."
 
               installment:
                 type: integer
@@ -16189,7 +16184,7 @@ components:
         date:
           type: string
           format: date-time
-          description: Fecha en que se recibió el pago. Sólo es necesario incluirla si el pago se efectuó en una fecha anterior a la emisión de este comprobante. No se permiten fechas futuras.
+          description: "Fecha en que se recibió el pago. Si se omite, se utiliza la fecha y hora actuales. Inclúyela cuando el pago sea anterior a la emisión del comprobante. No se permiten fechas futuras."
         numOperacion:
           type: string
           description: Número de cheque, de autorización, de referencia, clave de rastreo SPEI, línea de captura o algún número de referencia que permita identificar la operación correspondiente al pago efectuado.
@@ -16211,7 +16206,7 @@ components:
         tipoCadPago:
           type: string
           enum:
-            - 01
+            - "01"
           description: |
             Clave del tipo de cadena de pago que genera la entidad receptora del pago.
             Si existe este campo, es obligatorio registrar los campos `certPago`, `cadPago` y `selloPago`.
@@ -16302,11 +16297,11 @@ components:
     InvoiceZipRequestInvoiceType:
       type: string
       enum:
-        - I
-        - E
-        - T
-        - N
-        - P
+        - "I"
+        - "E"
+        - "T"
+        - "N"
+        - "P"
       description: Tipo de factura (`I` Ingreso, `E` Egreso, `T` Traslado, `N` Nómina o `P` Pago).
     InvoiceZipRequestCreateInput:
       type: object
@@ -16506,11 +16501,11 @@ components:
         type:
           type: string
           enum:
-            - I
-            - E
-            - P
-            - 'N'
-            - T
+            - "I"
+            - "E"
+            - "P"
+            - "N"
+            - "T"
           description: |
             Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
         customer:
@@ -16543,7 +16538,7 @@ components:
         payment_form:
           type: string
           description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
-          example: 6
+          example: "06"
         total_payment_amount:
           type: number
           description: Total del complemento de Pago cuando la factura es tipo P.
@@ -16622,17 +16617,21 @@ components:
             - $ref: '#/components/schemas/Stamp'
             - type: 'null'
         cancellation:
+          description: "Información de la solicitud de cancelación de la factura. `cancellation_status` también expone su estado actual."
           type: object
           properties:
             requested_at:
+              description: "Fecha y hora de la solicitud de cancelación."
               type:
                 - string
                 - 'null'
               format: date-time
             last_checked:
+              description: "Fecha y hora de la última consulta del estado de cancelación."
               type: string
               format: date-time
             canceled_at:
+              description: "Fecha y hora de cancelación del CFDI."
               type:
                 - string
                 - 'null'
@@ -16650,12 +16649,21 @@ components:
                 Estado actual de la solicitud de cancelación, en caso de haberla realizado. Puedes leer más a detalle en la sección de [Cancelar Factura](#tag/invoice/operation/deleteInvoice)).
               example: none
             motive:
+              description: "Clave del motivo de cancelación."
               type: string
             substitutionUUID:
+              description: "UUID del CFDI que sustituye a esta factura, cuando aplica."
               type: string
             cancellation_type:
-              type: string
+              description: "Indica si el SAT permite cancelar el CFDI y si se requiere aceptación del receptor."
+              type: ["string", "null"]
+              enum:
+                - cancellable_without_authorization
+                - cancellable_with_authorization
+                - not_cancellable
+                - null
         organization:
+          description: "ID de la organización a la que pertenece este recurso."
           type:
             - string
             - 'null'
@@ -16730,7 +16738,6 @@ components:
           type: string
           format: uri
           description: Dirección URL para verificar el estado del CFDI en el portal del SAT. Este link es el mismo que aparece en el código QR, en el PDF de la factura.
-          example: null
         date:
           type:
             - string
@@ -16751,11 +16758,11 @@ components:
         type:
           type: string
           enum:
-            - I
-            - E
-            - P
-            - 'N'
-            - T
+            - "I"
+            - "E"
+            - "P"
+            - "N"
+            - "T"
           description: |
             Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
         customer:
@@ -16768,7 +16775,6 @@ components:
           type: string
           format: uuid
           description: Folio fiscal de la factura, asignado por el SAT, en caso de haber sido timbrada.
-          example: 0
         folio_number:
           type: integer
           description: Número de folio autoincremental para control interno y sin validez fiscal.
@@ -16786,7 +16792,7 @@ components:
         payment_form:
           type: string
           description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
-          example: 6
+          example: "06"
         items:
           type: array
           description: Conceptos incluidos en el comprobante
@@ -17094,7 +17100,7 @@ components:
             date:
               type: string
               format: date-time
-              description: Fecha de expedición del comprobante en formato ISO8601 (UTC String). No puede ser anterior a 72 horas en el pasado, ni posterior al presente.
+              description: "Fecha de expedición del comprobante en formato ISO8601. Si se omite, se utiliza la fecha y hora actuales. No puede ser anterior a 72 horas en el pasado ni posterior al presente."
             address:
               allOf:
                 - $ref: "#/components/schemas/CommonAddressProperties"
@@ -17547,7 +17553,7 @@ components:
             type:
               type: string
               enum:
-                - N
+                - "N"
             complements:
               type: array
               default: []
@@ -17625,11 +17631,11 @@ components:
             type:
               type: string
               enum:
-                - I
-                - E
-                - P
-                - N
-                - T
+                - "I"
+                - "E"
+                - "P"
+                - "N"
+                - "T"
               description: |
                 Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
             items:
@@ -17753,11 +17759,11 @@ components:
             type:
               type: string
               enum:
-                - I
-                - E
-                - P
-                - N
-                - T
+                - "I"
+                - "E"
+                - "P"
+                - "N"
+                - "T"
               description: |
                 Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
             payment_form:
@@ -17817,11 +17823,11 @@ components:
             type:
               type: string
               enum:
-                - I
-                - E
-                - P
-                - N
-                - T
+                - "I"
+                - "E"
+                - "P"
+                - "N"
+                - "T"
               description: |
                 Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
             related_documents:
@@ -17852,11 +17858,11 @@ components:
             type:
               type: string
               enum:
-                - I
-                - E
-                - P
-                - N
-                - T
+                - "I"
+                - "E"
+                - "P"
+                - "N"
+                - "T"
               description: |
                 Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
             complements:
@@ -17878,11 +17884,11 @@ components:
             type:
               type: string
               enum:
-                - I
-                - E
-                - P
-                - N
-                - T
+                - "I"
+                - "E"
+                - "P"
+                - "N"
+                - "T"
               description: |
                 Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
             items:
@@ -17934,6 +17940,7 @@ components:
         - type: object
           properties:
             organization:
+              description: "ID de la organización a la que pertenece este recurso."
               type: string
     ReceiptProperties:
       allOf:
@@ -17942,12 +17949,12 @@ components:
             date:
               type: string
               format: date-time
-              example: 2021-09-10T15:21:23.456Z
+              example: "2021-09-10T15:21:23.456Z"
               description: Fecha de emisión del recibo.
             expires_at:
               type: string
               format: date-time
-              example: 2021-09-17T15:21:23.456Z
+              example: "2021-09-17T15:21:23.456Z"
               description: |
                 Fecha de expiración en formato ISO8601 (UTC String).
                 Es la fecha límite para que el cliente pueda facturar su recibo en el portal de autofactura.
@@ -18046,7 +18053,7 @@ components:
         date:
           type: string
           format: date-time
-          example: 2021-09-10T15:21:23.456Z
+          example: "2021-09-10T15:21:23.456Z"
           description: Fecha de emisión del recibo. Por defecto se utiliza la fecha actual.
         payment_form:
           type: string
@@ -18128,7 +18135,7 @@ components:
         from:
           type: string
           format: date
-          example: 2022-01-01T00:00:00.000
+          example: "2022-01-01"
           description: |
             Fecha inicial de los recibos que se incluirán en la factura global.
             Por default, este valor es el inicio del último periodo (día, semana,
@@ -18137,7 +18144,7 @@ components:
         to:
           type: string
           format: date
-          example: 2022-01-31T23:59:59.999
+          example: "2022-01-31"
           description: |
             Fecha final de los recibos que se incluirán en la factura global.
             Por default, este valor es el fin del último periodo (día, semana,
@@ -18151,15 +18158,10 @@ components:
             - fortnight
             - month
             - two_months
-          description: |
-            Periodicidad que corresponde al rango de fechas utilizado.
-            Si omites los campos `from` y `to`, las fechas que se asignarán por
-            default dependerán del valor de `periodicity`.
+          description: "Periodicidad que corresponde al rango de fechas utilizado.\nSi omites los campos `from` y `to`, las fechas que se asignarán por\ndefault dependerán del valor de `periodicity`.\n\nSi se omite, se utiliza la periodicidad configurada en los recibos de la organización."
         months:
           type: string
-          description: |
-            Clave que representa el mes o bimestre de la factura. Consulta
-            los posibles valores en el [catálogo de Meses y Bimestres](#meses-y-bimestres).
+          description: "Clave que representa el mes o bimestre de la factura. Consulta\nlos posibles valores en el [catálogo de Meses y Bimestres](#meses-y-bimestres).\n\nSi se omite, el mes o bimestre se determina a partir de la fecha inicial y la periodicidad."
           example: "01"
         folio_number:
           type: integer
@@ -18173,9 +18175,8 @@ components:
         date:
           type: string
           format: date
-          example: 2022-01-01T00:00:00.000
-          description: |
-            Fecha de emisión de la factura.
+          example: "2022-01-01"
+          description: "Fecha de emisión de la factura. Si se omite, se utiliza la fecha final (`to`), limitada a la fecha y hora actuales."
         payment_form:
           type: string
           minLength: 2
@@ -18287,6 +18288,7 @@ components:
         - type: object
           properties:
             organization:
+              description: "ID de la organización a la que pertenece este recurso."
               type: string
     RetentionReadOnlyProperties:
       type: object
@@ -18336,7 +18338,7 @@ components:
       properties:
         cve_retenc:
           type: string
-          example: 1
+          example: "01"
           description: Clave de la retención o información de pagos de acuerdo al catálogo del SAT.
         fecha_exp:
           type:
@@ -18412,10 +18414,10 @@ components:
                   tipo_pago_ret:
                     type: string
                     enum:
-                      - 1
-                      - 2
-                      - 3
-                      - 4
+                      - "01"
+                      - "02"
+                      - "03"
+                      - "04"
                     description: |
                       - `01`: Pago definitivo IVA
                       - `02`: Pago definitivo IEPS
@@ -18615,10 +18617,10 @@ components:
                   tipo_pago_ret:
                     type: string
                     enum:
-                      - 01
-                      - 02
-                      - 03
-                      - 04
+                      - "01"
+                      - "02"
+                      - "03"
+                      - "04"
                     description: |
                       - `01`: Pago definitivo IVA
                       - `02`: Pago definitivo IEPS
@@ -19337,11 +19339,11 @@ components:
         type:
           type: string
           enum:
-            - I
-            - E
-            - P
-            - N
-            - T
+            - "I"
+            - "E"
+            - "P"
+            - "N"
+            - "T"
           description: |
             Tipo de comprobante. Valores posibles:
             `I` (Ingreso), `E` (Egreso), `P` (Pago), `N` (Nómina), `T` (Traslado).

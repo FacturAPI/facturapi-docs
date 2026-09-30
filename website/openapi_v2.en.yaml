@@ -990,7 +990,7 @@ x-tagGroups:
 paths:
   /catalogs/cartaporte/3.1/air-transport-codes:
     get:
-      operationId: searchAirTransportCodes
+      operationId: "searchCartaPorteAirTransportCodes"
       tags:
         - carta_porte_keys
       summary: Search air transport codes
@@ -1090,7 +1090,7 @@ paths:
 
   /catalogs/cartaporte/3.1/transport-configs:
     get:
-      operationId: searchTransportConfigs
+      operationId: "searchCartaPorteTransportConfigs"
       tags:
         - carta_porte_keys
       summary: Search auto transport configurations
@@ -1190,7 +1190,7 @@ paths:
 
   /catalogs/comercioexterior/2.0/tariff-fractions:
     get:
-      operationId: searchTariffFractions
+      operationId: "searchComercioExteriorTariffFractions"
       tags:
         - comercio_exterior_keys
       summary: Search tariff fractions
@@ -1289,7 +1289,7 @@ paths:
 
   /catalogs/cartaporte/3.1/rights-of-passage:
     get:
-      operationId: searchRightsOfPassage
+      operationId: "searchCartaPorteRightsOfPassage"
       tags:
         - carta_porte_keys
       summary: Search rights of passage
@@ -1389,7 +1389,7 @@ paths:
 
   /catalogs/cartaporte/3.1/customs-documents:
     get:
-      operationId: searchCustomsDocuments
+      operationId: "searchCartaPorteCustomsDocuments"
       tags:
         - carta_porte_keys
       summary: Search customs documents
@@ -1489,7 +1489,7 @@ paths:
 
   /catalogs/cartaporte/3.1/packaging-types:
     get:
-      operationId: searchPackagingTypes
+      operationId: "searchCartaPortePackagingTypes"
       tags:
         - carta_porte_keys
       summary: Search packaging types
@@ -1589,7 +1589,7 @@ paths:
 
   /catalogs/cartaporte/3.1/trailer-types:
     get:
-      operationId: searchTrailerTypes
+      operationId: "searchCartaPorteTrailerTypes"
       tags:
         - carta_porte_keys
       summary: Search trailer types
@@ -1689,7 +1689,7 @@ paths:
 
   /catalogs/cartaporte/3.1/hazardous-materials:
     get:
-      operationId: searchHazardousMaterials
+      operationId: "searchCartaPorteHazardousMaterials"
       tags:
         - carta_porte_keys
       summary: Search hazardous materials
@@ -1789,7 +1789,7 @@ paths:
 
   /catalogs/cartaporte/3.1/naval-authorizations:
     get:
-      operationId: searchNavalAuthorizations
+      operationId: "searchCartaPorteNavalAuthorizations"
       tags:
         - carta_porte_keys
       summary: Search naval authorizations
@@ -1899,7 +1899,7 @@ paths:
 
   /catalogs/cartaporte/3.1/port-stations:
     get:
-      operationId: searchPortStations
+      operationId: "searchCartaPortePortStations"
       tags:
         - carta_porte_keys
       summary: Search port stations
@@ -1999,7 +1999,7 @@ paths:
 
   /catalogs/cartaporte/3.1/marine-containers:
     get:
-      operationId: searchMarineContainers
+      operationId: "searchCartaPorteMarineContainers"
       tags:
         - carta_porte_keys
       summary: Search marine containers
@@ -3553,11 +3553,11 @@ paths:
           schema:
             type: string
             enum:
-              - I  
-              - E 
-              - P 
-              - N
-              - T 
+              - "I"
+              - "E"
+              - "P"
+              - "N"
+              - "T"
           description: Filter by invoice type. Exact match.
         - in: query
           name: payment_method
@@ -6999,7 +6999,7 @@ paths:
                 - valid
                 - canceled
                 - failed
-          description: Filter by one or more retention statuses.
+          description: "Filter by one or more retention statuses. If omitted, no status filter is applied, equivalent to `all`. Sending `all` also disables this filter."
         - $ref: "#/components/parameters/SearchDate"
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
@@ -11602,7 +11602,7 @@ paths:
                     - type: string
                     - type: object
                       additionalProperties: true
-                  description: Signed payload. Use the original JSON text to preserve the signed bytes.
+                  description: "Signed payload. Prefer the original JSON text, preserving the exact bytes received. Objects are also accepted, but verification uses their JSON serialization."
                 signature:
                   type: string
                   description: Signature from the header "Facturapi-Signature".
@@ -11615,7 +11615,7 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: Event object successfully validated
+          description: Original payload with a valid signature
           content:
             application/json:
               schema:
@@ -11638,12 +11638,11 @@ paths:
 
   /check:
     get:
-      operationId: checkApiKey
+      operationId: "checkApiHealth"
       tags:
         - tools
       summary: Health check
-      description: |
-        Check the health of the Facturapi API.
+      description: "Checks that the API is available. This endpoint requires a secret API key."
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []
@@ -13114,13 +13113,13 @@ components:
           type: integer
           example: 1
           title: Página
-          description: Page number. Zero when no matches exist; omitted in cursor pagination.
+          description: "Page number. It is 0 when there are no matches. Omitted on every cursor-pagination response, including the first page."
           minimum: 0
         total_pages:
           type: integer
           example: 1
           title: Total pages
-          description: Total pages. Omitted in cursor pagination.
+          description: "Total number of pages. Omitted on every cursor-pagination response, including the first page."
           minimum: 0
         total_results:
           type: integer
@@ -13265,7 +13264,7 @@ components:
         key:
           type: string
           description: Key from the SAT catalog
-          example: 60131324
+          example: "60131324"
         description:
           type: string
           description: Description
@@ -13343,7 +13342,7 @@ components:
           description: Tax rate in decimal format.
         base:
           type: number
-          description: Tax base amount.
+          description: "Tax base. If omitted, the full subtotal of the line item is used."
         type:
           type: string
           description: Tax name. Free text.
@@ -13375,7 +13374,7 @@ components:
           description: Tax rate in decimal format.
         base:
           type: number
-          description: Tax base amount.
+          description: "Tax base. If omitted, it is calculated from the line item subtotal and tax factor. For the Cuota factor, the number of units is used."
         type:
           type: string
           default: IVA
@@ -13833,7 +13832,7 @@ components:
         fecha_pago:
           type: string
           format: date
-          description: Payment date of the payroll to the worker.
+          description: "Date the employee was paid. If omitted, the current date and time are used."
         fecha_inicial_pago:
           type: string
           format: date
@@ -15530,11 +15529,11 @@ components:
         exterior:
           type: string
           description: Exterior number.
-          example: 142
+          example: "142"
         interior:
           type: string
           description: Interior number.
-          example: 4
+          example: "4"
         neighborhood:
           type: string
           description: Neighborhood
@@ -15550,7 +15549,7 @@ components:
         zip:
           type: string
           description: Postal code
-          example: 86500
+          example: "86500"
     # Main resources
     Webhook:
       title: Webhook object
@@ -15682,6 +15681,7 @@ components:
         - type: object
           properties:
             organization:
+              description: "ID of the organization this resource belongs to."
               type: string
             curp:
               type: string
@@ -15767,7 +15767,7 @@ components:
         phone:
           type: string
           description: Customer's phone number.
-          example: 6474010101
+          example: "6474010101"
         default_invoice_use:
           type: string
           description: Default CFDI use for the customer.
@@ -15824,7 +15824,7 @@ components:
         product_key:
           type: string
           description: Key from the SAT catalog of products/services. We provide a more convenient way to find it using our [key search tool](https://dashboard.facturapi.io/catalogs/productKey).
-          example: 60131324
+          example: "60131324"
         unit_key:
           type: string
           default: H87
@@ -15892,6 +15892,7 @@ components:
         - type: object
           properties:
             organization:
+              description: "ID of the organization this resource belongs to."
               type: string
           required:
             - organization
@@ -15917,7 +15918,7 @@ components:
         product_key:
           type: string
           description: Key from the SAT catalog of products/services. We provide a more convenient way to find it using our [key search tool](https://dashboard.facturapi.io/catalogs/productKey).
-          example: 60131324
+          example: "60131324"
         price:
           type: number
           description: |
@@ -16008,11 +16009,11 @@ components:
           example: Ukelele
         product_key:
           type: string
-          default: 84111506
+          default: "84111506"
           description: |
             Key from the SAT catalog of products/services. We provide a more
             convenient way to find it using our [key search tool](https://dashboard.facturapi.io/catalogs/productKey).
-          example: 84111506
+          example: "84111506"
         price:
           type: number
           description: |
@@ -16171,14 +16172,7 @@ components:
                   - "03"
                   - "04"
                   - "05"
-                description: |
-                  Code representing whether the good or service is subject to tax or not. This attribute corresponds to the "ObjetoImp" field in the CFDI.
-
-                  - `01`: Not subject to tax.
-                  - `02`: Subject to tax.
-                  - `03`: Subject to tax, but not required to break down.
-                  - `04`: Subject to tax, but does not cause tax.
-                  - `05`: Subject to tax, VAT credit PODEBI.
+                description: "Code representing whether the good or service is subject to tax or not. This attribute corresponds to the \"ObjetoImp\" field in the CFDI.\n\n- `01`: Not subject to tax.\n- `02`: Subject to tax.\n- `03`: Subject to tax, but not required to break down.\n- `04`: Subject to tax, but does not cause tax.\n- `05`: Subject to tax, VAT credit PODEBI.\n\nIf omitted, `01` is used when `taxes` is empty and `02` when it contains at least one tax."
               installment:
                 type: integer
                 description: |
@@ -16227,7 +16221,7 @@ components:
         date:
           type: string
           format: date-time
-          description: Date on which the payment was received. It is only necessary to include it if the payment was made on a date prior to the issuance of this document. Future dates are not allowed.
+          description: "Date the payment was received. If omitted, the current date and time are used. Include it when payment occurred before this invoice was issued. Future dates are not allowed."
         numOperacion:
           type: string
           description: |
@@ -16250,7 +16244,7 @@ components:
         tipoCadPago:
           type: string
           enum:
-            - 01
+            - "01"
           description: |
             Key of the type of payment chain generated by the receiving entity of the payment.
             If this field exists, it is mandatory to register the `certPago`, `cadPago`, and `selloPago` fields.
@@ -16347,11 +16341,11 @@ components:
     InvoiceZipRequestInvoiceType:
       type: string
       enum:
-        - I
-        - E
-        - T
-        - N
-        - P
+        - "I"
+        - "E"
+        - "T"
+        - "N"
+        - "P"
       description: Invoice type (`I` Income, `E` Credit note/expense, `T` Transport, `N` Payroll, or `P` Payment).
     InvoiceZipRequestCreateInput:
       type: object
@@ -16551,11 +16545,11 @@ components:
         type:
           type: string
           enum:
-            - I
-            - E
-            - P
-            - 'N'
-            - T
+            - "I"
+            - "E"
+            - "P"
+            - "N"
+            - "T"
           description: |
             Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
         customer:
@@ -16588,7 +16582,7 @@ components:
         payment_form:
           type: string
           description: Payment form code according to the [Payment Form catalog](#payment-form).
-          example: 6
+          example: "06"
         total_payment_amount:
           type: number
           description: Total amount of the Payment complement when the invoice is type P.
@@ -16667,17 +16661,21 @@ components:
             - $ref: '#/components/schemas/Stamp'
             - type: 'null'
         cancellation:
+          description: "Information about the invoice cancellation request. `cancellation_status` also exposes its current status."
           type: object
           properties:
             requested_at:
+              description: "Date and time cancellation was requested."
               type:
                 - string
                 - 'null'
               format: date-time
             last_checked:
+              description: "Date and time the cancellation status was last checked."
               type: string
               format: date-time
             canceled_at:
+              description: "Date and time the CFDI was canceled."
               type:
                 - string
                 - 'null'
@@ -16695,12 +16693,21 @@ components:
                 Current status of the cancellation request, if it has been made. `verifying` means the SAT has received the request and is validating it; Facturapi will keep checking until it changes to a final status. You can read more in the [Cancel Invoice](#tag/invoice/operation/deleteInvoice) section.
               example: none
             motive:
+              description: "Cancellation reason code."
               type: string
             substitutionUUID:
+              description: "UUID of the replacement CFDI, when applicable."
               type: string
             cancellation_type:
-              type: string
+              description: "Indicates whether SAT allows cancellation and whether recipient authorization is required."
+              type: ["string", "null"]
+              enum:
+                - cancellable_without_authorization
+                - cancellable_with_authorization
+                - not_cancellable
+                - null
         organization:
+          description: "ID of the organization this resource belongs to."
           type:
             - string
             - 'null'
@@ -16775,7 +16782,6 @@ components:
           type: string
           format: uri
           description: URL to verify the status of the CFDI on the SAT portal. This link is the same as the one that appears in the QR code on the invoice PDF.
-          example: null
         date:
           type:
             - string
@@ -16797,11 +16803,11 @@ components:
         type:
           type: string
           enum:
-            - I
-            - E
-            - P
-            - 'N'
-            - T
+            - "I"
+            - "E"
+            - "P"
+            - "N"
+            - "T"
           description: |
             Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
         customer:
@@ -16814,7 +16820,6 @@ components:
           type: string
           format: uuid
           description: Fiscal folio of the invoice, assigned by the SAT. If the invoice has not been stamped, this field is null.
-          example: 0
         folio_number:
           type: integer
           description: Autoincremental folio number for internal control and without fiscal relevance.
@@ -16832,7 +16837,7 @@ components:
         payment_form:
           type: string
           description: Payment form code according to the [Payment Form catalog](#forma-de-pago).
-          example: 6
+          example: "06"
         items:
           type: array
           description: Concepts included in the document.
@@ -17151,8 +17156,7 @@ components:
             date:
               type: string
               format: date-time
-              description: |
-                Date of issuance of the invoice in ISO8601 format (UTC String). It cannot be earlier than 72 hours in the past, nor later than the present.
+              description: "Invoice issuance date in ISO8601 format. If omitted, the current date and time are used. It cannot be more than 72 hours in the past or in the future."
             address:
               allOf:
                 - $ref: "#/components/schemas/CommonAddressProperties"
@@ -17613,7 +17617,7 @@ components:
             type:
               type: string
               enum:
-                - N
+                - "N"
             complements:
               type: array
               default: []
@@ -17691,11 +17695,11 @@ components:
             type:
               type: string
               enum:
-                - I
-                - E
-                - P
-                - N
-                - T
+                - "I"
+                - "E"
+                - "P"
+                - "N"
+                - "T"
               description: |
                 Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
             items:
@@ -17817,11 +17821,11 @@ components:
             type:
               type: string
               enum:
-                - I
-                - E
-                - P
-                - N
-                - T
+                - "I"
+                - "E"
+                - "P"
+                - "N"
+                - "T"
               description: |
                 Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
             payment_form:
@@ -17884,11 +17888,11 @@ components:
             type:
               type: string
               enum:
-                - I
-                - E
-                - P
-                - N
-                - T
+                - "I"
+                - "E"
+                - "P"
+                - "N"
+                - "T"
               description: |
                 Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
             related_documents:
@@ -17919,11 +17923,11 @@ components:
             type:
               type: string
               enum:
-                - I
-                - E
-                - P
-                - N
-                - T
+                - "I"
+                - "E"
+                - "P"
+                - "N"
+                - "T"
               description: |
                 Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
             complements:
@@ -17945,11 +17949,11 @@ components:
             type:
               type: string
               enum:
-                - I
-                - E
-                - P
-                - N
-                - T
+                - "I"
+                - "E"
+                - "P"
+                - "N"
+                - "T"
               description: |
                 Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
             items:
@@ -17999,6 +18003,7 @@ components:
         - type: object
           properties:
             organization:
+              description: "ID of the organization this resource belongs to."
               type: string
     ReceiptProperties:
       allOf:
@@ -18007,13 +18012,13 @@ components:
             date:
               type: string
               format: date-time
-              example: 2021-09-10T15:21:23.456Z
+              example: "2021-09-10T15:21:23.456Z"
               description: |
                 Date of issuance of the receipt in ISO8601 format (UTC String).
             expires_at:
               type: string
               format: date-time
-              example: 2021-09-17T15:21:23.456Z
+              example: "2021-09-17T15:21:23.456Z"
               description: |
                 Expiration date in ISO8601 format (UTC String).
 
@@ -18121,7 +18126,7 @@ components:
         date:
           type: string
           format: date-time
-          example: 2021-09-10T15:21:23.456Z
+          example: "2021-09-10T15:21:23.456Z"
           description: |
             Date of issuance of the receipt in ISO8601 format (UTC String).
         payment_form:
@@ -18208,7 +18213,7 @@ components:
         from:
           type: string
           format: date
-          example: 2022-01-01T00:00:00.000
+          example: "2022-01-01"
           description: |
             Initial date of the receipts that will be included in the global invoice.
             By default, this value is the start of the last period (day, week,
@@ -18217,7 +18222,7 @@ components:
         to:
           type: string
           format: date
-          example: 2022-01-31T23:59:59.999
+          example: "2022-01-31"
           description: |
             End date of the receipts that will be included in the global invoice.
             By default, this value is the end of the last period (day, week,
@@ -18232,15 +18237,10 @@ components:
             - fortnight
             - month
             - two_months
-          description: |
-            Periodicity that corresponds to the range of dates used.
-            If you omit the `from` and `to` fields, the default dates will depend
-            on the value of `periodicity`.
+          description: "Periodicity that corresponds to the range of dates used.\nIf you omit the `from` and `to` fields, the default dates will depend\non the value of `periodicity`.\n\nIf omitted, the organization’s receipt periodicity setting is used."
         months:
           type: string
-          description: |
-            Key representing the month or bimester of the invoice. Consult
-            the possible values in the [Months and Bimesters catalog](#meses-y-bimestres).
+          description: "Key representing the month or bimester of the invoice. Consult\nthe possible values in the [Months and Bimesters catalog](#meses-y-bimestres).\n\nIf omitted, the month or two-month period is determined from the start date and periodicity."
           example: "01"
         folio_number:
           type: integer
@@ -18255,9 +18255,8 @@ components:
         date:
           type: string
           format: date
-          example: 2022-01-01T00:00:00.000
-          description: |
-            Date of issuance of the invoice. By default, it takes the value of the `to` field.
+          example: "2022-01-01"
+          description: "Invoice issuance date. If omitted, the end date (`to`) is used, capped at the current date and time."
         payment_form:
           type: string
           minLength: 2
@@ -18370,6 +18369,7 @@ components:
         - type: object
           properties:
             organization:
+              description: "ID of the organization this resource belongs to."
               type: string
     RetentionReadOnlyProperties:
       type: object
@@ -18420,7 +18420,7 @@ components:
       properties:
         cve_retenc:
           type: string
-          example: 1
+          example: "01"
           description: |
             Key of the retention or payment information according to the SAT catalog.
         fecha_exp:
@@ -18502,10 +18502,10 @@ components:
                   tipo_pago_ret:
                     type: string
                     enum:
-                      - 1
-                      - 2
-                      - 3
-                      - 4
+                      - "01"
+                      - "02"
+                      - "03"
+                      - "04"
                     description: |
                       Key of the type of payment according to the SAT catalog.
 
@@ -18714,10 +18714,10 @@ components:
                   tipo_pago_ret:
                     type: string
                     enum:
-                      - 01
-                      - 02
-                      - 03
-                      - 04
+                      - "01"
+                      - "02"
+                      - "03"
+                      - "04"
                     description: |
                       Key of the type of payment according to the SAT catalog.
 
@@ -19441,11 +19441,11 @@ components:
         type:
           type: string
           enum:
-            - I
-            - E
-            - P
-            - N
-            - T
+            - "I"
+            - "E"
+            - "P"
+            - "N"
+            - "T"
           description: |
             Invoice type. Possible values:
             `I` (Income), `E` (Expense), `P` (Payment), `N` (Payroll), `T` (Transfer).

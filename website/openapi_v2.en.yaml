@@ -4252,7 +4252,7 @@ paths:
               "series" => "F"
             ]);
       requestBody:
-        $ref: "#/components/requestBodies/InvoiceCreate"
+        $ref: "#/components/requestBodies/InvoiceEdit"
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []
@@ -4290,7 +4290,7 @@ paths:
             });
             console.log(download.url, download.expires_at);
       requestBody:
-        $ref: "#/components/requestBodies/InvoiceCreate"
+        $ref: "#/components/requestBodies/InvoiceEdit"
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []

@@ -12438,7 +12438,7 @@ components:
       content:
         application/json:
           schema:
-            oneOf:
+            anyOf:
               - $ref: "#/components/schemas/InvoiceIngresoEditInput"
               - $ref: "#/components/schemas/InvoiceEgresoEditInput"
               - $ref: "#/components/schemas/InvoicePagoEditInput"
@@ -13351,6 +13351,8 @@ components:
             - IVA
             - ISR
             - IEPS
+        ieps_mode:
+          $ref: "#/components/schemas/IepsMode"
         factor:
           type: string
           default: Tasa
@@ -13363,33 +13365,40 @@ components:
           type: boolean
           default: false
           description: Indica si se trata de un impuesto retenido (`true`), o un impuesto trasladado (`false`)
+    IepsMode:
+      type: string
+      default: sum_before_taxes
+      enum:
+        - sum_before_taxes
+        - break_down
+        - unit
+        - subtract_before_break_down
+      description: |
+        Indica la manera de cobrar el impuesto, y puede tener los valores:
+
+        `"sum_before_taxes"`: Aplica primero el IEPS al subtotal y usa el resultado como base del resto de impuestos en el producto.
+
+        `"break_down"`: Cobra y desglosa el IEPS al mismo nivel que el resto de los impuestos en el producto.
+
+        `"unit"`: Aplica el IEPS antes del precio unitario, y usa el precio unitario original como base para el resto de impuestos.
+
+        `"subtract_before_break_down"`: Aplica el IEPS solo para calcular impuestos como IVA de traslado y retenciones, y usa el precio unitario original como base para el resto de impuestos.
+
+        Consulta con tu contador qué caso aplica para tu giro de empresa y producto.
+
     IepsTax:
       type: object
       allOf:
         - $ref: "#/components/schemas/BaseTax"
         - type: object
+          required:
+            - type
           properties:
-            ieps_mode:
+            type:
               type: string
-              default: sum_before_taxes
-              enum:
-                - sum_before_taxes
-                - break_down
-                - unit
-                - subtract_before_break_down
-              description: |
-                Indica la manera de cobrar el impuesto, y puede tener los valores:
-
-                `"sum_before_taxes"`: Aplica primero el IEPS al subtotal y usa el resultado como base del resto de impuestos en el producto.
-
-                `"break_down"`: Cobra y desglosa el IEPS al mismo nivel que el resto de los impuestos en el producto.
-
-                `"unit"`: Aplica el IEPS antes del precio unitario, y usa el precio unitario original como base para el resto de impuestos.
-
-                `"subtract_before_break_down"`: Aplica el IEPS solo para calcular impuestos como IVA de traslado y retenciones, y usa el precio unitario original como base para el resto de impuestos.
-
-                Consulta con tu contador qué caso aplica para tu giro de empresa y producto.
-
+              const: IEPS
+            ieps_mode:
+              $ref: "#/components/schemas/IepsMode"
     Stamp:
       type: object
       description: Información sobre el timbre fiscal digital agregado por el PAC.
@@ -13767,24 +13776,22 @@ components:
         data:
           $ref: '#/components/schemas/CustomComplementData'
     CustomComplementInput:
+      required:
+        - type
+        - data
       title: CustomComplement
       allOf:
-        - type: object
-          required:
-            - type
-            - data
         - $ref: "#/components/schemas/CustomComplementProperties"
     NominaComplementDataInput:
+      required:
+        - fecha_inicial_pago
+        - fecha_final_pago
+        - num_dias_pagados
+        - receptor
+        - percepciones
       title: NominaComplementData
       description: Objeto con la información del complemento de nómina.
       allOf:
-        - type: object
-          required:
-            - fecha_inicial_pago
-            - fecha_final_pago
-            - num_dias_pagados
-            - receptor
-            - percepciones
         - $ref: "#/components/schemas/NominaComplementDataDirectProperties"
         - $ref: "#/components/schemas/NominaComplementDataNestedInput"
     NominaComplementDataProperties:
@@ -13825,7 +13832,7 @@ components:
       type: object
       properties:
         emisor:
-          $ref: "#/components/schemas/NominaEmisorProperties"
+          $ref: "#/components/schemas/NominaEmisorInput"
         receptor:
           $ref: "#/components/schemas/NominaReceptorInput"
         percepciones:
@@ -13882,12 +13889,11 @@ components:
             $ref: "#/components/schemas/NominaIncapacidadProperties"
 
     NominaIncapacidadInput:
+      required:
+        - dias_incapacidad
+        - tipo_incapacidad
       title: Incapacidad
       allOf:
-        - type: object
-          required:
-            - dias_incapacidad
-            - tipo_incapacidad
         - $ref: "#/components/schemas/NominaIncapacidadProperties"
     NominaIncapacidadProperties:
       type: object
@@ -13902,13 +13908,12 @@ components:
           type: number
           description: Monto del importe monetario de la incapacidad.
     NominaOtroPagoInput:
+      required:
+        - tipo_otro_pago
+        - clave
+        - importe
       title: OtroPago
       allOf:
-        - type: object
-          required:
-            - tipo_otro_pago
-            - clave
-            - importe
         - $ref: "#/components/schemas/NominaOtroPagoDirectProperties"
         - type: object
           properties:
@@ -13940,12 +13945,11 @@ components:
             Este valor será insertado dentro del nodo `SubsidioAlEmpleo`, y es
             requerido cuando el valor de `tipo_otro_pago` es `"002"`.
     NominaCompensacionInput:
+      required:
+        - saldo_a_favor
+        - ano
+        - remanente_sal_fav
       allOf:
-        - type: object
-          required:
-            - saldo_a_favor
-            - ano
-            - remanente_sal_fav
         - $ref: "#/components/schemas/NominaCompensacionProperties"
     NominaCompensacionProperties:
       type: object
@@ -13961,13 +13965,12 @@ components:
           type: number
           description: Remanente del saldo a favor del trabajador.
     NominaDeduccionInput:
+      required:
+        - tipo_deduccion
+        - clave
+        - importe
       title: Deduccion
       allOf:
-        - type: object
-          required:
-            - tipo_deduccion
-            - clave
-            - importe
         - $ref: "#/components/schemas/NominaDeduccionProperties"
     NominaDeduccionProperties:
       type: object
@@ -14017,15 +14020,14 @@ components:
         separacion_indemnizacion:
           $ref: "#/components/schemas/NominaSeparacionProperties"
     NominaSeparacionInput:
+      required:
+        - total_pagado
+        - num_anos_servicio
+        - ultimo_sueldo_mens_ord
+        - ingreso_acumulable
+        - ingreso_no_acumulable
       title: Separacion
       allOf:
-        - type: object
-          required:
-            - total_pagado
-            - num_anos_servicio
-            - ultimo_sueldo_mens_ord
-            - ingreso_acumulable
-            - ingreso_no_acumulable
         - $ref: "#/components/schemas/NominaSeparacionProperties"
     NominaSeparacionProperties:
       type: object
@@ -14048,12 +14050,11 @@ components:
           type: number
           description: Monto por ingresos no acumulables.
     NominaJubilacionInput:
+      required:
+        - ingreso_acumulable
+        - ingreso_no_acumulable
       title: Jubilacion
       allOf:
-        - type: object
-          required:
-            - ingreso_acumulable
-            - ingreso_no_acumulable
         - $ref: "#/components/schemas/NominaJubilacionProperties"
     NominaJubilacionProperties:
       type: object
@@ -14080,16 +14081,79 @@ components:
         - $ref: "#/components/schemas/NominaPercepcionDirectProperties"
         - $ref: "#/components/schemas/NominaPercepcionNestedProperties"
     NominaPercepcionInput:
+      required:
+        - tipo_percepcion
+        - clave
+        - importe_gravado
+        - importe_exento
+      description: "La entrada utiliza las claves de percepción del catálogo publicado. La clave 019 requiere horas_extra."
       title: Percepcion
       allOf:
-        - type: object
-          required:
-            - tipo_percepcion
-            - clave
-            - importe_gravado
-            - importe_exento
         - $ref: "#/components/schemas/NominaPercepcionDirectProperties"
         - $ref: "#/components/schemas/NominaPercepcionNestedInput"
+      oneOf:
+        - type: object
+          properties:
+            tipo_percepcion:
+              type: string
+              const: "019"
+            horas_extra:
+              type: array
+              items:
+                $ref: "#/components/schemas/NominaHorasExtraInput"
+          required:
+            - horas_extra
+        - type: object
+          properties:
+            tipo_percepcion:
+              type: string
+              enum:
+                - "001"
+                - "002"
+                - "003"
+                - "004"
+                - "005"
+                - "006"
+                - "009"
+                - "010"
+                - "011"
+                - "012"
+                - "013"
+                - "014"
+                - "015"
+                - "020"
+                - "021"
+                - "022"
+                - "023"
+                - "024"
+                - "025"
+                - "026"
+                - "027"
+                - "028"
+                - "029"
+                - "030"
+                - "031"
+                - "032"
+                - "033"
+                - "034"
+                - "035"
+                - "036"
+                - "037"
+                - "038"
+                - "039"
+                - "044"
+                - "045"
+                - "046"
+                - "047"
+                - "048"
+                - "049"
+                - "050"
+                - "051"
+                - "052"
+                - "053"
+                - "054"
+                - "055"
+                - "056"
     NominaPercepcionDirectProperties:
       type: object
       properties:
@@ -14131,14 +14195,13 @@ components:
           items:
             $ref: "#/components/schemas/NominaHorasExtraProperties"
     NominaHorasExtraInput:
+      required:
+        - dias
+        - tipo_horas
+        - horas_extra
+        - importe_pagado
       title: HorasExtra
       allOf:
-        - type: object
-          required:
-            - dias
-            - tipo_horas
-            - horas_extra
-            - importe_pagado
         - $ref: "#/components/schemas/NominaHorasExtraProperties"
     NominaHorasExtraProperties:
       type: object
@@ -14157,12 +14220,11 @@ components:
           type: number
           description: Importe pagado por las horas extra.
     NominaAccionesInput:
+      required:
+        - valor_mercado
+        - precio_al_otorgarse
       title: Accion
       allOf:
-        - type: object
-          required:
-            - valor_mercado
-            - precio_al_otorgarse
         - $ref: "#/components/schemas/NominaAccionesProperties"
     NominaAccionesProperties:
       type: object
@@ -14183,18 +14245,17 @@ components:
         - $ref: "#/components/schemas/NominaReceptorDirectProperties"
         - $ref: "#/components/schemas/NominaReceptorNestedProperties"
     NominaReceptorInput:
+      required:
+        - curp
+        - tipo_contrato
+        - tipo_regimen
+        - num_empleado
+        - periodicidad_pago
+        - clave_ent_fed
       type: object
       title: Receptor
       description: Información del trabajador.
       allOf:
-        - type: object
-          required:
-            - curp
-            - tipo_contrato
-            - tipo_regimen
-            - num_empleado
-            - periodicidad_pago
-            - clave_ent_fed
         - $ref: "#/components/schemas/NominaReceptorDirectProperties"
         - $ref: "#/components/schemas/NominaReceptorNestedInput"
     NominaReceptorDirectProperties:
@@ -14296,6 +14357,38 @@ components:
           minimum: 0.001
           maximum: 100.000
           description: Porcentaje de tiempo en que el trabajador prestó sus servicios a la persona o empresa que lo subcontrató.
+    NominaEntidadSncfInput:
+      type: object
+      required:
+        - origen_recurso
+      properties:
+        origen_recurso:
+          type: string
+          enum: [IP, IF, IM]
+        monto_recurso_propio:
+          type: number
+      oneOf:
+        - type: object
+          properties:
+            origen_recurso:
+              type: string
+              const: IM
+            monto_recurso_propio:
+              type: number
+          required:
+            - monto_recurso_propio
+        - type: object
+          properties:
+            origen_recurso:
+              type: string
+              enum: [IP, IF]
+    NominaEmisorInput:
+      allOf:
+        - $ref: "#/components/schemas/NominaEmisorProperties"
+        - type: object
+          properties:
+            entidad_sncf:
+              $ref: "#/components/schemas/NominaEntidadSncfInput"
     NominaEmisorProperties:
       type: object
       title: Emisor
@@ -14405,6 +14498,23 @@ components:
           properties:
             data:
               $ref: "#/components/schemas/PagoComplementDataInput"
+    InvoiceComplementInput:
+      oneOf:
+        - $ref: "#/components/schemas/PagoComplementInput"
+        - $ref: "#/components/schemas/NominaComplementInput"
+        - $ref: "#/components/schemas/CartaPorteInput"
+        - $ref: "#/components/schemas/ComercioExteriorInput"
+        - $ref: "#/components/schemas/LeyendasFiscalesInput"
+        - $ref: "#/components/schemas/CustomComplementInput"
+      discriminator:
+        propertyName: type
+        mapping:
+          pago: "#/components/schemas/PagoComplementInput"
+          nomina: "#/components/schemas/NominaComplementInput"
+          carta_porte: "#/components/schemas/CartaPorteInput"
+          comercio_exterior: "#/components/schemas/ComercioExteriorInput"
+          leyendas_fiscales: "#/components/schemas/LeyendasFiscalesInput"
+          custom: "#/components/schemas/CustomComplementInput"
     InvoiceComplementProperties:
       oneOf:
         - $ref: '#/components/schemas/PagoComplementProperties'
@@ -15286,6 +15396,11 @@ components:
           description: Detalle de pesos y piezas de la mercancía.
     CartaPorteIdentificacionVehicular:
       type: object
+      required:
+        - ConfigVehicular
+        - PesoBrutoVehicular
+        - PlacaVM
+        - AnioModeloVM
       properties:
         ConfigVehicular:
           type: string
@@ -15301,6 +15416,9 @@ components:
           description: Año modelo del vehículo motor.
     CartaPorteSeguros:
       type: object
+      required:
+        - AseguraRespCivil
+        - PolizaRespCivil
       properties:
         AseguraRespCivil:
           type: string
@@ -15334,6 +15452,11 @@ components:
           description: Placa del remolque.
     CartaPorteAutotransporte:
       type: object
+      required:
+        - PermSCT
+        - NumPermisoSCT
+        - IdentificacionVehicular
+        - Seguros
       properties:
         PermSCT:
           type: string
@@ -16036,11 +16159,10 @@ components:
             type: string
           description: Números de pedimento aduanal asociados a esta parte.
     PartInput:
+      required:
+        - description
+        - product_key
       allOf:
-        - type: object
-          required:
-            - description
-            - product_key
         - $ref: "#/components/schemas/Parts"
     Product:
       title: Objeto Product
@@ -16428,11 +16550,10 @@ components:
           description: ID del objeto `customer` relacionado a la factura, en caso de no haber sido eliminado
           example: 58e93bd8e86eb318b0197456
     RelatedDocumentInput:
+      required:
+        - relationship
+        - related
       allOf:
-        - type: object
-          required:
-            - relationship
-            - related
         - $ref: '#/components/schemas/RelatedDocument'
     RelatedDocument:
       type: object
@@ -17557,7 +17678,7 @@ components:
               type: array
               default: []
               items:
-                $ref: "#/components/schemas/CartaPorteOrCustomComplementInput"
+                $ref: "#/components/schemas/InvoiceComplementInput"
               description: |
                 Complementos a incluir en la factura. Puedes incluir cualquier complemento en la
                 factura si tú mismo construyes el nodo XML del complemento y usas el tipo `custom`.
@@ -17624,7 +17745,7 @@ components:
               type: array
               default: []
               items:
-                $ref: "#/components/schemas/CustomComplementInput"
+                $ref: "#/components/schemas/InvoiceComplementInput"
               description: |
                 Complementos a incluir en el comprobante. Puedes incluir cualquier
                 complemento en el comprobante si tú mismo construyes el nodo XML del
@@ -17661,9 +17782,17 @@ components:
                 - $ref: "#/components/schemas/ThirdParty"
             complements:
               type: array
-              default: []
+              minItems: 1
+              contains:
+                type: object
+                required:
+                  - type
+                properties:
+                  type:
+                    type: string
+                    const: pago
               items:
-                $ref: "#/components/schemas/PagoOrCustomComplementInput"
+                $ref: "#/components/schemas/InvoiceComplementInput"
               description: Complementos a incluir en la factura.
         - $ref: "#/components/schemas/InvoiceCommonInputProperties"
     InvoiceNominaInput:
@@ -17681,9 +17810,17 @@ components:
                 - "N"
             complements:
               type: array
-              default: []
+              minItems: 1
+              contains:
+                type: object
+                required:
+                  - type
+                properties:
+                  type:
+                    type: string
+                    const: nomina
               items:
-                $ref: "#/components/schemas/NominaOrCustomComplementInput"
+                $ref: "#/components/schemas/InvoiceComplementInput"
               description: Complementos a incluir en la factura.
             related_documents:
               type: array
@@ -17719,7 +17856,7 @@ components:
               type: array
               default: []
               items:
-                $ref: "#/components/schemas/CartaPorteOrCustomComplementInput"
+                $ref: "#/components/schemas/InvoiceComplementInput"
               description: |
                 Complementos a incluir en el comprobante. Puedes incluir cualquier complemento en
                 el comprobante si tú mismo construyes el nodo XML del complemento y usas el tipo
@@ -17755,14 +17892,8 @@ components:
           properties:
             type:
               type: string
-              enum:
-                - "I"
-                - "E"
-                - "P"
-                - "N"
-                - "T"
-              description: |
-                Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+              const: "I"
+              description: "Tipo de comprobante de esta variante de entrada."
             items:
               type: array
               maxItems: 5000
@@ -17869,7 +18000,7 @@ components:
             complements:
               type: array
               items:
-                $ref: "#/components/schemas/CustomComplementInput"
+                $ref: "#/components/schemas/InvoiceComplementInput"
               description: |
                 Complementos a incluir en la factura. Puedes incluir cualquier complemento en la
                 factura si tú mismo construyes el nodo XML del complemento y usas el tipo `custom`.
@@ -17883,14 +18014,8 @@ components:
           properties:
             type:
               type: string
-              enum:
-                - "I"
-                - "E"
-                - "P"
-                - "N"
-                - "T"
-              description: |
-                Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+              const: "E"
+              description: "Tipo de comprobante de esta variante de entrada."
             payment_form:
               type: string
               minLength: 2
@@ -17933,7 +18058,7 @@ components:
             complements:
               type: array
               items:
-                $ref: "#/components/schemas/CustomComplementInput"
+                $ref: "#/components/schemas/InvoiceComplementInput"
               description: |
                 Complementos a incluir en el comprobante. Puedes incluir cualquier
                 complemento en el comprobante si tú mismo construyes el nodo XML del
@@ -17947,14 +18072,8 @@ components:
           properties:
             type:
               type: string
-              enum:
-                - "I"
-                - "E"
-                - "P"
-                - "N"
-                - "T"
-              description: |
-                Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+              const: "P"
+              description: "Tipo de comprobante de esta variante de entrada."
             related_documents:
               type: array
               description: Documentos relacionados con la factura.
@@ -17972,7 +18091,7 @@ components:
             complements:
               type: array
               items:
-                $ref: "#/components/schemas/PagoOrCustomComplementInput"
+                $ref: "#/components/schemas/InvoiceComplementInput"
               description: Complementos a incluir en la factura.
         - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
     InvoiceNominaEditInput:
@@ -17982,18 +18101,12 @@ components:
           properties:
             type:
               type: string
-              enum:
-                - "I"
-                - "E"
-                - "P"
-                - "N"
-                - "T"
-              description: |
-                Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+              const: "N"
+              description: "Tipo de comprobante de esta variante de entrada."
             complements:
               type: array
               items:
-                $ref: "#/components/schemas/NominaOrCustomComplementInput"
+                $ref: "#/components/schemas/InvoiceComplementInput"
               description: Complementos a incluir en la factura.
             related_documents:
               type: array
@@ -18008,14 +18121,8 @@ components:
           properties:
             type:
               type: string
-              enum:
-                - "I"
-                - "E"
-                - "P"
-                - "N"
-                - "T"
-              description: |
-                Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
+              const: "T"
+              description: "Tipo de comprobante de esta variante de entrada."
             items:
               type: array
               maxItems: 5000
@@ -18029,7 +18136,7 @@ components:
             complements:
               type: array
               items:
-                $ref: "#/components/schemas/CustomComplementInput"
+                $ref: "#/components/schemas/InvoiceComplementInput"
               description: |
                 Complementos a incluir en el comprobante. Puedes incluir cualquier complemento en
                 el comprobante si tú mismo construyes el nodo XML del complemento y usas el tipo

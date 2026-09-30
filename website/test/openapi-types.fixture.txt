@@ -92,3 +92,32 @@ const wrongPago: components["schemas"]["PagoOrCustomComplementInput"] = { type: 
 const customResponse: components["schemas"]["InvoiceComplementProperties"] = { type: "custom", data: "<Example/>" };
 void [pago, pagoResponse, wrongPago, customResponse];
 void [invoice, draft, receiptEvent, validation, nullDate, draftStamp, draftUuid, missingDraftUuid, paymentTaxability, invalidPaymentTaxability, unknownPaymentTaxability, certificate, missingCertificateDate, nullCertificateDate, fiel, missingFielDate, nullFielDate, callback, retainedTax, invalidRetainedTax, invalid];
+
+const nominaEdit: components["schemas"]["InvoiceNominaEditInput"] = { type: "N" };
+// @ts-expect-error payroll editing has its own CFDI discriminator
+const wrongNominaEdit: components["schemas"]["InvoiceNominaEditInput"] = { type: "P" };
+const paymentEdit: components["schemas"]["InvoicePagoEditInput"] = { type: "P", complements: [pago] };
+// @ts-expect-error payment editing has its own CFDI discriminator
+const wrongPaymentEdit: components["schemas"]["InvoicePagoEditInput"] = { type: "N" };
+const legendsDraft: components["schemas"]["InvoiceCreateInput"] = { status: "draft", complements: [{ type: "leyendas_fiscales", data: { leyendas: [{ texto_leyenda: "Ejemplo" }] } }] };
+const plainPerception: components["schemas"]["NominaPercepcionInput"] = { tipo_percepcion: "001", clave: "ABC", importe_gravado: 1, importe_exento: 0 };
+const overtimePerception: components["schemas"]["NominaPercepcionInput"] = { ...plainPerception, tipo_percepcion: "019", horas_extra: [{ dias: 1, tipo_horas: "01", horas_extra: 1, importe_pagado: 1 }] };
+// @ts-expect-error overtime perception requires its hours-extra structure
+const missingHours: components["schemas"]["NominaPercepcionInput"] = { tipo_percepcion: "019", clave: "ABC", importe_gravado: 1, importe_exento: 0 };
+const mixedFunds: components["schemas"]["NominaEntidadSncfInput"] = { origen_recurso: "IM", monto_recurso_propio: 1 };
+const federalFunds: components["schemas"]["NominaEntidadSncfInput"] = { origen_recurso: "IF" };
+// @ts-expect-error mixed funding requires its own-resource amount
+const missingOwnFunds: components["schemas"]["NominaEntidadSncfInput"] = { origen_recurso: "IM" };
+const ieps: components["schemas"]["BaseTax"] = { type: "IEPS", rate: 0.08, ieps_mode: "unit" };
+// @ts-expect-error an explicitly IEPS schema cannot identify an IVA tax
+const wrongIeps: components["schemas"]["IepsTax"] = { type: "IVA", rate: 0.16 };
+// @ts-expect-error selecting road transport requires its vehicle and insurance data
+const incompleteRoad: components["schemas"]["CartaPorteAutotransporte"] = { PermSCT: "TPAF01", NumPermisoSCT: "Example" };
+void [nominaEdit, wrongNominaEdit, paymentEdit, wrongPaymentEdit, legendsDraft, plainPerception, overtimePerception, missingHours, mixedFunds, federalFunds, missingOwnFunds, ieps, wrongIeps, incompleteRoad];
+// @ts-expect-error composed perception input must retain its required amounts
+const missingPerceptionAmounts: components["schemas"]["NominaPercepcionInput"] = { tipo_percepcion: "001", clave: "ABC" };
+// @ts-expect-error composed hours-extra input must retain its required payment amount
+const missingOvertimeAmount: components["schemas"]["NominaHorasExtraInput"] = { dias: 1, tipo_horas: "01", horas_extra: 1 };
+const publicAidPerception: components["schemas"]["NominaPercepcionInput"] = { ...plainPerception, tipo_percepcion: "056" };
+const customPayroll: components["schemas"]["NominaOtroPagoInput"] = { tipo_otro_pago: "002", clave: "ABC", importe: 1 };
+void [missingPerceptionAmounts, missingOvertimeAmount, publicAidPerception, customPayroll];

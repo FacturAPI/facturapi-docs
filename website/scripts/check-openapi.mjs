@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createRequire } from "node:module";
 import { execFileSync } from "node:child_process";
-import yaml from "js-yaml";
+import * as yaml from "js-yaml";
 import openapiTS, { astToString } from "openapi-typescript";
 
 const root = new URL("../", import.meta.url);

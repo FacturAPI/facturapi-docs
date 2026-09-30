@@ -36,7 +36,7 @@
     "@types/react": "^19.1.8",
     "@types/react-helmet": "^6.1.11",
     "@types/react-router-dom": "^5.3.3",
-    "js-yaml": "4.2.0",
+    "js-yaml": "5.4.2",
     "openapi-typescript": "7.13.0",
     "typescript": "^5.8.3"
   },

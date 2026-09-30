@@ -34,6 +34,15 @@ const validation: operations["validateWebhookSignature"]["requestBody"]["content
   };
 const nullDate: components["schemas"]["InvoiceProperties"]["date"] = null;
 const draftStamp: components["schemas"]["InvoiceDraftProperties"]["stamp"] = null;
+const draftUuid: components["schemas"]["InvoiceDraftProperties"]["uuid"] = null;
+const missingDraftUuid: components["schemas"]["InvoiceDraftProperties"]["uuid"] = undefined;
+const paymentTaxability: NonNullable<
+  components["schemas"]["PaymentInput"]["related_documents"]
+>[number]["taxability"] = "01";
+// @ts-expect-error SAT codes retain their leading zero
+const invalidPaymentTaxability: typeof paymentTaxability = "1";
+// @ts-expect-error taxability only accepts the documented SAT codes
+const unknownPaymentTaxability: typeof paymentTaxability = "09";
 const certificate: NonNullable<components["schemas"]["Organization"]["certificate"]> = {
   has_certificate: false,
 };
@@ -64,4 +73,4 @@ const invalid: components["schemas"]["ApiEvent"] = {
     },
   },
 };
-void [invoice, draft, receiptEvent, validation, nullDate, draftStamp, certificate, missingCertificateDate, nullCertificateDate, fiel, missingFielDate, nullFielDate, callback, retainedTax, invalidRetainedTax, invalid];
+void [invoice, draft, receiptEvent, validation, nullDate, draftStamp, draftUuid, missingDraftUuid, paymentTaxability, invalidPaymentTaxability, unknownPaymentTaxability, certificate, missingCertificateDate, nullCertificateDate, fiel, missingFielDate, nullFielDate, callback, retainedTax, invalidRetainedTax, invalid];

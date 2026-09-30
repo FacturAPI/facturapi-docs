@@ -16142,6 +16142,7 @@ components:
                       description: Indica si el impuesto es una retención (`true`) o un traslado (`false`).
               taxability:
                 type: string
+                enum:
                   - "01"
                   - "02"
                   - "03"
@@ -16772,9 +16773,9 @@ components:
           description: Monto total facturado.
           example: 0
         uuid:
-          type: string
+          type: [string, "null"]
           format: uuid
-          description: Folio fiscal de la factura, asignado por el SAT, en caso de haber sido timbrada.
+          description: Folio fiscal asignado por el SAT. En un borrador sin timbrar, este campo es null o se omite.
         folio_number:
           type: integer
           description: Número de folio autoincremental para control interno y sin validez fiscal.

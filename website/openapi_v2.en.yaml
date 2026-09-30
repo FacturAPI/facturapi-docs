@@ -16167,6 +16167,7 @@ components:
                       description: Indicates if the tax is a withholding (`true`) or a transfer (`false`).
               taxability:
                 type: string
+                enum:
                   - "01"
                   - "02"
                   - "03"
@@ -16817,9 +16818,9 @@ components:
           description: Total amount invoiced.
           example: 0
         uuid:
-          type: string
+          type: [string, "null"]
           format: uuid
-          description: Fiscal folio of the invoice, assigned by the SAT. If the invoice has not been stamped, this field is null.
+          description: Fiscal folio assigned by the SAT. For an unstamped draft, this field is null or omitted.
         folio_number:
           type: integer
           description: Autoincremental folio number for internal control and without fiscal relevance.

@@ -45,6 +45,19 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
       !("nullable" in value),
       `Use OpenAPI 3.1 null unions: ${path.join(".")}`,
     );
+    if (
+      ((path[0] === "components" && path[1] === "schemas") ||
+        path.includes("schema")) &&
+      (typeof value.type === "string" || Array.isArray(value.type))
+    ) {
+      for (const type of Array.isArray(value.type) ? value.type : [value.type])
+        assert(
+          [
+            "null", "boolean", "object", "array", "number", "string", "integer",
+          ].includes(type),
+          `Invalid schema type: ${path.join(".")}`,
+        );
+    }
     if (value.type === "string") {
       for (const item of value.enum || [])
         assert.equal(
@@ -68,7 +81,8 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
       assert(target, `Unresolved reference: ${value.$ref}`);
     }
     for (const [key, child] of Object.entries(value))
-      walk(child, [...path, key]);
+      if (!presentationKeys.has(key) && !["default", "enum", "const"].includes(key))
+        walk(child, [...path, key]);
   }
   walk(spec);
   const ids = new Set();

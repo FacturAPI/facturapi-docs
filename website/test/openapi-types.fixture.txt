@@ -23,7 +23,10 @@ const receiptEvent: components["schemas"]["ApiEvent"] = {
   type: "receipt.status_updated",
   data: {
     type: "receipt",
-    object: { id: "rec", created_at: "2026-09-29T00:00:00Z", livemode: false },
+    object: {
+      id: "rec", created_at: "2026-09-29T00:00:00Z", livemode: false,
+      date: "2026-09-29T00:00:00Z", expires_at: "2026-10-01T00:00:00Z",
+    },
   },
 };
 const validation: operations["validateWebhookSignature"]["requestBody"]["content"]["application/json"] =
@@ -70,7 +73,22 @@ const invalid: components["schemas"]["ApiEvent"] = {
       id: "invoice",
       created_at: "2026-09-29T00:00:00Z",
       livemode: false,
+      date: null,
     },
   },
 };
+const pago: components["schemas"]["PagoOrCustomComplementInput"] = {
+  type: "pago",
+  data: [{ payment_form: "28", related_documents: [{
+    uuid: "39c85a3f-275b-4341-b259-e8971d9f8a94", installment: 1,
+    last_balance: 100, amount: 100, taxes: [], taxability: "01",
+  }] }],
+};
+const pagoResponse: components["schemas"]["InvoiceComplementProperties"] = {
+  type: "pago", data: [{ date: "2026-09-29T00:00:00Z", payment_form: "28", related_documents: [] }],
+};
+// @ts-expect-error a payment complement requires payment data, not payroll data
+const wrongPago: components["schemas"]["PagoOrCustomComplementInput"] = { type: "pago", data: { tipo_nomina: "O" } };
+const customResponse: components["schemas"]["InvoiceComplementProperties"] = { type: "custom", data: "<Example/>" };
+void [pago, pagoResponse, wrongPago, customResponse];
 void [invoice, draft, receiptEvent, validation, nullDate, draftStamp, draftUuid, missingDraftUuid, paymentTaxability, invalidPaymentTaxability, unknownPaymentTaxability, certificate, missingCertificateDate, nullCertificateDate, fiel, missingFielDate, nullFielDate, callback, retainedTax, invalidRetainedTax, invalid];

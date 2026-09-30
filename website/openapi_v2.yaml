@@ -4894,6 +4894,15 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - uuid
+                  - series
+                  - installment
+                  - last_balance
+                  - total
+                  - currency
+                  - amount
+                  - taxes
                 properties:
                   uuid:
                     type: string
@@ -9256,6 +9265,10 @@ paths:
                 type: array
                 items: 
                   type: object
+                  required:
+                    - id
+                    - first_12
+                    - created_at
                   properties: 
                     first_12:
                       type: string
@@ -13265,6 +13278,8 @@ components:
       allOf:
         - $ref: "#/components/schemas/SearchResult"
         - type: object
+          required:
+            - data
           properties:
             data:
               type: array
@@ -13274,6 +13289,8 @@ components:
       allOf:
         - $ref: "#/components/schemas/SearchResult"
         - type: object
+          required:
+            - data
           properties:
             data:
               type: array
@@ -13394,6 +13411,11 @@ components:
     LineItem:
       type: object
       properties:
+        property_tax_account:
+          type: array
+          items:
+            type: string
+          description: Cuentas prediales de este concepto.
         quantity:
           type: number
           description: Cantidad de unidades incluidas del mismo concepto.
@@ -13406,7 +13428,9 @@ components:
           $ref: "#/components/schemas/LineItemProduct"
           description: Objeto con información del producto o servicio facturado.
         parts:
-          $ref: "#/components/schemas/Parts"
+          type: array
+          items:
+            $ref: "#/components/schemas/Parts"
           description: Objeto con información de las partes de la factura.
     ThirdParty:
       type: object
@@ -13731,6 +13755,9 @@ components:
     CustomComplementProperties:
       title: CustomComplement
       type: object
+      required:
+        - type
+        - data
       properties:
         type:
           type: string
@@ -14324,6 +14351,10 @@ components:
             - custom
           description: Tipo de complemento.
 
+      oneOf:
+        - $ref: "#/components/schemas/PagoComplementProperties"
+        - $ref: "#/components/schemas/CustomComplementProperties"
+
     PagoOrCustomComplementInput:
       type: object
       title: Complement
@@ -14339,23 +14370,73 @@ components:
         type:
           type: string
           enum:
-            - nomina
+            - pago
             - custom
           description: Tipo de complemento.
+      oneOf:
+        - $ref: "#/components/schemas/PagoComplementInput"
+        - $ref: "#/components/schemas/CustomComplementInput"
+
     PagoComplementProperties:
       allOf:
-        - $ref: "#/components/schemas/NominaOrCustomComplementProperties"
+        - type: object
+          required:
+            - type
+            - data
+          properties:
+            type:
+              type: string
+              const: pago
         - type: object
           properties:
             data:
-              $ref: "#/components/schemas/NominaComplementDataProperties"
+              $ref: "#/components/schemas/PagoComplementDataProperties"
     PagoComplementInput:
       allOf:
-        - $ref: "#/components/schemas/PagoOrCustomComplementInput"
+        - type: object
+          required:
+            - type
+            - data
+          properties:
+            type:
+              type: string
+              const: pago
         - type: object
           properties:
             data:
               $ref: "#/components/schemas/PagoComplementDataInput"
+    InvoiceComplementProperties:
+      oneOf:
+        - $ref: '#/components/schemas/PagoComplementProperties'
+        - $ref: '#/components/schemas/NominaComplementProperties'
+        - $ref: '#/components/schemas/CartaPorteProperties'
+        - $ref: '#/components/schemas/ComercioExteriorProperties'
+        - $ref: '#/components/schemas/LeyendasFiscalesProperties'
+        - $ref: '#/components/schemas/CustomComplementProperties'
+      discriminator:
+        propertyName: type
+        mapping:
+          pago: '#/components/schemas/PagoComplementProperties'
+          nomina: '#/components/schemas/NominaComplementProperties'
+          carta_porte: '#/components/schemas/CartaPorteProperties'
+          comercio_exterior: '#/components/schemas/ComercioExteriorProperties'
+          leyendas_fiscales: '#/components/schemas/LeyendasFiscalesProperties'
+          custom: '#/components/schemas/CustomComplementProperties'
+    PagoComplementDataProperties:
+      type: array
+      items:
+        $ref: '#/components/schemas/PaymentProperties'
+    PaymentProperties:
+      allOf:
+        - $ref: '#/components/schemas/PaymentInput'
+        - type: object
+          required:
+            - date
+          properties:
+            date:
+              type: string
+              format: date-time
+
     PagoComplementDataInput:
       type: array
       title: PagoComplementData
@@ -14379,6 +14460,10 @@ components:
             - custom
           description: Tipo de complemento.
 
+      oneOf:
+        - $ref: "#/components/schemas/NominaComplementProperties"
+        - $ref: "#/components/schemas/CustomComplementProperties"
+
     NominaOrCustomComplementInput:
       type: object
       title: Complement
@@ -14397,16 +14482,34 @@ components:
             - nomina
             - custom
           description: Tipo de complemento.
+      oneOf:
+        - $ref: "#/components/schemas/NominaComplementInput"
+        - $ref: "#/components/schemas/CustomComplementInput"
+
     NominaComplementProperties:
       allOf:
-        - $ref: "#/components/schemas/NominaOrCustomComplementProperties"
+        - type: object
+          required:
+            - type
+            - data
+          properties:
+            type:
+              type: string
+              const: nomina
         - type: object
           properties:
             data:
               $ref: "#/components/schemas/NominaComplementDataProperties"
     NominaComplementInput:
       allOf:
-        - $ref: "#/components/schemas/NominaOrCustomComplementInput"
+        - type: object
+          required:
+            - type
+            - data
+          properties:
+            type:
+              type: string
+              const: nomina
         - type: object
           properties:
             data:
@@ -14414,42 +14517,84 @@ components:
     # Carta Porte Complemento
     CartaPorteProperties:
       allOf:
-        - $ref: "#/components/schemas/CartaPorteOrCustomComplementProperties"
+        - type: object
+          required:
+            - type
+            - data
+          properties:
+            type:
+              type: string
+              const: carta_porte
         - type: object
           properties:
             data:
               $ref: "#/components/schemas/CartaPorteDataProperties"
     CartaPorteInput:
       allOf:
-        - $ref: "#/components/schemas/CartaPorteOrCustomComplementInput"
+        - type: object
+          required:
+            - type
+            - data
+          properties:
+            type:
+              type: string
+              const: carta_porte
         - type: object
           properties:
             data:
               $ref: "#/components/schemas/CartaPorteDataInput"
     ComercioExteriorProperties:
       allOf:
-        - $ref: "#/components/schemas/CartaPorteOrCustomComplementProperties"
+        - type: object
+          required:
+            - type
+            - data
+          properties:
+            type:
+              type: string
+              const: comercio_exterior
         - type: object
           properties:
             data:
               $ref: "#/components/schemas/ComercioExteriorDataProperties"
     ComercioExteriorInput:
       allOf:
-        - $ref: "#/components/schemas/CartaPorteOrCustomComplementInput"
+        - type: object
+          required:
+            - type
+            - data
+          properties:
+            type:
+              type: string
+              const: comercio_exterior
         - type: object
           properties:
             data:
               $ref: "#/components/schemas/ComercioExteriorDataInput"
     LeyendasFiscalesProperties:
       allOf:
-        - $ref: "#/components/schemas/CartaPorteOrCustomComplementProperties"
+        - type: object
+          required:
+            - type
+            - data
+          properties:
+            type:
+              type: string
+              const: leyendas_fiscales
         - type: object
           properties:
             data:
               $ref: "#/components/schemas/LeyendasFiscalesData"
     LeyendasFiscalesInput:
       allOf:
-        - $ref: "#/components/schemas/CartaPorteOrCustomComplementInput"
+        - type: object
+          required:
+            - type
+            - data
+          properties:
+            type:
+              type: string
+              const: leyendas_fiscales
         - type: object
           properties:
             data:
@@ -14473,6 +14618,12 @@ components:
             - leyendas_fiscales
             - custom
           description: Tipo de complemento.
+      oneOf:
+        - $ref: "#/components/schemas/CartaPorteProperties"
+        - $ref: "#/components/schemas/ComercioExteriorProperties"
+        - $ref: "#/components/schemas/LeyendasFiscalesProperties"
+        - $ref: "#/components/schemas/CustomComplementProperties"
+
     CartaPorteOrCustomComplementInput:
       title: Complement
       type: object
@@ -14495,6 +14646,12 @@ components:
             - leyendas_fiscales
             - custom
           description: Tipo de complemento.
+      oneOf:
+        - $ref: "#/components/schemas/CartaPorteInput"
+        - $ref: "#/components/schemas/ComercioExteriorInput"
+        - $ref: "#/components/schemas/LeyendasFiscalesInput"
+        - $ref: "#/components/schemas/CustomComplementInput"
+
     LeyendasFiscalesData:
       type: object
       title: LeyendasFiscales
@@ -15557,6 +15714,8 @@ components:
       allOf:
         - $ref: "#/components/schemas/SearchResult"
         - type: object
+          required:
+            - data
           properties:
             data:
               type: array
@@ -15688,6 +15847,8 @@ components:
       allOf:
         - $ref: "#/components/schemas/SearchResult"
         - type: object
+          required:
+            - data
           properties:
             data:
               type: array
@@ -15898,6 +16059,8 @@ components:
       allOf:
         - $ref: "#/components/schemas/SearchResult"
         - type: object
+          required:
+            - data
           properties:
             data:
               type: array
@@ -16435,6 +16598,8 @@ components:
       allOf:
         - $ref: "#/components/schemas/SearchResult"
         - type: object
+          required:
+            - data
           properties:
             data:
               type: array
@@ -16448,6 +16613,8 @@ components:
         - price
     InvoiceProperties:
       type: object
+      required:
+        - date
       properties:
         status:
           type: string
@@ -16598,7 +16765,7 @@ components:
           type: array
           default: []
           items:
-            $ref: '#/components/schemas/NominaOrCustomComplementProperties'
+            $ref: '#/components/schemas/InvoiceComplementProperties'
           description: Complementos a incluir en la factura.
         pdf_custom_section:
           type: string
@@ -16617,52 +16784,6 @@ components:
           anyOf:
             - $ref: '#/components/schemas/Stamp'
             - type: 'null'
-        cancellation:
-          description: "Información de la solicitud de cancelación de la factura. `cancellation_status` también expone su estado actual."
-          type: object
-          properties:
-            requested_at:
-              description: "Fecha y hora de la solicitud de cancelación."
-              type:
-                - string
-                - 'null'
-              format: date-time
-            last_checked:
-              description: "Fecha y hora de la última consulta del estado de cancelación."
-              type: string
-              format: date-time
-            canceled_at:
-              description: "Fecha y hora de cancelación del CFDI."
-              type:
-                - string
-                - 'null'
-              format: date-time
-            status:
-              type: string
-              enum:
-                - none
-                - pending
-                - accepted
-                - rejected
-                - expired
-                - verifying
-              description: |
-                Estado actual de la solicitud de cancelación, en caso de haberla realizado. Puedes leer más a detalle en la sección de [Cancelar Factura](#tag/invoice/operation/deleteInvoice)).
-              example: none
-            motive:
-              description: "Clave del motivo de cancelación."
-              type: string
-            substitutionUUID:
-              description: "UUID del CFDI que sustituye a esta factura, cuando aplica."
-              type: string
-            cancellation_type:
-              description: "Indica si el SAT permite cancelar el CFDI y si se requiere aceptación del receptor."
-              type: ["string", "null"]
-              enum:
-                - cancellable_without_authorization
-                - cancellable_with_authorization
-                - not_cancellable
-                - null
         organization:
           description: "ID de la organización a la que pertenece este recurso."
           type:
@@ -16817,7 +16938,7 @@ components:
           type: array
           default: []
           items:
-            $ref: '#/components/schemas/NominaOrCustomComplementProperties'
+            $ref: '#/components/schemas/InvoiceComplementProperties'
           description: Complementos a incluir en la factura.
         pdf_custom_section:
           type: string
@@ -17946,6 +18067,9 @@ components:
     ReceiptProperties:
       allOf:
         - type: object
+          required:
+            - date
+            - expires_at
           properties:
             date:
               type: string
@@ -18097,6 +18221,8 @@ components:
       allOf:
         - $ref: "#/components/schemas/SearchResult"
         - type: object
+          required:
+            - data
           properties:
             data:
               type: array
@@ -18336,6 +18462,8 @@ components:
           example: false
     RetentionProperties:
       type: object
+      required:
+        - fecha_exp
       properties:
         cve_retenc:
           type: string
@@ -18457,6 +18585,8 @@ components:
       allOf:
         - $ref: "#/components/schemas/SearchResult"
         - type: object
+          required:
+            - data
           properties:
             data:
               type: array
@@ -18673,6 +18803,8 @@ components:
       allOf:
         - $ref: "#/components/schemas/SearchResult"
         - type: object
+          required:
+            - data
           properties:
             data:
               type: array
@@ -18681,6 +18813,11 @@ components:
     Organization:
       title: Objeto Organization
       type: object
+      required:
+        - id
+        - created_at
+        - certificate
+        - fiel
       properties:
         id:
           type: string
@@ -19379,6 +19516,9 @@ components:
           example: true
     OrganizationInvite:
       type: object
+      required:
+        - created_at
+        - expires_at
       properties:
         id:
           type: string
@@ -19416,6 +19556,9 @@ components:
         $ref: "#/components/schemas/OrganizationInvite"
     OrganizationPermissionRole:
       type: object
+      required:
+        - created_at
+        - updated_at
       properties:
         id:
           type: string
@@ -19492,6 +19635,9 @@ components:
         type: string
     OrganizationUserAccess:
       type: object
+      required:
+        - created_at
+        - updated_at
       properties:
         id:
           type: string

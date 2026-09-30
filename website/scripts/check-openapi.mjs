@@ -130,7 +130,10 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
     await writeFile(
       join(directory, "schema.d.ts"),
       astToString(
-        await openapiTS(new URL(filename, root), { defaultNonNullable: false }),
+        await openapiTS(new URL(filename, root), {
+          defaultNonNullable: false,
+          emptyObjectsUnknown: true,
+        }),
       ),
     );
     await writeFile(

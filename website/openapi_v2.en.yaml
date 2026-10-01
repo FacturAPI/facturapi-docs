@@ -12712,6 +12712,13 @@ components:
         Returns the results before the given cursor. Only with `pagination=cursor`; mutually exclusive with `after`.
 
   schemas:
+    DateOrDateTime:
+      description: Date in YYYY-MM-DD format or an ISO8601 date and time.
+      anyOf:
+        - type: string
+          format: date
+        - type: string
+          format: date-time
     InvoiceGlobalInvoiceCreatedEvent:
       allOf:
         - $ref: '#/components/schemas/EventBase'
@@ -13861,16 +13868,16 @@ components:
             - `"O"` (Ordinary): For payments made in a regular manner, such as salaries.
             - `"E"` (Extraordinary): For payments outside the ordinary, such as settlements, bonuses, or Christmas bonuses.
         fecha_pago:
-          type: string
-          format: date
+          allOf:
+            - $ref: "#/components/schemas/DateOrDateTime"
           description: "Date the employee was paid. If omitted, the current date and time are used."
         fecha_inicial_pago:
-          type: string
-          format: date
+          allOf:
+            - $ref: "#/components/schemas/DateOrDateTime"
           description: Initial date of the payment period.
         fecha_final_pago:
-          type: string
-          format: date
+          allOf:
+            - $ref: "#/components/schemas/DateOrDateTime"
           description: Final date of the payment period.
         num_dias_pagados:
           type: number
@@ -14317,8 +14324,8 @@ components:
           type: string
           description: Social security number.
         fecha_inicio_rel_laboral:
-          type: string
-          format: date
+          allOf:
+            - $ref: "#/components/schemas/DateOrDateTime"
           description: |
             Start date of the employment relationship between the employer and
             the employee.
@@ -18458,8 +18465,8 @@ components:
         - periodicity
       properties:
         from:
-          type: string
-          format: date
+          allOf:
+            - $ref: "#/components/schemas/DateOrDateTime"
           example: "2022-01-01"
           description: |
             Initial date of the receipts that will be included in the global invoice.
@@ -18467,8 +18474,8 @@ components:
             fortnight, or month), according to the value of "Periodicity" (`periodicity`)
             in the receipts configuration of your organization. This value is required when the `receipts` field is sent.
         to:
-          type: string
-          format: date
+          allOf:
+            - $ref: "#/components/schemas/DateOrDateTime"
           example: "2022-01-31"
           description: |
             End date of the receipts that will be included in the global invoice.
@@ -18500,8 +18507,8 @@ components:
           description: Series. Alphanumeric characters designated by the company for internal control and without fiscal validity.
           example: "F"
         date:
-          type: string
-          format: date
+          allOf:
+            - $ref: "#/components/schemas/DateOrDateTime"
           example: "2022-01-01"
           description: "Invoice issuance date. If omitted, the end date (`to`) is used, capped at the current date and time."
         payment_form:

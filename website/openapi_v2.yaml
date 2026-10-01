@@ -2762,7 +2762,7 @@ paths:
 
         Puedes usar el ID del producto para crear facturas sin tener que enviar todos los datos del producto cada vez.
 
-        Te en cuenta que los productos que crees en ambiente _Test_ **no se
+        Ten en cuenta que los productos que crees en ambiente _Test_ **no se
         comparten** con el ambiente _Live_.
       x-codeSamples:
         - lang: Bash
@@ -7153,7 +7153,7 @@ paths:
       description: |
         Realiza una solicitud de cancelación de retención ante el SAT.
 
-        A diferencia de las facturas comúnes, la cancelación de la retención es inmediata y no requiere autorización de parte del receptor.
+        A diferencia de las facturas comunes, la cancelación de la retención es inmediata y no requiere autorización de parte del receptor.
 
         Si el status de la retención es `draft`, este método la eliminará de la
         base de datos sin llamar al SAT/PAC y sin requerir parámetros de cancelación.
@@ -11423,7 +11423,7 @@ paths:
       tags:
         - webhooks
       summary: Eliminar Webhook
-      description: Elimina el webhook pertenciente a la organización.
+      description: Elimina el webhook perteneciente a la organización.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -12663,6 +12663,13 @@ components:
         Devuelve los resultados anteriores al cursor indicado. Solo con `pagination=cursor`; mutuamente excluyente con `after`.
 
   schemas:
+    DateOrDateTime:
+      description: Fecha en formato YYYY-MM-DD o fecha y hora en formato ISO8601.
+      anyOf:
+        - type: string
+          format: date
+        - type: string
+          format: date-time
     InvoiceGlobalInvoiceCreatedEvent:
       allOf:
         - $ref: '#/components/schemas/EventBase'
@@ -13810,16 +13817,16 @@ components:
             - `“O”` (Ordinaria): Cuando corresponde a un pago que se realiza de manera habitual, como sueldos.
             - `“E”` (Extraordinaria): Para pagos fuera de lo habitual, como liquidaciones, aguinaldos o bonos.
         fecha_pago:
-          type: string
-          format: date
+          allOf:
+            - $ref: "#/components/schemas/DateOrDateTime"
           description: "Fecha de pago de la nómina al trabajador. Si se omite, se utiliza la fecha y hora actuales."
         fecha_inicial_pago:
-          type: string
-          format: date
+          allOf:
+            - $ref: "#/components/schemas/DateOrDateTime"
           description: Fecha inicial del periodo de pago.
         fecha_final_pago:
-          type: string
-          format: date
+          allOf:
+            - $ref: "#/components/schemas/DateOrDateTime"
           description: Fecha final del periodo de pago.
         num_dias_pagados:
           type: number
@@ -14265,8 +14272,8 @@ components:
           type: string
           description: Número de seguridad social.
         fecha_inicio_rel_laboral:
-          type: string
-          format: date
+          allOf:
+            - $ref: "#/components/schemas/DateOrDateTime"
           description: Fecha de inicio de la relación laboral entre el empleador y el empleado.
         antiguedad:
           oneOf:
@@ -18380,8 +18387,8 @@ components:
         - periodicity
       properties:
         from:
-          type: string
-          format: date
+          allOf:
+            - $ref: "#/components/schemas/DateOrDateTime"
           example: "2022-01-01"
           description: |
             Fecha inicial de los recibos que se incluirán en la factura global.
@@ -18389,8 +18396,8 @@ components:
             quincena o mes), según el valor de "Periodicidad" (`periodicity`)
             en la configuración de recibos de tu organización. Este valor es requerido cuando se envíe el campo `receipts`.
         to:
-          type: string
-          format: date
+          allOf:
+            - $ref: "#/components/schemas/DateOrDateTime"
           example: "2022-01-31"
           description: |
             Fecha final de los recibos que se incluirán en la factura global.
@@ -18420,8 +18427,8 @@ components:
           maxLength: 25
           description: Serie. Caracteres designados por la empresa para control interno y sin validez fiscal.
         date:
-          type: string
-          format: date
+          allOf:
+            - $ref: "#/components/schemas/DateOrDateTime"
           example: "2022-01-01"
           description: "Fecha de emisión de la factura. Si se omite, se utiliza la fecha final (`to`), limitada a la fecha y hora actuales."
         payment_form:

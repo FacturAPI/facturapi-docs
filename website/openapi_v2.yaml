@@ -4254,6 +4254,12 @@ paths:
                     description: Impuestos de la factura prorrateados al monto pagado
                     items:
                       type: object
+                      required:
+                        - base
+                        - rate
+                        - type
+                        - factor
+                        - withholding
                       properties:
                         base:
                           type: number
@@ -4263,9 +4269,17 @@ paths:
                           description: Tasa o cuota del impuesto
                         type:
                           type: string
+                          enum:
+                            - IVA
+                            - ISR
+                            - IEPS
                           description: Tipo de impuesto (IVA, ISR, etc.)
                         factor:
                           type: string
+                          enum:
+                            - Tasa
+                            - Cuota
+                            - Exento
                           description: Tipo de factor (Tasa, Exento, etc.)
                         withholding:
                           type: boolean
@@ -5849,13 +5863,13 @@ paths:
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             // Asignar un cliente existente por ID
-            const receipt = await facturapi.receipts.assignCustomer(
+            const receipt = await facturapi.receipts.updateCustomer(
               '58e93bd8e86eb318b019743d',
               { customer: '58e93bd8e86eb318b0197456' }
             );
 
             // O crear el cliente desde payload y asignarlo al recibo
-            const receiptWithNewCustomer = await facturapi.receipts.assignCustomer(
+            const receiptWithNewCustomer = await facturapi.receipts.updateCustomer(
               '58e93bd8e86eb318b019743d',
               {
                 customer: {
@@ -11386,7 +11400,7 @@ paths:
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var customer = await facturapi.Webhook.CreateAsync(new Dictionary<string, object>
             {
-              ["enabled_events"] = new Dictionary<string, object>["receipt.self_invoice_complete"],
+              ["enabled_events"] = new string[] { "receipt.self_invoice_complete" },
               ["url"] = "http://my-website.com/my/webhook"
             });
         - lang: Java
@@ -11401,7 +11415,7 @@ paths:
             var webhook = facturapi.webhooks().create(
                 Map.of(
                     "url", "https://example.com/webhooks",
-                    "triggers", List.of("invoice.created")
+                    "enabled_events", List.of("receipt.self_invoice_complete")
                   ));
         - lang: PHP
           source: |
@@ -11616,7 +11630,7 @@ paths:
               new Dictionary<string, object>
               {
                 ["status"] = "disabled",
-                ["address"] = new Dictionary<string>["receipt.self_invoice_complete"]
+                ["enabled_events"] = new string[] { "receipt.self_invoice_complete" }
               }
             );
         - lang: Java
@@ -11629,16 +11643,15 @@ paths:
             Facturapi facturapi = new Facturapi("sk_test_API_KEY");
 
             var webhook = facturapi.webhooks().update("whk_123", Map.of(
-                    "url", "https://example.com/webhooks",
-                    "triggers", List.of("invoice.created")
+                    "status", "disabled",
+                    "enabled_events", List.of("receipt.self_invoice_complete")
                   ));
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
             $customer = $facturapi->Webhooks->update("590ce6c56d04f840aa8438af", [
                 "status" => "disabled",
-                "address" => ["receipt.self_invoice_complete"]
-              ]
+                "enabled_events" => ["receipt.self_invoice_complete"]
             ]);
       parameters:
         - in: path
@@ -11746,7 +11759,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v2/webhooks/valdate-signature \
+            curl https://www.facturapi.io/v2/webhooks/validate-signature \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -H "Content-Type: application/json" \
               -d '{
@@ -12632,7 +12645,7 @@ components:
       schema:
         type: integer
         minimum: 1
-        default: 50
+        default: 100
         maximum: 100
       description: Número del 1 al 100 que representa la cantidad máxima de resultados a regresar con motivos de paginación.
 
@@ -12721,11 +12734,6 @@ components:
               required:
                 - type
                 - object
-            related_resource_messages:
-              type: array
-              description: Mensajes relacionados con el recurso asociado al evento.
-              items:
-                $ref: '#/components/schemas/RelatedResourceMessage'
           required:
             - type
             - data
@@ -12880,7 +12888,7 @@ components:
           customer.edit_link_completed: '#/components/schemas/CustomerEditLinkCompletedEvent'
     SignedDownloadUrl:
       type: object
-      description: Enlace temporal de descarga de un archivo.
+      description: Objeto con un enlace temporal de descarga y los metadatos del archivo.
       required:
         - url
         - expires_at
@@ -12889,6 +12897,7 @@ components:
       properties:
         url:
           type: string
+          format: uri
           description: Enlace de descarga. Da acceso al archivo mientras siga vigente.
         expires_at:
           type: string
@@ -12970,6 +12979,11 @@ components:
           type: string
           description: ID de la organización a la que pertenece el evento
           example: 61f81a7fbd4661b11b9b3f27
+        related_resource_messages:
+          type: array
+          description: Mensajes relacionados con el recurso asociado al evento.
+          items:
+            $ref: '#/components/schemas/RelatedResourceMessage'
       required:
         - id
         - created_at
@@ -15996,17 +16010,13 @@ components:
             Ejemplo: https://auto.facturapi.io/tax-info/abcdWXYZ1234
           example: https://auto.facturapi.io/tax-info/abcdWXYZ1234
         edit_link_expires_at:
-          type:
-            - string
-            - 'null'
+          type: string
           format: date-time
           description: |
             Fecha de expiración del enlace de edición.
           example: '2022-12-31T23:59:59Z'
         sat_validated_at:
-          type:
-            - string
-            - 'null'
+          type: string
           format: date-time
           description: |
             Fecha en la que la información fiscal fue validado por el SAT.
@@ -16465,7 +16475,7 @@ components:
                 type: integer
                 description: Opcionalmente se puede incluir el número de folio del documento relacionado.
               series:
-                type: string
+                type: [string, "null"]
                 description: Opcionalmente se puede incluir la serie del documento relacionado.
         currency:
           type: string
@@ -19338,13 +19348,9 @@ components:
               type: string
               format: date-time
         domain:
-          type:
-            - string
-            - 'null'
+          type: string
         custom_domain:
-          type:
-            - string
-            - 'null'
+          type: string
 
     OrganizationDeleteCerts: 
       type: object

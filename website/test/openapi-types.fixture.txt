@@ -21,6 +21,7 @@ const receiptEvent: components["schemas"]["ApiEvent"] = {
   livemode: false,
   organization: "org",
   type: "receipt.status_updated",
+  related_resource_messages: [],
   data: {
     type: "receipt",
     object: {
@@ -151,3 +152,11 @@ const createdInvoiceDate: string | null | undefined = createdInvoiceResponse.dat
 const createdInvoiceStamp: components["schemas"]["Stamp"] | null | undefined = createdInvoiceResponse.stamp;
 void createdInvoiceDate;
 void createdInvoiceStamp;
+
+// A payment summary can be reused directly in a payment complement.
+declare const paymentSummary: operations["getInvoicePaymentSummary"]["responses"][200]["content"]["application/json"];
+const summaryRelatedDocument: components["schemas"]["PaymentInput"]["related_documents"][number] = paymentSummary;
+// Catalog codes are strings: their leading zeros are part of their identity.
+// @ts-expect-error a numeric catalog code is not a valid string code
+const numericPaymentTaxability: typeof paymentTaxability = 1;
+void [summaryRelatedDocument, numericPaymentTaxability];

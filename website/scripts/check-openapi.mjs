@@ -36,9 +36,8 @@ function contract(value, key) {
 }
 
 for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
-  const spec = yaml.load(await readFile(new URL(filename, root), "utf8"), {
-    schema: yaml.JSON_SCHEMA,
-  });
+  // Match the generator parser so unquoted numeric SAT codes fail validation.
+  const spec = yaml.load(await readFile(new URL(filename, root), "utf8"));
   function walk(value, path = []) {
     if (!value || typeof value !== "object") return;
     assert(
@@ -65,7 +64,7 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
           "string",
           `String enum values must be quoted when needed: ${path.join(".")}`,
         );
-      for (const key of ["example", "default"])
+      for (const key of ["example", "default", "const"])
         if (key in value)
           assert.equal(
             typeof value[key],
@@ -85,6 +84,14 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
         walk(child, [...path, key]);
   }
   walk(spec);
+  for (const invoiceType of spec.components.schemas.InvoiceCreateInput.oneOf) {
+    assert.equal(invoiceType.oneOf.length, 2, "Expected emission and draft variants");
+    assert.deepEqual(
+      invoiceType.oneOf.map((variant) => variant.allOf.at(-1).properties.status.const),
+      ["pending", "draft"],
+      "Invoice display variants must match their contractual status",
+    );
+  }
   const ids = new Set();
   for (const items of [spec.paths, spec.webhooks || {}]) {
     for (const [path, item] of Object.entries(items)) {

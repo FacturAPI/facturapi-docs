@@ -14,15 +14,16 @@ function CustomPage() {
     // Keep this presentation hint out of the contract: status may be omitted.
     spec.components.schemas.InvoiceCreateInput.oneOf =
       spec.components.schemas.InvoiceCreateInput.oneOf.map(
-        (invoiceType: {oneOf: {title: string}[]}, typeIndex: number) => {
+        (invoiceType: {oneOf: {allOf: {properties: {status: {const: string}}}[]}[]}, typeIndex: number) => {
           const mapping: Record<string, string> = {};
           return {
             ...invoiceType,
             oneOf: invoiceType.oneOf.map((variant) => {
-              const name = `InvoiceCreateDisplay${typeIndex}${variant.title}`;
+              const status = variant.allOf.at(-1)!.properties.status.const;
+              const name = `InvoiceCreateDisplay${typeIndex}${status}`;
               spec.components.schemas[name] = variant;
-              mapping[variant.title] = `#/components/schemas/${name}`;
-              return {$ref: mapping[variant.title]};
+              mapping[status] = `#/components/schemas/${name}`;
+              return {$ref: mapping[status]};
             }),
             discriminator: {propertyName: 'status', mapping},
           };

@@ -4280,6 +4280,12 @@ paths:
                     description: Invoice taxes prorated to the paid amount
                     items:
                       type: object
+                      required:
+                        - base
+                        - rate
+                        - type
+                        - factor
+                        - withholding
                       properties:
                         base:
                           type: number
@@ -4289,9 +4295,17 @@ paths:
                           description: Tax rate or quota
                         type:
                           type: string
+                          enum:
+                            - IVA
+                            - ISR
+                            - IEPS
                           description: Tax type (VAT, income tax withholding, etc.)
                         factor:
                           type: string
+                          enum:
+                            - Tasa
+                            - Cuota
+                            - Exento
                           description: Factor type (Rate, Exempt, etc.)
                         withholding:
                           type: boolean
@@ -5888,13 +5902,13 @@ paths:
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             // Assign an existing customer by ID
-            const receipt = await facturapi.receipts.assignCustomer(
+            const receipt = await facturapi.receipts.updateCustomer(
               '58e93bd8e86eb318b019743d',
               { customer: '58e93bd8e86eb318b0197456' }
             );
 
             // Or create the customer from payload and assign it to the receipt
-            const receiptWithNewCustomer = await facturapi.receipts.assignCustomer(
+            const receiptWithNewCustomer = await facturapi.receipts.updateCustomer(
               '58e93bd8e86eb318b019743d',
               {
                 customer: {
@@ -11431,7 +11445,7 @@ paths:
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var customer = await facturapi.Webhook.CreateAsync(new Dictionary<string, object>
             {
-              ["enabled_events"] = new Dictionary<string, object>["receipt.self_invoice_complete"],
+              ["enabled_events"] = new string[] { "receipt.self_invoice_complete" },
               ["url"] = "http://webhook_api.com"
             });
         - lang: Java
@@ -11446,7 +11460,7 @@ paths:
             var webhook = facturapi.webhooks().create(
                 Map.of(
                     "url", "https://example.com/webhooks",
-                    "triggers", List.of("invoice.created")
+                    "enabled_events", List.of("receipt.self_invoice_complete")
                   ));
         - lang: PHP
           source: |
@@ -11664,7 +11678,7 @@ paths:
               new Dictionary<string, object>
               {
                 ["status"] = "disabled",
-                ["address"] = new Dictionary<string>["receipt.self_invoice_complete"]
+                ["enabled_events"] = new string[] { "receipt.self_invoice_complete" }
               }
             );
         - lang: Java
@@ -11677,16 +11691,15 @@ paths:
             Facturapi facturapi = new Facturapi("sk_test_API_KEY");
 
             var webhook = facturapi.webhooks().update("whk_123", Map.of(
-                    "url", "https://example.com/webhooks",
-                    "triggers", List.of("invoice.created")
+                    "status", "disabled",
+                    "enabled_events", List.of("receipt.self_invoice_complete")
                   ));
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
             $customer = $facturapi->Webhooks->update("590ce6c56d04f840aa8438af", [
                 "status" => "disabled",
-                "address" => ["receipt.self_invoice_complete"]
-              ]
+                "enabled_events" => ["receipt.self_invoice_complete"]
             ]);
       parameters:
         - in: path
@@ -12681,7 +12694,7 @@ components:
       schema:
         type: integer
         minimum: 1
-        default: 50
+        default: 100
         maximum: 100
       description: Number from 1 to 100 representing the maximum amount of results to return for pagination purposes.
 
@@ -12770,11 +12783,6 @@ components:
               required:
                 - type
                 - object
-            related_resource_messages:
-              type: array
-              description: Messages related to the resource associated with the event.
-              items:
-                $ref: '#/components/schemas/RelatedResourceMessage'
           required:
             - type
             - data
@@ -12929,7 +12937,7 @@ components:
           customer.edit_link_completed: '#/components/schemas/CustomerEditLinkCompletedEvent'
     SignedDownloadUrl:
       type: object
-      description: Temporary download URL for a file.
+      description: Object containing a temporary download link and file metadata.
       required:
         - url
         - expires_at
@@ -12938,6 +12946,7 @@ components:
       properties:
         url:
           type: string
+          format: uri
           description: Download URL. It grants access to the file while it is valid.
         expires_at:
           type: string
@@ -13003,6 +13012,11 @@ components:
           type: string
           description: ID of the organization this event is related to
           example: 61f81a7fbd4661b11b9b3f27
+        related_resource_messages:
+          type: array
+          description: Messages related to the resource associated with the event.
+          items:
+            $ref: '#/components/schemas/RelatedResourceMessage'
       required:
         - id
         - created_at
@@ -15986,16 +16000,12 @@ components:
           description: Link to a hosted page where the customer can edit their information once.
           example: https://auto.facturapi.io/tax-info/abcdWXYZ1234
         edit_link_expires_at:
-          type:
-            - string
-            - 'null'
+          type: string
           format: date-time
           description: Expiration date of the edit link.
           example: '2022-12-31T23:59:59Z'
         sat_validated_at:
-          type:
-            - string
-            - 'null'
+          type: string
           format: date-time
           description: Date when the customer's tax information was validated by the SAT.
           example: '2022-12-31T23:59:59Z'
@@ -16497,7 +16507,7 @@ components:
                 description: |
                   Optional. You can include the folio number of the related document.
               series:
-                type: string
+                type: [string, "null"]
                 description: |
                   Optional. You can include the series of the related document.
         currency:
@@ -19435,13 +19445,9 @@ components:
               type: string
               format: date-time
         domain:
-          type:
-            - string
-            - 'null'
+          type: string
         custom_domain:
-          type:
-            - string
-            - 'null'
+          type: string
 
     OrganizationDeleteCerts: 
       type: object

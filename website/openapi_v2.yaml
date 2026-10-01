@@ -4488,7 +4488,7 @@ paths:
       tags:
         - invoice
       summary: Obtener URL del preview PDF de factura
-      description: Devuelve una URL temporal para el preview PDF de una factura sin timbrar.
+      description: Devuelve un objeto con los metadatos del archivo y una URL temporal para el preview PDF de una factura sin timbrar.
       x-codeSamples:
         - lang: JavaScript
           label: Node.js
@@ -4506,7 +4506,7 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: URL temporal de descarga para el preview PDF.
+          description: Objeto con una URL temporal de descarga, su fecha de expiración, el tipo de contenido y el nombre del archivo.
           content:
             application/json:
               schema:
@@ -4651,7 +4651,7 @@ paths:
         - invoice
       summary: Obtener enlace de descarga
       description: |
-        Devuelve un enlace temporal para descargar la factura en PDF, XML o ambos en un archivo comprimido ZIP, sin que el archivo pase por tu servidor.
+        Devuelve un objeto con los metadatos del archivo y un enlace temporal para descargar la factura en PDF, XML o ambos en un archivo comprimido ZIP, sin que el archivo pase por tu servidor.
 
         El enlace da acceso a ese archivo mientras siga vigente: trátalo como una credencial y no lo almacenes.
       x-codeSamples:
@@ -4693,7 +4693,7 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: Enlace temporal de descarga del comprobante CFDI en el formato solicitado
+          description: Objeto con una URL temporal de descarga, su fecha de expiración, el tipo de contenido y el nombre del archivo.
           content:
             application/json:
               schema:
@@ -4810,7 +4810,7 @@ paths:
         - invoice
       summary: Obtener enlace del acuse de cancelación
       description: |
-        Devuelve un enlace temporal para descargar en XML o PDF el acuse emitido por el SAT al solicitar la cancelación mediante Facturapi. El acuse contiene el resultado inmediato de la solicitud y no necesariamente acredita que el CFDI ya esté cancelado; consulta el estado de la factura para confirmar el desenlace.
+        Devuelve un objeto con los metadatos del archivo y un enlace temporal para descargar en XML o PDF el acuse emitido por el SAT al solicitar la cancelación mediante Facturapi. El acuse contiene el resultado inmediato de la solicitud y no necesariamente acredita que el CFDI ya esté cancelado; consulta el estado de la factura para confirmar el desenlace.
 
         El enlace da acceso a ese archivo mientras siga vigente: trátalo como una credencial y no lo almacenes.
       x-codeSamples:
@@ -4851,7 +4851,7 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: Enlace temporal de descarga del acuse de cancelación en el formato solicitado
+          description: Objeto con una URL temporal de descarga, su fecha de expiración, el tipo de contenido y el nombre del archivo.
           content:
             application/json:
               schema:
@@ -5429,7 +5429,7 @@ paths:
         - invoice
       summary: Obtener URL de descarga del ZIP mensual
       description: |
-        Devuelve una URL temporal para descargar el ZIP de una solicitud terminada sin que el archivo viaje a través de tu servidor.
+        Devuelve un objeto con los metadatos del archivo y una URL temporal para descargar el ZIP de una solicitud terminada sin que el archivo viaje a través de tu servidor.
 
         La URL permite acceder únicamente a ese archivo mientras sea válida: trátala como una credencial y no la almacenes. Requiere una llave de API de organización en ambiente Live, una suscripción activa y permiso para leer facturas.
       x-codeSamples:
@@ -5455,7 +5455,7 @@ paths:
         - "SecretLiveKey": []
       responses:
         "200":
-          description: URL temporal de descarga para el archivo ZIP generado.
+          description: Objeto con una URL temporal de descarga, su fecha de expiración, el tipo de contenido y el nombre del archivo.
           content:
             application/json:
               schema:
@@ -6419,7 +6419,7 @@ paths:
       tags:
         - receipt
       summary: Obtener URL del preview de factura de recibos
-      description: Devuelve una URL temporal para el preview PDF de una factura construida con los recibos seleccionados.
+      description: Devuelve un objeto con los metadatos del archivo y una URL temporal para el preview PDF de una factura construida con los recibos seleccionados.
       x-codeSamples:
         - lang: JavaScript
           label: Node.js
@@ -6437,7 +6437,7 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: URL temporal de descarga para el preview PDF.
+          description: Objeto con una URL temporal de descarga, su fecha de expiración, el tipo de contenido y el nombre del archivo.
           content:
             application/json:
               schema:
@@ -6652,7 +6652,7 @@ paths:
         - receipt
       summary: Obtener enlace de descarga
       description: |
-        Devuelve un enlace temporal para descargar el recibo digital en PDF, sin que el archivo pase por tu servidor.
+        Devuelve un objeto con los metadatos del archivo y un enlace temporal para descargar el recibo digital en PDF, sin que el archivo pase por tu servidor.
 
         El enlace da acceso a ese archivo mientras siga vigente: trátalo como una credencial y no lo almacenes.
       x-codeSamples:
@@ -6684,7 +6684,7 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: Enlace temporal de descarga del recibo digital en formato PDF
+          description: Objeto con una URL temporal de descarga, su fecha de expiración, el tipo de contenido y el nombre del archivo.
           content:
             application/json:
               schema:
@@ -7711,7 +7711,7 @@ paths:
         - retention
       summary: Obtener enlace de descarga
       description: |
-        Devuelve un enlace temporal para descargar la retención en PDF, XML o ambos en un archivo comprimido ZIP, sin que el archivo pase por tu servidor.
+        Devuelve un objeto con los metadatos del archivo y un enlace temporal para descargar la retención en PDF, XML o ambos en un archivo comprimido ZIP, sin que el archivo pase por tu servidor.
 
         El enlace da acceso a ese archivo mientras siga vigente: trátalo como una credencial y no lo almacenes.
       x-codeSamples:
@@ -7753,7 +7753,7 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: Enlace temporal de descarga de la retención en el formato solicitado
+          description: Objeto con una URL temporal de descarga, su fecha de expiración, el tipo de contenido y el nombre del archivo.
           content:
             application/json:
               schema:
@@ -9741,7 +9741,7 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
-            const seriesList = await facturapi.organizations.getSeries(
+            const seriesList = await facturapi.organizations.listSeriesGroup(
               '5a2a307be93a2f00129ea035'
             );
         - lang: csharp
@@ -9828,7 +9828,7 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
-            const newSeries = await facturapi.organizations.createSeries(
+            const newSeries = await facturapi.organizations.createSeriesGroup(
               '5a2a307be93a2f00129ea035',
               {
                 series: 'New',
@@ -10027,13 +10027,13 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
-            const updatedSeries = await facturapi.organizations.updateSeries(
+            const updatedSeries = await facturapi.organizations.updateSeriesGroup(
               '5a2a307be93a2f00129ea035',
               'New',
-              [
-                "next_folio" => 1,
-                "next_folio_test" => 1
-              ]
+              {
+                next_folio: 1,
+                next_folio_test: 1
+              }
             );
         - lang: csharp
           label: C#
@@ -10123,7 +10123,7 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
-            const deletedSeries = await facturapi.organizations.deleteSeries(
+            const deletedSeries = await facturapi.organizations.deleteSeriesGroup(
               '5a2a307be93a2f00129ea035',
               'New'
             );

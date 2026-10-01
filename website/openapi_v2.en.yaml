@@ -4516,7 +4516,7 @@ paths:
       tags:
         - invoice
       summary: Get invoice PDF preview URL
-      description: Returns a temporary URL for an unstamped invoice PDF preview.
+      description: Returns an object containing file metadata and a temporary URL for an unstamped invoice PDF preview.
       x-codeSamples:
         - lang: JavaScript
           label: Node.js
@@ -4534,7 +4534,7 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: Temporary download URL for the PDF preview.
+          description: Object containing a temporary download URL, its expiration date, the content type, and the filename.
           content:
             application/json:
               schema:
@@ -4679,7 +4679,7 @@ paths:
         - invoice
       summary: Get download URL
       description: |
-        Returns a temporary URL to download the invoice in PDF, XML, or both in a ZIP file, without the file travelling through your server.
+        Returns an object containing file metadata and a temporary URL to download the invoice in PDF, XML, or both in a ZIP file, without the file travelling through your server.
 
         The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
       x-codeSamples:
@@ -4721,7 +4721,7 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: Temporary download URL for the CFDI in the requested format
+          description: Object containing a temporary download URL, its expiration date, the content type, and the filename.
           content:
             application/json:
               schema:
@@ -4843,7 +4843,7 @@ paths:
         - invoice
       summary: Get cancellation receipt download URL
       description: |
-        Returns a temporary URL to download the XML or PDF receipt issued by SAT when a cancellation request is submitted through Facturapi, without the file travelling through your server. The receipt contains the immediate request result and does not necessarily prove that the CFDI is already canceled; check the invoice status to confirm the outcome.
+        Returns an object containing file metadata and a temporary URL to download the XML or PDF receipt issued by SAT when a cancellation request is submitted through Facturapi, without the file travelling through your server. The receipt contains the immediate request result and does not necessarily prove that the CFDI is already canceled; check the invoice status to confirm the outcome.
 
         The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
       x-codeSamples:
@@ -4884,7 +4884,7 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: Temporary download URL for the cancellation receipt in the requested format
+          description: Object containing a temporary download URL, its expiration date, the content type, and the filename.
           content:
             application/json:
               schema:
@@ -5466,7 +5466,7 @@ paths:
         - invoice
       summary: Get monthly ZIP download URL
       description: |
-        Returns a temporary URL for downloading the ZIP of a finished request without the file travelling through your server.
+        Returns an object containing file metadata and a temporary URL for downloading the ZIP of a finished request without the file travelling through your server.
 
         The URL grants access to that one file while it is valid: treat it as a credential and do not store it. Requires a live-mode organization API key, an active subscription, and permission to read invoices.
       x-codeSamples:
@@ -5492,7 +5492,7 @@ paths:
         - "SecretLiveKey": []
       responses:
         "200":
-          description: Temporary download URL for the generated ZIP file.
+          description: Object containing a temporary download URL, its expiration date, the content type, and the filename.
           content:
             application/json:
               schema:
@@ -6456,7 +6456,7 @@ paths:
       tags:
         - receipt
       summary: Get receipts invoice preview URL
-      description: Returns a temporary URL for the PDF preview of an invoice built from the selected receipts.
+      description: Returns an object containing file metadata and a temporary URL for the PDF preview of an invoice built from the selected receipts.
       x-codeSamples:
         - lang: JavaScript
           label: Node.js
@@ -6474,7 +6474,7 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: Temporary download URL for the PDF preview.
+          description: Object containing a temporary download URL, its expiration date, the content type, and the filename.
           content:
             application/json:
               schema:
@@ -6689,7 +6689,7 @@ paths:
         - receipt
       summary: Get download URL
       description: |
-        Returns a temporary URL to download the receipt in PDF, without the file travelling through your server.
+        Returns an object containing file metadata and a temporary URL to download the receipt in PDF, without the file travelling through your server.
 
         The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
       x-codeSamples:
@@ -6721,7 +6721,7 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: Temporary download URL for the receipt in PDF
+          description: Object containing a temporary download URL, its expiration date, the content type, and the filename.
           content:
             application/json:
               schema:
@@ -6751,7 +6751,7 @@ paths:
         - lang: Bash
           label: cURL
           source: |
-            # Send to a different email than the one registered by the customer
+            // Send to a different email than the one registered by the customer
             curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d/email \
               -H "Authorization: Bearer sk_test_API_KEY" \
               -X POST \
@@ -6765,13 +6765,13 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
 
-            # Send to a different email than the one registered by the customer
+            // Send to a different email than the one registered by the customer
             await facturapi.receipts.sendByEmail(
               '58e93bd8e86eb318b019743d',
               { email: 'ejemplo@correo.com' }
             );
 
-            # Send to multiple emails (max 10)
+            // Send to multiple emails (max 10)
             await facturapi.receipts.sendByEmail(
               '58e93bd8e86eb318b019743d',
               {
@@ -7748,7 +7748,7 @@ paths:
         - retention
       summary: Get download URL
       description: |
-        Returns a temporary URL to download the retention in PDF, XML, or both in a ZIP file, without the file travelling through your server.
+        Returns an object containing file metadata and a temporary URL to download the retention in PDF, XML, or both in a ZIP file, without the file travelling through your server.
 
         The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
       x-codeSamples:
@@ -7790,7 +7790,7 @@ paths:
         - "SecretTestKey": []
       responses:
         "200":
-          description: Temporary download URL for the retention in the requested format
+          description: Object containing a temporary download URL, its expiration date, the content type, and the filename.
           content:
             application/json:
               schema:
@@ -9784,7 +9784,7 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
-            const seriesList = await facturapi.organizations.getSeries(
+            const seriesList = await facturapi.organizations.listSeriesGroup(
               '5a2a307be93a2f00129ea035'
             );
         - lang: csharp
@@ -9871,7 +9871,7 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
-            const newSeries = await facturapi.organizations.createSeries(
+            const newSeries = await facturapi.organizations.createSeriesGroup(
               '5a2a307be93a2f00129ea035',
               {
                 series: 'New',
@@ -10070,13 +10070,13 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
-            const updatedSeries = await facturapi.organizations.updateSeries(
+            const updatedSeries = await facturapi.organizations.updateSeriesGroup(
               '5a2a307be93a2f00129ea035',
               'New',
-              [
-                "next_folio" => 1,
-                "next_folio_test" => 1
-              ]
+              {
+                next_folio: 1,
+                next_folio_test: 1
+              }
             );
         - lang: csharp
           label: C#
@@ -10166,7 +10166,7 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_user_API_KEY');
 
-            const deletedSeries = await facturapi.organizations.deleteSeries(
+            const deletedSeries = await facturapi.organizations.deleteSeriesGroup(
               '5a2a307be93a2f00129ea035',
               'New'
             );

@@ -6,6 +6,7 @@ import { createRequire } from "node:module";
 import { execFileSync } from "node:child_process";
 import * as yaml from "js-yaml";
 import openapiTS, { astToString } from "openapi-typescript";
+import ts from "typescript";
 
 const root = new URL("../", import.meta.url);
 const contracts = [];
@@ -84,6 +85,11 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
         walk(child, [...path, key]);
   }
   walk(spec);
+  assert.equal(
+    spec.components.schemas.SignedDownloadUrl.properties.url.format,
+    "uri",
+    "Download links must be declared as URI strings",
+  );
   for (const invoiceType of spec.components.schemas.InvoiceCreateInput.oneOf) {
     assert.equal(invoiceType.oneOf.length, 2, "Expected emission and draft variants");
     assert.deepEqual(
@@ -103,6 +109,23 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
           `Duplicate operationId: ${operation.operationId}`,
         );
         ids.add(operation.operationId);
+        for (const sample of operation["x-codeSamples"] || []) {
+          if (!["JavaScript", "TypeScript"].includes(sample.lang)) continue;
+          const result = ts.transpileModule(sample.source, {
+            compilerOptions: {
+              target: ts.ScriptTarget.ESNext,
+              module: ts.ModuleKind.ESNext,
+            },
+            fileName: sample.lang === "JavaScript" ? "sample.js" : "sample.ts",
+            reportDiagnostics: true,
+          });
+          assert.equal(
+            result.diagnostics.length,
+            0,
+            `Invalid ${sample.lang} sample: ${operation.operationId}`,
+          );
+        }
+
         const params = [
           ...(item.parameters || []),
           ...(operation.parameters || []),

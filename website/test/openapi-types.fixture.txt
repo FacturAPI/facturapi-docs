@@ -205,3 +205,16 @@ const undefinedNationalZip: components['schemas']['CustomerNationalCreateInput']
 // @ts-expect-error explicit receipt selection needs actual dates
 const undefinedGlobalDates: components['schemas']['GlobalInvoiceInput'] = { receipts: ['rec_ejemplo'], from: undefined, to: undefined };
 void [undefinedCustomerName, undefinedNationalRegime, undefinedNationalZip, undefinedGlobalDates];
+// Incomplete and foreign customer responses may have null fiscal fields.
+declare const incompleteCustomerResponse: components['schemas']['Customer'];
+const responseTaxId: string | null | undefined = incompleteCustomerResponse.tax_id;
+const responseTaxSystem: string | null | undefined = incompleteCustomerResponse.tax_system;
+const incompleteCustomerWithEmptyRfc: components['schemas']['CustomerCreateWithEditLinkInput'] = { tax_id: null };
+// @ts-expect-error edit-link creation still validates a supplied fiscal regime
+const incompleteCustomerWithNullRegime: components['schemas']['CustomerCreateWithEditLinkInput'] = { tax_system: null };
+// @ts-expect-error national customer creation requires a non-null fiscal regime
+const nationalCustomerWithNullRegime: components['schemas']['CustomerNationalCreateInput'] = { legal_name: 'Cliente', tax_id: 'ABC101010111', tax_system: null, address: { zip: '83200' } };
+void [responseTaxId, responseTaxSystem, incompleteCustomerWithEmptyRfc, incompleteCustomerWithNullRegime, nationalCustomerWithNullRegime];
+const expiredCustomerEditLink: components['schemas']['CustomerNonEditableProperties'] = { edit_link: null, edit_link_expires_at: null };
+const clearedCustomerPhone: components['schemas']['CustomerProperties'] = { phone: null };
+void [expiredCustomerEditLink, clearedCustomerPhone];

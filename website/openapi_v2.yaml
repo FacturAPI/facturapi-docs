@@ -2173,7 +2173,7 @@ paths:
           description: |
             Si pasas el valor `true`, se generará un enlace para que el cliente pueda editar
             su información fiscal. Este enlace estará disponible en el campo "edit_link", será
-            válido por 7 días y sólo se podrá usar una vez.
+            válido por 3 días y sólo se podrá usar una vez.
             Además, pasar el valor `true` desactivará la validación de información fiscal con el SAT,
             permitiendo crear clientes con información incompleta.
             Con `true`, el body sigue `CustomerCreateWithEditLinkInput`; en otro caso sigue `CustomerCreateInput`.
@@ -2462,7 +2462,7 @@ paths:
           description: |
             Si pasas el valor `true`, se generará un enlace para que el cliente pueda editar
             su información fiscal. Este enlace estará disponible en el campo "edit_link", será
-            válido por 7 días y sólo se podrá usar una vez. Pasar el valor `true` al editar
+            válido por 3 días y sólo se podrá usar una vez. Pasar el valor `true` al editar
             **no** desactivará la validación de información fiscal con el SAT.
       requestBody:
         $ref: "#/components/requestBodies/CustomerEdit"
@@ -2558,7 +2558,7 @@ paths:
       description: |
         Envía un enlace para que el cliente pueda editar su información fiscal.
 
-        Este enlace estará disponible en el campo `edit_link`, será válido por 7 días y sólo se podrá usar una vez.
+        Este enlace estará disponible en el campo `edit_link`, será válido por 3 días y sólo se podrá usar una vez.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -16014,7 +16014,9 @@ components:
             Ejemplo: https://auto.facturapi.io/tax-info/abcdWXYZ1234
           example: https://auto.facturapi.io/tax-info/abcdWXYZ1234
         edit_link_expires_at:
-          type: string
+          type:
+            - string
+            - 'null'
           format: date-time
           description: |
             Fecha de expiración del enlace de edición.
@@ -16054,12 +16056,16 @@ components:
             Nombre Fiscal o Razón Social del cliente. *sin* el régimen societario (ej.: S.A. de C.V.).
           example: Dunder Mifflin
         tax_id:
-          type: string
+          type:
+            - string
+            - 'null'
           example: ABC101010111
           description: En clientes de México contiene el RFC del cliente. Para extranjeros es opcional y representa el número de registro de identificación tributaria, es decir, el equivalente al RFC en el país del cliente.
         tax_system:
-          type: string
-          example: "601"
+          type:
+            - string
+            - 'null'
+          example: '601'
           maxLength: 3
           minLength: 3
           description: Requerido para clientes nacionales. Clave del régimen fiscal del cliente, del catálogo de [Regímenes Fiscales](#r%C3%A9gimen-fiscal).
@@ -16069,9 +16075,11 @@ components:
           description: Dirección de correo electrónico al cual enviar las facturas generadas.
           example: email@example.com
         phone:
-          type: string
+          type:
+            - string
+            - 'null'
           description: Teléfono del cliente.
-          example: "6474010101"
+          example: '6474010101'
         default_invoice_use:
           type: string
           description: Uso de CFDI por defecto.
@@ -16114,7 +16122,12 @@ components:
       title: Customer with edit link
       description: La información del cliente puede estar incompleta cuando createEditLink=true. Los campos enviados deben conservar formatos válidos.
       allOf:
-        - $ref: "#/components/schemas/CustomerProperties"
+        - $ref: '#/components/schemas/CustomerProperties'
+        - type: object
+          properties:
+            tax_system:
+              type: string
+              description: Si se envía, debe ser un régimen fiscal válido. Omitirlo permite guardar información fiscal incompleta.
     CustomerCreateCommonInput:
       type: object
       required:
@@ -16131,7 +16144,9 @@ components:
           description: Dirección de correo electrónico al cual enviar las facturas generadas.
           example: email@example.com
         phone:
-          type: string
+          type:
+            - string
+            - 'null'
           description: Teléfono del cliente.
           example: '6474010101'
         default_invoice_use:

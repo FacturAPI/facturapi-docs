@@ -390,6 +390,44 @@ body[data-scrolled='true'] .navbar {
   display: none !important;
 }
 
+/* Choose the initial invoice status before reviewing its conditional fields. */
+[id='operation/createInvoice'] tbody:has(> tr > td[title='status'] + td select) {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+
+  > tr {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+  }
+
+  > tr > td {
+    width: auto;
+  }
+
+  > tr > td[colspan] {
+    grid-column: 1 / -1;
+  }
+
+  > tr:has(> td[title='status']) {
+    order: -1;
+
+    > td + td > div {
+      display: flex;
+      flex-direction: column;
+
+      > div:has(> select) {
+        order: -1;
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+
+  @media (max-width: 50rem) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 html[data-theme='dark'] .redocusaurus button[aria-expanded='true'] {
   border-color: transparent !important;
 }

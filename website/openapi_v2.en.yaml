@@ -17442,8 +17442,8 @@ components:
               enum:
                 - draft
               description: |
-                Initial status of the invoice. It is only possible to edit an invoice with status `draft`,
-                and it is not possible to change the status when editing, so the only allowed value is `draft`.
+                Invoice status. The value `draft` identifies a draft that has not been stamped or sent to SAT.
+                Only invoices with this status can be edited; `status` cannot be changed while editing.
               example: draft
             date:
               type: string
@@ -17494,142 +17494,127 @@ components:
       description: Invoice data according to its type and initial status. Omit status to stamp; use draft to save a draft.
       oneOf:
         - title: Income
-          allOf:
-            - $ref: '#/components/schemas/InvoiceIngresoInput'
-            - type: object
-              properties:
-                type:
-                  type: string
-                  const: I
-                status:
-                  type: string
-                  const: pending
-                  default: pending
-        - title: Income (draft)
-          allOf:
-            - $ref: '#/components/schemas/InvoiceIngresoEditInput'
-            - type: object
-              required:
-                - status
-              properties:
-                type:
-                  type: string
-                  const: I
-                status:
-                  type: string
-                  const: draft
+          type: object
+          oneOf:
+            - title: pending
+              allOf:
+                - $ref: '#/components/schemas/InvoiceIngresoInput'
+                - type: object
+                  properties:
+                    status:
+                      type: string
+                      const: pending
+                      default: pending
+            - title: draft
+              allOf:
+                - $ref: '#/components/schemas/InvoiceIngresoEditInput'
+                - type: object
+                  required:
+                    - status
+                  properties:
+                    status:
+                      type: string
+                      const: draft
         - title: Egress
-          allOf:
-            - $ref: '#/components/schemas/InvoiceEgresoInput'
-            - type: object
-              required:
-                - type
-              properties:
-                type:
-                  type: string
-                  const: E
-                status:
-                  type: string
-                  const: pending
-                  default: pending
-        - title: Egress (draft)
-          allOf:
-            - $ref: '#/components/schemas/InvoiceEgresoEditInput'
-            - type: object
-              required:
-                - status
-                - type
-              properties:
-                type:
-                  type: string
-                  const: E
-                status:
-                  type: string
-                  const: draft
+          type: object
+          oneOf:
+            - title: pending
+              allOf:
+                - $ref: '#/components/schemas/InvoiceEgresoInput'
+                - type: object
+                  required:
+                    - type
+                  properties:
+                    status:
+                      type: string
+                      const: pending
+                      default: pending
+            - title: draft
+              allOf:
+                - $ref: '#/components/schemas/InvoiceEgresoEditInput'
+                - type: object
+                  required:
+                    - status
+                    - type
+                  properties:
+                    status:
+                      type: string
+                      const: draft
         - title: Payment
-          allOf:
-            - $ref: '#/components/schemas/InvoicePagoInput'
-            - type: object
-              required:
-                - type
-              properties:
-                type:
-                  type: string
-                  const: P
-                status:
-                  type: string
-                  const: pending
-                  default: pending
-        - title: Payment (draft)
-          allOf:
-            - $ref: '#/components/schemas/InvoicePagoEditInput'
-            - type: object
-              required:
-                - status
-                - type
-              properties:
-                type:
-                  type: string
-                  const: P
-                status:
-                  type: string
-                  const: draft
+          type: object
+          oneOf:
+            - title: pending
+              allOf:
+                - $ref: '#/components/schemas/InvoicePagoInput'
+                - type: object
+                  required:
+                    - type
+                  properties:
+                    status:
+                      type: string
+                      const: pending
+                      default: pending
+            - title: draft
+              allOf:
+                - $ref: '#/components/schemas/InvoicePagoEditInput'
+                - type: object
+                  required:
+                    - status
+                    - type
+                  properties:
+                    status:
+                      type: string
+                      const: draft
         - title: Payroll
-          allOf:
-            - $ref: '#/components/schemas/InvoiceNominaInput'
-            - type: object
-              required:
-                - type
-              properties:
-                type:
-                  type: string
-                  const: 'N'
-                status:
-                  type: string
-                  const: pending
-                  default: pending
-        - title: Payroll (draft)
-          allOf:
-            - $ref: '#/components/schemas/InvoiceNominaEditInput'
-            - type: object
-              required:
-                - status
-                - type
-              properties:
-                type:
-                  type: string
-                  const: 'N'
-                status:
-                  type: string
-                  const: draft
+          type: object
+          oneOf:
+            - title: pending
+              allOf:
+                - $ref: '#/components/schemas/InvoiceNominaInput'
+                - type: object
+                  required:
+                    - type
+                  properties:
+                    status:
+                      type: string
+                      const: pending
+                      default: pending
+            - title: draft
+              allOf:
+                - $ref: '#/components/schemas/InvoiceNominaEditInput'
+                - type: object
+                  required:
+                    - status
+                    - type
+                  properties:
+                    status:
+                      type: string
+                      const: draft
         - title: Transfer
-          allOf:
-            - $ref: '#/components/schemas/InvoiceTrasladoInput'
-            - type: object
-              required:
-                - type
-              properties:
-                type:
-                  type: string
-                  const: T
-                status:
-                  type: string
-                  const: pending
-                  default: pending
-        - title: Transfer (draft)
-          allOf:
-            - $ref: '#/components/schemas/InvoiceTrasladoEditInput'
-            - type: object
-              required:
-                - status
-                - type
-              properties:
-                type:
-                  type: string
-                  const: T
-                status:
-                  type: string
-                  const: draft
+          type: object
+          oneOf:
+            - title: pending
+              allOf:
+                - $ref: '#/components/schemas/InvoiceTrasladoInput'
+                - type: object
+                  required:
+                    - type
+                  properties:
+                    status:
+                      type: string
+                      const: pending
+                      default: pending
+            - title: draft
+              allOf:
+                - $ref: '#/components/schemas/InvoiceTrasladoEditInput'
+                - type: object
+                  required:
+                    - status
+                    - type
+                  properties:
+                    status:
+                      type: string
+                      const: draft
     InvoiceIngresoInput:
       title: Income
       required:

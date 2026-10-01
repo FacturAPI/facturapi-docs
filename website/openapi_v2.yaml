@@ -17434,7 +17434,8 @@ components:
       type: object
       description: Datos de la factura según su tipo y estado inicial. Omite status para timbrar; usa draft para guardar un borrador.
       oneOf:
-        - allOf:
+        - title: Ingreso
+          allOf:
             - $ref: '#/components/schemas/InvoiceIngresoInput'
             - type: object
               properties:
@@ -17445,7 +17446,8 @@ components:
                   type: string
                   const: pending
                   default: pending
-        - allOf:
+        - title: Ingreso (borrador)
+          allOf:
             - $ref: '#/components/schemas/InvoiceIngresoEditInput'
             - type: object
               required:
@@ -17457,7 +17459,8 @@ components:
                 status:
                   type: string
                   const: draft
-        - allOf:
+        - title: Egreso
+          allOf:
             - $ref: '#/components/schemas/InvoiceEgresoInput'
             - type: object
               required:
@@ -17470,7 +17473,8 @@ components:
                   type: string
                   const: pending
                   default: pending
-        - allOf:
+        - title: Egreso (borrador)
+          allOf:
             - $ref: '#/components/schemas/InvoiceEgresoEditInput'
             - type: object
               required:
@@ -17483,7 +17487,8 @@ components:
                 status:
                   type: string
                   const: draft
-        - allOf:
+        - title: Pago
+          allOf:
             - $ref: '#/components/schemas/InvoicePagoInput'
             - type: object
               required:
@@ -17496,7 +17501,8 @@ components:
                   type: string
                   const: pending
                   default: pending
-        - allOf:
+        - title: Pago (borrador)
+          allOf:
             - $ref: '#/components/schemas/InvoicePagoEditInput'
             - type: object
               required:
@@ -17509,7 +17515,8 @@ components:
                 status:
                   type: string
                   const: draft
-        - allOf:
+        - title: Nómina
+          allOf:
             - $ref: '#/components/schemas/InvoiceNominaInput'
             - type: object
               required:
@@ -17522,7 +17529,8 @@ components:
                   type: string
                   const: pending
                   default: pending
-        - allOf:
+        - title: Nómina (borrador)
+          allOf:
             - $ref: '#/components/schemas/InvoiceNominaEditInput'
             - type: object
               required:
@@ -17535,7 +17543,8 @@ components:
                 status:
                   type: string
                   const: draft
-        - allOf:
+        - title: Traslado
+          allOf:
             - $ref: '#/components/schemas/InvoiceTrasladoInput'
             - type: object
               required:
@@ -17548,7 +17557,8 @@ components:
                   type: string
                   const: pending
                   default: pending
-        - allOf:
+        - title: Traslado (borrador)
+          allOf:
             - $ref: '#/components/schemas/InvoiceTrasladoEditInput'
             - type: object
               required:

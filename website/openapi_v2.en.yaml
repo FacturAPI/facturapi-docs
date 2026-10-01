@@ -17493,7 +17493,8 @@ components:
       type: object
       description: Invoice data according to its type and initial status. Omit status to stamp; use draft to save a draft.
       oneOf:
-        - allOf:
+        - title: Income
+          allOf:
             - $ref: '#/components/schemas/InvoiceIngresoInput'
             - type: object
               properties:
@@ -17504,7 +17505,8 @@ components:
                   type: string
                   const: pending
                   default: pending
-        - allOf:
+        - title: Income (draft)
+          allOf:
             - $ref: '#/components/schemas/InvoiceIngresoEditInput'
             - type: object
               required:
@@ -17516,7 +17518,8 @@ components:
                 status:
                   type: string
                   const: draft
-        - allOf:
+        - title: Egress
+          allOf:
             - $ref: '#/components/schemas/InvoiceEgresoInput'
             - type: object
               required:
@@ -17529,7 +17532,8 @@ components:
                   type: string
                   const: pending
                   default: pending
-        - allOf:
+        - title: Egress (draft)
+          allOf:
             - $ref: '#/components/schemas/InvoiceEgresoEditInput'
             - type: object
               required:
@@ -17542,7 +17546,8 @@ components:
                 status:
                   type: string
                   const: draft
-        - allOf:
+        - title: Payment
+          allOf:
             - $ref: '#/components/schemas/InvoicePagoInput'
             - type: object
               required:
@@ -17555,7 +17560,8 @@ components:
                   type: string
                   const: pending
                   default: pending
-        - allOf:
+        - title: Payment (draft)
+          allOf:
             - $ref: '#/components/schemas/InvoicePagoEditInput'
             - type: object
               required:
@@ -17568,7 +17574,8 @@ components:
                 status:
                   type: string
                   const: draft
-        - allOf:
+        - title: Payroll
+          allOf:
             - $ref: '#/components/schemas/InvoiceNominaInput'
             - type: object
               required:
@@ -17581,7 +17588,8 @@ components:
                   type: string
                   const: pending
                   default: pending
-        - allOf:
+        - title: Payroll (draft)
+          allOf:
             - $ref: '#/components/schemas/InvoiceNominaEditInput'
             - type: object
               required:
@@ -17594,7 +17602,8 @@ components:
                 status:
                   type: string
                   const: draft
-        - allOf:
+        - title: Transfer
+          allOf:
             - $ref: '#/components/schemas/InvoiceTrasladoInput'
             - type: object
               required:
@@ -17607,7 +17616,8 @@ components:
                   type: string
                   const: pending
                   default: pending
-        - allOf:
+        - title: Transfer (draft)
+          allOf:
             - $ref: '#/components/schemas/InvoiceTrasladoEditInput'
             - type: object
               required:

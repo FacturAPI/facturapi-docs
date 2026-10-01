@@ -3651,661 +3651,6 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
-  /invoices/zip-requests:
-    post:
-      operationId: createInvoiceZipRequest
-      tags:
-        - invoice
-      summary: Create or retrieve a monthly ZIP request
-      description: |
-        Creates a request to generate a ZIP file containing one month of invoices, or retrieves the existing request with the same filters.
-
-        This operation is idempotent. Invoice types are normalized, so `["I", "E"]` and `["E", "I"]` resolve to the same request. Identical concurrent calls also return the same request.
-
-        If an earlier request has a `failed` status, calling this method again retries it. Before retrying, the previous error and task fields, processed progress, and failed-document list are cleared. If scheduling fails, the request is saved with a `failed` status and the API returns a `5xx` error.
-
-        This method requires a live-mode organization API key, an active subscription, and permission to read invoices. Test-mode keys return HTTP 402.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/invoices/zip-requests \
-              -H "Authorization: Bearer sk_live_API_KEY" \
-              -H "Content-Type: application/json" \
-              -d '{
-                "year": 2025,
-                "month": 3,
-                "issuer_type": "issuing",
-                "invoice_types": ["I", "E"]
-              }'
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            import Facturapi from 'facturapi';
-
-            const facturapi = new Facturapi('sk_live_API_KEY');
-            const zipRequest = await facturapi.invoices.createZipRequest({
-              year: 2025,
-              month: 3,
-              issuer_type: 'issuing',
-              invoice_types: ['I', 'E']
-            });
-        - lang: csharp
-          label: C#
-          source: |
-            var facturapi = new FacturapiClient("sk_live_API_KEY");
-            var zipRequest = await facturapi.Invoice.CreateZipRequestAsync(
-              new Dictionary<string, object>
-              {
-                ["year"] = 2025,
-                ["month"] = 3,
-                ["issuer_type"] = "issuing",
-                ["invoice_types"] = new[] { "I", "E" }
-              }
-            );
-        - lang: Java
-          label: Java
-          source: |
-            import io.facturapi.Facturapi;
-            import java.util.List;
-            import java.util.Map;
-
-            Facturapi facturapi = new Facturapi("sk_live_API_KEY");
-            var zipRequest = facturapi.invoices().createZipRequest(
-              Map.of(
-                "year", 2025,
-                "month", 3,
-                "issuer_type", "issuing",
-                "invoice_types", List.of("I", "E")
-              )
-            );
-        - lang: PHP
-          source: |
-            $facturapi = new Facturapi("sk_live_API_KEY");
-            $zipRequest = $facturapi->Invoices->createZipRequest([
-              "year" => 2025,
-              "month" => 3,
-              "issuer_type" => "issuing",
-              "invoice_types" => ["I", "E"]
-            ]);
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/InvoiceZipRequestCreateInput"
-      security:
-        - "SecretLiveKey": []
-      responses:
-        "200":
-          description: ZIP request created or retrieved successfully.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InvoiceZipRequest"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "402":
-          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
-        "404":
-          $ref: "#/components/responses/InvoiceZipRequestNoInvoices"
-        "429":
-          $ref: "#/components/responses/RateLimited"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-    get:
-      operationId: listInvoiceZipRequests
-      tags:
-        - invoice
-      summary: List monthly ZIP requests
-      description: |
-        Returns a paginated list of ZIP requests. `year` and `month` must be provided together. `invoice_types` filters by one type or an exact normalized array.
-
-        This method requires a live-mode organization API key, an active subscription, and permission to read invoices.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl "https://www.facturapi.io/v2/invoices/zip-requests?year=2025&month=3&status=finished&limit=20&page=1" \
-              -H "Authorization: Bearer sk_live_API_KEY"
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            import Facturapi from 'facturapi';
-
-            const facturapi = new Facturapi('sk_live_API_KEY');
-            const zipRequests = await facturapi.invoices.listZipRequests({
-              year: 2025,
-              month: 3,
-              status: 'finished',
-              limit: 20,
-              page: 1
-            });
-        - lang: csharp
-          label: C#
-          source: |
-            var facturapi = new FacturapiClient("sk_live_API_KEY");
-            var zipRequests = await facturapi.Invoice.ListZipRequestsAsync(
-              new Dictionary<string, object>
-              {
-                ["year"] = 2025,
-                ["month"] = 3,
-                ["status"] = "finished",
-                ["limit"] = 20,
-                ["page"] = 1
-              }
-            );
-        - lang: Java
-          label: Java
-          source: |
-            import io.facturapi.Facturapi;
-            import java.util.Map;
-
-            Facturapi facturapi = new Facturapi("sk_live_API_KEY");
-            var zipRequests = facturapi.invoices().listZipRequests(
-              Map.of(
-                "year", 2025,
-                "month", 3,
-                "status", "finished",
-                "limit", 20,
-                "page", 1
-              )
-            );
-        - lang: PHP
-          source: |
-            $facturapi = new Facturapi("sk_live_API_KEY");
-            $zipRequests = $facturapi->Invoices->listZipRequests([
-              "year" => 2025,
-              "month" => 3,
-              "status" => "finished",
-              "limit" => 20,
-              "page" => 1
-            ]);
-      parameters:
-        - in: query
-          name: year
-          schema:
-            type: integer
-            minimum: 2000
-            maximum: 9999
-          description: Year to filter. Must be provided with `month`.
-        - in: query
-          name: month
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 12
-          description: Month to filter. Must be provided with `year`.
-        - in: query
-          name: status
-          schema:
-            $ref: "#/components/schemas/InvoiceZipRequestStatus"
-          description: ZIP request status.
-        - in: query
-          name: issuer_type
-          schema:
-            $ref: "#/components/schemas/IssuingType"
-          description: Filters issued or received invoices.
-        - in: query
-          name: invoice_types
-          schema:
-            type: array
-            uniqueItems: true
-            items:
-              $ref: "#/components/schemas/InvoiceZipRequestInvoiceType"
-          description: Filters by one invoice type or an exact normalized array.
-        - in: query
-          name: page
-          schema:
-            type: integer
-            minimum: 1
-            default: 1
-          description: Results page, starting at 1.
-        - $ref: "#/components/parameters/SearchLimit"
-      security:
-        - "SecretLiveKey": []
-      responses:
-        "200":
-          description: Paginated ZIP request results.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InvoiceZipRequestSearchResult"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "402":
-          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
-        "429":
-          $ref: "#/components/responses/RateLimited"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-  /invoices/zip-requests/{id}:
-    get:
-      operationId: retrieveInvoiceZipRequest
-      tags:
-        - invoice
-      summary: Retrieve a monthly ZIP request
-      description: |
-        Retrieves a ZIP request. Poll this method until the status becomes `finished` or `failed`. Once it is `finished`, call the download method.
-
-        Requires a live-mode organization API key, an active subscription, and permission to read invoices.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/invoices/zip-requests/66b0f0000000000000000000 \
-              -H "Authorization: Bearer sk_live_API_KEY"
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            import Facturapi from 'facturapi';
-
-            const facturapi = new Facturapi('sk_live_API_KEY');
-            const zipRequest = await facturapi.invoices.retrieveZipRequest(
-              '66b0f0000000000000000000'
-            );
-        - lang: csharp
-          label: C#
-          source: |
-            var facturapi = new FacturapiClient("sk_live_API_KEY");
-            var zipRequest = await facturapi.Invoice.RetrieveZipRequestAsync(
-              "66b0f0000000000000000000"
-            );
-        - lang: Java
-          label: Java
-          source: |
-            import io.facturapi.Facturapi;
-
-            Facturapi facturapi = new Facturapi("sk_live_API_KEY");
-            var zipRequest = facturapi.invoices().retrieveZipRequest(
-              "66b0f0000000000000000000"
-            );
-        - lang: PHP
-          source: |
-            $facturapi = new Facturapi("sk_live_API_KEY");
-            $zipRequest = $facturapi->Invoices->retrieveZipRequest(
-              "66b0f0000000000000000000"
-            );
-      parameters:
-        - $ref: "#/components/parameters/InvoiceZipRequestId"
-      security:
-        - "SecretLiveKey": []
-      responses:
-        "200":
-          description: ZIP request retrieved successfully.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InvoiceZipRequest"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "402":
-          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
-        "404":
-          $ref: "#/components/responses/InvoiceZipRequestNotFound"
-        "429":
-          $ref: "#/components/responses/RateLimited"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-  /invoices/zip-requests/{id}/zip:
-    get:
-      operationId: downloadInvoiceZipRequest
-      tags:
-        - invoice
-      summary: Download a monthly ZIP
-      description: |
-        Downloads the ZIP for a finished request. The filename uses the `YYYY-MM.zip` format.
-
-        Requires a live-mode organization API key, an active subscription, and permission to read invoices.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/invoices/zip-requests/66b0f0000000000000000000/zip \
-              -H "Authorization: Bearer sk_live_API_KEY" \
-              --output 2025-03.zip
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            import fs from 'fs';
-            import Facturapi from 'facturapi';
-
-            const facturapi = new Facturapi('sk_live_API_KEY');
-            const zipStream = await facturapi.invoices.downloadZipRequest(
-              '66b0f0000000000000000000'
-            );
-            zipStream.pipe(fs.createWriteStream('./2025-03.zip'));
-        - lang: csharp
-          label: C#
-          source: |
-            var facturapi = new FacturapiClient("sk_live_API_KEY");
-            var zipStream = await facturapi.Invoice.DownloadZipRequestAsync(
-              "66b0f0000000000000000000"
-            );
-            await using var file = File.Create("2025-03.zip");
-            await zipStream.CopyToAsync(file);
-        - lang: Java
-          label: Java
-          source: |
-            import io.facturapi.Facturapi;
-            import java.io.InputStream;
-            import java.nio.file.Files;
-            import java.nio.file.Path;
-            import java.nio.file.StandardCopyOption;
-
-            Facturapi facturapi = new Facturapi("sk_live_API_KEY");
-            try (InputStream zipStream = facturapi.invoices().downloadZipRequest(
-              "66b0f0000000000000000000"
-            )) {
-              Files.copy(zipStream, Path.of("./2025-03.zip"), StandardCopyOption.REPLACE_EXISTING);
-            }
-        - lang: PHP
-          source: |
-            $facturapi = new Facturapi("sk_live_API_KEY");
-            $zip = $facturapi->Invoices->downloadZipRequest(
-              "66b0f0000000000000000000"
-            );
-            file_put_contents("2025-03.zip", $zip);
-      parameters:
-        - $ref: "#/components/parameters/InvoiceZipRequestId"
-      security:
-        - "SecretLiveKey": []
-      responses:
-        "200":
-          description: Generated ZIP file.
-          headers:
-            Content-Disposition:
-              description: Suggested filename in `attachment; filename="YYYY-MM.zip"` format.
-              schema:
-                type: string
-          content:
-            application/zip:
-              schema:
-                type: string
-                format: binary
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "402":
-          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
-        "404":
-          $ref: "#/components/responses/InvoiceZipRequestNotFound"
-        "409":
-          $ref: "#/components/responses/InvoiceZipRequestNotReady"
-        "429":
-          $ref: "#/components/responses/RateLimited"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-  /invoices/zip-requests/{id}/download-url:
-    get:
-      operationId: getInvoiceZipRequestDownloadUrl
-      tags:
-        - invoice
-      summary: Get monthly ZIP download URL
-      description: |
-        Returns a temporary URL for downloading the ZIP of a finished request without the file travelling through your server.
-
-        The URL grants access to that one file while it is valid: treat it as a credential and do not store it. Requires a live-mode organization API key, an active subscription, and permission to read invoices.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/invoices/zip-requests/66b0f0000000000000000000/download-url \
-              -H "Authorization: Bearer sk_live_API_KEY"
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            import Facturapi from 'facturapi';
-
-            const facturapi = new Facturapi('sk_live_API_KEY');
-            const download = await facturapi.invoices.downloadZipRequestUrl(
-              '66b0f0000000000000000000'
-            );
-
-            console.log(download.url, download.expires_at);
-      parameters:
-        - $ref: "#/components/parameters/InvoiceZipRequestId"
-      security:
-        - "SecretLiveKey": []
-      responses:
-        "200":
-          description: Temporary download URL for the generated ZIP file.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SignedDownloadUrl"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "402":
-          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
-        "404":
-          $ref: "#/components/responses/InvoiceZipRequestNotFound"
-        "409":
-          $ref: "#/components/responses/InvoiceZipRequestNotReady"
-        "429":
-          $ref: "#/components/responses/RateLimited"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-  /invoices/preview/pdf:
-    post:
-      operationId: previewInvoicePdf
-      tags:
-        - invoice
-      summary: Preview invoice PDF
-      description: |
-        Generates a PDF preview of an invoice **without stamping it**. The PDF will be generated with the default template of your organization.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/invoices/preview/pdf \
-              -H "Authorization: Bearer sk_test_API_KEY" \
-              -H "Content-Type: application/json" \
-              -d '{
-                "customer": {
-                  "legal_name": "Dunder Mifflin",
-                  "email": "email@example.com",
-                  "tax_id": "ABC101010111",
-                  "tax_system": "601",
-                  "address": {
-                    "zip": "85900"
-                  }
-                },
-                "items": [{
-                  "quantity": 2,
-                  "product": {
-                    "description": "Ukelele",
-                    "product_key": "60131324",
-                    "price": 345.60
-                  }
-                }],
-                "payment_form": "06",
-                "folio_number": 914,
-                "series": "F"
-              }'
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            const Facturapi = require('facturapi');
-
-            const facturapi = new Facturapi('sk_live_API_KEY');
-            const pdfStream = await facturapi.invoices.previewPdf({
-              customer: {
-                legal_name: 'Dunder Mifflin',
-                email: 'email@example.com',
-                tax_id: 'ABC101010111',
-                tax_system: '601',
-                address: {
-                  zip: '85900'
-                }
-              },
-              items: [{
-                quantity: 2,
-                product: {
-                  description: 'Ukelele',
-                  product_key: '60131324',
-                  price: 345.60
-                }
-              }],
-              payment_form: Facturapi.PaymentForm.DINERO_ELECTRONICO,
-              folio_number: 914,
-              series: 'F'
-            });
-            // Save the PDF to a file
-            const fs = require('fs');
-            const file = fs.createWriteStream('/route/to/save/invoice.pdf');
-            pdfStream.pipe(file);
-        - lang: csharp
-          label: C#
-          source: |
-            var facturapi = new FacturapiClient("sk_live_API_KEY");
-            var pdfStream = await facturapi.Invoice.PreviewPdfAsync(new Dictionary<string, object>
-            {
-              ["customer"] = new Dictionary<string, object>
-              {
-                ["legal_name"] = "Dunder Mifflin",
-                ["email"] = "email@example.com",
-                ["tax_id"] = "ABC101010111",
-                ["tax_system"] = "601",
-                ["address"] = new Dictionary<string, object>
-                {
-                  ["zip"] = "85900"
-                }
-              },
-              ["items"] = new Dictionary<string, object>[]
-              {
-                new Dictionary<string, object>
-                {
-                  ["product"] = new Dictionary<string, object>
-                  {
-                    ["description"] = "Ukelele",
-                    ["product_key"] = "60131324",
-                    ["price"] = 345.60
-                  }
-                }
-              },
-              ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO,
-              ["folio_number"] = 914,
-              ["series"] = "F"
-            });
-            // Save the PDF to a file
-            var file = new System.IO.FileStream("C:\\route\\to\\save\\invoice.pdf", FileMode.Create);
-            pdfStream.CopyTo(file);
-            file.Close();
-        - lang: Java
-          label: Java
-          source: |
-            import io.facturapi.Facturapi;
-            import java.util.List;
-            import java.util.Map;
-
-            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
-
-            var pdf = facturapi.invoices().previewPdf(
-                Map.of(
-                    "customer", "cus_123",
-                    "items", List.of(
-                        Map.of(
-                            "quantity", 1,
-                            "product", "prod_123"
-                        )
-                    )
-                  ));
-        - lang: PHP
-          source: |
-            $facturapi = new Facturapi("sk_live_API_KEY");
-            $pdfContent = $facturapi->Invoices->previewPdf([
-              "customer" => [
-                "legal_name" => "Dunder Mifflin",
-                "email" => "email@example.com",
-                "tax_id" => "ABC101010111",
-                "tax_system" => "601",
-                "address" => [
-                  "zip" => "85900"
-                ]
-              ],
-              "items" => [
-                [
-                  "quantity" => 2,
-                  "product" => [
-                    "description" => "Ukelele",
-                    "product_key" => "60131324",
-                    "price" => 345.60,
-                    "sku" => "ABC4567"
-                  ]
-                ]
-              ],
-              "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
-              "folio_number" => 914,
-              "series" => "F"
-            ]);
-      requestBody:
-        $ref: "#/components/requestBodies/InvoiceEdit"
-      security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
-      responses:
-        "200":
-          description: PDF binary content
-          content:
-            application/pdf:
-              schema:
-                type: string
-                format: binary
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "429":
-          $ref: "#/components/responses/RateLimited"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-  /invoices/preview/pdf/download-url:
-    post:
-      operationId: previewInvoicePdfUrl
-      tags:
-        - invoice
-      summary: Get invoice PDF preview URL
-      description: Returns a temporary URL for an unstamped invoice PDF preview.
-      x-codeSamples:
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            const download = await facturapi.invoices.previewPdfUrl({
-              customer: 'cus_123',
-              items: [{ product: 'prod_123' }],
-              payment_form: '06'
-            });
-            console.log(download.url, download.expires_at);
-      requestBody:
-        $ref: "#/components/requestBodies/InvoiceEdit"
-      security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
-      responses:
-        "200":
-          description: Temporary download URL for the PDF preview.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SignedDownloadUrl"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "429":
-          $ref: "#/components/responses/RateLimited"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
   /invoices/{invoice_id}:
     get:
       operationId: getInvoice
@@ -4752,45 +4097,33 @@ paths:
         "500":
           $ref: "#/components/responses/UnexpectedError"
 
-  /invoices/{invoice_id}/cancellation_receipt/{format}:
-    get:
-      operationId: downloadCancellationReceiptXml
+  /invoices/{invoice_id}/status:
+    put:
+      operationId: updateInvoiceStatus
       tags:
         - invoice
-      summary: Cancellation receipt
-      description: Download the XML or PDF receipt issued by SAT when a cancellation request is submitted through Facturapi. The receipt contains the immediate request result and does not necessarily prove that the CFDI is already canceled; check the invoice status to confirm the outcome.
+      summary: |
+        Update invoice status
+      description: |
+        Consults the status of a stamped invoice at the SAT and updates the invoice object with the most recent information.
       x-codeSamples:
         - lang: Bash
           label: cURL
           source: |
-            # Cancellation receipt xml
-            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/xml \
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/status \
               -H "Authorization: Bearer sk_test_API_KEY" \
-              -X GET
-
-            # Cancellation receipt pdf
-            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/pdf \
-              -H "Authorization: Bearer sk_test_API_KEY" \
-              -X GET
+              -X PUT
         - lang: JavaScript
           label: Node.js
           source: |
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY');
-
-            // Cancellation receipt xml
-            await facturapi.invoices.downloadCancellationReceiptXml('58e93bd8e86eb318b019743d');
-
-            // Cancellation receipt pdf
-            await facturapi.invoices.downloadCancellationReceiptPdf('58e93bd8e86eb318b019743d');
-
+            const invoice = await facturapi.invoices.updateStatus('58e93bd8e86eb318b019743d');
         - lang: csharp
           label: C#
           source: |
-            // Cancellation receipt xml
-            await facturapi.Invoice.DownloadCancellationReceiptXmlAsync("58e93bd8e86eb318b019743d");
-            // Cancellation receipt pdf
-            await facturapi.Invoice.DownloadCancellationReceiptPdfAsync("58e93bd8e86eb318b019743d");
+            var facturapi = new Facturapi
+            var invoice = await facturapi.Invoice.UpdateStatusAsync("58e93bd8e86eb318b019743d");
         - lang: Java
           label: Java
           source: |
@@ -4799,48 +4132,31 @@ paths:
             import java.util.Map;
 
             Facturapi facturapi = new Facturapi("sk_test_API_KEY");
-            byte[] cancellationReceiptXml = facturapi.invoices().downloadCancellationReceiptXml(
-                  "58e93bd8e86eb318b019743d"
-                );
-            byte[] cancellationReceiptPdf = facturapi.invoices().downloadCancellationReceiptPdf(
-                  "58e93bd8e86eb318b019743d"
+
+            var invoice = facturapi.invoices().updateStatus(
+                  "inv_123"
                 );
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
-
-            // Cancellation receipt xml
-            $facturapi->Invoices->downloadCancellationReceiptXml("58e93bd8e86eb318b019743d");
-
-            // Cancellation receipt pdf
-            $facturapi->Invoices->downloadCancellationReceiptPdf("58e93bd8e86eb318b019743d");
+            $invoice = $facturapi->Invoices->updateStatus("58e93bd8e86eb318b019743d");
       parameters:
         - in: path
           name: invoice_id
           schema:
             type: string
           required: true
-          description: ID of the invoice to download the cancellation receipt
-        - in: path
-          name: format
-          schema:
-            type: string
-            enum:
-              - xml
-              - pdf
-          required: true
-          description: Format of the file to download
+          description: ID of the invoice to update
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []
       responses:
         "200":
-          description: "Cancellation receipt file"
+          description: "`Invoice` object updated successfully"
           content:
-            application/octet-stream:
+            application/json:
               schema:
-                type: string
-                format: binary
+                $ref: "#/components/schemas/Invoice"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -5006,6 +4322,217 @@ paths:
         "500":
           $ref: "#/components/responses/UnexpectedError"
 
+  /invoices/preview/pdf:
+    post:
+      operationId: previewInvoicePdf
+      tags:
+        - invoice
+      summary: Preview invoice PDF
+      description: |
+        Generates a PDF preview of an invoice **without stamping it**. The PDF will be generated with the default template of your organization.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/preview/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "customer": {
+                  "legal_name": "Dunder Mifflin",
+                  "email": "email@example.com",
+                  "tax_id": "ABC101010111",
+                  "tax_system": "601",
+                  "address": {
+                    "zip": "85900"
+                  }
+                },
+                "items": [{
+                  "quantity": 2,
+                  "product": {
+                    "description": "Ukelele",
+                    "product_key": "60131324",
+                    "price": 345.60
+                  }
+                }],
+                "payment_form": "06",
+                "folio_number": 914,
+                "series": "F"
+              }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const Facturapi = require('facturapi');
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const pdfStream = await facturapi.invoices.previewPdf({
+              customer: {
+                legal_name: 'Dunder Mifflin',
+                email: 'email@example.com',
+                tax_id: 'ABC101010111',
+                tax_system: '601',
+                address: {
+                  zip: '85900'
+                }
+              },
+              items: [{
+                quantity: 2,
+                product: {
+                  description: 'Ukelele',
+                  product_key: '60131324',
+                  price: 345.60
+                }
+              }],
+              payment_form: Facturapi.PaymentForm.DINERO_ELECTRONICO,
+              folio_number: 914,
+              series: 'F'
+            });
+            // Save the PDF to a file
+            const fs = require('fs');
+            const file = fs.createWriteStream('/route/to/save/invoice.pdf');
+            pdfStream.pipe(file);
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_live_API_KEY");
+            var pdfStream = await facturapi.Invoice.PreviewPdfAsync(new Dictionary<string, object>
+            {
+              ["customer"] = new Dictionary<string, object>
+              {
+                ["legal_name"] = "Dunder Mifflin",
+                ["email"] = "email@example.com",
+                ["tax_id"] = "ABC101010111",
+                ["tax_system"] = "601",
+                ["address"] = new Dictionary<string, object>
+                {
+                  ["zip"] = "85900"
+                }
+              },
+              ["items"] = new Dictionary<string, object>[]
+              {
+                new Dictionary<string, object>
+                {
+                  ["product"] = new Dictionary<string, object>
+                  {
+                    ["description"] = "Ukelele",
+                    ["product_key"] = "60131324",
+                    ["price"] = 345.60
+                  }
+                }
+              },
+              ["payment_form"] = Facturapi.PaymentForm.DINERO_ELECTRONICO,
+              ["folio_number"] = 914,
+              ["series"] = "F"
+            });
+            // Save the PDF to a file
+            var file = new System.IO.FileStream("C:\\route\\to\\save\\invoice.pdf", FileMode.Create);
+            pdfStream.CopyTo(file);
+            file.Close();
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var pdf = facturapi.invoices().previewPdf(
+                Map.of(
+                    "customer", "cus_123",
+                    "items", List.of(
+                        Map.of(
+                            "quantity", 1,
+                            "product", "prod_123"
+                        )
+                    )
+                  ));
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_live_API_KEY");
+            $pdfContent = $facturapi->Invoices->previewPdf([
+              "customer" => [
+                "legal_name" => "Dunder Mifflin",
+                "email" => "email@example.com",
+                "tax_id" => "ABC101010111",
+                "tax_system" => "601",
+                "address" => [
+                  "zip" => "85900"
+                ]
+              ],
+              "items" => [
+                [
+                  "quantity" => 2,
+                  "product" => [
+                    "description" => "Ukelele",
+                    "product_key" => "60131324",
+                    "price" => 345.60,
+                    "sku" => "ABC4567"
+                  ]
+                ]
+              ],
+              "payment_form" => \Facturapi\PaymentForm::EFECTIVO,
+              "folio_number" => 914,
+              "series" => "F"
+            ]);
+      requestBody:
+        $ref: "#/components/requestBodies/InvoiceEdit"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: PDF binary content
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /invoices/preview/pdf/download-url:
+    post:
+      operationId: previewInvoicePdfUrl
+      tags:
+        - invoice
+      summary: Get invoice PDF preview URL
+      description: Returns a temporary URL for an unstamped invoice PDF preview.
+      x-codeSamples:
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            const download = await facturapi.invoices.previewPdfUrl({
+              customer: 'cus_123',
+              items: [{ product: 'prod_123' }],
+              payment_form: '06'
+            });
+            console.log(download.url, download.expires_at);
+      requestBody:
+        $ref: "#/components/requestBodies/InvoiceEdit"
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Temporary download URL for the PDF preview.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
   /invoices/{invoice_id}/{format}:
     get:
       operationId: downloadInvoice
@@ -5092,7 +4619,7 @@ paths:
             // Stream containing the ZIP file with the PDF and XML files
             $zip = $facturapi->Invoices->downloadZip("58e93bd8e86eb318b019743d");
             // Stream containing the PDF file
-            $pdf = $facturapi->Invoices->downloadPdf("58e93bd8e86eb318b019743d"); 
+            $pdf = $facturapi->Invoices->downloadPdf("58e93bd8e86eb318b019743d");
             // Stream containing the XML file
             $xml = $facturapi->Invoices->downloadXml("58e93bd8e86eb318b019743d");
       parameters:
@@ -5127,6 +4654,233 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthenticated"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /invoices/{invoice_id}/download-url/{format}:
+    get:
+      operationId: getInvoiceDownloadUrl
+      tags:
+        - invoice
+      summary: Get download URL
+      description: |
+        Returns a temporary URL to download the invoice in PDF, XML, or both in a ZIP file, without the file travelling through your server.
+
+        The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/download-url/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const download = await facturapi.invoices.downloadPdfUrl(
+              '58e93bd8e86eb318b019743d'
+            );
+
+            console.log(download.url, download.expires_at);
+      parameters:
+        - in: path
+          name: invoice_id
+          schema:
+            type: string
+          required: true
+          description: ID of the object to download
+        - in: path
+          name: format
+          schema:
+            type: string
+            enum:
+              - pdf
+              - xml
+              - zip
+          required: true
+          description: Format of the file to download
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Temporary download URL for the CFDI in the requested format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /invoices/{invoice_id}/cancellation_receipt/{format}:
+    get:
+      operationId: downloadCancellationReceiptXml
+      tags:
+        - invoice
+      summary: Cancellation receipt
+      description: Download the XML or PDF receipt issued by SAT when a cancellation request is submitted through Facturapi. The receipt contains the immediate request result and does not necessarily prove that the CFDI is already canceled; check the invoice status to confirm the outcome.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            # Cancellation receipt xml
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/xml \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -X GET
+
+            # Cancellation receipt pdf
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -X GET
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            // Cancellation receipt xml
+            await facturapi.invoices.downloadCancellationReceiptXml('58e93bd8e86eb318b019743d');
+
+            // Cancellation receipt pdf
+            await facturapi.invoices.downloadCancellationReceiptPdf('58e93bd8e86eb318b019743d');
+
+        - lang: csharp
+          label: C#
+          source: |
+            // Cancellation receipt xml
+            await facturapi.Invoice.DownloadCancellationReceiptXmlAsync("58e93bd8e86eb318b019743d");
+            // Cancellation receipt pdf
+            await facturapi.Invoice.DownloadCancellationReceiptPdfAsync("58e93bd8e86eb318b019743d");
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+            byte[] cancellationReceiptXml = facturapi.invoices().downloadCancellationReceiptXml(
+                  "58e93bd8e86eb318b019743d"
+                );
+            byte[] cancellationReceiptPdf = facturapi.invoices().downloadCancellationReceiptPdf(
+                  "58e93bd8e86eb318b019743d"
+                );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+
+            // Cancellation receipt xml
+            $facturapi->Invoices->downloadCancellationReceiptXml("58e93bd8e86eb318b019743d");
+
+            // Cancellation receipt pdf
+            $facturapi->Invoices->downloadCancellationReceiptPdf("58e93bd8e86eb318b019743d");
+      parameters:
+        - in: path
+          name: invoice_id
+          schema:
+            type: string
+          required: true
+          description: ID of the invoice to download the cancellation receipt
+        - in: path
+          name: format
+          schema:
+            type: string
+            enum:
+              - xml
+              - pdf
+          required: true
+          description: Format of the file to download
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: "Cancellation receipt file"
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+
+  /invoices/{invoice_id}/cancellation_receipt/download-url/{format}:
+    get:
+      operationId: getCancellationReceiptDownloadUrl
+      tags:
+        - invoice
+      summary: Get cancellation receipt download URL
+      description: |
+        Returns a temporary URL to download the XML or PDF receipt issued by SAT when a cancellation request is submitted through Facturapi, without the file travelling through your server. The receipt contains the immediate request result and does not necessarily prove that the CFDI is already canceled; check the invoice status to confirm the outcome.
+
+        The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/download-url/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const download = await facturapi.invoices.downloadCancellationReceiptPdfUrl(
+              '58e93bd8e86eb318b019743d'
+            );
+
+            console.log(download.url, download.expires_at);
+      parameters:
+        - in: path
+          name: invoice_id
+          schema:
+            type: string
+          required: true
+          description: ID of the object to download
+        - in: path
+          name: format
+          schema:
+            type: string
+            enum:
+              - xml
+              - pdf
+          required: true
+          description: Format of the cancellation receipt
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Temporary download URL for the cancellation receipt in the requested format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
         "429":
           $ref: "#/components/responses/RateLimited"
         "500":
@@ -5299,33 +5053,58 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
-  /invoices/{invoice_id}/status:
-    put:
-      operationId: updateInvoiceStatus
+  /invoices/zip-requests:
+    post:
+      operationId: createInvoiceZipRequest
       tags:
         - invoice
-      summary: |
-        Update invoice status
+      summary: Create or retrieve a monthly ZIP request
       description: |
-        Consults the status of a stamped invoice at the SAT and updates the invoice object with the most recent information.
+        Creates a request to generate a ZIP file containing one month of invoices, or retrieves the existing request with the same filters.
+
+        This operation is idempotent. Invoice types are normalized, so `["I", "E"]` and `["E", "I"]` resolve to the same request. Identical concurrent calls also return the same request.
+
+        If an earlier request has a `failed` status, calling this method again retries it. Before retrying, the previous error and task fields, processed progress, and failed-document list are cleared. If scheduling fails, the request is saved with a `failed` status and the API returns a `5xx` error.
+
+        This method requires a live-mode organization API key, an active subscription, and permission to read invoices. Test-mode keys return HTTP 402.
       x-codeSamples:
         - lang: Bash
           label: cURL
           source: |
-            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/status \
-              -H "Authorization: Bearer sk_test_API_KEY" \
-              -X PUT
+            curl https://www.facturapi.io/v2/invoices/zip-requests \
+              -H "Authorization: Bearer sk_live_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "year": 2025,
+                "month": 3,
+                "issuer_type": "issuing",
+                "invoice_types": ["I", "E"]
+              }'
         - lang: JavaScript
           label: Node.js
           source: |
-            import Facturapi from 'facturapi'
-            const facturapi = new Facturapi('sk_test_API_KEY');
-            const invoice = await facturapi.invoices.updateStatus('58e93bd8e86eb318b019743d');
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const zipRequest = await facturapi.invoices.createZipRequest({
+              year: 2025,
+              month: 3,
+              issuer_type: 'issuing',
+              invoice_types: ['I', 'E']
+            });
         - lang: csharp
           label: C#
           source: |
-            var facturapi = new Facturapi
-            var invoice = await facturapi.Invoice.UpdateStatusAsync("58e93bd8e86eb318b019743d");
+            var facturapi = new FacturapiClient("sk_live_API_KEY");
+            var zipRequest = await facturapi.Invoice.CreateZipRequestAsync(
+              new Dictionary<string, object>
+              {
+                ["year"] = 2025,
+                ["month"] = 3,
+                ["issuer_type"] = "issuing",
+                ["invoice_types"] = new[] { "I", "E" }
+              }
+            );
         - lang: Java
           label: Java
           source: |
@@ -5333,41 +5112,391 @@ paths:
             import java.util.List;
             import java.util.Map;
 
-            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
-
-            var invoice = facturapi.invoices().updateStatus(
-                  "inv_123"
-                );
+            Facturapi facturapi = new Facturapi("sk_live_API_KEY");
+            var zipRequest = facturapi.invoices().createZipRequest(
+              Map.of(
+                "year", 2025,
+                "month", 3,
+                "issuer_type", "issuing",
+                "invoice_types", List.of("I", "E")
+              )
+            );
         - lang: PHP
           source: |
-            $facturapi = new Facturapi("sk_test_API_KEY");
-            $invoice = $facturapi->Invoices->updateStatus("58e93bd8e86eb318b019743d");
-      parameters:
-        - in: path
-          name: invoice_id
-          schema:
-            type: string
-          required: true
-          description: ID of the invoice to update
+            $facturapi = new Facturapi("sk_live_API_KEY");
+            $zipRequest = $facturapi->Invoices->createZipRequest([
+              "year" => 2025,
+              "month" => 3,
+              "issuer_type" => "issuing",
+              "invoice_types" => ["I", "E"]
+            ]);
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceZipRequestCreateInput"
       security:
         - "SecretLiveKey": []
-        - "SecretTestKey": []
       responses:
         "200":
-          description: "`Invoice` object updated successfully"
+          description: ZIP request created or retrieved successfully.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Invoice"
+                $ref: "#/components/schemas/InvoiceZipRequest"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
           $ref: "#/components/responses/Unauthenticated"
+        "402":
+          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
+        "404":
+          $ref: "#/components/responses/InvoiceZipRequestNoInvoices"
         "429":
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+    get:
+      operationId: listInvoiceZipRequests
+      tags:
+        - invoice
+      summary: List monthly ZIP requests
+      description: |
+        Returns a paginated list of ZIP requests. `year` and `month` must be provided together. `invoice_types` filters by one type or an exact normalized array.
 
+        This method requires a live-mode organization API key, an active subscription, and permission to read invoices.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl "https://www.facturapi.io/v2/invoices/zip-requests?year=2025&month=3&status=finished&limit=20&page=1" \
+              -H "Authorization: Bearer sk_live_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const zipRequests = await facturapi.invoices.listZipRequests({
+              year: 2025,
+              month: 3,
+              status: 'finished',
+              limit: 20,
+              page: 1
+            });
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_live_API_KEY");
+            var zipRequests = await facturapi.Invoice.ListZipRequestsAsync(
+              new Dictionary<string, object>
+              {
+                ["year"] = 2025,
+                ["month"] = 3,
+                ["status"] = "finished",
+                ["limit"] = 20,
+                ["page"] = 1
+              }
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_live_API_KEY");
+            var zipRequests = facturapi.invoices().listZipRequests(
+              Map.of(
+                "year", 2025,
+                "month", 3,
+                "status", "finished",
+                "limit", 20,
+                "page", 1
+              )
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_live_API_KEY");
+            $zipRequests = $facturapi->Invoices->listZipRequests([
+              "year" => 2025,
+              "month" => 3,
+              "status" => "finished",
+              "limit" => 20,
+              "page" => 1
+            ]);
+      parameters:
+        - in: query
+          name: year
+          schema:
+            type: integer
+            minimum: 2000
+            maximum: 9999
+          description: Year to filter. Must be provided with `month`.
+        - in: query
+          name: month
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 12
+          description: Month to filter. Must be provided with `year`.
+        - in: query
+          name: status
+          schema:
+            $ref: "#/components/schemas/InvoiceZipRequestStatus"
+          description: ZIP request status.
+        - in: query
+          name: issuer_type
+          schema:
+            $ref: "#/components/schemas/IssuingType"
+          description: Filters issued or received invoices.
+        - in: query
+          name: invoice_types
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: "#/components/schemas/InvoiceZipRequestInvoiceType"
+          description: Filters by one invoice type or an exact normalized array.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: Results page, starting at 1.
+        - $ref: "#/components/parameters/SearchLimit"
+      security:
+        - "SecretLiveKey": []
+      responses:
+        "200":
+          description: Paginated ZIP request results.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceZipRequestSearchResult"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "402":
+          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /invoices/zip-requests/{id}:
+    get:
+      operationId: retrieveInvoiceZipRequest
+      tags:
+        - invoice
+      summary: Retrieve a monthly ZIP request
+      description: |
+        Retrieves a ZIP request. Poll this method until the status becomes `finished` or `failed`. Once it is `finished`, call the download method.
+
+        Requires a live-mode organization API key, an active subscription, and permission to read invoices.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/zip-requests/66b0f0000000000000000000 \
+              -H "Authorization: Bearer sk_live_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const zipRequest = await facturapi.invoices.retrieveZipRequest(
+              '66b0f0000000000000000000'
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_live_API_KEY");
+            var zipRequest = await facturapi.Invoice.RetrieveZipRequestAsync(
+              "66b0f0000000000000000000"
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+
+            Facturapi facturapi = new Facturapi("sk_live_API_KEY");
+            var zipRequest = facturapi.invoices().retrieveZipRequest(
+              "66b0f0000000000000000000"
+            );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_live_API_KEY");
+            $zipRequest = $facturapi->Invoices->retrieveZipRequest(
+              "66b0f0000000000000000000"
+            );
+      parameters:
+        - $ref: "#/components/parameters/InvoiceZipRequestId"
+      security:
+        - "SecretLiveKey": []
+      responses:
+        "200":
+          description: ZIP request retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceZipRequest"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "402":
+          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
+        "404":
+          $ref: "#/components/responses/InvoiceZipRequestNotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /invoices/zip-requests/{id}/zip:
+    get:
+      operationId: downloadInvoiceZipRequest
+      tags:
+        - invoice
+      summary: Download a monthly ZIP
+      description: |
+        Downloads the ZIP for a finished request. The filename uses the `YYYY-MM.zip` format.
+
+        Requires a live-mode organization API key, an active subscription, and permission to read invoices.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/zip-requests/66b0f0000000000000000000/zip \
+              -H "Authorization: Bearer sk_live_API_KEY" \
+              --output 2025-03.zip
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import fs from 'fs';
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const zipStream = await facturapi.invoices.downloadZipRequest(
+              '66b0f0000000000000000000'
+            );
+            zipStream.pipe(fs.createWriteStream('./2025-03.zip'));
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_live_API_KEY");
+            var zipStream = await facturapi.Invoice.DownloadZipRequestAsync(
+              "66b0f0000000000000000000"
+            );
+            await using var file = File.Create("2025-03.zip");
+            await zipStream.CopyToAsync(file);
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.io.InputStream;
+            import java.nio.file.Files;
+            import java.nio.file.Path;
+            import java.nio.file.StandardCopyOption;
+
+            Facturapi facturapi = new Facturapi("sk_live_API_KEY");
+            try (InputStream zipStream = facturapi.invoices().downloadZipRequest(
+              "66b0f0000000000000000000"
+            )) {
+              Files.copy(zipStream, Path.of("./2025-03.zip"), StandardCopyOption.REPLACE_EXISTING);
+            }
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_live_API_KEY");
+            $zip = $facturapi->Invoices->downloadZipRequest(
+              "66b0f0000000000000000000"
+            );
+            file_put_contents("2025-03.zip", $zip);
+      parameters:
+        - $ref: "#/components/parameters/InvoiceZipRequestId"
+      security:
+        - "SecretLiveKey": []
+      responses:
+        "200":
+          description: Generated ZIP file.
+          headers:
+            Content-Disposition:
+              description: Suggested filename in `attachment; filename="YYYY-MM.zip"` format.
+              schema:
+                type: string
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "402":
+          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
+        "404":
+          $ref: "#/components/responses/InvoiceZipRequestNotFound"
+        "409":
+          $ref: "#/components/responses/InvoiceZipRequestNotReady"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /invoices/zip-requests/{id}/download-url:
+    get:
+      operationId: getInvoiceZipRequestDownloadUrl
+      tags:
+        - invoice
+      summary: Get monthly ZIP download URL
+      description: |
+        Returns a temporary URL for downloading the ZIP of a finished request without the file travelling through your server.
+
+        The URL grants access to that one file while it is valid: treat it as a credential and do not store it. Requires a live-mode organization API key, an active subscription, and permission to read invoices.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/invoices/zip-requests/66b0f0000000000000000000/download-url \
+              -H "Authorization: Bearer sk_live_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_live_API_KEY');
+            const download = await facturapi.invoices.downloadZipRequestUrl(
+              '66b0f0000000000000000000'
+            );
+
+            console.log(download.url, download.expires_at);
+      parameters:
+        - $ref: "#/components/parameters/InvoiceZipRequestId"
+      security:
+        - "SecretLiveKey": []
+      responses:
+        "200":
+          description: Temporary download URL for the generated ZIP file.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "402":
+          $ref: "#/components/responses/InvoiceZipRequestAccessRequired"
+        "404":
+          $ref: "#/components/responses/InvoiceZipRequestNotFound"
+        "409":
+          $ref: "#/components/responses/InvoiceZipRequestNotReady"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
   /receipts:
     post:
       operationId: createReceipt
@@ -5938,242 +6067,6 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
-  /receipts/{receipt_id}/pdf:
-    get:
-      operationId: downloadReceiptPdf
-      tags:
-        - receipt
-      summary: Download PDF
-      description: Download the electronic receipt in PDF format.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d/pdf \
-              -H "Authorization: Bearer sk_test_API_KEY"
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            import fs from 'fs';
-            import Facturapi from 'facturapi'
-            const facturapi = new Facturapi('sk_test_API_KEY');
-
-            // Download the electronic receipt in PDF format
-            const pdfStream = await facturapi.receipts.downloadPdf('58e93bd8e86eb318b019743d');
-            const pdfFile = fs.createWriteStream('./recibo.pdf');
-            pdfStream.pipe(pdfFile);
-        - lang: csharp
-          label: C#
-          source: |
-            // Download the electronic receipt in PDF format
-            var pdfStream = await facturapi.Receipt.DownloadPdfAsync("58e93bd8e86eb318b019743d");
-
-            // Save the stream to a file
-            var file = new System.IO.FileStream("C:\\route\\to\\save\\receipt.pdf", FileMode.Create);
-            pdfStream.CopyTo(file);
-            file.Close();
-        - lang: Java
-          label: Java
-          source: |
-            import io.facturapi.Facturapi;
-            import java.util.List;
-            import java.util.Map;
-
-            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
-            byte[] pdf = facturapi.receipts().downloadPdf(
-                  "rec_123"
-                );
-        - lang: PHP
-          source: |
-            $facturapi = new Facturapi("sk_test_API_KEY");
-
-            // stream containing the PDF file
-            $pdf = $facturapi->Receipts->downloadPdf("58e93bd8e86eb318b019743d");
-      parameters:
-        - in: path
-          name: receipt_id
-          schema:
-            type: string
-          required: true
-          description: ID of the receipt to download
-      security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
-      responses:
-        "200":
-          description: E-receipt in PDF format
-          content:
-            application/octet-stream:
-              schema:
-                type: string
-                format: binary
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "429":
-          $ref: "#/components/responses/RateLimited"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-  /receipts/{receipt_id}/email:
-    post:
-      operationId: sendReceiptByEmail
-      tags:
-        - receipt
-      summary: Send e-receipt by email
-      description: |
-        Send the e-receipt by email to the customer.
-
-        The email sent will be customized with the logo and colors of the organization that created it,
-        and will include a button to invoice the receipt, as well as the receipt attached as a PDF to the message.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            # Send to a different email than the one registered by the customer
-            curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d/email \
-              -H "Authorization: Bearer sk_test_API_KEY" \
-              -X POST \
-              -H "Content-Type: application/json" \
-              -d '{
-                    "email": "another_email@example.com"
-                  }'
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            import Facturapi from 'facturapi'
-            const facturapi = new Facturapi('sk_test_API_KEY');
-
-            # Send to a different email than the one registered by the customer
-            await facturapi.receipts.sendByEmail(
-              '58e93bd8e86eb318b019743d',
-              { email: 'ejemplo@correo.com' }
-            );
-
-            # Send to multiple emails (max 10)
-            await facturapi.receipts.sendByEmail(
-              '58e93bd8e86eb318b019743d',
-              { 
-                email: [
-                  'primer@correo.com',
-                  'segundo@correo.com'
-                ]
-              }
-            );
-        - lang: csharp
-          label: C#
-          source: |
-            // Send to a different email than the one registered by the customer
-            await facturapi.Receipt.SendByEmailAsync(
-              "58e93bd8e86eb318b019743d",
-              new Dictionary<string, object>
-              {
-                ["email"] = "ejemplo@correo.com"
-              }
-            );
-
-            // Send to multiple emails (max 10)
-            await facturapi.Receipt.SendByEmailAsync(
-              "58e93bd8e86eb318b019743d",
-              new Dictionary<string, object>
-              {
-                ["email"] = new String[]
-                {
-                  "primer@correo.com",
-                  "segundo@correo.com"
-                }
-              }
-            );
-        - lang: Java
-          label: Java
-          source: |
-            import io.facturapi.Facturapi;
-            import java.util.List;
-            import java.util.Map;
-
-            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
-
-            var response = facturapi.receipts().sendByEmail(
-                  "rec_123",
-                  Map.of(
-                      "to", "cliente@example.com"
-                  )
-                );
-        - lang: PHP
-          source: |
-            $facturapi = new Facturapi("sk_test_API_KEY");
-
-            // Send to a different email than the one registered by the customer
-            $facturapi->Receipts->sendByEmail(
-              "58e93bd8e86eb318b019743d",
-              "ejemplo@correo.com"
-            );
-
-            // Send to multiple emails (max 10)
-            $facturapi->Receipts->sendByEmail(
-              "58e93bd8e86eb318b019743d",
-              [
-                "primer@correo.com",
-                "segundo@correo.com"
-              ]
-            );
-      parameters:
-        - in: path
-          name: receipt_id
-          schema:
-            type: string
-          required: true
-          description: ID of the e-receipt to send
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - email
-              properties:
-                email:
-                  description: |
-                    Email address to send the e-receipt. If not sent, the email registered by the customer will be used.
-                  oneOf:
-                    - type: string
-                      format: email
-                      description: Email address to send the e-receipt.
-                      example: other@email.com
-                    - type: array
-                      example: ["first@email.com", "second@email.com"]
-                      description: |
-                        Array of email addresses to send the e-receipt. The maximum number of emails is 10.
-                      maxLength: 10
-                      items:
-                        type: string
-                        format: email
-      security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
-      responses:
-        "200":
-          description: Generic response object
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - ok
-                properties:
-                  ok:
-                    type: boolean
-                    description: Indicates if the email was sent successfully
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "429":
-          $ref: "#/components/responses/RateLimited"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-
   /receipts/{receipt_id}/invoice:
     post:
       operationId: invoiceReceipt
@@ -6693,6 +6586,296 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "404":
           $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+
+  /receipts/{receipt_id}/pdf:
+    get:
+      operationId: downloadReceiptPdf
+      tags:
+        - receipt
+      summary: Download PDF
+      description: Download the electronic receipt in PDF format.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import fs from 'fs';
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            // Download the electronic receipt in PDF format
+            const pdfStream = await facturapi.receipts.downloadPdf('58e93bd8e86eb318b019743d');
+            const pdfFile = fs.createWriteStream('./recibo.pdf');
+            pdfStream.pipe(pdfFile);
+        - lang: csharp
+          label: C#
+          source: |
+            // Download the electronic receipt in PDF format
+            var pdfStream = await facturapi.Receipt.DownloadPdfAsync("58e93bd8e86eb318b019743d");
+
+            // Save the stream to a file
+            var file = new System.IO.FileStream("C:\\route\\to\\save\\receipt.pdf", FileMode.Create);
+            pdfStream.CopyTo(file);
+            file.Close();
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+            byte[] pdf = facturapi.receipts().downloadPdf(
+                  "rec_123"
+                );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+
+            // stream containing the PDF file
+            $pdf = $facturapi->Receipts->downloadPdf("58e93bd8e86eb318b019743d");
+      parameters:
+        - in: path
+          name: receipt_id
+          schema:
+            type: string
+          required: true
+          description: ID of the receipt to download
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: E-receipt in PDF format
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /receipts/{receipt_id}/download-url/pdf:
+    get:
+      operationId: getReceiptDownloadUrl
+      tags:
+        - receipt
+      summary: Get download URL
+      description: |
+        Returns a temporary URL to download the receipt in PDF, without the file travelling through your server.
+
+        The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d/download-url/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const download = await facturapi.receipts.downloadPdfUrl(
+              '58e93bd8e86eb318b019743d'
+            );
+
+            console.log(download.url, download.expires_at);
+      parameters:
+        - in: path
+          name: receipt_id
+          schema:
+            type: string
+          required: true
+          description: ID of the object to download
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Temporary download URL for the receipt in PDF
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /receipts/{receipt_id}/email:
+    post:
+      operationId: sendReceiptByEmail
+      tags:
+        - receipt
+      summary: Send e-receipt by email
+      description: |
+        Send the e-receipt by email to the customer.
+
+        The email sent will be customized with the logo and colors of the organization that created it,
+        and will include a button to invoice the receipt, as well as the receipt attached as a PDF to the message.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            # Send to a different email than the one registered by the customer
+            curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d/email \
+              -H "Authorization: Bearer sk_test_API_KEY" \
+              -X POST \
+              -H "Content-Type: application/json" \
+              -d '{
+                    "email": "another_email@example.com"
+                  }'
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
+            # Send to a different email than the one registered by the customer
+            await facturapi.receipts.sendByEmail(
+              '58e93bd8e86eb318b019743d',
+              { email: 'ejemplo@correo.com' }
+            );
+
+            # Send to multiple emails (max 10)
+            await facturapi.receipts.sendByEmail(
+              '58e93bd8e86eb318b019743d',
+              {
+                email: [
+                  'primer@correo.com',
+                  'segundo@correo.com'
+                ]
+              }
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            // Send to a different email than the one registered by the customer
+            await facturapi.Receipt.SendByEmailAsync(
+              "58e93bd8e86eb318b019743d",
+              new Dictionary<string, object>
+              {
+                ["email"] = "ejemplo@correo.com"
+              }
+            );
+
+            // Send to multiple emails (max 10)
+            await facturapi.Receipt.SendByEmailAsync(
+              "58e93bd8e86eb318b019743d",
+              new Dictionary<string, object>
+              {
+                ["email"] = new String[]
+                {
+                  "primer@correo.com",
+                  "segundo@correo.com"
+                }
+              }
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var response = facturapi.receipts().sendByEmail(
+                  "rec_123",
+                  Map.of(
+                      "to", "cliente@example.com"
+                  )
+                );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_test_API_KEY");
+
+            // Send to a different email than the one registered by the customer
+            $facturapi->Receipts->sendByEmail(
+              "58e93bd8e86eb318b019743d",
+              "ejemplo@correo.com"
+            );
+
+            // Send to multiple emails (max 10)
+            $facturapi->Receipts->sendByEmail(
+              "58e93bd8e86eb318b019743d",
+              [
+                "primer@correo.com",
+                "segundo@correo.com"
+              ]
+            );
+      parameters:
+        - in: path
+          name: receipt_id
+          schema:
+            type: string
+          required: true
+          description: ID of the e-receipt to send
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  description: |
+                    Email address to send the e-receipt. If not sent, the email registered by the customer will be used.
+                  oneOf:
+                    - type: string
+                      format: email
+                      description: Email address to send the e-receipt.
+                      example: other@email.com
+                    - type: array
+                      example: ["first@email.com", "second@email.com"]
+                      description: |
+                        Array of email addresses to send the e-receipt. The maximum number of emails is 10.
+                      maxLength: 10
+                      items:
+                        type: string
+                        format: email
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Generic response object
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - ok
+                properties:
+                  ok:
+                    type: boolean
+                    description: Indicates if the email was sent successfully
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
         "429":
           $ref: "#/components/responses/RateLimited"
         "500":
@@ -7544,6 +7727,72 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /retentions/{retention_id}/download-url/{format}:
+    get:
+      operationId: getRetentionDownloadUrl
+      tags:
+        - retention
+      summary: Get download URL
+      description: |
+        Returns a temporary URL to download the retention in PDF, XML, or both in a ZIP file, without the file travelling through your server.
+
+        The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/retentions/58e93bd8e86eb318b019743d/download-url/pdf \
+              -H "Authorization: Bearer sk_test_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi';
+
+            const facturapi = new Facturapi('sk_test_API_KEY');
+            const download = await facturapi.retentions.downloadPdfUrl(
+              '58e93bd8e86eb318b019743d'
+            );
+
+            console.log(download.url, download.expires_at);
+      parameters:
+        - in: path
+          name: retention_id
+          schema:
+            type: string
+          required: true
+          description: ID of the object to download
+        - in: path
+          name: format
+          schema:
+            type: string
+            enum:
+              - pdf
+              - xml
+              - zip
+          required: true
+          description: Format of the file to download
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+      responses:
+        "200":
+          description: Temporary download URL for the retention in the requested format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
   /retentions/{retention_id}/email:
     post:
       operationId: sendRetentionByEmail
@@ -7944,6 +8193,150 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "404":
           $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}:
+    get:
+      operationId: getOrganization
+      tags:
+        - organization
+      summary: Retrieve organization by ID
+      description: |
+        Retrieve the organization by its ID.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035 \
+              -H "Authorization: Bearer sk_user_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_user_API_KEY');
+            const organization = await facturapi.organizations.retrieve(
+              '5a2a307be93a2f00129ea035'
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var organization = await facturapi.Organization.RetrieveAsync(
+              "5a2a307be93a2f00129ea035"
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var organization = facturapi.organizations().retrieve(
+                  "org_123"
+                );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_user_API_KEY");
+            $organization = $facturapi->Organizations->retrieve("5a2a307be93a2f00129ea035");
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID of the organization
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: "`Organization` object"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Organization"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
+    delete:
+      operationId: deleteOrganization
+      tags:
+        - organization
+      summary: Delete organization
+      description: |
+        Delete the organization from your Facturapi account. Once deleted, you
+        will not be able to access its resources, such as clients, products,
+        invoices, receipts, or retentions.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035 \
+              -X DELETE \
+              -H "Authorization: Bearer sk_user_API_KEY"
+        - lang: JavaScript
+          label: Node.js
+          source: |
+            import Facturapi from 'facturapi'
+            const facturapi = new Facturapi('sk_user_API_KEY');
+            const organization = await facturapi.organizations.del(
+              '5a2a307be93a2f00129ea035'
+            );
+        - lang: csharp
+          label: C#
+          source: |
+            var facturapi = new FacturapiClient("sk_user_API_KEY");
+            var organization = await facturapi.Organization.DeleteAsync(
+              "5a2a307be93a2f00129ea035"
+            );
+        - lang: Java
+          label: Java
+          source: |
+            import io.facturapi.Facturapi;
+            import java.util.List;
+            import java.util.Map;
+
+            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
+
+            var organization = facturapi.organizations().delete(
+                  "org_123"
+                );
+        - lang: PHP
+          source: |
+            $facturapi = new Facturapi("sk_user_API_KEY");
+            $organization = $facturapi->Organizations->delete(
+              "5a2a307be93a2f00129ea035"
+            );
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: ID of the organization
+      security:
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: "`Organization` object deleted"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Organization"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
         "429":
           $ref: "#/components/responses/RateLimited"
         "500":
@@ -8944,150 +9337,6 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "404":
           $ref: "#/components/responses/NotFound"
-        "429":
-          $ref: "#/components/responses/RateLimited"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-  /organizations/{organization_id}:
-    get:
-      operationId: getOrganization
-      tags:
-        - organization
-      summary: Retrieve organization by ID
-      description: |
-        Retrieve the organization by its ID.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035 \
-              -H "Authorization: Bearer sk_user_API_KEY"
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            import Facturapi from 'facturapi'
-            const facturapi = new Facturapi('sk_user_API_KEY');
-            const organization = await facturapi.organizations.retrieve(
-              '5a2a307be93a2f00129ea035'
-            );
-        - lang: csharp
-          label: C#
-          source: |
-            var facturapi = new FacturapiClient("sk_user_API_KEY");
-            var organization = await facturapi.Organization.RetrieveAsync(
-              "5a2a307be93a2f00129ea035"
-            );
-        - lang: Java
-          label: Java
-          source: |
-            import io.facturapi.Facturapi;
-            import java.util.List;
-            import java.util.Map;
-
-            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
-
-            var organization = facturapi.organizations().retrieve(
-                  "org_123"
-                );
-        - lang: PHP
-          source: |
-            $facturapi = new Facturapi("sk_user_API_KEY");
-            $organization = $facturapi->Organizations->retrieve("5a2a307be93a2f00129ea035");
-      parameters:
-        - in: path
-          name: organization_id
-          schema:
-            type: string
-          required: true
-          description: ID of the organization
-      security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
-        - "SecretUserKey": []
-      responses:
-        "200":
-          description: "`Organization` object"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Organization"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "429":
-          $ref: "#/components/responses/RateLimited"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-    delete:
-      operationId: deleteOrganization
-      tags:
-        - organization
-      summary: Delete organization
-      description: |
-        Delete the organization from your Facturapi account. Once deleted, you
-        will not be able to access its resources, such as clients, products,
-        invoices, receipts, or retentions.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035 \
-              -X DELETE \
-              -H "Authorization: Bearer sk_user_API_KEY"
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            import Facturapi from 'facturapi'
-            const facturapi = new Facturapi('sk_user_API_KEY');
-            const organization = await facturapi.organizations.del(
-              '5a2a307be93a2f00129ea035'
-            );
-        - lang: csharp
-          label: C#
-          source: |
-            var facturapi = new FacturapiClient("sk_user_API_KEY");
-            var organization = await facturapi.Organization.DeleteAsync(
-              "5a2a307be93a2f00129ea035"
-            );
-        - lang: Java
-          label: Java
-          source: |
-            import io.facturapi.Facturapi;
-            import java.util.List;
-            import java.util.Map;
-
-            Facturapi facturapi = new Facturapi("sk_test_API_KEY");
-
-            var organization = facturapi.organizations().delete(
-                  "org_123"
-                );
-        - lang: PHP
-          source: |
-            $facturapi = new Facturapi("sk_user_API_KEY");
-            $organization = $facturapi->Organizations->delete(
-              "5a2a307be93a2f00129ea035"
-            );
-      parameters:
-        - in: path
-          name: organization_id
-          schema:
-            type: string
-          required: true
-          description: ID of the organization
-      security:
-        - "SecretUserKey": []
-      responses:
-        "200":
-          description: "`Organization` object deleted"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Organization"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
         "429":
           $ref: "#/components/responses/RateLimited"
         "500":
@@ -11925,255 +12174,6 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "404":
           $ref: "#/components/responses/NotFound"
-        "429":
-          $ref: "#/components/responses/RateLimited"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-  /invoices/{invoice_id}/download-url/{format}:
-    get:
-      operationId: getInvoiceDownloadUrl
-      tags:
-        - invoice
-      summary: Get download URL
-      description: |
-        Returns a temporary URL to download the invoice in PDF, XML, or both in a ZIP file, without the file travelling through your server.
-
-        The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/download-url/pdf \
-              -H "Authorization: Bearer sk_test_API_KEY"
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            import Facturapi from 'facturapi';
-
-            const facturapi = new Facturapi('sk_test_API_KEY');
-            const download = await facturapi.invoices.downloadPdfUrl(
-              '58e93bd8e86eb318b019743d'
-            );
-
-            console.log(download.url, download.expires_at);
-      parameters:
-        - in: path
-          name: invoice_id
-          schema:
-            type: string
-          required: true
-          description: ID of the object to download
-        - in: path
-          name: format
-          schema:
-            type: string
-            enum:
-              - pdf
-              - xml
-              - zip
-          required: true
-          description: Format of the file to download
-      security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
-      responses:
-        "200":
-          description: Temporary download URL for the CFDI in the requested format
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SignedDownloadUrl"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "409":
-          $ref: "#/components/responses/Conflict"
-        "429":
-          $ref: "#/components/responses/RateLimited"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-  /invoices/{invoice_id}/cancellation_receipt/download-url/{format}:
-    get:
-      operationId: getCancellationReceiptDownloadUrl
-      tags:
-        - invoice
-      summary: Get cancellation receipt download URL
-      description: |
-        Returns a temporary URL to download the XML or PDF receipt issued by SAT when a cancellation request is submitted through Facturapi, without the file travelling through your server. The receipt contains the immediate request result and does not necessarily prove that the CFDI is already canceled; check the invoice status to confirm the outcome.
-
-        The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/invoices/58e93bd8e86eb318b019743d/cancellation_receipt/download-url/pdf \
-              -H "Authorization: Bearer sk_test_API_KEY"
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            import Facturapi from 'facturapi';
-
-            const facturapi = new Facturapi('sk_test_API_KEY');
-            const download = await facturapi.invoices.downloadCancellationReceiptPdfUrl(
-              '58e93bd8e86eb318b019743d'
-            );
-
-            console.log(download.url, download.expires_at);
-      parameters:
-        - in: path
-          name: invoice_id
-          schema:
-            type: string
-          required: true
-          description: ID of the object to download
-        - in: path
-          name: format
-          schema:
-            type: string
-            enum:
-              - xml
-              - pdf
-          required: true
-          description: Format of the cancellation receipt
-      security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
-      responses:
-        "200":
-          description: Temporary download URL for the cancellation receipt in the requested format
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SignedDownloadUrl"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "429":
-          $ref: "#/components/responses/RateLimited"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-  /receipts/{receipt_id}/download-url/pdf:
-    get:
-      operationId: getReceiptDownloadUrl
-      tags:
-        - receipt
-      summary: Get download URL
-      description: |
-        Returns a temporary URL to download the receipt in PDF, without the file travelling through your server.
-
-        The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/receipts/58e93bd8e86eb318b019743d/download-url/pdf \
-              -H "Authorization: Bearer sk_test_API_KEY"
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            import Facturapi from 'facturapi';
-
-            const facturapi = new Facturapi('sk_test_API_KEY');
-            const download = await facturapi.receipts.downloadPdfUrl(
-              '58e93bd8e86eb318b019743d'
-            );
-
-            console.log(download.url, download.expires_at);
-      parameters:
-        - in: path
-          name: receipt_id
-          schema:
-            type: string
-          required: true
-          description: ID of the object to download
-      security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
-      responses:
-        "200":
-          description: Temporary download URL for the receipt in PDF
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SignedDownloadUrl"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "429":
-          $ref: "#/components/responses/RateLimited"
-        "500":
-          $ref: "#/components/responses/UnexpectedError"
-  /retentions/{retention_id}/download-url/{format}:
-    get:
-      operationId: getRetentionDownloadUrl
-      tags:
-        - retention
-      summary: Get download URL
-      description: |
-        Returns a temporary URL to download the retention in PDF, XML, or both in a ZIP file, without the file travelling through your server.
-
-        The URL grants access to that one file while it is valid: treat it as a credential and do not store it.
-      x-codeSamples:
-        - lang: Bash
-          label: cURL
-          source: |
-            curl https://www.facturapi.io/v2/retentions/58e93bd8e86eb318b019743d/download-url/pdf \
-              -H "Authorization: Bearer sk_test_API_KEY"
-        - lang: JavaScript
-          label: Node.js
-          source: |
-            import Facturapi from 'facturapi';
-
-            const facturapi = new Facturapi('sk_test_API_KEY');
-            const download = await facturapi.retentions.downloadPdfUrl(
-              '58e93bd8e86eb318b019743d'
-            );
-
-            console.log(download.url, download.expires_at);
-      parameters:
-        - in: path
-          name: retention_id
-          schema:
-            type: string
-          required: true
-          description: ID of the object to download
-        - in: path
-          name: format
-          schema:
-            type: string
-            enum:
-              - pdf
-              - xml
-              - zip
-          required: true
-          description: Format of the file to download
-      security:
-        - "SecretLiveKey": []
-        - "SecretTestKey": []
-      responses:
-        "200":
-          description: Temporary download URL for the retention in the requested format
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SignedDownloadUrl"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthenticated"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "409":
-          $ref: "#/components/responses/Conflict"
         "429":
           $ref: "#/components/responses/RateLimited"
         "500":

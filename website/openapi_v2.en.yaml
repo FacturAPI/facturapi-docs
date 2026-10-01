@@ -3897,15 +3897,16 @@ paths:
           description: ID of the invoice to cancel
         - in: query
           name: motive
-          required: true
+          required: false
           schema:
             type: string
             enum:
-              - "01"
-              - "02"
-              - "03"
-              - "04"
+              - '01'
+              - '02'
+              - '03'
+              - '04'
           description: |
+            Required for issued documents; omit query parameters to delete a draft.
             Key representing the motive for the cancellation of the invoice.
 
             Possible values:
@@ -3923,6 +3924,7 @@ paths:
             ID of the invoice that replaces the invoice being canceled.
 
             You can use either the ID assigned by Facturapi or the fiscal folio (UUID).
+            Required for motives 01 and 04. Draft deletion does not require query parameters.
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []
@@ -7455,10 +7457,10 @@ paths:
           schema:
             type: string
             enum:
-              - "01"
-              - "02"
-              - "03"
-              - "04"
+              - '01'
+              - '02'
+              - '03'
+              - '04'
           description: |
             Code representing the reason for the retention cancellation.
             Required for retentions that are not drafts.
@@ -7474,7 +7476,7 @@ paths:
           description: |
             ID of the retention that replaces the one being canceled.
             You can use the Facturapi ID or the fiscal folio (UUID).
-
+            Required for motives 01 and 04. Draft deletion does not require query parameters.
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []
@@ -16074,41 +16076,172 @@ components:
           type: string
           description: Default CFDI use for the customer.
           example: G01
+    CancellationQueryInput:
+      description: Omit query parameters to delete a draft. Issued documents require a motive; motives 01 and 04 also require substitution.
+      anyOf:
+        - title: Replacement required
+          type: object
+          required:
+            - motive
+            - substitution
+          properties:
+            motive:
+              type: string
+              enum:
+                - '01'
+                - '04'
+            substitution:
+              type: string
+              description: Facturapi ID or UUID of the replacement document.
+        - title: Other cancellation motives
+          type: object
+          required:
+            - motive
+          properties:
+            motive:
+              type: string
+              enum:
+                - '02'
+                - '03'
+            substitution:
+              type: string
+        - title: Delete draft
+          type: object
+          properties:
+            motive: false
+            substitution: false
     CustomerCreateWithEditLinkInput:
       title: Customer with edit link
       description: Customer information may be incomplete when createEditLink=true. Supplied fields must still have valid formats.
       allOf:
         - $ref: "#/components/schemas/CustomerProperties"
-    CustomerCreateInput:
-      title: Customer
+    CustomerCreateCommonInput:
+      type: object
+      required:
+        - legal_name
+      properties:
+        legal_name:
+          $ref: '#/components/schemas/CustomerCommonProperties/properties/legal_name'
+        email:
+          $ref: '#/components/schemas/CustomerCommonProperties/properties/email'
+        phone:
+          $ref: '#/components/schemas/CustomerCommonProperties/properties/phone'
+        default_invoice_use:
+          $ref: '#/components/schemas/CustomerCommonProperties/properties/default_invoice_use'
+    CustomerNationalAddressInput:
       allOf:
-        - $ref: "#/components/schemas/CustomerCommonProperties"
+        - $ref: '#/components/schemas/CommonAddressProperties'
         - type: object
           required:
-          - legal_name
-          - tax_id
-          - tax_system
-          - address
+            - zip
           properties:
-            legal_name:
-              $ref: "#/components/schemas/CustomerCommonProperties/properties/legal_name"
-            address:
+            zip:
+              $ref: '#/components/schemas/CommonAddressProperties/properties/zip'
+            state:
+              type: string
+            country:
+              type: string
+              const: MEX
+              default: MEX
+    CustomerForeignAddressInput:
+      allOf:
+        - $ref: '#/components/schemas/CommonAddressProperties'
+        - type: object
+          required:
+            - country
+          properties:
+            country:
+              type: string
+              not:
+                const: MEX
+              minLength: 3
+              maxLength: 3
+              description: ISO 3166-1 alpha-3 country code other than MEX. Required to select foreign customer rules.
+            state:
+              type: string
+    CustomerNationalCreateInput:
+      title: Mexican customer
+      description: Country MEX, or omitted. Fiscal name, RFC, fiscal regime and postal code are required. Generic RFCs use CustomerGenericCreateInput.
+      allOf:
+        - $ref: '#/components/schemas/CustomerCreateCommonInput'
+        - type: object
+          required:
+            - tax_id
+            - tax_system
+            - address
+          properties:
+            tax_id:
               allOf:
-                - $ref: "#/components/schemas/CommonAddressProperties"
-                - type: object
-                  description: Fiscal address.
-                  required:
-                    - zip
-                  properties:
-                    state:
-                      type: string
-                      description: If the country is Mexico ("MEX"), it contains the name of the State or Federative Entity. For foreigners, it contains the State code according to the standard [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), which you can consult in our [State Catalog](https://dashboard.facturapi.io/catalogs/state).
-                      example: Sonora
-                    country:
-                      type: string
-                      description: Country code according to the standard [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), from the [Country Catalog](https://dashboard.facturapi.io/catalogs/country).
-                      example: MEX
-                      default: MEX
+                - $ref: '#/components/schemas/CustomerCommonProperties/properties/tax_id'
+              not:
+                enum:
+                  - XAXX010101000
+                  - XEXX010101000
+            tax_system:
+              $ref: '#/components/schemas/CustomerCommonProperties/properties/tax_system'
+            address:
+              $ref: '#/components/schemas/CustomerNationalAddressInput'
+    CustomerForeignCreateInput:
+      title: Foreign customer
+      description: Requires fiscal name and an address with an explicit country other than MEX. Tax ID and postal code are optional; the fiscal regime defaults to 616.
+      allOf:
+        - $ref: '#/components/schemas/CustomerCreateCommonInput'
+        - type: object
+          required:
+            - address
+          properties:
+            tax_id:
+              type:
+                - string
+                - 'null'
+              description: |
+                In Mexican clients, it contains the customer's RFC. For foreigners, it is optional and represents the tax identification number, that is, the equivalent to the RFC in the customer's country.
+              not:
+                enum:
+                  - XAXX010101000
+                  - XEXX010101000
+            tax_system:
+              type:
+                - string
+                - 'null'
+              enum:
+                - '616'
+                - null
+                - ''
+              default: '616'
+              description: Foreign customers use 616. Omission, null or an empty string use the default.
+            address:
+              $ref: '#/components/schemas/CustomerForeignAddressInput'
+    CustomerGenericCreateInput:
+      title: Generic RFC
+      description: Public general RFC XAXX010101000 or generic foreign RFC XEXX010101000. Fiscal name and RFC are required. The fiscal regime defaults to 616. If a Mexican address is supplied, a postal code is required.
+      allOf:
+        - $ref: '#/components/schemas/CustomerCreateCommonInput'
+        - type: object
+          required:
+            - tax_id
+          properties:
+            tax_id:
+              type: string
+              enum:
+                - XAXX010101000
+                - XEXX010101000
+            tax_system:
+              type: string
+              enum:
+                - '616'
+              default: '616'
+            address:
+              anyOf:
+                - $ref: '#/components/schemas/CustomerNationalAddressInput'
+                - $ref: '#/components/schemas/CustomerForeignAddressInput'
+    CustomerCreateInput:
+      title: Customer
+      description: Required fields depend on country and RFC. Omitted country means Mexico. With createEditLink=true, use CustomerCreateWithEditLinkInput instead.
+      anyOf:
+        - $ref: '#/components/schemas/CustomerNationalCreateInput'
+        - $ref: '#/components/schemas/CustomerForeignCreateInput'
+        - $ref: '#/components/schemas/CustomerGenericCreateInput'
 
     LineItemProductInput:
       title: Product
@@ -18478,14 +18611,64 @@ components:
               description: Payment conditions. Free text field usually used to specify payment terms, such as the due date.
         - $ref: "#/components/schemas/InvoiceableCommonInput"
     GlobalInvoiceInput:
+      description: Dates are optional when selecting a period. Explicit receipts require both from and to. Periodicity defaults to the organization configuration.
+      anyOf:
+        - title: Select by period
+          type: object
+          properties:
+            from:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/from'
+            to:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/to'
+            periodicity:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/periodicity'
+            months:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/months'
+            folio_number:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/folio_number'
+            series:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/series'
+            date:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/date'
+            payment_form:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/payment_form'
+            receipts: false
+            limit_to_max_receipts:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/limit_to_max_receipts'
+        - title: Select explicit receipts
+          type: object
+          required:
+            - receipts
+            - from
+            - to
+          properties:
+            from:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/from'
+            to:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/to'
+            periodicity:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/periodicity'
+            months:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/months'
+            folio_number:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/folio_number'
+            series:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/series'
+            date:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/date'
+            payment_form:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/payment_form'
+            receipts:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/receipts'
+            limit_to_max_receipts:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/limit_to_max_receipts'
+    GlobalInvoiceInputProperties:
       type: object
-      required:
-        - periodicity
       properties:
         from:
           allOf:
-            - $ref: "#/components/schemas/DateOrDateTime"
-          example: "2022-01-01"
+            - $ref: '#/components/schemas/DateOrDateTime'
+          example: '2022-01-01'
           description: |
             Initial date of the receipts that will be included in the global invoice.
             By default, this value is the start of the last period (day, week,
@@ -18493,8 +18676,8 @@ components:
             in the receipts configuration of your organization. This value is required when the `receipts` field is sent.
         to:
           allOf:
-            - $ref: "#/components/schemas/DateOrDateTime"
-          example: "2022-01-31"
+            - $ref: '#/components/schemas/DateOrDateTime'
+          example: '2022-01-31'
           description: |
             End date of the receipts that will be included in the global invoice.
             By default, this value is the end of the last period (day, week,
@@ -18502,18 +18685,26 @@ components:
             in the receipts configuration of your organization. This value is required when the `receipts` field is sent.
         periodicity:
           type: string
-          # default: Propiedad `periodicity` de la configuración de recibos de la organización.
           enum:
             - day
             - week
             - fortnight
             - month
             - two_months
-          description: "Periodicity that corresponds to the range of dates used.\nIf you omit the `from` and `to` fields, the default dates will depend\non the value of `periodicity`.\n\nIf omitted, the organization’s receipt periodicity setting is used."
+          description: |-
+            Periodicity that corresponds to the range of dates used.
+            If you omit the `from` and `to` fields, the default dates will depend
+            on the value of `periodicity`.
+
+            If omitted, the organization’s receipt periodicity setting is used.
         months:
           type: string
-          description: "Key representing the month or bimester of the invoice. Consult\nthe possible values in the [Months and Bimesters catalog](#meses-y-bimestres).\n\nIf omitted, the month or two-month period is determined from the start date and periodicity."
-          example: "01"
+          description: |-
+            Key representing the month or bimester of the invoice. Consult
+            the possible values in the [Months and Bimesters catalog](#meses-y-bimestres).
+
+            If omitted, the month or two-month period is determined from the start date and periodicity.
+          example: '01'
         folio_number:
           type: integer
           description: |
@@ -18523,17 +18714,17 @@ components:
           type: string
           maxLength: 25
           description: Series. Alphanumeric characters designated by the company for internal control and without fiscal validity.
-          example: "F"
+          example: F
         date:
           allOf:
-            - $ref: "#/components/schemas/DateOrDateTime"
-          example: "2022-01-01"
-          description: "Invoice issuance date. If omitted, the end date (`to`) is used, capped at the current date and time."
+            - $ref: '#/components/schemas/DateOrDateTime'
+          example: '2022-01-01'
+          description: Invoice issuance date. If omitted, the end date (`to`) is used, capped at the current date and time.
         payment_form:
           type: string
           minLength: 2
           maxLength: 2
-          example: "02"
+          example: '02'
           description: |
             Payment form code according to the [Payment Form catalog](#forma-de-pago).
 

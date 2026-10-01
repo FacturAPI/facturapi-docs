@@ -3867,15 +3867,16 @@ paths:
           description: ID de la factura a cancelar
         - in: query
           name: motive
-          required: true
+          required: false
           schema:
             type: string
             enum:
-              - "01"
-              - "02"
-              - "03"
-              - "04"
+              - '01'
+              - '02'
+              - '03'
+              - '04'
           description: |
+            Requerido para documentos emitidos; omite los parámetros para eliminar un borrador.
             Clave que representa el motivo de la cancelación de la factura.
 
             - `01`: **Comprobante emitido con errores con relación**. Cuando la
@@ -3897,6 +3898,7 @@ paths:
             ID de la factura que sustituye a la factura que se está cancelando.
 
             Puedes usar el ID de Facturapi o el folio fiscal (UUID).
+            Requerido para los motivos 01 y 04. Eliminar un borrador no requiere parámetros de consulta.
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []
@@ -7414,10 +7416,10 @@ paths:
           schema:
             type: string
             enum:
-              - "01"
-              - "02"
-              - "03"
-              - "04"
+              - '01'
+              - '02'
+              - '03'
+              - '04'
           description: |
             Clave que representa el motivo de la cancelación de la retención.
             Requerido para retenciones que no son borrador.
@@ -7439,6 +7441,7 @@ paths:
           description: |
             ID de la retención que sustituye a la retención que se está cancelando
             Puedes usar el ID de Facturapi o el folio fiscal (UUID).
+            Requerido para los motivos 01 y 04. Eliminar un borrador no requiere parámetros de consulta.
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []
@@ -16073,41 +16076,171 @@ components:
           type: string
           description: Uso de CFDI por defecto.
           example: G01
+    CancellationQueryInput:
+      description: Omite los parámetros para eliminar un borrador. Los documentos emitidos requieren motivo; los motivos 01 y 04 también requieren substitution.
+      anyOf:
+        - title: Sustitución requerida
+          type: object
+          required:
+            - motive
+            - substitution
+          properties:
+            motive:
+              type: string
+              enum:
+                - '01'
+                - '04'
+            substitution:
+              type: string
+              description: ID de Facturapi o UUID del documento sustituto.
+        - title: Otros motivos de cancelación
+          type: object
+          required:
+            - motive
+          properties:
+            motive:
+              type: string
+              enum:
+                - '02'
+                - '03'
+            substitution:
+              type: string
+        - title: Eliminar borrador
+          type: object
+          properties:
+            motive: false
+            substitution: false
     CustomerCreateWithEditLinkInput:
       title: Customer with edit link
       description: La información del cliente puede estar incompleta cuando createEditLink=true. Los campos enviados deben conservar formatos válidos.
       allOf:
         - $ref: "#/components/schemas/CustomerProperties"
-    CustomerCreateInput:
-      title: Customer
+    CustomerCreateCommonInput:
+      type: object
+      required:
+        - legal_name
+      properties:
+        legal_name:
+          $ref: '#/components/schemas/CustomerCommonProperties/properties/legal_name'
+        email:
+          $ref: '#/components/schemas/CustomerCommonProperties/properties/email'
+        phone:
+          $ref: '#/components/schemas/CustomerCommonProperties/properties/phone'
+        default_invoice_use:
+          $ref: '#/components/schemas/CustomerCommonProperties/properties/default_invoice_use'
+    CustomerNationalAddressInput:
       allOf:
-        - $ref: "#/components/schemas/CustomerCommonProperties"
+        - $ref: '#/components/schemas/CommonAddressProperties'
         - type: object
           required:
-          - legal_name
-          - tax_id
-          - tax_system
-          - address
+            - zip
           properties:
-            legal_name:
-              $ref: "#/components/schemas/CustomerCommonProperties/properties/legal_name"
-            address:
+            zip:
+              $ref: '#/components/schemas/CommonAddressProperties/properties/zip'
+            state:
+              type: string
+            country:
+              type: string
+              const: MEX
+              default: MEX
+    CustomerForeignAddressInput:
+      allOf:
+        - $ref: '#/components/schemas/CommonAddressProperties'
+        - type: object
+          required:
+            - country
+          properties:
+            country:
+              type: string
+              not:
+                const: MEX
+              minLength: 3
+              maxLength: 3
+              description: Código ISO 3166-1 alpha-3 distinto de MEX. Es necesario para aplicar las reglas de cliente extranjero.
+            state:
+              type: string
+    CustomerNationalCreateInput:
+      title: Cliente nacional
+      description: País MEX, u omitido. Requiere razón social, RFC, régimen fiscal y código postal. Los RFC genéricos usan CustomerGenericCreateInput.
+      allOf:
+        - $ref: '#/components/schemas/CustomerCreateCommonInput'
+        - type: object
+          required:
+            - tax_id
+            - tax_system
+            - address
+          properties:
+            tax_id:
               allOf:
-                - $ref: "#/components/schemas/CommonAddressProperties"
-                - type: object
-                  description: Domicilio fiscal.
-                  required:
-                    - zip
-                  properties:
-                    state:
-                      type: string
-                      description: Si el país es México ("MEX"), contiene el nombre del Estado o Entidad Federativa. Para extranjeros contiene el código de Estado de acuerdo al estándar [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que puedes consultar en nuestro [Catálogo de Estados](https://dashboard.facturapi.io/catalogs/state).
-                      example: Sonora
-                    country:
-                      type: string
-                      description: Código de país acorde al estándar [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), del [Catálogo de Países](https://dashboard.facturapi.io/catalogs/country).
-                      example: MEX
-                      default: MEX
+                - $ref: '#/components/schemas/CustomerCommonProperties/properties/tax_id'
+              not:
+                enum:
+                  - XAXX010101000
+                  - XEXX010101000
+            tax_system:
+              $ref: '#/components/schemas/CustomerCommonProperties/properties/tax_system'
+            address:
+              $ref: '#/components/schemas/CustomerNationalAddressInput'
+    CustomerForeignCreateInput:
+      title: Cliente extranjero
+      description: Requiere razón social y domicilio con un país explícito distinto de MEX. El identificador fiscal y el código postal son opcionales; el régimen fiscal predeterminado es 616.
+      allOf:
+        - $ref: '#/components/schemas/CustomerCreateCommonInput'
+        - type: object
+          required:
+            - address
+          properties:
+            tax_id:
+              type:
+                - string
+                - 'null'
+              description: En clientes de México contiene el RFC del cliente. Para extranjeros es opcional y representa el número de registro de identificación tributaria, es decir, el equivalente al RFC en el país del cliente.
+              not:
+                enum:
+                  - XAXX010101000
+                  - XEXX010101000
+            tax_system:
+              type:
+                - string
+                - 'null'
+              enum:
+                - '616'
+                - null
+                - ''
+              default: '616'
+              description: Los clientes extranjeros usan 616. Omitirlo, enviar null o una cadena vacía usa el valor predeterminado.
+            address:
+              $ref: '#/components/schemas/CustomerForeignAddressInput'
+    CustomerGenericCreateInput:
+      title: RFC genérico
+      description: RFC de público en general XAXX010101000 o RFC genérico extranjero XEXX010101000. Requiere razón social y RFC. El régimen fiscal predeterminado es 616. Si se envía domicilio mexicano, requiere código postal.
+      allOf:
+        - $ref: '#/components/schemas/CustomerCreateCommonInput'
+        - type: object
+          required:
+            - tax_id
+          properties:
+            tax_id:
+              type: string
+              enum:
+                - XAXX010101000
+                - XEXX010101000
+            tax_system:
+              type: string
+              enum:
+                - '616'
+              default: '616'
+            address:
+              anyOf:
+                - $ref: '#/components/schemas/CustomerNationalAddressInput'
+                - $ref: '#/components/schemas/CustomerForeignAddressInput'
+    CustomerCreateInput:
+      title: Customer
+      description: Los campos requeridos dependen del país y del RFC. Omitir el país equivale a México. Con createEditLink=true se usa CustomerCreateWithEditLinkInput.
+      anyOf:
+        - $ref: '#/components/schemas/CustomerNationalCreateInput'
+        - $ref: '#/components/schemas/CustomerForeignCreateInput'
+        - $ref: '#/components/schemas/CustomerGenericCreateInput'
 
     LineItemProductInput:
       title: Product
@@ -18400,14 +18533,64 @@ components:
               description: Condiciones de pago
         - $ref: "#/components/schemas/InvoiceableCommonInput"
     GlobalInvoiceInput:
+      description: Las fechas son opcionales al seleccionar por periodo. Al enviar receipts se requieren from y to. La periodicidad predeterminada viene de la configuración de la organización.
+      anyOf:
+        - title: Seleccionar por periodo
+          type: object
+          properties:
+            from:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/from'
+            to:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/to'
+            periodicity:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/periodicity'
+            months:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/months'
+            folio_number:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/folio_number'
+            series:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/series'
+            date:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/date'
+            payment_form:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/payment_form'
+            receipts: false
+            limit_to_max_receipts:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/limit_to_max_receipts'
+        - title: Seleccionar recibos explícitos
+          type: object
+          required:
+            - receipts
+            - from
+            - to
+          properties:
+            from:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/from'
+            to:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/to'
+            periodicity:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/periodicity'
+            months:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/months'
+            folio_number:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/folio_number'
+            series:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/series'
+            date:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/date'
+            payment_form:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/payment_form'
+            receipts:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/receipts'
+            limit_to_max_receipts:
+              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/limit_to_max_receipts'
+    GlobalInvoiceInputProperties:
       type: object
-      required:
-        - periodicity
       properties:
         from:
           allOf:
-            - $ref: "#/components/schemas/DateOrDateTime"
-          example: "2022-01-01"
+            - $ref: '#/components/schemas/DateOrDateTime'
+          example: '2022-01-01'
           description: |
             Fecha inicial de los recibos que se incluirán en la factura global.
             Por default, este valor es el inicio del último periodo (día, semana,
@@ -18415,8 +18598,8 @@ components:
             en la configuración de recibos de tu organización. Este valor es requerido cuando se envíe el campo `receipts`.
         to:
           allOf:
-            - $ref: "#/components/schemas/DateOrDateTime"
-          example: "2022-01-31"
+            - $ref: '#/components/schemas/DateOrDateTime'
+          example: '2022-01-31'
           description: |
             Fecha final de los recibos que se incluirán en la factura global.
             Por default, este valor es el fin del último periodo (día, semana,
@@ -18430,11 +18613,20 @@ components:
             - fortnight
             - month
             - two_months
-          description: "Periodicidad que corresponde al rango de fechas utilizado.\nSi omites los campos `from` y `to`, las fechas que se asignarán por\ndefault dependerán del valor de `periodicity`.\n\nSi se omite, se utiliza la periodicidad configurada en los recibos de la organización."
+          description: |-
+            Periodicidad que corresponde al rango de fechas utilizado.
+            Si omites los campos `from` y `to`, las fechas que se asignarán por
+            default dependerán del valor de `periodicity`.
+
+            Si se omite, se utiliza la periodicidad configurada en los recibos de la organización.
         months:
           type: string
-          description: "Clave que representa el mes o bimestre de la factura. Consulta\nlos posibles valores en el [catálogo de Meses y Bimestres](#meses-y-bimestres).\n\nSi se omite, el mes o bimestre se determina a partir de la fecha inicial y la periodicidad."
-          example: "01"
+          description: |-
+            Clave que representa el mes o bimestre de la factura. Consulta
+            los posibles valores en el [catálogo de Meses y Bimestres](#meses-y-bimestres).
+
+            Si se omite, el mes o bimestre se determina a partir de la fecha inicial y la periodicidad.
+          example: '01'
         folio_number:
           type: integer
           description: |
@@ -18446,16 +18638,16 @@ components:
           description: Serie. Caracteres designados por la empresa para control interno y sin validez fiscal.
         date:
           allOf:
-            - $ref: "#/components/schemas/DateOrDateTime"
-          example: "2022-01-01"
-          description: "Fecha de emisión de la factura. Si se omite, se utiliza la fecha final (`to`), limitada a la fecha y hora actuales."
+            - $ref: '#/components/schemas/DateOrDateTime'
+          example: '2022-01-01'
+          description: Fecha de emisión de la factura. Si se omite, se utiliza la fecha final (`to`), limitada a la fecha y hora actuales.
         payment_form:
           type: string
           minLength: 2
           maxLength: 2
-          example: "02"
+          example: '02'
           description: |
-            description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago). Si se incluye, los recibos se agruparán y se crearán la factura global por la forma de pago.
+            Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago). Si se incluye, los recibos se agruparán y se crearán la factura global por la forma de pago.
         receipts:
           type: array
           description: |

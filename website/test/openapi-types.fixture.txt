@@ -160,3 +160,38 @@ const summaryRelatedDocument: components["schemas"]["PaymentInput"]["related_doc
 // @ts-expect-error a numeric catalog code is not a valid string code
 const numericPaymentTaxability: typeof paymentTaxability = 1;
 void [summaryRelatedDocument, numericPaymentTaxability];
+
+// Customer creation requirements depend on country and generic RFCs.
+const nationalCustomer: components['schemas']['CustomerCreateInput'] = {
+  legal_name: 'Cliente nacional', tax_id: 'ABC101010111', tax_system: '601', address: { zip: '83200' },
+};
+const foreignCustomer: components['schemas']['CustomerCreateInput'] = {
+  legal_name: 'Foreign customer', address: { country: 'USA' },
+};
+const genericCustomer: components['schemas']['CustomerCreateInput'] = {
+  legal_name: 'PUBLICO EN GENERAL', tax_id: 'XAXX010101000',
+};
+// @ts-expect-error country is needed to select foreign rules
+const foreignWithoutCountry: components['schemas']['CustomerCreateInput'] = { legal_name: 'Foreign customer', address: {} };
+// @ts-expect-error national customers require an RFC
+const nationalWithoutRfc: components['schemas']['CustomerNationalCreateInput'] = { legal_name: 'Cliente', tax_system: '601', address: { zip: '83200' } };
+// @ts-expect-error national customers require a tax regime
+const nationalWithoutRegime: components['schemas']['CustomerNationalCreateInput'] = { legal_name: 'Cliente', tax_id: 'ABC101010111', address: { zip: '83200' } };
+// @ts-expect-error explicit national address needs a postal code
+const nationalWithoutZip: components['schemas']['CustomerNationalCreateInput'] = { legal_name: 'Cliente', tax_id: 'ABC101010111', tax_system: '601', address: {} };
+// @ts-expect-error foreign customers use the regime 616
+const foreignWithWrongRegime: components['schemas']['CustomerForeignCreateInput'] = { legal_name: 'Foreign', tax_system: '601', address: { country: 'USA' } };
+// @ts-expect-error generic RFCs use 616
+const genericWithWrongRegime: components['schemas']['CustomerGenericCreateInput'] = { legal_name: 'Cliente', tax_id: 'XAXX010101000', tax_system: '601' };
+const defaultGlobal: components['schemas']['GlobalInvoiceInput'] = {};
+const explicitGlobal: components['schemas']['GlobalInvoiceInput'] = { receipts: ['rec_ejemplo'], from: '2026-01-01', to: '2026-01-31' };
+// @ts-expect-error explicit receipts require both dates
+const explicitGlobalWithoutDates: components['schemas']['GlobalInvoiceInput'] = { receipts: ['rec_ejemplo'] };
+const cancelReplacement: components['schemas']['CancellationQueryInput'] = { motive: '04', substitution: 'inv_ejemplo' };
+const cancelWithoutReplacement: components['schemas']['CancellationQueryInput'] = { motive: '02' };
+const deleteDraft: components['schemas']['CancellationQueryInput'] = {};
+// @ts-expect-error replacement motives require the substitution
+const cancelMissingReplacement: components['schemas']['CancellationQueryInput'] = { motive: '01' };
+// @ts-expect-error a replacement without a motive is not a cancellation request
+const cancelMissingMotive: components['schemas']['CancellationQueryInput'] = { substitution: 'inv_ejemplo' };
+void [nationalCustomer, foreignCustomer, genericCustomer, foreignWithoutCountry, nationalWithoutRfc, nationalWithoutRegime, nationalWithoutZip, foreignWithWrongRegime, genericWithWrongRegime, defaultGlobal, explicitGlobal, explicitGlobalWithoutDates, cancelReplacement, cancelWithoutReplacement, deleteDraft, cancelMissingReplacement, cancelMissingMotive];

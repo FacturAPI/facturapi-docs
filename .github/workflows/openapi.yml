@@ -5,6 +5,8 @@ on:
     paths:
       - website/openapi_v2*.yaml
       - website/scripts/check-openapi.mjs
+      - website/scripts/hash-openapi.mjs
+      - website/openapi.sha256
       - website/test/openapi-types.fixture.txt
       - website/package.json
       - website/pnpm-lock.yaml

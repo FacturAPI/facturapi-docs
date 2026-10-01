@@ -13,7 +13,8 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
-    "test:openapi": "node scripts/check-openapi.mjs"
+    "hash:openapi": "node scripts/hash-openapi.mjs",
+    "test:openapi": "node scripts/hash-openapi.mjs --check && node scripts/check-openapi.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "^3.10.1",

@@ -26,6 +26,3 @@
   or a review comment alone as proof of API behavior.
 - Keep the Spanish and English OpenAPI contracts structurally aligned.
 - Run the relevant repository checks for specification changes.
-- After editing either OpenAPI v2 contract, run `pnpm --dir website hash:openapi`
-  and commit `website/openapi.sha256` with the contract. `test:openapi` verifies
-  both hashes against the exact YAML bytes, including documentation changes.

@@ -2204,6 +2204,7 @@ paths:
             will be valid for 7 days and can only be used once.
             Additionally, setting this parameter to `true` will skip the validation of the customer's fiscal data,
             allowing you to create customers with incomplete information.
+            With `true`, the request body follows `CustomerCreateWithEditLinkInput`; otherwise it follows `CustomerCreateInput`.
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []
@@ -16073,6 +16074,11 @@ components:
           type: string
           description: Default CFDI use for the customer.
           example: G01
+    CustomerCreateWithEditLinkInput:
+      title: Customer with edit link
+      description: Customer information may be incomplete when createEditLink=true. Supplied fields must still have valid formats.
+      allOf:
+        - $ref: "#/components/schemas/CustomerProperties"
     CustomerCreateInput:
       title: Customer
       allOf:
@@ -16084,6 +16090,8 @@ components:
           - tax_system
           - address
           properties:
+            legal_name:
+              $ref: "#/components/schemas/CustomerCommonProperties/properties/legal_name"
             address:
               allOf:
                 - $ref: "#/components/schemas/CommonAddressProperties"

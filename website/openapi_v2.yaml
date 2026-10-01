@@ -2176,6 +2176,7 @@ paths:
             válido por 7 días y sólo se podrá usar una vez.
             Además, pasar el valor `true` desactivará la validación de información fiscal con el SAT,
             permitiendo crear clientes con información incompleta.
+            Con `true`, el body sigue `CustomerCreateWithEditLinkInput`; en otro caso sigue `CustomerCreateInput`.
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []
@@ -16072,6 +16073,11 @@ components:
           type: string
           description: Uso de CFDI por defecto.
           example: G01
+    CustomerCreateWithEditLinkInput:
+      title: Customer with edit link
+      description: La información del cliente puede estar incompleta cuando createEditLink=true. Los campos enviados deben conservar formatos válidos.
+      allOf:
+        - $ref: "#/components/schemas/CustomerProperties"
     CustomerCreateInput:
       title: Customer
       allOf:
@@ -16083,6 +16089,8 @@ components:
           - tax_system
           - address
           properties:
+            legal_name:
+              $ref: "#/components/schemas/CustomerCommonProperties/properties/legal_name"
             address:
               allOf:
                 - $ref: "#/components/schemas/CommonAddressProperties"

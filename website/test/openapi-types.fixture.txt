@@ -144,3 +144,10 @@ const wildcardCreate: components["schemas"]["WebhookCreateInput"] = { url: "http
 // @ts-expect-error webhook editing requires explicit event names
 const wildcardEdit: components["schemas"]["WebhookCreateEdit"] = { status: "enabled", enabled_events: ["*"] };
 void [draftWithoutCustomer, existingWildcard, wildcardCreate, wildcardEdit];
+
+// Creation can return an issued invoice or a draft, with typed common fields.
+declare const createdInvoiceResponse: operations["createInvoice"]["responses"][200]["content"]["application/json"];
+const createdInvoiceDate: string | null | undefined = createdInvoiceResponse.date;
+const createdInvoiceStamp: components["schemas"]["Stamp"] | null | undefined = createdInvoiceResponse.stamp;
+void createdInvoiceDate;
+void createdInvoiceStamp;

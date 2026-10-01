@@ -3330,12 +3330,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                discriminator:
-                  propertyName: status
-                  mapping:
-                    pending: "#/components/schemas/Invoice"
-                    draft: "#/components/schemas/InvoiceDraft"
+                anyOf:
+                  - $ref: "#/components/schemas/Invoice"
+                  - $ref: "#/components/schemas/InvoiceDraft"
         "202":
           description: Solicitud aceptada; Facturapi intentará recuperar el CFDI hasta cinco veces, una cada 10 minutos
           content:

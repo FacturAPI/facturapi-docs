@@ -195,3 +195,13 @@ const cancelMissingReplacement: components['schemas']['CancellationQueryInput'] 
 // @ts-expect-error a replacement without a motive is not a cancellation request
 const cancelMissingMotive: components['schemas']['CancellationQueryInput'] = { substitution: 'inv_ejemplo' };
 void [nationalCustomer, foreignCustomer, genericCustomer, foreignWithoutCountry, nationalWithoutRfc, nationalWithoutRegime, nationalWithoutZip, foreignWithWrongRegime, genericWithWrongRegime, defaultGlobal, explicitGlobal, explicitGlobalWithoutDates, cancelReplacement, cancelWithoutReplacement, deleteDraft, cancelMissingReplacement, cancelMissingMotive];
+// Required fields cannot be supplied as undefined.
+// @ts-expect-error undefined fiscal name is not a customer name
+const undefinedCustomerName: components['schemas']['CustomerCreateInput'] = { legal_name: undefined, address: { country: 'USA' } };
+// @ts-expect-error undefined tax regime does not complete a national customer
+const undefinedNationalRegime: components['schemas']['CustomerNationalCreateInput'] = { legal_name: 'Cliente', tax_id: 'ABC101010111', tax_system: undefined, address: { zip: '83200' } };
+// @ts-expect-error undefined zip does not complete a national address
+const undefinedNationalZip: components['schemas']['CustomerNationalCreateInput'] = { legal_name: 'Cliente', tax_id: 'ABC101010111', tax_system: '601', address: { zip: undefined } };
+// @ts-expect-error explicit receipt selection needs actual dates
+const undefinedGlobalDates: components['schemas']['GlobalInvoiceInput'] = { receipts: ['rec_ejemplo'], from: undefined, to: undefined };
+void [undefinedCustomerName, undefinedNationalRegime, undefinedNationalZip, undefinedGlobalDates];

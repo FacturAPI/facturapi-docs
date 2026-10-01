@@ -16121,28 +16121,36 @@ components:
         - legal_name
       properties:
         legal_name:
-          $ref: '#/components/schemas/CustomerCommonProperties/properties/legal_name'
+          type: string
+          description: |
+            Nombre Fiscal o Razón Social del cliente. *sin* el régimen societario (ej.: S.A. de C.V.).
+          example: Dunder Mifflin
         email:
-          $ref: '#/components/schemas/CustomerCommonProperties/properties/email'
+          type: string
+          format: email
+          description: Dirección de correo electrónico al cual enviar las facturas generadas.
+          example: email@example.com
         phone:
-          $ref: '#/components/schemas/CustomerCommonProperties/properties/phone'
+          type: string
+          description: Teléfono del cliente.
+          example: '6474010101'
         default_invoice_use:
-          $ref: '#/components/schemas/CustomerCommonProperties/properties/default_invoice_use'
+          type: string
+          description: Uso de CFDI por defecto.
+          example: G01
     CustomerNationalAddressInput:
       allOf:
         - $ref: '#/components/schemas/CommonAddressProperties'
         - type: object
-          required:
-            - zip
           properties:
-            zip:
-              $ref: '#/components/schemas/CommonAddressProperties/properties/zip'
             state:
               type: string
             country:
               type: string
               const: MEX
               default: MEX
+      required:
+        - zip
     CustomerForeignAddressInput:
       allOf:
         - $ref: '#/components/schemas/CommonAddressProperties'
@@ -16171,14 +16179,19 @@ components:
             - address
           properties:
             tax_id:
-              allOf:
-                - $ref: '#/components/schemas/CustomerCommonProperties/properties/tax_id'
+              type: string
+              example: ABC101010111
+              description: En clientes de México contiene el RFC del cliente. Para extranjeros es opcional y representa el número de registro de identificación tributaria, es decir, el equivalente al RFC en el país del cliente.
               not:
                 enum:
                   - XAXX010101000
                   - XEXX010101000
             tax_system:
-              $ref: '#/components/schemas/CustomerCommonProperties/properties/tax_system'
+              type: string
+              example: '601'
+              maxLength: 3
+              minLength: 3
+              description: Requerido para clientes nacionales. Clave del régimen fiscal del cliente, del catálogo de [Regímenes Fiscales](#r%C3%A9gimen-fiscal).
             address:
               $ref: '#/components/schemas/CustomerNationalAddressInput'
     CustomerForeignCreateInput:
@@ -18536,54 +18549,18 @@ components:
       description: Las fechas son opcionales al seleccionar por periodo. Al enviar receipts se requieren from y to. La periodicidad predeterminada viene de la configuración de la organización.
       anyOf:
         - title: Seleccionar por periodo
-          type: object
-          properties:
-            from:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/from'
-            to:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/to'
-            periodicity:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/periodicity'
-            months:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/months'
-            folio_number:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/folio_number'
-            series:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/series'
-            date:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/date'
-            payment_form:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/payment_form'
-            receipts: false
-            limit_to_max_receipts:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/limit_to_max_receipts'
+          allOf:
+            - $ref: '#/components/schemas/GlobalInvoiceInputProperties'
+            - type: object
+              properties:
+                receipts: false
         - title: Seleccionar recibos explícitos
-          type: object
           required:
             - receipts
             - from
             - to
-          properties:
-            from:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/from'
-            to:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/to'
-            periodicity:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/periodicity'
-            months:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/months'
-            folio_number:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/folio_number'
-            series:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/series'
-            date:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/date'
-            payment_form:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/payment_form'
-            receipts:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/receipts'
-            limit_to_max_receipts:
-              $ref: '#/components/schemas/GlobalInvoiceInputProperties/properties/limit_to_max_receipts'
+          allOf:
+            - $ref: '#/components/schemas/GlobalInvoiceInputProperties'
     GlobalInvoiceInputProperties:
       type: object
       properties:

@@ -3063,10 +3063,7 @@ paths:
             const product = await facturapi.products.update(
               '590e22c26d04f840aa8438b2',
               {
-                email: 'jdoe@example.com',
-                address: {
-                  street: 'Santa Monica Ave.'
-                }
+                price: 456.70
               }
             );
         - lang: csharp
@@ -3427,16 +3424,16 @@ paths:
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             // All invoices from the organization
-            const invoiceSearch = await facturapi.invoices.list();
+            const invoiceSearch1 = await facturapi.invoices.list();
 
             // All invoices issued to a certain customer
-            const invoiceSearch = await facturapi.invoices.list({
+            const invoiceSearch2 = await facturapi.invoices.list({
               customer: '590ce6c56d04f840aa8438af'
             });
 
             // Page 3 of the search results for free text
             // of invoices issued to a certain customer between 2017 and 2019
-            const invoiceSearch = await facturapi.invoices.list({
+            const invoiceSearch3 = await facturapi.invoices.list({
               q: 'Aspiradora Robot',
               customer: '590ce6c56d04f840aa8438af',
               date: {
@@ -4379,7 +4376,7 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            const Facturapi = require('facturapi');
+            import Facturapi from 'facturapi';
 
             const facturapi = new Facturapi('sk_live_API_KEY');
             const pdfStream = await facturapi.invoices.previewPdf({
@@ -4405,9 +4402,11 @@ paths:
               series: 'F'
             });
             // Save the PDF to a file
-            const fs = require('fs');
+            import fs from 'node:fs';
             const file = fs.createWriteStream('/route/to/save/invoice.pdf');
-            pdfStream.pipe(file);
+            if ('pipe' in pdfStream) {
+              pdfStream.pipe(file);
+            }
         - lang: csharp
           label: C#
           source: |
@@ -4524,6 +4523,9 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
+            import Facturapi from 'facturapi';
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
             const download = await facturapi.invoices.previewPdfUrl({
               customer: 'cus_123',
               items: [{ product: 'prod_123' }],
@@ -4582,17 +4584,23 @@ paths:
             // Download PDF and XML compressed in a ZIP file
             const zipStream = await facturapi.invoices.downloadZip('58e93bd8e86eb318b019743d');
             const zipFile = fs.createWriteStream('./factura.zip');
-            zipStream.pipe(zipFile);
+            if ('pipe' in zipStream) {
+              zipStream.pipe(zipFile);
+            }
 
             // Download only the PDF
             const pdfStream = await facturapi.invoices.downloadPdf('58e93bd8e86eb318b019743d');
             const pdfFile = fs.createWriteStream('./factura.pdf');
-            pdfStream.pipe(pdfFile);
+            if ('pipe' in pdfStream) {
+              pdfStream.pipe(pdfFile);
+            }
 
             // Download only the XML
             const xmlStream = await facturapi.invoices.downloadXml('58e93bd8e86eb318b019743d');
             const xmlFile = fs.createWriteStream('./factura.xml');
-            xmlStream.pipe(xmlFile);
+            if ('pipe' in xmlStream) {
+              xmlStream.pipe(xmlFile);
+            }
         - lang: csharp
           label: C#
           source: |
@@ -5399,7 +5407,9 @@ paths:
             const zipStream = await facturapi.invoices.downloadZipRequest(
               '66b0f0000000000000000000'
             );
-            zipStream.pipe(fs.createWriteStream('./2025-03.zip'));
+            if ('pipe' in zipStream) {
+              zipStream.pipe(fs.createWriteStream('./2025-03.zip'));
+            }
         - lang: csharp
           label: C#
           source: |
@@ -5670,11 +5680,11 @@ paths:
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             // All receipts of the organization
-            const receiptSearch = await facturapi.receipts.list();
+            const receiptSearch1 = await facturapi.receipts.list();
 
             // Page 3 of search results for free text search
             // of receipts created between 2017 and 2019
-            const receiptSearch = await facturapi.receipts.list({
+            const receiptSearch2 = await facturapi.receipts.list({
               q: 'Aspiradora Robot',
               date: {
                 gte: new Date('2017-01-01T00:00:00.000Z'),
@@ -6375,7 +6385,9 @@ paths:
             });
 
             const file = fs.createWriteStream('to_invoice_preview.pdf');
-            pdfStream.pipe(file);
+            if ('pipe' in pdfStream) {
+              pdfStream.pipe(file);
+            }
         - lang: csharp
           label: C#
           source: |
@@ -6464,6 +6476,9 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
+            import Facturapi from 'facturapi';
+            const facturapi = new Facturapi('sk_test_API_KEY');
+
             const download = await facturapi.receipts.previewToInvoicePdfUrl({
               keys: ['ticket_1001', 'ticket_1002'],
               customer: 'cus_123',
@@ -6516,11 +6531,10 @@ paths:
               -H "Authorization: Bearer sk_test_API_KEY" \
               -H "Content-Type: application/json" \
               -d '{
-                    "from": "2021-01-01T05:00:00.000Z",
-                    "to": "2021-01-31T04:59:59.999Z",
+                    "from": "2021-01-01T00:00:00.000Z",
+                    "to": "2021-01-31T23:59:59.999Z",
                     "periodicity": "month",
                     "months": "01",
-                    "year": 2021,
                     "folio_number": 1234,
                     "series": "G",
                     "limit_to_max_receipts": true
@@ -6532,11 +6546,10 @@ paths:
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             const invoice = await facturapi.receipts.createGlobalInvoice({
-              from: '2020-12-01T05:00:00.000Z',
-              to: '2020-12-31T04:59:59.999Z',
+              from: '2021-01-01T00:00:00.000Z',
+              to: '2021-01-31T23:59:59.999Z',
               periodicity: 'month',
               months: '01',
-              year: 2021,
               folio_number: 1234,
               series: 'G',
               limit_to_max_receipts: true
@@ -6547,11 +6560,10 @@ paths:
             var facturapi = new FacturapiClient("sk_test_API_KEY");
             var invoice = await facturapi.Receipt.CreateGlobalInvoiceAsync(new Dictionary<string, object>
             {
-              ["from"] = "2020-12-01T05:00:00.000Z",
-              ["to"] = "2020-12-31T04:59:59.999Z",
+              ["from"] = "2021-01-01T00:00:00.000Z",
+              ["to"] = "2021-01-31T23:59:59.999Z",
               ["periodicity"] = "month",
               ["months"] = "01",
-              ["year"] = 2021,
               ["folio_number"] = 1234,
               ["series"] = "G"
             });
@@ -6566,8 +6578,10 @@ paths:
 
             var invoice = facturapi.receipts().createGlobalInvoice(
                   Map.of(
-                      "month", 5,
-                      "year", 2024
+                      "from", "2021-01-01T00:00:00.000Z",
+                      "to", "2021-01-31T23:59:59.999Z",
+                      "periodicity", "month",
+                      "months", "01"
                   )
                 );
         - lang: PHP
@@ -6575,11 +6589,10 @@ paths:
             $facturapi = new Facturapi("sk_test_API_KEY");
 
             $invoice = $facturapi->Receipts->createGlobalInvoice([
-              "from" => "2020-12-01T05:00:00.000Z",
-              "to" => "2020-12-31T04:59:59.999Z",
+              "from" => "2021-01-01T00:00:00.000Z",
+              "to" => "2021-01-31T23:59:59.999Z",
               "periodicity" => "month",
               "months" => "01",
-              "year" => 2021,
               "folio_number" => 1234,
               "series" => "G"
             ]);
@@ -6631,7 +6644,9 @@ paths:
             // Download the electronic receipt in PDF format
             const pdfStream = await facturapi.receipts.downloadPdf('58e93bd8e86eb318b019743d');
             const pdfFile = fs.createWriteStream('./recibo.pdf');
-            pdfStream.pipe(pdfFile);
+            if ('pipe' in pdfStream) {
+              pdfStream.pipe(pdfFile);
+            }
         - lang: csharp
           label: C#
           source: |
@@ -6932,7 +6947,8 @@ paths:
                       "imp_retenidos": [
                         {
                           "monto_ret": 40,
-                          "base_ret": 250
+                          "base_ret": 250,
+                          "tipo_pago_ret": "04"
                         }
                       ]
                     }
@@ -6956,7 +6972,8 @@ paths:
                 imp_retenidos: [
                   {
                     monto_ret: 40,
-                    base_ret: 250
+                    base_ret: 250,
+                    tipo_pago_ret: "04"
                   }
                 ]
               }
@@ -6983,9 +7000,9 @@ paths:
                 {
                   new Dictionary<string, object>
                   {
-                    ["]
                     ["monto_ret"] = 40,
-                    ["base_ret"] = 250
+                    ["base_ret"] = 250,
+                    ["tipo_pago_ret"] = "04"
                   }
                 }
               }
@@ -7001,16 +7018,19 @@ paths:
 
             var retention = facturapi.retentions().create(
                 Map.of(
-                    "receiver", Map.of(
-                        "name", "Cliente ejemplo"
-                    ),
-                    "items", List.of(
-                        Map.of(
-                            "quantity", 1,
-                            "product", "prod_123"
-                        )
-                    )
-                  ));
+                    "customer", "58e93bd8e86eb318b0197456",
+                                "cve_retenc", "26",
+                                "periodo", Map.of("mes_ini", 1, "mes_fin", 12, "ejerc", 2020),
+                                "totales", Map.of(
+                                    "monto_tot_operacion", 244.654321,
+                                    "monto_tot_exent", 145.123456,
+                                    "imp_retenidos", List.of(Map.of(
+                                        "monto_ret", 40,
+                                        "base_ret", 250,
+                                        "tipo_pago_ret", "04"
+                                    ))
+                                )
+                              ));
         - lang: PHP
           source: |
             $facturapi = new Facturapi("sk_test_API_KEY");
@@ -7029,7 +7049,8 @@ paths:
                   [
                     "impuesto" => "ISR",
                     "monto_ret" => 40,
-                    "base_ret" => 250
+                    "base_ret" => 250,
+                    "tipo_pago_ret" => "04"
                   ]
                 ]
               ]
@@ -7090,16 +7111,16 @@ paths:
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             // All retentions of the organization
-            const retentionSearch = await facturapi.retentions.list();
+            const retentionSearch1 = await facturapi.retentions.list();
 
             // All retentions issued for a certain customer
-            const retentionSearch = await facturapi.retentions.list({
+            const retentionSearch2 = await facturapi.retentions.list({
               customer: '590ce6c56d04f840aa8438af'
             });
 
             // Page 3 of search results for free text search
             // of retentions issued between 2017 and 2019
-            const retentionSearch = await facturapi.retentions.list({
+            const retentionSearch3 = await facturapi.retentions.list({
               q: 'John Doe',
               date: {
                 gte: new Date('2017-01-01T00:00:00.000Z'),
@@ -7662,17 +7683,23 @@ paths:
             // Download PDF and XML compressed in a ZIP file
             const zipStream = await facturapi.retentions.downloadZip('58e93bd8e86eb318b019743d');
             const zipFile = fs.createWriteStream('./retencion.zip');
-            zipStream.pipe(zipFile);
+            if ('pipe' in zipStream) {
+              zipStream.pipe(zipFile);
+            }
 
             // Download only the PDF
             const pdfStream = await facturapi.retentions.downloadPdf('58e93bd8e86eb318b019743d');
             const pdfFile = fs.createWriteStream('./retencion.pdf');
-            pdfStream.pipe(pdfFile);
+            if ('pipe' in pdfStream) {
+              pdfStream.pipe(pdfFile);
+            }
 
             // Download only the XML
             const xmlStream = await facturapi.retentions.downloadXml('58e93bd8e86eb318b019743d');
             const xmlFile = fs.createWriteStream('./retencion.xml');
-            xmlStream.pipe(xmlFile);
+            if ('pipe' in xmlStream) {
+              xmlStream.pipe(xmlFile);
+            }
         - lang: csharp
           label: C#
           source: |
@@ -11823,13 +11850,18 @@ paths:
         - lang: JavaScript
           label: Node.js
           source: |
-            import Facturapi from 'facturapi'
+            import Facturapi from 'facturapi';
             const facturapi = new Facturapi('sk_test_API_KEY');
-            const customer = await facturapi.webhooks.validateSignature({
-                    secret: "wh_sec...",
-                    payload: "Object Response",
-                    signature: "Signature_FROM_HEADER"
-                  });
+
+            // Pass the original, unparsed body and the signature from the Facturapi-Signature header.
+            export async function verifyWebhook(rawBody, signature, secret) {
+              const event = await facturapi.webhooks.validateSignature({
+                secret,
+                signature,
+                payload: rawBody
+              });
+              return event;
+            }
         - lang: csharp
           label: C#
           source: |
@@ -12478,7 +12510,7 @@ components:
         application/json:
           schema:
             allOf:
-              - $ref: "#/components/schemas/ProductProperties"
+              - $ref: "#/components/schemas/ProductEditableProperties"
     InvoiceCreate:
       required: true
       content:
@@ -16380,9 +16412,12 @@ components:
               items:
                 $ref: "#/components/schemas/Product"
     ProductProperties:
+      allOf:
+        - $ref: "#/components/schemas/ProductEditableProperties"
+        - type: object
+          required: [description, product_key, price]
+    ProductEditableProperties:
       type: object
-      required:
-        ["description","product_key","price"]
       properties:
         description:
           type: string

@@ -16047,7 +16047,7 @@ components:
           description: Expiration date of the edit link.
           example: '2022-12-31T23:59:59Z'
         sat_validated_at:
-          type: string
+          type: [string, "null"]
           format: date-time
           description: Date when the customer's tax information was validated by the SAT.
           example: '2022-12-31T23:59:59Z'

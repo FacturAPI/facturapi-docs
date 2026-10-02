@@ -16059,7 +16059,7 @@ components:
             Fecha de expiración del enlace de edición.
           example: '2022-12-31T23:59:59Z'
         sat_validated_at:
-          type: string
+          type: [string, "null"]
           format: date-time
           description: |
             Fecha en la que la información fiscal fue validado por el SAT.

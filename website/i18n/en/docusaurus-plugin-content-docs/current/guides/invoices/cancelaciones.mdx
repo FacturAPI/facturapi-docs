@@ -174,10 +174,14 @@ import fs from 'node:fs';
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const xmlStream = await facturapi.invoices.downloadCancellationReceiptXml('58e93bd8e86eb318b019743d');
-xmlStream.pipe(fs.createWriteStream('cancellation_receipt.xml'));
+if ('pipe' in xmlStream) {
+  xmlStream.pipe(fs.createWriteStream('cancellation_receipt.xml'));
+}
 
 const pdfStream = await facturapi.invoices.downloadCancellationReceiptPdf('58e93bd8e86eb318b019743d');
-pdfStream.pipe(fs.createWriteStream('cancellation_receipt.pdf'));
+if ('pipe' in pdfStream) {
+  pdfStream.pipe(fs.createWriteStream('cancellation_receipt.pdf'));
+}
 ```
 
 </TabItem>

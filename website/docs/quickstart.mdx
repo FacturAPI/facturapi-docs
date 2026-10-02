@@ -373,9 +373,13 @@ import fs from 'fs';
 const zipStream = await facturapi.invoices.downloadZip(invoice.id);
 // Guarda la descarga en un archivo
 const file = fs.createWriteStream('./factura.zip');
-zipStream.pipe(file);
+if ('pipe' in zipStream) {
+  zipStream.pipe(file);
+}
 // O envíalo como respuesta a tu cliente (en ExpressJS)
-zipStream.pipe(res);
+if ('pipe' in zipStream) {
+  zipStream.pipe(res);
+}
 ```
 
 </TabItem>

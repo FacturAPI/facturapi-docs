@@ -16414,8 +16414,7 @@ components:
     ProductProperties:
       allOf:
         - $ref: "#/components/schemas/ProductEditableProperties"
-        - type: object
-          required: [description, product_key, price]
+      required: [description, product_key, price]
     ProductEditableProperties:
       type: object
       properties:

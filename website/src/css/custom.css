@@ -390,6 +390,55 @@ body[data-scrolled='true'] .navbar {
   display: none !important;
 }
 
+/* Keep invoice mode and related fields together when requirements change. */
+[id='operation/createInvoice'] tbody:has(> tr > td[title='status'] + td select) {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+
+  > tr {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+  }
+
+  > tr > td {
+    width: auto;
+  }
+
+  > tr > td[colspan] {
+    grid-column: 1 / -1;
+  }
+
+  > tr:has(> td[title='status']) {
+    order: -11;
+
+    > td + td > div {
+      display: flex;
+      flex-direction: column;
+
+      > div:has(> select) {
+        order: -1;
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+
+  > tr:has(> td[title='type']) { order: -10; }
+  > tr:has(> td[title='customer']) { order: -9; }
+  > tr:has(> td[title='third_party']) { order: -8; }
+  > tr:has(> td:is([title='items'], [title='complements'])) { order: -7; }
+  > tr:has(> td[title='use']) { order: -6; }
+  > tr:has(> td:is([title='payment_form'], [title='payment_method'], [title='conditions'])) { order: -5; }
+  > tr:has(> td:is([title='currency'], [title='exchange'])) { order: -4; }
+  > tr:has(> td:is([title='date'], [title='folio_number'], [title='series'])) { order: -3; }
+  > tr:has(> td:is([title='related_documents'], [title='global'], [title='export'])) { order: 1; }
+  > tr:has(> td:is([title='pdf_custom_section'], [title='addenda'], [title='namespaces'], [title='pdf_options'])) { order: 2; }
+
+  @media (max-width: 50rem) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 html[data-theme='dark'] .redocusaurus button[aria-expanded='true'] {
   border-color: transparent !important;
 }

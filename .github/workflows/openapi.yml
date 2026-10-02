@@ -1,0 +1,33 @@
+name: OpenAPI contract
+
+on:
+  pull_request:
+    paths:
+      - website/openapi_v2*.yaml
+      - website/scripts/check-openapi.mjs
+      - website/test/openapi-types.fixture.txt
+      - website/package.json
+      - website/pnpm-lock.yaml
+      - website/pnpm-workspace.yaml
+      - .github/workflows/openapi.yml
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.5.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+          cache: pnpm
+          cache-dependency-path: website/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+        working-directory: website
+      - run: pnpm test:openapi
+        working-directory: website

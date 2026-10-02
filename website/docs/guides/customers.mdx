@@ -30,8 +30,6 @@ caso de uso.
 
 ## Cómo registrar un cliente
 
-Los ejemplos de Node.js usan el SDK 6. Los métodos `createNational()`, `createForeign()` y `createGeneric()` seleccionan los tipos de entrada de cada caso; `create()` sigue disponible y usa la misma operación de la API. Para datos incompletos con un enlace de edición, conserva `create(data, { createEditLink: true })`. Consulta la [guía de Node.js y TypeScript](../getting-started/node-sdk.mdx).
-
 En Facturapi, la forma de registrar los datos fiscales de clientes nacionales y
 extranjeros no es muy diferente entre sí, pero vale la pena analizarlos por
 separado, ya que sí es diferente de como lo indica el SAT en su estándar técnico.
@@ -50,7 +48,7 @@ Para conocer qué otros datos puedes incluir, consulta la
 import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_test_API_KEY');
 
-const customer = await facturapi.customers.createNational({
+const customer = await facturapi.customers.create({
   legal_name: 'Dunder Mifflin', // Nombre o razón social
   tax_id: 'ABC101010111', // RFC
   tax_system: '601', // Regimen fiscal
@@ -187,7 +185,7 @@ Para conocer qué otros datos puedes incluir, consulta la
 import Facturapi from 'facturapi'
 const facturapi = new Facturapi('sk_test_API_KEY');
 
-const customer = await facturapi.customers.createForeign({
+const customer = await facturapi.customers.create({
   legal_name: 'Vättenfall, A.B.', // Nombre o razón social
   tax_id: '198912171234', // Núm. de reg. id. trib. (opcional)
   email: 'email@example.com', // Correo para envío (opcional).

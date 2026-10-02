@@ -27,8 +27,6 @@ Install the package from [NPM](https://www.npmjs.com/package/facturapi).
 $> npm install facturapi
 ```
 
-SDK 6 requires Node.js 18 or later and includes TypeScript types. See the [SDK guide](./node-sdk.mdx) for editor support and upgrading from earlier versions.
-
 </TabItem>
 <TabItem value="cs" label="C#">
 
@@ -79,15 +77,19 @@ Import the library before using it in your code.
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
 
+Choose the import that matches your project. With ESM or TypeScript:
+
+```typescript
+import Facturapi from 'facturapi';
+```
+
+With CommonJS:
+
 ```javascript
 const Facturapi = require('facturapi');
 ```
 
-ESM / TypeScript
-
-```javascript
-import Facturapi from 'facturapi';
-```
+The package includes TypeScript types and requires Node.js 18 or later. Import the constructor, types, and enums from `facturapi`.
 
 </TabItem>
 <TabItem value="cs" label="C#">

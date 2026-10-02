@@ -26,3 +26,7 @@
   or a review comment alone as proof of API behavior.
 - Keep the Spanish and English OpenAPI contracts structurally aligned.
 - Run the relevant repository checks for specification changes.
+
+## SDK guide style
+
+- Describe the current SDK as the available version. Keep release announcements out of general guides; version references may explain verified compatibility or when a capability became available. Document import options in the existing installation guide rather than adding a separate SDK article.

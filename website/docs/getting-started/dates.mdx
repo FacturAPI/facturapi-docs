@@ -22,12 +22,3 @@ La siguiente tabla muestra a manera resumida cómo Facturapi interpreta las fech
 En los objetos de respuesta, nuestra API siempre devolverá la fecha en formato ISO8601 con zona horaria UTC.
 
 En comprobantes, el SAT pide que las fechas se muestren en la zona horaria del emisor, por lo que haremos la conversión correspondiente y mostraremos la porción de la fecha que se requiera, pudiendo ser ésta sólo la fecha o la fecha y la hora.
-
-
-## Fechas en el SDK de Node.js
-
-Desde el SDK 6, los timestamps de respuesta, como `created_at` y `expires_at`, se convierten en objetos `Date`. Esto también aplica a los eventos devueltos por `webhooks.validateSignature()`. Los valores `null` se conservan.
-
-Las fechas de calendario (`YYYY-MM-DD`), la fecha del timbre SAT (`stamp.date`) y los valores de `metadata` conservan su texto; no todas las propiedades llamadas `date` representan un timestamp. Las fechas de entrada admiten strings y, donde los tipos lo indican, objetos `Date`. Los filtros de búsqueda conservan sus objetos de rango.
-
-Consulta la [guía del SDK](./node-sdk.mdx) para migrar código que trataba los timestamps como strings.

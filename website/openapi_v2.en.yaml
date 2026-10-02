@@ -4404,7 +4404,7 @@ paths:
             // Save the PDF to a file
             import fs from 'node:fs';
             const file = fs.createWriteStream('/route/to/save/invoice.pdf');
-            if ('pipe' in pdfStream) {
+            if ('pipe' in pdfStream && typeof pdfStream.pipe === 'function') {
               pdfStream.pipe(file);
             }
         - lang: csharp
@@ -4584,21 +4584,21 @@ paths:
             // Download PDF and XML compressed in a ZIP file
             const zipStream = await facturapi.invoices.downloadZip('58e93bd8e86eb318b019743d');
             const zipFile = fs.createWriteStream('./factura.zip');
-            if ('pipe' in zipStream) {
+            if ('pipe' in zipStream && typeof zipStream.pipe === 'function') {
               zipStream.pipe(zipFile);
             }
 
             // Download only the PDF
             const pdfStream = await facturapi.invoices.downloadPdf('58e93bd8e86eb318b019743d');
             const pdfFile = fs.createWriteStream('./factura.pdf');
-            if ('pipe' in pdfStream) {
+            if ('pipe' in pdfStream && typeof pdfStream.pipe === 'function') {
               pdfStream.pipe(pdfFile);
             }
 
             // Download only the XML
             const xmlStream = await facturapi.invoices.downloadXml('58e93bd8e86eb318b019743d');
             const xmlFile = fs.createWriteStream('./factura.xml');
-            if ('pipe' in xmlStream) {
+            if ('pipe' in xmlStream && typeof xmlStream.pipe === 'function') {
               xmlStream.pipe(xmlFile);
             }
         - lang: csharp
@@ -5407,7 +5407,7 @@ paths:
             const zipStream = await facturapi.invoices.downloadZipRequest(
               '66b0f0000000000000000000'
             );
-            if ('pipe' in zipStream) {
+            if ('pipe' in zipStream && typeof zipStream.pipe === 'function') {
               zipStream.pipe(fs.createWriteStream('./2025-03.zip'));
             }
         - lang: csharp
@@ -6385,7 +6385,7 @@ paths:
             });
 
             const file = fs.createWriteStream('to_invoice_preview.pdf');
-            if ('pipe' in pdfStream) {
+            if ('pipe' in pdfStream && typeof pdfStream.pipe === 'function') {
               pdfStream.pipe(file);
             }
         - lang: csharp
@@ -6644,7 +6644,7 @@ paths:
             // Download the electronic receipt in PDF format
             const pdfStream = await facturapi.receipts.downloadPdf('58e93bd8e86eb318b019743d');
             const pdfFile = fs.createWriteStream('./recibo.pdf');
-            if ('pipe' in pdfStream) {
+            if ('pipe' in pdfStream && typeof pdfStream.pipe === 'function') {
               pdfStream.pipe(pdfFile);
             }
         - lang: csharp
@@ -7683,21 +7683,21 @@ paths:
             // Download PDF and XML compressed in a ZIP file
             const zipStream = await facturapi.retentions.downloadZip('58e93bd8e86eb318b019743d');
             const zipFile = fs.createWriteStream('./retencion.zip');
-            if ('pipe' in zipStream) {
+            if ('pipe' in zipStream && typeof zipStream.pipe === 'function') {
               zipStream.pipe(zipFile);
             }
 
             // Download only the PDF
             const pdfStream = await facturapi.retentions.downloadPdf('58e93bd8e86eb318b019743d');
             const pdfFile = fs.createWriteStream('./retencion.pdf');
-            if ('pipe' in pdfStream) {
+            if ('pipe' in pdfStream && typeof pdfStream.pipe === 'function') {
               pdfStream.pipe(pdfFile);
             }
 
             // Download only the XML
             const xmlStream = await facturapi.retentions.downloadXml('58e93bd8e86eb318b019743d');
             const xmlFile = fs.createWriteStream('./retencion.xml');
-            if ('pipe' in xmlStream) {
+            if ('pipe' in xmlStream && typeof xmlStream.pipe === 'function') {
               xmlStream.pipe(xmlFile);
             }
         - lang: csharp
@@ -11854,6 +11854,11 @@ paths:
             const facturapi = new Facturapi('sk_test_API_KEY');
 
             // Pass the original, unparsed body and the signature from the Facturapi-Signature header.
+            /**
+             * @param {string | Uint8Array | ArrayBuffer} rawBody
+             * @param {string} signature
+             * @param {string} secret
+             */
             export async function verifyWebhook(rawBody, signature, secret) {
               const event = await facturapi.webhooks.validateSignature({
                 secret,

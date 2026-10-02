@@ -188,12 +188,12 @@ import fs from 'node:fs';
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const xmlStream = await facturapi.invoices.downloadCancellationReceiptXml('58e93bd8e86eb318b019743d');
-if ('pipe' in xmlStream) {
+if ('pipe' in xmlStream && typeof xmlStream.pipe === 'function') {
   xmlStream.pipe(fs.createWriteStream('acuse_cancelacion.xml'));
 }
 
 const pdfStream = await facturapi.invoices.downloadCancellationReceiptPdf('58e93bd8e86eb318b019743d');
-if ('pipe' in pdfStream) {
+if ('pipe' in pdfStream && typeof pdfStream.pipe === 'function') {
   pdfStream.pipe(fs.createWriteStream('acuse_cancelacion.pdf'));
 }
 ```

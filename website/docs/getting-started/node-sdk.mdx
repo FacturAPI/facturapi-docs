@@ -1,0 +1,82 @@
+---
+sidebar_position: 2.5
+---
+
+# Node.js y TypeScript
+
+El SDK 6 incluye tipos y documentación en el editor para las peticiones y respuestas. Requiere Node.js 18 o superior. Las validaciones de los datos fiscales siguen siendo responsabilidad de la API.
+
+## Imports y autocompletado
+
+Con ESM o TypeScript:
+
+```ts
+import Facturapi, { PaymentForm, type InvoiceCreateInput } from 'facturapi';
+```
+
+Con CommonJS:
+
+```js
+const Facturapi = require('facturapi');
+const { PaymentForm } = Facturapi;
+```
+
+Importa siempre desde `facturapi`, incluidos los tipos y enums. No necesitas un paquete adicional de tipos. Pasa el cursor sobre un campo o método para consultar su descripción, o usa el autocompletado para explorar los argumentos y resultados.
+
+Si preparas una petición fuera de la llamada al SDK, puedes usar `satisfies` con TypeScript 4.9 o superior:
+
+```ts
+const input = {
+  customer: 'cus_ejemplo',
+  payment_form: PaymentForm.EFECTIVO,
+  items: [{
+    quantity: 1,
+    product: { description: 'Servicio', product_key: '84111506', price: 100 },
+  }],
+} satisfies InvoiceCreateInput;
+
+const invoice = await facturapi.invoices.create(input);
+```
+
+Este ejemplo presupone un cliente registrado y una instancia `facturapi`, como en la [guía de inicio](../quickstart.mdx).
+
+Los tipos distinguen los tipos de CFDI, borradores y complementos estructurados. En los casos representables en TypeScript, relacionan campos para ayudarte a detectar entradas incompletas o incompatibles antes de enviar la petición. No sustituyen la validación de la API.
+
+## Clientes según el caso
+
+En lugar de elegir una entrada general, puedes usar:
+
+- `customers.createNational()`: requiere razón social, RFC, régimen fiscal y código postal; el país puede omitirse para México.
+- `customers.createForeign()`: requiere razón social y domicilio con país explícito. El país es un string libre en TypeScript; la API valida que corresponda al caso extranjero.
+- `customers.createGeneric()`: requiere razón social y uno de los RFC genéricos `XAXX010101000` o `XEXX010101000`.
+
+Son métodos adicionales de la misma operación; `customers.create()` sigue disponible. Para datos incompletos, usa `create(data, { createEditLink: true })`. El flag literal `true` selecciona la entrada incompleta; un boolean dinámico conserva el contrato normal. Los métodos específicos conservan sus campos requeridos.
+
+Consulta los [ejemplos de clientes](../guides/customers.mdx).
+
+## Respuestas y descargas
+
+Los timestamps llegan como objetos `Date`; las fechas de calendario y del timbre SAT conservan su texto. Consulta [formato de fechas](./dates.mdx).
+
+Los métodos `downloadPdf()`, `downloadXml()` y `downloadZip()` devuelven streams en Node.js y `Blob` en navegadores. Los métodos terminados en `Url()` devuelven un objeto con `url`, `expires_at`, `content_type` y `filename`, no un string:
+
+```js
+const download = await facturapi.invoices.downloadPdfUrl(invoice.id);
+console.log(download.url, download.expires_at);
+```
+
+`webhooks.validateSignature()` devuelve un evento interpretado con sus fechas convertidas. Para verificar la firma, conserva el texto o bytes originales del body recibido; volver a serializarlo puede cambiar el contenido firmado.
+
+## Actualizar desde v3, v4 o v5
+
+Puedes actualizar directamente a v6. Si usas métodos vigentes, imports desde `facturapi`, Node.js 18+ y no dependes de timestamps como strings ni de tipos anteriores, puedes conservar tus llamadas. Los nuevos métodos de clientes son opcionales; no requieren migrar llamadas a `create()`.
+
+Revisa estos casos si aplican a tu integración:
+
+- **Fechas:** cambia operaciones de string por métodos de `Date` o `toISOString()`, comprobando `null` cuando corresponda. `JSON.stringify()` sigue produciendo strings ISO, aunque puede normalizar su formato.
+- **Imports internos:** sustituye `facturapi/dist/...` por imports desde `facturapi`. El alias `require('facturapi').default` sigue funcionando.
+- **Entradas TypeScript:** compila tu proyecto para detectar campos desconocidos y relaciones ahora expresadas en tipos. Cancelaciones con motivos `01` o `04` requieren `substitution`; `receipts.toInvoice()` devuelve un resumen con `dry_run: true` y una factura cuando es falso u omitido.
+- **Desde v4:** los totales y números de página de `SearchResult` pueden faltar en paginación por cursor. `CursorSearchResult` se reemplaza por `SearchResult`.
+- **Desde v3:** revisa los métodos retirados en v4 y tu runtime de Node.js.
+
+La [guía de migración del README](https://github.com/FacturAPI/facturapi-node#actualizar-desde-v3-v4-o-v5) detalla los reemplazos y los casos que no requieren cambios. Consulta el [changelog](https://github.com/FacturAPI/facturapi-node/blob/main/CHANGELOG.md) para conocer las novedades.

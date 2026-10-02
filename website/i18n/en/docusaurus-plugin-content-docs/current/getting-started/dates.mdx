@@ -26,3 +26,12 @@ In invoices, the SAT (Mexican tax authority) requires that dates be displayed
 in the time zone of the issuer, so we will make the corresponding conversion
 and display the required portion of the date, which can be either just the date
 or the date and time.
+
+
+## Dates in the Node.js SDK
+
+Starting with SDK 6, response timestamps such as `created_at` and `expires_at` become `Date` objects. This also applies to events returned by `webhooks.validateSignature()`. Null values are preserved.
+
+Calendar dates (`YYYY-MM-DD`), SAT stamp timestamps (`stamp.date`), and `metadata` values keep their text; not every property called `date` is a timestamp. Input dates accept strings and, where the types allow them, `Date` objects. Search filters keep their range objects.
+
+See the [SDK guide](./node-sdk.mdx) to upgrade code that treated timestamps as strings.

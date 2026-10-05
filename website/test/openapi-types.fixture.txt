@@ -1,0 +1,220 @@
+import type { components, operations, webhooks } from "./schema";
+const invoice: components["schemas"]["InvoiceCreateInput"] = {
+  customer: "cus_example",
+  items: [
+    {
+      quantity: 1,
+      product: {
+        description: "Ukelele",
+        product_key: "60131324",
+        price: 345.6,
+      },
+    },
+  ],
+  payment_form: "28",
+  use: "G01",
+};
+const draft: components["schemas"]["InvoiceCreateInput"] = { status: "draft" };
+const receiptEvent: components["schemas"]["ApiEvent"] = {
+  id: "evt",
+  created_at: "2026-09-29T00:00:00Z",
+  livemode: false,
+  organization: "org",
+  type: "receipt.status_updated",
+  related_resource_messages: [],
+  data: {
+    type: "receipt",
+    object: {
+      id: "rec", created_at: "2026-09-29T00:00:00Z", livemode: false,
+      date: "2026-09-29T00:00:00Z", expires_at: "2026-10-01T00:00:00Z",
+    },
+  },
+};
+const validation: operations["validateWebhookSignature"]["requestBody"]["content"]["application/json"] =
+  {
+    secret: "secret",
+    signature: "123",
+    payload: '{"type":"receipt.status_updated"}',
+  };
+const nullDate: components["schemas"]["InvoiceProperties"]["date"] = null;
+const draftStamp: components["schemas"]["InvoiceDraftProperties"]["stamp"] = null;
+const draftUuid: components["schemas"]["InvoiceDraftProperties"]["uuid"] = null;
+const missingDraftUuid: components["schemas"]["InvoiceDraftProperties"]["uuid"] = undefined;
+const paymentTaxability: NonNullable<
+  components["schemas"]["PaymentInput"]["related_documents"]
+>[number]["taxability"] = "01";
+// @ts-expect-error SAT codes retain their leading zero
+const invalidPaymentTaxability: typeof paymentTaxability = "1";
+// @ts-expect-error taxability only accepts the documented SAT codes
+const unknownPaymentTaxability: typeof paymentTaxability = "09";
+const certificate: NonNullable<components["schemas"]["Organization"]["certificate"]> = {
+  has_certificate: false,
+};
+const missingCertificateDate: typeof certificate.updated_at = undefined;
+// @ts-expect-error absent certificate dates are omitted, not null
+const nullCertificateDate: typeof certificate.updated_at = null;
+const fiel: NonNullable<components["schemas"]["Organization"]["fiel"]> = {
+  has_certificate: false,
+};
+const missingFielDate: typeof fiel.expires_at = undefined;
+// @ts-expect-error absent FIEL dates are omitted, not null
+const nullFielDate: typeof fiel.expires_at = null;
+const callback: keyof webhooks = "customer.edit_link_completed";
+const retainedTax: NonNullable<
+  NonNullable<components["schemas"]["RetentionProperties"]["totales"]>["imp_retenidos"]
+>[number]["tipo_pago_ret"] = "01";
+// @ts-expect-error SAT codes retain their leading zero
+const invalidRetainedTax: typeof retainedTax = "1";
+// @ts-expect-error event discriminants must correlate with the resource
+const invalid: components["schemas"]["ApiEvent"] = {
+  ...receiptEvent,
+  data: {
+    type: "invoice",
+    object: {
+      id: "invoice",
+      created_at: "2026-09-29T00:00:00Z",
+      livemode: false,
+      date: null,
+    },
+  },
+};
+const pago: components["schemas"]["PagoOrCustomComplementInput"] = {
+  type: "pago",
+  data: [{ payment_form: "28", related_documents: [{
+    uuid: "39c85a3f-275b-4341-b259-e8971d9f8a94", installment: 1,
+    last_balance: 100, amount: 100, taxes: [], taxability: "01",
+  }] }],
+};
+const pagoResponse: components["schemas"]["InvoiceComplementProperties"] = {
+  type: "pago", data: [{ date: "2026-09-29T00:00:00Z", payment_form: "28", related_documents: [] }],
+};
+// @ts-expect-error a payment complement requires payment data, not payroll data
+const wrongPago: components["schemas"]["PagoOrCustomComplementInput"] = { type: "pago", data: { tipo_nomina: "O" } };
+const customResponse: components["schemas"]["InvoiceComplementProperties"] = { type: "custom", data: "<Example/>" };
+void [pago, pagoResponse, wrongPago, customResponse];
+void [invoice, draft, receiptEvent, validation, nullDate, draftStamp, draftUuid, missingDraftUuid, paymentTaxability, invalidPaymentTaxability, unknownPaymentTaxability, certificate, missingCertificateDate, nullCertificateDate, fiel, missingFielDate, nullFielDate, callback, retainedTax, invalidRetainedTax, invalid];
+
+const nominaEdit: components["schemas"]["InvoiceNominaEditInput"] = { type: "N" };
+// @ts-expect-error payroll editing has its own CFDI discriminator
+const wrongNominaEdit: components["schemas"]["InvoiceNominaEditInput"] = { type: "P" };
+const paymentEdit: components["schemas"]["InvoicePagoEditInput"] = { type: "P", complements: [pago] };
+// @ts-expect-error payment editing has its own CFDI discriminator
+const wrongPaymentEdit: components["schemas"]["InvoicePagoEditInput"] = { type: "N" };
+const legendsDraft: components["schemas"]["InvoiceCreateInput"] = { status: "draft", complements: [{ type: "leyendas_fiscales", data: { leyendas: [{ texto_leyenda: "Ejemplo" }] } }] };
+const plainPerception: components["schemas"]["NominaPercepcionInput"] = { tipo_percepcion: "001", clave: "ABC", importe_gravado: 1, importe_exento: 0 };
+const overtimePerception: components["schemas"]["NominaPercepcionInput"] = { ...plainPerception, tipo_percepcion: "019", horas_extra: [{ dias: 1, tipo_horas: "01", horas_extra: 1, importe_pagado: 1 }] };
+// @ts-expect-error overtime perception requires its hours-extra structure
+const missingHours: components["schemas"]["NominaPercepcionInput"] = { tipo_percepcion: "019", clave: "ABC", importe_gravado: 1, importe_exento: 0 };
+const mixedFunds: components["schemas"]["NominaEntidadSncfInput"] = { origen_recurso: "IM", monto_recurso_propio: 1 };
+const federalFunds: components["schemas"]["NominaEntidadSncfInput"] = { origen_recurso: "IF" };
+// @ts-expect-error mixed funding requires its own-resource amount
+const missingOwnFunds: components["schemas"]["NominaEntidadSncfInput"] = { origen_recurso: "IM" };
+const ieps: components["schemas"]["BaseTax"] = { type: "IEPS", rate: 0.08, ieps_mode: "unit" };
+// @ts-expect-error an explicitly IEPS schema cannot identify an IVA tax
+const wrongIeps: components["schemas"]["IepsTax"] = { type: "IVA", rate: 0.16 };
+// @ts-expect-error selecting road transport requires its vehicle and insurance data
+const incompleteRoad: components["schemas"]["CartaPorteAutotransporte"] = { PermSCT: "TPAF01", NumPermisoSCT: "Example" };
+void [nominaEdit, wrongNominaEdit, paymentEdit, wrongPaymentEdit, legendsDraft, plainPerception, overtimePerception, missingHours, mixedFunds, federalFunds, missingOwnFunds, ieps, wrongIeps, incompleteRoad];
+// @ts-expect-error composed perception input must retain its required amounts
+const missingPerceptionAmounts: components["schemas"]["NominaPercepcionInput"] = { tipo_percepcion: "001", clave: "ABC" };
+// @ts-expect-error composed hours-extra input must retain its required payment amount
+const missingOvertimeAmount: components["schemas"]["NominaHorasExtraInput"] = { dias: 1, tipo_horas: "01", horas_extra: 1 };
+const publicAidPerception: components["schemas"]["NominaPercepcionInput"] = { ...plainPerception, tipo_percepcion: "056" };
+const customPayroll: components["schemas"]["NominaOtroPagoInput"] = { tipo_otro_pago: "002", clave: "ABC", importe: 1 };
+void [missingPerceptionAmounts, missingOvertimeAmount, publicAidPerception, customPayroll];
+const incomeWithDefaultUse: components["schemas"]["InvoiceCreateInput"] = { customer: "cus", payment_form: "28", items: [{ quantity: 1, product: { description: "Ejemplo", product_key: "60131324", price: 1 } }] };
+const incomeWithNullUse: components["schemas"]["InvoiceCreateInput"] = { ...incomeWithDefaultUse, use: null };
+const clearedDraft: components["schemas"]["InvoiceCreateInput"] = { status: "draft", customer: null, payment_form: null, use: null };
+const clearedCreditDraft: components["schemas"]["InvoiceEgresoEditInput"] = { type: "E", customer: null };
+const clearedPaymentDraft: components["schemas"]["InvoicePagoEditInput"] = { type: "P", customer: null };
+// @ts-expect-error a payroll customer can be omitted, but cannot be cleared with null
+const nullPayrollCustomer: components["schemas"]["InvoiceNominaEditInput"] = { type: "N", customer: null };
+// @ts-expect-error a transfer customer can be omitted, but cannot be cleared with null
+const nullTransferCustomer: components["schemas"]["InvoiceTrasladoEditInput"] = { type: "T", customer: null };
+const singlePayment: components["schemas"]["PagoComplementInput"] = { type: "pago", data: { payment_form: "28", related_documents: [{ uuid: "39c85a3f-275b-4341-b259-e8971d9f8a94", installment: 1, last_balance: 1, amount: 1, taxes: [] }] } };
+// @ts-expect-error issued invoices still require a real customer
+const nullIssuedCustomer: components["schemas"]["InvoiceCreateInput"] = { customer: null, payment_form: "28", items: incomeWithDefaultUse.items };
+// @ts-expect-error a draft edit cannot request the pending status
+const pendingDraftEdit: components["schemas"]["InvoiceEgresoEditInput"] = { type: "E", status: "pending" };
+void [incomeWithDefaultUse, incomeWithNullUse, clearedDraft, clearedCreditDraft, clearedPaymentDraft, nullPayrollCustomer, nullTransferCustomer, singlePayment, nullIssuedCustomer, pendingDraftEdit];
+
+const draftWithoutCustomer: components["schemas"]["InvoiceDraftProperties"]["customer"] = null;
+const existingWildcard: NonNullable<components["schemas"]["WebhookProperties"]["enabled_events"]>[number] = "*";
+// @ts-expect-error webhook creation requires explicit event names
+const wildcardCreate: components["schemas"]["WebhookCreateInput"] = { url: "https://example.com/hooks", enabled_events: ["*"] };
+// @ts-expect-error webhook editing requires explicit event names
+const wildcardEdit: components["schemas"]["WebhookCreateEdit"] = { status: "enabled", enabled_events: ["*"] };
+void [draftWithoutCustomer, existingWildcard, wildcardCreate, wildcardEdit];
+
+// Creation can return an issued invoice or a draft, with typed common fields.
+declare const createdInvoiceResponse: operations["createInvoice"]["responses"][200]["content"]["application/json"];
+const createdInvoiceDate: string | null | undefined = createdInvoiceResponse.date;
+const createdInvoiceStamp: components["schemas"]["Stamp"] | null | undefined = createdInvoiceResponse.stamp;
+void createdInvoiceDate;
+void createdInvoiceStamp;
+
+// A payment summary can be reused directly in a payment complement.
+declare const paymentSummary: operations["getInvoicePaymentSummary"]["responses"][200]["content"]["application/json"];
+const summaryRelatedDocument: components["schemas"]["PaymentInput"]["related_documents"][number] = paymentSummary;
+// Catalog codes are strings: their leading zeros are part of their identity.
+// @ts-expect-error a numeric catalog code is not a valid string code
+const numericPaymentTaxability: typeof paymentTaxability = 1;
+void [summaryRelatedDocument, numericPaymentTaxability];
+
+// Customer creation requirements depend on country and generic RFCs.
+const nationalCustomer: components['schemas']['CustomerCreateInput'] = {
+  legal_name: 'Cliente nacional', tax_id: 'ABC101010111', tax_system: '601', address: { zip: '83200' },
+};
+const foreignCustomer: components['schemas']['CustomerCreateInput'] = {
+  legal_name: 'Foreign customer', address: { country: 'USA' },
+};
+const genericCustomer: components['schemas']['CustomerCreateInput'] = {
+  legal_name: 'PUBLICO EN GENERAL', tax_id: 'XAXX010101000',
+};
+// @ts-expect-error country is needed to select foreign rules
+const foreignWithoutCountry: components['schemas']['CustomerCreateInput'] = { legal_name: 'Foreign customer', address: {} };
+// @ts-expect-error national customers require an RFC
+const nationalWithoutRfc: components['schemas']['CustomerNationalCreateInput'] = { legal_name: 'Cliente', tax_system: '601', address: { zip: '83200' } };
+// @ts-expect-error national customers require a tax regime
+const nationalWithoutRegime: components['schemas']['CustomerNationalCreateInput'] = { legal_name: 'Cliente', tax_id: 'ABC101010111', address: { zip: '83200' } };
+// @ts-expect-error explicit national address needs a postal code
+const nationalWithoutZip: components['schemas']['CustomerNationalCreateInput'] = { legal_name: 'Cliente', tax_id: 'ABC101010111', tax_system: '601', address: {} };
+// @ts-expect-error foreign customers use the regime 616
+const foreignWithWrongRegime: components['schemas']['CustomerForeignCreateInput'] = { legal_name: 'Foreign', tax_system: '601', address: { country: 'USA' } };
+// @ts-expect-error generic RFCs use 616
+const genericWithWrongRegime: components['schemas']['CustomerGenericCreateInput'] = { legal_name: 'Cliente', tax_id: 'XAXX010101000', tax_system: '601' };
+const defaultGlobal: components['schemas']['GlobalInvoiceInput'] = {};
+const explicitGlobal: components['schemas']['GlobalInvoiceInput'] = { receipts: ['rec_ejemplo'], from: '2026-01-01', to: '2026-01-31' };
+// @ts-expect-error explicit receipts require both dates
+const explicitGlobalWithoutDates: components['schemas']['GlobalInvoiceInput'] = { receipts: ['rec_ejemplo'] };
+const cancelReplacement: components['schemas']['CancellationQueryInput'] = { motive: '04', substitution: 'inv_ejemplo' };
+const cancelWithoutReplacement: components['schemas']['CancellationQueryInput'] = { motive: '02' };
+const deleteDraft: components['schemas']['CancellationQueryInput'] = {};
+// @ts-expect-error replacement motives require the substitution
+const cancelMissingReplacement: components['schemas']['CancellationQueryInput'] = { motive: '01' };
+// @ts-expect-error a replacement without a motive is not a cancellation request
+const cancelMissingMotive: components['schemas']['CancellationQueryInput'] = { substitution: 'inv_ejemplo' };
+void [nationalCustomer, foreignCustomer, genericCustomer, foreignWithoutCountry, nationalWithoutRfc, nationalWithoutRegime, nationalWithoutZip, foreignWithWrongRegime, genericWithWrongRegime, defaultGlobal, explicitGlobal, explicitGlobalWithoutDates, cancelReplacement, cancelWithoutReplacement, deleteDraft, cancelMissingReplacement, cancelMissingMotive];
+// Required fields cannot be supplied as undefined.
+// @ts-expect-error undefined fiscal name is not a customer name
+const undefinedCustomerName: components['schemas']['CustomerCreateInput'] = { legal_name: undefined, address: { country: 'USA' } };
+// @ts-expect-error undefined tax regime does not complete a national customer
+const undefinedNationalRegime: components['schemas']['CustomerNationalCreateInput'] = { legal_name: 'Cliente', tax_id: 'ABC101010111', tax_system: undefined, address: { zip: '83200' } };
+// @ts-expect-error undefined zip does not complete a national address
+const undefinedNationalZip: components['schemas']['CustomerNationalCreateInput'] = { legal_name: 'Cliente', tax_id: 'ABC101010111', tax_system: '601', address: { zip: undefined } };
+// @ts-expect-error explicit receipt selection needs actual dates
+const undefinedGlobalDates: components['schemas']['GlobalInvoiceInput'] = { receipts: ['rec_ejemplo'], from: undefined, to: undefined };
+void [undefinedCustomerName, undefinedNationalRegime, undefinedNationalZip, undefinedGlobalDates];
+// Incomplete and foreign customer responses may have null fiscal fields.
+declare const incompleteCustomerResponse: components['schemas']['Customer'];
+const responseTaxId: string | null | undefined = incompleteCustomerResponse.tax_id;
+const responseTaxSystem: string | null | undefined = incompleteCustomerResponse.tax_system;
+const incompleteCustomerWithEmptyRfc: components['schemas']['CustomerCreateWithEditLinkInput'] = { tax_id: null };
+// @ts-expect-error edit-link creation still validates a supplied fiscal regime
+const incompleteCustomerWithNullRegime: components['schemas']['CustomerCreateWithEditLinkInput'] = { tax_system: null };
+// @ts-expect-error national customer creation requires a non-null fiscal regime
+const nationalCustomerWithNullRegime: components['schemas']['CustomerNationalCreateInput'] = { legal_name: 'Cliente', tax_id: 'ABC101010111', tax_system: null, address: { zip: '83200' } };
+void [responseTaxId, responseTaxSystem, incompleteCustomerWithEmptyRfc, incompleteCustomerWithNullRegime, nationalCustomerWithNullRegime];
+const expiredCustomerEditLink: components['schemas']['CustomerNonEditableProperties'] = { edit_link: null, edit_link_expires_at: null };
+const clearedCustomerPhone: components['schemas']['CustomerProperties'] = { phone: null };
+void [expiredCustomerEditLink, clearedCustomerPhone];

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import ApiDoc from '@theme/ApiDoc';
 import useSpecData from '@theme/useSpecData';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -8,6 +8,29 @@ function CustomPage() {
   const {i18n} = useDocusaurusContext();
   const locale = i18n.currentLocale;
   const specData = useSpecData(`api-${locale}`);
+  const displaySpecData = useMemo(() => {
+    const spec = structuredClone(specData.spec);
+    // ReDoc needs named discriminator variants to render a status selector.
+    // Keep this presentation hint out of the contract: status may be omitted.
+    spec.components.schemas.InvoiceCreateInput.oneOf =
+      spec.components.schemas.InvoiceCreateInput.oneOf.map(
+        (invoiceType: {oneOf: {allOf: {properties: {status: {const: string}}}[]}[]}, typeIndex: number) => {
+          const mapping: Record<string, string> = {};
+          return {
+            ...invoiceType,
+            oneOf: invoiceType.oneOf.map((variant) => {
+              const status = variant.allOf.at(-1)!.properties.status.const;
+              const name = `InvoiceCreateDisplay${typeIndex}${status}`;
+              spec.components.schemas[name] = variant;
+              mapping[status] = `#/components/schemas/${name}`;
+              return {$ref: mapping[status]};
+            }),
+            discriminator: {propertyName: 'status', mapping},
+          };
+        },
+      );
+    return {...specData, spec};
+  }, [specData]);
   return (
     <ApiDoc
       layoutProps={{
@@ -20,7 +43,7 @@ function CustomPage() {
           message: 'Referencia técnica de la API de Facturapi. Información detallada sobre los endpoints, parámetros, respuestas y ejemplos de uso.',
         }),
       }}
-      specProps={specData}
+      specProps={displaySpecData}
     />
   );
 }

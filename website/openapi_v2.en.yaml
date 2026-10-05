@@ -3581,6 +3581,11 @@ paths:
             maxLength: 100
           description: Filter by external identifier. Exact match.
         - in: query
+          name: sat_imported
+          schema:
+            type: boolean
+          description: "Filter by origin: `true` for CFDIs imported from SAT, `false` for CFDIs without a SAT import. Omit to include both origins."
+        - in: query
           name: issuer_type
           schema:
             allOf:
@@ -5087,11 +5092,15 @@ paths:
       description: |
         Creates a request to generate a ZIP file containing one month of invoices, or retrieves the existing request with the same filters.
 
-        This operation is idempotent. Invoice types are normalized, so `["I", "E"]` and `["E", "I"]` resolve to the same request. Identical concurrent calls also return the same request.
+        While content remains current and a refresh is not forced, the same filters retrieve the same request. Invoice types are normalized: `["I", "E"]` and `["E", "I"]` are equivalent. Concurrent calls with the same filters share an active generation.
 
         If an earlier request has a `failed` status, calling this method again retries it. Before retrying, the previous error and task fields, processed progress, and failed-document list are cleared. If scheduling fails, the request is saved with a `failed` status and the API returns a `5xx` error.
 
         This method requires a live-mode organization API key, an active subscription, and permission to read invoices. Test-mode keys return HTTP 402.
+        Newly generated ZIPs include XML and PDF files for valid and canceled invoices. Canceled invoice files are grouped under `canceladas/`. Origin also distinguishes requests for the same month, issuing type and invoice types.
+
+        Finished packages are reused while their content remains current. Tracked invoice creations, imports, cancellations, edits, and deletions invalidate cached content. Use refresh: true to force a new generation. Each generation keeps a separate file; older request IDs still download their original package. The ongoing month can be exported with the documents available during preparation. Time passing alone does not invalidate a package. Legacy packages are reused gradually until tracked changes or an explicit refresh.
+
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -5270,6 +5279,11 @@ paths:
           schema:
             $ref: "#/components/schemas/InvoiceZipRequestStatus"
           description: ZIP request status.
+        - in: query
+          name: sat_imported
+          schema:
+            type: boolean
+          description: "Filter by origin: `true` for CFDIs imported from SAT, `false` for CFDIs without a SAT import. Omit to include both origins."
         - in: query
           name: issuer_type
           schema:
@@ -16882,6 +16896,13 @@ components:
           allOf:
             - $ref: "#/components/schemas/IssuingType"
           default: issuing
+        sat_imported:
+          type: boolean
+          description: "Filter by origin: `true` for CFDIs imported from SAT, `false` for CFDIs without a SAT import. Omit to include both origins."
+        refresh:
+          type: boolean
+          default: false
+          description: "Force a new generation even when the cached ZIP is current. An active generation with the same filters is reused."
         invoice_types:
           type: array
           minItems: 1
@@ -16908,6 +16929,17 @@ components:
             - processed_document
             - failed_documents
           properties:
+            is_current:
+              type: boolean
+              description: "True when the finished package has no failed documents and no tracked invoice changes since preparation. Older generations remain downloadable."
+            generated_at:
+              type: string
+              format: date-time
+              description: "Date when generation completed. Absent on legacy packages."
+            content_as_of:
+              type: string
+              format: date-time
+              description: "Date when preparation started. Concurrent changes make the package outdated; this is not a transactional snapshot."
             livemode:
               type: boolean
               const: true
@@ -16919,6 +16951,9 @@ components:
               example: 65a1f0000000000000000000
             issuer_type:
               $ref: '#/components/schemas/IssuingType'
+            sat_imported:
+              type: boolean
+              description: "Filter by origin: `true` for CFDIs imported from SAT, `false` for CFDIs without a SAT import. Omit to include both origins."
             invoice_types:
               type: array
               description: Normalized invoice types included in the request.

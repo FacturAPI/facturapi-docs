@@ -3551,6 +3551,11 @@ paths:
             maxLength: 100
           description: Filtrar por identificador externo. Coincidencia exacta.
         - in: query
+          name: sat_imported
+          schema:
+            type: boolean
+          description: "Filtra por procedencia: `true` para CFDIs importados del SAT, `false` para CFDIs sin importación del SAT. Omitido incluye ambas procedencias."
+        - in: query
           name: issuer_type
           schema:
             allOf:
@@ -5050,11 +5055,15 @@ paths:
       description: |
         Crea una solicitud para generar un archivo ZIP con las facturas de un mes, o recupera la solicitud existente con los mismos filtros.
 
-        La operación es idempotente. Los tipos de factura se normalizan, por lo que `["I", "E"]` y `["E", "I"]` corresponden a la misma solicitud. Las llamadas concurrentes idénticas también regresan la misma solicitud.
+        Mientras el contenido siga vigente y no se fuerce una actualización, los mismos filtros recuperan la misma solicitud. Los tipos se normalizan: `["I", "E"]` y `["E", "I"]` son equivalentes. Las llamadas concurrentes con los mismos filtros comparten una generación activa.
 
         Si una solicitud anterior tiene status `failed`, volver a llamar este método reintentará su procesamiento. Antes del nuevo intento se limpian el error, la tarea anterior, el progreso procesado y la lista de documentos fallidos. Si no es posible programar la generación, la solicitud se guarda con status `failed` y la API regresa un error `5xx`.
 
         Este método requiere una llave de API de organización en ambiente Live, una suscripción activa y permiso para leer facturas. Las llaves de ambiente Test regresan HTTP 402.
+        Los nuevos ZIPs incluyen XML y PDF de facturas vigentes y canceladas. Los archivos de facturas canceladas se agrupan en `canceladas/`. La procedencia también distingue solicitudes con el mismo mes, tipo de emisión y tipos de factura.
+
+        Se reutilizan paquetes terminados mientras su contenido siga vigente. La creación, importación, cancelación, edición y eliminación registradas de facturas invalidan el caché. Usa refresh: true para forzar otra generación. Cada generación conserva su archivo; los IDs anteriores siguen descargando su paquete original. El mes en curso se puede exportar con los documentos disponibles durante la preparación. El paso del tiempo por sí solo no invalida un paquete. Los paquetes legados se reutilizan gradualmente hasta un cambio registrado o una actualización explícita.
+
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -5233,6 +5242,11 @@ paths:
           schema:
             $ref: "#/components/schemas/InvoiceZipRequestStatus"
           description: Status de la solicitud.
+        - in: query
+          name: sat_imported
+          schema:
+            type: boolean
+          description: "Filtra por procedencia: `true` para CFDIs importados del SAT, `false` para CFDIs sin importación del SAT. Omitido incluye ambas procedencias."
         - in: query
           name: issuer_type
           schema:
@@ -16836,6 +16850,13 @@ components:
           allOf:
             - $ref: "#/components/schemas/IssuingType"
           default: issuing
+        sat_imported:
+          type: boolean
+          description: "Filtra por procedencia: `true` para CFDIs importados del SAT, `false` para CFDIs sin importación del SAT. Omitido incluye ambas procedencias."
+        refresh:
+          type: boolean
+          default: false
+          description: "Fuerza una nueva generación aunque el ZIP en caché siga vigente. Se reutiliza una generación activa con los mismos filtros."
         invoice_types:
           type: array
           minItems: 1
@@ -16862,6 +16883,17 @@ components:
             - processed_document
             - failed_documents
           properties:
+            is_current:
+              type: boolean
+              description: "Es true cuando el paquete terminado no tiene documentos fallidos ni cambios registrados en facturas desde su preparación. Las generaciones anteriores siguen descargables."
+            generated_at:
+              type: string
+              format: date-time
+              description: "Fecha en que terminó la generación. Ausente en paquetes legados."
+            content_as_of:
+              type: string
+              format: date-time
+              description: "Fecha de inicio de preparación. Los cambios concurrentes dejan el paquete desactualizado; no representa un snapshot transaccional."
             livemode:
               type: boolean
               const: true
@@ -16873,6 +16905,9 @@ components:
               example: 65a1f0000000000000000000
             issuer_type:
               $ref: '#/components/schemas/IssuingType'
+            sat_imported:
+              type: boolean
+              description: "Filtra por procedencia: `true` para CFDIs importados del SAT, `false` para CFDIs sin importación del SAT. Omitido incluye ambas procedencias."
             invoice_types:
               type: array
               description: Tipos normalizados de las facturas incluidas.

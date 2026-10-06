@@ -17275,6 +17275,16 @@ components:
             listados en el arreglo de documentos relacionados. Este campo es llenado por Facturapi siempre
             y cuando el comprobante relacionado también esté registrado en Facturapi y pertenezca a la misma organización.
           default: []
+        related_invoice_ids:
+          type: array
+          items:
+            type: string
+          description: |
+            Al recuperar el detalle de un CFDI de ingreso o egreso, este arreglo contiene los IDs de los
+            CFDI del tipo opuesto relacionados mediante `related_documents`. Para un ingreso incluye los
+            egresos que referencian su UUID; para un egreso incluye los ingresos cuyos UUID están en sus
+            documentos relacionados. Solo incluye CFDI registrados en la misma organización y ambiente.
+          default: []
         currency:
           type: string
           example: MXN
@@ -17593,11 +17603,11 @@ components:
               default: false
               description: |
                 Repetir la firma electrónica en cada página del PDF.
-            use_expedition_address:
+            render_organization_address:
               type: boolean
               default: false
               description: |
-                Mostrar el lugar de expedición de la factura en vez de la dirección de la organización. Solo se muestra una dirección.
+                Mostrar el domicilio fiscal de la organización en vez del lugar de expedición de la factura. Solo se muestra una dirección.
             payroll_options:
               type: object
               properties:
@@ -17710,11 +17720,11 @@ components:
               default: false
               description: |
                 Repetir la firma electrónica en cada página del PDF.
-            use_expedition_address:
+            render_organization_address:
               type: boolean
               default: false
               description: |
-                Mostrar el lugar de expedición de la factura en vez de la dirección de la organización. Solo se muestra una dirección.
+                Mostrar el domicilio fiscal de la organización en vez del lugar de expedición de la factura. Solo se muestra una dirección.
             payroll_options:
               type: object
               properties:
@@ -19578,11 +19588,11 @@ components:
                   default: false
                   description: |
                     Repetir la firma electrónica en cada página del PDF. Si se desactiva, la firma electrónica sólo se mostrará una vez.
-                use_expedition_address:
+                render_organization_address:
                   type: boolean
                   default: false
                   description: |
-                    Mostrar el lugar de expedición de la factura en vez de la dirección de la organización. Solo se muestra una dirección.
+                    Mostrar el domicilio fiscal de la organización en vez del lugar de expedición de la factura. Solo se muestra una dirección.
                 render_iedu:
                   type: boolean
                   default: false
@@ -19963,11 +19973,11 @@ components:
               default: false
               description: |
                 Repetir la firma electrónica en cada página del PDF.
-            use_expedition_address:
+            render_organization_address:
               type: boolean
               default: false
               description: |
-                Mostrar el lugar de expedición de la factura en vez de la dirección de la organización. Solo se muestra una dirección.
+                Mostrar el domicilio fiscal de la organización en vez del lugar de expedición de la factura. Solo se muestra una dirección.
             payroll_options:
               type: object
               properties:

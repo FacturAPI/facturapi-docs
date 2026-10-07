@@ -1,0 +1,37 @@
+# Facturapi
+
+> Documentación de Facturapi: API v2, guías de facturación electrónica (CFDI) y complementos del SAT para México.
+
+## Empezar
+
+- [Introducción](https://docs.facturapi.io/docs/intro/): qué es Facturapi y qué puedes construir.
+- [Inicio rápido](https://docs.facturapi.io/docs/quickstart/): tu primer CFDI en pocos minutos.
+- [Instalación de SDKs](https://docs.facturapi.io/docs/getting-started/install/): clientes oficiales para cada lenguaje.
+- [Autenticación](https://docs.facturapi.io/docs/getting-started/authenticate/): llaves por organización y ambientes test/live.
+- [Conceptos](https://docs.facturapi.io/docs/getting-started/concepts/): organizaciones, documentos y catálogos del SAT.
+- [Manejo de fechas](https://docs.facturapi.io/docs/getting-started/dates/): zonas horarias y formatos aceptados.
+- [Límites de uso](https://docs.facturapi.io/docs/getting-started/rate-limits/)
+- [Errores](https://docs.facturapi.io/docs/getting-started/errors/): códigos y significados.
+
+## Referencia de la API
+
+- [API v2 (español)](https://docs.facturapi.io/api-es/)
+- [API v2 (English)](https://docs.facturapi.io/api-en/)
+
+## Guías
+
+- [Clientes](https://docs.facturapi.io/docs/guides/customers/)
+- [Productos](https://docs.facturapi.io/docs/guides/products/)
+- [Facturas (CFDI)](https://docs.facturapi.io/docs/guides/invoices/)
+- [Recibos (E-Receipts)](https://docs.facturapi.io/docs/guides/receipts/)
+- [Autofactura](https://docs.facturapi.io/docs/guides/self-invoice/)
+- [Borradores](https://docs.facturapi.io/docs/guides/drafts/)
+- [Usuarios y permisos](https://docs.facturapi.io/docs/guides/team-management/)
+- [Facturapi MCP](https://docs.facturapi.io/docs/guides/mcp-server/)
+
+## Otros sitios
+
+- [Sitio principal](https://www.facturapi.io)
+- [Facturapi MCP](https://mcp.facturapi.io)
+
+La misma documentación está disponible en inglés bajo `/en/` (por ejemplo, https://docs.facturapi.io/en/docs/quickstart/).

@@ -1,0 +1,263 @@
+---
+sidebar_position: 4
+---
+
+# Python SDK
+
+The official Python SDK is a synchronous client for Python 3.10 or newer. It is available on [PyPI](https://pypi.org/project/facturapi/), and its source is published on [GitHub](https://github.com/facturapi/facturapi-python).
+
+## Setup
+
+```bash
+python -m pip install facturapi
+```
+
+```python
+from facturapi import Facturapi
+
+facturapi = Facturapi("sk_test_API_KEY")
+```
+
+You can also store the key in `FACTURAPI_KEY` and create the client without arguments. Use the client as a context manager to close its connections automatically:
+
+```python
+from facturapi import Facturapi
+
+with Facturapi(timeout=30) as facturapi:
+    invoices = facturapi.invoices.list({"status": ["valid", "canceled"]})
+```
+
+Methods use `snake_case`. JSON request bodies are passed as dictionaries in `data`, URL parameters as dictionaries in `params`, and JSON responses are returned as dictionaries or lists. Downloads return `bytes`.
+
+```python
+pdf = facturapi.invoices.download_pdf("invoice_id")
+with open("invoice.pdf", "wb") as file:
+    file.write(pdf)
+```
+
+For certificates, FIEL files, and logos, `files` accepts the same multipart format as `httpx`:
+
+```python
+with open("certificate.cer", "rb") as cer, open("certificate.key", "rb") as key:
+    facturapi.organizations.upload_certificate(
+        "organization_id",
+        {
+            "cer": ("certificate.cer", cer),
+            "key": ("certificate.key", key),
+        },
+        {"password": "certificate-password"},
+    )
+```
+
+Unsuccessful responses raise `FacturapiResponseException`, which includes `status_code`, `code`, `message`, `headers`, and the original JSON response.
+
+```python
+from facturapi.types.exc import FacturapiResponseException
+
+try:
+    facturapi.invoices.retrieve("invoice_id")
+except FacturapiResponseException as error:
+    print(error.status_code, error.code, error.message)
+```
+
+## Available methods
+
+This inventory matches the client generated from the public OpenAPI contract. See the [API reference](/api/) for the fields, filters, and responses of each operation.
+
+### `customers`
+
+```python
+facturapi.customers.create(data, params=None)
+facturapi.customers.list(params=None)
+facturapi.customers.retrieve(customer_id)
+facturapi.customers.update(customer_id, data, params=None)
+facturapi.customers.delete(customer_id)
+facturapi.customers.send_edit_link_by_email(customer_id, data=None)
+facturapi.customers.validate_tax_info(customer_id)
+```
+
+### `products`
+
+```python
+facturapi.products.create(data)
+facturapi.products.list(params=None)
+facturapi.products.retrieve(product_id)
+facturapi.products.update(product_id, data)
+facturapi.products.delete(product_id)
+```
+
+### `invoices`
+
+```python
+facturapi.invoices.create(data, params=None)
+facturapi.invoices.list(params=None)
+facturapi.invoices.create_zip_request(data)
+facturapi.invoices.list_zip_requests(params=None)
+facturapi.invoices.retrieve_zip_request(id)
+facturapi.invoices.download_zip_request(id)
+facturapi.invoices.download_zip_request_url(id)
+facturapi.invoices.preview_pdf(data)
+facturapi.invoices.preview_pdf_url(data)
+facturapi.invoices.retrieve(invoice_id)
+facturapi.invoices.update_draft(invoice_id, data)
+facturapi.invoices.cancel(invoice_id, params=None)
+facturapi.invoices.copy_to_draft(invoice_id)
+facturapi.invoices.stamp_draft(invoice_id, params=None)
+facturapi.invoices.download_cancellation_receipt(invoice_id, format)
+facturapi.invoices.download_cancellation_receipt_pdf(invoice_id)
+facturapi.invoices.download_cancellation_receipt_xml(invoice_id)
+facturapi.invoices.payment_summary(invoice_id, params=None)
+facturapi.invoices.download(invoice_id, format)
+facturapi.invoices.download_pdf(invoice_id)
+facturapi.invoices.download_xml(invoice_id)
+facturapi.invoices.download_zip(invoice_id)
+facturapi.invoices.send_by_email(invoice_id, data=None)
+facturapi.invoices.update_status(invoice_id)
+facturapi.invoices.download_url(invoice_id, format)
+facturapi.invoices.download_pdf_url(invoice_id)
+facturapi.invoices.download_xml_url(invoice_id)
+facturapi.invoices.download_zip_url(invoice_id)
+facturapi.invoices.download_cancellation_receipt_url(invoice_id, format)
+facturapi.invoices.download_cancellation_receipt_pdf_url(invoice_id)
+facturapi.invoices.download_cancellation_receipt_xml_url(invoice_id)
+```
+
+### `receipts`
+
+```python
+facturapi.receipts.create(data)
+facturapi.receipts.list(params=None)
+facturapi.receipts.retrieve(receipt_id)
+facturapi.receipts.update_customer(receipt_id, data)
+facturapi.receipts.cancel(receipt_id)
+facturapi.receipts.download_pdf(receipt_id)
+facturapi.receipts.send_by_email(receipt_id, data=None)
+facturapi.receipts.invoice(receipt_id, data)
+facturapi.receipts.to_invoice(data)
+facturapi.receipts.preview_to_invoice_pdf(data)
+facturapi.receipts.preview_to_invoice_pdf_url(data)
+facturapi.receipts.create_global_invoice(data)
+facturapi.receipts.download_pdf_url(receipt_id)
+```
+
+### `retentions`
+
+```python
+facturapi.retentions.create(data)
+facturapi.retentions.list(params=None)
+facturapi.retentions.retrieve(retention_id)
+facturapi.retentions.update_draft(retention_id, data)
+facturapi.retentions.cancel(retention_id, params=None)
+facturapi.retentions.copy_to_draft(retention_id)
+facturapi.retentions.stamp_draft(retention_id)
+facturapi.retentions.download(retention_id, format)
+facturapi.retentions.download_pdf(retention_id)
+facturapi.retentions.download_xml(retention_id)
+facturapi.retentions.download_zip(retention_id)
+facturapi.retentions.send_by_email(retention_id, data=None)
+facturapi.retentions.download_url(retention_id, format)
+facturapi.retentions.download_pdf_url(retention_id)
+facturapi.retentions.download_xml_url(retention_id)
+facturapi.retentions.download_zip_url(retention_id)
+```
+
+### `organizations`
+
+Organization methods require a user key (`sk_user_...`) unless the API reference says otherwise.
+
+```python
+facturapi.organizations.create(data)
+facturapi.organizations.list(params=None)
+facturapi.organizations.me()
+facturapi.organizations.update_legal(organization_id, data)
+facturapi.organizations.upload_certificate(organization_id, files, data=None)
+facturapi.organizations.delete_certificate(organization_id)
+facturapi.organizations.upload_fiel(organization_id, files, data=None)
+facturapi.organizations.upload_logo(organization_id, files, data=None)
+facturapi.organizations.update_customization(organization_id, data)
+facturapi.organizations.update_receipt_settings(organization_id, data)
+facturapi.organizations.update_self_invoice_settings(organization_id, data)
+facturapi.organizations.check_domain_is_available(params=None)
+facturapi.organizations.update_domain(organization_id, data)
+facturapi.organizations.retrieve(organization_id)
+facturapi.organizations.delete(organization_id)
+facturapi.organizations.get_test_api_key(organization_id)
+facturapi.organizations.renew_test_api_key(organization_id)
+facturapi.organizations.list_live_api_keys(organization_id)
+facturapi.organizations.renew_live_api_key(organization_id)
+facturapi.organizations.delete_live_api_key(organization_id, id)
+facturapi.organizations.list_series_group(organization_id)
+facturapi.organizations.create_series_group(organization_id, data=None)
+facturapi.organizations.update_default_series(organization_id, data=None)
+facturapi.organizations.update_series_group(organization_id, series_name, data=None)
+facturapi.organizations.delete_series_group(organization_id, series_name)
+facturapi.organizations.list_team_access(organization_id)
+facturapi.organizations.invite_user_to_team(organization_id, data)
+facturapi.organizations.list_sent_team_invites(organization_id)
+facturapi.organizations.retrieve_team_access(organization_id, access_id)
+facturapi.organizations.remove_team_access(organization_id, access_id)
+facturapi.organizations.cancel_team_invite(organization_id, invite_key)
+facturapi.organizations.list_received_team_invites()
+facturapi.organizations.respond_team_invite(invite_key, data)
+facturapi.organizations.list_team_roles(organization_id)
+facturapi.organizations.create_team_role(organization_id, data)
+facturapi.organizations.list_team_role_templates(organization_id)
+facturapi.organizations.list_team_role_operations(organization_id)
+facturapi.organizations.retrieve_team_role(organization_id, role_id)
+facturapi.organizations.update_team_role(organization_id, role_id, data)
+facturapi.organizations.delete_team_role(organization_id, role_id)
+facturapi.organizations.update_team_access_role(organization_id, access_id, data)
+```
+
+### `webhooks`
+
+```python
+facturapi.webhooks.create(data)
+facturapi.webhooks.list(params=None)
+facturapi.webhooks.retrieve(webhook_id)
+facturapi.webhooks.update(webhook_id, data)
+facturapi.webhooks.delete(webhook_id)
+facturapi.webhooks.validate_signature(data=None)
+```
+
+### `tools`
+
+```python
+facturapi.tools.health_check()
+facturapi.tools.validate_tax_id(tax_id)
+```
+
+### `catalogs`
+
+```python
+facturapi.catalogs.search_products(params=None)
+facturapi.catalogs.search_units(params=None)
+```
+
+### `nomina_catalogs`
+
+```python
+facturapi.nomina_catalogs.search_deductions(params=None)
+facturapi.nomina_catalogs.search_perceptions(params=None)
+```
+
+### `carta_porte_catalogs`
+
+```python
+facturapi.carta_porte_catalogs.search_air_transport_codes(params=None)
+facturapi.carta_porte_catalogs.search_transport_configs(params=None)
+facturapi.carta_porte_catalogs.search_rights_of_passage(params=None)
+facturapi.carta_porte_catalogs.search_customs_documents(params=None)
+facturapi.carta_porte_catalogs.search_packaging_types(params=None)
+facturapi.carta_porte_catalogs.search_trailer_types(params=None)
+facturapi.carta_porte_catalogs.search_hazardous_materials(params=None)
+facturapi.carta_porte_catalogs.search_naval_authorizations(params=None)
+facturapi.carta_porte_catalogs.search_port_stations(params=None)
+facturapi.carta_porte_catalogs.search_marine_containers(params=None)
+```
+
+### `comercio_exterior_catalogs`
+
+```python
+facturapi.comercio_exterior_catalogs.search_tariff_fractions(params=None)
+```

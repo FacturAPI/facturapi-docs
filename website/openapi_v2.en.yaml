@@ -998,6 +998,7 @@ x-tagGroups:
 paths:
   /catalogs/deductions:
     get:
+      operationId: searchNominaDeductions
       tags:
         - nomina_keys
       summary: Search payroll deduction types
@@ -1069,18 +1070,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/GenericError'
         '401':
           description: Authentication error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/GenericError'
         '429':
           $ref: '#/components/responses/RateLimited'
 
   /catalogs/perceptions:
     get:
+      operationId: searchNominaPerceptions
       tags:
         - nomina_keys
       summary: Search payroll perception types
@@ -1152,13 +1154,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/GenericError'
         '401':
           description: Authentication error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/GenericError'
         '429':
           $ref: '#/components/responses/RateLimited'
 

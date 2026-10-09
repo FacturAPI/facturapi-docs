@@ -969,6 +969,7 @@ x-tagGroups:
 paths:
   /catalogs/deductions:
     get:
+      operationId: searchNominaDeductions
       tags:
         - nomina_keys
       summary: Buscar tipos de deducción de nómina
@@ -1040,18 +1041,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/GenericError'
         '401':
           description: Error de autenticación
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/GenericError'
         '429':
           $ref: '#/components/responses/RateLimited'
 
   /catalogs/perceptions:
     get:
+      operationId: searchNominaPerceptions
       tags:
         - nomina_keys
       summary: Buscar tipos de percepción de nómina
@@ -1123,13 +1125,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/GenericError'
         '401':
           description: Error de autenticación
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/GenericError'
         '429':
           $ref: '#/components/responses/RateLimited'
 

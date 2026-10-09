@@ -18,6 +18,13 @@ const languages: LanguageItem[] = [
     repoHref: 'https://github.com/facturapi/facturapi-node',
   },
   {
+    name: 'Python',
+    note: 'PyPI',
+    src: '/img/languages/python.svg',
+    packageHref: 'https://pypi.org/project/facturapi/',
+    repoHref: 'https://github.com/facturapi/facturapi-python',
+  },
+  {
     name: 'C#',
     note: 'NuGet',
     src: '/img/languages/csharp.svg',

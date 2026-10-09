@@ -17,6 +17,13 @@ npm install facturapi
 ```
 
 </TabItem>
+<TabItem value="python" label="Python">
+
+```bash
+python -m pip install facturapi
+```
+
+</TabItem>
 <TabItem value="cs" label="C#">
 
 ```bash
@@ -115,6 +122,38 @@ const invoice = await facturapi.invoices.create({
   use: 'G01',
   payment_form: '28' // Tarjeta de crédito
 });
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+# a) Importa el paquete
+from facturapi import Facturapi
+
+# b) Crea una instancia con la llave secreta de la organización emisora
+facturapi = Facturapi("sk_test_API_KEY")
+
+# c) Crea una factura
+invoice = facturapi.invoices.create({
+    "customer": {
+        "legal_name": "Dunder Mifflin",
+        "email": "email@example.com",
+        "tax_id": "ABC101010111",
+        "tax_system": "601",
+        "address": {"zip": "85900"},
+    },
+    "items": [{
+        "quantity": 1,
+        "product": {
+            "description": "Ukelele",
+            "product_key": "60131324",
+            "price": 345.60,
+        },
+    }],
+    "use": "G01",
+    "payment_form": "28",  # Tarjeta de crédito
+})
 ```
 
 </TabItem>
@@ -329,6 +368,13 @@ await facturapi.invoices.sendByEmail(invoice.id);
 ```
 
 </TabItem>
+<TabItem value="python" label="Python">
+
+```python
+facturapi.invoices.send_by_email(invoice["id"])
+```
+
+</TabItem>
 <TabItem value="cs" label="C#">
 
 ```csharp
@@ -380,6 +426,17 @@ if ('pipe' in zipStream && typeof zipStream.pipe === 'function') {
 if ('pipe' in zipStream && typeof zipStream.pipe === 'function') {
   zipStream.pipe(res);
 }
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+# Las descargas del SDK de Python se devuelven como bytes
+zip_content = facturapi.invoices.download_zip(invoice["id"])
+
+with open("factura.zip", "wb") as file:
+    file.write(zip_content)
 ```
 
 </TabItem>

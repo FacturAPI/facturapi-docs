@@ -16181,6 +16181,9 @@ components:
         - $ref: '#/components/schemas/CustomerProperties'
         - type: object
           properties:
+            email:
+              type: string
+              format: email
             organization:
               description: "ID of the organization this resource belongs to."
               type: string
@@ -16268,7 +16271,7 @@ components:
           description: |
             Required for national clients. Key of the customer's tax regime, from the [Tax Regime Catalog](#tax-regime).
         email:
-          type: string
+          type: [string, "null"]
           format: email
           description: Email address to which to send the generated invoices.
           example: email@example.com
@@ -16337,7 +16340,7 @@ components:
             Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
           example: Dunder Mifflin
         email:
-          type: string
+          type: [string, "null"]
           format: email
           description: Email address to which to send the generated invoices.
           example: email@example.com

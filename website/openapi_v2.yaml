@@ -16179,6 +16179,9 @@ components:
         - $ref: '#/components/schemas/CustomerProperties'
         - type: object
           properties:
+            email:
+              type: string
+              format: email
             organization:
               description: "ID de la organización a la que pertenece este recurso."
               type: string
@@ -16268,7 +16271,7 @@ components:
           minLength: 3
           description: Requerido para clientes nacionales. Clave del régimen fiscal del cliente, del catálogo de [Regímenes Fiscales](#r%C3%A9gimen-fiscal).
         email:
-          type: string
+          type: [string, "null"]
           format: email
           description: Dirección de correo electrónico al cual enviar las facturas generadas.
           example: email@example.com
@@ -16337,7 +16340,7 @@ components:
             Nombre Fiscal o Razón Social del cliente. *sin* el régimen societario (ej.: S.A. de C.V.).
           example: Dunder Mifflin
         email:
-          type: string
+          type: [string, "null"]
           format: email
           description: Dirección de correo electrónico al cual enviar las facturas generadas.
           example: email@example.com

@@ -213,7 +213,6 @@ declare const incompleteCustomerResponse: components['schemas']['Customer'];
 const responseTaxId: string | null | undefined = incompleteCustomerResponse.tax_id;
 const responseTaxSystem: string | null | undefined = incompleteCustomerResponse.tax_system;
 const incompleteCustomerWithEmptyRfc: components['schemas']['CustomerCreateWithEditLinkInput'] = { tax_id: null };
-// @ts-expect-error edit-link creation still validates a supplied fiscal regime
 const incompleteCustomerWithNullRegime: components['schemas']['CustomerCreateWithEditLinkInput'] = { tax_system: null };
 // @ts-expect-error national customer creation requires a non-null fiscal regime
 const nationalCustomerWithNullRegime: components['schemas']['CustomerNationalCreateInput'] = { legal_name: 'Cliente', tax_id: 'ABC101010111', tax_system: null, address: { zip: '83200' } };
@@ -221,3 +220,7 @@ void [responseTaxId, responseTaxSystem, incompleteCustomerWithEmptyRfc, incomple
 const expiredCustomerEditLink: components['schemas']['CustomerNonEditableProperties'] = { edit_link: null, edit_link_expires_at: null };
 const clearedCustomerPhone: components['schemas']['CustomerProperties'] = { phone: null };
 void [expiredCustomerEditLink, clearedCustomerPhone];
+
+const nullableIncompleteCustomer: components['schemas']['CustomerCreateWithEditLinkInput'] = { legal_name: null, external_id: null, address: { street: null, zip: null, country: null } };
+const omittedCustomerAddress: components['schemas']['CustomerUpdateInput'] = { legal_name: null, address: null };
+void [nullableIncompleteCustomer, omittedCustomerAddress];

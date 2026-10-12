@@ -16017,31 +16017,31 @@ components:
     CommonAddressProperties:
       type: object
       properties:
-        street:
+        street: &customer_address_street
           type: string
           description: Nombre de la calle
           example: Blvd. Atardecer
-        exterior:
+        exterior: &customer_address_exterior
           type: string
           description: Número exterior.
           example: "142"
-        interior:
+        interior: &customer_address_interior
           type: string
           description: Número interior.
           example: "4"
-        neighborhood:
+        neighborhood: &customer_address_neighborhood
           type: string
           description: Colonia
           example: Centro
-        city:
+        city: &customer_address_city
           type: string
           description: Ciudad
           example: Huatabampo
-        municipality:
+        municipality: &customer_address_municipality
           type: string
           description: Municipio o delegación
           example: Huatabampo
-        zip:
+        zip: &customer_address_zip
           type: string
           description: Código postal
           example: "86500"
@@ -16282,26 +16282,50 @@ components:
           example: G01
     CustomerEditableInput:
       type: object
-      properties:
-        legal_name: *customer_legal_name
+      properties: &customer_editable_input_properties
+        legal_name:
+          <<: *customer_legal_name
+          type: [string, 'null']
         tax_id: *customer_tax_id
         email: &customer_email_input
           type: [string, "null"]
           format: email
           description: Correo electrónico del cliente. Un valor null se trata como omitido.
         phone: *customer_phone
-        default_invoice_use: *customer_default_invoice_use
+        external_id:
+          type: [string, 'null']
+          maxLength: 100
+        default_invoice_use:
+          <<: *customer_default_invoice_use
+          type: [string, 'null']
         address:
-          allOf:
-            - $ref: '#/components/schemas/CommonAddressProperties'
-            - type: object
-              properties:
-                state:
-                  type: string
-                country:
-                  type: string
-                  default: MEX
-                  description: Código de país ISO 3166-1 alpha-3.
+          type: [object, 'null']
+          properties: &customer_address_input_properties
+            street:
+              <<: *customer_address_street
+              type: [string, 'null']
+            exterior:
+              <<: *customer_address_exterior
+              type: [string, 'null']
+            interior:
+              <<: *customer_address_interior
+              type: [string, 'null']
+            neighborhood:
+              <<: *customer_address_neighborhood
+              type: [string, 'null']
+            city:
+              <<: *customer_address_city
+              type: [string, 'null']
+            municipality:
+              <<: *customer_address_municipality
+              type: [string, 'null']
+            zip: *customer_address_zip
+            state:
+              type: [string, 'null']
+            country:
+              type: [string, 'null']
+              default: MEX
+              description: ISO 3166-1 alpha-3.
     CustomerUpdateInput:
       allOf:
         - $ref: '#/components/schemas/CustomerEditableInput'
@@ -16344,14 +16368,19 @@ components:
             substitution: false
     CustomerCreateWithEditLinkInput:
       title: Customer with edit link
-      description: La información del cliente puede estar incompleta cuando createEditLink=true. Los campos enviados deben conservar formatos válidos.
-      allOf:
-        - $ref: '#/components/schemas/CustomerEditableInput'
-        - type: object
+      description: La información del cliente puede estar incompleta cuando createEditLink=true. Los campos opcionales con valor null se tratan como omitidos. Los valores no nulos deben conservar formatos válidos.
+      type: object
+      properties:
+        <<: *customer_editable_input_properties
+        tax_system:
+          <<: *customer_tax_system
+        address:
+          type: [object, 'null']
           properties:
-            tax_system:
-              type: string
-              description: Si se envía, debe ser un régimen fiscal válido. Omitirlo permite guardar información fiscal incompleta.
+            <<: *customer_address_input_properties
+            zip:
+              <<: *customer_address_zip
+              type: [string, 'null']
     CustomerCreateCommonInput:
       type: object
       required:

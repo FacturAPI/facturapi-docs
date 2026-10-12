@@ -16576,12 +16576,12 @@ components:
         - $ref: "#/components/schemas/ProductProperties"
     ProductProperties:
       allOf:
-        - $ref: "#/components/schemas/ProductEditableProperties"
+        - $ref: "#/components/schemas/ProductCommonProperties"
       required: [description, product_key, price]
     ProductUpdateInput:
       allOf:
-        - $ref: "#/components/schemas/ProductEditableProperties"
-    ProductEditableProperties:
+        - $ref: "#/components/schemas/ProductCommonProperties"
+    ProductCommonProperties:
       type: object
       properties:
         description:
@@ -18706,7 +18706,7 @@ components:
                 Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
 
                 If left blank, it will not be taken into account.
-        - $ref: "#/components/schemas/ReceiptEditableProperties"
+        - $ref: "#/components/schemas/ReceiptCommonProperties"
     ReceiptInput:
       allOf:
         - type: object
@@ -18744,7 +18744,7 @@ components:
               items:
                 $ref: "#/components/schemas/LineItemInput"
 
-        - $ref: "#/components/schemas/ReceiptEditableProperties"
+        - $ref: "#/components/schemas/ReceiptCommonProperties"
         - type: object
           properties:
             idempotency_key:
@@ -18753,7 +18753,7 @@ components:
                 Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
 
                 If left blank, it will not be taken into account.
-    ReceiptEditableProperties:
+    ReceiptCommonProperties:
       type: object
       properties:
         date:

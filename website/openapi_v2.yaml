@@ -969,6 +969,7 @@ x-tagGroups:
 paths:
   /catalogs/deductions:
     get:
+      operationId: searchNominaDeductions
       tags:
         - nomina_keys
       summary: Buscar tipos de deducción de nómina
@@ -989,6 +990,15 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.nominaCatalogs.searchDeductions({ q: '001', page: 0, limit: 10 })
+        - lang: Python
+          label: Python
+          source: |
+            from facturapi import Facturapi
+
+            facturapi = Facturapi("sk_test_API_KEY")
+            result = facturapi.nomina_catalogs.search_deductions({
+                "q": "001", "page": 0, "limit": 10
+            })
         - lang: Java
           label: Java
           source: |
@@ -1040,18 +1050,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/GenericError'
         '401':
           description: Error de autenticación
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/GenericError'
         '429':
           $ref: '#/components/responses/RateLimited'
 
   /catalogs/perceptions:
     get:
+      operationId: searchNominaPerceptions
       tags:
         - nomina_keys
       summary: Buscar tipos de percepción de nómina
@@ -1072,6 +1083,15 @@ paths:
             import Facturapi from 'facturapi'
             const facturapi = new Facturapi('sk_test_API_KEY')
             const result = await facturapi.nominaCatalogs.searchPerceptions({ q: '001', page: 0, limit: 10 })
+        - lang: Python
+          label: Python
+          source: |
+            from facturapi import Facturapi
+
+            facturapi = Facturapi("sk_test_API_KEY")
+            result = facturapi.nomina_catalogs.search_perceptions({
+                "q": "001", "page": 0, "limit": 10
+            })
         - lang: Java
           label: Java
           source: |
@@ -1123,13 +1143,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/GenericError'
         '401':
           description: Error de autenticación
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/GenericError'
         '429':
           $ref: '#/components/responses/RateLimited'
 

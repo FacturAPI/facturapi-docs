@@ -191,13 +191,13 @@ if ('pipe' in pdfStream && typeof pdfStream.pipe === 'function') {
 from facturapi import Facturapi
 
 facturapi = Facturapi('sk_test_API_KEY')
-xml_stream = facturapi.invoices.download_cancellation_receipt_xml('58e93bd8e86eb318b019743d')
+xml_content = facturapi.invoices.download_cancellation_receipt_xml('58e93bd8e86eb318b019743d')
 with open('cancellation_receipt.xml', 'wb') as file:
-    file.write(xml_stream.read())
+    file.write(xml_content)
 
-pdf_stream = facturapi.invoices.download_cancellation_receipt_pdf('58e93bd8e86eb318b019743d')
+pdf_content = facturapi.invoices.download_cancellation_receipt_pdf('58e93bd8e86eb318b019743d')
 with open('cancellation_receipt.pdf', 'wb') as file:
-    file.write(pdf_stream.read())
+    file.write(pdf_content)
 ```
 
 </TabItem>

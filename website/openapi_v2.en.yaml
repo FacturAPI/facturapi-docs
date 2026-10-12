@@ -16221,39 +16221,6 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/Customer"
-    CustomerEditableInput:
-      type: object
-      properties:
-        legal_name:
-          $ref: '#/components/schemas/CustomerCommonProperties/properties/legal_name'
-        tax_id:
-          $ref: '#/components/schemas/CustomerCommonProperties/properties/tax_id'
-        email:
-          type: [string, "null"]
-          format: email
-          description: Customer email address. A null value is treated as omitted.
-        phone:
-          $ref: '#/components/schemas/CustomerCommonProperties/properties/phone'
-        default_invoice_use:
-          $ref: '#/components/schemas/CustomerCommonProperties/properties/default_invoice_use'
-        address:
-          allOf:
-            - $ref: '#/components/schemas/CommonAddressProperties'
-            - type: object
-              properties:
-                state:
-                  type: string
-                country:
-                  type: string
-                  default: MEX
-                  description: ISO 3166-1 alpha-3 country code.
-    CustomerUpdateInput:
-      allOf:
-        - $ref: '#/components/schemas/CustomerEditableInput'
-        - type: object
-          properties:
-            tax_system:
-              $ref: '#/components/schemas/CustomerCommonProperties/properties/tax_system'
     CustomerProperties:
       allOf:
         - $ref: "#/components/schemas/CustomerCommonProperties"
@@ -16277,19 +16244,19 @@ components:
     CustomerCommonProperties:
       type: object
       properties:
-        legal_name:
+        legal_name: &customer_legal_name
           type: string
           description: |
             Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
           example: Dunder Mifflin
-        tax_id:
+        tax_id: &customer_tax_id
           type:
             - string
             - 'null'
           example: ABC101010111
           description: |
             In Mexican clients, it contains the customer's RFC. For foreigners, it is optional and represents the tax identification number, that is, the equivalent to the RFC in the customer's country.
-        tax_system:
+        tax_system: &customer_tax_system
           type:
             - string
             - 'null'
@@ -16303,16 +16270,44 @@ components:
           format: email
           description: Email address to which to send the generated invoices.
           example: email@example.com
-        phone:
+        phone: &customer_phone
           type:
             - string
             - 'null'
           description: Customer's phone number.
           example: '6474010101'
-        default_invoice_use:
+        default_invoice_use: &customer_default_invoice_use
           type: string
           description: Default CFDI use for the customer.
           example: G01
+    CustomerEditableInput:
+      type: object
+      properties:
+        legal_name: *customer_legal_name
+        tax_id: *customer_tax_id
+        email: &customer_email_input
+          type: [string, "null"]
+          format: email
+          description: Customer email address. A null value is treated as omitted.
+        phone: *customer_phone
+        default_invoice_use: *customer_default_invoice_use
+        address:
+          allOf:
+            - $ref: '#/components/schemas/CommonAddressProperties'
+            - type: object
+              properties:
+                state:
+                  type: string
+                country:
+                  type: string
+                  default: MEX
+                  description: ISO 3166-1 alpha-3 country code.
+    CustomerUpdateInput:
+      allOf:
+        - $ref: '#/components/schemas/CustomerEditableInput'
+        - type: object
+          properties:
+            tax_system: *customer_tax_system
     CancellationQueryInput:
       description: Omit query parameters to delete a draft. Issued documents require a motive; motives 01 and 04 also require substitution.
       anyOf:
@@ -16367,11 +16362,7 @@ components:
           description: |
             Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
           example: Dunder Mifflin
-        email:
-          type: [string, "null"]
-          format: email
-          description: Email address to which to send the generated invoices.
-          example: email@example.com
+        email: *customer_email_input
         phone:
           type:
             - string

@@ -16223,39 +16223,6 @@ components:
           description: |
             Fecha en la que la información fiscal fue validado por el SAT.
           example: '2022-12-31T23:59:59Z'
-    CustomerEditableInput:
-      type: object
-      properties:
-        legal_name:
-          $ref: '#/components/schemas/CustomerCommonProperties/properties/legal_name'
-        tax_id:
-          $ref: '#/components/schemas/CustomerCommonProperties/properties/tax_id'
-        email:
-          type: [string, "null"]
-          format: email
-          description: Correo electrónico del cliente. Un valor null se trata como omitido.
-        phone:
-          $ref: '#/components/schemas/CustomerCommonProperties/properties/phone'
-        default_invoice_use:
-          $ref: '#/components/schemas/CustomerCommonProperties/properties/default_invoice_use'
-        address:
-          allOf:
-            - $ref: '#/components/schemas/CommonAddressProperties'
-            - type: object
-              properties:
-                state:
-                  type: string
-                country:
-                  type: string
-                  default: MEX
-                  description: Código de país ISO 3166-1 alpha-3.
-    CustomerUpdateInput:
-      allOf:
-        - $ref: '#/components/schemas/CustomerEditableInput'
-        - type: object
-          properties:
-            tax_system:
-              $ref: '#/components/schemas/CustomerCommonProperties/properties/tax_system'
     CustomerProperties:
       allOf:
         - $ref: "#/components/schemas/CustomerCommonProperties"
@@ -16279,18 +16246,18 @@ components:
     CustomerCommonProperties:
       type: object
       properties:
-        legal_name:
+        legal_name: &customer_legal_name
           type: string
           description: |
             Nombre Fiscal o Razón Social del cliente. *sin* el régimen societario (ej.: S.A. de C.V.).
           example: Dunder Mifflin
-        tax_id:
+        tax_id: &customer_tax_id
           type:
             - string
             - 'null'
           example: ABC101010111
           description: En clientes de México contiene el RFC del cliente. Para extranjeros es opcional y representa el número de registro de identificación tributaria, es decir, el equivalente al RFC en el país del cliente.
-        tax_system:
+        tax_system: &customer_tax_system
           type:
             - string
             - 'null'
@@ -16303,16 +16270,44 @@ components:
           format: email
           description: Dirección de correo electrónico al cual enviar las facturas generadas.
           example: email@example.com
-        phone:
+        phone: &customer_phone
           type:
             - string
             - 'null'
           description: Teléfono del cliente.
           example: '6474010101'
-        default_invoice_use:
+        default_invoice_use: &customer_default_invoice_use
           type: string
           description: Uso de CFDI por defecto.
           example: G01
+    CustomerEditableInput:
+      type: object
+      properties:
+        legal_name: *customer_legal_name
+        tax_id: *customer_tax_id
+        email: &customer_email_input
+          type: [string, "null"]
+          format: email
+          description: Correo electrónico del cliente. Un valor null se trata como omitido.
+        phone: *customer_phone
+        default_invoice_use: *customer_default_invoice_use
+        address:
+          allOf:
+            - $ref: '#/components/schemas/CommonAddressProperties'
+            - type: object
+              properties:
+                state:
+                  type: string
+                country:
+                  type: string
+                  default: MEX
+                  description: Código de país ISO 3166-1 alpha-3.
+    CustomerUpdateInput:
+      allOf:
+        - $ref: '#/components/schemas/CustomerEditableInput'
+        - type: object
+          properties:
+            tax_system: *customer_tax_system
     CancellationQueryInput:
       description: Omite los parámetros para eliminar un borrador. Los documentos emitidos requieren motivo; los motivos 01 y 04 también requieren substitution.
       anyOf:
@@ -16367,11 +16362,7 @@ components:
           description: |
             Nombre Fiscal o Razón Social del cliente. *sin* el régimen societario (ej.: S.A. de C.V.).
           example: Dunder Mifflin
-        email:
-          type: [string, "null"]
-          format: email
-          description: Dirección de correo electrónico al cual enviar las facturas generadas.
-          example: email@example.com
+        email: *customer_email_input
         phone:
           type:
             - string

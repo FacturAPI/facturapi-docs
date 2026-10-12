@@ -16182,9 +16182,6 @@ components:
         - type: object
           required: [organization]
           properties:
-            email:
-              type: string
-              format: email
             organization:
               description: "ID of the organization this resource belongs to."
               type: string
@@ -16224,9 +16221,39 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/Customer"
+    CustomerEditableInput:
+      type: object
+      properties:
+        legal_name:
+          $ref: '#/components/schemas/CustomerCommonProperties/properties/legal_name'
+        tax_id:
+          $ref: '#/components/schemas/CustomerCommonProperties/properties/tax_id'
+        email:
+          type: [string, "null"]
+          format: email
+          description: Customer email address. A null value is treated as omitted.
+        phone:
+          $ref: '#/components/schemas/CustomerCommonProperties/properties/phone'
+        default_invoice_use:
+          $ref: '#/components/schemas/CustomerCommonProperties/properties/default_invoice_use'
+        address:
+          allOf:
+            - $ref: '#/components/schemas/CommonAddressProperties'
+            - type: object
+              properties:
+                state:
+                  type: string
+                country:
+                  type: string
+                  default: MEX
+                  description: ISO 3166-1 alpha-3 country code.
     CustomerUpdateInput:
       allOf:
-        - $ref: "#/components/schemas/CustomerProperties"
+        - $ref: '#/components/schemas/CustomerEditableInput'
+        - type: object
+          properties:
+            tax_system:
+              $ref: '#/components/schemas/CustomerCommonProperties/properties/tax_system'
     CustomerProperties:
       allOf:
         - $ref: "#/components/schemas/CustomerCommonProperties"
@@ -16272,7 +16299,7 @@ components:
           description: |
             Required for national clients. Key of the customer's tax regime, from the [Tax Regime Catalog](#tax-regime).
         email:
-          type: [string, "null"]
+          type: string
           format: email
           description: Email address to which to send the generated invoices.
           example: email@example.com
@@ -16324,7 +16351,7 @@ components:
       title: Customer with edit link
       description: Customer information may be incomplete when createEditLink=true. Supplied fields must still have valid formats.
       allOf:
-        - $ref: '#/components/schemas/CustomerProperties'
+        - $ref: '#/components/schemas/CustomerEditableInput'
         - type: object
           properties:
             tax_system:

@@ -16180,9 +16180,6 @@ components:
         - type: object
           required: [organization]
           properties:
-            email:
-              type: string
-              format: email
             organization:
               description: "ID de la organización a la que pertenece este recurso."
               type: string
@@ -16226,9 +16223,39 @@ components:
           description: |
             Fecha en la que la información fiscal fue validado por el SAT.
           example: '2022-12-31T23:59:59Z'
+    CustomerEditableInput:
+      type: object
+      properties:
+        legal_name:
+          $ref: '#/components/schemas/CustomerCommonProperties/properties/legal_name'
+        tax_id:
+          $ref: '#/components/schemas/CustomerCommonProperties/properties/tax_id'
+        email:
+          type: [string, "null"]
+          format: email
+          description: Correo electrónico del cliente. Un valor null se trata como omitido.
+        phone:
+          $ref: '#/components/schemas/CustomerCommonProperties/properties/phone'
+        default_invoice_use:
+          $ref: '#/components/schemas/CustomerCommonProperties/properties/default_invoice_use'
+        address:
+          allOf:
+            - $ref: '#/components/schemas/CommonAddressProperties'
+            - type: object
+              properties:
+                state:
+                  type: string
+                country:
+                  type: string
+                  default: MEX
+                  description: Código de país ISO 3166-1 alpha-3.
     CustomerUpdateInput:
       allOf:
-        - $ref: "#/components/schemas/CustomerProperties"
+        - $ref: '#/components/schemas/CustomerEditableInput'
+        - type: object
+          properties:
+            tax_system:
+              $ref: '#/components/schemas/CustomerCommonProperties/properties/tax_system'
     CustomerProperties:
       allOf:
         - $ref: "#/components/schemas/CustomerCommonProperties"
@@ -16272,7 +16299,7 @@ components:
           minLength: 3
           description: Requerido para clientes nacionales. Clave del régimen fiscal del cliente, del catálogo de [Regímenes Fiscales](#r%C3%A9gimen-fiscal).
         email:
-          type: [string, "null"]
+          type: string
           format: email
           description: Dirección de correo electrónico al cual enviar las facturas generadas.
           example: email@example.com
@@ -16324,7 +16351,7 @@ components:
       title: Customer with edit link
       description: La información del cliente puede estar incompleta cuando createEditLink=true. Los campos enviados deben conservar formatos válidos.
       allOf:
-        - $ref: '#/components/schemas/CustomerProperties'
+        - $ref: '#/components/schemas/CustomerEditableInput'
         - type: object
           properties:
             tax_system:

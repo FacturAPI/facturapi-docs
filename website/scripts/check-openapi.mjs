@@ -105,9 +105,13 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
       walk([item.parameters, operation.parameters, operation.requestBody], [], inputReferences);
       walk(operation.responses, [], outputReferences);
     }
+  const outputSchemas = new Set([...outputReferences]
+    .filter(reference => reference.startsWith("#/components/schemas/"))
+    .map(reference => reference.split("/")[3]));
   for (const reference of inputReferences) {
-    if (!reference.startsWith("#/components/schemas/") || outputReferences.has(reference)) continue;
-    const name = reference.split("/").at(-1);
+    if (!reference.startsWith("#/components/schemas/")) continue;
+    const name = reference.split("/")[3];
+    if (outputSchemas.has(name)) continue;
     if (!spec.components.schemas[name].enum)
       assert(name.endsWith("Input"), `Request-only schemas must end in Input: ${name}`);
   }

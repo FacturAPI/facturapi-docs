@@ -24,7 +24,7 @@ Start by including the Facturapi client in your project dependencies.
 Install the package from [NPM](https://www.npmjs.com/package/facturapi).
 
 ```bash
-$> npm install --save facturapi
+$> npm install facturapi
 ```
 
 </TabItem>
@@ -77,15 +77,19 @@ Import the library before using it in your code.
 <Tabs groupId="codeExamples">
 <TabItem value="js" label="Node.js" default>
 
+Choose the import that matches your project. With ESM or TypeScript:
+
+```typescript
+import Facturapi from 'facturapi';
+```
+
+With CommonJS:
+
 ```javascript
 const Facturapi = require('facturapi');
 ```
 
-ESM / TypeScript
-
-```javascript
-import Facturapi from 'facturapi';
-```
+The package includes TypeScript types and requires Node.js 18 or later. Import the constructor, types, and enums from `facturapi`.
 
 </TabItem>
 <TabItem value="cs" label="C#">

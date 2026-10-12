@@ -16521,7 +16521,9 @@ components:
           required: [taxes]
           properties:
             taxes:
-              $ref: '#/components/schemas/ProductCommonProperties/properties/taxes'
+              type: array
+              items:
+                $ref: '#/components/schemas/BaseTax'
             id:
               type: string
               description: ID of the base product. Only present if a previously saved `Product` object was used as a base.

@@ -38,7 +38,9 @@ function contract(value, key) {
 
 for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
   // Match the generator parser so unquoted numeric SAT codes fail validation.
-  const spec = yaml.load(await readFile(new URL(filename, root), "utf8"));
+  const spec = yaml.load(await readFile(new URL(filename, root), "utf8"), {
+    schema: yaml.CORE_SCHEMA.withTags(yaml.mergeTag),
+  });
   for (const name of Object.keys(spec.components.schemas))
     assert(!/(InputProperties|RequiredProperties)$/.test(name),
       `Use an Input schema with its own required fields: ${name}`);
@@ -190,7 +192,7 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
     await writeFile(
       join(directory, "schema.d.ts"),
       astToString(
-        await openapiTS(new URL(filename, root), {
+        await openapiTS(spec, {
           defaultNonNullable: false,
           emptyObjectsUnknown: true,
         }),

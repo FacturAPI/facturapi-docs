@@ -1,0 +1,105 @@
+---
+sidebar_position: 9
+sidebar_label: Facturapi MCP
+---
+
+# Facturapi MCP: use your account from AI assistants
+
+Facturapi MCP is a remote MCP server that lets AI assistants
+(ChatGPT, Claude, or other compatible platforms) query and operate your
+Facturapi services through the official API, in natural language.
+
+To use it you need an active Facturapi **API License**: the server is
+**included at no extra cost** with it. The assistant can only operate **the
+services you have contracted** and never has more permissions than your own
+account.
+
+## How to connect
+
+The server endpoint is:
+
+```
+https://mcp.facturapi.io/mcp
+```
+
+There are two ways to authenticate, and both expose the same tools.
+
+### With OAuth (from your assistant)
+
+1. Open your assistant and add the **Facturapi** server (or use the URL
+   `https://mcp.facturapi.io/mcp` when the client allows it).
+2. Authorize with your Facturapi account. Choose the access level:
+   **read-only** or **read &amp; write**.
+3. If you have access to several organizations, the assistant will ask which one
+   you want to work with. You only need to name it.
+4. Ask for what you need in plain language, for example:
+   - *"Show me this month's invoices that haven't been paid yet."*
+   - *"Create a sales receipt for $500 MXN for a consulting service."*
+   - *"Register a customer with their tax information and send them their
+     self-invoicing link."*
+   - *"Has invoice F-123 been stamped already?"*
+
+You can review and revoke authorized connections anytime from the
+[Integration Center](https://dashboard.facturapi.io/integration/oauth) in your
+dashboard.
+
+:::note[Environments]
+By default the assistant operates in your **live** environment (production).
+If you are testing, say so in the conversation (for example, *"work in test
+mode"*) to operate in test mode.
+:::
+
+### With an API key (from your code)
+
+Use one of your organization's API keys (test or live). The server operates on
+that organization and does not expose `list_organizations`.
+
+All calls to the Facturapi API include the `x-facturapi-client: MCP` header.
+
+Illustrative client configuration:
+
+```json
+{
+  "mcpServers": {
+    "facturapi": {
+      "type": "http",
+      "url": "https://mcp.facturapi.io/mcp",
+      "headers": {
+        "Authorization": "Bearer <YOUR_API_KEY>"
+      }
+    }
+  }
+}
+```
+
+## What you can do
+
+The server exposes tools for Facturapi's main domains:
+
+- Organizations: look up your organization and its onboarding status.
+- Customers and products: search, create, update, and manage catalogs.
+- Invoices (CFDI): create (income, expense, payment complements), query,
+  cancel, and download PDF/XML representations.
+- E-Receipts: issue sales receipts, send self-invoicing links, and generate
+  global invoices.
+- Retentions: manage retention complements.
+- Webhooks: API-key mode only, to configure events.
+
+Your assistant lists the available tools when it connects. Write tools require
+**read &amp; write** when connecting with OAuth; with **read-only**, the server
+rejects the operation. An API key operates with its organization's permissions.
+
+## Scope and permissions
+
+- The assistant only reaches the organizations where your user has permissions
+  and **never has more permissions than your account**.
+- It can only operate the **services you have contracted**: if it tries an
+  operation your plan does not include, it is not performed.
+
+## References
+
+- Discovery metadata:
+  `https://mcp.facturapi.io/.well-known/mcp/server.json`
+- OAuth protected resource metadata:
+  `https://mcp.facturapi.io/.well-known/oauth-protected-resource`
+- Service health: `https://mcp.facturapi.io/health`

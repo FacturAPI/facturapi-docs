@@ -16020,31 +16020,31 @@ components:
     CommonAddressProperties:
       type: object
       properties:
-        street: &customer_address_street
+        street:
           type: string
           description: Street name
           example: Blvd. Atardecer
-        exterior: &customer_address_exterior
+        exterior:
           type: string
           description: Exterior number.
           example: "142"
-        interior: &customer_address_interior
+        interior:
           type: string
           description: Interior number.
           example: "4"
-        neighborhood: &customer_address_neighborhood
+        neighborhood:
           type: string
           description: Neighborhood
           example: Centro
-        city: &customer_address_city
+        city:
           type: string
           description: City
           example: Huatabampo
-        municipality: &customer_address_municipality
+        municipality:
           type: string
           description: Municipality or delegation
           example: Huatabampo
-        zip: &customer_address_zip
+        zip:
           type: string
           description: Postal code
           example: "86500"
@@ -16244,7 +16244,7 @@ components:
     CustomerCommonProperties:
       type: object
       properties:
-        legal_name: &customer_legal_name
+        legal_name:
           type: string
           description: |
             Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
@@ -16276,53 +16276,65 @@ components:
             - 'null'
           description: Customer's phone number.
           example: '6474010101'
-        default_invoice_use: &customer_default_invoice_use
+        default_invoice_use:
           type: string
           description: Default CFDI use for the customer.
           example: G01
     CustomerEditableInput:
       type: object
-      properties: &customer_editable_input_properties
-        legal_name:
-          <<: *customer_legal_name
+      properties:
+        legal_name: &customer_legal_name_input
           type: [string, 'null']
+          description: |
+            Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
+          example: Dunder Mifflin
         tax_id: *customer_tax_id
         email: &customer_email_input
-          type: [string, "null"]
+          type: [string, 'null']
           format: email
           description: Customer email address. A null value is treated as omitted.
         phone: *customer_phone
-        external_id:
+        external_id: &customer_external_id_input
           type: [string, 'null']
           maxLength: 100
-        default_invoice_use:
-          <<: *customer_default_invoice_use
+        default_invoice_use: &customer_default_invoice_use_input
           type: [string, 'null']
+          description: Default CFDI use for the customer.
+          example: G01
         address:
           type: [object, 'null']
-          properties: &customer_address_input_properties
-            street:
-              <<: *customer_address_street
+          properties:
+            street: &customer_address_street_input
               type: [string, 'null']
-            exterior:
-              <<: *customer_address_exterior
+              description: Street name
+              example: Blvd. Atardecer
+            exterior: &customer_address_exterior_input
               type: [string, 'null']
-            interior:
-              <<: *customer_address_interior
+              description: Exterior number.
+              example: '142'
+            interior: &customer_address_interior_input
               type: [string, 'null']
-            neighborhood:
-              <<: *customer_address_neighborhood
+              description: Interior number.
+              example: '4'
+            neighborhood: &customer_address_neighborhood_input
               type: [string, 'null']
-            city:
-              <<: *customer_address_city
+              description: Neighborhood
+              example: Centro
+            city: &customer_address_city_input
               type: [string, 'null']
-            municipality:
-              <<: *customer_address_municipality
+              description: City
+              example: Huatabampo
+            municipality: &customer_address_municipality_input
               type: [string, 'null']
-            zip: *customer_address_zip
-            state:
+              description: Municipality or delegation
+              example: Huatabampo
+            zip:
+              type: string
+              description: Postal code
+              example: '86500'
+            state: &customer_address_state_input
               type: [string, 'null']
-            country:
+            country: &customer_address_country_input
               type: [string, 'null']
               default: MEX
               description: ISO 3166-1 alpha-3.
@@ -16371,16 +16383,28 @@ components:
       description: Customer information may be incomplete when createEditLink=true. Null optional fields are treated as omitted. Non-null values must have valid formats.
       type: object
       properties:
-        <<: *customer_editable_input_properties
-        tax_system:
-          <<: *customer_tax_system
+        legal_name: *customer_legal_name_input
+        tax_id: *customer_tax_id
+        email: *customer_email_input
+        phone: *customer_phone
+        external_id: *customer_external_id_input
+        default_invoice_use: *customer_default_invoice_use_input
+        tax_system: *customer_tax_system
         address:
           type: [object, 'null']
           properties:
-            <<: *customer_address_input_properties
+            street: *customer_address_street_input
+            exterior: *customer_address_exterior_input
+            interior: *customer_address_interior_input
+            neighborhood: *customer_address_neighborhood_input
+            city: *customer_address_city_input
+            municipality: *customer_address_municipality_input
+            state: *customer_address_state_input
+            country: *customer_address_country_input
             zip:
-              <<: *customer_address_zip
               type: [string, 'null']
+              description: Postal code
+              example: '86500'
     CustomerCreateCommonInput:
       type: object
       required:

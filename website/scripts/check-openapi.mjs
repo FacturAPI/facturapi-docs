@@ -38,9 +38,7 @@ function contract(value, key) {
 
 for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
   // Match the generator parser so unquoted numeric SAT codes fail validation.
-  const spec = yaml.load(await readFile(new URL(filename, root), "utf8"), {
-    schema: yaml.CORE_SCHEMA.withTags(yaml.mergeTag),
-  });
+  const spec = yaml.load(await readFile(new URL(filename, root), "utf8"));
   for (const name of Object.keys(spec.components.schemas))
     assert(!/(InputProperties|RequiredProperties)$/.test(name),
       `Use an Input schema with its own required fields: ${name}`);
@@ -51,6 +49,10 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
   }
   function walk(value, path = [], references) {
     if (!value || typeof value !== "object") return;
+    assert(
+      !Object.hasOwn(value, "<<"),
+      `YAML merge keys are not supported: ${path.join(".")}`,
+    );
     assert(
       !("nullable" in value),
       `Use OpenAPI 3.1 null unions: ${path.join(".")}`,

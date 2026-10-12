@@ -2808,8 +2808,8 @@ paths:
               type: object
               properties:
                 email:
-                  type: string
-                  description: Customer's email. If not provided, the customer's email will be used.
+                  type: [string, "null"]
+                  description: Recipient email address. If omitted or null, the customer email address is used.
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []

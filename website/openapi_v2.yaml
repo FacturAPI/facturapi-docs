@@ -2779,8 +2779,8 @@ paths:
               type: object
               properties:
                 email:
-                  type: string
-                  description: Correo electrónico del cliente. Si no se proporciona, se usará el correo electrónico del cliente.
+                  type: [string, "null"]
+                  description: Correo electrónico de destino. Si se omite o es null, se usa el correo electrónico del cliente.
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []

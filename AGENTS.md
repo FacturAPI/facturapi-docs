@@ -32,3 +32,7 @@
 - Request schemas, including reusable input fragments, end in `Input`. Response models use resource names; structures intentionally shared by requests and responses use neutral names.
 - Use an input schema referencing shared properties when the request needs a public name of its own. Place `required` on that input instead of introducing a separate required-only schema.
 - Preserve wire fields and behavior when renaming schemas. Keep Spanish and English references aligned.
+
+## SDK guide style
+
+- Describe the current SDK as the available version. Keep release announcements out of general guides; version references may explain verified compatibility or when a capability became available. Document import options in the existing installation guide rather than adding a separate SDK article.

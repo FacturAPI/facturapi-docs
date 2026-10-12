@@ -998,6 +998,7 @@ x-tagGroups:
 paths:
   /catalogs/deductions:
     get:
+      operationId: searchNominaDeductions
       tags:
         - nomina_keys
       summary: Search payroll deduction types
@@ -1069,18 +1070,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/GenericError'
         '401':
           description: Authentication error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/GenericError'
         '429':
           $ref: '#/components/responses/RateLimited'
 
   /catalogs/perceptions:
     get:
+      operationId: searchNominaPerceptions
       tags:
         - nomina_keys
       summary: Search payroll perception types
@@ -1152,13 +1154,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/GenericError'
         '401':
           description: Authentication error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/GenericError'
         '429':
           $ref: '#/components/responses/RateLimited'
 
@@ -17321,6 +17323,16 @@ components:
             the related documents array. This field is filled in by Facturapi as long as the
             related invoice is also registered in Facturapi and belongs to the same organization.
           default: []
+        related_invoice_ids:
+          type: array
+          items:
+            type: string
+          description: |
+            When retrieving the detail of an income or egress CFDI, this array contains the IDs of the
+            opposite-type CFDI related through `related_documents`. For an income CFDI it includes the
+            egress CFDI that reference its UUID; for an egress CFDI it includes the income CFDI whose UUIDs
+            appear in its related documents. It only includes CFDI in the same organization and environment.
+          default: []
         currency:
           type: string
           example: MXN
@@ -17643,11 +17655,11 @@ components:
               default: false
               description: |
                 Repeat the digital signature on each page of the PDF.
-            use_expedition_address:
+            render_organization_address:
               type: boolean
               default: false
               description: |
-                Show the invoice place of issue instead of the organization address. Only one address is shown.
+                Show the organization fiscal address instead of the invoice place of issue. Only one address is shown.
             payroll_options:
               type: object
               properties:
@@ -17763,11 +17775,11 @@ components:
               default: false
               description: |
                 Repeat the digital signature on each page of the PDF.
-            use_expedition_address:
+            render_organization_address:
               type: boolean
               default: false
               description: |
-                Show the invoice place of issue instead of the organization address. Only one address is shown.
+                Show the organization fiscal address instead of the invoice place of issue. Only one address is shown.
             payroll_options:
               type: object
               properties:
@@ -19681,11 +19693,11 @@ components:
                   default: false
                   description: |
                     Repeat the digital signature on each page of the PDF.
-                use_expedition_address:
+                render_organization_address:
                   type: boolean
                   default: false
                   description: |
-                    Show the invoice place of issue instead of the organization address. Only one address is shown.
+                    Show the organization fiscal address instead of the invoice place of issue. Only one address is shown.
                 render_iedu:
                   type: boolean
                   default: false
@@ -20067,11 +20079,11 @@ components:
               default: false
               description: |
                 Repeat the digital signature on each page of the PDF.
-            use_expedition_address:
+            render_organization_address:
               type: boolean
               default: false
               description: |
-                Show the invoice place of issue instead of the organization address. Only one address is shown.
+                Show the organization fiscal address instead of the invoice place of issue. Only one address is shown.
             payroll_options:
               type: object
               properties:

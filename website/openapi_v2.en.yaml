@@ -16573,7 +16573,8 @@ components:
                 $ref: "#/components/schemas/Product"
     ProductCreateInput:
       allOf:
-        - $ref: "#/components/schemas/ProductProperties"
+        - $ref: "#/components/schemas/ProductCommonProperties"
+      required: [description, product_key, price]
     ProductProperties:
       allOf:
         - $ref: "#/components/schemas/ProductCommonProperties"

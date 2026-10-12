@@ -19155,7 +19155,7 @@ components:
               items:
                 type: object
                 properties:
-                  base:
+                  base_ret:
                     type: number
                     minimum: 0
                     description: Base amount on which the tax was calculated.
@@ -19170,7 +19170,7 @@ components:
 
                       - `IVA`: Value Added Tax
                       - `ISR`: Income Tax
-                  monto:
+                  monto_ret:
                     type: number
                     minimum: 0
                     description: Amount of the tax withheld.

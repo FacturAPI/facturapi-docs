@@ -19071,7 +19071,7 @@ components:
               items:
                 type: object
                 properties:
-                  base:
+                  base_ret:
                     type: number
                     minimum: 0
                     description: Base del impuesto retenido.
@@ -19082,7 +19082,7 @@ components:
                       - ISR
                     example: IVA
                     description: Clave del tipo de impuesto retenido, del catálogo del SAT.
-                  monto:
+                  monto_ret:
                     type: number
                     minimum: 0
                     description: Importe del impuesto retenido

@@ -224,3 +224,6 @@ void [expiredCustomerEditLink, clearedCustomerPhone];
 const nullableIncompleteCustomer: components['schemas']['CustomerCreateWithEditLinkInput'] = { legal_name: null, external_id: null, address: { street: null, zip: null, country: null } };
 const omittedCustomerAddress: components['schemas']['CustomerUpdateInput'] = { legal_name: null, address: null };
 void [nullableIncompleteCustomer, omittedCustomerAddress];
+
+const retentionTaxResponse: NonNullable<NonNullable<components['schemas']['RetentionProperties']['totales']>['imp_retenidos']>[number] = { base_ret: 250, monto_ret: 40, tipo_pago_ret: '01' };
+void retentionTaxResponse;

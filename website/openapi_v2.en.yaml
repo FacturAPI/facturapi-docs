@@ -16180,6 +16180,7 @@ components:
         - $ref: '#/components/schemas/CustomerNonEditableProperties'
         - $ref: '#/components/schemas/CustomerProperties'
         - type: object
+          required: [organization]
           properties:
             email:
               type: string
@@ -16515,10 +16516,12 @@ components:
           description: Internal identifier designated by the company. It can have any value.
 
     InvoiceItemProduct:
-      required: [taxes]
       allOf:
         - type: object
+          required: [taxes]
           properties:
+            taxes:
+              $ref: '#/components/schemas/ProductCommonProperties/properties/taxes'
             id:
               type: string
               description: ID of the base product. Only present if a previously saved `Product` object was used as a base.

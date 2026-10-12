@@ -998,6 +998,7 @@ x-tagGroups:
 paths:
   /catalogs/deductions:
     get:
+      operationId: searchNominaDeductions
       tags:
         - nomina_keys
       summary: Search payroll deduction types
@@ -1065,22 +1066,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
         '400':
-          description: Invalid request parameters
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/BadRequest'
         '401':
-          description: Authentication error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/Unauthenticated'
         '429':
           $ref: '#/components/responses/RateLimited'
 
   /catalogs/perceptions:
     get:
+      operationId: searchNominaPerceptions
       tags:
         - nomina_keys
       summary: Search payroll perception types
@@ -1148,17 +1142,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
         '400':
-          description: Invalid request parameters
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/BadRequest'
         '401':
-          description: Authentication error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/Unauthenticated'
         '429':
           $ref: '#/components/responses/RateLimited'
 
@@ -3786,7 +3772,7 @@ paths:
           name: date
           style: deepObject
           schema:
-            $ref: "#/components/schemas/DateRange"
+            $ref: "#/components/schemas/DateRangeInput"
           description: Object with requested date range. The range filters the invoice `date` field.
         - in: query
           name: page
@@ -9434,7 +9420,7 @@ paths:
           name: domain
           required: true
           schema:
-            $ref: "#/components/schemas/DomainField"
+            $ref: "#/components/schemas/DomainInput"
       security:
         - "SecretUserKey": []
       responses:
@@ -12674,22 +12660,19 @@ components:
       content:
         application/json:
           schema:
-            allOf:
-              - $ref: "#/components/schemas/CustomerProperties"
+            $ref: "#/components/schemas/CustomerUpdateInput"
     ProductCreate:
       required: true
       content:
         application/json:
           schema:
-            allOf:
-              - $ref: "#/components/schemas/ProductProperties"
+            $ref: "#/components/schemas/ProductCreateInput"
     ProductEdit:
       required: true
       content:
         application/json:
           schema:
-            allOf:
-              - $ref: "#/components/schemas/ProductEditableProperties"
+            $ref: "#/components/schemas/ProductUpdateInput"
     InvoiceCreate:
       required: true
       content:
@@ -12877,7 +12860,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/WebhookCreateEdit"
+            $ref: "#/components/schemas/WebhookUpdateInput"
 
   parameters:
     InvoiceZipRequestId:
@@ -12893,7 +12876,7 @@ components:
       name: date
       style: deepObject
       schema:
-        $ref: "#/components/schemas/DateRange"
+        $ref: "#/components/schemas/DateRangeInput"
       description: Object with requested date range.
     SearchPage:
       in: query
@@ -13236,7 +13219,7 @@ components:
         - created_at
         - livemode
         - organization
-    DateRange:
+    DateRangeInput:
       type: object
       properties:
         gt:
@@ -13723,7 +13706,7 @@ components:
           items:
             $ref: "#/components/schemas/Parts"
           description: Object with information about the parts conforming this item or product.
-    ThirdParty:
+    ThirdPartyInput:
       type: object
       description: |
         Object with information about the third-party contributor, on behalf of whom the operation is carried out.
@@ -13797,7 +13780,7 @@ components:
                 - tax_id
                 - tax_system
                 - zip
-            - $ref: "#/components/schemas/ThirdParty"
+            - $ref: "#/components/schemas/ThirdPartyInput"
         property_tax_account:
           type: array
           description: Property tax account numbers.
@@ -13853,7 +13836,7 @@ components:
                 - tax_id
                 - tax_system
                 - zip
-            - $ref: "#/components/schemas/ThirdParty"
+            - $ref: "#/components/schemas/ThirdPartyInput"
     LineItemTrasladoInput:
       title: LineItem
       required:
@@ -14631,14 +14614,11 @@ components:
           type: array
           description: Array of objects to express information about the company that benefits from the employee's work, in cases where the issuer provides subcontracting services.
           items:
-            allOf:
-              - $ref: "#/components/schemas/NominaSubContratacionRequiredProperties"
-              - $ref: "#/components/schemas/NominaSubContratacionProperties"
-    NominaSubContratacionRequiredProperties:
-      type: object
-      required:
-        - rfc_labora
-        - porcentaje_tiempo
+            $ref: "#/components/schemas/NominaSubContratacionInput"
+    NominaSubContratacionInput:
+      allOf:
+        - $ref: "#/components/schemas/NominaSubContratacionProperties"
+      required: [rfc_labora, porcentaje_tiempo]
     NominaSubContratacionProperties:
       type: object
       properties:
@@ -16009,12 +15989,10 @@ components:
         TransporteFerroviario:
           $ref: "#/components/schemas/CartaPorteTransporteFerroviario"
           description: Rail transport details.
-    NamespaceRequiredProperties:
-      type: object
-      required:
-        - prefix
-        - uri
-        - schema_location
+    NamespaceInput:
+      allOf:
+        - $ref: "#/components/schemas/NamespaceProperties"
+      required: [prefix, uri, schema_location]
     NamespaceProperties:
       type: object
       title: Namespace
@@ -16156,7 +16134,7 @@ components:
               example:
                 - receipt.self_invoice_complete
               minItems: 1
-    WebhookCreateEdit:
+    WebhookUpdateInput:
       title: Webhook
       allOf:
         - type: object
@@ -16236,6 +16214,9 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/Customer"
+    CustomerUpdateInput:
+      allOf:
+        - $ref: "#/components/schemas/CustomerProperties"
     CustomerProperties:
       allOf:
         - $ref: "#/components/schemas/CustomerCommonProperties"
@@ -16492,7 +16473,7 @@ components:
     LineItemProductEgresoInput:
       title: Product
       allOf:
-        - $ref: "#/components/schemas/ProductEgresoProperties"
+        - $ref: "#/components/schemas/ProductEgresoInput"
 
     LineItemTrasladoProductInput:
       title: Product
@@ -16590,10 +16571,16 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/Product"
+    ProductCreateInput:
+      allOf:
+        - $ref: "#/components/schemas/ProductProperties"
     ProductProperties:
       allOf:
         - $ref: "#/components/schemas/ProductEditableProperties"
       required: [description, product_key, price]
+    ProductUpdateInput:
+      allOf:
+        - $ref: "#/components/schemas/ProductEditableProperties"
     ProductEditableProperties:
       type: object
       properties:
@@ -16680,7 +16667,7 @@ components:
         sku:
           type: string
           description: Internal identifier designated by the company. It can have any value.
-    ProductEgresoProperties:
+    ProductEgresoInput:
       type: object
       properties:
         description:
@@ -17174,12 +17161,6 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/Invoice"
-    InvoiceRequiredProperties:
-      type: object
-      required:
-        - description
-        - invoice_key
-        - price
     InvoiceProperties:
       type: object
       required:
@@ -17570,9 +17551,7 @@ components:
           description: |
             If you included the `complements` parameter, this field is optional; however, if you included the `addenda` parameter, you must send the necessary information to include these namespaces in the XML document.
           items:
-            allOf:
-              - $ref: "#/components/schemas/NamespaceRequiredProperties"
-              - $ref: "#/components/schemas/NamespaceProperties"
+            $ref: "#/components/schemas/NamespaceInput"
         pdf_options:
           type: object
           description: |
@@ -17690,9 +17669,7 @@ components:
           description: |
             If you included the `complements` parameter, this field is optional; however, if you included the `addenda` parameter, you must send the necessary information to include these namespaces in the XML document.
           items:
-            allOf:
-              - $ref: "#/components/schemas/NamespaceRequiredProperties"
-              - $ref: "#/components/schemas/NamespaceProperties"
+            $ref: "#/components/schemas/NamespaceInput"
         pdf_options:
           type: object
           description: |
@@ -17791,7 +17768,7 @@ components:
           title: customer_id
           description: ID of the `customer` object previously registered in Facturapi.
           example: 58e93bd8e86eb318b0197456
-    InvoiceCommonInputProperties:
+    InvoiceCommonInput:
       allOf:
         - type: object
           properties:
@@ -17844,7 +17821,7 @@ components:
 
                 If left blank, it will not be taken into account.
         - $ref: "#/components/schemas/InvoiceableCommonInput"
-    InvoiceCommonEditInputProperties:
+    InvoiceCommonEditInput:
       allOf:
         - type: object
           properties:
@@ -17886,9 +17863,9 @@ components:
 
                 If left blank, it will not be taken into account.
         - $ref: "#/components/schemas/InvoiceableCommonEditInput"
-    InvoiceDraftInputProperties:
+    InvoiceDraftCommonInput:
       allOf:
-        - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
+        - $ref: "#/components/schemas/InvoiceCommonEditInput"
         - type: object
           properties:
             customer:
@@ -18160,7 +18137,7 @@ components:
                 invoice if you build the XML node of the complement yourself and use the `custom` type.
                 It is necessary to add the complement information to the PDF separately using the
                 `pdf_custom_section` parameter.
-        - $ref: "#/components/schemas/InvoiceCommonInputProperties"
+        - $ref: "#/components/schemas/InvoiceCommonInput"
     InvoiceEgresoInput:
       title: Egress
       allOf:
@@ -18232,7 +18209,7 @@ components:
                 credit note if you build the XML node of the complement yourself and use the `custom` type.
                 It is necessary to add the complement information to the PDF separately using the
                 `pdf_custom_section` parameter.
-        - $ref: "#/components/schemas/InvoiceCommonInputProperties"
+        - $ref: "#/components/schemas/InvoiceCommonInput"
     InvoicePagoInput:
       title: Payment
       allOf:
@@ -18260,7 +18237,7 @@ components:
                     - tax_id
                     - tax_system
                     - zip
-                - $ref: "#/components/schemas/ThirdParty"
+                - $ref: "#/components/schemas/ThirdPartyInput"
             complements:
               type: array
               minItems: 1
@@ -18275,7 +18252,7 @@ components:
               items:
                 $ref: "#/components/schemas/InvoiceComplementInput"
               description: Complements to include in the invoice.
-        - $ref: "#/components/schemas/InvoiceCommonInputProperties"
+        - $ref: "#/components/schemas/InvoiceCommonInput"
     InvoiceNominaInput:
       title: Payroll
       allOf:
@@ -18309,7 +18286,7 @@ components:
               default: []
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
-        - $ref: "#/components/schemas/InvoiceCommonInputProperties"
+        - $ref: "#/components/schemas/InvoiceCommonInput"
     InvoiceTrasladoInput:
       title: Transfer
       allOf:
@@ -18365,7 +18342,7 @@ components:
               default: []
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
-        - $ref: "#/components/schemas/InvoiceCommonInputProperties"
+        - $ref: "#/components/schemas/InvoiceCommonInput"
     InvoiceIngresoEditInput:
       title: Income
       allOf:
@@ -18485,7 +18462,7 @@ components:
                 invoice if you build the XML node of the complement yourself and use the `custom` type.
                 It is necessary to add the complement information to the PDF separately using the
                 `pdf_custom_section` parameter.
-        - $ref: "#/components/schemas/InvoiceDraftInputProperties"
+        - $ref: "#/components/schemas/InvoiceDraftCommonInput"
     InvoiceEgresoEditInput:
       title: Egress
       allOf:
@@ -18546,7 +18523,7 @@ components:
                 credit note if you build the XML node of the complement yourself and use the `custom` type.
                 It is necessary to add the complement information to the PDF separately using the
                 `pdf_custom_section` parameter.
-        - $ref: "#/components/schemas/InvoiceDraftInputProperties"
+        - $ref: "#/components/schemas/InvoiceDraftCommonInput"
     InvoicePagoEditInput:
       title: Payment
       allOf:
@@ -18569,13 +18546,13 @@ components:
                     - tax_id
                     - tax_system
                     - zip
-                - $ref: "#/components/schemas/ThirdParty"
+                - $ref: "#/components/schemas/ThirdPartyInput"
             complements:
               type: array
               items:
                 $ref: "#/components/schemas/InvoiceComplementInput"
               description: Complements to include in the invoice.
-        - $ref: "#/components/schemas/InvoiceDraftInputProperties"
+        - $ref: "#/components/schemas/InvoiceDraftCommonInput"
     InvoiceNominaEditInput:
       title: Payroll
       allOf:
@@ -18597,7 +18574,7 @@ components:
               description: Documents related to the invoice.
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
-        - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
+        - $ref: "#/components/schemas/InvoiceCommonEditInput"
     InvoiceTrasladoEditInput:
       title: Transfer
       allOf:
@@ -18646,7 +18623,7 @@ components:
               description: Documents related to the invoice.
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
-        - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
+        - $ref: "#/components/schemas/InvoiceCommonEditInput"
 
     Receipt:
       title: Receipt object
@@ -18868,7 +18845,7 @@ components:
       anyOf:
         - title: Select by period
           allOf:
-            - $ref: '#/components/schemas/GlobalInvoiceInputProperties'
+            - $ref: '#/components/schemas/GlobalInvoiceCommonInput'
             - type: object
               properties:
                 receipts: false
@@ -18878,8 +18855,8 @@ components:
             - from
             - to
           allOf:
-            - $ref: '#/components/schemas/GlobalInvoiceInputProperties'
-    GlobalInvoiceInputProperties:
+            - $ref: '#/components/schemas/GlobalInvoiceCommonInput'
+    GlobalInvoiceCommonInput:
       type: object
       properties:
         from:
@@ -19502,9 +19479,7 @@ components:
           type: array
           description: Namespaces to insert in the root node of the invoice. Required for `addenda`.
           items:
-            allOf:
-              - $ref: "#/components/schemas/NamespaceRequiredProperties"
-              - $ref: "#/components/schemas/NamespaceProperties"
+            $ref: "#/components/schemas/NamespaceInput"
 
     OrganizationAddress:
       allOf:
@@ -20152,7 +20127,7 @@ components:
           description: |
             Email address for clarifications. It will appear in the self-invoice portal.
             If the email is not verified, the main account's email will be used.
-    DomainField:
+    DomainInput:
       type: string
       maxLength: 50
       minLength: 4
@@ -20167,7 +20142,7 @@ components:
         - domain
       properties:
         domain:
-          $ref: "#/components/schemas/DomainField"
+          $ref: "#/components/schemas/DomainInput"
     OrganizationSeriesCreateInput:
       type: object
       required:

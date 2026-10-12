@@ -39,6 +39,14 @@ function contract(value, key) {
 for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
   // Match the generator parser so unquoted numeric SAT codes fail validation.
   const spec = yaml.load(await readFile(new URL(filename, root), "utf8"));
+  for (const name of Object.keys(spec.components.schemas))
+    assert(!/(InputProperties|RequiredProperties)$/.test(name),
+      `Use an Input schema with its own required fields: ${name}`);
+  for (const [name, body] of Object.entries(spec.components.requestBodies)) {
+    const reference = body.content?.["application/json"]?.schema?.$ref;
+    if (reference) assert(reference.endsWith("Input"),
+      `Request body schemas must end in Input: ${name}`);
+  }
   function walk(value, path = []) {
     if (!value || typeof value !== "object") return;
     assert(

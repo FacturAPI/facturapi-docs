@@ -17370,26 +17370,14 @@ components:
       required: [date, status, cancellation_status, type, total, currency, exchange, items]
       properties:
         status:
-          type: string
-          enum:
-            - pending
-            - valid
-            - canceled
-            - draft
+          $ref: '#/components/schemas/InvoiceProperties/properties/status'
           description: |
             Estado actual de la factura.
           example: draft
         cancellation:
           $ref: '#/components/schemas/InvoiceCancellation'
         cancellation_status:
-          type: string
-          enum:
-            - none
-            - pending
-            - accepted
-            - rejected
-            - expired
-            - verifying
+          $ref: '#/components/schemas/InvoiceProperties/properties/cancellation_status'
           description: |
             Estado actual de la solicitud de cancelación, en caso de haberla realizado. Puedes leer más a detalle en la sección de [Cancelar Factura](#tag/invoice/operation/deleteInvoice)).
           example: none
@@ -17415,13 +17403,7 @@ components:
                   description: Nombre del Estado o Entidad Federativa.
                   example: Sonora
         type:
-          type: string
-          enum:
-            - "I"
-            - "E"
-            - "P"
-            - "N"
-            - "T"
+          $ref: '#/components/schemas/InvoiceProperties/properties/type'
           description: |
             Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
         customer:

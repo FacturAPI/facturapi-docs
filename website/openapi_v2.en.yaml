@@ -17416,26 +17416,14 @@ components:
       required: [date, status, cancellation_status, type, total, currency, exchange, items]
       properties:
         status:
-          type: string
-          enum:
-            - pending
-            - valid
-            - canceled
-            - draft
+          $ref: '#/components/schemas/InvoiceProperties/properties/status'
           description: |
             Current status of the invoice.
           example: draft
         cancellation:
           $ref: '#/components/schemas/InvoiceCancellation'
         cancellation_status:
-          type: string
-          enum:
-            - none
-            - verifying
-            - pending
-            - accepted
-            - rejected
-            - expired
+          $ref: '#/components/schemas/InvoiceProperties/properties/cancellation_status'
           description: |
             Current status of the cancellation request, if it has been made. `verifying` means the SAT has received the request and is validating it; Facturapi will keep checking until it changes to a final status. You can read more in the [Cancel Invoice](#tag/invoice/operation/deleteInvoice) section.
           example: none
@@ -17462,13 +17450,7 @@ components:
                   description: If the country is Mexico ("MEX"), it contains the name of the State or Federative Entity. For foreigners, it contains the State code according to the standard [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), which you can consult in our [State Catalog](https://dashboard.facturapi.io/catalogs/state).
                   example: Sonora
         type:
-          type: string
-          enum:
-            - "I"
-            - "E"
-            - "P"
-            - "N"
-            - "T"
+          $ref: '#/components/schemas/InvoiceProperties/properties/type'
           description: |
             Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
         customer:

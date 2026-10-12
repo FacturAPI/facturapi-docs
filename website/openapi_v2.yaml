@@ -17146,7 +17146,7 @@ components:
                 $ref: "#/components/schemas/Invoice"
     InvoiceProperties:
       type: object
-      required: [date, status, cancellation_status, type, total, currency, exchange, items]
+      required: [date, status, cancellation_status, type, total, currency, exchange, items, amount_due]
       properties:
         status:
           type: string
@@ -17219,9 +17219,9 @@ components:
           description: Monto total facturado.
           example: 10944.82
         uuid:
-          type: string
+          type: [string, "null"]
           format: uuid
-          description: Folio fiscal de la factura, asignado por el SAT.
+          description: Folio fiscal de la factura, asignado por el SAT. En borradores sin timbrar puede ser null o estar omitido.
           example: 39c85a3f-275b-4341-b259-e8971d9f8a94
         folio_number:
           type: integer
@@ -17238,7 +17238,7 @@ components:
           type: string
           description: Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
         payment_form:
-          type: string
+          type: [string, "null"]
           description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
           example: "06"
         total_payment_amount:
@@ -17331,10 +17331,10 @@ components:
         issuer_info:
           $ref: '#/components/schemas/CustomerInfo'
         payment_method:
-          type: string
-          enum:
-            - PUE
-            - PPD
+          anyOf:
+            - type: string
+              enum: [PUE, PPD]
+            - type: "null"
         use:
           type: string
         amount_due:
@@ -17366,131 +17366,8 @@ components:
             year:
               type: integer
     InvoiceDraftProperties:
-      type: object
-      required: [date, status, cancellation_status, type, total, currency, exchange, items]
-      properties:
-        status:
-          $ref: '#/components/schemas/InvoiceProperties/properties/status'
-          description: |
-            Estado actual de la factura.
-          example: draft
-        cancellation:
-          $ref: '#/components/schemas/InvoiceCancellation'
-        cancellation_status:
-          $ref: '#/components/schemas/InvoiceProperties/properties/cancellation_status'
-          description: |
-            Estado actual de la solicitud de cancelación, en caso de haberla realizado. Puedes leer más a detalle en la sección de [Cancelar Factura](#tag/invoice/operation/deleteInvoice)).
-          example: none
-        verification_url:
-          type: string
-          format: uri
-          description: Dirección URL para verificar el estado del CFDI en el portal del SAT. Este link es el mismo que aparece en el código QR, en el PDF de la factura.
-        date:
-          type:
-            - string
-            - 'null'
-          format: date-time
-          example: null
-          description: Fecha de timbrado del comprobante en formato ISO8601 (UTC String). Si el estado es `draft`, este campo es nulo.
-        address:
-          allOf:
-            - $ref: '#/components/schemas/CommonAddressProperties'
-            - type: object
-              description: Domicilio de expedición de la factura.
-              properties:
-                state:
-                  type: string
-                  description: Nombre del Estado o Entidad Federativa.
-                  example: Sonora
-        type:
-          $ref: '#/components/schemas/InvoiceProperties/properties/type'
-          description: |
-            Tipo de comprobante. Puede tener los valores `"I"`: Ingreso, `"P"`: Pago, `"E"`: Egreso, `"N"`: Nómina, `"T"`: Traslado.
-        customer:
-          description: Cliente de la factura. Es null cuando el borrador no tiene cliente.
-          anyOf:
-            - $ref: '#/components/schemas/CustomerInfo'
-            - type: 'null'
-        total:
-          type: number
-          description: Monto total facturado.
-          example: 0
-        uuid:
-          type: [string, "null"]
-          format: uuid
-          description: Folio fiscal asignado por el SAT. En un borrador sin timbrar, este campo es null o se omite.
-        folio_number:
-          type: integer
-          description: Número de folio autoincremental para control interno y sin validez fiscal.
-          example: 914
-        series:
-          type: string
-          description: Serie. Caracteres designados por la empresa para control interno y sin validez fiscal. En el PDF se imprime junto al número de folio.
-          example: F
-        external_id:
-          type: string
-          description: Identificador que puedes usar para relacionar esta factura con tus registros para después buscar por este número.
-        idempotency_key:
-          type: string
-          description: Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
-        payment_form:
-          type: string
-          description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
-          example: "06"
-        items:
-          type: array
-          description: Conceptos incluidos en el comprobante
-          items:
-            $ref: '#/components/schemas/InvoiceItem'
-        related_documents:
-          type: array
-          description: Documentos relacionados con la factura.
-          items:
-            $ref: '#/components/schemas/RelatedDocument'
-        currency:
-          type: string
-          example: MXN
-          description: Código de la moneda, acorde al estándar [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
-        exchange:
-          type: number
-          minimum: 0
-          example: 1
-          description: Tipo de cambio conforme a la moneda usada. Representa el número de pesos mexicanos que equivalen a una unidad de la divisa señalada en el atributo `currency`.
-        complements:
-          type: array
-          default: []
-          items:
-            $ref: '#/components/schemas/InvoiceComplementProperties'
-          description: Complementos a incluir en la factura.
-        pdf_custom_section:
-          type: string
-          format: html
-          description: En caso de que necesites incluir más información en el PDF, este campo te permite insertar código HTML con tu propio contenido.
-        addenda:
-          type: string
-          format: xml
-          description: Código XML con la Addenda que se necesite agregar a la factura.
-        namespaces:
-          type: array
-          description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda`.
-          items:
-            $ref: '#/components/schemas/NamespaceProperties'
-        is_ready_to_stamp:
-          type: boolean
-          description: |
-            Este campo es asignado automáticamente por Facturapi. Indica si una factura
-            con status `draft` está completa y lista para intentar timbrarse. Si el valor es `true`, puedes
-            intentar timbrar la factura con el método [Timbrar Factura]('#/operation/stampInvoice').
-            Si el valor es `false`, debes usar el método [Actualizar Factura]('#/operation/updateDraftInvoice')
-            para completar los campos faltantes.
-
-            En una factura con status diferente a `draft`, este campo siempre será `false`.
-        stamp:
-          anyOf:
-            - $ref: '#/components/schemas/Stamp'
-            - type: 'null'
-          example: null
-
+      allOf:
+        - $ref: '#/components/schemas/InvoiceProperties'
     InvoiceableCommonInput:
       type: object
       properties:

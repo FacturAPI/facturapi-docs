@@ -17192,7 +17192,7 @@ components:
                 $ref: "#/components/schemas/Invoice"
     InvoiceProperties:
       type: object
-      required: [date, status, cancellation_status, type, total, currency, exchange, items]
+      required: [date, status, cancellation_status, type, total, currency, exchange, items, amount_due]
       properties:
         status:
           type: string
@@ -17265,9 +17265,9 @@ components:
           description: Total amount invoiced.
           example: 10944.82
         uuid:
-          type: string
+          type: [string, "null"]
           format: uuid
-          description: Fiscal folio of the invoice, assigned by the SAT.
+          description: Fiscal folio of the invoice, assigned by the SAT. For unstamped drafts it can be null or omitted.
           example: 39c85a3f-275b-4341-b259-e8971d9f8a94
         folio_number:
           type: integer
@@ -17284,7 +17284,7 @@ components:
           type: string
           description: Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
         payment_form:
-          type: string
+          type: [string, "null"]
           description: Payment form code according to the [Payment Form catalog](#payment-form).
           example: "06"
         total_payment_amount:
@@ -17377,10 +17377,10 @@ components:
         issuer_info:
           $ref: '#/components/schemas/CustomerInfo'
         payment_method:
-          type: string
-          enum:
-            - PUE
-            - PPD
+          anyOf:
+            - type: string
+              enum: [PUE, PPD]
+            - type: "null"
         use:
           type: string
         amount_due:
@@ -17412,132 +17412,8 @@ components:
             year:
               type: integer
     InvoiceDraftProperties:
-      type: object
-      required: [date, status, cancellation_status, type, total, currency, exchange, items]
-      properties:
-        status:
-          $ref: '#/components/schemas/InvoiceProperties/properties/status'
-          description: |
-            Current status of the invoice.
-          example: draft
-        cancellation:
-          $ref: '#/components/schemas/InvoiceCancellation'
-        cancellation_status:
-          $ref: '#/components/schemas/InvoiceProperties/properties/cancellation_status'
-          description: |
-            Current status of the cancellation request, if it has been made. `verifying` means the SAT has received the request and is validating it; Facturapi will keep checking until it changes to a final status. You can read more in the [Cancel Invoice](#tag/invoice/operation/deleteInvoice) section.
-          example: none
-        verification_url:
-          type: string
-          format: uri
-          description: URL to verify the status of the CFDI on the SAT portal. This link is the same as the one that appears in the QR code on the invoice PDF.
-        date:
-          type:
-            - string
-            - 'null'
-          format: date-time
-          example: null
-          description: |
-            Date of issuance of the invoice in ISO8601 format (UTC String). If the status is `draft`, this field is null.
-        address:
-          allOf:
-            - $ref: '#/components/schemas/CommonAddressProperties'
-            - type: object
-              description: Address where the invoice was issued.
-              properties:
-                state:
-                  type: string
-                  description: If the country is Mexico ("MEX"), it contains the name of the State or Federative Entity. For foreigners, it contains the State code according to the standard [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), which you can consult in our [State Catalog](https://dashboard.facturapi.io/catalogs/state).
-                  example: Sonora
-        type:
-          $ref: '#/components/schemas/InvoiceProperties/properties/type'
-          description: |
-            Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
-        customer:
-          description: Invoice customer. Null when the draft has no customer.
-          anyOf:
-            - $ref: '#/components/schemas/CustomerInfo'
-            - type: 'null'
-        total:
-          type: number
-          description: Total amount invoiced.
-          example: 0
-        uuid:
-          type: [string, "null"]
-          format: uuid
-          description: Fiscal folio assigned by the SAT. For an unstamped draft, this field is null or omitted.
-        folio_number:
-          type: integer
-          description: Autoincremental folio number for internal control and without fiscal relevance.
-          example: 914
-        series:
-          type: string
-          description: Series. Alphanumeric characters designated by the company for internal control and without fiscal relevance. In the PDF, it is printed next to the folio number.
-          example: F
-        external_id:
-          type: string
-          description: Identifier that you can use to relate this invoice to your records to later search by this number.
-        idempotency_key:
-          type: string
-          description: Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
-        payment_form:
-          type: string
-          description: Payment form code according to the [Payment Form catalog](#forma-de-pago).
-          example: "06"
-        items:
-          type: array
-          description: Concepts included in the document.
-          items:
-            $ref: '#/components/schemas/InvoiceItem'
-        related_documents:
-          type: array
-          description: Documents related to the invoice.
-          items:
-            $ref: '#/components/schemas/RelatedDocument'
-        currency:
-          type: string
-          example: MXN
-          description: Currency code, according to the standard [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
-        exchange:
-          type: number
-          minimum: 0
-          example: 1
-          description: Exchange rate for the currency used. It represents the number of Mexican pesos (MXN) equivalent to one unit of the currency indicated in the `currency` attribute.
-        complements:
-          type: array
-          default: []
-          items:
-            $ref: '#/components/schemas/InvoiceComplementProperties'
-          description: Complements to include in the invoice.
-        pdf_custom_section:
-          type: string
-          format: html
-          description: In case you need to include more information in the PDF, this field allows you to insert HTML code with your own content.
-        addenda:
-          type: string
-          format: xml
-          description: XML code with the Addenda that needs to be added to the invoice.
-        namespaces:
-          type: array
-          description: Namespaces to insert in the root node of the invoice. Required for `addenda`.
-          items:
-            $ref: '#/components/schemas/NamespaceProperties'
-        is_ready_to_stamp:
-          type: boolean
-          description: |
-            This field is automatically assigned by Facturapi. It indicates if an invoice
-            with status `draft` is complete and ready to be stamped. If the value is `true`, you can
-            try to stamp the invoice with the [Stamp Invoice]('#/operation/stampInvoice') method.
-            If the value is `false`, you must use the [Update Invoice]('#/operation/updateDraftInvoice')
-            method to complete the missing fields.
-
-            In an invoice with a status other than `draft`, this field will always be `false`.
-        stamp:
-          anyOf:
-            - $ref: '#/components/schemas/Stamp'
-            - type: 'null'
-          example: null
-
+      allOf:
+        - $ref: '#/components/schemas/InvoiceProperties'
     InvoiceableCommonInput:
       type: object
       properties:

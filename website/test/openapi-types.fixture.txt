@@ -77,7 +77,7 @@ const invalid: components["schemas"]["ApiEvent"] = {
       livemode: false,
       date: null,
       status: "draft", cancellation_status: "none", type: "I",
-      total: 0, currency: "MXN", exchange: 1, items: [],
+      total: 0, currency: "MXN", exchange: 1, items: [], amount_due: 0,
     },
   },
 };

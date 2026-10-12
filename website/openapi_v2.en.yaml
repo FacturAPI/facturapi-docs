@@ -16512,6 +16512,7 @@ components:
           description: Internal identifier designated by the company. It can have any value.
 
     InvoiceItemProduct:
+      required: [taxes]
       allOf:
         - type: object
           properties:

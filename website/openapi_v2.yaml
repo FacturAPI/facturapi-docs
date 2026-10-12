@@ -16507,6 +16507,7 @@ components:
           description: Identificador de uso interno designado por la empresa. Puede tener cualquier valor.
 
     InvoiceItemProduct:
+      required: [taxes]
       allOf:
         - type: object
           properties:

@@ -13681,7 +13681,7 @@ components:
           type: string
           description: Digital stamp of the fiscal document.
 
-    LineItem:
+    InvoiceItem:
       type: object
       properties:
         property_tax_account:
@@ -13698,7 +13698,7 @@ components:
           description: Total discount amount applied to this concept.
           example: 0
         product:
-          $ref: "#/components/schemas/LineItemProduct"
+          $ref: "#/components/schemas/InvoiceItemProduct"
           description: |
             Object with information about the product or service invoiced.
         parts:
@@ -13731,8 +13731,8 @@ components:
           type: string
           description: Postal code of the third party.
           example: "01234"
-    LineItemInput:
-      title: LineItem
+    InvoiceItemInput:
+      title: InvoiceItem
       required:
         - product
       type: object
@@ -13751,7 +13751,7 @@ components:
         product:
           description: Object with information about the product or service invoiced.
           oneOf:
-            - $ref: "#/components/schemas/LineItemProductInput"
+            - $ref: "#/components/schemas/InvoiceItemProductInput"
             - type: string
               title: product_id
               description: ID of a product previously registered in Facturapi
@@ -13787,8 +13787,8 @@ components:
           items:
             type: string
           example: ["0102030405"]
-    LineItemEgresoInput:
-      title: LineItem
+    InvoiceItemEgresoInput:
+      title: InvoiceItem
       required:
         - product
       type: object
@@ -13807,7 +13807,7 @@ components:
         product:
           description: Object with information about the product or service invoiced.
           oneOf:
-            - $ref: "#/components/schemas/LineItemProductEgresoInput"
+            - $ref: "#/components/schemas/InvoiceItemProductEgresoInput"
             - type: string
               title: product_id
               description: ID of a product previously registered in Facturapi
@@ -13837,8 +13837,8 @@ components:
                 - tax_system
                 - zip
             - $ref: "#/components/schemas/ThirdPartyInput"
-    LineItemTrasladoInput:
-      title: LineItem
+    InvoiceItemTrasladoInput:
+      title: InvoiceItem
       required:
         - product
       type: object
@@ -13852,7 +13852,7 @@ components:
         product:
           description: Object with information about the product or service invoiced.
           oneOf:
-            - $ref: "#/components/schemas/LineItemTrasladoProductInput"
+            - $ref: "#/components/schemas/InvoiceItemProductTrasladoInput"
             - type: string
               title: product_id
               description: ID of a product previously registered in Facturapi
@@ -16465,17 +16465,17 @@ components:
         - $ref: '#/components/schemas/CustomerForeignCreateInput'
         - $ref: '#/components/schemas/CustomerGenericCreateInput'
 
-    LineItemProductInput:
+    InvoiceItemProductInput:
       title: Product
       allOf:
         - $ref: "#/components/schemas/ProductProperties"
 
-    LineItemProductEgresoInput:
+    InvoiceItemProductEgresoInput:
       title: Product
       allOf:
         - $ref: "#/components/schemas/ProductEgresoInput"
 
-    LineItemTrasladoProductInput:
+    InvoiceItemProductTrasladoInput:
       title: Product
       required:
         - description
@@ -16505,7 +16505,7 @@ components:
           type: string
           description: Internal identifier designated by the company. It can have any value.
 
-    LineItemProduct:
+    InvoiceItemProduct:
       allOf:
         - type: object
           properties:
@@ -17278,7 +17278,7 @@ components:
           type: array
           description: Concepts included in the document.
           items:
-            $ref: '#/components/schemas/LineItem'
+            $ref: '#/components/schemas/InvoiceItem'
         related_documents:
           type: array
           description: Documents related to the invoice.
@@ -17474,7 +17474,7 @@ components:
           type: array
           description: Concepts included in the document.
           items:
-            $ref: '#/components/schemas/LineItem'
+            $ref: '#/components/schemas/InvoiceItem'
         related_documents:
           type: array
           description: Documents related to the invoice.
@@ -18029,7 +18029,7 @@ components:
                 The maximum number of elements that you can include in an invoice is 5,000. If you need
                 to issue an invoice with more than 5,000 concepts, you can divide the transaction into several invoices.
               items:
-                $ref: "#/components/schemas/LineItemInput"
+                $ref: "#/components/schemas/InvoiceItemInput"
             payment_form:
               type: string
               minLength: 2
@@ -18183,7 +18183,7 @@ components:
                 The maximum number of elements that you can include in a document is 5,000. If you need
                 to issue a document with more than 5,000 concepts, you can divide the transaction into several documents.
               items:
-                $ref: "#/components/schemas/LineItemEgresoInput"
+                $ref: "#/components/schemas/InvoiceItemEgresoInput"
             use:
               type: string
               default: G02
@@ -18310,7 +18310,7 @@ components:
                 The maximum number of elements that you can include in an invoice is 5,000. If you need
                 to issue an invoice with more than 5,000 concepts, you can divide the transaction into several invoices.
               items:
-                $ref: "#/components/schemas/LineItemTrasladoInput"
+                $ref: "#/components/schemas/InvoiceItemTrasladoInput"
             complements:
               type: array
               default: []
@@ -18362,7 +18362,7 @@ components:
                 The maximum number of elements that you can include in an invoice is 5,000. If you need
                 to issue an invoice with more than 5,000 concepts, you can divide the transaction into several invoices.
               items:
-                $ref: "#/components/schemas/LineItemInput"
+                $ref: "#/components/schemas/InvoiceItemInput"
             payment_form:
               type: [string, "null"]
               minLength: 2
@@ -18501,7 +18501,7 @@ components:
                 The maximum number of elements that you can include in a document is 5,000. If you need
                 to issue a document with more than 5,000 concepts, you can divide the transaction into several documents.
               items:
-                $ref: "#/components/schemas/LineItemEgresoInput"
+                $ref: "#/components/schemas/InvoiceItemEgresoInput"
             use:
               type: string
               example: G01
@@ -18596,7 +18596,7 @@ components:
                 The maximum number of elements that you can include in an invoice is 5,000. If you need
                 to issue an invoice with more than 5,000 concepts, you can divide the transaction into several invoices.
               items:
-                $ref: "#/components/schemas/LineItemTrasladoInput"
+                $ref: "#/components/schemas/InvoiceItemTrasladoInput"
             complements:
               type: array
               items:
@@ -18696,7 +18696,7 @@ components:
               description: |
                 Sale items included in the receipt.
               items:
-                $ref: "#/components/schemas/LineItem"
+                $ref: "#/components/schemas/InvoiceItem"
             external_id:
               type: string
               description: |
@@ -18743,7 +18743,7 @@ components:
                 The maximum number of elements that you can include in a receipt is 5,000. If you need
                 to issue a receipt with more than 5,000 concepts, you can divide the transaction into several receipts.
               items:
-                $ref: "#/components/schemas/LineItemInput"
+                $ref: "#/components/schemas/InvoiceItemInput"
 
         - $ref: "#/components/schemas/ReceiptCommonProperties"
         - type: object

@@ -13633,7 +13633,7 @@ components:
           type: string
           description: Sello digital del timbre fiscal digital.
 
-    LineItem:
+    InvoiceItem:
       type: object
       properties:
         property_tax_account:
@@ -13650,7 +13650,7 @@ components:
           description: Monto total de descuento aplicado a este concepto.
           example: 0
         product:
-          $ref: "#/components/schemas/LineItemProduct"
+          $ref: "#/components/schemas/InvoiceItemProduct"
           description: Objeto con información del producto o servicio facturado.
         parts:
           type: array
@@ -13682,8 +13682,8 @@ components:
           type: string
           description: Código postal del tercero.
           example: "01234"
-    LineItemInput:
-      title: LineItem
+    InvoiceItemInput:
+      title: InvoiceItem
       required:
         - product
       type: object
@@ -13702,7 +13702,7 @@ components:
         product:
           description: Objeto con información del producto o servicio facturado.
           oneOf:
-            - $ref: "#/components/schemas/LineItemProductInput"
+            - $ref: "#/components/schemas/InvoiceItemProductInput"
             - type: string
               title: product_id
               description: ID de un producto previamente registrado en Facturapi
@@ -13738,8 +13738,8 @@ components:
           items:
             type: string
           example: ["0102030405"]
-    LineItemEgresoInput:
-      title: LineItem
+    InvoiceItemEgresoInput:
+      title: InvoiceItem
       required:
         - product
       type: object
@@ -13758,7 +13758,7 @@ components:
         product:
           description: Objeto con información del producto o servicio facturado.
           oneOf:
-            - $ref: "#/components/schemas/LineItemProductEgresoInput"
+            - $ref: "#/components/schemas/InvoiceItemProductEgresoInput"
             - type: string
               title: product_id
               description: ID de un producto previamente registrado en Facturapi
@@ -13788,8 +13788,8 @@ components:
                 - tax_system
                 - zip
             - $ref: "#/components/schemas/ThirdPartyInput"
-    LineItemTrasladoInput:
-      title: LineItem
+    InvoiceItemTrasladoInput:
+      title: InvoiceItem
       required:
         - product
       type: object
@@ -13803,7 +13803,7 @@ components:
         product:
           description: Objeto con información del producto o servicio facturado.
           oneOf:
-            - $ref: "#/components/schemas/LineItemTrasladoProductInput"
+            - $ref: "#/components/schemas/InvoiceItemProductTrasladoInput"
             - type: string
               title: product_id
               description: ID de un producto previamente registrado en Facturapi
@@ -16462,17 +16462,17 @@ components:
         - $ref: '#/components/schemas/CustomerForeignCreateInput'
         - $ref: '#/components/schemas/CustomerGenericCreateInput'
 
-    LineItemProductInput:
+    InvoiceItemProductInput:
       title: Product
       allOf:
         - $ref: "#/components/schemas/ProductProperties"
 
-    LineItemProductEgresoInput:
+    InvoiceItemProductEgresoInput:
       title: Product
       allOf:
         - $ref: "#/components/schemas/ProductEgresoInput"
 
-    LineItemTrasladoProductInput:
+    InvoiceItemProductTrasladoInput:
       title: Product
       required:
         - description
@@ -16500,7 +16500,7 @@ components:
           type: string
           description: Identificador de uso interno designado por la empresa. Puede tener cualquier valor.
 
-    LineItemProduct:
+    InvoiceItemProduct:
       allOf:
         - type: object
           properties:
@@ -17232,7 +17232,7 @@ components:
           type: array
           description: Conceptos incluidos en el comprobante
           items:
-            $ref: '#/components/schemas/LineItem'
+            $ref: '#/components/schemas/InvoiceItem'
         related_documents:
           type: array
           description: Documentos relacionados con la factura.
@@ -17427,7 +17427,7 @@ components:
           type: array
           description: Conceptos incluidos en el comprobante
           items:
-            $ref: '#/components/schemas/LineItem'
+            $ref: '#/components/schemas/InvoiceItem'
         related_documents:
           type: array
           description: Documentos relacionados con la factura.
@@ -17967,7 +17967,7 @@ components:
                 El número máximo de elementos que puedes incluir en una factura es de 5,000. Si necesitas
                 emitir una factura con más de 5,000 conceptos, puedes dividir la transacción en varias facturas.
               items:
-                $ref: "#/components/schemas/LineItemInput"
+                $ref: "#/components/schemas/InvoiceItemInput"
             payment_form:
               type: string
               minLength: 2
@@ -18121,7 +18121,7 @@ components:
                 El número máximo de elementos que puedes incluir en el comprobante es de 5,000. Si necesitas
                 emitir un comprobante con más de 5,000 conceptos, puedes dividir la transacción en varios comprobantes.
               items:
-                $ref: "#/components/schemas/LineItemEgresoInput"
+                $ref: "#/components/schemas/InvoiceItemEgresoInput"
             use:
               type: string
               default: G02
@@ -18244,7 +18244,7 @@ components:
                 El número máximo de elementos que puedes incluir en un comprobante es de 5,000. Si necesitas
                 emitir un comprobante con más de 5,000 conceptos, puedes dividir la transacción en varios comprobantes.
               items:
-                $ref: "#/components/schemas/LineItemTrasladoInput"
+                $ref: "#/components/schemas/InvoiceItemTrasladoInput"
             complements:
               type: array
               default: []
@@ -18296,7 +18296,7 @@ components:
                 El número máximo de elementos que puedes incluir en una factura es de 5,000. Si necesitas
                 emitir una factura con más de 5,000 conceptos, puedes dividir la transacción en varias facturas.
               items:
-                $ref: "#/components/schemas/LineItemInput"
+                $ref: "#/components/schemas/InvoiceItemInput"
             payment_form:
               type: [string, "null"]
               minLength: 2
@@ -18436,7 +18436,7 @@ components:
                 El número máximo de elementos que puedes incluir en el comprobante es de 5,000. Si necesitas
                 emitir un comprobante con más de 5,000 conceptos, puedes dividir la transacción en varios comprobantes.
               items:
-                $ref: "#/components/schemas/LineItemEgresoInput"
+                $ref: "#/components/schemas/InvoiceItemEgresoInput"
             use:
               type: string
               example: G01
@@ -18529,7 +18529,7 @@ components:
                 El número máximo de elementos que puedes incluir en un comprobante es de 5,000. Si necesitas
                 emitir un comprobante con más de 5,000 conceptos, puedes dividir la transacción en varios comprobantes.
               items:
-                $ref: "#/components/schemas/LineItemTrasladoInput"
+                $ref: "#/components/schemas/InvoiceItemTrasladoInput"
             complements:
               type: array
               items:
@@ -18626,7 +18626,7 @@ components:
               type: array
               description: Conceptos incluidos en el recibo
               items:
-                $ref: "#/components/schemas/LineItem"
+                $ref: "#/components/schemas/InvoiceItem"
             external_id:
               type: string
               description: Identificador que puedes usar para relacionar este recibo con tus registros para después buscar por este número.
@@ -18669,7 +18669,7 @@ components:
                 El número máximo de elementos que puedes incluir en un recibo es de 5,000. Si necesitas
                 emitir una recibo con más de 5,000 conceptos, prueba dividir la transacción en varios recibos.
               items:
-                $ref: "#/components/schemas/LineItemInput"
+                $ref: "#/components/schemas/InvoiceItemInput"
 
         - $ref: "#/components/schemas/ReceiptCommonProperties"
         - type: object

@@ -235,3 +235,5 @@ void retentionTaxResponse;
 
 // @ts-expect-error The fiscal regime cannot be cleared on update.
 const nullUpdatedTaxSystem: components['schemas']['CustomerUpdateInput'] = { tax_system: null };
+
+const clearedCustomerWithEditLink: components['schemas']['CustomerUpdateWithEditLinkInput'] = { legal_name: null, tax_id: null, tax_system: null, address: null };

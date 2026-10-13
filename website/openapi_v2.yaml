@@ -12611,7 +12611,9 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/CustomerUpdateInput"
+            anyOf:
+              - $ref: "#/components/schemas/CustomerUpdateInput"
+              - $ref: "#/components/schemas/CustomerUpdateWithEditLinkInput"
     ProductCreate:
       required: true
       content:
@@ -16339,7 +16341,7 @@ components:
               default: MEX
               description: ISO 3166-1 alpha-3.
     CustomerUpdateInput:
-      description: En una actualización, los campos omitidos conservan su valor. Un valor null borra los campos que admiten null; un campo opcional puede omitirse sin que necesariamente admita null. No se permite null en legal_name, tax_id, tax_system ni address.
+      description: En una actualización sin createEditLink=true, los campos omitidos conservan su valor. Un valor null borra los campos que admiten null; un campo opcional puede omitirse sin que necesariamente admita null. No se permite null en legal_name, tax_id, tax_system ni address.
       allOf:
         - $ref: '#/components/schemas/CustomerEditableInput'
         - type: object
@@ -16359,6 +16361,32 @@ components:
               properties:
                 country:
                   type: string
+    CustomerUpdateWithEditLinkInput:
+      description: Con createEditLink=true, los campos omitidos conservan su valor y null borra el valor existente, incluidos los datos fiscales. Los valores no nulos deben ser válidos.
+      type: object
+      properties:
+        legal_name: *customer_legal_name_input
+        tax_id: *customer_tax_id
+        email: *customer_email_input
+        phone: *customer_phone
+        external_id: *customer_external_id_input
+        default_invoice_use: *customer_default_invoice_use_input
+        tax_system: *customer_tax_system
+        address:
+          type: [object, 'null']
+          properties:
+            street: *customer_address_street_input
+            exterior: *customer_address_exterior_input
+            interior: *customer_address_interior_input
+            neighborhood: *customer_address_neighborhood_input
+            city: *customer_address_city_input
+            municipality: *customer_address_municipality_input
+            state: *customer_address_state_input
+            country: *customer_address_country_input
+            zip:
+              type: [string, 'null']
+              description: Código postal
+              example: '86500'
     CancellationQueryInput:
       description: Omite los parámetros para eliminar un borrador. Los documentos emitidos requieren motivo; los motivos 01 y 04 también requieren substitution.
       anyOf:

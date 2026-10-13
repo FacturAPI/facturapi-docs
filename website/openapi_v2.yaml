@@ -5222,7 +5222,7 @@ paths:
         Este método requiere una llave de API de organización en ambiente Live, una suscripción activa y permiso para leer facturas. Las llaves de ambiente Test regresan HTTP 402.
         Los nuevos ZIPs incluyen XML y PDF de facturas vigentes y canceladas. Los archivos de facturas canceladas se agrupan en `canceladas/`. La procedencia también distingue solicitudes con el mismo mes, tipo de emisión y tipos de factura.
 
-        Se reutilizan paquetes terminados mientras su contenido siga vigente. La creación, importación, cancelación, edición y eliminación registradas de facturas invalidan el caché. Usa refresh: true para forzar otra generación. Cada generación conserva su archivo; los IDs anteriores siguen descargando su paquete original. El mes en curso se puede exportar con los documentos disponibles durante la preparación. El paso del tiempo por sí solo no invalida un paquete. Los paquetes legados se reutilizan gradualmente hasta un cambio registrado o una actualización explícita.
+        Se reutilizan paquetes terminados mientras su contenido siga vigente. Crear, importar, cancelar, editar o eliminar facturas puede dejar un paquete anterior desactualizado. Usa `refresh: true` para solicitar un nuevo paquete. Los IDs anteriores siguen descargando su paquete original. Puedes exportar el mes en curso; los cambios durante la preparación pueden dejar el resultado desactualizado. Consulta `is_current` antes de reutilizarlo. El paso del tiempo por sí solo no deja un paquete desactualizado.
 
       x-codeSamples:
         - lang: Bash
@@ -17184,7 +17184,7 @@ components:
             content_as_of:
               type: string
               format: date-time
-              description: "Fecha de inicio de preparación. Los cambios concurrentes dejan el paquete desactualizado; no representa un snapshot transaccional."
+              description: "Fecha de inicio de preparación. Los cambios en facturas durante la preparación pueden dejar el paquete desactualizado; consulta is_current."
             livemode:
               type: boolean
               const: true

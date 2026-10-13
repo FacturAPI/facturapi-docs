@@ -5259,7 +5259,7 @@ paths:
         This method requires a live-mode organization API key, an active subscription, and permission to read invoices. Test-mode keys return HTTP 402.
         Newly generated ZIPs include XML and PDF files for valid and canceled invoices. Canceled invoice files are grouped under `canceladas/`. Origin also distinguishes requests for the same month, issuing type and invoice types.
 
-        Finished packages are reused while their content remains current. Tracked invoice creations, imports, cancellations, edits, and deletions invalidate cached content. Use refresh: true to force a new generation. Each generation keeps a separate file; older request IDs still download their original package. The ongoing month can be exported with the documents available during preparation. Time passing alone does not invalidate a package. Legacy packages are reused gradually until tracked changes or an explicit refresh.
+        Finished packages are reused while their content remains current. Invoice creation, import, cancellation, edits, and deletion can make a previous package outdated. Use `refresh: true` to request a new package. Older request IDs continue to download their original package. You can export the ongoing month; changes during preparation can leave the result outdated. Check `is_current` before reusing it. Time passing alone does not make a package outdated.
 
       x-codeSamples:
         - lang: Bash
@@ -17230,7 +17230,7 @@ components:
             content_as_of:
               type: string
               format: date-time
-              description: "Date when preparation started. Concurrent changes make the package outdated; this is not a transactional snapshot."
+              description: "Date when preparation started. Changes to invoices during preparation can leave the package outdated; check is_current."
             livemode:
               type: boolean
               const: true

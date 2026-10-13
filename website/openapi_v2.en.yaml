@@ -16292,7 +16292,7 @@ components:
         email: &customer_email_input
           type: [string, 'null']
           format: email
-          description: Customer email address. A null value is treated as omitted.
+          description: Customer email address. On update, null clears the email address.
         phone: *customer_phone
         external_id: &customer_external_id_input
           type: [string, 'null']
@@ -16339,11 +16339,23 @@ components:
               default: MEX
               description: ISO 3166-1 alpha-3.
     CustomerUpdateInput:
+      description: On update, omitted fields retain their value. A null value clears optional fields. Null is not allowed for legal_name, tax_id, tax_system, or address.
       allOf:
         - $ref: '#/components/schemas/CustomerEditableInput'
         - type: object
           properties:
+            legal_name:
+              type: string
+              minLength: 1
+            tax_id:
+              type: string
+              minLength: 1
             tax_system: *customer_tax_system
+            address:
+              type: object
+              properties:
+                country:
+                  type: string
     CancellationQueryInput:
       description: Omit query parameters to delete a draft. Issued documents require a motive; motives 01 and 04 also require substitution.
       anyOf:

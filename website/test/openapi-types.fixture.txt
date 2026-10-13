@@ -222,8 +222,13 @@ const clearedCustomerPhone: components['schemas']['CustomerProperties'] = { phon
 void [expiredCustomerEditLink, clearedCustomerPhone];
 
 const nullableIncompleteCustomer: components['schemas']['CustomerCreateWithEditLinkInput'] = { legal_name: null, external_id: null, address: { street: null, zip: null, country: null } };
-const omittedCustomerAddress: components['schemas']['CustomerUpdateInput'] = { legal_name: null, address: null };
-void [nullableIncompleteCustomer, omittedCustomerAddress];
+const omittedCustomerFields: components['schemas']['CustomerUpdateInput'] = {};
+const clearedCustomerEmail: components['schemas']['CustomerUpdateInput'] = { email: null };
+// @ts-expect-error Required fiscal fields cannot be cleared on update.
+const nullCustomerName: components['schemas']['CustomerUpdateInput'] = { legal_name: null };
+// @ts-expect-error The customer address cannot be cleared on update.
+const nullCustomerAddress: components['schemas']['CustomerUpdateInput'] = { address: null };
+void [nullableIncompleteCustomer, omittedCustomerFields];
 
 const retentionTaxResponse: NonNullable<NonNullable<components['schemas']['RetentionProperties']['totales']>['imp_retenidos']>[number] = { base_ret: 250, monto_ret: 40, tipo_pago_ret: '01' };
 void retentionTaxResponse;

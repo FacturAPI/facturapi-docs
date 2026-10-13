@@ -16350,7 +16350,10 @@ components:
             tax_id:
               type: string
               minLength: 1
-            tax_system: *customer_tax_system
+            tax_system:
+              allOf:
+                - *customer_tax_system
+                - type: string
             address:
               type: object
               properties:

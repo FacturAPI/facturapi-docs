@@ -232,3 +232,6 @@ void [nullableIncompleteCustomer, omittedCustomerFields];
 
 const retentionTaxResponse: NonNullable<NonNullable<components['schemas']['RetentionProperties']['totales']>['imp_retenidos']>[number] = { base_ret: 250, monto_ret: 40, tipo_pago_ret: '01' };
 void retentionTaxResponse;
+
+// @ts-expect-error The fiscal regime cannot be cleared on update.
+const nullUpdatedTaxSystem: components['schemas']['CustomerUpdateInput'] = { tax_system: null };

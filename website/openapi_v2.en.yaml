@@ -16339,7 +16339,7 @@ components:
               default: MEX
               description: ISO 3166-1 alpha-3.
     CustomerUpdateInput:
-      description: On update, omitted fields retain their value. A null value clears optional fields. Null is not allowed for legal_name, tax_id, tax_system, or address.
+      description: On update, omitted fields retain their value. A null value clears fields that accept null; an optional field can be omitted without necessarily accepting null. Null is not allowed for legal_name, tax_id, tax_system, or address.
       allOf:
         - $ref: '#/components/schemas/CustomerEditableInput'
         - type: object

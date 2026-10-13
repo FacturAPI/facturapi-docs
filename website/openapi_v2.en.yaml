@@ -5252,14 +5252,14 @@ paths:
       description: |
         Creates a request to generate a ZIP file containing one month of invoices, or retrieves the existing request with the same filters.
 
-        While content remains current and a refresh is not forced, the same filters retrieve the same request. Invoice types are normalized: `["I", "E"]` and `["E", "I"]` are equivalent. Concurrent calls with the same filters share an active generation.
+        While content remains current, the same filters retrieve the same request. Invoice types are normalized: `["I", "E"]` and `["E", "I"]` are equivalent. Concurrent calls with the same filters share an active generation.
 
         If an earlier request has a `failed` status, calling this method again retries it. Before retrying, the previous error and task fields, processed progress, and failed-document list are cleared. If scheduling fails, the request is saved with a `failed` status and the API returns a `5xx` error.
 
         This method requires a live-mode organization API key, an active subscription, and permission to read invoices. Test-mode keys return HTTP 402.
         Newly generated ZIPs include XML and PDF files for valid and canceled invoices. Canceled invoice files are grouped under `canceladas/`. Origin also distinguishes requests for the same month, issuing type and invoice types.
 
-        Finished packages are reused while their content remains current. Invoice creation, import, cancellation, edits, and deletion can make a previous package outdated. Use `refresh: true` to request a new package. Older request IDs continue to download their original package. You can export the ongoing month; changes during preparation can leave the result outdated. Check `is_current` before reusing it. Time passing alone does not make a package outdated.
+        Finished packages are reused while their content remains current. Invoice creation, import, cancellation, edits, and deletion can make a previous package outdated. Request the same filters again to generate a current package when content has changed. Older request IDs continue to download their original package. You can export the ongoing month; changes during preparation can leave the result outdated. Check `is_current` before reusing it. Time passing alone does not make a package outdated.
 
       x-codeSamples:
         - lang: Bash
@@ -17190,10 +17190,6 @@ components:
         sat_imported:
           type: boolean
           description: "Filter by origin: `true` for CFDIs imported from SAT, `false` for CFDIs without a SAT import. Omit to include both origins."
-        refresh:
-          type: boolean
-          default: false
-          description: "Force a new generation even when the cached ZIP is current. An active generation with the same filters is reused."
         invoice_types:
           type: array
           minItems: 1

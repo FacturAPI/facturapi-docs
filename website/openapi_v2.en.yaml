@@ -10029,12 +10029,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/OrganizationSeriesGroup"
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrganizationSeriesGroup"
 
         "400":
           $ref: "#/components/responses/BadRequest"

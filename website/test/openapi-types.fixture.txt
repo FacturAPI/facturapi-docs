@@ -248,3 +248,7 @@ void retentionTaxResponse;
 const nullUpdatedTaxSystem: components['schemas']['CustomerUpdateInput'] = { tax_system: null };
 
 const clearedCustomerWithEditLink: components['schemas']['CustomerUpdateWithEditLinkInput'] = { legal_name: null, tax_id: null, tax_system: null, address: null };
+
+const organizationSeriesList: operations['getSeriesGroup']['responses'][200]['content']['application/json'] = [{ series: 'A', next_folio: 1 }];
+// @ts-expect-error Series listing returns an array, without a data envelope.
+const organizationSeriesEnvelope: operations['getSeriesGroup']['responses'][200]['content']['application/json'] = { data: [] };

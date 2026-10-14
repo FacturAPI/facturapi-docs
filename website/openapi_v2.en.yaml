@@ -13614,6 +13614,10 @@ components:
           type: number
           example: 0.16
           description: Tax rate in decimal format.
+        amount:
+          type: number
+          readOnly: true
+          description: Calculated tax amount.
         base:
           type: number
           description: "Tax base. If omitted, it is calculated from the line item subtotal and tax factor. For the Cuota factor, the number of units is used."
@@ -13684,6 +13688,12 @@ components:
           type: string
           description: "SAT FechaTimbrado: local date and time without a timezone offset. Preserved as text."
           example: "2026-09-17T06:59:16"
+        complement_string:
+          type: [string, 'null']
+          description: Original string of the fiscal stamp.
+        rfc_provider_cert:
+          type: string
+          description: Tax ID of the provider that certified the document.
         sat_cert_number:
           type: string
           description: SAT certificate serial number used for stamping.
@@ -13717,6 +13727,14 @@ components:
           items:
             type: string
           description: Customs entry numbers associated with this invoice item. Omitted when there are none.
+        third_party:
+          $ref: '#/components/schemas/ThirdPartyInput'
+        complement:
+          oneOf:
+            - type: string
+              format: xml
+            - $ref: '#/components/schemas/HidroYPetroComplementInput'
+            - $ref: '#/components/schemas/IeduComplementInput'
         parts:
           type: array
           items:
@@ -17311,6 +17329,10 @@ components:
           type: string
           format: date-time
           description: Date and time when cancellation was requested, if applicable.
+        last_checked:
+          type: string
+          format: date-time
+          description: Date and time when the last cancellation status check started. It does not guarantee that the check completed successfully.
         canceled_at:
           type: string
           format: date-time
@@ -18695,6 +18717,10 @@ components:
             - items
             - key
           properties:
+            api_version:
+              type: integer
+              readOnly: true
+              description: API version used to create the receipt.
             date:
               type: string
               format: date-time
@@ -19276,6 +19302,9 @@ components:
                     type: number
                     minimum: 0
                     description: Amount of the tax withheld.
+                  pago_provisional:
+                    type: boolean
+                    readOnly: true
                   tipo_pago_ret:
                     type: string
                     enum:
@@ -19540,6 +19569,10 @@ components:
         - type: object
           description: Fiscal address of the issuing organization.
           properties:
+            country:
+              type: string
+              minLength: 3
+              maxLength: 3
             state:
               type: string
               description: Name of the State or Federative Entity.
@@ -19614,6 +19647,13 @@ components:
               type: string
               description: |
                 Fiscal or Legal Name of the organization, *without* the corporate regime (e.g.: S.A. de C.V.).
+            tax_id:
+              type: string
+            support_email:
+              type: string
+              format: email
+            curp:
+              type: string
             tax_system:
               type: string
               example: '601'
@@ -19636,6 +19676,19 @@ components:
           description: |
             Organization customization settings, which will be used to reflect the branding and PDF preferences of the organization. This data can be updated at any time.
           properties:
+            default_series:
+              type: object
+              properties:
+                I:
+                  type: string
+                E:
+                  type: string
+                P:
+                  type: string
+                N:
+                  type: string
+                T:
+                  type: string
             has_logo:
               type: boolean
               description: Indicates if the organization already has a logo uploaded.

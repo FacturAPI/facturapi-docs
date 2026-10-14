@@ -252,3 +252,5 @@ const clearedCustomerWithEditLink: components['schemas']['CustomerUpdateWithEdit
 const organizationSeriesList: operations['getSeriesGroup']['responses'][200]['content']['application/json'] = [{ series: 'A', next_folio: 1 }];
 // @ts-expect-error Series listing returns an array, without a data envelope.
 const organizationSeriesEnvelope: operations['getSeriesGroup']['responses'][200]['content']['application/json'] = { data: [] };
+
+const cancellationLastChecked: components['schemas']['InvoiceCancellation'] = { status: "none", last_checked: "2026-10-14T12:00:00Z" };

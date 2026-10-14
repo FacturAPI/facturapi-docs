@@ -13566,6 +13566,10 @@ components:
           type: number
           example: 0.16
           description: Tasa del impuesto en fracción decimal.
+        amount:
+          type: number
+          readOnly: true
+          description: Importe calculado del impuesto.
         base:
           type: number
           description: "Base del impuesto. Si se omite, se calcula a partir del subtotal del concepto y el factor del impuesto. Para el factor Cuota, se utiliza la cantidad de unidades."
@@ -13636,6 +13640,12 @@ components:
           type: string
           description: "FechaTimbrado del SAT: fecha y hora local sin offset de zona horaria. Se conserva como texto."
           example: "2026-09-17T06:59:16"
+        complement_string:
+          type: [string, 'null']
+          description: Cadena original del timbre fiscal digital.
+        rfc_provider_cert:
+          type: string
+          description: RFC del proveedor que certificó el comprobante.
         sat_cert_number:
           type: string
           description: Número de serie del certificado del SAT usado para timbrar.
@@ -13668,6 +13678,14 @@ components:
           items:
             type: string
           description: Números de pedimento asociados a este concepto. Se omite cuando no existen.
+        third_party:
+          $ref: '#/components/schemas/ThirdPartyInput'
+        complement:
+          oneOf:
+            - type: string
+              format: xml
+            - $ref: '#/components/schemas/HidroYPetroComplementInput'
+            - $ref: '#/components/schemas/IeduComplementInput'
         parts:
           type: array
           items:
@@ -17265,6 +17283,10 @@ components:
           type: string
           format: date-time
           description: Fecha y hora en que se solicitó la cancelación, cuando aplica.
+        last_checked:
+          type: string
+          format: date-time
+          description: Fecha y hora de inicio de la última consulta del estado de cancelación. No garantiza que la consulta haya terminado correctamente.
         canceled_at:
           type: string
           format: date-time
@@ -18631,6 +18653,10 @@ components:
             - items
             - key
           properties:
+            api_version:
+              type: integer
+              readOnly: true
+              description: Versión de la API usada para crear el recibo.
             date:
               type: string
               format: date-time
@@ -19188,6 +19214,9 @@ components:
                     type: number
                     minimum: 0
                     description: Importe del impuesto retenido
+                  pago_provisional:
+                    type: boolean
+                    readOnly: true
                   tipo_pago_ret:
                     type: string
                     enum:
@@ -19441,6 +19470,10 @@ components:
         - type: object
           description: Domicilio fiscal de la organización emisora.
           properties:
+            country:
+              type: string
+              minLength: 3
+              maxLength: 3
             state:
               type: string
               description: Nombre del Estado o Entidad Federativa.
@@ -19514,6 +19547,13 @@ components:
               type: string
               description: |
                 Nombre Fiscal o Razón Social de la organización, *sin* el régimen societario (ej.: S.A. de C.V.).
+            tax_id:
+              type: string
+            support_email:
+              type: string
+              format: email
+            curp:
+              type: string
             tax_system:
               type: string
               example: '601'
@@ -19537,6 +19577,19 @@ components:
             Configuración de personalización de la organización, que se utilizarán para reflejar el branding y
             las preferencias de PDFs de la organización. Estos datos se pueden actualizar en cualquier momento.
           properties:
+            default_series:
+              type: object
+              properties:
+                I:
+                  type: string
+                E:
+                  type: string
+                P:
+                  type: string
+                N:
+                  type: string
+                T:
+                  type: string
             has_logo:
               type: boolean
               description: Indica si la organización ya tiene un logotipo cargado.

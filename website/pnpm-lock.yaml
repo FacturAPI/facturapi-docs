@@ -66,6 +66,9 @@ importers:
       '@types/react-router-dom':
         specifier: ^5.3.3
         version: 5.3.3
+      ajv:
+        specifier: ^8.20.0
+        version: 8.20.0
       js-yaml:
         specifier: 5.4.2
         version: 5.4.2

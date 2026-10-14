@@ -7,6 +7,7 @@ import { execFileSync } from "node:child_process";
 import * as yaml from "js-yaml";
 import openapiTS, { astToString } from "openapi-typescript";
 import ts from "typescript";
+import Ajv2020 from "ajv/dist/2020.js";
 
 const root = new URL("../", import.meta.url);
 const contracts = [];
@@ -39,6 +40,44 @@ function contract(value, key) {
 for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
   // Match the generator parser so unquoted numeric SAT codes fail validation.
   const spec = yaml.load(await readFile(new URL(filename, root), "utf8"));
+  const validateItemComplement = new Ajv2020({
+    strict: false,
+    validateFormats: false,
+  }).compile({
+    $ref: "#/components/schemas/InvoiceItem/properties/complement",
+    components: spec.components,
+  });
+  for (const complement of [
+    "<Example/>",
+    { tipo_permiso: "PER01", numero_permiso: "123", sub_producto_hyp: "Diesel" },
+    {
+      nombreAlumno: "Alumno",
+      CURP: "FULJ790823MWSWSZ23",
+      nivelEducativo: "Primaria",
+      autRVOE: "123",
+    },
+  ]) {
+    assert(
+      validateItemComplement(complement),
+      `Valid invoice item complement rejected: ${JSON.stringify(validateItemComplement.errors)}`,
+    );
+  }
+  for (const complement of [null, 1, []])
+    assert(
+      !validateItemComplement(complement),
+      "Invalid invoice item complement accepted",
+    );
+  const validateForeignTradeReceiver = new Ajv2020({
+    strict: false,
+    validateFormats: false,
+  }).compile({
+    $ref: "#/components/schemas/ComercioExteriorDataProperties/properties/Receptor",
+    components: spec.components,
+  });
+  assert(
+    validateForeignTradeReceiver({ NumRegIdTrib: "123456" }),
+    "Foreign trade receiver object must not be rejected by overlapping branches",
+  );
   for (const name of Object.keys(spec.components.schemas))
     assert(!/(InputProperties|RequiredProperties)$/.test(name),
       `Use an Input schema with its own required fields: ${name}`);
@@ -49,6 +88,22 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
   }
   function walk(value, path = [], references) {
     if (!value || typeof value !== "object") return;
+    if (path[0] === "components" && path[1] === "schemas" && value.oneOf) {
+      const validate = new Ajv2020({
+        strict: false,
+        validateFormats: false,
+      }).compile({
+        ...value,
+        components: spec.components,
+      });
+      validate({});
+      assert(
+        !validate.errors?.some(
+          error => error.keyword === "oneOf" && error.params.passingSchemas?.length > 1,
+        ),
+        `Overlapping oneOf branches accept the same empty object: ${path.join(".")}`,
+      );
+    }
     assert(
       !Object.hasOwn(value, "<<"),
       `YAML merge keys are not supported: ${path.join(".")}`,

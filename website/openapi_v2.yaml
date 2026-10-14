@@ -13681,7 +13681,7 @@ components:
         third_party:
           $ref: '#/components/schemas/ThirdParty'
         complement:
-          oneOf:
+          anyOf:
             - type: string
               format: xml
             - $ref: '#/components/schemas/HidroYPetroComplement'
@@ -15280,7 +15280,7 @@ components:
               - $ref: "#/components/schemas/ComercioExteriorPropietario"
               - $ref: "#/components/schemas/CustomerComercioExterior"
         Receptor:
-          oneOf:
+          anyOf:
             - $ref: "#/components/schemas/ComercioExteriorReceptor"
             - $ref: "#/components/schemas/CustomerComercioExterior"
         Destinatario:

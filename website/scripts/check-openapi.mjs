@@ -39,8 +39,20 @@ function contract(value, key) {
 for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
   // Match the generator parser so unquoted numeric SAT codes fail validation.
   const spec = yaml.load(await readFile(new URL(filename, root), "utf8"));
-  function walk(value, path = []) {
+  for (const name of Object.keys(spec.components.schemas))
+    assert(!/(InputProperties|RequiredProperties)$/.test(name),
+      `Use an Input schema with its own required fields: ${name}`);
+  for (const [name, body] of Object.entries(spec.components.requestBodies)) {
+    const reference = body.content?.["application/json"]?.schema?.$ref;
+    if (reference) assert(reference.endsWith("Input"),
+      `Request body schemas must end in Input: ${name}`);
+  }
+  function walk(value, path = [], references) {
     if (!value || typeof value !== "object") return;
+    assert(
+      !Object.hasOwn(value, "<<"),
+      `YAML merge keys are not supported: ${path.join(".")}`,
+    );
     assert(
       !("nullable" in value),
       `Use OpenAPI 3.1 null unions: ${path.join(".")}`,
@@ -79,12 +91,34 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
         target = target?.[part.replace(/~1/g, "/").replace(/~0/g, "~")];
       }
       assert(target, `Unresolved reference: ${value.$ref}`);
+      if (references && !references.has(value.$ref)) {
+        references.add(value.$ref);
+        walk(target, [], references);
+      }
     }
     for (const [key, child] of Object.entries(value))
       if (!presentationKeys.has(key) && !["default", "enum", "const"].includes(key))
-        walk(child, [...path, key]);
+        walk(child, [...path, key], references);
   }
   walk(spec);
+  const inputReferences = new Set();
+  const outputReferences = new Set();
+  for (const item of Object.values(spec.paths))
+    for (const operation of Object.values(item)) {
+      if (!operation?.operationId) continue;
+      walk([item.parameters, operation.parameters, operation.requestBody], [], inputReferences);
+      walk(operation.responses, [], outputReferences);
+    }
+  const outputSchemas = new Set([...outputReferences]
+    .filter(reference => reference.startsWith("#/components/schemas/"))
+    .map(reference => reference.split("/")[3]));
+  for (const reference of inputReferences) {
+    if (!reference.startsWith("#/components/schemas/")) continue;
+    const name = reference.split("/")[3];
+    if (outputSchemas.has(name)) continue;
+    if (!spec.components.schemas[name].enum)
+      assert(name.endsWith("Input"), `Request-only schemas must end in Input: ${name}`);
+  }
   assert.equal(
     spec.components.schemas.SignedDownloadUrl.properties.url.format,
     "uri",
@@ -160,7 +194,7 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
     await writeFile(
       join(directory, "schema.d.ts"),
       astToString(
-        await openapiTS(new URL(filename, root), {
+        await openapiTS(spec, {
           defaultNonNullable: false,
           emptyObjectsUnknown: true,
         }),

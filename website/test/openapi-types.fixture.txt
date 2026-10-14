@@ -27,6 +27,7 @@ const receiptEvent: components["schemas"]["ApiEvent"] = {
     object: {
       id: "rec", created_at: "2026-09-29T00:00:00Z", livemode: false,
       date: "2026-09-29T00:00:00Z", expires_at: "2026-10-01T00:00:00Z",
+      status: "open", total: 0, items: [], key: "receipt-key",
     },
   },
 };
@@ -75,6 +76,8 @@ const invalid: components["schemas"]["ApiEvent"] = {
       created_at: "2026-09-29T00:00:00Z",
       livemode: false,
       date: null,
+      status: "draft", cancellation_status: "none", type: "I",
+      total: 0, currency: "MXN", exchange: 1, items: [], amount_due: 0,
     },
   },
 };
@@ -210,7 +213,6 @@ declare const incompleteCustomerResponse: components['schemas']['Customer'];
 const responseTaxId: string | null | undefined = incompleteCustomerResponse.tax_id;
 const responseTaxSystem: string | null | undefined = incompleteCustomerResponse.tax_system;
 const incompleteCustomerWithEmptyRfc: components['schemas']['CustomerCreateWithEditLinkInput'] = { tax_id: null };
-// @ts-expect-error edit-link creation still validates a supplied fiscal regime
 const incompleteCustomerWithNullRegime: components['schemas']['CustomerCreateWithEditLinkInput'] = { tax_system: null };
 // @ts-expect-error national customer creation requires a non-null fiscal regime
 const nationalCustomerWithNullRegime: components['schemas']['CustomerNationalCreateInput'] = { legal_name: 'Cliente', tax_id: 'ABC101010111', tax_system: null, address: { zip: '83200' } };
@@ -218,3 +220,20 @@ void [responseTaxId, responseTaxSystem, incompleteCustomerWithEmptyRfc, incomple
 const expiredCustomerEditLink: components['schemas']['CustomerNonEditableProperties'] = { edit_link: null, edit_link_expires_at: null };
 const clearedCustomerPhone: components['schemas']['CustomerProperties'] = { phone: null };
 void [expiredCustomerEditLink, clearedCustomerPhone];
+
+const nullableIncompleteCustomer: components['schemas']['CustomerCreateWithEditLinkInput'] = { legal_name: null, external_id: null, address: { street: null, zip: null, country: null } };
+const omittedCustomerFields: components['schemas']['CustomerUpdateInput'] = {};
+const clearedCustomerEmail: components['schemas']['CustomerUpdateInput'] = { email: null };
+// @ts-expect-error Required fiscal fields cannot be cleared on update.
+const nullCustomerName: components['schemas']['CustomerUpdateInput'] = { legal_name: null };
+// @ts-expect-error The customer address cannot be cleared on update.
+const nullCustomerAddress: components['schemas']['CustomerUpdateInput'] = { address: null };
+void [nullableIncompleteCustomer, omittedCustomerFields];
+
+const retentionTaxResponse: NonNullable<NonNullable<components['schemas']['RetentionProperties']['totales']>['imp_retenidos']>[number] = { base_ret: 250, monto_ret: 40, tipo_pago_ret: '01' };
+void retentionTaxResponse;
+
+// @ts-expect-error The fiscal regime cannot be cleared on update.
+const nullUpdatedTaxSystem: components['schemas']['CustomerUpdateInput'] = { tax_system: null };
+
+const clearedCustomerWithEditLink: components['schemas']['CustomerUpdateWithEditLinkInput'] = { legal_name: null, tax_id: null, tax_system: null, address: null };

@@ -26,3 +26,9 @@
   or a review comment alone as proof of API behavior.
 - Keep the Spanish and English OpenAPI contracts structurally aligned.
 - Run the relevant repository checks for specification changes.
+
+## Schema naming
+
+- Request schemas, including reusable input fragments, end in `Input`. Response models use resource names; structures intentionally shared by requests and responses use neutral names.
+- Use an input schema referencing shared properties when the request needs a public name of its own. Place `required` on that input instead of introducing a separate required-only schema.
+- Preserve wire fields and behavior when renaming schemas. Keep Spanish and English references aligned.

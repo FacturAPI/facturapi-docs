@@ -1066,17 +1066,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
         '400':
-          description: Invalid request parameters
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericError'
+          $ref: '#/components/responses/BadRequest'
         '401':
-          description: Authentication error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericError'
+          $ref: '#/components/responses/Unauthenticated'
         '429':
           $ref: '#/components/responses/RateLimited'
 
@@ -1150,17 +1142,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchKeyDescriptionResult'
         '400':
-          description: Invalid request parameters
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericError'
+          $ref: '#/components/responses/BadRequest'
         '401':
-          description: Authentication error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericError'
+          $ref: '#/components/responses/Unauthenticated'
         '429':
           $ref: '#/components/responses/RateLimited'
 
@@ -2824,8 +2808,8 @@ paths:
               type: object
               properties:
                 email:
-                  type: string
-                  description: Customer's email. If not provided, the customer's email will be used.
+                  type: [string, "null"]
+                  description: Recipient email address. If omitted or null, the customer email address is used.
       security:
         - "SecretLiveKey": []
         - "SecretTestKey": []
@@ -3788,7 +3772,7 @@ paths:
           name: date
           style: deepObject
           schema:
-            $ref: "#/components/schemas/DateRange"
+            $ref: "#/components/schemas/DateRangeInput"
           description: Object with requested date range. The range filters the invoice `date` field.
         - in: query
           name: page
@@ -9436,7 +9420,7 @@ paths:
           name: domain
           required: true
           schema:
-            $ref: "#/components/schemas/DomainField"
+            $ref: "#/components/schemas/DomainInput"
       security:
         - "SecretUserKey": []
       responses:
@@ -12676,22 +12660,21 @@ components:
       content:
         application/json:
           schema:
-            allOf:
-              - $ref: "#/components/schemas/CustomerProperties"
+            anyOf:
+              - $ref: "#/components/schemas/CustomerUpdateInput"
+              - $ref: "#/components/schemas/CustomerUpdateWithEditLinkInput"
     ProductCreate:
       required: true
       content:
         application/json:
           schema:
-            allOf:
-              - $ref: "#/components/schemas/ProductProperties"
+            $ref: "#/components/schemas/ProductCreateInput"
     ProductEdit:
       required: true
       content:
         application/json:
           schema:
-            allOf:
-              - $ref: "#/components/schemas/ProductEditableProperties"
+            $ref: "#/components/schemas/ProductUpdateInput"
     InvoiceCreate:
       required: true
       content:
@@ -12879,7 +12862,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/WebhookCreateEdit"
+            $ref: "#/components/schemas/WebhookUpdateInput"
 
   parameters:
     InvoiceZipRequestId:
@@ -12895,7 +12878,7 @@ components:
       name: date
       style: deepObject
       schema:
-        $ref: "#/components/schemas/DateRange"
+        $ref: "#/components/schemas/DateRangeInput"
       description: Object with requested date range.
     SearchPage:
       in: query
@@ -13238,7 +13221,7 @@ components:
         - created_at
         - livemode
         - organization
-    DateRange:
+    DateRangeInput:
       type: object
       properties:
         gt:
@@ -13700,8 +13683,9 @@ components:
           type: string
           description: Digital stamp of the fiscal document.
 
-    LineItem:
+    InvoiceItem:
       type: object
+      required: [quantity, discount, product]
       properties:
         property_tax_account:
           type: array
@@ -13717,15 +13701,20 @@ components:
           description: Total discount amount applied to this concept.
           example: 0
         product:
-          $ref: "#/components/schemas/LineItemProduct"
+          $ref: "#/components/schemas/InvoiceItemProduct"
           description: |
             Object with information about the product or service invoiced.
+        customs_keys:
+          type: array
+          items:
+            type: string
+          description: Customs entry numbers associated with this invoice item. Omitted when there are none.
         parts:
           type: array
           items:
             $ref: "#/components/schemas/Parts"
           description: Object with information about the parts conforming this item or product.
-    ThirdParty:
+    ThirdPartyInput:
       type: object
       description: |
         Object with information about the third-party contributor, on behalf of whom the operation is carried out.
@@ -13750,8 +13739,8 @@ components:
           type: string
           description: Postal code of the third party.
           example: "01234"
-    LineItemInput:
-      title: LineItem
+    InvoiceItemInput:
+      title: InvoiceItem
       required:
         - product
       type: object
@@ -13770,7 +13759,7 @@ components:
         product:
           description: Object with information about the product or service invoiced.
           oneOf:
-            - $ref: "#/components/schemas/LineItemProductInput"
+            - $ref: "#/components/schemas/InvoiceItemProductInput"
             - type: string
               title: product_id
               description: ID of a product previously registered in Facturapi
@@ -13799,15 +13788,15 @@ components:
                 - tax_id
                 - tax_system
                 - zip
-            - $ref: "#/components/schemas/ThirdParty"
+            - $ref: "#/components/schemas/ThirdPartyInput"
         property_tax_account:
           type: array
           description: Property tax account numbers.
           items:
             type: string
           example: ["0102030405"]
-    LineItemEgresoInput:
-      title: LineItem
+    InvoiceItemEgresoInput:
+      title: InvoiceItem
       required:
         - product
       type: object
@@ -13826,7 +13815,7 @@ components:
         product:
           description: Object with information about the product or service invoiced.
           oneOf:
-            - $ref: "#/components/schemas/LineItemProductEgresoInput"
+            - $ref: "#/components/schemas/InvoiceItemProductEgresoInput"
             - type: string
               title: product_id
               description: ID of a product previously registered in Facturapi
@@ -13855,9 +13844,9 @@ components:
                 - tax_id
                 - tax_system
                 - zip
-            - $ref: "#/components/schemas/ThirdParty"
-    LineItemTrasladoInput:
-      title: LineItem
+            - $ref: "#/components/schemas/ThirdPartyInput"
+    InvoiceItemTrasladoInput:
+      title: InvoiceItem
       required:
         - product
       type: object
@@ -13871,7 +13860,7 @@ components:
         product:
           description: Object with information about the product or service invoiced.
           oneOf:
-            - $ref: "#/components/schemas/LineItemTrasladoProductInput"
+            - $ref: "#/components/schemas/InvoiceItemProductTrasladoInput"
             - type: string
               title: product_id
               description: ID of a product previously registered in Facturapi
@@ -14633,14 +14622,11 @@ components:
           type: array
           description: Array of objects to express information about the company that benefits from the employee's work, in cases where the issuer provides subcontracting services.
           items:
-            allOf:
-              - $ref: "#/components/schemas/NominaSubContratacionRequiredProperties"
-              - $ref: "#/components/schemas/NominaSubContratacionProperties"
-    NominaSubContratacionRequiredProperties:
-      type: object
-      required:
-        - rfc_labora
-        - porcentaje_tiempo
+            $ref: "#/components/schemas/NominaSubContratacionInput"
+    NominaSubContratacionInput:
+      allOf:
+        - $ref: "#/components/schemas/NominaSubContratacionProperties"
+      required: [rfc_labora, porcentaje_tiempo]
     NominaSubContratacionProperties:
       type: object
       properties:
@@ -16011,12 +15997,10 @@ components:
         TransporteFerroviario:
           $ref: "#/components/schemas/CartaPorteTransporteFerroviario"
           description: Rail transport details.
-    NamespaceRequiredProperties:
-      type: object
-      required:
-        - prefix
-        - uri
-        - schema_location
+    NamespaceInput:
+      allOf:
+        - $ref: "#/components/schemas/NamespaceProperties"
+      required: [prefix, uri, schema_location]
     NamespaceProperties:
       type: object
       title: Namespace
@@ -16158,7 +16142,7 @@ components:
               example:
                 - receipt.self_invoice_complete
               minItems: 1
-    WebhookCreateEdit:
+    WebhookUpdateInput:
       title: Webhook
       allOf:
         - type: object
@@ -16198,6 +16182,7 @@ components:
         - $ref: '#/components/schemas/CustomerNonEditableProperties'
         - $ref: '#/components/schemas/CustomerProperties'
         - type: object
+          required: [organization]
           properties:
             organization:
               description: "ID of the organization this resource belongs to."
@@ -16266,14 +16251,14 @@ components:
           description: |
             Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
           example: Dunder Mifflin
-        tax_id:
+        tax_id: &customer_tax_id
           type:
             - string
             - 'null'
           example: ABC101010111
           description: |
             In Mexican clients, it contains the customer's RFC. For foreigners, it is optional and represents the tax identification number, that is, the equivalent to the RFC in the customer's country.
-        tax_system:
+        tax_system: &customer_tax_system
           type:
             - string
             - 'null'
@@ -16287,7 +16272,7 @@ components:
           format: email
           description: Email address to which to send the generated invoices.
           example: email@example.com
-        phone:
+        phone: &customer_phone
           type:
             - string
             - 'null'
@@ -16297,6 +16282,111 @@ components:
           type: string
           description: Default CFDI use for the customer.
           example: G01
+    CustomerEditableInput:
+      type: object
+      properties:
+        legal_name: &customer_legal_name_input
+          type: [string, 'null']
+          description: |
+            Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
+          example: Dunder Mifflin
+        tax_id: *customer_tax_id
+        email: &customer_email_input
+          type: [string, 'null']
+          format: email
+          description: Customer email address. On update, null clears the email address.
+        phone: *customer_phone
+        external_id: &customer_external_id_input
+          type: [string, 'null']
+          maxLength: 100
+        default_invoice_use: &customer_default_invoice_use_input
+          type: [string, 'null']
+          description: Default CFDI use for the customer.
+          example: G01
+        address:
+          type: [object, 'null']
+          properties:
+            street: &customer_address_street_input
+              type: [string, 'null']
+              description: Street name
+              example: Blvd. Atardecer
+            exterior: &customer_address_exterior_input
+              type: [string, 'null']
+              description: Exterior number.
+              example: '142'
+            interior: &customer_address_interior_input
+              type: [string, 'null']
+              description: Interior number.
+              example: '4'
+            neighborhood: &customer_address_neighborhood_input
+              type: [string, 'null']
+              description: Neighborhood
+              example: Centro
+            city: &customer_address_city_input
+              type: [string, 'null']
+              description: City
+              example: Huatabampo
+            municipality: &customer_address_municipality_input
+              type: [string, 'null']
+              description: Municipality or delegation
+              example: Huatabampo
+            zip:
+              type: string
+              description: Postal code
+              example: '86500'
+            state: &customer_address_state_input
+              type: [string, 'null']
+            country: &customer_address_country_input
+              type: [string, 'null']
+              default: MEX
+              description: ISO 3166-1 alpha-3.
+    CustomerUpdateInput:
+      description: On update without createEditLink=true, omitted fields retain their value. A null value clears fields that accept null; an optional field can be omitted without necessarily accepting null. Null is not allowed for legal_name, tax_id, tax_system, or address.
+      allOf:
+        - $ref: '#/components/schemas/CustomerEditableInput'
+        - type: object
+          properties:
+            legal_name:
+              type: string
+              minLength: 1
+            tax_id:
+              type: string
+              minLength: 1
+            tax_system:
+              allOf:
+                - *customer_tax_system
+                - type: string
+            address:
+              type: object
+              properties:
+                country:
+                  type: string
+    CustomerUpdateWithEditLinkInput:
+      description: With createEditLink=true, omitted fields retain their value and null clears the existing value, including fiscal fields. Non-null values must be valid.
+      type: object
+      properties:
+        legal_name: *customer_legal_name_input
+        tax_id: *customer_tax_id
+        email: *customer_email_input
+        phone: *customer_phone
+        external_id: *customer_external_id_input
+        default_invoice_use: *customer_default_invoice_use_input
+        tax_system: *customer_tax_system
+        address:
+          type: [object, 'null']
+          properties:
+            street: *customer_address_street_input
+            exterior: *customer_address_exterior_input
+            interior: *customer_address_interior_input
+            neighborhood: *customer_address_neighborhood_input
+            city: *customer_address_city_input
+            municipality: *customer_address_municipality_input
+            state: *customer_address_state_input
+            country: *customer_address_country_input
+            zip:
+              type: [string, 'null']
+              description: Postal code
+              example: '86500'
     CancellationQueryInput:
       description: Omit query parameters to delete a draft. Issued documents require a motive; motives 01 and 04 also require substitution.
       anyOf:
@@ -16333,14 +16423,31 @@ components:
             substitution: false
     CustomerCreateWithEditLinkInput:
       title: Customer with edit link
-      description: Customer information may be incomplete when createEditLink=true. Supplied fields must still have valid formats.
-      allOf:
-        - $ref: '#/components/schemas/CustomerProperties'
-        - type: object
+      description: Customer information may be incomplete when createEditLink=true. Null optional fields are treated as omitted. Non-null values must have valid formats.
+      type: object
+      properties:
+        legal_name: *customer_legal_name_input
+        tax_id: *customer_tax_id
+        email: *customer_email_input
+        phone: *customer_phone
+        external_id: *customer_external_id_input
+        default_invoice_use: *customer_default_invoice_use_input
+        tax_system: *customer_tax_system
+        address:
+          type: [object, 'null']
           properties:
-            tax_system:
-              type: string
-              description: If supplied, use a valid fiscal regime. Omission permits incomplete fiscal information.
+            street: *customer_address_street_input
+            exterior: *customer_address_exterior_input
+            interior: *customer_address_interior_input
+            neighborhood: *customer_address_neighborhood_input
+            city: *customer_address_city_input
+            municipality: *customer_address_municipality_input
+            state: *customer_address_state_input
+            country: *customer_address_country_input
+            zip:
+              type: [string, 'null']
+              description: Postal code
+              example: '86500'
     CustomerCreateCommonInput:
       type: object
       required:
@@ -16351,11 +16458,7 @@ components:
           description: |
             Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
           example: Dunder Mifflin
-        email:
-          type: string
-          format: email
-          description: Email address to which to send the generated invoices.
-          example: email@example.com
+        email: *customer_email_input
         phone:
           type:
             - string
@@ -16486,17 +16589,17 @@ components:
         - $ref: '#/components/schemas/CustomerForeignCreateInput'
         - $ref: '#/components/schemas/CustomerGenericCreateInput'
 
-    LineItemProductInput:
+    InvoiceItemProductInput:
       title: Product
       allOf:
         - $ref: "#/components/schemas/ProductProperties"
 
-    LineItemProductEgresoInput:
+    InvoiceItemProductEgresoInput:
       title: Product
       allOf:
-        - $ref: "#/components/schemas/ProductEgresoProperties"
+        - $ref: "#/components/schemas/ProductEgresoInput"
 
-    LineItemTrasladoProductInput:
+    InvoiceItemProductTrasladoInput:
       title: Product
       required:
         - description
@@ -16526,10 +16629,15 @@ components:
           type: string
           description: Internal identifier designated by the company. It can have any value.
 
-    LineItemProduct:
+    InvoiceItemProduct:
       allOf:
         - type: object
+          required: [taxes]
           properties:
+            taxes:
+              type: array
+              items:
+                $ref: '#/components/schemas/BaseTax'
             id:
               type: string
               description: ID of the base product. Only present if a previously saved `Product` object was used as a base.
@@ -16592,11 +16700,18 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/Product"
+    ProductCreateInput:
+      allOf:
+        - $ref: "#/components/schemas/ProductCommonProperties"
+      required: [description, product_key, price]
     ProductProperties:
       allOf:
-        - $ref: "#/components/schemas/ProductEditableProperties"
+        - $ref: "#/components/schemas/ProductCommonProperties"
       required: [description, product_key, price]
-    ProductEditableProperties:
+    ProductUpdateInput:
+      allOf:
+        - $ref: "#/components/schemas/ProductCommonProperties"
+    ProductCommonProperties:
       type: object
       properties:
         description:
@@ -16682,7 +16797,7 @@ components:
         sku:
           type: string
           description: Internal identifier designated by the company. It can have any value.
-    ProductEgresoProperties:
+    ProductEgresoInput:
       type: object
       properties:
         description:
@@ -17160,6 +17275,28 @@ components:
       allOf:
         - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
         - $ref: "#/components/schemas/InvoiceProperties"
+    InvoiceCancellation:
+      type: object
+      description: Information about the invoice cancellation request.
+      required: [status]
+      properties:
+        status:
+          $ref: '#/components/schemas/InvoiceProperties/properties/cancellation_status'
+        requested_at:
+          type: string
+          format: date-time
+          description: Date and time when cancellation was requested, if applicable.
+        canceled_at:
+          type: string
+          format: date-time
+          description: Date and time when cancellation was completed, if applicable.
+        motive:
+          type: string
+          description: SAT cancellation reason code, if a request has been submitted.
+        substitutionUUID:
+          type: string
+          format: uuid
+          description: UUID of the replacement invoice, when applicable.
     InvoiceDraft:
       title: Invoice object with draft status
       allOf:
@@ -17176,16 +17313,9 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/Invoice"
-    InvoiceRequiredProperties:
-      type: object
-      required:
-        - description
-        - invoice_key
-        - price
     InvoiceProperties:
       type: object
-      required:
-        - date
+      required: [date, status, cancellation_status, type, total, currency, exchange, items, amount_due]
       properties:
         status:
           type: string
@@ -17198,6 +17328,8 @@ components:
           description: |
             Current status of the invoice. `failed` means that background stamping or automatic CFDI recovery ended unsuccessfully.
           example: valid
+        cancellation:
+          $ref: '#/components/schemas/InvoiceCancellation'
         cancellation_status:
           type: string
           enum:
@@ -17256,9 +17388,9 @@ components:
           description: Total amount invoiced.
           example: 10944.82
         uuid:
-          type: string
+          type: [string, "null"]
           format: uuid
-          description: Fiscal folio of the invoice, assigned by the SAT.
+          description: Fiscal folio of the invoice, assigned by the SAT. For unstamped drafts it can be null or omitted.
           example: 39c85a3f-275b-4341-b259-e8971d9f8a94
         folio_number:
           type: integer
@@ -17275,7 +17407,7 @@ components:
           type: string
           description: Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
         payment_form:
-          type: string
+          type: [string, "null"]
           description: Payment form code according to the [Payment Form catalog](#payment-form).
           example: "06"
         total_payment_amount:
@@ -17298,7 +17430,7 @@ components:
           type: array
           description: Concepts included in the document.
           items:
-            $ref: '#/components/schemas/LineItem'
+            $ref: '#/components/schemas/InvoiceItem'
         related_documents:
           type: array
           description: Documents related to the invoice.
@@ -17378,10 +17510,10 @@ components:
         issuer_info:
           $ref: '#/components/schemas/CustomerInfo'
         payment_method:
-          type: string
-          enum:
-            - PUE
-            - PPD
+          anyOf:
+            - type: string
+              enum: [PUE, PPD]
+            - type: "null"
         use:
           type: string
         amount_due:
@@ -17413,147 +17545,8 @@ components:
             year:
               type: integer
     InvoiceDraftProperties:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-            - pending
-            - valid
-            - canceled
-            - draft
-          description: |
-            Current status of the invoice.
-          example: draft
-        cancellation_status:
-          type: string
-          enum:
-            - none
-            - verifying
-            - pending
-            - accepted
-            - rejected
-            - expired
-          description: |
-            Current status of the cancellation request, if it has been made. `verifying` means the SAT has received the request and is validating it; Facturapi will keep checking until it changes to a final status. You can read more in the [Cancel Invoice](#tag/invoice/operation/deleteInvoice) section.
-          example: none
-        verification_url:
-          type: string
-          format: uri
-          description: URL to verify the status of the CFDI on the SAT portal. This link is the same as the one that appears in the QR code on the invoice PDF.
-        date:
-          type:
-            - string
-            - 'null'
-          format: date-time
-          example: null
-          description: |
-            Date of issuance of the invoice in ISO8601 format (UTC String). If the status is `draft`, this field is null.
-        address:
-          allOf:
-            - $ref: '#/components/schemas/CommonAddressProperties'
-            - type: object
-              description: Address where the invoice was issued.
-              properties:
-                state:
-                  type: string
-                  description: If the country is Mexico ("MEX"), it contains the name of the State or Federative Entity. For foreigners, it contains the State code according to the standard [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), which you can consult in our [State Catalog](https://dashboard.facturapi.io/catalogs/state).
-                  example: Sonora
-        type:
-          type: string
-          enum:
-            - "I"
-            - "E"
-            - "P"
-            - "N"
-            - "T"
-          description: |
-            Type of document. It can have the values `"I"`: Income, `"P"`: Payment, `"E"`: Egress, `"N"`: Payroll, `"T"`: Transfer.
-        customer:
-          description: Invoice customer. Null when the draft has no customer.
-          anyOf:
-            - $ref: '#/components/schemas/CustomerInfo'
-            - type: 'null'
-        total:
-          type: number
-          description: Total amount invoiced.
-          example: 0
-        uuid:
-          type: [string, "null"]
-          format: uuid
-          description: Fiscal folio assigned by the SAT. For an unstamped draft, this field is null or omitted.
-        folio_number:
-          type: integer
-          description: Autoincremental folio number for internal control and without fiscal relevance.
-          example: 914
-        series:
-          type: string
-          description: Series. Alphanumeric characters designated by the company for internal control and without fiscal relevance. In the PDF, it is printed next to the folio number.
-          example: F
-        external_id:
-          type: string
-          description: Identifier that you can use to relate this invoice to your records to later search by this number.
-        idempotency_key:
-          type: string
-          description: Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
-        payment_form:
-          type: string
-          description: Payment form code according to the [Payment Form catalog](#forma-de-pago).
-          example: "06"
-        items:
-          type: array
-          description: Concepts included in the document.
-          items:
-            $ref: '#/components/schemas/LineItem'
-        related_documents:
-          type: array
-          description: Documents related to the invoice.
-          items:
-            $ref: '#/components/schemas/RelatedDocument'
-        currency:
-          type: string
-          example: MXN
-          description: Currency code, according to the standard [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217).
-        exchange:
-          type: number
-          minimum: 0
-          example: 1
-          description: Exchange rate for the currency used. It represents the number of Mexican pesos (MXN) equivalent to one unit of the currency indicated in the `currency` attribute.
-        complements:
-          type: array
-          default: []
-          items:
-            $ref: '#/components/schemas/InvoiceComplementProperties'
-          description: Complements to include in the invoice.
-        pdf_custom_section:
-          type: string
-          format: html
-          description: In case you need to include more information in the PDF, this field allows you to insert HTML code with your own content.
-        addenda:
-          type: string
-          format: xml
-          description: XML code with the Addenda that needs to be added to the invoice.
-        namespaces:
-          type: array
-          description: Namespaces to insert in the root node of the invoice. Required for `addenda`.
-          items:
-            $ref: '#/components/schemas/NamespaceProperties'
-        is_ready_to_stamp:
-          type: boolean
-          description: |
-            This field is automatically assigned by Facturapi. It indicates if an invoice
-            with status `draft` is complete and ready to be stamped. If the value is `true`, you can
-            try to stamp the invoice with the [Stamp Invoice]('#/operation/stampInvoice') method.
-            If the value is `false`, you must use the [Update Invoice]('#/operation/updateDraftInvoice')
-            method to complete the missing fields.
-
-            In an invoice with a status other than `draft`, this field will always be `false`.
-        stamp:
-          anyOf:
-            - $ref: '#/components/schemas/Stamp'
-            - type: 'null'
-          example: null
-
+      allOf:
+        - $ref: '#/components/schemas/InvoiceProperties'
     InvoiceableCommonInput:
       type: object
       properties:
@@ -17582,9 +17575,7 @@ components:
           description: |
             If you included the `complements` parameter, this field is optional; however, if you included the `addenda` parameter, you must send the necessary information to include these namespaces in the XML document.
           items:
-            allOf:
-              - $ref: "#/components/schemas/NamespaceRequiredProperties"
-              - $ref: "#/components/schemas/NamespaceProperties"
+            $ref: "#/components/schemas/NamespaceInput"
         pdf_options:
           type: object
           description: |
@@ -17702,9 +17693,7 @@ components:
           description: |
             If you included the `complements` parameter, this field is optional; however, if you included the `addenda` parameter, you must send the necessary information to include these namespaces in the XML document.
           items:
-            allOf:
-              - $ref: "#/components/schemas/NamespaceRequiredProperties"
-              - $ref: "#/components/schemas/NamespaceProperties"
+            $ref: "#/components/schemas/NamespaceInput"
         pdf_options:
           type: object
           description: |
@@ -17803,7 +17792,7 @@ components:
           title: customer_id
           description: ID of the `customer` object previously registered in Facturapi.
           example: 58e93bd8e86eb318b0197456
-    InvoiceCommonInputProperties:
+    InvoiceCommonInput:
       allOf:
         - type: object
           properties:
@@ -17856,7 +17845,7 @@ components:
 
                 If left blank, it will not be taken into account.
         - $ref: "#/components/schemas/InvoiceableCommonInput"
-    InvoiceCommonEditInputProperties:
+    InvoiceCommonEditInput:
       allOf:
         - type: object
           properties:
@@ -17898,9 +17887,9 @@ components:
 
                 If left blank, it will not be taken into account.
         - $ref: "#/components/schemas/InvoiceableCommonEditInput"
-    InvoiceDraftInputProperties:
+    InvoiceDraftCommonInput:
       allOf:
-        - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
+        - $ref: "#/components/schemas/InvoiceCommonEditInput"
         - type: object
           properties:
             customer:
@@ -18063,7 +18052,7 @@ components:
                 The maximum number of elements that you can include in an invoice is 5,000. If you need
                 to issue an invoice with more than 5,000 concepts, you can divide the transaction into several invoices.
               items:
-                $ref: "#/components/schemas/LineItemInput"
+                $ref: "#/components/schemas/InvoiceItemInput"
             payment_form:
               type: string
               minLength: 2
@@ -18172,7 +18161,7 @@ components:
                 invoice if you build the XML node of the complement yourself and use the `custom` type.
                 It is necessary to add the complement information to the PDF separately using the
                 `pdf_custom_section` parameter.
-        - $ref: "#/components/schemas/InvoiceCommonInputProperties"
+        - $ref: "#/components/schemas/InvoiceCommonInput"
     InvoiceEgresoInput:
       title: Egress
       allOf:
@@ -18217,7 +18206,7 @@ components:
                 The maximum number of elements that you can include in a document is 5,000. If you need
                 to issue a document with more than 5,000 concepts, you can divide the transaction into several documents.
               items:
-                $ref: "#/components/schemas/LineItemEgresoInput"
+                $ref: "#/components/schemas/InvoiceItemEgresoInput"
             use:
               type: string
               default: G02
@@ -18244,7 +18233,7 @@ components:
                 credit note if you build the XML node of the complement yourself and use the `custom` type.
                 It is necessary to add the complement information to the PDF separately using the
                 `pdf_custom_section` parameter.
-        - $ref: "#/components/schemas/InvoiceCommonInputProperties"
+        - $ref: "#/components/schemas/InvoiceCommonInput"
     InvoicePagoInput:
       title: Payment
       allOf:
@@ -18272,7 +18261,7 @@ components:
                     - tax_id
                     - tax_system
                     - zip
-                - $ref: "#/components/schemas/ThirdParty"
+                - $ref: "#/components/schemas/ThirdPartyInput"
             complements:
               type: array
               minItems: 1
@@ -18287,7 +18276,7 @@ components:
               items:
                 $ref: "#/components/schemas/InvoiceComplementInput"
               description: Complements to include in the invoice.
-        - $ref: "#/components/schemas/InvoiceCommonInputProperties"
+        - $ref: "#/components/schemas/InvoiceCommonInput"
     InvoiceNominaInput:
       title: Payroll
       allOf:
@@ -18321,7 +18310,7 @@ components:
               default: []
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
-        - $ref: "#/components/schemas/InvoiceCommonInputProperties"
+        - $ref: "#/components/schemas/InvoiceCommonInput"
     InvoiceTrasladoInput:
       title: Transfer
       allOf:
@@ -18344,7 +18333,7 @@ components:
                 The maximum number of elements that you can include in an invoice is 5,000. If you need
                 to issue an invoice with more than 5,000 concepts, you can divide the transaction into several invoices.
               items:
-                $ref: "#/components/schemas/LineItemTrasladoInput"
+                $ref: "#/components/schemas/InvoiceItemTrasladoInput"
             complements:
               type: array
               default: []
@@ -18377,7 +18366,7 @@ components:
               default: []
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
-        - $ref: "#/components/schemas/InvoiceCommonInputProperties"
+        - $ref: "#/components/schemas/InvoiceCommonInput"
     InvoiceIngresoEditInput:
       title: Income
       allOf:
@@ -18396,7 +18385,7 @@ components:
                 The maximum number of elements that you can include in an invoice is 5,000. If you need
                 to issue an invoice with more than 5,000 concepts, you can divide the transaction into several invoices.
               items:
-                $ref: "#/components/schemas/LineItemInput"
+                $ref: "#/components/schemas/InvoiceItemInput"
             payment_form:
               type: [string, "null"]
               minLength: 2
@@ -18497,7 +18486,7 @@ components:
                 invoice if you build the XML node of the complement yourself and use the `custom` type.
                 It is necessary to add the complement information to the PDF separately using the
                 `pdf_custom_section` parameter.
-        - $ref: "#/components/schemas/InvoiceDraftInputProperties"
+        - $ref: "#/components/schemas/InvoiceDraftCommonInput"
     InvoiceEgresoEditInput:
       title: Egress
       allOf:
@@ -18535,7 +18524,7 @@ components:
                 The maximum number of elements that you can include in a document is 5,000. If you need
                 to issue a document with more than 5,000 concepts, you can divide the transaction into several documents.
               items:
-                $ref: "#/components/schemas/LineItemEgresoInput"
+                $ref: "#/components/schemas/InvoiceItemEgresoInput"
             use:
               type: string
               example: G01
@@ -18558,7 +18547,7 @@ components:
                 credit note if you build the XML node of the complement yourself and use the `custom` type.
                 It is necessary to add the complement information to the PDF separately using the
                 `pdf_custom_section` parameter.
-        - $ref: "#/components/schemas/InvoiceDraftInputProperties"
+        - $ref: "#/components/schemas/InvoiceDraftCommonInput"
     InvoicePagoEditInput:
       title: Payment
       allOf:
@@ -18581,13 +18570,13 @@ components:
                     - tax_id
                     - tax_system
                     - zip
-                - $ref: "#/components/schemas/ThirdParty"
+                - $ref: "#/components/schemas/ThirdPartyInput"
             complements:
               type: array
               items:
                 $ref: "#/components/schemas/InvoiceComplementInput"
               description: Complements to include in the invoice.
-        - $ref: "#/components/schemas/InvoiceDraftInputProperties"
+        - $ref: "#/components/schemas/InvoiceDraftCommonInput"
     InvoiceNominaEditInput:
       title: Payroll
       allOf:
@@ -18609,7 +18598,7 @@ components:
               description: Documents related to the invoice.
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
-        - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
+        - $ref: "#/components/schemas/InvoiceCommonEditInput"
     InvoiceTrasladoEditInput:
       title: Transfer
       allOf:
@@ -18630,7 +18619,7 @@ components:
                 The maximum number of elements that you can include in an invoice is 5,000. If you need
                 to issue an invoice with more than 5,000 concepts, you can divide the transaction into several invoices.
               items:
-                $ref: "#/components/schemas/LineItemTrasladoInput"
+                $ref: "#/components/schemas/InvoiceItemTrasladoInput"
             complements:
               type: array
               items:
@@ -18658,7 +18647,7 @@ components:
               description: Documents related to the invoice.
               items:
                 $ref: "#/components/schemas/RelatedDocumentInput"
-        - $ref: "#/components/schemas/InvoiceCommonEditInputProperties"
+        - $ref: "#/components/schemas/InvoiceCommonEditInput"
 
     Receipt:
       title: Receipt object
@@ -18676,6 +18665,10 @@ components:
           required:
             - date
             - expires_at
+            - status
+            - total
+            - items
+            - key
           properties:
             date:
               type: string
@@ -18730,7 +18723,7 @@ components:
               description: |
                 Sale items included in the receipt.
               items:
-                $ref: "#/components/schemas/LineItem"
+                $ref: "#/components/schemas/InvoiceItem"
             external_id:
               type: string
               description: |
@@ -18741,7 +18734,7 @@ components:
                 Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
 
                 If left blank, it will not be taken into account.
-        - $ref: "#/components/schemas/ReceiptEditableProperties"
+        - $ref: "#/components/schemas/ReceiptCommonProperties"
     ReceiptInput:
       allOf:
         - type: object
@@ -18777,9 +18770,9 @@ components:
                 The maximum number of elements that you can include in a receipt is 5,000. If you need
                 to issue a receipt with more than 5,000 concepts, you can divide the transaction into several receipts.
               items:
-                $ref: "#/components/schemas/LineItemInput"
+                $ref: "#/components/schemas/InvoiceItemInput"
 
-        - $ref: "#/components/schemas/ReceiptEditableProperties"
+        - $ref: "#/components/schemas/ReceiptCommonProperties"
         - type: object
           properties:
             idempotency_key:
@@ -18788,7 +18781,7 @@ components:
                 Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
 
                 If left blank, it will not be taken into account.
-    ReceiptEditableProperties:
+    ReceiptCommonProperties:
       type: object
       properties:
         date:
@@ -18880,7 +18873,7 @@ components:
       anyOf:
         - title: Select by period
           allOf:
-            - $ref: '#/components/schemas/GlobalInvoiceInputProperties'
+            - $ref: '#/components/schemas/GlobalInvoiceCommonInput'
             - type: object
               properties:
                 receipts: false
@@ -18890,8 +18883,8 @@ components:
             - from
             - to
           allOf:
-            - $ref: '#/components/schemas/GlobalInvoiceInputProperties'
-    GlobalInvoiceInputProperties:
+            - $ref: '#/components/schemas/GlobalInvoiceCommonInput'
+    GlobalInvoiceCommonInput:
       type: object
       properties:
         from:
@@ -19239,7 +19232,7 @@ components:
               items:
                 type: object
                 properties:
-                  base:
+                  base_ret:
                     type: number
                     minimum: 0
                     description: Base amount on which the tax was calculated.
@@ -19254,7 +19247,7 @@ components:
 
                       - `IVA`: Value Added Tax
                       - `ISR`: Income Tax
-                  monto:
+                  monto_ret:
                     type: number
                     minimum: 0
                     description: Amount of the tax withheld.
@@ -19514,9 +19507,7 @@ components:
           type: array
           description: Namespaces to insert in the root node of the invoice. Required for `addenda`.
           items:
-            allOf:
-              - $ref: "#/components/schemas/NamespaceRequiredProperties"
-              - $ref: "#/components/schemas/NamespaceProperties"
+            $ref: "#/components/schemas/NamespaceInput"
 
     OrganizationAddress:
       allOf:
@@ -20164,7 +20155,7 @@ components:
           description: |
             Email address for clarifications. It will appear in the self-invoice portal.
             If the email is not verified, the main account's email will be used.
-    DomainField:
+    DomainInput:
       type: string
       maxLength: 50
       minLength: 4
@@ -20179,7 +20170,7 @@ components:
         - domain
       properties:
         domain:
-          $ref: "#/components/schemas/DomainField"
+          $ref: "#/components/schemas/DomainInput"
     OrganizationSeriesCreateInput:
       type: object
       required:

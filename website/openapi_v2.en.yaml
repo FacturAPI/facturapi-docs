@@ -16343,6 +16343,15 @@ components:
           type: string
           description: Default CFDI use for the customer.
           example: G01
+    CustomerEmailInput: &customer_email_input
+      type: [string, 'null']
+      format: email
+    CustomerEmailUpdateInput:
+      anyOf:
+        - $ref: '#/components/schemas/CustomerEmailInput'
+        - type: string
+          pattern: '^\s*$'
+      description: On update, null, an empty string, or whitespace-only text clears the email address.
     CustomerEditableInput:
       type: object
       properties:
@@ -16352,10 +16361,8 @@ components:
             Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
           example: Dunder Mifflin
         tax_id: *customer_tax_id
-        email: &customer_email_input
-          type: [string, 'null']
-          format: email
-          description: Customer email address. On update, null clears the email address.
+        email:
+          $ref: '#/components/schemas/CustomerEmailUpdateInput'
         phone: *customer_phone
         external_id: &customer_external_id_input
           type: [string, 'null']
@@ -16393,6 +16400,7 @@ components:
               example: Huatabampo
             zip:
               type: string
+              minLength: 1
               description: Postal code
               example: '86500'
             state: &customer_address_state_input
@@ -16402,7 +16410,7 @@ components:
               default: MEX
               description: ISO 3166-1 alpha-3.
     CustomerUpdateInput:
-      description: On update without createEditLink=true, omitted fields retain their value. A null value clears fields that accept null; an optional field can be omitted without necessarily accepting null. Null is not allowed for legal_name, tax_id, tax_system, or address.
+      description: On update without createEditLink=true, omitted fields retain their value. A null value clears fields that accept null; an optional field can be omitted without necessarily accepting null. Null is not allowed for legal_name, tax_id, tax_system, or address. For email, phone, and the optional address fields street, exterior, interior, neighborhood, city, municipality, and state, empty or whitespace-only strings normalize to null. Empty postal codes are not accepted.
       allOf:
         - $ref: '#/components/schemas/CustomerEditableInput'
         - type: object
@@ -16423,12 +16431,13 @@ components:
                 country:
                   type: string
     CustomerUpdateWithEditLinkInput:
-      description: With createEditLink=true, omitted fields retain their value and null clears the existing value, including fiscal fields. Non-null values must be valid.
+      description: With createEditLink=true, omitted fields retain their value and null clears the existing value, including fiscal fields. Non-null values must be valid. For email, phone, and the optional address fields street, exterior, interior, neighborhood, city, municipality, and state, empty or whitespace-only strings normalize to null. Empty postal codes are not accepted.
       type: object
       properties:
         legal_name: *customer_legal_name_input
         tax_id: *customer_tax_id
-        email: *customer_email_input
+        email:
+          $ref: '#/components/schemas/CustomerEmailUpdateInput'
         phone: *customer_phone
         external_id: *customer_external_id_input
         default_invoice_use: *customer_default_invoice_use_input
@@ -16446,6 +16455,7 @@ components:
             country: *customer_address_country_input
             zip:
               type: [string, 'null']
+              minLength: 1
               description: Postal code
               example: '86500'
     CancellationQueryInput:

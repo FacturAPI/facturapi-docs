@@ -285,3 +285,5 @@ const createdSeriesResponse: operations['createSeriesGroup']['responses'][200]['
 const updatedSeriesResponse: operations['updateSeriesGroup']['responses'][200]['content']['application/json'] = createdSeriesResponse;
 const deletedSeriesResponse: operations['deleteSeriesGroup']['responses'][200]['content']['application/json'] = [{ series: 'A', livemode: true, next_folio: 1 }, null];
 void [clearedCustomerResponse, emptyRetentionResponse, retentionWithAddenda, createdSeriesResponse, updatedSeriesResponse, deletedSeriesResponse];
+const blankCustomerUpdate: components['schemas']['CustomerUpdateInput'] = { email: ' ', phone: '', address: { street: ' ', zip: '77535' } };
+void blankCustomerUpdate;

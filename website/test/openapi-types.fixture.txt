@@ -1,4 +1,15 @@
 import type { components, operations, webhooks } from "./schema";
+
+const importedInvoiceSearch: operations['listInvoices']['parameters']['query'] = { sat_imported: true };
+const importedZipSearch: operations['listInvoiceZipRequests']['parameters']['query'] = { sat_imported: false };
+const importedInvoiceZip: components['schemas']['InvoiceZipRequestCreateInput'] = { year: 2026, month: 10, sat_imported: true };
+declare const invoiceZip: components['schemas']['InvoiceZipRequest'];
+const zipIsCurrent: boolean | undefined = invoiceZip.is_current;
+const zipGeneratedAt: string | undefined = invoiceZip.generated_at;
+const zipContentAsOf: string | undefined = invoiceZip.content_as_of;
+// @ts-expect-error refresh is not a supported parameter
+const invalidZipRefresh: components['schemas']['InvoiceZipRequestCreateInput'] = { year: 2026, month: 10, refresh: true };
+
 const invoice: components["schemas"]["InvoiceCreateInput"] = {
   customer: "cus_example",
   items: [

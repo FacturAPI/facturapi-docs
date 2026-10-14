@@ -13679,19 +13679,19 @@ components:
             type: string
           description: Números de pedimento asociados a este concepto. Se omite cuando no existen.
         third_party:
-          $ref: '#/components/schemas/ThirdPartyInput'
+          $ref: '#/components/schemas/ThirdParty'
         complement:
           oneOf:
             - type: string
               format: xml
-            - $ref: '#/components/schemas/HidroYPetroComplementInput'
-            - $ref: '#/components/schemas/IeduComplementInput'
+            - $ref: '#/components/schemas/HidroYPetroComplement'
+            - $ref: '#/components/schemas/IeduComplement'
         parts:
           type: array
           items:
             $ref: "#/components/schemas/Parts"
           description: Objeto con información de las partes de la factura.
-    ThirdPartyInput:
+    ThirdParty:
       type: object
       description: |
         Objeto con información del contribuyente tercero, a cuenta del que se realiza la operación.
@@ -13716,6 +13716,9 @@ components:
           type: string
           description: Código postal del tercero.
           example: "01234"
+    ThirdPartyInput:
+      allOf:
+        - $ref: "#/components/schemas/ThirdParty"
     InvoiceItemInput:
       title: InvoiceItem
       required:
@@ -13880,13 +13883,9 @@ components:
               type: string
               description: Código postal del tercero.
               example: "01234"
-    HidroYPetroComplementInput:
+    HidroYPetroComplement:
       title: HidroYPetroComplement
       type: object
-      required:
-        - tipo_permiso
-        - numero_permiso
-        - sub_producto_hyp
       properties:
         tipo_permiso:
           type: string
@@ -13961,18 +13960,20 @@ components:
             - Diesel
             - Combustibles para barco
 
-    IeduComplementInput:
+    HidroYPetroComplementInput:
+      allOf:
+        - $ref: "#/components/schemas/HidroYPetroComplement"
+      required:
+        - tipo_permiso
+        - numero_permiso
+        - sub_producto_hyp
+    IeduComplement:
       title: IeduComplement
       type: object
       description: |
         Complemento concepto de Instituciones Educativas Privadas versión 1.0.
 
         Se incluye a nivel concepto dentro de `items[].complement`.
-      required:
-        - nombreAlumno
-        - CURP
-        - nivelEducativo
-        - autRVOE
       properties:
         nombreAlumno:
           type: string
@@ -14006,6 +14007,14 @@ components:
           description: RFC de quien realiza el pago cuando sea diferente a quien recibe el servicio.
           example: PELJ800101ABC
 
+    IeduComplementInput:
+      allOf:
+        - $ref: "#/components/schemas/IeduComplement"
+      required:
+        - nombreAlumno
+        - CURP
+        - nivelEducativo
+        - autRVOE
     CustomComplementData:
       title: string
       type: string

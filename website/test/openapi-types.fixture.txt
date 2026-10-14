@@ -254,3 +254,11 @@ const organizationSeriesList: operations['getSeriesGroup']['responses'][200]['co
 const organizationSeriesEnvelope: operations['getSeriesGroup']['responses'][200]['content']['application/json'] = { data: [] };
 
 const cancellationLastChecked: components['schemas']['InvoiceCancellation'] = { status: "none", last_checked: "2026-10-14T12:00:00Z" };
+
+const sharedThirdParty: components['schemas']['ThirdParty'] = { tax_id: 'MIC920101HN7' };
+const invoiceThirdParty: components['schemas']['InvoiceItem']['third_party'] = sharedThirdParty;
+// @ts-expect-error educational complement requests retain required student fields
+const incompleteIeduInput: components['schemas']['IeduComplementInput'] = {};
+// @ts-expect-error hydrocarbon complement requests retain required permit fields
+const incompleteHydrocarbonInput: components['schemas']['HidroYPetroComplementInput'] = {};
+void [invoiceThirdParty, incompleteIeduInput, incompleteHydrocarbonInput];

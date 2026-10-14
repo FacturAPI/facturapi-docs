@@ -78,6 +78,25 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
     validateForeignTradeReceiver({ NumRegIdTrib: "123456" }),
     "Foreign trade receiver object must not be rejected by overlapping branches",
   );
+  for (const [schema, value, expected] of [
+    ["BaseTax", { type: "IVA", rate: 0.16, base: null }, true],
+    ["LocalTax", { type: "ISH", rate: 0.03, base: null }, true],
+    ["CustomerInfo", { legal_name: null, tax_id: null, phone: null }, true],
+    ["ProductProperties", { description: "Example", product_key: "60131324", price: 100, unit_name: null }, true],
+    ["ProductCreateInput", { description: "Example", product_key: "60131324", price: 100, unit_name: null }, false],
+    ["CustomerNationalAddressInput", { zip: "83200", country: null }, true],
+    ["RelatedDocumentInput", { relationship: "01", documents: ["39c85a3f-275b-4341-b259-e8971d9f8a94"] }, true],
+    ["OrganizationSeriesCreateInput", { series: "A" }, true],
+    ["CustomerProperties", { legal_name: null, address: null }, true],
+    ["RetentionProperties", { fecha_exp: null, cve_retenc: null, periodo: null, totales: null, addenda: [] }, true],
+    ["RetentionUpdateInput", { addenda: ["<Example/>"] }, true],
+  ]) {
+    const validate = new Ajv2020({ strict: false, validateFormats: false }).compile({
+      $ref: `#/components/schemas/${schema}`,
+      components: spec.components,
+    });
+    assert.equal(validate(value), expected, `Unexpected contract validation for ${schema}`);
+  }
   for (const name of Object.keys(spec.components.schemas))
     assert(!/(InputProperties|RequiredProperties)$/.test(name),
       `Use an Input schema with its own required fields: ${name}`);

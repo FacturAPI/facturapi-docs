@@ -262,3 +262,26 @@ const incompleteIeduInput: components['schemas']['IeduComplementInput'] = {};
 // @ts-expect-error hydrocarbon complement requests retain required permit fields
 const incompleteHydrocarbonInput: components['schemas']['HidroYPetroComplementInput'] = {};
 void [invoiceThirdParty, incompleteIeduInput, incompleteHydrocarbonInput];
+
+const nullTaxBase: components['schemas']['BaseTax'] = { type: 'IVA', rate: 0.16, base: null };
+const nullLocalTaxBase: components['schemas']['LocalTax'] = { type: 'ISH', rate: 0.03, base: null };
+const incompleteInvoiceCustomer: components['schemas']['CustomerInfo'] = { legal_name: null, tax_id: null, phone: null };
+const uninvoicedReceipt: components['schemas']['ReceiptProperties']['invoice'] = null;
+const responseProductWithNullUnit: components['schemas']['ProductProperties'] = { description: 'Example', product_key: '60131324', price: 100, unit_name: null };
+// @ts-expect-error product creation still requires a non-null unit name when supplied
+const inputProductWithNullUnit: components['schemas']['ProductCreateInput'] = { description: 'Example', product_key: '60131324', price: 100, unit_name: null };
+const completeResponseAddress: components['schemas']['Address'] = { state: 'Sonora', country: 'MEX' };
+void [nullTaxBase, nullLocalTaxBase, incompleteInvoiceCustomer, uninvoicedReceipt, responseProductWithNullUnit, inputProductWithNullUnit, completeResponseAddress];
+const nationalAddressWithDefaultCountry: components['schemas']['CustomerNationalAddressInput'] = { zip: '83200', country: null };
+const relatedInvoiceByUuid: components['schemas']['RelatedDocumentInput'] = { relationship: '01', documents: ['39c85a3f-275b-4341-b259-e8971d9f8a94'] };
+const seriesWithDefaultFolios: components['schemas']['OrganizationSeriesCreateInput'] = { series: 'A' };
+const receiptAddress: components['schemas']['ReceiptProperties']['address'] = { country: 'MEX', state: 'Sonora' };
+const invoiceCustomerAddress: components['schemas']['CustomerInfo']['address'] = { city: 'Huatabampo', street: 'Example' };
+void [nationalAddressWithDefaultCountry, relatedInvoiceByUuid, seriesWithDefaultFolios, receiptAddress, invoiceCustomerAddress];
+const clearedCustomerResponse: components['schemas']['CustomerProperties'] = { legal_name: null, address: null };
+const emptyRetentionResponse: components['schemas']['RetentionProperties'] = { fecha_exp: null, cve_retenc: null, periodo: null, totales: null, addenda: [] };
+const retentionWithAddenda: components['schemas']['RetentionUpdateInput'] = { addenda: ['<Example/>'] };
+const createdSeriesResponse: operations['createSeriesGroup']['responses'][200]['content']['application/json'] = [{ series: 'A', next_folio: 1, next_folio_test: 1 }];
+const updatedSeriesResponse: operations['updateSeriesGroup']['responses'][200]['content']['application/json'] = createdSeriesResponse;
+const deletedSeriesResponse: operations['deleteSeriesGroup']['responses'][200]['content']['application/json'] = [{ series: 'A', livemode: true, next_folio: 1 }, null];
+void [clearedCustomerResponse, emptyRetentionResponse, retentionWithAddenda, createdSeriesResponse, updatedSeriesResponse, deletedSeriesResponse];

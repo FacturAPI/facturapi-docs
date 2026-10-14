@@ -6628,10 +6628,10 @@ paths:
               schema:
                 type: string
                 format: binary
-        "204":
-          description: No eligible receipts found for the provided keys
         "400":
           $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
         "401":
           $ref: "#/components/responses/Unauthenticated"
         "500":
@@ -10133,7 +10133,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OrganizationSeriesGroup"
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrganizationSeriesGroup"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -10232,7 +10234,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OkResponse"
+                $ref: "#/components/schemas/Organization"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -10335,7 +10337,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OrganizationSeriesGroup"
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrganizationSeriesGroup"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -10418,7 +10422,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OrganizationSeriesGroup"
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrganizationSeriesDeletion"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -13583,7 +13589,7 @@ components:
           example: 0.1
           description: Tax rate in decimal format.
         base:
-          type: number
+          type: [number, 'null']
           description: "Tax base. If omitted, the full subtotal of the line item is used."
         type:
           type: string
@@ -13619,7 +13625,7 @@ components:
           readOnly: true
           description: Calculated tax amount.
         base:
-          type: number
+          type: [number, 'null']
           description: "Tax base. If omitted, it is calculated from the line item subtotal and tax factor. For the Cuota factor, the number of units is used."
         type:
           type: string
@@ -16054,6 +16060,37 @@ components:
           format: url
           example: http://www.sat.gob.mx/sitio_interet/cfd/iedu/iedu.xsd
           description: URL of the XSD validation schema.
+    Address:
+      allOf:
+        - $ref: '#/components/schemas/CommonAddressProperties'
+      properties:
+        state:
+          type: string
+        country:
+          type: string
+          minLength: 3
+          maxLength: 3
+    CustomerAddress:
+      type: [object, 'null']
+      properties:
+        street:
+          type: [string, 'null']
+        exterior:
+          type: [string, 'null']
+        interior:
+          type: [string, 'null']
+        neighborhood:
+          type: [string, 'null']
+        city:
+          type: [string, 'null']
+        municipality:
+          type: [string, 'null']
+        zip:
+          type: [string, 'null']
+        state:
+          type: [string, 'null']
+        country:
+          type: [string, 'null']
     CommonAddressProperties:
       type: object
       properties:
@@ -16264,25 +16301,12 @@ components:
         - type: object
           properties:
             address:
-              allOf:
-                - $ref: "#/components/schemas/CommonAddressProperties"
-                - type: object
-                  description: Fiscal address.
-                  properties:
-                    state:
-                      type: string
-                      description: If the country is Mexico ("MEX"), it contains the name of the State or Federative Entity. For foreigners, it contains the State code according to the standard [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), which you can consult in our [State Catalog](https://dashboard.facturapi.io/catalogs/state).
-                      example: Sonora
-                    country:
-                      type: string
-                      description: Country code according to the standard [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), from the [Country Catalog](https://dashboard.facturapi.io/catalogs/country).
-                      example: MEX
-                      default: MEX
+              $ref: '#/components/schemas/CustomerAddress'
     CustomerCommonProperties:
       type: object
       properties:
         legal_name:
-          type: string
+          type: [string, 'null']
           description: |
             Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
           example: Dunder Mifflin
@@ -16512,8 +16536,8 @@ components:
             state:
               type: string
             country:
-              type: string
-              const: MEX
+              type: [string, 'null']
+              enum: [MEX, '', null]
               default: MEX
       required:
         - zip
@@ -16736,6 +16760,9 @@ components:
               items:
                 $ref: "#/components/schemas/Product"
     ProductCreateInput:
+      properties:
+        unit_name:
+          type: string
       allOf:
         - $ref: "#/components/schemas/ProductCommonProperties"
       required: [description, product_key, price]
@@ -16743,7 +16770,15 @@ components:
       allOf:
         - $ref: "#/components/schemas/ProductCommonProperties"
       required: [description, product_key, price]
+      properties:
+        unit_name:
+          type: [string, 'null']
+          default: Elemento
+          description: Name of the unit of measure used to express the quantity. It must be related to the unit key `unit_key`.
     ProductUpdateInput:
+      properties:
+        unit_name:
+          type: string
       allOf:
         - $ref: "#/components/schemas/ProductCommonProperties"
     ProductCommonProperties:
@@ -16825,10 +16860,6 @@ components:
             Key of the unit of measure, from the SAT catalog. The default value `"H87"` (element) is the key to represent a piece or sales unit (pencil, notebook, television, etc).
 
             If the unit of your product is kilograms, liters, hours, or any other unit, we provide a convenient way to find the key using our [key search tool](https://dashboard.facturapi.io/catalogs/unit).
-        unit_name:
-          type: string
-          default: Elemento
-          description: Name of the unit of measure used to express the quantity. It must be related to the unit key `unit_key`.
         sku:
           type: string
           description: Internal identifier designated by the company. It can have any value.
@@ -17114,25 +17145,19 @@ components:
           description: ID of the `customer` object related to the invoice, in case it has not been deleted.
           example: 58e93bd8e86eb318b0197456
         legal_name:
-          type: string
+          type: [string, 'null']
           description: |
             Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
           example: Dunder Mifflin
         tax_id:
-          type: string
+          type: [string, 'null']
           description: |
             In Mexican clients, it contains the customer's RFC. For foreigners, it is optional and represents the tax identification number, that is, the equivalent to the RFC in the customer's country.
           example: ABC101010111
         address:
-          type: object
-          properties:
-            country:
-              type: string
-              format: ISO 3166-1 alpha-3
-              description: Country code according to the standard [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3).
-              example: MEX
-            zip:
-              type: string
+          $ref: '#/components/schemas/Address'
+        phone:
+          type: [string, 'null']
         tax_system:
           type:
             - string
@@ -17148,7 +17173,6 @@ components:
     RelatedDocumentInput:
       required:
         - relationship
-        - related
       allOf:
         - $ref: '#/components/schemas/RelatedDocument'
     RelatedDocument:
@@ -17417,7 +17441,7 @@ components:
           description: Issue date in ISO8601 format. May be null for drafts.
         address:
           allOf:
-            - $ref: '#/components/schemas/CommonAddressProperties'
+            - $ref: '#/components/schemas/Address'
             - type: object
               description: Address where the invoice was issued.
               properties:
@@ -18726,6 +18750,8 @@ components:
             - items
             - key
           properties:
+            address:
+              $ref: '#/components/schemas/Address'
             api_version:
               type: integer
               readOnly: true
@@ -18766,7 +18792,7 @@ components:
               example: 356.78
               description: Total amount of the operation
             invoice:
-              type: string
+              type: [string, 'null']
               example: 614496b471d422de4b6cfcc4
               description: ID of the associated invoice, if invoiced.
             customer:
@@ -19195,7 +19221,7 @@ components:
             Current status of the document.
           example: valid
         verification_url:
-          type: string
+          type: [string, 'null']
           format: uri
           description: URL to verify the status of the retention on the SAT portal. This link is the same as the one that appears in the QR code on the retention PDF.
           example: https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABC101010111&tt=345.600000&fe=bWApPw==
@@ -19206,7 +19232,7 @@ components:
           example: Retención
           description: Type of document.
         uuid:
-          type: string
+          type: [string, 'null']
           format: uuid
           description: |
             Fiscal folio of the retention, assigned by the SAT.
@@ -19231,7 +19257,7 @@ components:
         - fecha_exp
       properties:
         cve_retenc:
-          type: string
+          type: [string, 'null']
           example: "01"
           description: |
             Key of the retention or payment information according to the SAT catalog.
@@ -19250,7 +19276,7 @@ components:
           type: string
           description: Alphanumeric identifier for internal control of the company and without fiscal relevance.
         periodo:
-          type: object
+          type: [object, 'null']
           description: Information about the retention period.
           properties:
             mes_ini:
@@ -19267,7 +19293,7 @@ components:
               type: integer
               description: Fiscal year in which the retention was made.
         totales:
-          type: object
+          type: [object, 'null']
           description: Information about the total of retentions made in the corresponding period.
           properties:
             monto_tot_operacion:
@@ -19329,11 +19355,11 @@ components:
                       - `03`: Definitive ISR Platforms payment
                       - `04`: Provisional ISR payment
         external_id:
-          type: string
+          type: [string, 'null']
           description: |
             Optional identifier that you can use to relate this retention to your records and later search by this number. Facturapi does not validate that this field is unique.
         idempotency_key:
-          type: string
+          type: [string, 'null']
           description: |
             Unique identifier that you can use to avoid duplicates when retrying a request. It can be any text string, as long as it is unique for each document.
 
@@ -19351,8 +19377,10 @@ components:
           description: |
             In case you need to include more information in the PDF, this field allows you to insert HTML code with your own content.
         addenda:
-          type: string
-          format: xml
+          type: array
+          items:
+            type: string
+            format: xml
           description: XML code with the Addenda that needs to be added to the invoice.
         namespaces:
           type: array
@@ -19563,8 +19591,10 @@ components:
           description: |
             In case you need to include more information in the PDF, this field allows you to insert HTML code with your own content.
         addenda:
-          type: string
-          format: xml
+          type: array
+          items:
+            type: string
+            format: xml
           description: XML code with the Addenda that needs to be added to the invoice.
         namespaces:
           type: array
@@ -20262,18 +20292,18 @@ components:
       type: object
       required:
         - series
-        - next_folio
-        - next_folio_test
       properties:
         series:
           type: string
-          maxLength: 55
+          maxLength: 25
           description: Series name
         next_folio:
           type: integer
+          default: 1
           description: Folio number that will be assigned to the next invoice in the Live environment (and will automatically increase with each new invoice).
         next_folio_test:
           type: integer
+          default: 1
           description: Folio number that will be assigned to the next invoice in the Test environment (and will automatically increase with each new invoice).
     OrganizationSeriesUpdateInput:
       type: object
@@ -20306,6 +20336,21 @@ components:
           minLength: 1
           maxLength: 25
           description: Series name.
+    OrganizationSeriesDeletion:
+      type: [object, 'null']
+      properties:
+        series:
+          type: string
+        livemode:
+          type: boolean
+        next_folio:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
     OrganizationSeriesGroup:
       title: Objeto Series
       type: object

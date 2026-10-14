@@ -4070,7 +4070,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Invoice"
+                anyOf:
+                  - $ref: "#/components/schemas/Invoice"
+                  - $ref: "#/components/schemas/InvoiceDraft"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":

@@ -4888,7 +4888,7 @@ paths:
           $ref: "#/components/responses/UnexpectedError"
   /invoices/{invoice_id}/cancellation_receipt/{format}:
     get:
-      operationId: downloadCancellationReceiptXml
+      operationId: downloadCancellationReceipt
       tags:
         - invoice
       summary: Descargar acuse de cancelación

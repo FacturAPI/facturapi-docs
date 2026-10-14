@@ -5657,43 +5657,25 @@ paths:
       operationId: createInvoiceZipRequest
       tags:
         - invoice
-      summary: Create or retrieve a monthly ZIP request
+      summary: Request a monthly invoice ZIP
       description: >
-        Creates a request to generate a ZIP file containing one month of
-        invoices, or retrieves the existing request with the same filters.
+        Requests a ZIP file containing the month's invoices that match the
+        specified filters. Check the request status and download the file when
+        it is ready.
 
 
-        While content remains current, the same filters retrieve the same
-        request. Invoice types are normalized: `["I", "E"]` and `["E", "I"]` are
-        equivalent. Concurrent calls with the same filters share an active
-        generation.
+        Includes XML and PDF files for valid and canceled invoices. Canceled
+        invoice files are grouped under `canceladas/`.
 
 
-        If an earlier request has a `failed` status, calling this method again
-        retries it. Before retrying, the previous error and task fields,
-        processed progress, and failed-document list are cleared. If scheduling
-        fails, the request is saved with a `failed` status and the API returns a
-        `5xx` error.
+        Requires a live-mode organization API key, an active subscription, and
+        permission to read invoices. Test-mode keys return HTTP 402.
 
 
-        This method requires a live-mode organization API key, an active
-        subscription, and permission to read invoices. Test-mode keys return
-        HTTP 402.
-
-        Newly generated ZIPs include XML and PDF files for valid and canceled
-        invoices. Canceled invoice files are grouped under `canceladas/`. Origin
-        also distinguishes requests for the same month, issuing type and invoice
-        types.
-
-
-        Finished packages are reused while their content remains current.
-        Invoice creation, import, cancellation, edits, and deletion can make a
-        previous package outdated. Request the same filters again to generate a
-        current package when content has changed. Older request IDs continue to
-        download their original package. You can export the ongoing month;
-        changes during preparation can leave the result outdated. Check
-        `is_current` before reusing it. Time passing alone does not make a
-        package outdated.
+        You can export the ongoing month. Check `is_current` to see whether the
+        package reflects current information; if it is outdated, request the ZIP
+        again with the same filters. Older request IDs still allow downloading
+        their original package.
       x-codeSamples:
         - lang: Bash
           label: cURL
@@ -5767,7 +5749,7 @@ paths:
         - SecretLiveKey: []
       responses:
         '200':
-          description: ZIP request created or retrieved successfully.
+          description: ZIP request processed successfully.
           content:
             application/json:
               schema:

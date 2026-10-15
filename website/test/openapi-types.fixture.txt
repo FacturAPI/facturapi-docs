@@ -166,6 +166,17 @@ const createdInvoiceDate: string | null | undefined = createdInvoiceResponse.dat
 const createdInvoiceStamp: components["schemas"]["Stamp"] | null | undefined = createdInvoiceResponse.stamp;
 void createdInvoiceDate;
 void createdInvoiceStamp;
+if (createdInvoiceResponse.status === 'valid' || createdInvoiceResponse.status === 'canceled') {
+  const stampedFields: [string, string, string, string, string, string | null] = [
+    createdInvoiceResponse.uuid,
+    createdInvoiceResponse.stamp.date,
+    createdInvoiceResponse.stamp.signature,
+    createdInvoiceResponse.stamp.sat_signature,
+    createdInvoiceResponse.stamp.sat_cert_number,
+    createdInvoiceResponse.stamp.complement_string,
+  ];
+  void stampedFields;
+}
 
 // A payment summary can be reused directly in a payment complement.
 declare const paymentSummary: operations["getInvoicePaymentSummary"]["responses"][200]["content"]["application/json"];

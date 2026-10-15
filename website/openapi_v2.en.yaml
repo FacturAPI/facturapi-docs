@@ -17386,6 +17386,9 @@ components:
               allOf:
                 - $ref: '#/components/schemas/Stamp'
               required: [date, sat_signature, sat_cert_number, signature, complement_string]
+              properties:
+                complement_string:
+                  type: string
     InvoicePending:
       title: Pending
       allOf:

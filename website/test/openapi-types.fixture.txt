@@ -289,7 +289,7 @@ const seriesWithDefaultFolios: components['schemas']['OrganizationSeriesCreateIn
 const receiptAddress: components['schemas']['ReceiptProperties']['address'] = { country: 'MEX', state: 'Sonora' };
 const invoiceCustomerAddress: components['schemas']['CustomerInfo']['address'] = { city: 'Huatabampo', street: 'Example' };
 void [nationalAddressWithDefaultCountry, relatedInvoiceByUuid, seriesWithDefaultFolios, receiptAddress, invoiceCustomerAddress];
-const clearedCustomerResponse: components['schemas']['CustomerProperties'] = { legal_name: null, address: null };
+const clearedCustomerResponse: components['schemas']['CustomerProperties'] = { email: null, legal_name: null, address: null };
 const emptyRetentionResponse: components['schemas']['RetentionProperties'] = { fecha_exp: null, cve_retenc: null, periodo: null, totales: null, addenda: [] };
 const retentionWithAddenda: components['schemas']['RetentionUpdateInput'] = { addenda: ['<Example/>'] };
 const createdSeriesResponse: operations['createSeriesGroup']['responses'][200]['content']['application/json'] = [{ series: 'A', next_folio: 1, next_folio_test: 1 }];

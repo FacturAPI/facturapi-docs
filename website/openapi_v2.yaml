@@ -16341,7 +16341,7 @@ components:
           minLength: 3
           description: Requerido para clientes nacionales. Clave del régimen fiscal del cliente, del catálogo de [Regímenes Fiscales](#r%C3%A9gimen-fiscal).
         email:
-          type: string
+          type: [string, 'null']
           format: email
           description: Dirección de correo electrónico al cual enviar las facturas generadas.
           example: email@example.com

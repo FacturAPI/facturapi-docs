@@ -16341,7 +16341,7 @@ components:
           description: |
             Required for national clients. Key of the customer's tax regime, from the [Tax Regime Catalog](#tax-regime).
         email:
-          type: string
+          type: [string, 'null']
           format: email
           description: Email address to which to send the generated invoices.
           example: email@example.com

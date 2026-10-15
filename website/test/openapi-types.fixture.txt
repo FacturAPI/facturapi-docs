@@ -298,3 +298,6 @@ const deletedSeriesResponse: operations['deleteSeriesGroup']['responses'][200]['
 void [clearedCustomerResponse, emptyRetentionResponse, retentionWithAddenda, createdSeriesResponse, updatedSeriesResponse, deletedSeriesResponse];
 const blankCustomerUpdate: components['schemas']['CustomerUpdateInput'] = { email: ' ', phone: '', address: { street: ' ', zip: '77535' } };
 void blankCustomerUpdate;
+
+const foreignTradeCustomerId: NonNullable<components['schemas']['ComercioExteriorDataInput']['Receptor']> = '507f1f77bcf86cd799439011';
+void foreignTradeCustomerId;

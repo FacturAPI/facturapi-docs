@@ -40,6 +40,18 @@ function contract(value, key) {
 for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
   // Match the generator parser so unquoted numeric SAT codes fail validation.
   const spec = yaml.load(await readFile(new URL(filename, root), "utf8"));
+  const ancestors = new WeakSet();
+  const visited = new WeakSet();
+  function rejectAnchorCycles(value) {
+    if (!value || typeof value !== "object") return;
+    assert(!ancestors.has(value), "Cyclic YAML anchors are not supported");
+    if (visited.has(value)) return;
+    ancestors.add(value);
+    for (const child of Object.values(value)) rejectAnchorCycles(child);
+    ancestors.delete(value);
+    visited.add(value);
+  }
+  rejectAnchorCycles(spec);
   const validateItemComplement = new Ajv2020({
     strict: false,
     validateFormats: false,
@@ -78,6 +90,7 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
     validateForeignTradeReceiver({ NumRegIdTrib: "123456" }),
     "Foreign trade receiver object must not be rejected by overlapping branches",
   );
+  // The sibling components object supplies the local $ref namespace to AJV.
   for (const [schema, value, expected] of [
     ["BaseTax", { type: "IVA", rate: 0.16, base: null }, true],
     ["LocalTax", { type: "ISH", rate: 0.03, base: null }, true],
@@ -101,9 +114,12 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
     assert(!/(InputProperties|RequiredProperties)$/.test(name),
       `Use an Input schema with its own required fields: ${name}`);
   for (const [name, body] of Object.entries(spec.components.requestBodies)) {
-    const reference = body.content?.["application/json"]?.schema?.$ref;
-    if (reference) assert(reference.endsWith("Input"),
-      `Request body schemas must end in Input: ${name}`);
+    for (const media of Object.values(body.content || {})) {
+      for (const schema of [media.schema, ...(media.schema?.oneOf || []), ...(media.schema?.anyOf || [])]) {
+        if (schema?.$ref) assert(schema.$ref.endsWith("Input"),
+          `Named request body schemas must end in Input: ${name}`);
+      }
+    }
   }
   function walk(value, path = [], references) {
     if (!value || typeof value !== "object") return;
@@ -115,6 +131,7 @@ for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
         ...value,
         components: spec.components,
       });
+      // This bounded check catches empty-object overlap, not every possible overlap.
       validate({});
       assert(
         !validate.errors?.some(

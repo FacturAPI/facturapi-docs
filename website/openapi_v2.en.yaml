@@ -15278,7 +15278,7 @@ components:
     CartaPorteDataInput:
       allOf:
         - $ref: "#/components/schemas/CartaPorteDataProperties"
-    ComercioExteriorDataProperties:
+    ComercioExteriorCommonProperties:
       type: object
       title: ComercioExterior
       description: Foreign Trade complement version 2.0.
@@ -15344,10 +15344,6 @@ components:
             oneOf:
               - $ref: "#/components/schemas/ComercioExteriorPropietario"
               - $ref: "#/components/schemas/CustomerComercioExterior"
-        Receptor:
-          anyOf:
-            - $ref: "#/components/schemas/ComercioExteriorReceptor"
-            - $ref: "#/components/schemas/CustomerComercioExterior"
         Destinatario:
           type: array
           items:
@@ -15356,9 +15352,25 @@ components:
               - $ref: "#/components/schemas/CustomerComercioExterior"
         Mercancias:
           $ref: "#/components/schemas/ComercioExteriorMercancias"
+    ComercioExteriorDataProperties:
+      allOf:
+        - $ref: '#/components/schemas/ComercioExteriorCommonProperties'
+      properties:
+        Receptor:
+          anyOf:
+            - $ref: "#/components/schemas/ComercioExteriorReceptor"
+            - $ref: "#/components/schemas/CustomerComercioExterior"
     ComercioExteriorDataInput:
       allOf:
-        - $ref: "#/components/schemas/ComercioExteriorDataProperties"
+        - $ref: '#/components/schemas/ComercioExteriorCommonProperties'
+      properties:
+        Receptor:
+          anyOf:
+            - $ref: "#/components/schemas/ComercioExteriorReceptor"
+            - $ref: "#/components/schemas/CustomerComercioExterior"
+            - type: string
+              pattern: '^[a-fA-F0-9]{24}$'
+              description: ID of an existing customer.
     ComercioExteriorDomicilio:
       type: object
       required:
@@ -16775,6 +16787,8 @@ components:
       properties:
         unit_name:
           type: string
+          maxLength: 20
+          description: Word representing the unit of measure of your product. It must be related to the unit key `unit_key`.
       allOf:
         - $ref: "#/components/schemas/ProductCommonProperties"
       required: [description, product_key, price]
@@ -16791,6 +16805,8 @@ components:
       properties:
         unit_name:
           type: string
+          maxLength: 20
+          description: Word representing the unit of measure of your product. It must be related to the unit key `unit_key`.
       allOf:
         - $ref: "#/components/schemas/ProductCommonProperties"
     ProductCommonProperties:
@@ -19461,7 +19477,7 @@ components:
           items:
             type: string
             format: xml
-          description: XML code with the Addenda that needs to be added to the invoice.
+          description: List of XML fragments to include as addendas in the retention document.
         namespaces:
           type: array
           description: Namespaces to insert in the root node of the invoice. Required for `addenda`.
@@ -19675,7 +19691,7 @@ components:
           items:
             type: string
             format: xml
-          description: XML code with the Addenda that needs to be added to the invoice.
+          description: List of XML fragments to include as addendas in the retention document.
         namespaces:
           type: array
           description: Namespaces to insert in the root node of the invoice. Required for `addenda`.

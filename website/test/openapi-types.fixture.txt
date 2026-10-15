@@ -166,6 +166,17 @@ const createdInvoiceDate: string | null | undefined = createdInvoiceResponse.dat
 const createdInvoiceStamp: components["schemas"]["Stamp"] | null | undefined = createdInvoiceResponse.stamp;
 void createdInvoiceDate;
 void createdInvoiceStamp;
+if (createdInvoiceResponse.status === 'valid' || createdInvoiceResponse.status === 'canceled') {
+  const stampedFields: [string, string, string, string, string, string] = [
+    createdInvoiceResponse.uuid,
+    createdInvoiceResponse.stamp.date,
+    createdInvoiceResponse.stamp.signature,
+    createdInvoiceResponse.stamp.sat_signature,
+    createdInvoiceResponse.stamp.sat_cert_number,
+    createdInvoiceResponse.stamp.complement_string,
+  ];
+  void stampedFields;
+}
 
 // A payment summary can be reused directly in a payment complement.
 declare const paymentSummary: operations["getInvoicePaymentSummary"]["responses"][200]["content"]["application/json"];
@@ -248,3 +259,45 @@ void retentionTaxResponse;
 const nullUpdatedTaxSystem: components['schemas']['CustomerUpdateInput'] = { tax_system: null };
 
 const clearedCustomerWithEditLink: components['schemas']['CustomerUpdateWithEditLinkInput'] = { legal_name: null, tax_id: null, tax_system: null, address: null };
+
+const organizationSeriesList: operations['getSeriesGroup']['responses'][200]['content']['application/json'] = [{ series: 'A', next_folio: 1 }];
+// @ts-expect-error Series listing returns an array, without a data envelope.
+const organizationSeriesEnvelope: operations['getSeriesGroup']['responses'][200]['content']['application/json'] = { data: [] };
+
+const cancellationLastChecked: components['schemas']['InvoiceCancellation'] = { status: "none", last_checked: "2026-10-14T12:00:00Z" };
+
+const sharedThirdParty: components['schemas']['ThirdParty'] = { tax_id: 'MIC920101HN7' };
+const invoiceThirdParty: components['schemas']['InvoiceItem']['third_party'] = sharedThirdParty;
+// @ts-expect-error educational complement requests retain required student fields
+const incompleteIeduInput: components['schemas']['IeduComplementInput'] = {};
+// @ts-expect-error hydrocarbon complement requests retain required permit fields
+const incompleteHydrocarbonInput: components['schemas']['HidroYPetroComplementInput'] = {};
+void [invoiceThirdParty, incompleteIeduInput, incompleteHydrocarbonInput];
+
+const nullTaxBase: components['schemas']['BaseTax'] = { type: 'IVA', rate: 0.16, base: null };
+const nullLocalTaxBase: components['schemas']['LocalTax'] = { type: 'ISH', rate: 0.03, base: null };
+const incompleteInvoiceCustomer: components['schemas']['CustomerInfo'] = { legal_name: null, tax_id: null, phone: null };
+const uninvoicedReceipt: components['schemas']['ReceiptProperties']['invoice'] = null;
+const responseProductWithNullUnit: components['schemas']['ProductProperties'] = { description: 'Example', product_key: '60131324', price: 100, unit_name: null };
+// @ts-expect-error product creation still requires a non-null unit name when supplied
+const inputProductWithNullUnit: components['schemas']['ProductCreateInput'] = { description: 'Example', product_key: '60131324', price: 100, unit_name: null };
+const completeResponseAddress: components['schemas']['Address'] = { state: 'Sonora', country: 'MEX' };
+void [nullTaxBase, nullLocalTaxBase, incompleteInvoiceCustomer, uninvoicedReceipt, responseProductWithNullUnit, inputProductWithNullUnit, completeResponseAddress];
+const nationalAddressWithDefaultCountry: components['schemas']['CustomerNationalAddressInput'] = { zip: '83200', country: null };
+const relatedInvoiceByUuid: components['schemas']['RelatedDocumentInput'] = { relationship: '01', documents: ['39c85a3f-275b-4341-b259-e8971d9f8a94'] };
+const seriesWithDefaultFolios: components['schemas']['OrganizationSeriesCreateInput'] = { series: 'A' };
+const receiptAddress: components['schemas']['ReceiptProperties']['address'] = { country: 'MEX', state: 'Sonora' };
+const invoiceCustomerAddress: components['schemas']['CustomerInfo']['address'] = { city: 'Huatabampo', street: 'Example' };
+void [nationalAddressWithDefaultCountry, relatedInvoiceByUuid, seriesWithDefaultFolios, receiptAddress, invoiceCustomerAddress];
+const clearedCustomerResponse: components['schemas']['CustomerProperties'] = { email: null, legal_name: null, address: null };
+const emptyRetentionResponse: components['schemas']['RetentionProperties'] = { fecha_exp: null, cve_retenc: null, periodo: null, totales: null, addenda: [] };
+const retentionWithAddenda: components['schemas']['RetentionUpdateInput'] = { addenda: ['<Example/>'] };
+const createdSeriesResponse: operations['createSeriesGroup']['responses'][200]['content']['application/json'] = [{ series: 'A', next_folio: 1, next_folio_test: 1 }];
+const updatedSeriesResponse: operations['updateSeriesGroup']['responses'][200]['content']['application/json'] = createdSeriesResponse;
+const deletedSeriesResponse: operations['deleteSeriesGroup']['responses'][200]['content']['application/json'] = [{ series: 'A', livemode: true, next_folio: 1 }, null];
+void [clearedCustomerResponse, emptyRetentionResponse, retentionWithAddenda, createdSeriesResponse, updatedSeriesResponse, deletedSeriesResponse];
+const blankCustomerUpdate: components['schemas']['CustomerUpdateInput'] = { email: ' ', phone: '', address: { street: ' ', zip: '77535' } };
+void blankCustomerUpdate;
+
+const foreignTradeCustomerId: NonNullable<components['schemas']['ComercioExteriorDataInput']['Receptor']> = '507f1f77bcf86cd799439011';
+void foreignTradeCustomerId;

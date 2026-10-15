@@ -7,6 +7,7 @@ import { execFileSync } from "node:child_process";
 import * as yaml from "js-yaml";
 import openapiTS, { astToString } from "openapi-typescript";
 import ts from "typescript";
+import Ajv2020 from "ajv/dist/2020.js";
 
 const root = new URL("../", import.meta.url);
 const contracts = [];
@@ -39,16 +40,106 @@ function contract(value, key) {
 for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
   // Match the generator parser so unquoted numeric SAT codes fail validation.
   const spec = yaml.load(await readFile(new URL(filename, root), "utf8"));
+  const ancestors = new WeakSet();
+  const visited = new WeakSet();
+  function rejectAnchorCycles(value) {
+    if (!value || typeof value !== "object") return;
+    assert(!ancestors.has(value), "Cyclic YAML anchors are not supported");
+    if (visited.has(value)) return;
+    ancestors.add(value);
+    for (const child of Object.values(value)) rejectAnchorCycles(child);
+    ancestors.delete(value);
+    visited.add(value);
+  }
+  rejectAnchorCycles(spec);
+  const validateItemComplement = new Ajv2020({
+    strict: false,
+    validateFormats: false,
+  }).compile({
+    $ref: "#/components/schemas/InvoiceItem/properties/complement",
+    components: spec.components,
+  });
+  for (const complement of [
+    "<Example/>",
+    { tipo_permiso: "PER01", numero_permiso: "123", sub_producto_hyp: "Diesel" },
+    {
+      nombreAlumno: "Alumno",
+      CURP: "FULJ790823MWSWSZ23",
+      nivelEducativo: "Primaria",
+      autRVOE: "123",
+    },
+  ]) {
+    assert(
+      validateItemComplement(complement),
+      `Valid invoice item complement rejected: ${JSON.stringify(validateItemComplement.errors)}`,
+    );
+  }
+  for (const complement of [null, 1, []])
+    assert(
+      !validateItemComplement(complement),
+      "Invalid invoice item complement accepted",
+    );
+  const validateForeignTradeReceiver = new Ajv2020({
+    strict: false,
+    validateFormats: false,
+  }).compile({
+    $ref: "#/components/schemas/ComercioExteriorDataProperties/properties/Receptor",
+    components: spec.components,
+  });
+  assert(
+    validateForeignTradeReceiver({ NumRegIdTrib: "123456" }),
+    "Foreign trade receiver object must not be rejected by overlapping branches",
+  );
+  // The sibling components object supplies the local $ref namespace to AJV.
+  for (const [schema, value, expected] of [
+    ["BaseTax", { type: "IVA", rate: 0.16, base: null }, true],
+    ["LocalTax", { type: "ISH", rate: 0.03, base: null }, true],
+    ["CustomerInfo", { legal_name: null, tax_id: null, phone: null }, true],
+    ["ProductProperties", { description: "Example", product_key: "60131324", price: 100, unit_name: null }, true],
+    ["ProductCreateInput", { description: "Example", product_key: "60131324", price: 100, unit_name: null }, false],
+    ["CustomerNationalAddressInput", { zip: "83200", country: null }, true],
+    ["RelatedDocumentInput", { relationship: "01", documents: ["39c85a3f-275b-4341-b259-e8971d9f8a94"] }, true],
+    ["OrganizationSeriesCreateInput", { series: "A" }, true],
+    ["CustomerProperties", { legal_name: null, address: null }, true],
+    ["RetentionProperties", { fecha_exp: null, cve_retenc: null, periodo: null, totales: null, addenda: [] }, true],
+    ["RetentionUpdateInput", { addenda: ["<Example/>"] }, true],
+  ]) {
+    const validate = new Ajv2020({ strict: false, validateFormats: false }).compile({
+      $ref: `#/components/schemas/${schema}`,
+      components: spec.components,
+    });
+    assert.equal(validate(value), expected, `Unexpected contract validation for ${schema}`);
+  }
   for (const name of Object.keys(spec.components.schemas))
     assert(!/(InputProperties|RequiredProperties)$/.test(name),
       `Use an Input schema with its own required fields: ${name}`);
   for (const [name, body] of Object.entries(spec.components.requestBodies)) {
-    const reference = body.content?.["application/json"]?.schema?.$ref;
-    if (reference) assert(reference.endsWith("Input"),
-      `Request body schemas must end in Input: ${name}`);
+    for (const media of Object.values(body.content || {})) {
+      for (const schema of [media.schema, ...(media.schema?.oneOf || []), ...(media.schema?.anyOf || [])]) {
+        if (schema?.$ref) assert(schema.$ref.endsWith("Input"),
+          `Named request body schemas must end in Input: ${name}`);
+      }
+    }
   }
   function walk(value, path = [], references) {
     if (!value || typeof value !== "object") return;
+    if (path[0] === "components" && path[1] === "schemas" && value.oneOf) {
+      const validate = new Ajv2020({
+        strict: false,
+        validateFormats: false,
+      }).compile({
+        ...value,
+        components: spec.components,
+      });
+      // This bounded check catches empty-object overlap, not every possible overlap.
+      validate({});
+      assert(
+        !validate.errors?.some(
+          error => error.keyword === "oneOf" && error.params.passingSchemas?.length > 1,
+        ),
+        `Overlapping oneOf branches accept the same empty object: ${path.join(".")}`,
+      );
+    }
     assert(
       !Object.hasOwn(value, "<<"),
       `YAML merge keys are not supported: ${path.join(".")}`,

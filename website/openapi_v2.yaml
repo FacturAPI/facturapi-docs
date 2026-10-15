@@ -4070,7 +4070,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Invoice"
+                anyOf:
+                  - $ref: "#/components/schemas/Invoice"
+                  - $ref: "#/components/schemas/InvoiceDraft"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -4888,7 +4890,7 @@ paths:
           $ref: "#/components/responses/UnexpectedError"
   /invoices/{invoice_id}/cancellation_receipt/{format}:
     get:
-      operationId: downloadCancellationReceiptXml
+      operationId: downloadCancellationReceipt
       tags:
         - invoice
       summary: Descargar acuse de cancelación
@@ -6591,10 +6593,10 @@ paths:
               schema:
                 type: string
                 format: binary
-        "204":
-          description: No se encontraron recibos elegibles para las keys enviadas
         "400":
           $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
         "401":
           $ref: "#/components/responses/Unauthenticated"
         "500":
@@ -9987,12 +9989,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/OrganizationSeriesGroup"
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrganizationSeriesGroup"
 
         "400":
           $ref: "#/components/responses/BadRequest"
@@ -10094,7 +10093,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OrganizationSeriesGroup"
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrganizationSeriesGroup"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -10193,7 +10194,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OkResponse"
+                $ref: "#/components/schemas/Organization"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -10296,7 +10297,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OrganizationSeriesGroup"
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrganizationSeriesGroup"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -10379,7 +10382,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OrganizationSeriesGroup"
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrganizationSeriesDeletion"
         "400":
           $ref: "#/components/responses/BadRequest"
         "401":
@@ -13538,7 +13543,7 @@ components:
           example: 0.1
           description: Tasa del impuesto en fracción decimal.
         base:
-          type: number
+          type: [number, 'null']
           description: "Base del impuesto. Si se omite, se utiliza el subtotal completo del concepto."
         type:
           type: string
@@ -13569,8 +13574,12 @@ components:
           type: number
           example: 0.16
           description: Tasa del impuesto en fracción decimal.
-        base:
+        amount:
           type: number
+          readOnly: true
+          description: Importe calculado del impuesto.
+        base:
+          type: [number, 'null']
           description: "Base del impuesto. Si se omite, se calcula a partir del subtotal del concepto y el factor del impuesto. Para el factor Cuota, se utiliza la cantidad de unidades."
         type:
           type: string
@@ -13639,6 +13648,12 @@ components:
           type: string
           description: "FechaTimbrado del SAT: fecha y hora local sin offset de zona horaria. Se conserva como texto."
           example: "2026-09-17T06:59:16"
+        complement_string:
+          type: [string, 'null']
+          description: Cadena original del timbre fiscal digital.
+        rfc_provider_cert:
+          type: string
+          description: RFC del proveedor que certificó el comprobante.
         sat_cert_number:
           type: string
           description: Número de serie del certificado del SAT usado para timbrar.
@@ -13671,12 +13686,20 @@ components:
           items:
             type: string
           description: Números de pedimento asociados a este concepto. Se omite cuando no existen.
+        third_party:
+          $ref: '#/components/schemas/ThirdParty'
+        complement:
+          anyOf:
+            - type: string
+              format: xml
+            - $ref: '#/components/schemas/HidroYPetroComplement'
+            - $ref: '#/components/schemas/IeduComplement'
         parts:
           type: array
           items:
             $ref: "#/components/schemas/Parts"
           description: Objeto con información de las partes de la factura.
-    ThirdPartyInput:
+    ThirdParty:
       type: object
       description: |
         Objeto con información del contribuyente tercero, a cuenta del que se realiza la operación.
@@ -13701,6 +13724,9 @@ components:
           type: string
           description: Código postal del tercero.
           example: "01234"
+    ThirdPartyInput:
+      allOf:
+        - $ref: "#/components/schemas/ThirdParty"
     InvoiceItemInput:
       title: InvoiceItem
       required:
@@ -13865,13 +13891,9 @@ components:
               type: string
               description: Código postal del tercero.
               example: "01234"
-    HidroYPetroComplementInput:
+    HidroYPetroComplement:
       title: HidroYPetroComplement
       type: object
-      required:
-        - tipo_permiso
-        - numero_permiso
-        - sub_producto_hyp
       properties:
         tipo_permiso:
           type: string
@@ -13946,18 +13968,20 @@ components:
             - Diesel
             - Combustibles para barco
 
-    IeduComplementInput:
+    HidroYPetroComplementInput:
+      allOf:
+        - $ref: "#/components/schemas/HidroYPetroComplement"
+      required:
+        - tipo_permiso
+        - numero_permiso
+        - sub_producto_hyp
+    IeduComplement:
       title: IeduComplement
       type: object
       description: |
         Complemento concepto de Instituciones Educativas Privadas versión 1.0.
 
         Se incluye a nivel concepto dentro de `items[].complement`.
-      required:
-        - nombreAlumno
-        - CURP
-        - nivelEducativo
-        - autRVOE
       properties:
         nombreAlumno:
           type: string
@@ -13991,6 +14015,14 @@ components:
           description: RFC de quien realiza el pago cuando sea diferente a quien recibe el servicio.
           example: PELJ800101ABC
 
+    IeduComplementInput:
+      allOf:
+        - $ref: "#/components/schemas/IeduComplement"
+      required:
+        - nombreAlumno
+        - CURP
+        - nivelEducativo
+        - autRVOE
     CustomComplementData:
       title: string
       type: string
@@ -15189,7 +15221,7 @@ components:
     CartaPorteDataInput:
       allOf:
         - $ref: "#/components/schemas/CartaPorteDataProperties"
-    ComercioExteriorDataProperties:
+    ComercioExteriorCommonProperties:
       type: object
       title: ComercioExterior
       description: Complemento Comercio Exterior versión 2.0.
@@ -15255,10 +15287,6 @@ components:
             oneOf:
               - $ref: "#/components/schemas/ComercioExteriorPropietario"
               - $ref: "#/components/schemas/CustomerComercioExterior"
-        Receptor:
-          oneOf:
-            - $ref: "#/components/schemas/ComercioExteriorReceptor"
-            - $ref: "#/components/schemas/CustomerComercioExterior"
         Destinatario:
           type: array
           items:
@@ -15267,9 +15295,25 @@ components:
               - $ref: "#/components/schemas/CustomerComercioExterior"
         Mercancias:
           $ref: "#/components/schemas/ComercioExteriorMercancias"
+    ComercioExteriorDataProperties:
+      allOf:
+        - $ref: '#/components/schemas/ComercioExteriorCommonProperties'
+      properties:
+        Receptor:
+          anyOf:
+            - $ref: "#/components/schemas/ComercioExteriorReceptor"
+            - $ref: "#/components/schemas/CustomerComercioExterior"
     ComercioExteriorDataInput:
       allOf:
-        - $ref: "#/components/schemas/ComercioExteriorDataProperties"
+        - $ref: '#/components/schemas/ComercioExteriorCommonProperties'
+      properties:
+        Receptor:
+          anyOf:
+            - $ref: "#/components/schemas/ComercioExteriorReceptor"
+            - $ref: "#/components/schemas/CustomerComercioExterior"
+            - type: string
+              pattern: '^[a-fA-F0-9]{24}$'
+              description: ID de un cliente existente.
     ComercioExteriorDomicilio:
       type: object
       required:
@@ -16027,6 +16071,37 @@ components:
           example: http://www.sat.gob.mx/sitio_interet/cfd/iedu/iedu.xsd
           description: Dirección URL del esquema de validación XSD.
 
+    Address:
+      allOf:
+        - $ref: '#/components/schemas/CommonAddressProperties'
+      properties:
+        state:
+          type: string
+        country:
+          type: string
+          minLength: 3
+          maxLength: 3
+    CustomerAddress:
+      type: [object, 'null']
+      properties:
+        street:
+          type: [string, 'null']
+        exterior:
+          type: [string, 'null']
+        interior:
+          type: [string, 'null']
+        neighborhood:
+          type: [string, 'null']
+        city:
+          type: [string, 'null']
+        municipality:
+          type: [string, 'null']
+        zip:
+          type: [string, 'null']
+        state:
+          type: [string, 'null']
+        country:
+          type: [string, 'null']
     CommonAddressProperties:
       type: object
       properties:
@@ -16242,25 +16317,12 @@ components:
         - type: object
           properties:
             address:
-              allOf:
-                - $ref: "#/components/schemas/CommonAddressProperties"
-                - type: object
-                  description: Domicilio fiscal.
-                  properties:
-                    state:
-                      type: string
-                      description: Si el país es México ("MEX"), contiene el nombre del Estado o Entidad Federativa. Para extranjeros contiene el código de Estado de acuerdo al estándar [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2), que puedes consultar en nuestro [Catálogo de Estados](https://dashboard.facturapi.io/catalogs/state).
-                      example: Sonora
-                    country:
-                      type: string
-                      description: Código de país acorde al estándar [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3), del [Catálogo de Países](https://dashboard.facturapi.io/catalogs/country).
-                      example: MEX
-                      default: MEX
+              $ref: '#/components/schemas/CustomerAddress'
     CustomerCommonProperties:
       type: object
       properties:
         legal_name:
-          type: string
+          type: [string, 'null']
           description: |
             Nombre Fiscal o Razón Social del cliente. *sin* el régimen societario (ej.: S.A. de C.V.).
           example: Dunder Mifflin
@@ -16279,7 +16341,7 @@ components:
           minLength: 3
           description: Requerido para clientes nacionales. Clave del régimen fiscal del cliente, del catálogo de [Regímenes Fiscales](#r%C3%A9gimen-fiscal).
         email:
-          type: string
+          type: [string, 'null']
           format: email
           description: Dirección de correo electrónico al cual enviar las facturas generadas.
           example: email@example.com
@@ -16293,6 +16355,15 @@ components:
           type: string
           description: Uso de CFDI por defecto.
           example: G01
+    CustomerEmailInput: &customer_email_input
+      type: [string, 'null']
+      format: email
+    CustomerEmailUpdateInput:
+      anyOf:
+        - $ref: '#/components/schemas/CustomerEmailInput'
+        - type: string
+          pattern: '^\s*$'
+      description: En una actualización, null, una cadena vacía o sólo espacios eliminan el correo.
     CustomerEditableInput:
       type: object
       properties:
@@ -16302,10 +16373,8 @@ components:
             Nombre Fiscal o Razón Social del cliente. *sin* el régimen societario (ej.: S.A. de C.V.).
           example: Dunder Mifflin
         tax_id: *customer_tax_id
-        email: &customer_email_input
-          type: [string, 'null']
-          format: email
-          description: Correo electrónico del cliente. En una actualización, null elimina el correo.
+        email:
+          $ref: '#/components/schemas/CustomerEmailUpdateInput'
         phone: *customer_phone
         external_id: &customer_external_id_input
           type: [string, 'null']
@@ -16343,6 +16412,7 @@ components:
               example: Huatabampo
             zip:
               type: string
+              minLength: 1
               description: Código postal
               example: '86500'
             state: &customer_address_state_input
@@ -16352,7 +16422,7 @@ components:
               default: MEX
               description: ISO 3166-1 alpha-3.
     CustomerUpdateInput:
-      description: En una actualización sin createEditLink=true, los campos omitidos conservan su valor. Un valor null borra los campos que admiten null; un campo opcional puede omitirse sin que necesariamente admita null. No se permite null en legal_name, tax_id, tax_system ni address.
+      description: En una actualización sin createEditLink=true, los campos omitidos conservan su valor. Un valor null borra los campos que admiten null; un campo opcional puede omitirse sin que necesariamente admita null. No se permite null en legal_name, tax_id, tax_system ni address. En email, phone y los campos opcionales street, exterior, interior, neighborhood, city, municipality y state del domicilio, una cadena vacía o sólo espacios se normaliza a null. El código postal vacío no se acepta.
       allOf:
         - $ref: '#/components/schemas/CustomerEditableInput'
         - type: object
@@ -16373,12 +16443,13 @@ components:
                 country:
                   type: string
     CustomerUpdateWithEditLinkInput:
-      description: Con createEditLink=true, los campos omitidos conservan su valor y null borra el valor existente, incluidos los datos fiscales. Los valores no nulos deben ser válidos.
+      description: Con createEditLink=true, los campos omitidos conservan su valor y null borra el valor existente, incluidos los datos fiscales. Los valores no nulos deben ser válidos. En email, phone y los campos opcionales street, exterior, interior, neighborhood, city, municipality y state del domicilio, una cadena vacía o sólo espacios se normaliza a null. El código postal vacío no se acepta.
       type: object
       properties:
         legal_name: *customer_legal_name_input
         tax_id: *customer_tax_id
-        email: *customer_email_input
+        email:
+          $ref: '#/components/schemas/CustomerEmailUpdateInput'
         phone: *customer_phone
         external_id: *customer_external_id_input
         default_invoice_use: *customer_default_invoice_use_input
@@ -16396,6 +16467,7 @@ components:
             country: *customer_address_country_input
             zip:
               type: [string, 'null']
+              minLength: 1
               description: Código postal
               example: '86500'
     CancellationQueryInput:
@@ -16488,8 +16560,8 @@ components:
             state:
               type: string
             country:
-              type: string
-              const: MEX
+              type: [string, 'null']
+              enum: [MEX, '', null]
               default: MEX
       required:
         - zip
@@ -16707,6 +16779,11 @@ components:
               items:
                 $ref: "#/components/schemas/Product"
     ProductCreateInput:
+      properties:
+        unit_name:
+          type: string
+          maxLength: 20
+          description: Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.
       allOf:
         - $ref: "#/components/schemas/ProductCommonProperties"
       required: [description, product_key, price]
@@ -16714,7 +16791,17 @@ components:
       allOf:
         - $ref: "#/components/schemas/ProductCommonProperties"
       required: [description, product_key, price]
+      properties:
+        unit_name:
+          type: [string, 'null']
+          default: Elemento
+          description: Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.
     ProductUpdateInput:
+      properties:
+        unit_name:
+          type: string
+          maxLength: 20
+          description: Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.
       allOf:
         - $ref: "#/components/schemas/ProductCommonProperties"
     ProductCommonProperties:
@@ -16794,10 +16881,6 @@ components:
           description: |
             Clave de unidad de medida, del catálogo del SAT. El valor por default `"H87"` (elemento) es la clave para representar una pieza o unidad de venta (lápiz, cuaderno, televisión, etc).
             Si la unidad de tu producto es kilogramos, litros, horas u otra unidad, puedes encontrar la clave utilizando nuestra [herramienta de búsqueda de claves](https://dashboard.facturapi.io/catalogs/unit).
-        unit_name:
-          type: string
-          default: Elemento
-          description: Palabra que representa la unidad de medida de tu producto. Debe estar relacionada con la clave de unidad `unit_key`.
         sku:
           type: string
           description: Identificador de uso interno designado por la empresa. Puede tener cualquier valor.
@@ -17046,24 +17129,18 @@ components:
           description: ID del objeto `customer` relacionado a la factura, en caso de no haber sido eliminado
           example: 58e93bd8e86eb318b0197456
         legal_name:
-          type: string
+          type: [string, 'null']
           description: |
             Nombre Fiscal o Razón Social del cliente, *sin* incluir el régimen societario (ej.: S.A. de C.V.).
           example: Dunder Mifflin
         tax_id:
-          type: string
+          type: [string, 'null']
           description: RFC del cliente.
           example: ABC101010111
         address:
-          type: object
-          properties:
-            country:
-              type: string
-              format: ISO 3166-1 alpha-3
-              description: Código de País acorde al estándar ISO 3166-1 alpha-3, del Catálogo de Países.
-              example: MEX
-            zip:
-              type: string
+          $ref: '#/components/schemas/Address'
+        phone:
+          type: [string, 'null']
         tax_system:
           type:
             - string
@@ -17079,7 +17156,6 @@ components:
     RelatedDocumentInput:
       required:
         - relationship
-        - related
       allOf:
         - $ref: '#/components/schemas/RelatedDocument'
     RelatedDocument:
@@ -17253,21 +17329,71 @@ components:
               items:
                 $ref: "#/components/schemas/InvoiceZipRequest"
     Invoice:
-      title: Objeto Invoice
+      title: Invoice
+      oneOf:
+        - $ref: '#/components/schemas/InvoiceStamped'
+        - $ref: '#/components/schemas/InvoiceDraft'
+        - $ref: '#/components/schemas/InvoicePending'
+        - $ref: '#/components/schemas/InvoiceFailed'
+    InvoiceStamped:
+      title: Timbrada
       allOf:
-        - $ref: "#/components/schemas/ResourceAutoGeneratedProps"
-        - $ref: "#/components/schemas/InvoiceProperties"
+        - $ref: '#/components/schemas/ResourceAutoGeneratedProps'
+        - $ref: '#/components/schemas/InvoiceCommonProperties'
+        - type: object
+          required: [date, status, uuid, stamp]
+          properties:
+            status:
+              type: string
+              enum: [valid, canceled]
+            date:
+              type: string
+              format: date-time
+            uuid:
+              type: string
+              format: uuid
+            stamp:
+              allOf:
+                - $ref: '#/components/schemas/Stamp'
+              required: [date, sat_signature, sat_cert_number, signature, complement_string]
+              properties:
+                complement_string:
+                  type: string
+    InvoicePending:
+      title: Pendiente
+      allOf:
+        - $ref: '#/components/schemas/ResourceAutoGeneratedProps'
+        - $ref: '#/components/schemas/InvoiceProperties'
+        - type: object
+          properties:
+            status:
+              type: string
+              const: pending
+    InvoiceFailed:
+      title: Fallida
+      allOf:
+        - $ref: '#/components/schemas/ResourceAutoGeneratedProps'
+        - $ref: '#/components/schemas/InvoiceProperties'
+        - type: object
+          properties:
+            status:
+              type: string
+              const: failed
     InvoiceCancellation:
       type: object
       description: Información de la solicitud de cancelación de la factura.
       required: [status]
       properties:
         status:
-          $ref: '#/components/schemas/InvoiceProperties/properties/cancellation_status'
+          $ref: '#/components/schemas/InvoiceCommonProperties/properties/cancellation_status'
         requested_at:
           type: string
           format: date-time
           description: Fecha y hora en que se solicitó la cancelación, cuando aplica.
+        last_checked:
+          type: string
+          format: date-time
+          description: Fecha y hora de inicio de la última consulta del estado de cancelación. Se omite si nunca se ha iniciado una consulta. No garantiza que la consulta haya terminado correctamente.
         canceled_at:
           type: string
           format: date-time
@@ -17296,8 +17422,29 @@ components:
               items:
                 $ref: "#/components/schemas/Invoice"
     InvoiceProperties:
+      allOf:
+        - $ref: '#/components/schemas/InvoiceCommonProperties'
+        - type: object
+          required: [date, status]
+          properties:
+            date:
+              type:
+                - string
+                - 'null'
+              format: date-time
+              description: Fecha de expedición en formato ISO8601. Puede ser null en borradores.
+            uuid:
+              type: [string, "null"]
+              format: uuid
+              description: Folio fiscal de la factura, asignado por el SAT. En borradores sin timbrar puede ser null o estar omitido.
+              example: 39c85a3f-275b-4341-b259-e8971d9f8a94
+            stamp:
+              anyOf:
+                - $ref: '#/components/schemas/Stamp'
+                - type: 'null'
+    InvoiceCommonProperties:
       type: object
-      required: [date, status, cancellation_status, type, total, currency, exchange, items, amount_due]
+      required: [status, cancellation_status, type, total, currency, exchange, items, amount_due]
       properties:
         status:
           type: string
@@ -17335,15 +17482,9 @@ components:
           format: uri
           description: Dirección URL para verificar el estado del CFDI en el portal del SAT. Este link es el mismo que aparece en el código QR, en el PDF de la factura.
           example: https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABC101010111&tt=345.600000&fe=bWApPw==
-        date:
-          type:
-            - string
-            - 'null'
-          format: date-time
-          description: Fecha de expedición en formato ISO8601. Puede ser null en borradores.
         address:
           allOf:
-            - $ref: '#/components/schemas/CommonAddressProperties'
+            - $ref: '#/components/schemas/Address'
             - type: object
               description: Domicilio de expedición de la factura.
               properties:
@@ -17369,11 +17510,6 @@ components:
           type: number
           description: Monto total facturado.
           example: 10944.82
-        uuid:
-          type: [string, "null"]
-          format: uuid
-          description: Folio fiscal de la factura, asignado por el SAT. En borradores sin timbrar puede ser null o estar omitido.
-          example: 39c85a3f-275b-4341-b259-e8971d9f8a94
         folio_number:
           type: integer
           description: Número de folio autoincremental para control interno y sin validez fiscal.
@@ -17475,10 +17611,6 @@ components:
           description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda`.
           items:
             $ref: '#/components/schemas/NamespaceProperties'
-        stamp:
-          anyOf:
-            - $ref: '#/components/schemas/Stamp'
-            - type: 'null'
         organization:
           description: "ID de la organización a la que pertenece este recurso."
           type:
@@ -17528,7 +17660,23 @@ components:
               type: integer
     InvoiceDraftProperties:
       allOf:
-        - $ref: '#/components/schemas/InvoiceProperties'
+        - $ref: '#/components/schemas/InvoiceCommonProperties'
+        - type: object
+          required: [date, status]
+          properties:
+            status:
+              type: string
+              const: draft
+            date:
+              type:
+                - string
+                - 'null'
+              format: date-time
+              description: Fecha de expedición en formato ISO8601. Puede ser null en borradores.
+            uuid:
+              type: 'null'
+            stamp:
+              type: 'null'
     InvoiceableCommonInput:
       type: object
       properties:
@@ -18634,6 +18782,12 @@ components:
             - items
             - key
           properties:
+            address:
+              $ref: '#/components/schemas/Address'
+            api_version:
+              type: integer
+              readOnly: true
+              description: Versión de la API usada para crear el recibo.
             date:
               type: string
               format: date-time
@@ -18667,7 +18821,7 @@ components:
               example: 356.78
               description: Monto total de la operación
             invoice:
-              type: string
+              type: [string, 'null']
               example: 614496b471d422de4b6cfcc4
               description: ID de la factura asociada, en caso de estar facturado.
             customer:
@@ -19082,7 +19236,7 @@ components:
             Estado actual de la retención.
           example: valid
         verification_url:
-          type: string
+          type: [string, 'null']
           format: uri
           description: Dirección URL para verificar el estado de la retención en el portal del SAT. Este link es el mismo que aparece en el código QR, en el PDF de la retención.
           example: https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=45BEC0CA-5F1E-491E-9417-698EA48C382A&re=AAA010101AAA&rr=ABC101010111&tt=345.600000&fe=bWApPw==
@@ -19093,7 +19247,7 @@ components:
           example: Retención
           description: Tipo de comprobante.
         uuid:
-          type: string
+          type: [string, 'null']
           format: uuid
           description: Folio fiscal de la retención, asignado por el SAT.
           example: 39c85a3f-275b-4341-b259-e8971d9f8a94
@@ -19117,7 +19271,7 @@ components:
         - fecha_exp
       properties:
         cve_retenc:
-          type: string
+          type: [string, 'null']
           example: "01"
           description: Clave de la retención o información de pagos de acuerdo al catálogo del SAT.
         fecha_exp:
@@ -19134,7 +19288,7 @@ components:
           type: string
           description: Identificador alfanumérico para control interno de la empresa y sin relevancia fiscal.
         periodo:
-          type: object
+          type: [object, 'null']
           description: Información sobre el periodo de la retención.
           properties:
             mes_ini:
@@ -19151,7 +19305,7 @@ components:
               type: integer
               description: Año o ejercicio fiscal en que se realizó la retención.
         totales:
-          type: object
+          type: [object, 'null']
           description: Información sobre el total de retenciones efectuadas en el periodo correspondiente.
           properties:
             monto_tot_operacion:
@@ -19191,6 +19345,9 @@ components:
                     type: number
                     minimum: 0
                     description: Importe del impuesto retenido
+                  pago_provisional:
+                    type: boolean
+                    readOnly: true
                   tipo_pago_ret:
                     type: string
                     enum:
@@ -19204,10 +19361,10 @@ components:
                       - `03`: Pago definitivo ISR Plataformas
                       - `04`: Pago provisional ISR
         external_id:
-          type: string
+          type: [string, 'null']
           description: Identificador opcional que puedes usar para relacionar esta retención con tus registros y poder hacer búsquedas usando este identificador. Facturapi no valida que este campo sea único.
         idempotency_key:
-          type: string
+          type: [string, 'null']
           description: |
             Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
             Si se deja en blanco, no se tomará en cuenta.
@@ -19224,9 +19381,11 @@ components:
           format: html
           description: En caso de que necesites incluir más información en el PDF, este campo te permite insertar código HTML con tu propio contenido.
         addenda:
-          type: string
-          format: xml
-          description: Código XML con la Addenda que se necesite agregar a la factura.
+          type: array
+          items:
+            type: string
+            format: xml
+          description: Lista de fragmentos XML que se incluirán como addendas en la retención.
         namespaces:
           type: array
           description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda`.
@@ -19429,9 +19588,11 @@ components:
           format: html
           description: En caso de que necesites incluir más información en el PDF, este campo te permite insertar código HTML con tu propio contenido.
         addenda:
-          type: string
-          format: xml
-          description: Código XML con la Addenda que se necesite agregar a la factura.
+          type: array
+          items:
+            type: string
+            format: xml
+          description: Lista de fragmentos XML que se incluirán como addendas en la retención.
         namespaces:
           type: array
           description: Namespaces a insertar en el nodo raíz de la factura. Requerido en `addenda`.
@@ -19444,6 +19605,10 @@ components:
         - type: object
           description: Domicilio fiscal de la organización emisora.
           properties:
+            country:
+              type: string
+              minLength: 3
+              maxLength: 3
             state:
               type: string
               description: Nombre del Estado o Entidad Federativa.
@@ -19517,6 +19682,13 @@ components:
               type: string
               description: |
                 Nombre Fiscal o Razón Social de la organización, *sin* el régimen societario (ej.: S.A. de C.V.).
+            tax_id:
+              type: string
+            support_email:
+              type: string
+              format: email
+            curp:
+              type: string
             tax_system:
               type: string
               example: '601'
@@ -19540,6 +19712,19 @@ components:
             Configuración de personalización de la organización, que se utilizarán para reflejar el branding y
             las preferencias de PDFs de la organización. Estos datos se pueden actualizar en cualquier momento.
           properties:
+            default_series:
+              type: object
+              properties:
+                I:
+                  type: string
+                E:
+                  type: string
+                P:
+                  type: string
+                N:
+                  type: string
+                T:
+                  type: string
             has_logo:
               type: boolean
               description: Indica si la organización ya tiene un logotipo cargado.
@@ -20101,18 +20286,18 @@ components:
       type: object
       required:
         - series
-        - next_folio
-        - next_folio_test
       properties:
         series:
           type: string
-          maxLength: 55
+          maxLength: 25
           description: Nombre de la serie.
         next_folio:
           type: integer
+          default: 1
           description: Número de folio que se asignará a la siguiente factura en ambiente Live (y que se incrementará automáticamente por cada nueva factura).
         next_folio_test:
           type: integer
+          default: 1
           description: Número de folio que se asignará a la siguiente factura en ambiente Test (y que se incrementará automáticamente por cada nueva factura).
     OrganizationSeriesUpdateInput:
       type: object
@@ -20145,6 +20330,21 @@ components:
           minLength: 1
           maxLength: 25
           description: Nombre de la serie.
+    OrganizationSeriesDeletion:
+      type: [object, 'null']
+      properties:
+        series:
+          type: string
+        livemode:
+          type: boolean
+        next_folio:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
     OrganizationSeriesGroup:
       title: Objeto Series
       type: object

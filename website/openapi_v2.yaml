@@ -17768,6 +17768,11 @@ components:
               default: false
               description: |
                 Renderizar el complemento de comercio exterior en el PDF.
+            render_phone:
+              type: boolean
+              default: false
+              description: |
+                Mostrar el teléfono del receptor en el PDF.
             repeat_signature:
               type: boolean
               default: false
@@ -17883,6 +17888,11 @@ components:
               default: false
               description: |
                 Renderizar el complemento de comercio exterior en el PDF.
+            render_phone:
+              type: boolean
+              default: false
+              description: |
+                Mostrar el teléfono del receptor en el PDF.
             repeat_signature:
               type: boolean
               default: false

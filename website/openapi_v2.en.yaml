@@ -17817,6 +17817,11 @@ components:
               default: false
               description: |
                 Render the foreign trade complement in the PDF.
+            render_phone:
+              type: boolean
+              default: false
+              description: |
+                Show the recipient's phone number in the PDF.
             repeat_signature:
               type: boolean
               default: false
@@ -17935,6 +17940,11 @@ components:
               default: false
               description: |
                 Render the foreign trade complement in the PDF.
+            render_phone:
+              type: boolean
+              default: false
+              description: |
+                Show the recipient's phone number in the PDF.
             repeat_signature:
               type: boolean
               default: false

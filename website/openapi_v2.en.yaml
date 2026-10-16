@@ -13689,10 +13689,6 @@ components:
       type: object
       description: Information about the digital stamp added by the PAC.
       properties:
-        uuid:
-          type: string
-          format: uuid
-          description: UUID as written in the digital fiscal stamp.
         version:
           type: string
           description: Digital fiscal stamp version.

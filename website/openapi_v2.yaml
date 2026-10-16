@@ -13641,10 +13641,6 @@ components:
       type: object
       description: Información sobre el timbre fiscal digital agregado por el PAC.
       properties:
-        uuid:
-          type: string
-          format: uuid
-          description: UUID tal como aparece en el timbre fiscal digital.
         version:
           type: string
           description: Versión del timbre fiscal digital.

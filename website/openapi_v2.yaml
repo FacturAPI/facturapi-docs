@@ -13656,7 +13656,7 @@ components:
           example: "2026-09-17T06:59:16"
         complement_string:
           type: [string, 'null']
-          description: Cadena original del timbre fiscal digital. Es null cuando los datos disponibles del timbre no permiten reconstruirla.
+          description: Cadena original del timbre fiscal digital.
         rfc_provider_cert:
           type: string
           description: RFC del proveedor que certificó el comprobante.
@@ -17362,6 +17362,9 @@ components:
               allOf:
                 - $ref: '#/components/schemas/Stamp'
               required: [date, sat_signature, sat_cert_number, signature, complement_string]
+              properties:
+                complement_string:
+                  type: string
     InvoicePending:
       title: Pendiente
       allOf:

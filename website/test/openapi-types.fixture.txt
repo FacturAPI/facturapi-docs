@@ -167,7 +167,7 @@ const createdInvoiceStamp: components["schemas"]["Stamp"] | null | undefined = c
 void createdInvoiceDate;
 void createdInvoiceStamp;
 if (createdInvoiceResponse.status === 'valid' || createdInvoiceResponse.status === 'canceled') {
-  const stampedFields: [string, string, string, string, string, string | null] = [
+  const stampedFields: [string, string, string, string, string, string] = [
     createdInvoiceResponse.uuid,
     createdInvoiceResponse.stamp.date,
     createdInvoiceResponse.stamp.signature,

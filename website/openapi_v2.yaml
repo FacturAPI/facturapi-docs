@@ -13641,6 +13641,16 @@ components:
       type: object
       description: Información sobre el timbre fiscal digital agregado por el PAC.
       properties:
+        uuid:
+          type: string
+          format: uuid
+          description: UUID tal como aparece en el timbre fiscal digital.
+        version:
+          type: string
+          description: Versión del timbre fiscal digital.
+        legend:
+          type: string
+          description: Leyenda opcional incluida en el timbre fiscal digital.
         signature:
           type: string
           description: Sello digital del comprobante fiscal.
@@ -13650,7 +13660,7 @@ components:
           example: "2026-09-17T06:59:16"
         complement_string:
           type: [string, 'null']
-          description: Cadena original del timbre fiscal digital.
+          description: Cadena original del timbre fiscal digital. Es null cuando los datos disponibles del timbre no permiten reconstruirla.
         rfc_provider_cert:
           type: string
           description: RFC del proveedor que certificó el comprobante.
@@ -17356,9 +17366,6 @@ components:
               allOf:
                 - $ref: '#/components/schemas/Stamp'
               required: [date, sat_signature, sat_cert_number, signature, complement_string]
-              properties:
-                complement_string:
-                  type: string
     InvoicePending:
       title: Pendiente
       allOf:

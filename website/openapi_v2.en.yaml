@@ -13689,6 +13689,16 @@ components:
       type: object
       description: Information about the digital stamp added by the PAC.
       properties:
+        uuid:
+          type: string
+          format: uuid
+          description: UUID as written in the digital fiscal stamp.
+        version:
+          type: string
+          description: Digital fiscal stamp version.
+        legend:
+          type: string
+          description: Optional legend included in the digital fiscal stamp.
         signature:
           type: string
           description: Digital signature of the fiscal document.
@@ -17402,9 +17412,6 @@ components:
               allOf:
                 - $ref: '#/components/schemas/Stamp'
               required: [date, sat_signature, sat_cert_number, signature, complement_string]
-              properties:
-                complement_string:
-                  type: string
     InvoicePending:
       title: Pending
       allOf:

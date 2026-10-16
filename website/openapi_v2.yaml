@@ -13641,6 +13641,12 @@ components:
       type: object
       description: Información sobre el timbre fiscal digital agregado por el PAC.
       properties:
+        version:
+          type: string
+          description: Versión del timbre fiscal digital.
+        legend:
+          type: string
+          description: Leyenda opcional incluida en el timbre fiscal digital.
         signature:
           type: string
           description: Sello digital del comprobante fiscal.

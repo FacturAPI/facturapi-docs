@@ -45,6 +45,38 @@ function CustomPage() {
         },
       ],
     };
+    for (const customer of [
+      spec.components.schemas.ReceiptInput.allOf[0].properties.customer,
+      spec.components.schemas.ReceiptAssignCustomerInput.properties.customer,
+      spec.components.schemas.InvoiceReceiptInput.allOf[0].properties.customer,
+      spec.components.schemas.ToInvoiceInput.properties.customer,
+      spec.components.schemas.ToInvoicePreviewInput.properties.customer,
+      spec.components.schemas.RetentionUpdateInput.properties.customer,
+    ]) {
+      customer.oneOf = customer.oneOf.map((variant: {$ref?: string; type?: string}) => {
+        if (variant.$ref === '#/components/schemas/CustomerCreateInput') {
+          return spec.components.schemas.InvoiceCustomerInput.oneOf[0];
+        }
+        return {
+          ...variant,
+          title: variant.type === 'null'
+            ? (locale === 'es' ? 'Sin cliente' : 'No customer')
+            : (locale === 'es' ? 'Cliente registrado' : 'Registered customer'),
+        };
+      });
+    }
+    for (const name of ['InvoiceItemInput', 'InvoiceItemEgresoInput', 'InvoiceItemTrasladoInput']) {
+      const product = spec.components.schemas[name].properties.product;
+      product.description = locale === 'es'
+        ? 'Datos del producto o servicio, o ID de un producto registrado.'
+        : 'Product or service details, or the ID of a registered product.';
+      product.oneOf = product.oneOf.map((variant: {$ref?: string; type?: string}) => ({
+        ...variant,
+        title: variant.type === 'string'
+          ? (locale === 'es' ? 'Producto registrado' : 'Registered product')
+          : (locale === 'es' ? 'Datos del producto' : 'Product details'),
+      }));
+    }
     // Native oneOf tabs keep the viewing mode separate from request fields.
     spec.components.schemas.InvoiceCreateInput.oneOf =
       spec.components.schemas.InvoiceCreateInput.oneOf.map(

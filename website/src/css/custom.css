@@ -456,7 +456,8 @@ html[data-theme='dark'] .redocusaurus select option {
 }
 
 /* Keep the same reading order when switching invoice creation modes. */
-[id='operation/createInvoice'] tbody:has(> tr > td[title='customer']):has(> tr > td[title='status']) {
+[id='operation/createInvoice'] tbody:has(> tr > td[title='customer']):has(> tr > td[title='status']),
+[id='operation/createRetention'] tbody:has(> tr > td[title='customer']):has(> tr > td[title='status']) {
   display: grid;
   grid-template-columns: max-content minmax(0, 1fr);
 
@@ -470,6 +471,13 @@ html[data-theme='dark'] .redocusaurus select option {
   > tr > td { width: auto; }
   > tr > td[colspan] { grid-column: 1 / -1; }
 
+
+  @media (max-width: 50rem) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+[id='operation/createInvoice'] tbody:has(> tr > td[title='customer']):has(> tr > td[title='status']) {
   > tr:has(> td[title='customer']),
   > tr:has(> td[title='customer']) + tr:has(> td[colspan]) { order: 0; }
   > tr:has(> td[title='items']),
@@ -521,7 +529,35 @@ html[data-theme='dark'] .redocusaurus select option {
   > tr:has(> td[title='pdf_options']),
   > tr:has(> td[title='pdf_options']) + tr:has(> td[colspan]) { order: 24; }
 
-  @media (max-width: 50rem) {
-    grid-template-columns: minmax(0, 1fr);
-  }
+}
+
+[id='operation/createRetention'] tbody:has(> tr > td[title='customer']):has(> tr > td[title='status']) {
+  > tr:has(> td[title='customer']),
+  > tr:has(> td[title='customer']) + tr:has(> td[colspan]) { order: 0; }
+  > tr:has(> td[title='cve_retenc']),
+  > tr:has(> td[title='cve_retenc']) + tr:has(> td[colspan]) { order: 1; }
+  > tr:has(> td[title='periodo']),
+  > tr:has(> td[title='periodo']) + tr:has(> td[colspan]) { order: 2; }
+  > tr:has(> td[title='totales']),
+  > tr:has(> td[title='totales']) + tr:has(> td[colspan]) { order: 3; }
+  > tr:has(> td[title='status']),
+  > tr:has(> td[title='status']) + tr:has(> td[colspan]) { order: 4; }
+  > tr:has(> td[title='fecha_exp']),
+  > tr:has(> td[title='fecha_exp']) + tr:has(> td[colspan]) { order: 5; }
+  > tr:has(> td[title='desc_retenc']),
+  > tr:has(> td[title='desc_retenc']) + tr:has(> td[colspan]) { order: 6; }
+  > tr:has(> td[title='folio_int']),
+  > tr:has(> td[title='folio_int']) + tr:has(> td[colspan]) { order: 7; }
+  > tr:has(> td[title='external_id']),
+  > tr:has(> td[title='external_id']) + tr:has(> td[colspan]) { order: 8; }
+  > tr:has(> td[title='idempotency_key']),
+  > tr:has(> td[title='idempotency_key']) + tr:has(> td[colspan]) { order: 9; }
+  > tr:has(> td[title='complements']),
+  > tr:has(> td[title='complements']) + tr:has(> td[colspan]) { order: 10; }
+  > tr:has(> td[title='pdf_custom_section']),
+  > tr:has(> td[title='pdf_custom_section']) + tr:has(> td[colspan]) { order: 11; }
+  > tr:has(> td[title='addenda']),
+  > tr:has(> td[title='addenda']) + tr:has(> td[colspan]) { order: 12; }
+  > tr:has(> td[title='namespaces']),
+  > tr:has(> td[title='namespaces']) + tr:has(> td[colspan]) { order: 13; }
 }

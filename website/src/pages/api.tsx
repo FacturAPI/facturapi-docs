@@ -10,6 +10,31 @@ function CustomPage() {
   const specData = useSpecData(`api-${locale}`);
   const displaySpecData = useMemo(() => {
     const spec = structuredClone(specData.spec);
+    // Presentation labels do not change the downloadable API contract.
+    spec.components.schemas.InvoiceCustomerInput.oneOf = [
+      {
+        ...spec.components.schemas.CustomerCreateInput,
+        title: locale === 'es' ? 'Datos del cliente' : 'Customer details',
+        anyOf: spec.components.schemas.CustomerCreateInput.anyOf.map(
+          (variant: object, index: number) => ({
+            ...variant,
+            title: (locale === 'es'
+              ? ['Nacional', 'Extranjero', 'Público en general']
+              : ['Mexican customer', 'Foreign customer', 'General public'])[index],
+          }),
+        ),
+      },
+      {
+        ...spec.components.schemas.InvoiceCustomerInput.oneOf[1],
+        title: locale === 'es' ? 'Cliente registrado' : 'Registered customer',
+      },
+    ];
+    spec.components.schemas.InvoiceCommonInput.allOf[0].properties.customer = {
+      ...spec.components.schemas.InvoiceCustomerInput,
+      description: locale === 'es'
+        ? 'Datos del cliente o ID de un cliente registrado.'
+        : 'Customer details or the ID of a registered customer.',
+    };
     // ReDoc needs named discriminator variants to render a status selector.
     // Keep this presentation hint out of the contract: status may be omitted.
     spec.components.schemas.InvoiceCreateInput.oneOf =
@@ -30,7 +55,7 @@ function CustomPage() {
         },
       );
     return {...specData, spec};
-  }, [specData]);
+  }, [specData, locale]);
   return (
     <ApiDoc
       layoutProps={{

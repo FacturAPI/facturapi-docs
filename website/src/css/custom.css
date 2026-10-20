@@ -390,91 +390,6 @@ body[data-scrolled='true'] .navbar {
   display: none !important;
 }
 
-/* Keep invoice mode and related fields together when requirements change. */
-[id='operation/createInvoice'] tbody:has(> tr > td[title='status'] + td select) {
-  display: grid;
-  grid-template-columns: max-content minmax(0, 1fr);
-
-  > tr {
-    display: grid;
-    grid-template-columns: subgrid;
-    grid-column: 1 / -1;
-  }
-
-  > tr > td {
-    width: auto;
-  }
-
-  > tr > td[colspan] {
-    grid-column: 1 / -1;
-  }
-
-  > tr:has(> td[colspan]) {
-    animation: invoice-field-details-enter 180ms ease-out;
-    transform-origin: top;
-  }
-
-  > tr:has(> td[title='status']),
-  > tr:has(> td[title='status']) + tr:has(> td[colspan]) {
-    order: -11;
-  }
-
-  > tr:has(> td[title='status']) {
-    > td + td > div {
-      display: flex;
-      flex-direction: column;
-
-      > div:has(> select) {
-        order: -1;
-        margin-bottom: 0.5rem;
-      }
-    }
-  }
-
-  > tr:has(> td[title='type']),
-  > tr:has(> td[title='type']) + tr:has(> td[colspan]) { order: -10; }
-  > tr:has(> td[title='customer']),
-  > tr:has(> td[title='customer']) + tr:has(> td[colspan]) { order: -9; }
-  > tr:has(> td[title='third_party']),
-  > tr:has(> td[title='third_party']) + tr:has(> td[colspan]) { order: -8; }
-  > tr:has(> td:is([title='items'], [title='complements'])),
-  > tr:has(> td:is([title='items'], [title='complements'])) + tr:has(> td[colspan]) { order: -7; }
-  > tr:has(> td[title='use']),
-  > tr:has(> td[title='use']) + tr:has(> td[colspan]) { order: -6; }
-  > tr:has(> td:is([title='payment_form'], [title='payment_method'], [title='conditions'])),
-  > tr:has(> td:is([title='payment_form'], [title='payment_method'], [title='conditions'])) + tr:has(> td[colspan]) { order: -5; }
-  > tr:has(> td:is([title='currency'], [title='exchange'])),
-  > tr:has(> td:is([title='currency'], [title='exchange'])) + tr:has(> td[colspan]) { order: -4; }
-  > tr:has(> td:is([title='date'], [title='folio_number'], [title='series'])),
-  > tr:has(> td:is([title='date'], [title='folio_number'], [title='series'])) + tr:has(> td[colspan]) { order: -3; }
-  > tr:has(> td:is([title='related_documents'], [title='global'], [title='export'])),
-  > tr:has(> td:is([title='related_documents'], [title='global'], [title='export'])) + tr:has(> td[colspan]) { order: 1; }
-  > tr:has(> td:is([title='pdf_custom_section'], [title='addenda'], [title='namespaces'], [title='pdf_options'])),
-  > tr:has(> td:is([title='pdf_custom_section'], [title='addenda'], [title='namespaces'], [title='pdf_options'])) + tr:has(> td[colspan]) { order: 2; }
-
-  @media (max-width: 50rem) {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-@keyframes invoice-field-details-enter {
-  from {
-    opacity: 0;
-    transform: translateY(-0.4rem);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [id='operation/createInvoice'] tbody:has(> tr > td[title='status'] + td select) > tr:has(> td[colspan]) {
-    animation: none;
-  }
-}
-
 html[data-theme='dark'] .redocusaurus button[aria-expanded='true'] {
   border-color: transparent !important;
 }
@@ -531,4 +446,82 @@ html[data-theme='dark'] .redocusaurus div[aria-hidden='false'] [tabindex='0'] {
 [id='operation/createInvoice'] tr:has(> td[title='customer']) + tr > td > div > div > span:first-child,
 [id='operation/createInvoice'] tr:has(> td[title='customer']) + tr > td > div > div > div > span:first-child {
   display: none;
+}
+
+html[data-theme='dark'] .redocusaurus select,
+html[data-theme='dark'] .redocusaurus select option {
+  color: var(--ifm-font-color-base);
+  background-color: var(--facturapi-surface-bg);
+  color-scheme: dark;
+}
+
+/* Keep the same reading order when switching invoice creation modes. */
+[id='operation/createInvoice'] tbody:has(> tr > td[title='customer']):has(> tr > td[title='status']) {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+
+  > tr {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+    order: 30;
+  }
+
+  > tr > td { width: auto; }
+  > tr > td[colspan] { grid-column: 1 / -1; }
+
+  > tr:has(> td[title='customer']),
+  > tr:has(> td[title='customer']) + tr:has(> td[colspan]) { order: 0; }
+  > tr:has(> td[title='items']),
+  > tr:has(> td[title='items']) + tr:has(> td[colspan]) { order: 1; }
+  > tr:has(> td[title='payment_form']),
+  > tr:has(> td[title='payment_form']) + tr:has(> td[colspan]) { order: 2; }
+  > tr:has(> td[title='type']),
+  > tr:has(> td[title='type']) + tr:has(> td[colspan]) { order: 3; }
+  > tr:has(> td[title='status']),
+  > tr:has(> td[title='status']) + tr:has(> td[colspan]) { order: 4; }
+  > tr:has(> td[title='payment_method']),
+  > tr:has(> td[title='payment_method']) + tr:has(> td[colspan]) { order: 5; }
+  > tr:has(> td[title='use']),
+  > tr:has(> td[title='use']) + tr:has(> td[colspan]) { order: 6; }
+  > tr:has(> td[title='currency']),
+  > tr:has(> td[title='currency']) + tr:has(> td[colspan]) { order: 7; }
+  > tr:has(> td[title='exchange']),
+  > tr:has(> td[title='exchange']) + tr:has(> td[colspan]) { order: 8; }
+  > tr:has(> td[title='conditions']),
+  > tr:has(> td[title='conditions']) + tr:has(> td[colspan]) { order: 9; }
+  > tr:has(> td[title='date']),
+  > tr:has(> td[title='date']) + tr:has(> td[colspan]) { order: 10; }
+  > tr:has(> td[title='folio_number']),
+  > tr:has(> td[title='folio_number']) + tr:has(> td[colspan]) { order: 11; }
+  > tr:has(> td[title='series']),
+  > tr:has(> td[title='series']) + tr:has(> td[colspan]) { order: 12; }
+  > tr:has(> td[title='address']),
+  > tr:has(> td[title='address']) + tr:has(> td[colspan]) { order: 13; }
+  > tr:has(> td[title='third_party']),
+  > tr:has(> td[title='third_party']) + tr:has(> td[colspan]) { order: 14; }
+  > tr:has(> td[title='related_documents']),
+  > tr:has(> td[title='related_documents']) + tr:has(> td[colspan]) { order: 15; }
+  > tr:has(> td[title='global']),
+  > tr:has(> td[title='global']) + tr:has(> td[colspan]) { order: 16; }
+  > tr:has(> td[title='export']),
+  > tr:has(> td[title='export']) + tr:has(> td[colspan]) { order: 17; }
+  > tr:has(> td[title='complements']),
+  > tr:has(> td[title='complements']) + tr:has(> td[colspan]) { order: 18; }
+  > tr:has(> td[title='external_id']),
+  > tr:has(> td[title='external_id']) + tr:has(> td[colspan]) { order: 19; }
+  > tr:has(> td[title='idempotency_key']),
+  > tr:has(> td[title='idempotency_key']) + tr:has(> td[colspan]) { order: 20; }
+  > tr:has(> td[title='pdf_custom_section']),
+  > tr:has(> td[title='pdf_custom_section']) + tr:has(> td[colspan]) { order: 21; }
+  > tr:has(> td[title='addenda']),
+  > tr:has(> td[title='addenda']) + tr:has(> td[colspan]) { order: 22; }
+  > tr:has(> td[title='namespaces']),
+  > tr:has(> td[title='namespaces']) + tr:has(> td[colspan]) { order: 23; }
+  > tr:has(> td[title='pdf_options']),
+  > tr:has(> td[title='pdf_options']) + tr:has(> td[colspan]) { order: 24; }
+
+  @media (max-width: 50rem) {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

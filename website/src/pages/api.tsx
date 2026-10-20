@@ -35,25 +35,39 @@ function CustomPage() {
         ? 'Datos del cliente o ID de un cliente registrado.'
         : 'Customer details or the ID of a registered customer.',
     };
-    // ReDoc needs named discriminator variants to render a status selector.
-    // Keep this presentation hint out of the contract: status may be omitted.
+    spec.components.schemas.InvoiceDraftCommonInput.allOf[1].properties.customer = {
+      ...spec.components.schemas.InvoiceCommonInput.allOf[0].properties.customer,
+      oneOf: [
+        ...spec.components.schemas.InvoiceCustomerInput.oneOf,
+        {
+          type: 'null',
+          title: locale === 'es' ? 'Sin cliente' : 'No customer',
+        },
+      ],
+    };
+    // Native oneOf tabs keep the viewing mode separate from request fields.
     spec.components.schemas.InvoiceCreateInput.oneOf =
       spec.components.schemas.InvoiceCreateInput.oneOf.map(
-        (invoiceType: {oneOf: {allOf: {properties: {status: {const: string}}}[]}[]}, typeIndex: number) => {
-          const mapping: Record<string, string> = {};
-          return {
-            ...invoiceType,
-            oneOf: invoiceType.oneOf.map((variant) => {
-              const status = variant.allOf.at(-1)!.properties.status.const;
-              const name = `InvoiceCreateDisplay${typeIndex}${status}`;
-              spec.components.schemas[name] = variant;
-              mapping[status] = `#/components/schemas/${name}`;
-              return {$ref: mapping[status]};
-            }),
-            discriminator: {propertyName: 'status', mapping},
-          };
-        },
+        (invoiceType: {oneOf: {title: string}[]}) => ({
+          ...invoiceType,
+          oneOf: invoiceType.oneOf.map((variant) => ({
+            ...variant,
+            title: variant.title === 'draft'
+              ? (locale === 'es' ? 'Borrador' : 'Draft')
+              : (locale === 'es' ? 'Timbrar' : 'Issue'),
+          })),
+        }),
       );
+    for (const [name, schema] of Object.entries<{allOf?: {properties?: {type?: {description: string}}}[]; properties?: {type?: {description: string}}}>(spec.components.schemas)) {
+      if (!name.startsWith('Invoice') || !name.endsWith('Input')) continue;
+      for (const part of [schema, ...(schema.allOf || [])]) {
+        if (part.properties?.type) {
+          part.properties.type.description = locale === 'es'
+            ? 'Código del tipo de factura seleccionado arriba. Selecciona otro tipo para consultar sus campos y código correspondiente.'
+            : 'Code for the invoice type selected above. Select another type to see its fields and corresponding code.';
+        }
+      }
+    }
     return {...specData, spec};
   }, [specData, locale]);
   return (

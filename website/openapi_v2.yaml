@@ -13638,6 +13638,23 @@ components:
             ieps_mode:
               $ref: "#/components/schemas/IepsMode"
     Stamp:
+      allOf:
+        - $ref: '#/components/schemas/StampProperties'
+        - type: object
+          properties:
+            complement_string:
+              type: [string, 'null']
+              description: Cadena original del timbre fiscal digital.
+    InvoiceStamp:
+      allOf:
+        - $ref: '#/components/schemas/StampProperties'
+        - type: object
+          properties:
+            complement_string:
+              type: string
+              description: Cadena original del timbre fiscal digital.
+      required: [date, sat_signature, sat_cert_number, signature, complement_string]
+    StampProperties:
       type: object
       description: Información sobre el timbre fiscal digital agregado por el PAC.
       properties:
@@ -13654,9 +13671,6 @@ components:
           type: string
           description: "FechaTimbrado del SAT: fecha y hora local sin offset de zona horaria. Se conserva como texto."
           example: "2026-09-17T06:59:16"
-        complement_string:
-          type: [string, 'null']
-          description: Cadena original del timbre fiscal digital.
         rfc_provider_cert:
           type: string
           description: RFC del proveedor que certificó el comprobante.
@@ -16429,25 +16443,49 @@ components:
               description: ISO 3166-1 alpha-3.
     CustomerUpdateInput:
       description: En una actualización sin createEditLink=true, los campos omitidos conservan su valor. Un valor null borra los campos que admiten null; un campo opcional puede omitirse sin que necesariamente admita null. No se permite null en legal_name, tax_id, tax_system ni address. En email, phone y los campos opcionales street, exterior, interior, neighborhood, city, municipality y state del domicilio, una cadena vacía o sólo espacios se normaliza a null. El código postal vacío no se acepta.
-      allOf:
-        - $ref: '#/components/schemas/CustomerEditableInput'
-        - type: object
+      type: object
+      properties:
+        legal_name:
+          type: string
+          minLength: 1
+          description: |
+            Nombre Fiscal o Razón Social del cliente. *sin* el régimen societario (ej.: S.A. de C.V.).
+          example: Dunder Mifflin
+        tax_id:
+          type: string
+          minLength: 1
+          example: ABC101010111
+          description: En clientes de México contiene el RFC del cliente. Para extranjeros es opcional y representa el número de registro de identificación tributaria, es decir, el equivalente al RFC en el país del cliente.
+        email:
+          $ref: '#/components/schemas/CustomerEmailUpdateInput'
+        phone: *customer_phone
+        external_id: *customer_external_id_input
+        default_invoice_use: *customer_default_invoice_use_input
+        tax_system:
+          type: string
+          example: '601'
+          maxLength: 3
+          minLength: 3
+          description: Requerido para clientes nacionales. Clave del régimen fiscal del cliente, del catálogo de [Regímenes Fiscales](#r%C3%A9gimen-fiscal).
+        address:
+          type: object
           properties:
-            legal_name:
+            street: *customer_address_street_input
+            exterior: *customer_address_exterior_input
+            interior: *customer_address_interior_input
+            neighborhood: *customer_address_neighborhood_input
+            city: *customer_address_city_input
+            municipality: *customer_address_municipality_input
+            zip:
               type: string
               minLength: 1
-            tax_id:
+              description: Código postal
+              example: '86500'
+            state: *customer_address_state_input
+            country:
               type: string
-              minLength: 1
-            tax_system:
-              allOf:
-                - *customer_tax_system
-                - type: string
-            address:
-              type: object
-              properties:
-                country:
-                  type: string
+              default: MEX
+              description: ISO 3166-1 alpha-3.
     CustomerUpdateWithEditLinkInput:
       description: Con createEditLink=true, los campos omitidos conservan su valor y null borra el valor existente, incluidos los datos fiscales. Los valores no nulos deben ser válidos. En email, phone y los campos opcionales street, exterior, interior, neighborhood, city, municipality y state del domicilio, una cadena vacía o sólo espacios se normaliza a null. El código postal vacío no se acepta.
       type: object
@@ -17359,12 +17397,7 @@ components:
               type: string
               format: uuid
             stamp:
-              allOf:
-                - $ref: '#/components/schemas/Stamp'
-              required: [date, sat_signature, sat_cert_number, signature, complement_string]
-              properties:
-                complement_string:
-                  type: string
+              $ref: '#/components/schemas/InvoiceStamp'
     InvoicePending:
       title: Pendiente
       allOf:
@@ -17391,7 +17424,7 @@ components:
       required: [status]
       properties:
         status:
-          $ref: '#/components/schemas/InvoiceCommonProperties/properties/cancellation_status'
+          $ref: '#/components/schemas/InvoiceCancellationStatus'
         requested_at:
           type: string
           format: date-time
@@ -17411,6 +17444,18 @@ components:
           type: string
           format: uuid
           description: UUID de la factura sustituta, cuando aplica.
+    InvoiceCancellationStatus:
+      type: string
+      enum:
+        - none
+        - pending
+        - accepted
+        - rejected
+        - expired
+        - verifying
+      description: |
+        Estado actual de la solicitud de cancelación, en caso de haberla realizado. Puedes leer más a detalle en la sección de [Cancelar Factura](#tag/invoice/operation/deleteInvoice)).
+      example: none
     InvoiceDraft:
       title: Objeto Invoice con status draft
       allOf:
@@ -17466,17 +17511,7 @@ components:
         cancellation:
           $ref: '#/components/schemas/InvoiceCancellation'
         cancellation_status:
-          type: string
-          enum:
-            - none
-            - pending
-            - accepted
-            - rejected
-            - expired
-            - verifying
-          description: |
-            Estado actual de la solicitud de cancelación, en caso de haberla realizado. Puedes leer más a detalle en la sección de [Cancelar Factura](#tag/invoice/operation/deleteInvoice)).
-          example: none
+          $ref: '#/components/schemas/InvoiceCancellationStatus'
         canceled_at:
           type:
             - string
@@ -17774,6 +17809,11 @@ components:
               default: false
               description: |
                 Renderizar el complemento de comercio exterior en el PDF.
+            render_phone:
+              type: boolean
+              default: false
+              description: |
+                Mostrar el teléfono del receptor en el PDF.
             repeat_signature:
               type: boolean
               default: false
@@ -17889,6 +17929,11 @@ components:
               default: false
               description: |
                 Renderizar el complemento de comercio exterior en el PDF.
+            render_phone:
+              type: boolean
+              default: false
+              description: |
+                Mostrar el teléfono del receptor en el PDF.
             repeat_signature:
               type: boolean
               default: false

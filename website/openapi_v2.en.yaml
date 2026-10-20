@@ -13686,6 +13686,23 @@ components:
             ieps_mode:
               $ref: "#/components/schemas/IepsMode"
     Stamp:
+      allOf:
+        - $ref: '#/components/schemas/StampProperties'
+        - type: object
+          properties:
+            complement_string:
+              type: [string, 'null']
+              description: Original string of the fiscal stamp.
+    InvoiceStamp:
+      allOf:
+        - $ref: '#/components/schemas/StampProperties'
+        - type: object
+          properties:
+            complement_string:
+              type: string
+              description: Original string of the fiscal stamp.
+      required: [date, sat_signature, sat_cert_number, signature, complement_string]
+    StampProperties:
       type: object
       description: Information about the digital stamp added by the PAC.
       properties:
@@ -13702,9 +13719,6 @@ components:
           type: string
           description: "SAT FechaTimbrado: local date and time without a timezone offset. Preserved as text."
           example: "2026-09-17T06:59:16"
-        complement_string:
-          type: [string, 'null']
-          description: Original string of the fiscal stamp.
         rfc_provider_cert:
           type: string
           description: Tax ID of the provider that certified the document.
@@ -16429,25 +16443,51 @@ components:
               description: ISO 3166-1 alpha-3.
     CustomerUpdateInput:
       description: On update without createEditLink=true, omitted fields retain their value. A null value clears fields that accept null; an optional field can be omitted without necessarily accepting null. Null is not allowed for legal_name, tax_id, tax_system, or address. For email, phone, and the optional address fields street, exterior, interior, neighborhood, city, municipality, and state, empty or whitespace-only strings normalize to null. Empty postal codes are not accepted.
-      allOf:
-        - $ref: '#/components/schemas/CustomerEditableInput'
-        - type: object
+      type: object
+      properties:
+        legal_name:
+          type: string
+          minLength: 1
+          description: |
+            Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
+          example: Dunder Mifflin
+        tax_id:
+          type: string
+          minLength: 1
+          example: ABC101010111
+          description: |
+            In Mexican clients, it contains the customer's RFC. For foreigners, it is optional and represents the tax identification number, that is, the equivalent to the RFC in the customer's country.
+        email:
+          $ref: '#/components/schemas/CustomerEmailUpdateInput'
+        phone: *customer_phone
+        external_id: *customer_external_id_input
+        default_invoice_use: *customer_default_invoice_use_input
+        tax_system:
+          type: string
+          example: '601'
+          maxLength: 3
+          minLength: 3
+          description: |
+            Required for national clients. Key of the customer's tax regime, from the [Tax Regime Catalog](#tax-regime).
+        address:
+          type: object
           properties:
-            legal_name:
+            street: *customer_address_street_input
+            exterior: *customer_address_exterior_input
+            interior: *customer_address_interior_input
+            neighborhood: *customer_address_neighborhood_input
+            city: *customer_address_city_input
+            municipality: *customer_address_municipality_input
+            zip:
               type: string
               minLength: 1
-            tax_id:
+              description: Postal code
+              example: '86500'
+            state: *customer_address_state_input
+            country:
               type: string
-              minLength: 1
-            tax_system:
-              allOf:
-                - *customer_tax_system
-                - type: string
-            address:
-              type: object
-              properties:
-                country:
-                  type: string
+              default: MEX
+              description: ISO 3166-1 alpha-3.
     CustomerUpdateWithEditLinkInput:
       description: With createEditLink=true, omitted fields retain their value and null clears the existing value, including fiscal fields. Non-null values must be valid. For email, phone, and the optional address fields street, exterior, interior, neighborhood, city, municipality, and state, empty or whitespace-only strings normalize to null. Empty postal codes are not accepted.
       type: object
@@ -17405,12 +17445,7 @@ components:
               type: string
               format: uuid
             stamp:
-              allOf:
-                - $ref: '#/components/schemas/Stamp'
-              required: [date, sat_signature, sat_cert_number, signature, complement_string]
-              properties:
-                complement_string:
-                  type: string
+              $ref: '#/components/schemas/InvoiceStamp'
     InvoicePending:
       title: Pending
       allOf:
@@ -17437,7 +17472,7 @@ components:
       required: [status]
       properties:
         status:
-          $ref: '#/components/schemas/InvoiceCommonProperties/properties/cancellation_status'
+          $ref: '#/components/schemas/InvoiceCancellationStatus'
         requested_at:
           type: string
           format: date-time
@@ -17457,6 +17492,18 @@ components:
           type: string
           format: uuid
           description: UUID of the replacement invoice, when applicable.
+    InvoiceCancellationStatus:
+      type: string
+      enum:
+        - none
+        - verifying
+        - pending
+        - accepted
+        - rejected
+        - expired
+      description: |
+        Current status of the cancellation request, if it has been made. `verifying` means the SAT has received the request and is validating it; Facturapi will keep checking until it changes to a final status. You can read more in the [Cancel Invoice](#tag/invoice/operation/deleteInvoice) section.
+      example: none
     InvoiceDraft:
       title: Invoice object with draft status
       allOf:
@@ -17512,17 +17559,7 @@ components:
         cancellation:
           $ref: '#/components/schemas/InvoiceCancellation'
         cancellation_status:
-          type: string
-          enum:
-            - none
-            - verifying
-            - pending
-            - accepted
-            - rejected
-            - expired
-          description: |
-            Current status of the cancellation request, if it has been made. `verifying` means the SAT has received the request and is validating it; Facturapi will keep checking until it changes to a final status. You can read more in the [Cancel Invoice](#tag/invoice/operation/deleteInvoice) section.
-          example: none
+          $ref: '#/components/schemas/InvoiceCancellationStatus'
         canceled_at:
           type:
             - string
@@ -17823,6 +17860,11 @@ components:
               default: false
               description: |
                 Render the foreign trade complement in the PDF.
+            render_phone:
+              type: boolean
+              default: false
+              description: |
+                Show the recipient's phone number in the PDF.
             repeat_signature:
               type: boolean
               default: false
@@ -17941,6 +17983,11 @@ components:
               default: false
               description: |
                 Render the foreign trade complement in the PDF.
+            render_phone:
+              type: boolean
+              default: false
+              description: |
+                Show the recipient's phone number in the PDF.
             repeat_signature:
               type: boolean
               default: false

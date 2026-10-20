@@ -46,12 +46,10 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
           specs: [
             {
               id: "api-es",
-              route: "/api-es",
               spec: 'openapi_v2.yaml',
             },
             {
               id: "api-en",
-              route: "/api-en",
               spec: 'openapi_v2.en.yaml',
             },
           ],

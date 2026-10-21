@@ -125,6 +125,57 @@ module.exports = function preparePresentation(source, locale) {
       ...(schema.allOf || []).flatMap(propertyNames),
     ];
   }
+  function requiredNames(schema) {
+    if (schema.$ref) {
+      return requiredNames(
+        spec.components.schemas[schema.$ref.split("/").pop()],
+      );
+    }
+    return [
+      ...(schema.required || []),
+      ...(schema.allOf || []).flatMap(requiredNames),
+    ];
+  }
+  const visited = new Set();
+  function orderRequiredProperties(schema) {
+    if (!schema || typeof schema !== "object" || visited.has(schema)) return;
+    visited.add(schema);
+    // Referenced components are ordered separately; preserve reference siblings.
+    if (schema.$ref) return;
+    for (const child of [
+      ...Object.values(schema.properties || {}),
+      ...(schema.allOf || []),
+      ...(schema.oneOf || []),
+      ...(schema.anyOf || []),
+      schema.items,
+      schema.additionalProperties,
+    ])
+      orderRequiredProperties(child);
+    const required = new Set(schema.required || []);
+    if (!schema.properties || !required.size) return;
+    schema.properties = Object.fromEntries(
+      Object.entries(schema.properties).sort(
+        ([a], [b]) => Number(required.has(b)) - Number(required.has(a)),
+      ),
+    );
+  }
+  for (const schema of Object.values(spec.components.schemas)) {
+    orderRequiredProperties(schema);
+  }
+  // Customer alternatives compose shared fields and required lists with allOf.
+  for (const name of [
+    "CustomerNationalCreateInput",
+    "CustomerForeignCreateInput",
+    "CustomerGenericCreateInput",
+  ]) {
+    const schema = spec.components.schemas[name];
+    const required = new Set(requiredNames(schema));
+    schema.properties = Object.fromEntries(
+      [...new Set(propertyNames(schema))]
+        .sort((a, b) => Number(required.has(b)) - Number(required.has(a)))
+        .map((field) => [field, schema.properties?.[field] || {}]),
+    );
+  }
   const orderedInputs = [
     [
       spec.components.schemas.InvoiceCreateInput.oneOf.flatMap(

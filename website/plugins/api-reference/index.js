@@ -2,6 +2,7 @@ const { readFile, writeFile } = require("node:fs/promises");
 const path = require("node:path");
 const redocusaurus = require("redocusaurus").default;
 const preparePresentation = require("./presentation");
+const initialStyles = require("./initial-styles");
 
 module.exports = async function apiReferencePreset(context, options) {
   const preset = await redocusaurus(context, options);
@@ -42,15 +43,16 @@ module.exports = async function apiReferencePreset(context, options) {
           async postBuild({ outDir }) {
             const filename = path.join(outDir, "api/index.html");
             const html = await readFile(filename, "utf8");
-            // Redocusaurus emits an invalid dark-mode selector before hydration.
+            // Match initial server classes as well as hydrated dark-theme classes.
             // Remove after upstream fixes https://github.com/rohit-gohri/redocusaurus/issues/215.
             await writeFile(
               filename,
-              html.replace(/<style\b[^>]*>[\s\S]*?<\/style>/g, (style) =>
-                style.replaceAll(
-                  "html([data-theme='dark'])",
-                  "html[data-theme='dark']",
-                ),
+              html.replace(
+                /(<style\b[^>]*>)([\s\S]*?)(<\/style>)/g,
+                (style, start, css, end) =>
+                  css.includes("data-styled.g")
+                    ? start + initialStyles(css) + end
+                    : style,
               ),
             );
           },

@@ -1,166 +1,28 @@
-import React, {useMemo} from 'react';
-import ApiDoc from '@theme/ApiDoc';
-import useSpecData from '@theme/useSpecData';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import { translate } from '@docusaurus/Translate';
+import React from "react";
+import ApiDoc from "@theme/ApiDoc";
+import useSpecData from "@theme/useSpecData";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import { translate } from "@docusaurus/Translate";
+
+const presentationOptions = { sortRequiredPropsFirst: false };
 
 function CustomPage() {
-  const {i18n} = useDocusaurusContext();
-  const locale = i18n.currentLocale;
-  const specData = useSpecData(`api-${locale}`);
-  const displaySpecData = useMemo(() => {
-    const spec = structuredClone(specData.spec);
-    // Presentation labels do not change the downloadable API contract.
-    spec.components.schemas.InvoiceCustomerInput.oneOf = [
-      {
-        ...spec.components.schemas.CustomerCreateInput,
-        title: locale === 'es' ? 'Datos del cliente' : 'Customer details',
-        anyOf: spec.components.schemas.CustomerCreateInput.anyOf.map(
-          (variant: object, index: number) => ({
-            ...variant,
-            title: (locale === 'es'
-              ? ['Nacional', 'Extranjero', 'Público en general']
-              : ['Mexican customer', 'Foreign customer', 'General public'])[index],
-          }),
-        ),
-      },
-      {
-        ...spec.components.schemas.InvoiceCustomerInput.oneOf[1],
-        title: locale === 'es' ? 'Cliente registrado' : 'Registered customer',
-      },
-    ];
-    spec.components.schemas.InvoiceCommonInput.allOf[0].properties.customer = {
-      ...spec.components.schemas.InvoiceCustomerInput,
-      description: locale === 'es'
-        ? 'Datos del cliente o ID de un cliente registrado.'
-        : 'Customer details or the ID of a registered customer.',
-    };
-    spec.components.schemas.InvoiceDraftCommonInput.allOf[1].properties.customer = {
-      ...spec.components.schemas.InvoiceCommonInput.allOf[0].properties.customer,
-      oneOf: [
-        ...spec.components.schemas.InvoiceCustomerInput.oneOf,
-        {
-          type: 'null',
-          title: locale === 'es' ? 'Sin cliente' : 'No customer',
-        },
-      ],
-    };
-    for (const customer of [
-      spec.components.schemas.ReceiptInput.allOf[0].properties.customer,
-      spec.components.schemas.ReceiptAssignCustomerInput.properties.customer,
-      spec.components.schemas.InvoiceReceiptInput.allOf[0].properties.customer,
-      spec.components.schemas.ToInvoiceInput.properties.customer,
-      spec.components.schemas.ToInvoicePreviewInput.properties.customer,
-      spec.components.schemas.RetentionUpdateInput.properties.customer,
-    ]) {
-      customer.oneOf = customer.oneOf.map((variant: {$ref?: string; type?: string}) => {
-        if (variant.$ref === '#/components/schemas/CustomerCreateInput') {
-          return spec.components.schemas.InvoiceCustomerInput.oneOf[0];
-        }
-        return {
-          ...variant,
-          title: variant.type === 'null'
-            ? (locale === 'es' ? 'Sin cliente' : 'No customer')
-            : (locale === 'es' ? 'Cliente registrado' : 'Registered customer'),
-        };
-      });
-    }
-    for (const name of ['InvoiceItemInput', 'InvoiceItemEgresoInput', 'InvoiceItemTrasladoInput']) {
-      const product = spec.components.schemas[name].properties.product;
-      product.description = locale === 'es'
-        ? 'Datos del producto o servicio, o ID de un producto registrado.'
-        : 'Product or service details, or the ID of a registered product.';
-      product.oneOf = product.oneOf.map((variant: {$ref?: string; type?: string}) => ({
-        ...variant,
-        title: variant.type === 'string'
-          ? (locale === 'es' ? 'Producto registrado' : 'Registered product')
-          : (locale === 'es' ? 'Datos del producto' : 'Product details'),
-      }));
-    }
-    // Native oneOf tabs keep the viewing mode separate from request fields.
-    spec.components.schemas.InvoiceCreateInput.oneOf =
-      spec.components.schemas.InvoiceCreateInput.oneOf.map(
-        (invoiceType: {oneOf: {title: string}[]}) => ({
-          ...invoiceType,
-          oneOf: invoiceType.oneOf.map((variant) => ({
-            ...variant,
-            title: variant.title === 'draft'
-              ? (locale === 'es' ? 'Borrador' : 'Draft')
-              : (locale === 'es' ? 'Timbrar' : 'Issue'),
-          })),
-        }),
-      );
-    for (const [name, schema] of Object.entries<{allOf?: {properties?: {type?: {description: string}}}[]; properties?: {type?: {description: string}}}>(spec.components.schemas)) {
-      if (!name.startsWith('Invoice') || !name.endsWith('Input')) continue;
-      for (const part of [schema, ...(schema.allOf || [])]) {
-        if (part.properties?.type) {
-          part.properties.type.description = locale === 'es'
-            ? 'Código del tipo de factura seleccionado arriba. Selecciona otro tipo para consultar sus campos y código correspondiente.'
-            : 'Code for the invoice type selected above. Select another type to see its fields and corresponding code.';
-        }
-      }
-    }
-    type OrderedSchema = {
-      $ref?: string;
-      allOf?: OrderedSchema[];
-      properties?: Record<string, object>;
-    };
-    function propertyNames(schema: OrderedSchema): string[] {
-      if (schema.$ref) {
-        return propertyNames(spec.components.schemas[schema.$ref.split('/').pop()!]);
-      }
-      return [
-        ...Object.keys(schema.properties || {}),
-        ...(schema.allOf || []).flatMap(propertyNames),
-      ];
-    }
-    const orderedInputs: [OrderedSchema[], string[]][] = [
-      [
-        spec.components.schemas.InvoiceCreateInput.oneOf.flatMap(
-          (invoiceType: {oneOf: OrderedSchema[]}) => invoiceType.oneOf,
-        ),
-        ['customer', 'items', 'payment_form', 'type', 'status', 'payment_method',
-          'use', 'currency', 'exchange', 'conditions', 'date', 'folio_number',
-          'series', 'address', 'third_party', 'related_documents', 'global',
-          'export', 'complements', 'external_id', 'idempotency_key',
-          'pdf_custom_section', 'addenda', 'namespaces', 'pdf_options'],
-      ],
-      [
-        spec.components.schemas.RetentionInput.oneOf,
-        ['customer', 'cve_retenc', 'periodo', 'totales', 'status', 'fecha_exp',
-          'desc_retenc', 'folio_int', 'external_id', 'idempotency_key',
-          'complements', 'pdf_custom_section', 'addenda', 'namespaces'],
-      ],
-    ];
-    for (const [variants, order] of orderedInputs) {
-      for (const variant of variants) {
-        const names = new Set(propertyNames(variant));
-        // Empty schemas establish insertion order; allOf keeps every field constraint.
-        variant.properties = Object.fromEntries([
-          ...order.filter((name) => names.has(name)),
-          ...[...names].filter((name) => !order.includes(name)),
-        ].map((name) => [name, variant.properties?.[name] || {}]));
-      }
-    }
-    return {
-      ...specData,
-      spec,
-      optionsOverrides: {sortRequiredPropsFirst: false},
-    };
-  }, [specData, locale]);
+  const { i18n } = useDocusaurusContext();
+  const specData = useSpecData(`api-${i18n.currentLocale}`);
   return (
     <ApiDoc
       layoutProps={{
         title: translate({
-          id: 'api.title',
-          message: 'Documentación de Facturapi | Referencia API',
+          id: "api.title",
+          message: "Documentación de Facturapi | Referencia API",
         }),
         description: translate({
-          id: 'api.description',
-          message: 'Referencia técnica de la API de Facturapi. Información detallada sobre los endpoints, parámetros, respuestas y ejemplos de uso.',
+          id: "api.description",
+          message:
+            "Referencia técnica de la API de Facturapi. Información detallada sobre los endpoints, parámetros, respuestas y ejemplos de uso.",
         }),
       }}
-      specProps={displaySpecData}
+      specProps={{ ...specData, optionsOverrides: presentationOptions }}
     />
   );
 }

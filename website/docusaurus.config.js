@@ -41,7 +41,7 @@ const darkCodeTheme = require("prism-react-renderer").themes.dracula;
         }),
       ],
       [
-        "redocusaurus",
+        require.resolve("./plugins/api-reference"),
         {
           specs: [
             {

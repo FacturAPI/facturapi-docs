@@ -100,7 +100,53 @@ function CustomPage() {
         }
       }
     }
-    return {...specData, spec};
+    type OrderedSchema = {
+      $ref?: string;
+      allOf?: OrderedSchema[];
+      properties?: Record<string, object>;
+    };
+    function propertyNames(schema: OrderedSchema): string[] {
+      if (schema.$ref) {
+        return propertyNames(spec.components.schemas[schema.$ref.split('/').pop()!]);
+      }
+      return [
+        ...Object.keys(schema.properties || {}),
+        ...(schema.allOf || []).flatMap(propertyNames),
+      ];
+    }
+    const orderedInputs: [OrderedSchema[], string[]][] = [
+      [
+        spec.components.schemas.InvoiceCreateInput.oneOf.flatMap(
+          (invoiceType: {oneOf: OrderedSchema[]}) => invoiceType.oneOf,
+        ),
+        ['customer', 'items', 'payment_form', 'type', 'status', 'payment_method',
+          'use', 'currency', 'exchange', 'conditions', 'date', 'folio_number',
+          'series', 'address', 'third_party', 'related_documents', 'global',
+          'export', 'complements', 'external_id', 'idempotency_key',
+          'pdf_custom_section', 'addenda', 'namespaces', 'pdf_options'],
+      ],
+      [
+        spec.components.schemas.RetentionInput.oneOf,
+        ['customer', 'cve_retenc', 'periodo', 'totales', 'status', 'fecha_exp',
+          'desc_retenc', 'folio_int', 'external_id', 'idempotency_key',
+          'complements', 'pdf_custom_section', 'addenda', 'namespaces'],
+      ],
+    ];
+    for (const [variants, order] of orderedInputs) {
+      for (const variant of variants) {
+        const names = new Set(propertyNames(variant));
+        // Empty schemas establish insertion order; allOf keeps every field constraint.
+        variant.properties = Object.fromEntries([
+          ...order.filter((name) => names.has(name)),
+          ...[...names].filter((name) => !order.includes(name)),
+        ].map((name) => [name, variant.properties?.[name] || {}]));
+      }
+    }
+    return {
+      ...specData,
+      spec,
+      optionsOverrides: {sortRequiredPropsFirst: false},
+    };
   }, [specData, locale]);
   return (
     <ApiDoc

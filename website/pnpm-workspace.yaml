@@ -4,3 +4,7 @@ packages:
 allowBuilds:
   '@swc/core': true
   core-js: true
+
+# Redocusaurus pins an older renderer; use the current compatible ReDoc release.
+overrides:
+  "docusaurus-theme-redoc>redoc": 2.5.4

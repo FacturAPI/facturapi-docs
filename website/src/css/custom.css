@@ -440,3 +440,17 @@ html[data-theme='dark'] .redocusaurus div[aria-hidden='false'] [tabindex='0'] {
     margin-bottom: 0.75rem;
   }
 }
+
+/* The customer selectors already name each alternative. */
+[id='operation/createInvoice'] tr:has(> td[title='customer']) > td + td > div > div:first-child,
+[id='operation/createInvoice'] tr:has(> td[title='customer']) + tr > td > div > div > span:first-child,
+[id='operation/createInvoice'] tr:has(> td[title='customer']) + tr > td > div > div > div > span:first-child {
+  display: none;
+}
+
+html[data-theme='dark'] .redocusaurus select,
+html[data-theme='dark'] .redocusaurus select option {
+  color: var(--ifm-font-color-base);
+  background-color: var(--facturapi-surface-bg);
+  color-scheme: dark;
+}

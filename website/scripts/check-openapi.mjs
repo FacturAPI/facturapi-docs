@@ -1,0 +1,325 @@
+import assert from "node:assert/strict";
+import { readFile, writeFile, mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { createRequire } from "node:module";
+import { execFileSync } from "node:child_process";
+import * as yaml from "js-yaml";
+import openapiTS, { astToString } from "openapi-typescript";
+import ts from "typescript";
+import Ajv2020 from "ajv/dist/2020.js";
+
+const root = new URL("../", import.meta.url);
+const contracts = [];
+const presentationKeys = new Set([
+  "description",
+  "summary",
+  "title",
+  "example",
+  "examples",
+  "externalDocs",
+  "x-codeSamples",
+]);
+
+function contract(value, key) {
+  if (Array.isArray(value)) {
+    const items = value.map((item) => contract(item));
+    return ["required", "enum", "type"].includes(key) ? items.sort() : items;
+  }
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value)
+        .filter(([name]) => !presentationKeys.has(name))
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([name, nested]) => [name, contract(nested, name)]),
+    );
+  }
+  return value;
+}
+
+for (const filename of ["openapi_v2.yaml", "openapi_v2.en.yaml"]) {
+  // Match the generator parser so unquoted numeric SAT codes fail validation.
+  const spec = yaml.load(await readFile(new URL(filename, root), "utf8"));
+  const ancestors = new WeakSet();
+  const visited = new WeakSet();
+  function rejectAnchorCycles(value) {
+    if (!value || typeof value !== "object") return;
+    assert(!ancestors.has(value), "Cyclic YAML anchors are not supported");
+    if (visited.has(value)) return;
+    ancestors.add(value);
+    for (const child of Object.values(value)) rejectAnchorCycles(child);
+    ancestors.delete(value);
+    visited.add(value);
+  }
+  rejectAnchorCycles(spec);
+  const validateItemComplement = new Ajv2020({
+    strict: false,
+    validateFormats: false,
+  }).compile({
+    $ref: "#/components/schemas/InvoiceItem/properties/complement",
+    components: spec.components,
+  });
+  for (const complement of [
+    "<Example/>",
+    { tipo_permiso: "PER01", numero_permiso: "123", sub_producto_hyp: "Diesel" },
+    {
+      nombreAlumno: "Alumno",
+      CURP: "FULJ790823MWSWSZ23",
+      nivelEducativo: "Primaria",
+      autRVOE: "123",
+    },
+  ]) {
+    assert(
+      validateItemComplement(complement),
+      `Valid invoice item complement rejected: ${JSON.stringify(validateItemComplement.errors)}`,
+    );
+  }
+  for (const complement of [null, 1, []])
+    assert(
+      !validateItemComplement(complement),
+      "Invalid invoice item complement accepted",
+    );
+  const validateForeignTradeReceiver = new Ajv2020({
+    strict: false,
+    validateFormats: false,
+  }).compile({
+    $ref: "#/components/schemas/ComercioExteriorDataProperties/properties/Receptor",
+    components: spec.components,
+  });
+  assert(
+    validateForeignTradeReceiver({ NumRegIdTrib: "123456" }),
+    "Foreign trade receiver object must not be rejected by overlapping branches",
+  );
+  // The sibling components object supplies the local $ref namespace to AJV.
+  for (const [schema, value, expected] of [
+    ["BaseTax", { type: "IVA", rate: 0.16, base: null }, true],
+    ["LocalTax", { type: "ISH", rate: 0.03, base: null }, true],
+    ["CustomerInfo", { legal_name: null, tax_id: null, phone: null }, true],
+    ["ProductProperties", { description: "Example", product_key: "60131324", price: 100, unit_name: null }, true],
+    ["ProductCreateInput", { description: "Example", product_key: "60131324", price: 100, unit_name: null }, false],
+    ["CustomerNationalAddressInput", { zip: "83200", country: null }, true],
+    ["RelatedDocumentInput", { relationship: "01", documents: ["39c85a3f-275b-4341-b259-e8971d9f8a94"] }, true],
+    ["OrganizationSeriesCreateInput", { series: "A" }, true],
+    ["CustomerProperties", { legal_name: null, address: null }, true],
+    ["RetentionProperties", { fecha_exp: null, cve_retenc: null, periodo: null, totales: null, addenda: [] }, true],
+    ["RetentionUpdateInput", { addenda: ["<Example/>"] }, true],
+  ]) {
+    const validate = new Ajv2020({ strict: false, validateFormats: false }).compile({
+      $ref: `#/components/schemas/${schema}`,
+      components: spec.components,
+    });
+    assert.equal(validate(value), expected, `Unexpected contract validation for ${schema}`);
+  }
+  for (const name of Object.keys(spec.components.schemas))
+    assert(!/(InputProperties|RequiredProperties)$/.test(name),
+      `Use an Input schema with its own required fields: ${name}`);
+  for (const [name, body] of Object.entries(spec.components.requestBodies)) {
+    for (const media of Object.values(body.content || {})) {
+      for (const schema of [media.schema, ...(media.schema?.oneOf || []), ...(media.schema?.anyOf || [])]) {
+        if (schema?.$ref) assert(schema.$ref.endsWith("Input"),
+          `Named request body schemas must end in Input: ${name}`);
+      }
+    }
+  }
+  function walk(value, path = [], references) {
+    if (!value || typeof value !== "object") return;
+    if (path[0] === "components" && path[1] === "schemas" && value.oneOf) {
+      const validate = new Ajv2020({
+        strict: false,
+        validateFormats: false,
+      }).compile({
+        ...value,
+        components: spec.components,
+      });
+      // This bounded check catches empty-object overlap, not every possible overlap.
+      validate({});
+      assert(
+        !validate.errors?.some(
+          error => error.keyword === "oneOf" && error.params.passingSchemas?.length > 1,
+        ),
+        `Overlapping oneOf branches accept the same empty object: ${path.join(".")}`,
+      );
+    }
+    assert(
+      !Object.hasOwn(value, "<<"),
+      `YAML merge keys are not supported: ${path.join(".")}`,
+    );
+    assert(
+      !("nullable" in value),
+      `Use OpenAPI 3.1 null unions: ${path.join(".")}`,
+    );
+    if (
+      ((path[0] === "components" && path[1] === "schemas") ||
+        path.includes("schema")) &&
+      (typeof value.type === "string" || Array.isArray(value.type))
+    ) {
+      for (const type of Array.isArray(value.type) ? value.type : [value.type])
+        assert(
+          [
+            "null", "boolean", "object", "array", "number", "string", "integer",
+          ].includes(type),
+          `Invalid schema type: ${path.join(".")}`,
+        );
+    }
+    if (value.type === "string") {
+      for (const item of value.enum || [])
+        assert.equal(
+          typeof item,
+          "string",
+          `String enum values must be quoted when needed: ${path.join(".")}`,
+        );
+      for (const key of ["example", "default", "const"])
+        if (key in value)
+          assert.equal(
+            typeof value[key],
+            "string",
+            `String ${key} must remain a string: ${path.join(".")}`,
+          );
+    }
+    if (value.$ref?.startsWith("#/")) {
+      let target = spec;
+      for (const part of value.$ref.slice(2).split("/")) {
+        target = target?.[part.replace(/~1/g, "/").replace(/~0/g, "~")];
+      }
+      assert(target, `Unresolved reference: ${value.$ref}`);
+      if (references && !references.has(value.$ref)) {
+        references.add(value.$ref);
+        walk(target, [], references);
+      }
+    }
+    for (const [key, child] of Object.entries(value))
+      if (!presentationKeys.has(key) && !["default", "enum", "const"].includes(key))
+        walk(child, [...path, key], references);
+  }
+  walk(spec);
+  const inputReferences = new Set();
+  const outputReferences = new Set();
+  for (const item of Object.values(spec.paths))
+    for (const operation of Object.values(item)) {
+      if (!operation?.operationId) continue;
+      walk([item.parameters, operation.parameters, operation.requestBody], [], inputReferences);
+      walk(operation.responses, [], outputReferences);
+    }
+  const outputSchemas = new Set([...outputReferences]
+    .filter(reference => reference.startsWith("#/components/schemas/"))
+    .map(reference => reference.split("/")[3]));
+  for (const reference of inputReferences) {
+    if (!reference.startsWith("#/components/schemas/")) continue;
+    const name = reference.split("/")[3];
+    if (outputSchemas.has(name)) continue;
+    if (!spec.components.schemas[name].enum)
+      assert(name.endsWith("Input"), `Request-only schemas must end in Input: ${name}`);
+  }
+  assert.equal(
+    spec.components.schemas.SignedDownloadUrl.properties.url.format,
+    "uri",
+    "Download links must be declared as URI strings",
+  );
+  for (const invoiceType of spec.components.schemas.InvoiceCreateInput.oneOf) {
+    assert.equal(invoiceType.oneOf.length, 2, "Expected emission and draft variants");
+    assert.deepEqual(
+      invoiceType.oneOf.map((variant) => variant.allOf.at(-1).properties.status.const),
+      ["pending", "draft"],
+      "Invoice display variants must match their contractual status",
+    );
+  }
+  const ids = new Set();
+  for (const items of [spec.paths, spec.webhooks || {}]) {
+    for (const [path, item] of Object.entries(items)) {
+      for (const [method, operation] of Object.entries(item)) {
+        if (!operation.responses) continue;
+        assert(operation.operationId, `Missing operationId: ${method} ${path}`);
+        assert(
+          !ids.has(operation.operationId),
+          `Duplicate operationId: ${operation.operationId}`,
+        );
+        ids.add(operation.operationId);
+        for (const sample of operation["x-codeSamples"] || []) {
+          if (!["JavaScript", "TypeScript"].includes(sample.lang)) continue;
+          const result = ts.transpileModule(sample.source, {
+            compilerOptions: {
+              target: ts.ScriptTarget.ESNext,
+              module: ts.ModuleKind.ESNext,
+            },
+            fileName: sample.lang === "JavaScript" ? "sample.js" : "sample.ts",
+            reportDiagnostics: true,
+          });
+          assert.equal(
+            result.diagnostics.length,
+            0,
+            `Invalid ${sample.lang} sample: ${operation.operationId}`,
+          );
+        }
+
+        const params = [
+          ...(item.parameters || []),
+          ...(operation.parameters || []),
+        ].map((parameter) =>
+          parameter.$ref
+            ? spec.components.parameters[parameter.$ref.split("/").at(-1)]
+            : parameter,
+        );
+        for (const match of path.matchAll(/\{([^}]+)\}/g)) {
+          assert(
+            params.some(
+              (parameter) =>
+                parameter.in === "path" &&
+                parameter.name === match[1] &&
+                parameter.required === true,
+            ),
+            `Missing required path parameter: ${path}`,
+          );
+        }
+      }
+    }
+  }
+  contracts.push(
+    contract({
+      paths: spec.paths,
+      webhooks: spec.webhooks,
+      components: spec.components,
+    }),
+  );
+  const directory = await mkdtemp(join(tmpdir(), "facturapi-openapi-"));
+  try {
+    await writeFile(
+      join(directory, "schema.d.ts"),
+      astToString(
+        await openapiTS(spec, {
+          defaultNonNullable: false,
+          emptyObjectsUnknown: true,
+        }),
+      ),
+    );
+    await writeFile(
+      join(directory, "fixture.ts"),
+      await readFile(new URL("test/openapi-types.fixture.txt", root)),
+    );
+    execFileSync(
+      process.execPath,
+      [
+        createRequire(import.meta.url).resolve("typescript/bin/tsc"),
+        "--noEmit",
+        "--strict",
+        "--skipLibCheck",
+        "--target",
+        "ES2022",
+        "--moduleResolution",
+        "node",
+        join(directory, "fixture.ts"),
+      ],
+      { stdio: "inherit" },
+    );
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+  console.log(
+    `${filename}: ${ids.size} operations, references and generated type contracts verified`,
+  );
+}
+assert.deepEqual(
+  contracts[0],
+  contracts[1],
+  "Spanish and English must describe the same API contract",
+);
+console.log("Locale contracts match");

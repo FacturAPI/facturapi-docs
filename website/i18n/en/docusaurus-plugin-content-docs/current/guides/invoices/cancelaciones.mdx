@@ -144,7 +144,9 @@ Facturapi periodically checks the SAT and updates `cancellation_status`. You can
 
 ## Cancellation receipt and verification
 
-When the cancellation is accepted, you can download the cancellation receipt in XML or PDF from the [Cancellation receipt](/api/#tag/invoice/operation/downloadCancellationReceiptXml) endpoint. You can also validate the CFDI using `verification_url`.
+When you submit the cancellation through Facturapi, you can download the SAT receipt in XML or PDF from the [Cancellation receipt](/api/#tag/invoice/operation/downloadCancellationReceipt) endpoint. The receipt proves the immediate result of the request, but does not necessarily mean that the CFDI is already canceled: confirm the outcome using `status`, `cancellation_status`, or `verification_url`.
+
+Facturapi can only retrieve receipts for requests submitted through its service. For cancellations performed externally, validate the current CFDI status using `verification_url`.
 
 <Tabs groupId="receiptExamples">
 <TabItem value="curl" label="cURL" default>
@@ -172,10 +174,14 @@ import fs from 'node:fs';
 const facturapi = new Facturapi('sk_test_API_KEY');
 
 const xmlStream = await facturapi.invoices.downloadCancellationReceiptXml('58e93bd8e86eb318b019743d');
-xmlStream.pipe(fs.createWriteStream('cancellation_receipt.xml'));
+if ('pipe' in xmlStream && typeof xmlStream.pipe === 'function') {
+  xmlStream.pipe(fs.createWriteStream('cancellation_receipt.xml'));
+}
 
 const pdfStream = await facturapi.invoices.downloadCancellationReceiptPdf('58e93bd8e86eb318b019743d');
-pdfStream.pipe(fs.createWriteStream('cancellation_receipt.pdf'));
+if ('pipe' in pdfStream && typeof pdfStream.pipe === 'function') {
+  pdfStream.pipe(fs.createWriteStream('cancellation_receipt.pdf'));
+}
 ```
 
 </TabItem>

@@ -16608,7 +16608,7 @@ components:
           description: Teléfono del cliente.
           example: '6474010101'
         default_invoice_use:
-          type: string
+          type: [string, 'null']
           description: Uso de CFDI por defecto.
           example: G01
     CustomerNationalAddressInput:
@@ -16699,7 +16699,7 @@ components:
               $ref: '#/components/schemas/CustomerForeignAddressInput'
     CustomerGenericCreateInput:
       title: RFC genérico
-      description: RFC de público en general XAXX010101000 o RFC genérico extranjero XEXX010101000. Requiere razón social y RFC. El régimen fiscal predeterminado es 616. Si se envía domicilio mexicano, requiere código postal.
+      description: RFC de público en general XAXX010101000 o RFC genérico extranjero XEXX010101000. Requiere razón social y RFC. El régimen fiscal predeterminado es 616. El código postal es opcional; null o una cadena vacía se tratan como omitidos.
       allOf:
         - $ref: '#/components/schemas/CustomerCreateCommonInput'
         - type: object
@@ -16716,10 +16716,34 @@ components:
               enum:
                 - '616'
               default: '616'
+            default_invoice_use:
+              type: [string, 'null']
+              enum: [S01, '', null]
+              default: S01
+              description: Uso predeterminado para el cliente. Sólo se admite S01; omitirlo, enviar null o una cadena vacía asigna S01.
             address:
-              anyOf:
-                - $ref: '#/components/schemas/CustomerNationalAddressInput'
-                - $ref: '#/components/schemas/CustomerForeignAddressInput'
+              type: object
+              allOf:
+                - if:
+                    properties:
+                      country:
+                        enum: [MEX, '', null]
+                  then:
+                    properties:
+                      zip:
+                        pattern: '^(?:[\s-]*[0-9]){5}[\s-]*$|^$'
+              properties:
+                street: *customer_address_street_input
+                exterior: *customer_address_exterior_input
+                interior: *customer_address_interior_input
+                neighborhood: *customer_address_neighborhood_input
+                city: *customer_address_city_input
+                municipality: *customer_address_municipality_input
+                state: *customer_address_state_input
+                country: *customer_address_country_input
+                zip:
+                  type: [string, 'null']
+                  description: Código postal opcional. Para México, si se proporciona debe tener cinco dígitos.
     CustomerCreateInput:
       title: Customer
       description: Los campos requeridos dependen del país y del RFC. Omitir el país equivale a México. Con createEditLink=true se usa CustomerCreateWithEditLinkInput.

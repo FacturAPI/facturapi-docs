@@ -16740,7 +16740,15 @@ components:
                 city: *customer_address_city_input
                 municipality: *customer_address_municipality_input
                 state: *customer_address_state_input
-                country: *customer_address_country_input
+                country:
+                  anyOf:
+                    - type: string
+                      minLength: 3
+                      maxLength: 3
+                    - type: [string, 'null']
+                      enum: ['', null]
+                  default: MEX
+                  description: ISO 3166-1 alpha-3.
                 zip:
                   type: [string, 'null']
                   description: Código postal opcional. Para México, si se proporciona debe tener cinco dígitos.

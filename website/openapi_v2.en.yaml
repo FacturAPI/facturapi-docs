@@ -13701,7 +13701,22 @@ components:
             complement_string:
               type: string
               description: Original string of the fiscal stamp.
-      required: [date, sat_signature, sat_cert_number, signature, complement_string]
+      required: [version, date, sat_signature, sat_cert_number, signature, complement_string]
+      oneOf:
+        - type: object
+          required: [version]
+          properties:
+            version:
+              type: string
+              enum: ['1.0']
+        - type: object
+          required: [version, rfc_provider_cert]
+          properties:
+            version:
+              type: string
+              enum: ['1.1']
+            rfc_provider_cert:
+              type: string
     StampProperties:
       type: object
       description: Information about the digital stamp added by the PAC.

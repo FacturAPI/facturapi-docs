@@ -13653,7 +13653,22 @@ components:
             complement_string:
               type: string
               description: Cadena original del timbre fiscal digital.
-      required: [date, sat_signature, sat_cert_number, signature, complement_string]
+      required: [version, date, sat_signature, sat_cert_number, signature, complement_string]
+      oneOf:
+        - type: object
+          required: [version]
+          properties:
+            version:
+              type: string
+              enum: ['1.0']
+        - type: object
+          required: [version, rfc_provider_cert]
+          properties:
+            version:
+              type: string
+              enum: ['1.1']
+            rfc_provider_cert:
+              type: string
     StampProperties:
       type: object
       description: Información sobre el timbre fiscal digital agregado por el PAC.

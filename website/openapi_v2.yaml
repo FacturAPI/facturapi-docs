@@ -16359,7 +16359,7 @@ components:
         legal_name:
           type: [string, 'null']
           description: |
-            Nombre Fiscal o Razón Social del cliente. *sin* el régimen societario (ej.: S.A. de C.V.).
+            Nombre fiscal o razón social del cliente, *sin* el régimen societario (ej.: S.A. de C.V.).
           example: Dunder Mifflin
         tax_id: &customer_tax_id
           type:
@@ -16405,7 +16405,7 @@ components:
         legal_name: &customer_legal_name_input
           type: [string, 'null']
           description: |
-            Nombre Fiscal o Razón Social del cliente. *sin* el régimen societario (ej.: S.A. de C.V.).
+            Nombre fiscal o razón social del cliente, *sin* el régimen societario (ej.: S.A. de C.V.).
           example: Dunder Mifflin
         tax_id: *customer_tax_id
         email:
@@ -16416,7 +16416,7 @@ components:
           maxLength: 100
         default_invoice_use: &customer_default_invoice_use_input
           type: [string, 'null']
-          description: Uso de CFDI por defecto.
+          description: Uso de CFDI que se utiliza en facturas de ingreso cuando se omite use o se envía null. Si el cliente no tiene un uso configurado, se utiliza G03. Para clientes extranjeros o con RFC genérico sólo se admite S01; omitirlo, enviar null o una cadena vacía asigna S01.
           example: G01
         address:
           type: [object, 'null']
@@ -16464,7 +16464,7 @@ components:
           type: string
           minLength: 1
           description: |
-            Nombre Fiscal o Razón Social del cliente. *sin* el régimen societario (ej.: S.A. de C.V.).
+            Nombre fiscal o razón social del cliente, *sin* el régimen societario (ej.: S.A. de C.V.).
           example: Dunder Mifflin
         tax_id:
           type: string
@@ -16598,7 +16598,7 @@ components:
         legal_name:
           type: string
           description: |
-            Nombre Fiscal o Razón Social del cliente. *sin* el régimen societario (ej.: S.A. de C.V.).
+            Nombre fiscal o razón social del cliente, *sin* el régimen societario (ej.: S.A. de C.V.).
           example: Dunder Mifflin
         email: *customer_email_input
         phone:
@@ -16609,7 +16609,7 @@ components:
           example: '6474010101'
         default_invoice_use:
           type: [string, 'null']
-          description: Uso de CFDI por defecto.
+          description: Uso de CFDI que se utiliza en facturas de ingreso cuando se omite use o se envía null. Si el cliente no tiene un uso configurado, se utiliza G03. Para clientes extranjeros o con RFC genérico sólo se admite S01; omitirlo, enviar null o una cadena vacía asigna S01.
           example: G01
     CustomerNationalAddressInput:
       allOf:
@@ -16695,6 +16695,11 @@ components:
                 - ''
               default: '616'
               description: Los clientes extranjeros usan 616. Omitirlo, enviar null o una cadena vacía usa el valor predeterminado.
+            default_invoice_use: &customer_generic_default_invoice_use_input
+              enum: [S01, '', null]
+              default: S01
+              example: S01
+              description: Sólo se admite S01. Omitirlo, enviar null o una cadena vacía asigna S01.
             address:
               $ref: '#/components/schemas/CustomerForeignAddressInput'
     CustomerGenericCreateInput:
@@ -16706,6 +16711,9 @@ components:
           required:
             - tax_id
           properties:
+            legal_name:
+              type: string
+              description: Nombre del receptor. Con el RFC XAXX010101000, usa PUBLICO EN GENERAL sólo para facturas globales de ingreso; en ese caso debes enviar global con periodicity, months y year.
             tax_id:
               type: string
               enum:
@@ -16716,11 +16724,7 @@ components:
               enum:
                 - '616'
               default: '616'
-            default_invoice_use:
-              type: [string, 'null']
-              enum: [S01, '', null]
-              default: S01
-              description: Uso predeterminado para el cliente. Sólo se admite S01; omitirlo, enviar null o una cadena vacía asigna S01.
+            default_invoice_use: *customer_generic_default_invoice_use_input
             address:
               type: object
               allOf:
@@ -17222,7 +17226,7 @@ components:
         legal_name:
           type: [string, 'null']
           description: |
-            Nombre Fiscal o Razón Social del cliente, *sin* incluir el régimen societario (ej.: S.A. de C.V.).
+            Nombre fiscal o razón social del cliente, *sin* incluir el régimen societario (ej.: S.A. de C.V.).
           example: Dunder Mifflin
         tax_id:
           type: [string, 'null']
@@ -18286,13 +18290,13 @@ components:
             use:
               type: [string, "null"]
               description: |
-                Si se omite o es null, se utiliza el uso configurado en el cliente; si no tiene uno, se utiliza G03. Para clientes extranjeros o público en general se utiliza S01.
+                Si se omite o es null, se utiliza el uso configurado en el cliente; si no tiene uno, se utiliza G03. Para clientes extranjeros o con RFC genérico se utiliza S01, incluso si se envía otro uso válido del catálogo.
 
                 Código de Uso CFDI según el catálogo del SAT. Puedes ver los códigos
                 en [esta tabla](#uso-cfdi), o utilizar las constantes incluidas en
                 nuestras librerías.
 
-                Para factura global debe ingresarse la clave `S01`.
+                En una factura global, el uso es `S01`.
             currency:
               type: string
               default: MXN
@@ -18321,7 +18325,7 @@ components:
                 - months
                 - year
               description: |
-                Objeto requerido al crear una factura global.
+                Información del periodo que abarca una factura global. En una factura de ingreso, este objeto es obligatorio cuando el receptor tiene `tax_id=XAXX010101000` y `legal_name=PUBLICO EN GENERAL`. Incluye periodicity, months y year. El régimen fiscal del receptor es 616 y el uso de CFDI es S01.
               properties:
                 periodicity:
                   type: string
@@ -18646,7 +18650,7 @@ components:
                 - months
                 - year
               description: |
-                Objeto requerido al crear una factura global.
+                Información del periodo que abarca una factura global. En una factura de ingreso, este objeto es obligatorio cuando el receptor tiene `tax_id=XAXX010101000` y `legal_name=PUBLICO EN GENERAL`. Incluye periodicity, months y year. El régimen fiscal del receptor es 616 y el uso de CFDI es S01.
               properties:
                 periodicity:
                   type: string

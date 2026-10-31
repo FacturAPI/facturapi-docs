@@ -16357,7 +16357,7 @@ components:
         legal_name:
           type: [string, 'null']
           description: |
-            Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
+            Legal name or business name of the customer, *without* the corporate regime (e.g.: S.A. de C.V.).
           example: Dunder Mifflin
         tax_id: &customer_tax_id
           type:
@@ -16405,7 +16405,7 @@ components:
         legal_name: &customer_legal_name_input
           type: [string, 'null']
           description: |
-            Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
+            Legal name or business name of the customer, *without* the corporate regime (e.g.: S.A. de C.V.).
           example: Dunder Mifflin
         tax_id: *customer_tax_id
         email:
@@ -16416,7 +16416,7 @@ components:
           maxLength: 100
         default_invoice_use: &customer_default_invoice_use_input
           type: [string, 'null']
-          description: Default CFDI use for the customer.
+          description: CFDI use applied to income invoices when use is omitted or null. If the customer has no configured use, G03 is used. Foreign customers and generic RFCs only accept S01; omitting it or sending null or an empty string assigns S01.
           example: G01
         address:
           type: [object, 'null']
@@ -16464,7 +16464,7 @@ components:
           type: string
           minLength: 1
           description: |
-            Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
+            Legal name or business name of the customer, *without* the corporate regime (e.g.: S.A. de C.V.).
           example: Dunder Mifflin
         tax_id:
           type: string
@@ -16600,7 +16600,7 @@ components:
         legal_name:
           type: string
           description: |
-            Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
+            Legal name or business name of the customer, *without* the corporate regime (e.g.: S.A. de C.V.).
           example: Dunder Mifflin
         email: *customer_email_input
         phone:
@@ -16611,7 +16611,7 @@ components:
           example: '6474010101'
         default_invoice_use:
           type: [string, 'null']
-          description: Default CFDI use for the customer.
+          description: CFDI use applied to income invoices when use is omitted or null. If the customer has no configured use, G03 is used. Foreign customers and generic RFCs only accept S01; omitting it or sending null or an empty string assigns S01.
           example: G01
     CustomerNationalAddressInput:
       allOf:
@@ -16700,6 +16700,11 @@ components:
                 - ''
               default: '616'
               description: Foreign customers use 616. Omission, null or an empty string use the default.
+            default_invoice_use: &customer_generic_default_invoice_use_input
+              enum: [S01, '', null]
+              default: S01
+              example: S01
+              description: Only S01 is accepted. Omitting it or sending null or an empty string assigns S01.
             address:
               $ref: '#/components/schemas/CustomerForeignAddressInput'
     CustomerGenericCreateInput:
@@ -16711,6 +16716,9 @@ components:
           required:
             - tax_id
           properties:
+            legal_name:
+              type: string
+              description: Recipient name. With RFC XAXX010101000, use PUBLICO EN GENERAL only for global income invoices; in that case, global is required with periodicity, months and year.
             tax_id:
               type: string
               enum:
@@ -16721,11 +16729,7 @@ components:
               enum:
                 - '616'
               default: '616'
-            default_invoice_use:
-              type: [string, 'null']
-              enum: [S01, '', null]
-              default: S01
-              description: Default use for the customer. Only S01 is accepted; omitting it or sending null or an empty string assigns S01.
+            default_invoice_use: *customer_generic_default_invoice_use_input
             address:
               type: object
               allOf:
@@ -17268,7 +17272,7 @@ components:
         legal_name:
           type: [string, 'null']
           description: |
-            Legal name or business name of the customer. *without* the corporate regime (e.g.: S.A. de C.V.).
+            Legal name or business name of the customer, *without* the corporate regime (e.g.: S.A. de C.V.).
           example: Dunder Mifflin
         tax_id:
           type: [string, 'null']
@@ -18349,11 +18353,11 @@ components:
             use:
               type: [string, "null"]
               description: |
-                If omitted or null, the customer default is used, falling back to G03. For foreign customers or the general public, S01 is used.
+                If omitted or null, the customer default is used, falling back to G03. For foreign customers or generic RFCs, S01 is used even if another valid catalog code is supplied.
 
                 Code of Use of CFDI according to the SAT catalog. You can see the codes in [this table](#uso-cfdi), or use the constants included in our libraries.
 
-                For global invoices you must use the code `S01`.
+                Global invoices use `S01`.
             currency:
               type: string
               default: MXN
@@ -18384,7 +18388,7 @@ components:
                 - months
                 - year
               description: |
-                Required object when creating a global invoice.
+                Period covered by a global invoice. In an income invoice, this object is required when the recipient has `tax_id=XAXX010101000` and `legal_name=PUBLICO EN GENERAL`. Include periodicity, months and year. The recipient fiscal regime is 616 and the CFDI use is S01.
               properties:
                 periodicity:
                   type: string
@@ -18711,7 +18715,7 @@ components:
                 - months
                 - year
               description: |
-                Object required when creating a global invoice.
+                Period covered by a global invoice. In an income invoice, this object is required when the recipient has `tax_id=XAXX010101000` and `legal_name=PUBLICO EN GENERAL`. Include periodicity, months and year. The recipient fiscal regime is 616 and the CFDI use is S01.
               properties:
                 periodicity:
                   type: string

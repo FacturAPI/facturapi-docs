@@ -9,8 +9,8 @@ module.exports = function preparePresentation(source, locale) {
         (variant, index) => ({
           ...variant,
           title: (locale === "es"
-            ? ["Nacional", "Extranjero", "Público en general"]
-            : ["Mexican customer", "Foreign customer", "General public"])[
+            ? ["Nacional", "Extranjero", "RFC genérico"]
+            : ["Mexican customer", "Foreign customer", "Generic RFC"])[
             index
           ],
         }),
@@ -175,6 +175,8 @@ module.exports = function preparePresentation(source, locale) {
         .sort((a, b) => Number(required.has(b)) - Number(required.has(a)))
         .map((field) => [field, schema.properties?.[field] || {}]),
     );
+    // ReDoc keeps the first description when merging allOf properties.
+    schema.allOf = [...schema.allOf].reverse();
   }
   const orderedInputs = [
     [

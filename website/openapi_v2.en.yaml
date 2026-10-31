@@ -16730,6 +16730,7 @@ components:
               enum:
                 - '616'
               default: '616'
+              description: Recipient fiscal regime. With a generic RFC, omission uses 616 (No tax obligations); if supplied explicitly, only 616 is accepted.
             default_invoice_use: *customer_generic_default_invoice_use_input
             address:
               type: object
@@ -18389,7 +18390,7 @@ components:
                 - months
                 - year
               description: |
-                Period covered by a global invoice. In an income invoice, this object is required when the recipient has `tax_id=XAXX010101000` and `legal_name=PUBLICO EN GENERAL`. Include periodicity, months and year. The recipient fiscal regime is 616 and the CFDI use is S01.
+                Period covered by a global invoice. In an income invoice, this object is required when the recipient has `tax_id=XAXX010101000` and `legal_name=PUBLICO EN GENERAL`. Include periodicity, months and year.
               properties:
                 periodicity:
                   type: string
@@ -18716,7 +18717,7 @@ components:
                 - months
                 - year
               description: |
-                Period covered by a global invoice. In an income invoice, this object is required when the recipient has `tax_id=XAXX010101000` and `legal_name=PUBLICO EN GENERAL`. Include periodicity, months and year. The recipient fiscal regime is 616 and the CFDI use is S01.
+                Period covered by a global invoice. In an income invoice, this object is required when the recipient has `tax_id=XAXX010101000` and `legal_name=PUBLICO EN GENERAL`. Include periodicity, months and year.
               properties:
                 periodicity:
                   type: string

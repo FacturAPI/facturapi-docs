@@ -16725,6 +16725,7 @@ components:
               enum:
                 - '616'
               default: '616'
+              description: Régimen fiscal del receptor. Con RFC genérico, si se omite se utiliza 616 (Sin obligaciones fiscales); si se envía explícitamente, sólo se admite 616.
             default_invoice_use: *customer_generic_default_invoice_use_input
             address:
               type: object
@@ -18326,7 +18327,7 @@ components:
                 - months
                 - year
               description: |
-                Información del periodo que abarca una factura global. En una factura de ingreso, este objeto es obligatorio cuando el receptor tiene `tax_id=XAXX010101000` y `legal_name=PUBLICO EN GENERAL`. Incluye periodicity, months y year. El régimen fiscal del receptor es 616 y el uso de CFDI es S01.
+                Información del periodo que abarca una factura global. En una factura de ingreso, este objeto es obligatorio cuando el receptor tiene `tax_id=XAXX010101000` y `legal_name=PUBLICO EN GENERAL`. Incluye periodicity, months y year.
               properties:
                 periodicity:
                   type: string
@@ -18651,7 +18652,7 @@ components:
                 - months
                 - year
               description: |
-                Información del periodo que abarca una factura global. En una factura de ingreso, este objeto es obligatorio cuando el receptor tiene `tax_id=XAXX010101000` y `legal_name=PUBLICO EN GENERAL`. Incluye periodicity, months y year. El régimen fiscal del receptor es 616 y el uso de CFDI es S01.
+                Información del periodo que abarca una factura global. En una factura de ingreso, este objeto es obligatorio cuando el receptor tiene `tax_id=XAXX010101000` y `legal_name=PUBLICO EN GENERAL`. Incluye periodicity, months y year.
               properties:
                 periodicity:
                   type: string

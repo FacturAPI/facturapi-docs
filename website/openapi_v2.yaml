@@ -16713,7 +16713,8 @@ components:
           properties:
             legal_name:
               type: string
-              description: Nombre del receptor. Con el RFC XAXX010101000, usa PUBLICO EN GENERAL sólo para facturas globales de ingreso; en ese caso debes enviar global con periodicity, months y year.
+              description: |
+                Nombre fiscal o razón social del receptor, sin el régimen societario (ej.: S.A. de C.V.). Para una factura individual con RFC genérico, envía el nombre del receptor y omite global. Para una factura global de ingreso, usa PUBLICO EN GENERAL con el RFC XAXX010101000 y envía global con periodicity, months y year.
             tax_id:
               type: string
               enum:

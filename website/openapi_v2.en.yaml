@@ -16718,7 +16718,8 @@ components:
           properties:
             legal_name:
               type: string
-              description: Recipient name. With RFC XAXX010101000, use PUBLICO EN GENERAL only for global income invoices; in that case, global is required with periodicity, months and year.
+              description: |
+                Recipient legal or business name, without the corporate regime (e.g.: S.A. de C.V.). For an individual invoice with a generic RFC, provide the recipient name and omit global. For a global income invoice, use PUBLICO EN GENERAL with RFC XAXX010101000 and provide global with periodicity, months and year.
             tax_id:
               type: string
               enum:

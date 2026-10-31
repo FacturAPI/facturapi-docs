@@ -9,8 +9,8 @@ module.exports = function preparePresentation(source, locale) {
         (variant, index) => ({
           ...variant,
           title: (locale === "es"
-            ? ["Nacional", "Extranjero", "Público en general"]
-            : ["Mexican customer", "Foreign customer", "General public"])[
+            ? ["Nacional", "Extranjero", "RFC genérico"]
+            : ["Mexican customer", "Foreign customer", "Generic RFC"])[
             index
           ],
         }),
@@ -21,25 +21,27 @@ module.exports = function preparePresentation(source, locale) {
       title: locale === "es" ? "Cliente registrado" : "Registered customer",
     },
   ];
+  spec.components.schemas.InvoiceCustomerInput.description =
+    locale === "es"
+      ? "Datos del cliente o ID de un cliente registrado."
+      : "Customer details or the ID of a registered customer.";
+  // References preserve the union description when ReDoc merges ordered fields.
   spec.components.schemas.InvoiceCommonInput.allOf[0].properties.customer = {
-    ...spec.components.schemas.InvoiceCustomerInput,
-    description:
-      locale === "es"
-        ? "Datos del cliente o ID de un cliente registrado."
-        : "Customer details or the ID of a registered customer.",
+    $ref: "#/components/schemas/InvoiceCustomerInput",
   };
-  spec.components.schemas.InvoiceDraftCommonInput.allOf[1].properties.customer =
-    {
-      ...spec.components.schemas.InvoiceCommonInput.allOf[0].properties
-        .customer,
-      oneOf: [
-        ...spec.components.schemas.InvoiceCustomerInput.oneOf,
-        {
-          type: "null",
-          title: locale === "es" ? "Sin cliente" : "No customer",
-        },
-      ],
-    };
+  spec.components.schemas.InvoiceDraftCustomerInput = {
+    ...spec.components.schemas.InvoiceCustomerInput,
+    oneOf: [
+      ...spec.components.schemas.InvoiceCustomerInput.oneOf,
+      {
+        type: "null",
+        title: locale === "es" ? "Sin cliente" : "No customer",
+      },
+    ],
+  };
+  spec.components.schemas.InvoiceDraftCommonInput.allOf[1].properties.customer = {
+    $ref: "#/components/schemas/InvoiceDraftCustomerInput",
+  };
   for (const customer of [
     spec.components.schemas.ReceiptInput.allOf[0].properties.customer,
     spec.components.schemas.ReceiptAssignCustomerInput.properties.customer,
@@ -175,6 +177,8 @@ module.exports = function preparePresentation(source, locale) {
         .sort((a, b) => Number(required.has(b)) - Number(required.has(a)))
         .map((field) => [field, schema.properties?.[field] || {}]),
     );
+    // ReDoc keeps the first description when merging allOf properties.
+    schema.allOf = [...schema.allOf].reverse();
   }
   const orderedInputs = [
     [

@@ -212,6 +212,13 @@ const nationalWithoutRegime: components['schemas']['CustomerNationalCreateInput'
 const nationalWithoutZip: components['schemas']['CustomerNationalCreateInput'] = { legal_name: 'Cliente', tax_id: 'ABC101010111', tax_system: '601', address: {} };
 // @ts-expect-error foreign customers use the regime 616
 const foreignWithWrongRegime: components['schemas']['CustomerForeignCreateInput'] = { legal_name: 'Foreign', tax_system: '601', address: { country: 'USA' } };
+// @ts-expect-error foreign customers only allow S01 as the default use
+const foreignWithWrongUse: components['schemas']['CustomerForeignCreateInput'] = { legal_name: 'Foreign', address: { country: 'USA' }, default_invoice_use: 'G03' };
+const genericWithoutZip: components['schemas']['CustomerGenericCreateInput'] = { legal_name: 'Cliente', tax_id: 'XAXX010101000', address: { country: 'MEX' } };
+const genericWithNullZip: components['schemas']['CustomerGenericCreateInput'] = { legal_name: 'Cliente', tax_id: 'XAXX010101000', address: { zip: null } };
+const genericWithDefaultUse: components['schemas']['CustomerGenericCreateInput'] = { legal_name: 'Cliente', tax_id: 'XAXX010101000', default_invoice_use: null };
+// @ts-expect-error generic RFCs only allow S01 as the default use
+const genericWithWrongUse: components['schemas']['CustomerGenericCreateInput'] = { legal_name: 'Cliente', tax_id: 'XAXX010101000', default_invoice_use: 'G03' };
 // @ts-expect-error generic RFCs use 616
 const genericWithWrongRegime: components['schemas']['CustomerGenericCreateInput'] = { legal_name: 'Cliente', tax_id: 'XAXX010101000', tax_system: '601' };
 const defaultGlobal: components['schemas']['GlobalInvoiceInput'] = {};

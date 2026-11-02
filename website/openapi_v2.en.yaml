@@ -12354,6 +12354,9 @@ paths:
       description: Search Mexican postal codes by full code or numeric prefix, ordered by code. Neighborhoods
         are available in the detail endpoint. City-name search is not supported.
       parameters:
+      - $ref: '#/components/parameters/SearchPagination'
+      - $ref: '#/components/parameters/SearchAfter'
+      - $ref: '#/components/parameters/SearchBefore'
       - name: q
         in: query
         description: Full code or numeric prefix.

@@ -12306,6 +12306,9 @@ paths:
       description: Busca códigos postales mexicanos por código completo o prefijo numérico, ordenados por
         código. Las colonias se consultan en el detalle. No admite búsqueda por nombre de ciudad.
       parameters:
+      - $ref: '#/components/parameters/SearchPagination'
+      - $ref: '#/components/parameters/SearchAfter'
+      - $ref: '#/components/parameters/SearchBefore'
       - name: q
         in: query
         description: Código o prefijo numérico.

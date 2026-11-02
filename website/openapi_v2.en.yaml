@@ -1046,7 +1046,6 @@ paths:
           name: q
           schema:
             type: string
-          required: true
           description: Prefix to match against `key` or `description`.
         - in: query
           name: page
@@ -1122,7 +1121,6 @@ paths:
           name: q
           schema:
             type: string
-          required: true
           description: Prefix to match against `key` or `description`.
         - in: query
           name: page
@@ -1215,7 +1213,6 @@ paths:
           name: q
           schema:
             type: string
-          required: true
           description: Prefix to match against `key`, `airline_name` or `icao_designator`.
         - in: query
           name: page
@@ -1315,7 +1312,6 @@ paths:
           name: q
           schema:
             type: string
-          required: true
           description: Prefix to match against `key` or `description`.
         - in: query
           name: page
@@ -1414,7 +1410,6 @@ paths:
           name: q
           schema:
             type: string
-          required: true
           description: Prefix to match against `key` or `description`.
         - in: query
           name: page
@@ -1514,7 +1509,6 @@ paths:
           name: q
           schema:
             type: string
-          required: true
           description: Prefix to match against `key`, `right_of_passage` or `concessionaire`.
         - in: query
           name: page
@@ -1614,7 +1608,6 @@ paths:
           name: q
           schema:
             type: string
-          required: true
           description: Prefix to match against `key` or `description`.
         - in: query
           name: page
@@ -1714,7 +1707,6 @@ paths:
           name: q
           schema:
             type: string
-          required: true
           description: Prefix to match against `key` or `description`.
         - in: query
           name: page
@@ -1814,7 +1806,6 @@ paths:
           name: q
           schema:
             type: string
-          required: true
           description: Prefix to match against `key` or `description`.
         - in: query
           name: page
@@ -1914,7 +1905,6 @@ paths:
           name: q
           schema:
             type: string
-          required: true
           description: Prefix to match against `key`, `description` or `class_division`.
         - in: query
           name: page
@@ -2014,7 +2004,6 @@ paths:
           name: q
           schema:
             type: string
-          required: true
           description: Prefix to match against `key`.
         - in: query
           name: page
@@ -2124,7 +2113,6 @@ paths:
           name: q
           schema:
             type: string
-          required: true
           description: Prefix to match against `key`, `description` or `iata_designator`.
         - in: query
           name: page
@@ -2224,7 +2212,6 @@ paths:
           name: q
           schema:
             type: string
-          required: true
           description: Prefix to match against `key` or `description`.
         - in: query
           name: page
@@ -12231,6 +12218,214 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /catalogs/countries:
+    get:
+      operationId: searchCountries
+      tags:
+      - sat_keys
+      summary: Search countries
+      description: Search countries by three-letter ISO code or name. Search ignores accents and case.
+      parameters:
+      - name: q
+        in: query
+        description: Code or search text.
+        schema:
+          type: string
+          maxLength: 100
+      - name: page
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogEntrySearchResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  /catalogs/tax-systems:
+    get:
+      operationId: searchTaxSystems
+      tags:
+      - sat_keys
+      summary: Search tax regimes
+      description: Look up tax regimes supported by the API. The receiver must declare their regime; this
+        search does not determine it.
+      parameters:
+      - name: q
+        in: query
+        description: Code or search text.
+        schema:
+          type: string
+          maxLength: 100
+      - name: page
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogEntrySearchResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  /catalogs/invoice-uses:
+    get:
+      operationId: searchInvoiceUses
+      tags:
+      - sat_keys
+      summary: Search CFDI uses
+      description: Look up CFDI-use codes by code or description. The receiver must declare the use.
+      parameters:
+      - name: q
+        in: query
+        description: Code or search text.
+        schema:
+          type: string
+          maxLength: 100
+      - name: page
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogEntrySearchResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  /catalogs/zip-codes:
+    get:
+      operationId: searchZipCodes
+      tags:
+      - sat_keys
+      summary: Search postal codes
+      description: Search Mexican postal codes by full code or numeric prefix, ordered by code. Neighborhoods
+        are available in the detail endpoint. City-name search is not supported.
+      parameters:
+      - name: q
+        in: query
+        description: Full code or numeric prefix.
+        schema:
+          type: string
+          pattern: ^[0-9]{1,5}$
+      - name: page
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      - name: state
+        in: query
+        description: Three-letter state code (for example ZAC).
+        schema:
+          type: string
+          minLength: 3
+          maxLength: 3
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZipCodeSearchResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  /catalogs/zip-codes/{code}:
+    get:
+      operationId: getZipCode
+      tags:
+      - sat_keys
+      summary: Get postal code
+      description: Return address data and neighborhoods for a Mexican postal code.
+      parameters:
+      - name: code
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9]{5}$
+      responses:
+        '200':
+          description: Postal code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZipCodeDetail'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
   /catalogs/products:
     get:
       operationId: searchProducts
@@ -13561,6 +13756,76 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/UnitCatalogResult"
+
+    CatalogEntry:
+      type: object
+      required:
+      - key
+      - description
+      properties:
+        key:
+          type: string
+        description:
+          type: string
+    CatalogEntrySearchResult:
+      allOf:
+      - $ref: '#/components/schemas/SearchResult'
+      - type: object
+        required:
+        - data
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/CatalogEntry'
+    ZipCode:
+      type: object
+      required:
+      - key
+      - country
+      - state
+      - municipality
+      - locality
+      properties:
+        key:
+          type: string
+          pattern: ^[0-9]{5}$
+        country:
+          $ref: '#/components/schemas/CatalogEntry'
+        state:
+          anyOf:
+          - $ref: '#/components/schemas/CatalogEntry'
+          - type: 'null'
+        municipality:
+          anyOf:
+          - $ref: '#/components/schemas/CatalogEntry'
+          - type: 'null'
+        locality:
+          anyOf:
+          - $ref: '#/components/schemas/CatalogEntry'
+          - type: 'null'
+    ZipCodeDetail:
+      allOf:
+      - $ref: '#/components/schemas/ZipCode'
+      - type: object
+        required:
+        - neighborhoods
+        properties:
+          neighborhoods:
+            type: array
+            items:
+              $ref: '#/components/schemas/CatalogEntry'
+    ZipCodeSearchResult:
+      allOf:
+      - $ref: '#/components/schemas/SearchResult'
+      - type: object
+        required:
+        - data
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/ZipCode'
 
     SearchKeyDescriptionResult:
       allOf:

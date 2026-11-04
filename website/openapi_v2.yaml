@@ -12196,6 +12196,9 @@ paths:
           minimum: 1
           maximum: 100
           default: 20
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         '200':
           description: Resultados de búsqueda
@@ -12239,6 +12242,9 @@ paths:
           minimum: 1
           maximum: 100
           default: 20
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         '200':
           description: Resultados de búsqueda
@@ -12282,6 +12288,9 @@ paths:
           minimum: 1
           maximum: 100
           default: 20
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         '200':
           description: Resultados de búsqueda
@@ -12335,6 +12344,9 @@ paths:
           type: string
           minLength: 3
           maxLength: 3
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         '200':
           description: Resultados de búsqueda
@@ -12364,6 +12376,9 @@ paths:
         schema:
           type: string
           pattern: ^[0-9]{5}$
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
       responses:
         '200':
           description: Código postal

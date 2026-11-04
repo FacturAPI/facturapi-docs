@@ -12396,6 +12396,67 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/UnexpectedError'
+  /catalogs/product-categories:
+    get:
+      operationId: listProductCategories
+      tags: [sat_keys]
+      summary: Listar categorías raíz de productos y servicios
+      description: Devuelve las raíces Productos y Servicios. Consulta una raíz por su clave para explorar sus divisiones.
+      security:
+        - SecretLiveKey: []
+        - SecretTestKey: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCategoryList'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  /catalogs/product-categories/{key}:
+    get:
+      operationId: getProductCategory
+      tags: [sat_keys]
+      summary: Explorar una categoría o consultar la ruta de una clave
+      description: Explora el árbol de categorías de productos y servicios del SAT. Las categorías usan claves de 2, 4 o 6 dígitos. Una clave completa de 8 dígitos devuelve el producto y su ruta; nunca se eliminan ceros finales. La clave especial 01010101 no tiene categoría. Una clase incluye un resultado paginado de productos.
+      parameters:
+        - in: path
+          name: key
+          required: true
+          schema:
+            type: string
+            pattern: '^(products|services|[0-9]{2}|[0-9]{4}|[0-9]{6}|[0-9]{8})$'
+          description: Raíz, prefijo de categoría o clave completa de producto/servicio.
+        - $ref: '#/components/parameters/SearchPagination'
+        - $ref: '#/components/parameters/SearchAfter'
+        - $ref: '#/components/parameters/SearchBefore'
+        - $ref: '#/components/parameters/SearchPage'
+        - $ref: '#/components/parameters/SearchLimit'
+      security:
+        - SecretLiveKey: []
+        - SecretTestKey: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCategoryDetail'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
   /catalogs/products:
     get:
       operationId: searchProducts
@@ -12453,6 +12514,12 @@ paths:
               "q" => "ukelele"
             ]);
       parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+            pattern: '^[0-9]{2}([0-9]{2}){0,2}$'
+          description: Prefijo de categoría de 2, 4 o 6 dígitos. Incluye descendientes y se combina con q. Sin q, lista los productos de la categoría.
         - $ref: "#/components/parameters/SearchPagination"
         - $ref: "#/components/parameters/SearchAfter"
         - $ref: "#/components/parameters/SearchBefore"
@@ -12461,7 +12528,7 @@ paths:
           name: q
           schema:
             type: string
-          description: Consulta. Texto a buscar en la descripción de la clasificación.
+          description: Busca prefijos de claves, descripciones, palabras similares y nombres de categorías, sin distinguir mayúsculas ni diacríticos.
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:
@@ -12484,6 +12551,7 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+
   /catalogs/units:
     get:
       operationId: searchUnits
@@ -13341,6 +13409,47 @@ components:
           type: string
           description: Nombre sugerido del archivo.
           example: invoice.pdf
+    ProductCategory:
+      type: object
+      required: [key, description, parent]
+      properties:
+        key:
+          type: string
+          example: '432115'
+        description:
+          type: string
+          example: Computadores
+        parent:
+          type: [string, 'null']
+          example: '4321'
+    ProductCategoryList:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductCategory'
+    ProductCategoryDetail:
+      type: object
+      required: [category, ancestors, children]
+      properties:
+        category:
+          anyOf:
+            - $ref: '#/components/schemas/ProductCategory'
+            - type: 'null'
+        ancestors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductCategory'
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductCategory'
+        product:
+          $ref: '#/components/schemas/CatalogEntry'
+        products:
+          $ref: '#/components/schemas/CatalogEntrySearchResult'
     CatalogEntry:
       type: object
       required:

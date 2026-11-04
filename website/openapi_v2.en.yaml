@@ -12360,7 +12360,7 @@ paths:
       tags:
       - sat_keys
       summary: Search postal codes
-      description: Search Mexican postal codes. A query of 1 to 5 digits searches by code or numeric prefix; text searches neighborhood, locality/city, or municipality names, ignoring case and diacritics. Exact name matches precede partial matches. Each postal code appears once. The state filter applies to both modes. Without a query, list postal codes. Supports pages and cursors; textual search totals may be capped, indicated by totals_are_capped.
+      description: Search Mexican postal codes. A query of 1 to 5 digits searches by code or numeric prefix; text searches neighborhood, locality/city, or municipality names, ignoring case and diacritics. Exact name matches precede partial matches. Each postal code appears once and includes all its neighborhoods. The state filter applies to both modes. Without a query, list postal codes. Supports pages and cursors; textual search totals may be capped, indicated by totals_are_capped.
       parameters:
       - $ref: '#/components/parameters/SearchPagination'
       - $ref: '#/components/parameters/SearchAfter'
@@ -13804,6 +13804,7 @@ components:
       - state
       - municipality
       - locality
+      - neighborhoods
       properties:
         key:
           type: string
@@ -13822,17 +13823,13 @@ components:
           anyOf:
           - $ref: '#/components/schemas/CatalogEntry'
           - type: 'null'
+        neighborhoods:
+          type: array
+          description: All neighborhoods for this postal code, even when the query matches another field.
+          items:
+            $ref: '#/components/schemas/CatalogEntry'
     ZipCodeDetail:
-      allOf:
-      - $ref: '#/components/schemas/ZipCode'
-      - type: object
-        required:
-        - neighborhoods
-        properties:
-          neighborhoods:
-            type: array
-            items:
-              $ref: '#/components/schemas/CatalogEntry'
+      $ref: '#/components/schemas/ZipCode'
     ZipCodeSearchResult:
       allOf:
       - $ref: '#/components/schemas/SearchResult'

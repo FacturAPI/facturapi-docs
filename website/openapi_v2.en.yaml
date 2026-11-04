@@ -12360,14 +12360,14 @@ paths:
       tags:
       - sat_keys
       summary: Search postal codes
-      description: Search Mexican postal codes. A query of 1 to 5 digits searches by code or numeric prefix; text searches neighborhood, locality/city, or municipality names, ignoring case and diacritics. Exact name matches precede partial matches. Each postal code appears once and includes all its neighborhoods. The state filter applies to both modes. Without a query, list postal codes. Supports pages and cursors; textual search totals may be capped, indicated by totals_are_capped.
+      description: Search Mexican postal codes. A query of 1 to 5 digits searches by code or numeric prefix; text searches neighborhood, locality/city, municipality, or state names, ignoring case and diacritics. Exact name matches precede partial matches. Each postal code appears once and includes all its neighborhoods. The state filter applies to both modes. Without a query, list postal codes. Supports pages and cursors; textual search totals may be capped, indicated by totals_are_capped.
       parameters:
       - $ref: '#/components/parameters/SearchPagination'
       - $ref: '#/components/parameters/SearchAfter'
       - $ref: '#/components/parameters/SearchBefore'
       - name: q
         in: query
-        description: Full code or numeric prefix of 1 to 5 digits, or a neighborhood, locality/city, or municipality name.
+        description: Full code or numeric prefix of 1 to 5 digits, or a neighborhood, locality/city, municipality, or state name.
         schema:
           type: string
           minLength: 1

@@ -12523,7 +12523,7 @@ paths:
       operationId: getProductCategory
       tags: [sat_keys]
       summary: Explore a product category or resolve a product path
-      description: Explore the SAT product/service category tree. Category keys use 2, 4 or 6 digits. Full 8-digit keys resolve the product and its category path; trailing zeroes are never removed. The special key 01010101 has no category. A class includes a paginated products result.
+      description: Explore the SAT product/service category tree. Category keys use 2, 4 or 6 digits. Full 8-digit keys resolve the product and its category path; trailing zeroes are never removed. The special key 01010101 has no category. A six-digit class lookup includes a paginated products result. An eight-digit key lookup returns its path without listing other products in the class.
       parameters:
         - in: path
           name: key

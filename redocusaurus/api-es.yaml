@@ -9304,6 +9304,64 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/UnexpectedError'
+  /organizations/{organization_id}/manifiesto/download-url:
+    get:
+      operationId: getOrganizationManifiestoDownloadUrl
+      tags:
+        - organization
+      summary: Obtener enlace de descarga de Carta Manifiesto
+      description: >
+        Devuelve un enlace temporal para descargar en ZIP la Carta Manifiesto
+        firmada que corresponde al RFC del CSD cargado en la organización.
+
+
+        La organización debe tener un CSD cargado y debe existir una Carta
+        Manifiesto firmada para el RFC extraído de ese certificado. El enlace da
+        acceso al archivo mientras siga vigente: trátalo como una credencial y
+        no lo almacenes.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: >
+            curl
+            https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/manifiesto/download-url
+            \
+              -H "Authorization: Bearer sk_user_API_KEY"
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: >-
+            ID de la organización. También puedes usar `me` con una Secret Key
+            de la organización.
+      security:
+        - SecretLiveKey: []
+        - SecretTestKey: []
+        - SecretUserKey: []
+      responses:
+        '200':
+          description: >-
+            Objeto con una URL temporal para descargar la Carta Manifiesto en
+            ZIP, su fecha de expiración, el tipo de contenido y el nombre del
+            archivo.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignedDownloadUrl'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
   /organizations/{organization_id}/legal:
     put:
       operationId: editOrganizationLegal

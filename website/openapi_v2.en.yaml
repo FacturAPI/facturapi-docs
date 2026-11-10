@@ -8545,6 +8545,52 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+  /organizations/{organization_id}/manifiesto/download-url:
+    get:
+      operationId: getOrganizationManifiestoDownloadUrl
+      tags:
+        - organization
+      summary: Get Carta Manifiesto download URL
+      description: |
+        Returns a temporary URL to download the signed Carta Manifiesto that matches the tax ID in the organization's uploaded CSD as a ZIP file.
+
+        The organization must have an uploaded CSD, and a signed Carta Manifiesto must exist for the tax ID extracted from that certificate. The URL grants access to the file while it remains valid: treat it as a credential and do not store it.
+      x-codeSamples:
+        - lang: Bash
+          label: cURL
+          source: |
+            curl https://www.facturapi.io/v2/organizations/5a2a307be93a2f00129ea035/manifiesto/download-url \
+              -H "Authorization: Bearer sk_user_API_KEY"
+      parameters:
+        - in: path
+          name: organization_id
+          schema:
+            type: string
+          required: true
+          description: Organization ID. You can also use `me` with an organization Secret Key.
+      security:
+        - "SecretLiveKey": []
+        - "SecretTestKey": []
+        - "SecretUserKey": []
+      responses:
+        "200":
+          description: Object containing a temporary URL to download the Carta Manifiesto as a ZIP file, its expiration time, content type, and filename.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDownloadUrl"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "500":
+          $ref: "#/components/responses/UnexpectedError"
   /organizations/{organization_id}/legal:
     put:
       operationId: editOrganizationLegal

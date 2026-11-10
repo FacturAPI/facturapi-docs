@@ -1,0 +1,53 @@
+---
+sidebar_position: 7
+---
+
+# Idempotencia
+
+Los endpoints que aceptan `idempotency_key` usan este valor para evitar que una solicitud repetida o concurrente cree más de un recurso. La clave es opcional, puede tener hasta 100 caracteres y debe representar una sola operación lógica.
+
+Genera la clave antes de enviar la solicitud y conserva el mismo valor para todos los reintentos de esa operación. Si reintentas con una clave nueva, Facturapi interpreta la solicitud como una operación distinta y podría crear un duplicado.
+
+## Alcance de la clave
+
+La unicidad de `idempotency_key` se evalúa por:
+
+- organización;
+- ambiente de API (`test` o `live`); y
+- tipo de recurso, por ejemplo factura, recibo o retención.
+
+Por lo tanto, una misma clave puede existir en organizaciones, ambientes o tipos de recurso diferentes. Una cadena vacía se ignora.
+
+## Solicitudes concurrentes y repetidas
+
+Facturapi impide que dos solicitudes con la misma clave creen el mismo recurso. Si otra solicitud está procesando esa clave, o si la clave ya está asociada a un recurso, la API responde con HTTP `409` y el código `idempotency_key_in_use`:
+
+```json
+{
+  "ok": false,
+  "message": "La clave de idempotencia (idempotency_key) ya está siendo usada.",
+  "status": 409,
+  "code": "idempotency_key_in_use"
+}
+```
+
+La API no reproduce la respuesta de la primera solicitud. Un conflicto tampoco confirma que esa solicitud haya fallado: puede seguir procesándose o haber creado el recurso.
+
+## Expiración después de un timeout
+
+Un timeout del cliente no cancela la solicitud en Facturapi. La operación puede continuar procesándose aunque tu integración ya no esté esperando la respuesta.
+
+Cuando Facturapi reserva temporalmente una clave durante la creación del recurso, libera la reserva en cuanto termina la solicitud. Si el procesamiento se interrumpe antes de poder liberarla, la reserva expira **10 minutos después de haberse creado**.
+
+Al terminar ese periodo, Facturapi vuelve a comprobar la clave antes de aceptar un reintento:
+
+- si no se creó ningún recurso, la misma clave puede volver a usarse; y
+- si la solicitud original sí creó el recurso, la clave permanece asociada a éste y el reintento continúa respondiendo con `idempotency_key_in_use`.
+
+Los 10 minutos corresponden únicamente a la reserva temporal de una solicitud interrumpida. No son el tiempo de expiración de una clave que ya está asociada a un recurso ni garantizan que la solicitud original haya fallado.
+
+## Reintentos seguros
+
+Si pierdes la respuesta por un timeout o un error de red, reintenta con la misma `idempotency_key`. Si recibes `idempotency_key_in_use`, verifica el resultado de la operación original antes de volver a intentarla o de generar otra clave.
+
+Cuando una solicitud termina con error sin crear el recurso, la misma clave puede volver a usarse después de que la solicitud anterior haya terminado.

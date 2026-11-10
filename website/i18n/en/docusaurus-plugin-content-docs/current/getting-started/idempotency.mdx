@@ -1,0 +1,53 @@
+---
+sidebar_position: 7
+---
+
+# Idempotency
+
+Endpoints that accept `idempotency_key` use this value to prevent a repeated or concurrent request from creating more than one resource. The key is optional, can contain up to 100 characters, and must represent a single logical operation.
+
+Generate the key before sending the request and keep the same value for every retry of that operation. If you retry with a new key, Facturapi treats the request as a different operation and may create a duplicate.
+
+## Key scope
+
+The uniqueness of `idempotency_key` is evaluated by:
+
+- organization;
+- API environment (`test` or `live`); and
+- resource type, such as invoice, receipt, or retention.
+
+The same key may therefore exist in different organizations, environments, or resource types. An empty string is ignored.
+
+## Concurrent and repeated requests
+
+Facturapi prevents two requests with the same key from creating the same resource. If another request is processing that key, or if the key is already associated with a resource, the API responds with HTTP `409` and the `idempotency_key_in_use` code:
+
+```json
+{
+  "ok": false,
+  "message": "The idempotency key is already being used by another request.",
+  "status": 409,
+  "code": "idempotency_key_in_use"
+}
+```
+
+The API does not replay the first request's response. A conflict also does not confirm that the first request failed: it may still be processing or may have created the resource.
+
+## Expiration after a timeout
+
+A client-side timeout does not cancel the request in Facturapi. The operation may continue processing even after your integration stops waiting for the response.
+
+When Facturapi temporarily reserves a key while creating the resource, it releases the reservation as soon as the request finishes. If processing is interrupted before the reservation can be released, it expires **10 minutes after it was created**.
+
+After that period, Facturapi checks the key again before accepting a retry:
+
+- if no resource was created, the same key can be used again; and
+- if the original request did create the resource, the key remains associated with it and the retry continues to return `idempotency_key_in_use`.
+
+The 10-minute period applies only to the temporary reservation left by an interrupted request. It is not an expiration time for a key already associated with a resource, and it does not guarantee that the original request failed.
+
+## Safe retries
+
+If you lose the response because of a timeout or network error, retry with the same `idempotency_key`. If you receive `idempotency_key_in_use`, reconcile the original operation's outcome before retrying again or generating another key.
+
+When a request ends with an error without creating the resource, the same key can be used again after the previous request has finished.

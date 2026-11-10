@@ -3499,6 +3499,8 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "404":
           $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/IdempotencyKeyInUse"
         "429":
           $ref: "#/components/responses/RateLimited"
         "500":
@@ -5772,6 +5774,8 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "404":
           $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/IdempotencyKeyInUse"
         "429":
           $ref: "#/components/responses/RateLimited"
         "500":
@@ -7194,6 +7198,8 @@ paths:
           $ref: "#/components/responses/Unauthenticated"
         "404":
           $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/IdempotencyKeyInUse"
         "429":
           $ref: "#/components/responses/RateLimited"
         "500":
@@ -12792,6 +12798,17 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/GenericError"
+    IdempotencyKeyInUse:
+      description: La `idempotency_key` está siendo procesada por otra solicitud o ya está asociada a un recurso. Facturapi no reproduce la respuesta original.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GenericError"
+          example:
+            message: La clave de idempotencia (idempotency_key) ya está siendo usada.
+            status: 409
+            ok: false
+            code: idempotency_key_in_use
     NotFound:
       description: No se encontró el recurso especificado.
       content:
@@ -17944,7 +17961,8 @@ components:
           description: Identificador que puedes usar para relacionar esta factura con tus registros para después buscar por este número.
         idempotency_key:
           type: string
-          description: Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
+          maxLength: 100
+          description: Clave que identifica una operación para evitar recursos duplicados. Consulta [Idempotencia](/docs/getting-started/idempotency).
         payment_form:
           type: [string, "null"]
           description: Código que representa la forma de pago, de acuerdo al [catálogo del SAT](#forma-de-pago).
@@ -18390,9 +18408,11 @@ components:
               description: Identificador opcional que puedes usar para relacionar esta factura con tus registros y poder hacer búsquedas usando este identificador. Facturapi no valida que este campo sea único.
             idempotency_key:
               type: string
+              maxLength: 100
               description: |
-                Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
-                Si se deja en blanco, no se tomará en cuenta.
+                Clave que identifica una operación para evitar recursos duplicados al repetir o enviar solicitudes en paralelo. Debe ser única dentro de la misma organización, ambiente y tipo de recurso.
+                Si otra solicitud está procesando la clave o si ya está asociada a un recurso, la API responde HTTP `409` con `code: idempotency_key_in_use`; no reproduce la respuesta original.
+                Si se deja en blanco, no se toma en cuenta. Consulta [Idempotencia](/docs/getting-started/idempotency).
         - $ref: "#/components/schemas/InvoiceableCommonInput"
     InvoiceCommonEditInput:
       allOf:
@@ -18430,9 +18450,11 @@ components:
               description: Identificador opcional que puedes usar para relacionar esta factura con tus registros y poder hacer búsquedas usando este identificador. Facturapi no valida que este campo sea único.
             idempotency_key:
               type: string
+              maxLength: 100
               description: |
-                Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
-                Si se deja en blanco, no se tomará en cuenta.
+                Clave que identifica una operación para evitar recursos duplicados al repetir o enviar solicitudes en paralelo. Debe ser única dentro de la misma organización, ambiente y tipo de recurso.
+                Si otra solicitud está procesando la clave o si ya está asociada a un recurso, la API responde HTTP `409` con `code: idempotency_key_in_use`; no reproduce la respuesta original.
+                Si se deja en blanco, no se toma en cuenta. Consulta [Idempotencia](/docs/getting-started/idempotency).
         - $ref: "#/components/schemas/InvoiceableCommonEditInput"
     InvoiceDraftCommonInput:
       allOf:
@@ -19273,7 +19295,8 @@ components:
               description: Identificador que puedes usar para relacionar este recibo con tus registros para después buscar por este número.
             idempotency_key:
               type: string
-              description: Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
+              maxLength: 100
+              description: Clave que identifica una operación para evitar recursos duplicados. Consulta [Idempotencia](/docs/getting-started/idempotency).
         - $ref: "#/components/schemas/ReceiptCommonProperties"
     ReceiptInput:
       allOf:
@@ -19317,9 +19340,11 @@ components:
           properties:
             idempotency_key:
               type: string
+              maxLength: 100
               description: |
-                Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
-                Si se deja en blanco, no se tomará en cuenta.
+                Clave que identifica una operación para evitar recursos duplicados al repetir o enviar solicitudes en paralelo. Debe ser única dentro de la misma organización, ambiente y tipo de recurso.
+                Si otra solicitud está procesando la clave o si ya está asociada a un recurso, la API responde HTTP `409` con `code: idempotency_key_in_use`; no reproduce la respuesta original.
+                Si se deja en blanco, no se toma en cuenta. Consulta [Idempotencia](/docs/getting-started/idempotency).
     ReceiptCommonProperties:
       type: object
       properties:
@@ -19796,9 +19821,10 @@ components:
           description: Identificador opcional que puedes usar para relacionar esta retención con tus registros y poder hacer búsquedas usando este identificador. Facturapi no valida que este campo sea único.
         idempotency_key:
           type: [string, 'null']
+          maxLength: 100
           description: |
-            Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
-            Si se deja en blanco, no se tomará en cuenta.
+            Clave que identifica una operación para evitar recursos duplicados. Si se deja en blanco, no se toma en cuenta.
+            Consulta [Idempotencia](/docs/getting-started/idempotency).
         complements:
           type: array
           default: []
@@ -20003,8 +20029,10 @@ components:
           description: Identificador opcional que puedes usar para relacionar esta retención con tus registros y poder hacer búsquedas usando este identificador. Facturapi no valida que este campo sea único.
         idempotency_key:
           type: string
+          maxLength: 100
           description: |
-            Identificador único que puedes usar para evitar duplicados al reintentar una petición. Puede ser cualquier cadena de texto, mientras sea única para cada documento.
+            Clave que identifica una operación para evitar recursos duplicados al repetir o enviar solicitudes en paralelo. Debe ser única dentro de la misma organización, ambiente y tipo de recurso.
+            Si otra solicitud está procesando la clave o si ya está asociada a un recurso, la API responde HTTP `409` con `code: idempotency_key_in_use`; no reproduce la respuesta original. Consulta [Idempotencia](/docs/getting-started/idempotency).
         complements:
           type: array
           default: []

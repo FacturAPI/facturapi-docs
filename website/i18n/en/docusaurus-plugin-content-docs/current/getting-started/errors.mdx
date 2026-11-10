@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 8
 ---
 
 import Tabs from '@theme/Tabs';
@@ -196,7 +196,7 @@ This list is the documented reference for public root API codes. We may add new 
 
 | Code | Description |
 | --- | --- |
-| `idempotency_key_in_use` | The idempotency key is already being used by another request. |
+| `idempotency_key_in_use` | The `idempotency_key` is being processed by another request or is already associated with a resource. The API responds with HTTP `409` and does not replay the original response. See [Idempotency](/docs/getting-started/idempotency). |
 | `rate_limit_exceeded` | The request exceeded the allowed rate limit. |
 | `date_range_too_large` | The requested date range exceeds the allowed limit. |
 | `image_file_required` | An image file is required. |

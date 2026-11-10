@@ -3660,6 +3660,8 @@ paths:
           $ref: '#/components/responses/Unauthenticated'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/IdempotencyKeyInUse'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -6267,6 +6269,8 @@ paths:
           $ref: '#/components/responses/Unauthenticated'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/IdempotencyKeyInUse'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -7830,6 +7834,8 @@ paths:
           $ref: '#/components/responses/Unauthenticated'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/IdempotencyKeyInUse'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -13989,6 +13995,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenericError'
+    IdempotencyKeyInUse:
+      description: >-
+        The `idempotency_key` is being processed by another request or is
+        already associated with a resource. Facturapi does not replay the
+        original response.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+          example:
+            message: The idempotency key is already being used by another request.
+            status: 409
+            ok: false
+            code: idempotency_key_in_use
     NotFound:
       description: Resource not found
       content:
@@ -19746,10 +19766,10 @@ components:
             to later search by this number.
         idempotency_key:
           type: string
+          maxLength: 100
           description: >-
-            Unique identifier that you can use to avoid duplicates when retrying
-            a request. It can be any text string, as long as it is unique for
-            each document.
+            Key that identifies one operation to prevent duplicate resources.
+            See [Idempotency](/docs/getting-started/idempotency).
         payment_form:
           type:
             - string
@@ -20325,13 +20345,19 @@ components:
                 validate that this field is unique.
             idempotency_key:
               type: string
+              maxLength: 100
               description: >
-                Unique identifier that you can use to avoid duplicates when
-                retrying a request. It can be any text string, as long as it is
-                unique for each document.
+                Key that identifies one operation to prevent duplicate resources
+                from repeated or concurrent requests. It must be unique within
+                the same organization, environment, and resource type.
 
+                If another request is processing the key or it is already
+                associated with a resource, the API responds with HTTP `409` and
+                `code: idempotency_key_in_use`; it does not replay the original
+                response.
 
-                If left blank, it will not be taken into account.
+                An empty value is ignored. See
+                [Idempotency](/docs/getting-started/idempotency).
         - $ref: '#/components/schemas/InvoiceableCommonInput'
     InvoiceCommonEditInput:
       allOf:
@@ -20387,13 +20413,19 @@ components:
                 validate that this field is unique.
             idempotency_key:
               type: string
+              maxLength: 100
               description: >
-                Unique identifier that you can use to avoid duplicates when
-                retrying a request. It can be any text string, as long as it is
-                unique for each document.
+                Key that identifies one operation to prevent duplicate resources
+                from repeated or concurrent requests. It must be unique within
+                the same organization, environment, and resource type.
 
+                If another request is processing the key or it is already
+                associated with a resource, the API responds with HTTP `409` and
+                `code: idempotency_key_in_use`; it does not replay the original
+                response.
 
-                If left blank, it will not be taken into account.
+                An empty value is ignored. See
+                [Idempotency](/docs/getting-started/idempotency).
         - $ref: '#/components/schemas/InvoiceableCommonEditInput'
     InvoiceDraftCommonInput:
       allOf:
@@ -21408,13 +21440,10 @@ components:
                 validate that this field is unique.
             idempotency_key:
               type: string
+              maxLength: 100
               description: >
-                Unique identifier that you can use to avoid duplicates when
-                retrying a request. It can be any text string, as long as it is
-                unique for each document.
-
-
-                If left blank, it will not be taken into account.
+                Key that identifies one operation to prevent duplicate
+                resources. See [Idempotency](/docs/getting-started/idempotency).
         - $ref: '#/components/schemas/ReceiptCommonProperties'
     ReceiptInput:
       allOf:
@@ -21462,13 +21491,19 @@ components:
           properties:
             idempotency_key:
               type: string
+              maxLength: 100
               description: >
-                Unique identifier that you can use to avoid duplicates when
-                retrying a request. It can be any text string, as long as it is
-                unique for each document.
+                Key that identifies one operation to prevent duplicate resources
+                from repeated or concurrent requests. It must be unique within
+                the same organization, environment, and resource type.
 
+                If another request is processing the key or it is already
+                associated with a resource, the API responds with HTTP `409` and
+                `code: idempotency_key_in_use`; it does not replay the original
+                response.
 
-                If left blank, it will not be taken into account.
+                An empty value is ignored. See
+                [Idempotency](/docs/getting-started/idempotency).
     ReceiptCommonProperties:
       type: object
       properties:
@@ -22090,13 +22125,12 @@ components:
           type:
             - string
             - 'null'
+          maxLength: 100
           description: >
-            Unique identifier that you can use to avoid duplicates when retrying
-            a request. It can be any text string, as long as it is unique for
-            each document.
+            Key that identifies one operation to prevent duplicate resources. An
+            empty value is ignored.
 
-
-            If left blank, it will not be taken into account.
+            See [Idempotency](/docs/getting-started/idempotency).
         complements:
           type: array
           default: []
@@ -22332,10 +22366,16 @@ components:
             validate that this field is unique.
         idempotency_key:
           type: string
+          maxLength: 100
           description: >
-            Unique identifier that you can use to avoid duplicates when retrying
-            a request. It can be any text string, as long as it is unique for
-            each document.
+            Key that identifies one operation to prevent duplicate resources
+            from repeated or concurrent requests. It must be unique within the
+            same organization, environment, and resource type.
+
+            If another request is processing the key or it is already associated
+            with a resource, the API responds with HTTP `409` and `code:
+            idempotency_key_in_use`; it does not replay the original response.
+            See [Idempotency](/docs/getting-started/idempotency).
         complements:
           type: array
           default: []

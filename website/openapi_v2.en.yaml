@@ -12496,6 +12496,67 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/UnexpectedError'
+  /catalogs/product-categories:
+    get:
+      operationId: listProductCategories
+      tags: [sat_keys]
+      summary: List product category roots
+      description: Returns the Products and Services roots. Use a root key to explore its divisions.
+      security:
+        - SecretLiveKey: []
+        - SecretTestKey: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCategoryList'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+  /catalogs/product-categories/{key}:
+    get:
+      operationId: getProductCategory
+      tags: [sat_keys]
+      summary: Explore a product category or resolve a product path
+      description: Explore the SAT product/service category tree. Category keys use 2, 4 or 6 digits. Full 8-digit keys resolve the product and its category path; trailing zeroes are never removed. The special key 01010101 has no category. A six-digit class lookup includes a paginated products result. An eight-digit key lookup returns its path without listing other products in the class.
+      parameters:
+        - in: path
+          name: key
+          required: true
+          schema:
+            type: string
+            pattern: '^(products|services|[0-9]{2}|[0-9]{4}|[0-9]{6}|[0-9]{8})$'
+          description: Root, category prefix or complete product/service key.
+        - $ref: '#/components/parameters/SearchPagination'
+        - $ref: '#/components/parameters/SearchAfter'
+        - $ref: '#/components/parameters/SearchBefore'
+        - $ref: '#/components/parameters/SearchPage'
+        - $ref: '#/components/parameters/SearchLimit'
+      security:
+        - SecretLiveKey: []
+        - SecretTestKey: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCategoryDetail'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
   /catalogs/products:
     get:
       operationId: searchProducts
@@ -12553,6 +12614,12 @@ paths:
               "q" => "ukelele"
             ]);
       parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+            pattern: '^[0-9]{2}([0-9]{2}){0,2}$'
+          description: Category prefix of 2, 4 or 6 digits. Includes descendants and can be combined with q. With no q, lists the category products.
         - $ref: "#/components/parameters/SearchPagination"
         - $ref: "#/components/parameters/SearchAfter"
         - $ref: "#/components/parameters/SearchBefore"
@@ -12561,7 +12628,7 @@ paths:
           name: q
           schema:
             type: string
-          description: Text search. Text to search in the product/service classification description.
+          description: Searches key prefixes, descriptions, similar words and category names, ignoring case and diacritics.
         - $ref: "#/components/parameters/SearchPage"
         - $ref: "#/components/parameters/SearchLimit"
       security:
@@ -12584,6 +12651,7 @@ paths:
           $ref: "#/components/responses/RateLimited"
         "500":
           $ref: "#/components/responses/UnexpectedError"
+
   /catalogs/units:
     get:
       operationId: searchUnits
@@ -13838,6 +13906,47 @@ components:
               items:
                 $ref: "#/components/schemas/UnitCatalogResult"
 
+    ProductCategory:
+      type: object
+      required: [key, description, parent]
+      properties:
+        key:
+          type: string
+          example: '432115'
+        description:
+          type: string
+          example: Computadores
+        parent:
+          type: [string, 'null']
+          example: '4321'
+    ProductCategoryList:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductCategory'
+    ProductCategoryDetail:
+      type: object
+      required: [category, ancestors, children]
+      properties:
+        category:
+          anyOf:
+            - $ref: '#/components/schemas/ProductCategory'
+            - type: 'null'
+        ancestors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductCategory'
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductCategory'
+        product:
+          $ref: '#/components/schemas/CatalogEntry'
+        products:
+          $ref: '#/components/schemas/CatalogEntrySearchResult'
     CatalogEntry:
       type: object
       required:
